@@ -238,19 +238,19 @@ export default function HomeScreen() {
       </Pressable>
     </Animated.View>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
     </View>
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
     </View>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>TEMUKAN PROFIL RASA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Jelajahi</Link>
     </View>
     <View style={styles.tasteGrid}>
@@ -276,7 +276,7 @@ export default function HomeScreen() {
       ))}
     </View>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>CERITA DARI KEBUN</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Orang di balik rasa</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Orang di balik rasa</Text></View>
       <Link href="/farmers" style={[styles.seeAll, { color: colors.primary }]}>Semua petani</Link>
     </View>
     <Pressable
@@ -298,7 +298,7 @@ export default function HomeScreen() {
       </View>
     </Pressable>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>WILAYAH ASAL</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
       <Link href="/regions" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regionRail}>
@@ -313,7 +313,7 @@ export default function HomeScreen() {
       ))}
     </ScrollView>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>AGENDA TERDEKAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Selalu ada cerita baru</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Selalu ada cerita baru</Text></View>
       <Link href="/events" style={[styles.seeAll, { color: colors.primary }]}>Lihat agenda</Link>
     </View>
     <Pressable
@@ -328,7 +328,7 @@ export default function HomeScreen() {
       <BrandIcon name="arrow-up-right" size={18} color={colors.primary} />
     </Pressable>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>PENGALAMAN LANGSUNG</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
       <Link href="/tourism" style={[styles.seeAll, { color: colors.primary }]}>Lihat wisata</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tourRail}>
@@ -343,7 +343,7 @@ export default function HomeScreen() {
       ))}
     </ScrollView>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>HARGA ACUAN</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Pantau nilai kopi</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Pantau nilai kopi</Text></View>
       <Link href="/prices" style={[styles.seeAll, { color: colors.primary }]}>Buka harga</Link>
     </View>
     <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -375,8 +375,7 @@ const styles = StyleSheet.create({
   headingCopy: { flexShrink: 1 },
   headingRule: { width: 42, height: 1, marginBottom: 7 },
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
-  sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 1.5 },
-  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 4, letterSpacing: -0.3 },
+  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 0, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
   categoryPager: { marginHorizontal: -20 },
   categoryPage: { paddingHorizontal: 20, gap: 16 },
