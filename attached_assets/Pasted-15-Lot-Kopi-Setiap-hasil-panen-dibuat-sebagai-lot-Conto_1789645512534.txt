@@ -1,0 +1,142 @@
+15. Lot Kopi
+Setiap hasil panen dibuat sebagai lot.
+
+Contoh:
+
+Lot KG-26001
+Arabika • Papandayan • 350 kg • Natural • Panen September 2026
+
+Jadi pembeli bisa memilih kopi berdasarkan lot, bukan sekadar produk.
+
+16. Pre-Order Panen
+Cafe/roastery bisa pesan sebelum panen.
+
+Kebutuhan: 200 kg
+Estimasi panen: Oktober
+Jenis: Arabika Natural
+
+Petani/kelompok tani bisa menerima permintaan tersebut.
+
+17. Kontrak Kemitraan
+Membuat hubungan petani dengan pembeli lebih jelas:
+
+Volume
+Harga/kisaran harga
+Periode
+Standar kualitas
+Jadwal pengiriman
+
+18. Pusat Logistik
+Informasi:
+
+Lokasi gudang
+Stok
+Kapasitas
+Pengiriman
+Pickup hasil panen
+
+19. Kalkulator Harga Kopi
+Petani memasukkan:
+
+Berat panen
+Jenis kopi
+Proses
+Grade
+
+Kemudian aplikasi memberikan estimasi nilai jual berdasarkan data harga yang dikelola platform.
+
+20. Kalkulator Produksi Kebun
+Petani bisa mencatat:
+
+Jumlah tanaman
+Luas kebun
+Produktivitas
+Hasil panen
+
+Kemudian terlihat perkembangan kebunnya dari musim ke musim.
+
+21. Jurnal Kebun
+Semacam buku digital petani:
+
+Pemupukan
+Penyemprotan
+Pemangkasan
+Panen
+Pascapanen
+Foto perkembangan kebun
+
+Ini nantinya juga bisa mendukung traceability.
+
+22. QR Code Kopi Garut
+
+Di kemasan ada:
+
+SCAN — KENALI KOPIMU
+
+Scan → masuk aplikasi → muncul perjalanan kopi dari kebun sampai cangkir.
+
+23. Direktori Cafe & Roastery
+Bukan cuma menjual kopi.
+
+Orang bisa mencari:
+
+"Cafe di Garut yang menggunakan Kopi Garut"
+
+atau:
+
+"Roastery yang menjual Kopi Garut"
+
+24. Coffee Map
+Buat peta besar:
+
+GARUT COFFEE MAP
+
+Kecamatan → kebun → kelompok tani → pengolahan → cafe → roastery.
+
+Ini bisa menjadi salah satu halaman utama aplikasi.
+
+25. Kopi Garut untuk Bisnis
+Landing page khusus B2B:
+
+Butuh Kopi Garut untuk Bisnis Anda?
+
+Pilihan:
+
+Cafe
+Hotel
+Restoran
+Roastery
+Distributor
+Kantor/perusahaan
+
+Kemudian mereka mengisi kebutuhan dan tim mencarikan pemasok.
+
+Yang lebih strategis lagi
+
+Saya justru akan memasukkan "Katalog Kopi Garut".
+
+Bukan katalog toko biasa, tetapi seperti katalog resmi:
+
+KOPI GARUT
+One Region. Many Stories. One Identity.
+
+Di dalamnya ada seluruh kopi yang masuk standar/kurasi program.
+
+Misalnya:
+
+Wilayah	Proses	Varietas	Karakter
+Papandayan	Natural	Sigarar Utang	Fruity
+Cikuray	Washed	Lini S	Clean
+Kamojang	Honey	Arabika	Sweet
+
+Dengan begitu, brand besarnya satu: Kopi Garut, tetapi kekayaan kopinya tetap banyak.
+
+Bahkan bisa dibuat 5 bagian besar
+
+KOPI GARUT
+
+Explore — kenali wilayah dan cerita kopi
+Shop — beli produk
+Farm — kenali petani dan kebun
+Business — cari supplier/kemitraan
+Experience — wisata dan event kopi

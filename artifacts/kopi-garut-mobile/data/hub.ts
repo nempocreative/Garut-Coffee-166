@@ -205,6 +205,78 @@ export const collectiveModules: CollectiveModule[] = [
 
 export const collectiveRoadmap = [
   {
+    id: 'lot-catalog',
+    icon: 'package' as const,
+    title: 'Lot kopi',
+    description: 'Setiap hasil panen punya identitas sendiri agar pembeli dapat memilih berdasarkan wilayah, proses, berat, dan musim panen.',
+  },
+  {
+    id: 'harvest-preorder',
+    icon: 'calendar' as const,
+    title: 'Pre-order panen',
+    description: 'Cafe dan roastery dapat memesan sebelum panen dengan kebutuhan, estimasi waktu, dan jenis proses yang jelas.',
+  },
+  {
+    id: 'partnership-contract',
+    icon: 'briefcase' as const,
+    title: 'Kontrak kemitraan',
+    description: 'Volume, kisaran harga, periode, standar kualitas, dan jadwal pengiriman tercatat bersama.',
+  },
+  {
+    id: 'logistics',
+    icon: 'map' as const,
+    title: 'Pusat logistik',
+    description: 'Informasi gudang, stok, kapasitas, pengiriman, dan pickup hasil panen dalam satu alur.',
+  },
+  {
+    id: 'price-calculator',
+    icon: 'trending-up' as const,
+    title: 'Kalkulator harga kopi',
+    description: 'Estimasi nilai jual berdasarkan berat panen, jenis kopi, proses, grade, dan harga acuan platform.',
+  },
+  {
+    id: 'farm-calculator',
+    icon: 'bar-chart-2' as const,
+    title: 'Kalkulator produksi kebun',
+    description: 'Catat jumlah tanaman, luas kebun, produktivitas, dan hasil panen dari musim ke musim.',
+  },
+  {
+    id: 'farm-journal',
+    icon: 'calendar' as const,
+    title: 'Jurnal kebun',
+    description: 'Buku digital untuk pemupukan, penyemprotan, pemangkasan, panen, pascapanen, dan foto perkembangan kebun.',
+  },
+  {
+    id: 'qr-coffee',
+    icon: 'maximize' as const,
+    title: 'QR Code Kopi Garut',
+    description: 'Scan kemasan untuk membuka perjalanan kopi dari kebun hingga cangkir, termasuk lot dan kelompok tani.',
+  },
+  {
+    id: 'cafe-directory',
+    icon: 'coffee' as const,
+    title: 'Direktori cafe & roastery',
+    description: 'Cari cafe di Garut yang menggunakan Kopi Garut atau roastery yang menjualnya.',
+  },
+  {
+    id: 'coffee-map',
+    icon: 'map' as const,
+    title: 'Garut Coffee Map',
+    description: 'Peta besar dari kecamatan, kebun, kelompok tani, pengolahan, cafe, sampai roastery.',
+  },
+  {
+    id: 'business',
+    icon: 'users' as const,
+    title: 'Kopi Garut untuk bisnis',
+    description: 'Ruang kebutuhan B2B untuk cafe, hotel, restoran, roastery, distributor, dan kantor atau perusahaan.',
+  },
+  {
+    id: 'official-catalog',
+    icon: 'grid' as const,
+    title: 'Katalog Kopi Garut',
+    description: 'Katalog kurasi dengan lima pintu: Explore, Shop, Farm, Business, dan Experience.',
+  },
+  {
     id: 'season-calendar',
     icon: 'calendar' as const,
     title: 'Kalender musim kopi',

@@ -21,6 +21,17 @@ export type Coffee = {
   badge?: string;
 };
 
+export type CoffeeLot = {
+  id: string;
+  coffeeId: string;
+  variety: string;
+  region: string;
+  weightKg: number;
+  process: string;
+  harvestPeriod: string;
+  qualityNote: string;
+};
+
 export type CartItem = { coffeeId: string; quantity: number };
 export type Order = {
   id: string;
@@ -108,6 +119,19 @@ export const coffees: Coffee[] = [
     farmerName: 'Ujang Kusnadi',
     farmerGroup: 'KTH Darajat Sejahtera',
     stock: 31,
+  },
+];
+
+export const coffeeLots: CoffeeLot[] = [
+  {
+    id: 'KG-26001',
+    coffeeId: 'papandayan-honey',
+    variety: 'Arabika',
+    region: 'Papandayan',
+    weightKg: 350,
+    process: 'Natural',
+    harvestPeriod: 'September 2026',
+    qualityNote: 'Lot terkurasi dari wilayah kopi Garut.',
   },
 ];
 
