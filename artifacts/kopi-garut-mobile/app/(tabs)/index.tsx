@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  homeFooter: { alignItems: 'center', gap: 3, marginTop: 8, paddingTop: 0, paddingBottom: 8 },
+  homeFooter: { alignItems: 'center', gap: 3, marginTop: 0, paddingTop: 0, paddingBottom: 8 },
   footerMountain: { width: '100%', height: 104, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
   storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
