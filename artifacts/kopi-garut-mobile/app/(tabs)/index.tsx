@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Ellipse, Path } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -146,6 +147,22 @@ function CoffeeCupAnimation() {
 
 function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
   const colors = useColors();
+  const menuIconGlyphs: Partial<Record<BrandIconName, keyof typeof MaterialCommunityIcons.glyphMap>> = {
+    coffee: 'coffee',
+    users: 'account-group',
+    map: 'map',
+    compass: 'compass',
+    'trending-up': 'chart-line',
+    calendar: 'calendar-month',
+    briefcase: 'briefcase',
+    'bar-chart-2': 'chart-bar',
+    grid: 'view-grid',
+    shield: 'shield-check',
+    check: 'check-circle',
+    package: 'package-variant-closed',
+    maximize: 'scan-helper',
+    'alert-circle': 'alert-circle',
+  };
   const palettes = [
     { gradient: [colors.accent, colors.secondary], icon: colors.foreground },
     { gradient: [colors.primary, colors.accent], icon: colors.primaryForeground },
@@ -162,7 +179,11 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         end={{ x: 0.9, y: 1 }}
         style={styles.menuIconSurface}
       >
-        <BrandIcon name={name} size={21} color={palette.icon} strokeWidth={2.2} />
+        <MaterialCommunityIcons
+          name={menuIconGlyphs[name] ?? 'circle-outline'}
+          size={23}
+          color={palette.icon}
+        />
       </LinearGradient>
     </View>
   );
