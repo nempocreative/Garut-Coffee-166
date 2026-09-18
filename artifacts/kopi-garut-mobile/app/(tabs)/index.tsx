@@ -112,7 +112,7 @@ export default function HomeScreen() {
       </View>
     </Animated.View>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI HUB</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Semua tentang Kopi Garut</Text></View>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI HUB</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Jelajahi Kopi Garut</Text></View>
     </View>
     <View style={styles.hubGrid}>
       <HubTile compact icon="coffee" title="Produk kopi" description="Seri dan cerita rasa" onPress={() => router.push('/catalog')} />
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 1.4 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, fontWeight: '700', marginTop: 4 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
-  hubGrid: { gap: 9 },
+  hubGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 9 },
   traceCard: { borderRadius: 18, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
   traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   traceCopy: { flex: 1, gap: 3 },
