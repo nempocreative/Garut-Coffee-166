@@ -115,14 +115,14 @@ export default function HomeScreen() {
       <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI HUB</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Semua tentang Kopi Garut</Text></View>
     </View>
     <View style={styles.hubGrid}>
-      <HubTile icon="coffee" title="Produk kopi" description="Seri kopi dan cerita rasanya" onPress={() => router.push('/catalog')} />
-      <HubTile icon="users" title="Petani kopi" description="Kenali orang di balik cangkir" onPress={() => router.push('/farmers')} />
-      <HubTile icon="map" title="Wilayah kopi" description="Jelajahi kebun di Garut" onPress={() => router.push('/regions')} />
-      <HubTile icon="compass" title="Wisata kopi" description="Tur kebun dan pengalaman" onPress={() => router.push('/tourism')} />
-      <HubTile icon="trending-up" title="Harga kopi" description="Data harga yang transparan" onPress={() => router.push('/prices')} />
-      <HubTile icon="calendar" title="Event & pelatihan" description="Agenda untuk ekosistem kopi" onPress={() => router.push('/events')} />
-      <HubTile icon="briefcase" title="Kemitraan" description="Bergabung sebagai cafe mitra" onPress={() => router.push('/partnership')} />
-      <HubTile icon="bar-chart-2" title="Dashboard dinas" description="Data pertanian dalam satu layar" onPress={() => router.push('/dashboard')} />
+      <HubTile compact icon="coffee" title="Produk kopi" description="Seri dan cerita rasa" onPress={() => router.push('/catalog')} />
+      <HubTile compact icon="users" title="Petani kopi" description="Orang di balik cangkir" onPress={() => router.push('/farmers')} />
+      <HubTile compact icon="map" title="Wilayah kopi" description="Kebun di Garut" onPress={() => router.push('/regions')} />
+      <HubTile compact icon="compass" title="Wisata kopi" description="Tur dan pengalaman" onPress={() => router.push('/tourism')} />
+      <HubTile compact icon="trending-up" title="Harga kopi" description="Data pasar transparan" onPress={() => router.push('/prices')} />
+      <HubTile compact icon="calendar" title="Event & pelatihan" description="Agenda ekosistem" onPress={() => router.push('/events')} />
+      <HubTile compact icon="briefcase" title="Kemitraan" description="Bergabung sebagai cafe mitra" onPress={() => router.push('/partnership')} />
+      <HubTile compact icon="bar-chart-2" title="Dashboard dinas" description="Data pertanian" onPress={() => router.push('/dashboard')} />
     </View>
     <View style={[styles.traceCard, { backgroundColor: colors.secondary }]}>
       <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><Feather name="maximize" size={19} color={colors.primary} /></View>
