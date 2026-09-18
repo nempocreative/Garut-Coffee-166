@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  heroSection: { height: 306, borderRadius: 27, overflow: 'hidden', marginTop: -3 },
+  heroSection: { height: 250, borderRadius: 27, overflow: 'hidden', marginTop: -3 },
   heroImageContainer: { flex: 1, justifyContent: 'flex-end' },
   heroImage: { borderRadius: 27 },
   heroShade: { ...StyleSheet.absoluteFill, opacity: 0.9 },
