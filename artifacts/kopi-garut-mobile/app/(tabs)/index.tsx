@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -176,18 +176,23 @@ export default function HomeScreen() {
           { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
         ]}
       >
-      <View style={styles.storyLeadTop}>
-        <Animated.View entering={ZoomIn.delay(330).duration(450)} style={[styles.storyLeadMark, { backgroundColor: colors.primary }]}>
-          <BrandIcon name="coffee" size={19} color={colors.primaryForeground} />
+      <View style={styles.storyLeadBody}>
+        <View style={styles.storyLeadCopy}>
+          <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
+          <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
+          <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
+        </View>
+        <Animated.View entering={FadeInDown.delay(330).duration(500)} style={[styles.storyLeadArt, { backgroundColor: colors.accent }]}>
+          <View style={[styles.storyLeadSun, { backgroundColor: colors.card }]} />
+          <View style={[styles.storyLeadMountainBack, { borderBottomColor: colors.secondary }]} />
+          <View style={[styles.storyLeadMountainFront, { borderBottomColor: colors.primary }]} />
+          <View style={[styles.storyLeadMountainPeak, { borderBottomColor: colors.card }]} />
+          <View style={[styles.storyLeadGround, { backgroundColor: colors.foreground }]} />
+          <View style={[styles.storyLeadBean, { backgroundColor: colors.card }]}>
+            <View style={[styles.storyLeadBeanLine, { backgroundColor: colors.primary }]} />
+          </View>
+          <View style={[styles.storyLeadBeanSmall, { backgroundColor: colors.primary }]} />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(430).duration(400)}>
-          <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
-        </Animated.View>
-      </View>
-      <View style={styles.storyLeadCopy}>
-        <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
-        <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
-        <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
       </View>
       </Pressable>
     </Animated.View>
@@ -340,10 +345,18 @@ const styles = StyleSheet.create({
   categoryItem: { width: 59, alignItems: 'center', gap: 8 },
   categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
-  storyLead: { minHeight: 142, borderRadius: 20, borderWidth: 1, padding: 16, gap: 12 },
-  storyLeadTop: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
-  storyLeadMark: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  storyLeadCopy: { gap: 4 },
+  storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden' },
+  storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
+  storyLeadCopy: { flex: 1, justifyContent: 'center', gap: 4, paddingVertical: 4 },
+  storyLeadArt: { width: 108, minHeight: 130, borderRadius: 16, overflow: 'hidden', position: 'relative' },
+  storyLeadSun: { position: 'absolute', top: 15, right: 14, width: 20, height: 20, borderRadius: 10, opacity: 0.82 },
+  storyLeadMountainBack: { position: 'absolute', right: -27, bottom: 22, width: 0, height: 0, borderLeftWidth: 68, borderRightWidth: 68, borderBottomWidth: 86, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadMountainFront: { position: 'absolute', left: -42, bottom: 15, width: 0, height: 0, borderLeftWidth: 67, borderRightWidth: 67, borderBottomWidth: 76, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadMountainPeak: { position: 'absolute', left: 19, bottom: 69, width: 0, height: 0, borderLeftWidth: 18, borderRightWidth: 18, borderBottomWidth: 25, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadGround: { position: 'absolute', left: -8, right: -8, bottom: -15, height: 45, borderRadius: 30 },
+  storyLeadBean: { position: 'absolute', right: 17, bottom: 12, width: 27, height: 40, borderRadius: 22, transform: [{ rotate: '28deg' }] },
+  storyLeadBeanLine: { position: 'absolute', left: 12, top: 4, width: 3, height: 31, borderRadius: 3, transform: [{ rotate: '-16deg' }] },
+  storyLeadBeanSmall: { position: 'absolute', right: 52, bottom: 11, width: 14, height: 22, borderRadius: 12, transform: [{ rotate: '-24deg' }] },
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
