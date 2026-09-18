@@ -179,9 +179,9 @@ export default function HomeScreen() {
         <BrandIcon name="compass" size={19} color={colors.primaryForeground} />
       </View>
       <View style={styles.storyLeadCopy}>
-        <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CATATAN DARI GARUT</Text>
-        <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Satu wilayah, banyak cara menikmati kopi.</Text>
-        <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Temui petani, usaha, dan pengalaman di balik setiap seri.</Text>
+        <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
+        <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
+        <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
       </View>
       <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
     </Pressable>
