@@ -105,13 +105,13 @@ function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; cr
   return (
     <View style={styles.coffeeBeanAnimation}>
       <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanOneStyle]}>
-        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
       </Animated.View>
-      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanMiddle, { backgroundColor: beanColor }, beanTwoStyle]}>
-        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanLarge, { backgroundColor: beanColor }, beanTwoStyle]}>
+        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
       </Animated.View>
-      <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanThreeStyle]}>
-        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanSmall, { backgroundColor: beanColor }, beanThreeStyle]}>
+        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
       </Animated.View>
     </View>
   );
@@ -443,9 +443,10 @@ const styles = StyleSheet.create({
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { height: 36, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, marginTop: 7 },
-  coffeeBean: { width: 18, height: 27, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  coffeeBeanMiddle: { marginTop: 6 },
-  coffeeBeanCrease: { width: 3, height: 19, borderRadius: 3, opacity: 0.78, transform: [{ rotate: '18deg' }] },
+  coffeeBean: { width: 21, height: 30, borderRadius: 15, borderTopLeftRadius: 11, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 11, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  coffeeBeanLarge: { width: 24, height: 33, borderTopLeftRadius: 13, borderTopRightRadius: 18, borderBottomLeftRadius: 18, borderBottomRightRadius: 13, marginTop: 6 },
+  coffeeBeanSmall: { width: 18, height: 27, borderTopLeftRadius: 10, borderTopRightRadius: 14, borderBottomLeftRadius: 14, borderBottomRightRadius: 10 },
+  coffeeBeanCrease: { position: 'absolute', width: 11, height: 22, borderRightWidth: 2, borderRadius: 11, opacity: 0.78, transform: [{ rotate: '-22deg' }] },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
