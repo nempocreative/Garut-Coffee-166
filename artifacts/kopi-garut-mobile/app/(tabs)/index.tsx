@@ -176,7 +176,7 @@ export default function HomeScreen() {
       ]}
     >
       <View style={[styles.storyLeadMark, { backgroundColor: colors.primary }]}>
-        <BrandIcon name="compass" size={19} color={colors.primaryForeground} />
+        <BrandIcon name="coffee" size={19} color={colors.primaryForeground} />
       </View>
       <View style={styles.storyLeadCopy}>
         <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
