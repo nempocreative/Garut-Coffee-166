@@ -103,9 +103,9 @@ export const coffeeTours: CoffeeTour[] = [
 ];
 
 export const hubEvents: HubEvent[] = [
-  { id: 'festival-kopi', title: 'Festival Kopi Garut 2026', date: '12–14 Juni 2026', location: 'Alun-alun Garut', type: 'Festival', description: 'Temu petani, roastery, cafe, dan pecinta kopi dalam satu perayaan.' },
-  { id: 'kelas-pascapanen', title: 'Kelas Pascapanen untuk Kelompok Tani', date: '22 Juni 2026', location: 'Cikajang', type: 'Pelatihan', description: 'Praktik sortasi, fermentasi, dan pengeringan untuk menjaga nilai jual kopi.' },
-  { id: 'temu-cafe', title: 'Temu Mitra Cafe', date: '5 Juli 2026', location: 'Kota Garut', type: 'Kemitraan', description: 'Sesi temu usaha untuk memperluas akses kopi Garut ke kedai-kedai Indonesia.' },
+  { id: 'festival-kopi', title: 'Festival Kopi Garut 2026', date: '3–4 Oktober 2026', location: 'Alun-alun Garut', type: 'Festival', description: 'Temu petani, roastery, cafe, dan pecinta kopi dalam satu perayaan.' },
+  { id: 'kelas-pascapanen', title: 'Kelas Pascapanen untuk Kelompok Tani', date: '17 Oktober 2026', location: 'Cikajang', type: 'Pelatihan', description: 'Praktik sortasi, fermentasi, dan pengeringan untuk menjaga nilai jual kopi.' },
+  { id: 'temu-cafe', title: 'Temu Mitra Cafe', date: '7 November 2026', location: 'Kota Garut', type: 'Kemitraan', description: 'Sesi temu usaha untuk memperluas akses kopi Garut ke kedai-kedai Indonesia.' },
 ];
 
 export const coffeePrices = [

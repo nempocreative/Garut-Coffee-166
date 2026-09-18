@@ -53,6 +53,13 @@ const categoryItems = [
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
 ];
 
+const quickStartItems = [
+  { icon: 'coffee' as const, label: 'Belanja kopi', description: 'Temukan rasa dan produk pilihan', route: '/catalog' as const },
+  { icon: 'maximize' as const, label: 'Scan QR kopi', description: 'Lihat asal dan cerita lot', route: '/traceability' as const },
+  { icon: 'users' as const, label: 'Untuk petani', description: 'Program, data, dan pendampingan', route: '/program' as const },
+  { icon: 'briefcase' as const, label: 'Untuk bisnis', description: 'Cari kopi dan peluang kemitraan', route: '/partnership' as const },
+];
+
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
@@ -144,8 +151,42 @@ export default function HomeScreen() {
     </Animated.View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
-        <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH GARUT</Text>
-        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari yang dekat</Text>
+        <Text style={[styles.sectionKicker, { color: colors.primary }]}>MULAI DARI SINI</Text>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Kamu sedang mencari apa?</Text>
+      </View>
+    </View>
+    <View style={styles.quickStartGrid}>
+      {quickStartItems.map((item, index) => (
+        <Pressable
+          key={item.label}
+          testID={`quick-start-${index}`}
+          accessibilityRole="button"
+          accessibilityLabel={item.label}
+          onPress={() => router.push(item.route)}
+          style={({ pressed }) => [
+            styles.quickStartCard,
+            {
+              backgroundColor: index === 0 ? colors.primary : colors.card,
+              borderColor: index === 0 ? colors.primary : colors.border,
+              opacity: pressed ? 0.78 : 1,
+            },
+          ]}
+        >
+          <View style={[styles.quickStartIcon, { backgroundColor: index === 0 ? colors.primaryForeground : colors.secondary }]}>
+            <BrandIcon name={item.icon} size={18} color={colors.primary} />
+          </View>
+          <Text style={[styles.quickStartTitle, { color: index === 0 ? colors.primaryForeground : colors.foreground }]}>{item.label}</Text>
+          <Text style={[styles.quickStartDescription, { color: index === 0 ? colors.background : colors.mutedForeground }]}>{item.description}</Text>
+          <View style={styles.quickStartArrow}>
+            <BrandIcon name="arrow-up-right" size={15} color={index === 0 ? colors.primaryForeground : colors.primary} />
+          </View>
+        </Pressable>
+      ))}
+    </View>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}>
+        <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI SEMUA</Text>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Temukan lebih banyak</Text>
       </View>
       <View style={[styles.headingRule, { backgroundColor: colors.border }]} />
     </View>
@@ -345,6 +386,12 @@ const styles = StyleSheet.create({
   categoryItem: { width: 59, alignItems: 'center', gap: 8 },
   categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
+  quickStartGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  quickStartCard: { width: '48.5%', minHeight: 126, borderRadius: 18, borderWidth: 1, padding: 12, gap: 6, position: 'relative' },
+  quickStartIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  quickStartTitle: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700', paddingRight: 19 },
+  quickStartDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, paddingRight: 4 },
+  quickStartArrow: { position: 'absolute', right: 12, top: 13 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden' },
   storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
   storyLeadCopy: { flex: 1, justifyContent: 'center', gap: 4, paddingVertical: 4 },
