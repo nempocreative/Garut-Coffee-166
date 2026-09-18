@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
+import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
@@ -145,52 +144,159 @@ function CoffeeCupAnimation() {
   );
 }
 
+type MenuGlyphColors = {
+  main: string;
+  light: string;
+  dark: string;
+  accent: string;
+};
+
+function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGlyphColors }) {
+  return (
+    <Svg width={30} height={30} viewBox="0 0 30 30">
+      {name === 'coffee' && (
+        <>
+          <Path d="M6 11h15v7a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6v-7Z" fill={colors.dark} />
+          <Path d="M6 9.5h15v7a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6v-7Z" fill={colors.main} />
+          <Ellipse cx="13.5" cy="9.5" rx="7.5" ry="2.4" fill={colors.light} />
+          <Ellipse cx="13.5" cy="9.5" rx="5.5" ry="1.2" fill={colors.accent} opacity={0.85} />
+          <Path d="M21 12h1.2a3.2 3.2 0 0 1 0 6.4H21" fill={colors.accent} />
+          <Path d="M9 26h12" stroke={colors.dark} strokeWidth="1.8" strokeLinecap="round" />
+        </>
+      )}
+      {name === 'users' && (
+        <>
+          <Circle cx="10" cy="10" r="3.4" fill={colors.dark} />
+          <Circle cx="10" cy="8.5" r="3.4" fill={colors.main} />
+          <Circle cx="20" cy="11" r="2.7" fill={colors.accent} />
+          <Path d="M3.5 23c.7-4.6 2.8-7 6.5-7s5.8 2.4 6.5 7Z" fill={colors.dark} />
+          <Path d="M3.5 21.5c.7-4.6 2.8-7 6.5-7s5.8 2.4 6.5 7Z" fill={colors.main} />
+          <Path d="M16 22c.4-3.2 1.8-5 4.2-5 2.2 0 3.7 1.7 4.3 5Z" fill={colors.accent} />
+        </>
+      )}
+      {name === 'map' && (
+        <>
+          <Path d="m3 8 7-2 10 3 7-2v17l-7 2-10-3-7 2V8Z" fill={colors.dark} />
+          <Path d="m3 6.5 7-2 10 3 7-2v17l-7 2-10-3-7 2V6.5Z" fill={colors.main} />
+          <Path d="m10 4.5 10 3v17l-10-3v-17Z" fill={colors.light} />
+          <Path d="m20 7.5 7-2v17l-7 2v-17Z" fill={colors.accent} />
+          <Path d="m10 4.5-7 2v17l7-2v-17Z" fill={colors.main} opacity={0.84} />
+        </>
+      )}
+      {name === 'compass' && (
+        <>
+          <Circle cx="15" cy="16" r="10" fill={colors.dark} />
+          <Circle cx="15" cy="14.5" r="10" fill={colors.main} />
+          <Circle cx="15" cy="14.5" r="7.2" fill={colors.light} />
+          <Path d="m20.5 9-3.3 7.1-7.1 3.3 3.3-7.1L20.5 9Z" fill={colors.dark} />
+          <Path d="m20.5 7.5-3.3 7.1-7.1 3.3 3.3-7.1 7.1-3.3Z" fill={colors.accent} />
+          <Circle cx="15" cy="14.5" r="1.4" fill={colors.main} />
+        </>
+      )}
+      {name === 'trending-up' && (
+        <>
+          <Path d="M5 24V15h5v9H5ZM12 24V9h5v15h-5ZM19 24V5h5v19h-5Z" fill={colors.dark} />
+          <Path d="M5 22.5v-9h5v9H5ZM12 22.5V7.5h5v15h-5ZM19 22.5V3.5h5v19h-5Z" fill={colors.main} />
+          <Path d="m4 9 5 5 4-4 4 3 7-8" fill="none" stroke={colors.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M20.5 5.5H24v3.5" fill="none" stroke={colors.light} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {name === 'calendar' && (
+        <>
+          <Rect x="5" y="6" width="20" height="19" rx="3" fill={colors.dark} />
+          <Rect x="5" y="4.5" width="20" height="19" rx="3" fill={colors.main} />
+          <Path d="M5 10h20V7.5a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3V10Z" fill={colors.accent} />
+          <Path d="M10 3v4M20 3v4" stroke={colors.light} strokeWidth="2" strokeLinecap="round" />
+          <Rect x="9" y="13" width="4" height="3" rx="1" fill={colors.light} />
+          <Rect x="16" y="13" width="4" height="3" rx="1" fill={colors.accent} />
+          <Rect x="9" y="18" width="4" height="3" rx="1" fill={colors.accent} />
+          <Rect x="16" y="18" width="4" height="3" rx="1" fill={colors.light} />
+        </>
+      )}
+      {name === 'briefcase' && (
+        <>
+          <Rect x="4" y="9" width="22" height="15" rx="3" fill={colors.dark} />
+          <Rect x="4" y="7.5" width="22" height="15" rx="3" fill={colors.main} />
+          <Path d="M10 7.5V5h10v2.5M4 13h22M12 13v3h6v-3" fill="none" stroke={colors.light} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M4 14h22v2H4Z" fill={colors.accent} opacity={0.8} />
+        </>
+      )}
+      {name === 'bar-chart-2' && (
+        <>
+          <Path d="M5 24V14h5v10H5ZM12 24V7h5v17h-5ZM19 24V11h5v13h-5Z" fill={colors.dark} />
+          <Path d="M5 22.5v-10h5v10H5ZM12 22.5V5.5h5v17h-5ZM19 22.5V9.5h5v13h-5Z" fill={colors.main} />
+          <Path d="M5 12.5h5v2H5ZM12 5.5h5v2h-5ZM19 9.5h5v2h-5Z" fill={colors.accent} />
+        </>
+      )}
+      {name === 'grid' && (
+        <>
+          <Path d="m5 6 8-2 6 2-8 2-6-2ZM17 10l8-2v7l-8 2v-7ZM5 19l8-2v7l-8 2v-7ZM17 20l8-2v7l-8 2v-7Z" fill={colors.dark} />
+          <Path d="m4 4.5 8-2 6 2-8 2-6-2ZM16 8.5l8-2v7l-8 2v-7ZM4 17.5l8-2v7l-8 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={colors.main} />
+          <Path d="m4 4.5 6 2v7l-6-2v-7ZM16 8.5l8-2v7l-8 2v-7ZM4 17.5l8-2v7l-8 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={colors.accent} opacity={0.86} />
+          <Path d="m12 2.5 6 2-8 2-6-2 8-2ZM24 6.5l-8 2 8-2ZM12 15.5l-8 2 8-2ZM24 16.5l-8 2 8-2Z" fill={colors.light} opacity={0.7} />
+        </>
+      )}
+      {name === 'shield' && (
+        <>
+          <Path d="M15 3.5 24 7v6.5c0 5.5-3.7 9.5-9 11.5-5.3-2-9-6-9-11.5V7l9-3.5Z" fill={colors.dark} />
+          <Path d="M15 2 24 5.5V12c0 5.5-3.7 9.5-9 11.5-5.3-2-9-6-9-11.5V5.5L15 2Z" fill={colors.main} />
+          <Path d="M15 5 21 7.3V12c0 3.8-2.3 6.6-6 8.2-3.7-1.6-6-4.4-6-8.2V7.3L15 5Z" fill={colors.accent} />
+          <Path d="m11 12.5 2.5 2.5 5-5" fill="none" stroke={colors.light} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {name === 'check' && (
+        <>
+          <Path d="m15 3 2 2.1 3-.3.9 2.8 2.6 1.6-1.2 2.7 1.2 2.8-2.6 1.6-.9 2.8-3-.3-2 2.1-2-2.1-3 .3-.9-2.8-2.6-1.6 1.2-2.8-1.2-2.7 2.6-1.6.9-2.8 3 .3L15 3Z" fill={colors.dark} />
+          <Path d="m15 1.5 2 2.1 3-.3.9 2.8 2.6 1.6-1.2 2.7 1.2 2.8-2.6 1.6-.9 2.8-3-.3-2 2.1-2-2.1-3 .3-.9-2.8-2.6-1.6 1.2-2.8-1.2-2.7 2.6-1.6.9-2.8 3 .3L15 1.5Z" fill={colors.main} />
+          <Path d="m10.5 13 3 3 6-6" fill="none" stroke={colors.light} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {name === 'package' && (
+        <>
+          <Path d="m4 9 11-5 11 5v13l-11 5-11-5V9Z" fill={colors.dark} />
+          <Path d="m4 7.5 11-5 11 5v13l-11 5-11-5v-13Z" fill={colors.main} />
+          <Path d="m4 7.5 11 5 11-5-11-5-11 5Z" fill={colors.light} />
+          <Path d="M15 12.5v13M4 7.5l11 5 11-5" fill="none" stroke={colors.accent} strokeWidth="1.7" strokeLinejoin="round" />
+        </>
+      )}
+      {name === 'maximize' && (
+        <>
+          <Path d="M8 5H4v5M22 5h4v5M26 19v5h-4M4 19v5h4" fill="none" stroke={colors.dark} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M8 3.5H4v5M22 3.5h4v5M26 17.5v5h-4M4 17.5v5h4" fill="none" stroke={colors.main} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M8 3.5h3v2H8ZM19 3.5h3v2h-3ZM23 17.5h3v3h-3ZM4 17.5h3v3H4Z" fill={colors.accent} />
+        </>
+      )}
+      {name === 'alert-circle' && (
+        <>
+          <Path d="m15 4 11 20H4L15 4Z" fill={colors.dark} />
+          <Path d="m15 2.5 11 20H4l11-20Z" fill={colors.main} />
+          <Path d="m15 6 7.5 14h-15L15 6Z" fill={colors.accent} />
+          <Path d="M15 10v5" stroke={colors.light} strokeWidth="2.2" strokeLinecap="round" />
+          <Circle cx="15" cy="18" r="1.2" fill={colors.light} />
+        </>
+      )}
+    </Svg>
+  );
+}
+
 function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
   const colors = useColors();
-  const menuIconGlyphs: Partial<Record<BrandIconName, keyof typeof MaterialCommunityIcons.glyphMap>> = {
-    coffee: 'coffee',
-    users: 'account-group',
-    map: 'map',
-    compass: 'compass',
-    'trending-up': 'chart-line',
-    calendar: 'calendar-month',
-    briefcase: 'briefcase',
-    'bar-chart-2': 'chart-bar',
-    grid: 'view-grid',
-    shield: 'shield-check',
-    check: 'check-circle',
-    package: 'package-variant-closed',
-    maximize: 'scan-helper',
-    'alert-circle': 'alert-circle',
-  };
   const palettes = [
     {
       gradient: [colors.accent, colors.secondary],
-      icon: colors.foreground,
-      iconSurface: colors.card,
-      iconDepth: colors.border,
-      iconHighlight: colors.background,
+      glyph: { main: colors.primary, light: colors.card, dark: colors.foreground, accent: colors.accent },
     },
     {
       gradient: [colors.primary, colors.accent],
-      icon: colors.primaryForeground,
-      iconSurface: colors.accent,
-      iconDepth: colors.primary,
-      iconHighlight: colors.card,
+      glyph: { main: colors.accent, light: colors.card, dark: colors.primary, accent: colors.primaryForeground },
     },
     {
       gradient: [colors.secondary, colors.card],
-      icon: colors.primary,
-      iconSurface: colors.background,
-      iconDepth: colors.border,
-      iconHighlight: colors.card,
+      glyph: { main: colors.accent, light: colors.primaryForeground, dark: colors.primary, accent: colors.foreground },
     },
     {
       gradient: [colors.muted, colors.accent],
-      icon: colors.foreground,
-      iconSurface: colors.card,
-      iconDepth: colors.border,
-      iconHighlight: colors.background,
+      glyph: { main: colors.primary, light: colors.card, dark: colors.foreground, accent: colors.secondary },
     },
   ] as const;
   const palette = palettes[index % palettes.length];
@@ -204,31 +310,7 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         style={styles.menuIconSurface}
       >
         <View style={styles.menuIconVisual}>
-          <Svg width={46} height={46} viewBox="0 0 46 46" style={StyleSheet.absoluteFill}>
-            <Defs>
-              <SvgLinearGradient id={`menu-badge-${index}`} x1="0" y1="0" x2="1" y2="1">
-                <Stop offset="0" stopColor={palette.iconHighlight} stopOpacity={0.72} />
-                <Stop offset="0.46" stopColor={palette.iconSurface} />
-                <Stop offset="1" stopColor={palette.iconDepth} stopOpacity={0.92} />
-              </SvgLinearGradient>
-            </Defs>
-            <Circle cx="23" cy="22.5" r="12.5" fill={palette.iconDepth} opacity={0.62} />
-            <Circle cx="23" cy="20.5" r="12.5" fill={`url(#menu-badge-${index})`} />
-            <Ellipse
-              cx="19"
-              cy="14.5"
-              rx="5.8"
-              ry="2.5"
-              fill={palette.iconHighlight}
-              opacity={0.34}
-              transform="rotate(-14 19 14.5)"
-            />
-          </Svg>
-          <MaterialCommunityIcons
-            name={menuIconGlyphs[name] ?? 'circle-outline'}
-            size={21}
-            color={palette.icon}
-          />
+          <ThreeDMenuGlyph name={name} colors={palette.glyph} />
         </View>
       </LinearGradient>
     </View>
