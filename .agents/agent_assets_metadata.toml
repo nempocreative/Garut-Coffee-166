@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "FFDUFTvslguNl8uLfWmex"
+uri = "file://artifacts/kopi-garut-mobile/assets/images/kopi-garut-logo.png"
+type = "image"
+title = "Logo Kopi Garut — G & Biji Kopi"
+description = "Logo mark AI dengan monogram G yang menyatu dengan siluet biji kopi, menggunakan palet cokelat kopi, terracotta, karamel, dan krem."
+logical_id = "20e17cd2-e801-4e45-863d-3a25f2e29664"
+content_hash = "sha256:e16bac96ea07d5aadc010e932bda9d2e4b582884daa9bb4f7da708d0441bd3b6"
+size = 1044226
+mtime_ms = 1789709550825
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:6e4e3a36-ec4b-435d-8a36-d90fde81fc0d/20e17cd2-e801-4e45-863d-3a25f2e29664/060e0cb4-53bf-4100-bd8c-2e8647586af7"
+storage_version_token = "1789709638535207"
+content_type = "image/png"

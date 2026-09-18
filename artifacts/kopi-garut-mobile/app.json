@@ -4,10 +4,10 @@
     "slug": "kopi-garut-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/kopi-garut-logo.png",
       "splash": {
         "backgroundColor": "#F6F0E8",
-        "image": "./assets/images/icon.png",
+        "image": "./assets/images/kopi-garut-logo.png",
         "resizeMode": "contain"
       },
     "scheme": "kopi-garut-mobile",
@@ -17,7 +17,7 @@
     },
     "android": {},
     "web": {
-      "favicon": "./assets/images/icon.png"
+      "favicon": "./assets/images/kopi-garut-logo.png"
     },
     "plugins": ["expo-router"],
     "experiments": {

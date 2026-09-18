@@ -49,13 +49,14 @@ const categoryItems = [
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
   { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
   { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
+  { icon: 'shield' as const, label: 'Program', route: '/program' as const },
 ];
 
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const bannerWidth = Math.max(280, width - 40);
+  const bannerWidth = Math.max(260, width - 40);
   const bannerRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -72,7 +73,7 @@ export default function HomeScreen() {
   }, [bannerWidth]);
 
   return <Screen>
-    <Header title="Mau cari apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
+    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
     <Pressable
       testID="home-search"
       accessibilityRole="button"
@@ -91,7 +92,7 @@ export default function HomeScreen() {
         <BrandIcon name="sliders" size={15} color={colors.primary} />
       </View>
     </Pressable>
-    <Animated.View entering={FadeInDown.duration(550)} style={styles.hero}>
+    <Animated.View entering={FadeInDown.duration(550)} style={styles.heroSection}>
       <ScrollView
         ref={bannerRef}
         horizontal
@@ -103,13 +104,12 @@ export default function HomeScreen() {
       >
         {promoSlides.map((slide, index) => (
           <ImageBackground key={slide.id} source={slide.image} imageStyle={styles.heroImage} style={[styles.heroImageContainer, { width: bannerWidth }]}>
-            <LinearGradient colors={['transparent', colors.foreground]} style={styles.heroShade} />
+            <LinearGradient colors={['transparent', colors.foreground]} locations={[0.18, 1]} style={styles.heroShade} />
             <View style={styles.heroCopy}>
-              <View style={[styles.promoPill, { backgroundColor: colors.card }]}>
+              <View style={styles.heroMeta}>
                 <View style={[styles.promoDot, { backgroundColor: colors.primary }]} />
-                <Text style={[styles.promoPillText, { color: colors.foreground }]}>KOPI GARUT</Text>
+                <Text style={[styles.promoPillText, { color: colors.background }]}>KOPI GARUT / {slide.kicker}</Text>
               </View>
-              <Text style={[styles.heroKicker, { color: colors.background }]}>{slide.kicker}</Text>
               <Text style={[styles.heroTitle, { color: colors.card }]}>{slide.title}</Text>
               <Text style={[styles.heroDescription, { color: colors.background }]}>{slide.description}</Text>
               <Pressable
@@ -141,23 +141,12 @@ export default function HomeScreen() {
         ))}
       </View>
     </Animated.View>
-    <Pressable
-      onPress={() => router.push('/collective')}
-      style={({ pressed }) => [styles.quote, { backgroundColor: colors.secondary, opacity: pressed ? 0.8 : 1 }]}
-    >
-      <View style={styles.quoteTop}>
-        <View style={styles.quoteBrand}>
-          <View style={[styles.quoteDot, { backgroundColor: colors.primary }]} />
-          <Text style={[styles.quoteKicker, { color: colors.primary }]}>GARUT COFFEE COLLECTIVE</Text>
-        </View>
-        <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
-      </View>
-      <Text style={[styles.quoteText, { color: colors.foreground }]}>One Region. Many Stories. One Identity.</Text>
-      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>Satu ekosistem untuk petani, usaha, wisata, dan pecinta kopi Garut.</Text>
-    </Pressable>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH CEPAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mau lihat apa?</Text></View>
-      <BrandIcon name="chevron-right" size={18} color={colors.mutedForeground} />
+      <View style={styles.headingCopy}>
+        <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH GARUT</Text>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari yang dekat</Text>
+      </View>
+      <View style={[styles.headingRule, { backgroundColor: colors.border }]} />
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryRail}>
       {categoryItems.map((item) => (
@@ -175,8 +164,28 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
+    <Pressable
+      testID="collective-story"
+      accessibilityRole="button"
+      accessibilityLabel="Buka cerita kolektif Kopi Garut"
+      onPress={() => router.push('/collective')}
+      style={({ pressed }) => [
+        styles.storyLead,
+        { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
+      ]}
+    >
+      <View style={[styles.storyLeadMark, { backgroundColor: colors.primary }]}>
+        <BrandIcon name="compass" size={19} color={colors.primaryForeground} />
+      </View>
+      <View style={styles.storyLeadCopy}>
+        <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CATATAN DARI GARUT</Text>
+        <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Satu wilayah, banyak cara menikmati kopi.</Text>
+        <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Temui petani, usaha, dan pengalaman di balik setiap seri.</Text>
+      </View>
+      <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
+    </Pressable>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Kopi pilihan hari ini</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
@@ -186,7 +195,7 @@ export default function HomeScreen() {
       <Pressable onPress={() => router.push('/traceability')} style={[styles.traceButton, { backgroundColor: colors.primary }]}><BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} /></Pressable>
     </View>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
     </View>
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -196,33 +205,40 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { height: 210, borderRadius: 24, overflow: 'hidden' },
-  searchEntry: { height: 52, borderRadius: 16, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
-  searchFilter: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  heroSection: { height: 306, borderRadius: 27, overflow: 'hidden', marginTop: -3 },
   heroImageContainer: { flex: 1, justifyContent: 'flex-end' },
-  heroImage: { borderRadius: 24 },
-  heroShade: { ...StyleSheet.absoluteFill, opacity: 0.86 },
-  heroCopy: { padding: 18, paddingBottom: 20, gap: 6 },
-  promoPill: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 99, paddingHorizontal: 9, paddingVertical: 5, marginBottom: 1 },
+  heroImage: { borderRadius: 27 },
+  heroShade: { ...StyleSheet.absoluteFill, opacity: 0.9 },
+  heroCopy: { paddingHorizontal: 20, paddingBottom: 21, gap: 8 },
+  heroMeta: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 2 },
   promoDot: { width: 5, height: 5, borderRadius: 3 },
-  promoPillText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 1.1 },
-  heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '700', letterSpacing: 1.5 },
-  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '700', letterSpacing: -0.5, maxWidth: 290 },
-  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 275 },
-  heroButton: { height: 36, borderRadius: 11, paddingHorizontal: 12, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
+  promoPillText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, lineHeight: 31, fontWeight: '700', letterSpacing: -0.7, maxWidth: 310 },
+  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 17, opacity: 0.9, maxWidth: 290 },
+  heroButton: { height: 38, borderRadius: 12, paddingHorizontal: 13, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
   heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
-  pagination: { position: 'absolute', right: 14, top: 12, flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 20 },
+  pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 20, opacity: 0.92 },
   paginationTrack: { height: 6, borderRadius: 3, justifyContent: 'center', overflow: 'hidden' },
   paginationDot: { height: 6, borderRadius: 3 },
-  sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 3 },
-  sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 1.4 },
-  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, fontWeight: '700', marginTop: 4 },
+  sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 1, gap: 14 },
+  headingCopy: { flexShrink: 1 },
+  headingRule: { width: 42, height: 1, marginBottom: 7 },
+  sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 1.5 },
+  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 4, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
-  categoryRail: { gap: 16, paddingRight: 12 },
-  categoryItem: { width: 58, alignItems: 'center', gap: 7 },
-  categoryIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  categoryRail: { gap: 18, paddingRight: 12, paddingTop: 2 },
+  categoryItem: { width: 59, alignItems: 'center', gap: 8 },
+  categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
+  storyLead: { minHeight: 108, borderRadius: 20, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  storyLeadMark: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' },
+  storyLeadCopy: { flex: 1, gap: 3 },
+  storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
+  storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
+  storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
   traceCard: { borderRadius: 18, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
   traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   traceCopy: { flex: 1, gap: 3 },
@@ -234,22 +250,5 @@ const styles = StyleSheet.create({
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
   statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
-  categoryRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: -9 },
-  category: { borderRadius: 13, paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  categoryText: { fontFamily: 'Manrope_600SemiBold', fontSize: 12, fontWeight: '600' },
   featured: { flexDirection: 'row', gap: 12, marginHorizontal: -20, paddingHorizontal: 20 },
-  story: { height: 300, borderRadius: 22, overflow: 'hidden' },
-  storyImageContainer: { flex: 1, justifyContent: 'flex-end' },
-  storyImage: { borderRadius: 22 },
-  storyShade: { ...StyleSheet.absoluteFill, opacity: 0.48 },
-  storyCopy: { padding: 20, gap: 8, alignItems: 'flex-start' },
-  storyTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 27, fontWeight: '700', maxWidth: 290 },
-  storyText: { fontFamily: 'Manrope_400Regular', opacity: 0.9, fontSize: 13, lineHeight: 19, maxWidth: 300 },
-  quote: { borderRadius: 22, padding: 20, gap: 10 },
-  quoteTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  quoteBrand: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  quoteDot: { width: 6, height: 6, borderRadius: 3 },
-  quoteKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.2 },
-  quoteText: { fontFamily: 'Manrope_600SemiBold', fontSize: 20, lineHeight: 27, fontWeight: '600', maxWidth: 300 },
-  quoteByline: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 18 },
 });
