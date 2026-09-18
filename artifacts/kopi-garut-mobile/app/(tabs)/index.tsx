@@ -373,7 +373,7 @@ export default function HomeScreen() {
     <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {coffeePrices.slice(0, 3).map((item, index) => <Pressable key={item.label} onPress={() => router.push('/prices')} style={[styles.priceRow, index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}><View><Text style={[styles.priceLabel, { color: colors.foreground }]}>{item.label}</Text><Text style={[styles.priceUnit, { color: colors.mutedForeground }]}>{item.unit}</Text></View><View style={styles.priceValueWrap}><Text style={[styles.priceValue, { color: colors.primary }]}>{item.price}</Text><Text style={[styles.priceChange, { color: colors.mutedForeground }]}>{item.change}</Text></View><BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} /></Pressable>)}
     </View>
-    <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
+    <View style={styles.homeFooter}>
       <ExpoImage
         source={require('../../assets/images/garut-mountains.png')}
         contentFit="contain"
@@ -478,8 +478,8 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  homeFooter: { alignItems: 'center', gap: 7, marginTop: 12, paddingTop: 16, paddingBottom: 8, borderTopWidth: 1 },
-  footerMountain: { width: '100%', height: 72, opacity: 0.42 },
+  homeFooter: { alignItems: 'center', gap: 3, marginTop: -12, paddingTop: 0, paddingBottom: 8 },
+  footerMountain: { width: '100%', height: 104, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
   storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
 });
