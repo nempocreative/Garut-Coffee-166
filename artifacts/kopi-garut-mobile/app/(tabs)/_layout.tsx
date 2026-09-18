@@ -26,9 +26,9 @@ function NativeTabLayout() {
         <NativeTabs.Trigger.Icon sf={{ default: 'square.grid.2x2', selected: 'square.grid.2x2.fill' }} />
           <NativeTabs.Trigger.Label>Jelajah</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="favorites">
-        <NativeTabs.Trigger.Icon sf={{ default: 'heart', selected: 'heart.fill' }} />
-        <NativeTabs.Trigger.Label>Favorit</NativeTabs.Trigger.Label>
+      <NativeTabs.Trigger name="orders">
+        <NativeTabs.Trigger.Icon sf={{ default: 'shippingbox', selected: 'shippingbox.fill' }} />
+        <NativeTabs.Trigger.Label>Pesanan</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Icon sf={{ default: 'person', selected: 'person.fill' }} />
@@ -133,10 +133,10 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="favorites"
+        name="orders"
         options={{
-          title: 'Favorit',
-          tabBarIcon: ({ color, focused }) => tabIcon('heart', color, focused),
+          title: 'Pesanan',
+          tabBarIcon: ({ color, focused }) => tabIcon('package', color, focused),
         }}
       />
       <Tabs.Screen
@@ -144,6 +144,12 @@ function ClassicTabLayout() {
         options={{
           title: 'Akun',
           tabBarIcon: ({ color, focused }) => tabIcon('user', color, focused),
+        }}
+      />
+      <Tabs.Screen
+        name="favorites"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
