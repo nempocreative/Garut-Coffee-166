@@ -63,10 +63,23 @@ const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
-function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; creaseColor: string }) {
+function CoffeeBeanAnimation({
+  beanColor,
+  creaseColor,
+  primaryColor,
+  accentColor,
+  mutedColor,
+}: {
+  beanColor: string;
+  creaseColor: string;
+  primaryColor: string;
+  accentColor: string;
+  mutedColor: string;
+}) {
   const beanOne = useSharedValue(0);
   const beanTwo = useSharedValue(0);
   const beanThree = useSharedValue(0);
+  const beanFour = useSharedValue(0);
 
   useEffect(() => {
     const float = (delay: number, duration: number) =>
@@ -78,7 +91,8 @@ function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; cr
     beanOne.value = float(0, 2200);
     beanTwo.value = float(260, 2500);
     beanThree.value = float(520, 2350);
-  }, [beanOne, beanTwo, beanThree]);
+    beanFour.value = float(780, 2450);
+  }, [beanOne, beanTwo, beanThree, beanFour]);
 
   const beanOneStyle = useAnimatedStyle(() => ({
     transform: [
@@ -101,18 +115,41 @@ function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; cr
       { rotate: `${interpolate(beanThree.value, [0, 0.5, 1], [-8, -16, -8])}deg` },
     ],
   }));
+  const beanFourStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: interpolate(beanFour.value, [0, 0.5, 1], [0, -2, 0]) },
+      { translateY: interpolate(beanFour.value, [0, 0.5, 1], [0, -5, 0]) },
+      { rotate: `${interpolate(beanFour.value, [0, 0.5, 1], [12, 20, 12])}deg` },
+    ],
+  }));
 
   return (
     <View style={styles.coffeeBeanAnimation}>
       <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanOneStyle]}>
-        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
+        <CoffeeBeanBody leftColor={beanColor} rightColor={creaseColor} creaseColor={beanColor} />
       </Animated.View>
       <Animated.View style={[styles.coffeeBean, styles.coffeeBeanLarge, { backgroundColor: beanColor }, beanTwoStyle]}>
-        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
+        <CoffeeBeanBody leftColor={primaryColor} rightColor={beanColor} creaseColor={beanColor} />
       </Animated.View>
       <Animated.View style={[styles.coffeeBean, styles.coffeeBeanSmall, { backgroundColor: beanColor }, beanThreeStyle]}>
-        <View style={[styles.coffeeBeanCrease, { borderColor: creaseColor }]} />
+        <CoffeeBeanBody leftColor={accentColor} rightColor={beanColor} creaseColor={beanColor} />
       </Animated.View>
+      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanFourth, { backgroundColor: beanColor }, beanFourStyle]}>
+        <CoffeeBeanBody leftColor={mutedColor} rightColor={beanColor} creaseColor={beanColor} />
+      </Animated.View>
+    </View>
+  );
+}
+
+function CoffeeBeanBody({ leftColor, rightColor, creaseColor }: { leftColor: string; rightColor: string; creaseColor: string }) {
+  return (
+    <View style={[StyleSheet.absoluteFill, { backgroundColor: leftColor }]}>
+      <View style={[styles.coffeeBeanRightHalf, { backgroundColor: rightColor }]} />
+      <View style={styles.coffeeBeanCrease}>
+        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseTop, { backgroundColor: creaseColor }]} />
+        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseMiddle, { backgroundColor: creaseColor }]} />
+        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseBottom, { backgroundColor: creaseColor }]} />
+      </View>
     </View>
   );
 }
@@ -282,7 +319,13 @@ export default function HomeScreen() {
         <View style={styles.storyLeadCopy}>
           <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
           <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
-          <CoffeeBeanAnimation beanColor={colors.foreground} creaseColor={colors.secondary} />
+          <CoffeeBeanAnimation
+            beanColor={colors.foreground}
+            creaseColor={colors.secondary}
+            primaryColor={colors.primary}
+            accentColor={colors.accent}
+            mutedColor={colors.mutedForeground}
+          />
         </View>
       </View>
       </Pressable>
@@ -442,11 +485,17 @@ const styles = StyleSheet.create({
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35, textAlign: 'center' },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1, textAlign: 'center' },
-  coffeeBeanAnimation: { height: 36, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, marginTop: 7 },
+  coffeeBeanAnimation: { height: 38, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 7 },
   coffeeBean: { width: 21, height: 30, borderRadius: 15, borderTopLeftRadius: 11, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 11, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   coffeeBeanLarge: { width: 24, height: 33, borderTopLeftRadius: 13, borderTopRightRadius: 18, borderBottomLeftRadius: 18, borderBottomRightRadius: 13, marginTop: 6 },
   coffeeBeanSmall: { width: 18, height: 27, borderTopLeftRadius: 10, borderTopRightRadius: 14, borderBottomLeftRadius: 14, borderBottomRightRadius: 10 },
-  coffeeBeanCrease: { position: 'absolute', width: 11, height: 22, borderRightWidth: 2, borderRadius: 11, opacity: 0.78, transform: [{ rotate: '-22deg' }] },
+  coffeeBeanFourth: { width: 20, height: 29, borderTopLeftRadius: 11, borderTopRightRadius: 15, borderBottomLeftRadius: 15, borderBottomRightRadius: 11 },
+  coffeeBeanRightHalf: { position: 'absolute', right: 0, top: 0, bottom: 0, width: '58%', borderTopLeftRadius: 13, borderBottomLeftRadius: 13 },
+  coffeeBeanCrease: { position: 'absolute', width: 15, height: '100%', left: '36%', top: 0, opacity: 0.98 },
+  coffeeBeanCreaseSegment: { position: 'absolute', width: 3, borderRadius: 3 },
+  coffeeBeanCreaseTop: { height: '38%', left: '54%', top: '-4%', transform: [{ rotate: '16deg' }] },
+  coffeeBeanCreaseMiddle: { height: '42%', left: '27%', top: '27%', transform: [{ rotate: '-17deg' }] },
+  coffeeBeanCreaseBottom: { height: '37%', left: '45%', top: '62%', transform: [{ rotate: '20deg' }] },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
