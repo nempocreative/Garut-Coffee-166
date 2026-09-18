@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
-import { CoffeeCard, Header, HubTile, Screen } from '@/components/AppUI';
+import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { coffees } from '@/data/coffees';
 import { hubStats } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
@@ -12,10 +12,10 @@ import { useColors } from '@/hooks/useColors';
 const promoSlides = [
   {
     id: 'coffee-hub',
-    kicker: 'GARUT COFFEE HUB',
-    title: 'Dari lereng Gunung Garut ke Indonesia.',
-    description: 'Satu ruang untuk kopi, petani, wilayah, dan pengalaman.',
-    cta: 'Jelajahi hub',
+    kicker: 'PILIHAN HARI INI',
+    title: 'Kopi pilihan dari Garut, siap dikirim.',
+    description: 'Temukan seri single origin, proses, dan rasa favoritmu.',
+    cta: 'Belanja sekarang',
     route: '/catalog' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
   },
@@ -39,6 +39,17 @@ const promoSlides = [
   },
 ];
 
+const categoryItems = [
+  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const },
+  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
+  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
+  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
+  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const },
+  { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
+  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
+  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
+];
+
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
@@ -60,7 +71,25 @@ export default function HomeScreen() {
   }, [bannerWidth]);
 
   return <Screen>
-    <Header title="Garut Coffee Hub" subtitle="KOPI GARUT · JAWA BARAT" />
+    <Header title="Mau cari apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
+    <Pressable
+      testID="home-search"
+      accessibilityRole="button"
+      accessibilityLabel="Cari kopi, petani, atau wilayah"
+      onPress={() => router.push('/catalog')}
+      style={({ pressed }) => [
+        styles.searchEntry,
+        { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.75 : 1 },
+      ]}
+    >
+      <Feather name="search" size={18} color={colors.mutedForeground} />
+      <Text style={[styles.searchPlaceholder, { color: colors.mutedForeground }]}>
+        Cari kopi, petani, atau wilayah
+      </Text>
+      <View style={[styles.searchFilter, { backgroundColor: colors.secondary }]}>
+        <Feather name="sliders" size={15} color={colors.primary} />
+      </View>
+    </Pressable>
     <Animated.View entering={FadeInDown.duration(550)} style={styles.hero}>
       <ScrollView
         ref={bannerRef}
@@ -112,18 +141,30 @@ export default function HomeScreen() {
       </View>
     </Animated.View>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI HUB</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Jelajahi Kopi Garut</Text></View>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH CEPAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mau lihat apa?</Text></View>
+      <Feather name="chevron-right" size={18} color={colors.mutedForeground} />
     </View>
-    <View style={styles.hubGrid}>
-      <HubTile compact icon="coffee" title="Produk kopi" description="Seri dan cerita rasa" onPress={() => router.push('/catalog')} />
-      <HubTile compact icon="users" title="Petani kopi" description="Orang di balik cangkir" onPress={() => router.push('/farmers')} />
-      <HubTile compact icon="map" title="Wilayah kopi" description="Kebun di Garut" onPress={() => router.push('/regions')} />
-      <HubTile compact icon="compass" title="Wisata kopi" description="Tur dan pengalaman" onPress={() => router.push('/tourism')} />
-      <HubTile compact icon="trending-up" title="Harga kopi" description="Data pasar transparan" onPress={() => router.push('/prices')} />
-      <HubTile compact icon="calendar" title="Event & pelatihan" description="Agenda ekosistem" onPress={() => router.push('/events')} />
-      <HubTile compact icon="briefcase" title="Kemitraan" description="Bergabung sebagai cafe mitra" onPress={() => router.push('/partnership')} />
-      <HubTile compact icon="bar-chart-2" title="Dashboard dinas" description="Data pertanian" onPress={() => router.push('/dashboard')} />
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryRail}>
+      {categoryItems.map((item) => (
+        <Pressable
+          key={item.label}
+          accessibilityRole="button"
+          accessibilityLabel={`Buka ${item.label}`}
+          onPress={() => router.push(item.route)}
+          style={({ pressed }) => [styles.categoryItem, { opacity: pressed ? 0.7 : 1 }]}
+        >
+          <View style={[styles.categoryIcon, { backgroundColor: colors.secondary }]}>
+            <Feather name={item.icon} size={19} color={colors.primary} />
+          </View>
+          <Text style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
+        </Pressable>
+      ))}
+    </ScrollView>
+    <View style={styles.sectionHeading}>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Kopi pilihan hari ini</Text></View>
+      <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
     <View style={[styles.traceCard, { backgroundColor: colors.secondary }]}>
       <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><Feather name="maximize" size={19} color={colors.primary} /></View>
       <View style={styles.traceCopy}><Text style={[styles.traceKicker, { color: colors.primary }]}>JEJAK PRODUK</Text><Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text><Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text></View>
@@ -136,11 +177,6 @@ export default function HomeScreen() {
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
     </View>
-    <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>PILIHAN PRODUK</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Seri untuk harimu</Text></View>
-      <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
-    </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
     <View style={[styles.quote, { backgroundColor: colors.secondary }]}>
       <Text style={[styles.quoteMark, { color: colors.accent }]}>“</Text>
       <Text style={[styles.quoteText, { color: colors.foreground }]}>Satu platform untuk petani, usaha, wisata, dan pecinta kopi Garut.</Text>
@@ -151,6 +187,9 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   hero: { height: 210, borderRadius: 24, overflow: 'hidden' },
+  searchEntry: { height: 52, borderRadius: 16, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
+  searchFilter: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   heroImageContainer: { flex: 1, justifyContent: 'flex-end' },
   heroImage: { borderRadius: 24 },
   heroShade: { ...StyleSheet.absoluteFill, opacity: 0.86 },
@@ -170,7 +209,10 @@ const styles = StyleSheet.create({
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 1.4 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, fontWeight: '700', marginTop: 4 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
-  hubGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 9 },
+  categoryRail: { gap: 16, paddingRight: 12 },
+  categoryItem: { width: 58, alignItems: 'center', gap: 7 },
+  categoryIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   traceCard: { borderRadius: 18, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
   traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   traceCopy: { flex: 1, gap: 3 },
