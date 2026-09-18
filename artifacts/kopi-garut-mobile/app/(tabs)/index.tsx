@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35, textAlign: 'center' },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1, textAlign: 'center' },
-  coffeeBeanAnimation: { width: 116, height: 39, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
+  coffeeBeanAnimation: { width: 90, height: 30, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
