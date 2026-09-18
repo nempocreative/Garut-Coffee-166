@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
-  storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden' },
+  storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden', zIndex: 1 },
   storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
   storyLeadCopy: { flex: 1, justifyContent: 'center', gap: 4, paddingVertical: 4 },
   storyLeadArt: { width: 108, minHeight: 130, borderRadius: 16, overflow: 'hidden', position: 'relative' },
@@ -461,6 +461,6 @@ const styles = StyleSheet.create({
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
   storyLeadWrap: { position: 'relative', marginTop: 58, zIndex: 1, overflow: 'visible' },
-  storyMountainAccent: { position: 'absolute', top: -116, left: -20, right: -20, height: 136, justifyContent: 'flex-end', overflow: 'visible', zIndex: 2, pointerEvents: 'none' },
-  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -46, width: '100%', height: 176, opacity: 0.32, zIndex: 2 },
+  storyMountainAccent: { position: 'absolute', top: -116, left: -20, right: -20, height: 136, justifyContent: 'flex-end', overflow: 'visible', zIndex: 0, pointerEvents: 'none' },
+  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -46, width: '100%', height: 176, opacity: 0.32, zIndex: 0 },
 });
