@@ -75,8 +75,8 @@ export function EmptyState({ icon = 'heart', title, text, action, onAction }: { 
 export function LoadingState() { const colors = useColors(); return <View style={styles.loading}><ActivityIndicator color={colors.primary} /><Text style={[styles.loadingText, { color: colors.mutedForeground }]}>Menyiapkan ritual kopimu…</Text></View>; }
 
 const styles = StyleSheet.create({
-  screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 24, minHeight: '100%' },
-  header: { gap: 15, marginBottom: 2 },
+  screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
+  header: { gap: 14, marginBottom: 0 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 50 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 11 },
