@@ -1,13 +1,13 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 import { Header, Screen } from '@/components/AppUI';
 import { hubEvents } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
+import { BrandIcon } from '@/components/BrandIcon';
 
 export default function EventsScreen() {
   const colors = useColors();
-  return <Screen><Header title="Event & pelatihan" subtitle="AGENDA EKOSISTEM KOPI" cart={false} back /><Text style={[styles.intro, { color: colors.mutedForeground }]}>Temukan agenda yang mempertemukan petani, usaha, pemerintah, dan pecinta kopi.</Text><View style={styles.list}>{hubEvents.map((event) => <View key={event.id} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}><View style={[styles.date, { backgroundColor: colors.secondary }]}><Feather name="calendar" size={19} color={colors.primary} /><Text style={[styles.dateText, { color: colors.primary }]}>{event.date}</Text></View><Text style={[styles.type, { color: colors.primary }]}>{event.type}</Text><Text style={[styles.title, { color: colors.foreground }]}>{event.title}</Text><Text style={[styles.meta, { color: colors.mutedForeground }]}>{event.location}</Text><Text style={[styles.description, { color: colors.mutedForeground }]}>{event.description}</Text></View>)}</View></Screen>;
+  return <Screen><Header title="Event & pelatihan" subtitle="AGENDA EKOSISTEM KOPI" cart={false} back /><Text style={[styles.intro, { color: colors.mutedForeground }]}>Temukan agenda yang mempertemukan petani, usaha, pemerintah, dan pecinta kopi.</Text><View style={styles.list}>{hubEvents.map((event) => <View key={event.id} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}><View style={[styles.date, { backgroundColor: colors.secondary }]}><BrandIcon name="calendar" size={19} color={colors.primary} /><Text style={[styles.dateText, { color: colors.primary }]}>{event.date}</Text></View><Text style={[styles.type, { color: colors.primary }]}>{event.type}</Text><Text style={[styles.title, { color: colors.foreground }]}>{event.title}</Text><Text style={[styles.meta, { color: colors.mutedForeground }]}>{event.location}</Text><Text style={[styles.description, { color: colors.mutedForeground }]}>{event.description}</Text></View>)}</View></Screen>;
 }
 
 const styles = StyleSheet.create({

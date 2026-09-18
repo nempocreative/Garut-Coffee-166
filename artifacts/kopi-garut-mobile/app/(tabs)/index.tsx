@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
+import { BrandIcon } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
 import { hubStats } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
@@ -48,6 +48,7 @@ const categoryItems = [
   { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
   { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
+  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
 ];
 
 export default function HomeScreen() {
@@ -82,12 +83,12 @@ export default function HomeScreen() {
         { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.75 : 1 },
       ]}
     >
-      <Feather name="search" size={18} color={colors.mutedForeground} />
+      <BrandIcon name="search" size={18} color={colors.mutedForeground} />
       <Text style={[styles.searchPlaceholder, { color: colors.mutedForeground }]}>
         Cari kopi, petani, atau wilayah
       </Text>
       <View style={[styles.searchFilter, { backgroundColor: colors.secondary }]}>
-        <Feather name="sliders" size={15} color={colors.primary} />
+        <BrandIcon name="sliders" size={15} color={colors.primary} />
       </View>
     </Pressable>
     <Animated.View entering={FadeInDown.duration(550)} style={styles.hero}>
@@ -117,7 +118,7 @@ export default function HomeScreen() {
                 style={({ pressed }) => [styles.heroButton, { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 }]}
               >
                 <Text style={[styles.heroButtonText, { color: colors.primaryForeground }]}>{slide.cta}</Text>
-                <Feather name="arrow-up-right" size={16} color={colors.primaryForeground} />
+                <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
               </Pressable>
             </View>
           </ImageBackground>
@@ -142,7 +143,7 @@ export default function HomeScreen() {
     </Animated.View>
     <View style={styles.sectionHeading}>
       <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH CEPAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mau lihat apa?</Text></View>
-      <Feather name="chevron-right" size={18} color={colors.mutedForeground} />
+      <BrandIcon name="chevron-right" size={18} color={colors.mutedForeground} />
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryRail}>
       {categoryItems.map((item) => (
@@ -154,7 +155,7 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.categoryItem, { opacity: pressed ? 0.7 : 1 }]}
         >
           <View style={[styles.categoryIcon, { backgroundColor: colors.secondary }]}>
-            <Feather name={item.icon} size={19} color={colors.primary} />
+            <BrandIcon name={item.icon} size={19} color={colors.primary} />
           </View>
           <Text style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
         </Pressable>
@@ -166,9 +167,9 @@ export default function HomeScreen() {
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
     <View style={[styles.traceCard, { backgroundColor: colors.secondary }]}>
-      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><Feather name="maximize" size={19} color={colors.primary} /></View>
+      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><BrandIcon name="maximize" size={19} color={colors.primary} /></View>
       <View style={styles.traceCopy}><Text style={[styles.traceKicker, { color: colors.primary }]}>JEJAK PRODUK</Text><Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text><Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text></View>
-      <Pressable onPress={() => router.push('/traceability')} style={[styles.traceButton, { backgroundColor: colors.primary }]}><Feather name="arrow-up-right" size={16} color={colors.primaryForeground} /></Pressable>
+      <Pressable onPress={() => router.push('/traceability')} style={[styles.traceButton, { backgroundColor: colors.primary }]}><BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} /></Pressable>
     </View>
     <View style={styles.sectionHeading}>
       <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>

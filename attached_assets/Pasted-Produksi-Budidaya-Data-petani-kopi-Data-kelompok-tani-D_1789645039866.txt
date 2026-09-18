@@ -1,0 +1,122 @@
+Produksi & Budidaya
+Data petani kopi
+Data kelompok tani
+Data luas lahan
+Data pohon kopi
+Data produksi per musim
+Jadwal panen
+Pelaporan hama dan penyakit
+Kebutuhan pupuk dan bibit
+Pascapanen
+Data rumah produksi
+Data mesin pengolahan
+Jadwal pengeringan
+Stok green bean
+Stok roasted bean
+Standar kualitas kopi
+Marketplace B2B
+
+Target:
+
+Cafe
+Hotel
+Restoran
+Roastery
+Distributor
+
+Fitur:
+
+Permintaan pembelian
+Penawaran hasil panen
+Negosiasi harga
+Kontrak pembelian
+Sertifikasi & Legalitas
+Sertifikat petani
+Sertifikat halal
+PIRT
+NIB
+Pelatihan yang pernah diikuti
+Riwayat pendampingan
+Akademi Kopi Garut
+
+Berisi:
+
+Video budidaya
+Teknik panen
+Pascapanen
+Roasting dasar
+Brewing dasar
+Kewirausahaan kopi
+
+Bisa bekerja sama dengan penyuluh pertanian.
+
+Event & Kompetisi
+Festival Kopi Garut
+Cupping session
+Kompetisi barista
+Kompetisi seduh manual
+Pelatihan petani
+Seminar kopi
+Pusat Media Kopi Garut
+Artikel kopi
+Cerita petani
+Dokumentasi kegiatan
+Berita pertanian kopi
+Kalender kegiatan
+Program Kemitraan
+
+Untuk:
+
+Cafe
+Hotel
+UMKM
+Investor
+Eksportir
+
+Mereka bisa mendaftar langsung melalui aplikasi.
+
+Sistem Voucher & Membership
+
+Misalnya:
+
+Diskon di cafe mitra
+Diskon wisata kopi
+Event khusus anggota
+Merchandise Kopi Garut
+Wisata Kopi
+
+Ini yang bisa menjadi pembeda karena Nempo punya latar belakang pariwisata.
+
+Paket:
+
+One Day Coffee Tour
+Farm Experience
+Coffee Camping
+Coffee & Culture Experience
+Petik Kopi Langsung
+Dashboard Dinas
+
+Menampilkan:
+
+Jumlah petani aktif
+Produksi per kecamatan
+Komoditas unggulan
+Tren harga
+Persebaran lahan
+Data pelatihan
+Data kemitraan
+Yang Menarik untuk Jangka Panjang
+
+Buat satu menu khusus:
+
+Garut Coffee Collective
+
+Berisi:
+
+Semua petani kopi Garut
+Semua cafe mitra
+Semua roastery
+Semua wisata kopi
+Semua event kopi
+
+Jadi saat orang mencari "kopi Garut", mereka masuk ke satu ekosistem yang dikelola bersama, bukan ke puluhan brand kecil yang berjalan sendiri-sendiri. Ini biasanya lebih mudah dijual sebagai program daerah karena manfaatnya tidak hanya untuk penjualan, tetapi juga data, promosi, edukasi, dan pengembangan ekonomi kopi Garut secara keseluruhan.

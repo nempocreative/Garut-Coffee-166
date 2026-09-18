@@ -1,16 +1,16 @@
 import React from 'react';
 import { Image } from 'expo-image';
-import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Header, Screen } from '@/components/AppUI';
 import { farmers } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
+import { BrandIcon } from '@/components/BrandIcon';
 
 export default function FarmersScreen() {
   const colors = useColors();
   const router = useRouter();
-  return <Screen><Header title="Petani kopi" subtitle="ORANG DI BALIK CANGKIR" cart={false} back /><Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text><View style={styles.list}>{farmers.map((farmer) => <Pressable key={farmer.id} onPress={() => router.push(`/farmer/${farmer.id}`)} style={({ pressed }) => [styles.card, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}><Image source={farmer.image} contentFit="cover" style={styles.image} /><View style={styles.copy}><Text style={[styles.name, { color: colors.foreground }]}>{farmer.name}</Text><Text style={[styles.group, { color: colors.primary }]}>{farmer.group}</Text><Text style={[styles.meta, { color: colors.mutedForeground }]}>{farmer.location} · {farmer.annualProduction}</Text></View><Feather name="chevron-right" size={18} color={colors.mutedForeground} /></Pressable>)}</View></Screen>;
+  return <Screen><Header title="Petani kopi" subtitle="ORANG DI BALIK CANGKIR" cart={false} back /><Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text><View style={styles.list}>{farmers.map((farmer) => <Pressable key={farmer.id} onPress={() => router.push(`/farmer/${farmer.id}`)} style={({ pressed }) => [styles.card, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}><Image source={farmer.image} contentFit="cover" style={styles.image} /><View style={styles.copy}><Text style={[styles.name, { color: colors.foreground }]}>{farmer.name}</Text><Text style={[styles.group, { color: colors.primary }]}>{farmer.group}</Text><Text style={[styles.meta, { color: colors.mutedForeground }]}>{farmer.location} · {farmer.annualProduction}</Text></View><BrandIcon name="chevron-right" size={18} color={colors.mutedForeground} /></Pressable>)}</View></Screen>;
 }
 
 const styles = StyleSheet.create({

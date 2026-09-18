@@ -1,4 +1,3 @@
-import { Feather, Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -9,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
+import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
 
 export function Screen({ children, scroll = true, style }: { children: React.ReactNode; scroll?: boolean; style?: object }) {
   const { background } = useColors();
@@ -25,21 +25,21 @@ export function Header({ title, subtitle, cart = true, back = false }: { title: 
   const titleParts = title.split(', ');
   return <View style={styles.header}>
     <View style={styles.headerTop}>
-      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
-      {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><Feather name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+      {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
     </View>
     <View style={styles.headerBottom}>
       <View style={styles.headerCopy}>
-        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDot, { backgroundColor: colors.accent }]} /><View style={styles.locationInline}><Feather name="compass" size={11} color={colors.primary} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDot, { backgroundColor: colors.accent }]} /><View style={styles.locationInline}><BrandIcon name="compass" size={11} color={colors.primary} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
         <Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
       </View>
     </View>
   </View>;
 }
 
-export function Button({ label, onPress, icon, disabled = false, secondary = false, testID }: { label: string; onPress: () => void; icon?: keyof typeof Feather.glyphMap; disabled?: boolean; secondary?: boolean; testID?: string }) {
+export function Button({ label, onPress, icon, disabled = false, secondary = false, testID }: { label: string; onPress: () => void; icon?: BrandIconName; disabled?: boolean; secondary?: boolean; testID?: string }) {
   const colors = useColors();
-  return <Pressable testID={testID} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.button, { backgroundColor: secondary ? colors.secondary : colors.primary, opacity: disabled ? 0.45 : pressed ? 0.78 : 1 }]}>{icon && <Feather name={icon} size={16} color={secondary ? colors.foreground : colors.primaryForeground} />}<Text style={[styles.buttonText, { color: secondary ? colors.foreground : colors.primaryForeground }]}>{label}</Text></Pressable>;
+  return <Pressable testID={testID} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.button, { backgroundColor: secondary ? colors.secondary : colors.primary, opacity: disabled ? 0.45 : pressed ? 0.78 : 1 }]}>{icon && <BrandIcon name={icon} size={16} color={secondary ? colors.foreground : colors.primaryForeground} />}<Text style={[styles.buttonText, { color: secondary ? colors.foreground : colors.primaryForeground }]}>{label}</Text></Pressable>;
 }
 
 export function CoffeeCard({ coffee, index = 0, grid = false }: { coffee: Coffee; index?: number; grid?: boolean }) {
@@ -49,24 +49,24 @@ export function CoffeeCard({ coffee, index = 0, grid = false }: { coffee: Coffee
   const saved = favorites.includes(coffee.id);
   return <Animated.View entering={FadeInDown.delay(index * 50).duration(450)} style={[styles.card, grid && styles.gridCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
     <Pressable testID={`coffee-card-${coffee.id}`} onPress={() => router.push(`/product/${coffee.id}`)} style={[styles.cardImageWrap, grid && styles.gridCardImageWrap]}><Image source={coffee.image} contentFit="cover" style={styles.cardImage} />{coffee.badge && <View style={[styles.badge, { backgroundColor: colors.accent }]}><Text style={[styles.badgeText, { color: colors.accentForeground }]}>{coffee.badge}</Text></View>}</Pressable>
-    <View style={[styles.cardBody, grid && styles.gridCardBody]}><View style={{ flex: 1 }}><Text numberOfLines={1} style={[styles.cardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={1} style={[styles.cardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={({ pressed }) => [styles.favorite, { opacity: pressed ? 0.55 : 1 }]}><Ionicons name={saved ? 'heart' : 'heart-outline'} size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
-    <Pressable testID={`add-${coffee.id}`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { borderColor: colors.border, opacity: pressed ? 0.65 : 1 }, grid && styles.gridAddButton]}><Feather name="plus" size={16} color={colors.primary} /><Text style={[styles.addText, { color: colors.foreground }]}>Tambah ke keranjang</Text></Pressable>
+    <View style={[styles.cardBody, grid && styles.gridCardBody]}><View style={styles.cardInfo}><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTitle, grid && styles.gridCardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTagline, grid && styles.gridCardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, grid && styles.gridPrice, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={({ pressed }) => [styles.favorite, { opacity: pressed ? 0.55 : 1 }]}><BrandIcon name="heart" size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
+    <Pressable testID={`add-${coffee.id}`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { borderColor: colors.border, opacity: pressed ? 0.65 : 1 }, grid && styles.gridAddButton]}><BrandIcon name="plus" size={16} color={colors.primary} /><Text style={[styles.addText, { color: colors.foreground }]}>{grid ? 'Tambah' : 'Tambah ke keranjang'}</Text></Pressable>
   </Animated.View>;
 }
 
 export function SearchBar({ value, onChangeText }: { value: string; onChangeText: (text: string) => void }) {
   const colors = useColors();
-  return <View style={[styles.search, { backgroundColor: colors.card, borderColor: colors.border }]}><Feather name="search" size={18} color={colors.mutedForeground} /><TextInput testID="catalog-search" value={value} onChangeText={onChangeText} placeholder="Cari kopi atau asalnya" placeholderTextColor={colors.mutedForeground} style={[styles.searchInput, { color: colors.foreground }]} /></View>;
+  return <View style={[styles.search, { backgroundColor: colors.card, borderColor: colors.border }]}><BrandIcon name="search" size={18} color={colors.mutedForeground} /><TextInput testID="catalog-search" value={value} onChangeText={onChangeText} placeholder="Cari nama, asal, atau rasa" placeholderTextColor={colors.mutedForeground} style={[styles.searchInput, { color: colors.foreground }]} /></View>;
 }
 
-export function HubTile({ icon, title, description, onPress, compact = false }: { icon: keyof typeof Feather.glyphMap; title: string; description: string; onPress: () => void; compact?: boolean }) {
+export function HubTile({ icon, title, description, onPress, compact = false }: { icon: BrandIconName; title: string; description: string; onPress: () => void; compact?: boolean }) {
   const colors = useColors();
-  return <Pressable onPress={onPress} style={({ pressed }) => [styles.hubTile, compact && styles.hubTileCompact, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}><View style={[styles.hubTileIcon, { backgroundColor: colors.secondary }]}><Feather name={icon} size={19} color={colors.primary} /></View><View style={[styles.hubTileCopy, compact && styles.hubTileCopyCompact]}><Text numberOfLines={compact ? 2 : 1} style={[styles.hubTileTitle, { color: colors.foreground }]}>{title}</Text><Text numberOfLines={2} style={[styles.hubTileDescription, { color: colors.mutedForeground }]}>{description}</Text></View><Feather name="chevron-right" size={17} color={colors.mutedForeground} style={compact ? styles.hubTileArrowCompact : undefined} /></Pressable>;
+  return <Pressable onPress={onPress} style={({ pressed }) => [styles.hubTile, compact && styles.hubTileCompact, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}><View style={[styles.hubTileIcon, { backgroundColor: colors.secondary }]}><BrandIcon name={icon} size={19} color={colors.primary} /></View><View style={[styles.hubTileCopy, compact && styles.hubTileCopyCompact]}><Text numberOfLines={compact ? 2 : 1} style={[styles.hubTileTitle, { color: colors.foreground }]}>{title}</Text><Text numberOfLines={2} style={[styles.hubTileDescription, { color: colors.mutedForeground }]}>{description}</Text></View><BrandIcon name="chevron-right" size={17} color={colors.mutedForeground} /></Pressable>;
 }
 
-export function EmptyState({ icon = 'heart', title, text, action, onAction }: { icon?: keyof typeof Feather.glyphMap; title: string; text: string; action?: string; onAction?: () => void }) {
+export function EmptyState({ icon = 'heart', title, text, action, onAction }: { icon?: BrandIconName; title: string; text: string; action?: string; onAction?: () => void }) {
   const colors = useColors();
-  return <View style={[styles.empty, { borderColor: colors.border }]}><View style={[styles.emptyIcon, { backgroundColor: colors.secondary }]}><Feather name={icon} size={24} color={colors.primary} /></View><Text style={[styles.emptyTitle, { color: colors.foreground }]}>{title}</Text><Text style={[styles.emptyText, { color: colors.mutedForeground }]}>{text}</Text>{action && onAction && <Button label={action} onPress={onAction} secondary />}</View>;
+  return <View style={[styles.empty, { borderColor: colors.border }]}><View style={[styles.emptyIcon, { backgroundColor: colors.secondary }]}><BrandIcon name={icon} size={24} color={colors.primary} /></View><Text style={[styles.emptyTitle, { color: colors.foreground }]}>{title}</Text><Text style={[styles.emptyText, { color: colors.mutedForeground }]}>{text}</Text>{action && onAction && <Button label={action} onPress={onAction} secondary />}</View>;
 }
 
 export function LoadingState() { const colors = useColors(); return <View style={styles.loading}><ActivityIndicator color={colors.primary} /><Text style={[styles.loadingText, { color: colors.mutedForeground }]}>Menyiapkan ritual kopimu…</Text></View>; }
@@ -103,7 +103,11 @@ const styles = StyleSheet.create({
   badge: { position: 'absolute', left: 12, top: 12, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8 },
   badgeText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
   cardBody: { flexDirection: 'row', padding: 14, paddingBottom: 10, gap: 8 },
-  gridCardBody: { padding: 11, paddingBottom: 8, gap: 4 },
+  cardInfo: { flex: 1 },
+  gridCardBody: { minHeight: 124, padding: 11, paddingBottom: 8, gap: 4 },
+  gridCardTitle: { lineHeight: 20, minHeight: 40 },
+  gridCardTagline: { lineHeight: 16, minHeight: 32, marginTop: 3 },
+  gridPrice: { marginTop: 8 },
   cardTitle: { fontFamily: 'Manrope_700Bold', fontSize: 17, fontWeight: '700', letterSpacing: -0.2 },
   cardTagline: { fontFamily: 'Manrope_400Regular', fontSize: 12, marginTop: 4 },
   price: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '700', marginTop: 10 },

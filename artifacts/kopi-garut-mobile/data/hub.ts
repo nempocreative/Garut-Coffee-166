@@ -121,3 +121,84 @@ export const hubStats = [
   { label: 'Produksi tahunan', value: '312 ton' },
   { label: 'Wilayah aktif', value: '12' },
 ];
+
+export type CollectiveModule = {
+  id: string;
+  icon: 'coffee' | 'package' | 'briefcase' | 'shield' | 'calendar' | 'users' | 'heart' | 'compass' | 'bar-chart-2' | 'info';
+  title: string;
+  description: string;
+  items: string[];
+};
+
+export const collectiveModules: CollectiveModule[] = [
+  {
+    id: 'production',
+    icon: 'coffee',
+    title: 'Produksi & budidaya',
+    description: 'Data kebun yang membantu petani menjaga kualitas dan merencanakan musim.',
+    items: ['Data petani dan kelompok tani', 'Luas lahan dan pohon kopi', 'Produksi per musim', 'Jadwal panen'],
+  },
+  {
+    id: 'post-harvest',
+    icon: 'package',
+    title: 'Pascapanen',
+    description: 'Catatan rumah produksi, pengolahan, stok, dan standar kualitas kopi Garut.',
+    items: ['Rumah produksi dan mesin', 'Jadwal pengeringan', 'Stok green bean dan roasted bean', 'Standar kualitas kopi'],
+  },
+  {
+    id: 'b2b',
+    icon: 'briefcase',
+    title: 'Marketplace B2B',
+    description: 'Ruang temu hasil panen dengan usaha yang ingin membeli kopi Garut secara berkelanjutan.',
+    items: ['Permintaan pembelian', 'Penawaran hasil panen', 'Negosiasi harga', 'Kontrak pembelian'],
+  },
+  {
+    id: 'certification',
+    icon: 'shield',
+    title: 'Sertifikasi & legalitas',
+    description: 'Profil kesiapan usaha dan dokumen penting untuk memperluas akses pasar.',
+    items: ['Sertifikat petani', 'Sertifikat halal', 'PIRT', 'NIB'],
+  },
+  {
+    id: 'academy',
+    icon: 'calendar',
+    title: 'Akademi Kopi Garut',
+    description: 'Materi belajar untuk petani, pelaku usaha, dan pecinta kopi dari hulu ke hilir.',
+    items: ['Video budidaya dan teknik panen', 'Pascapanen dan roasting dasar', 'Brewing dasar', 'Kewirausahaan kopi'],
+  },
+  {
+    id: 'events-media',
+    icon: 'info',
+    title: 'Event & pusat media',
+    description: 'Satu tempat untuk mengikuti kegiatan dan cerita yang menggerakkan ekosistem kopi.',
+    items: ['Festival dan cupping session', 'Kompetisi dan pelatihan', 'Artikel dan cerita petani', 'Kalender kegiatan'],
+  },
+  {
+    id: 'partnership',
+    icon: 'users',
+    title: 'Program kemitraan',
+    description: 'Hubungkan kopi Garut dengan cafe, hotel, UMKM, investor, dan eksportir.',
+    items: ['Pendaftaran mitra langsung', 'Riwayat pendampingan', 'Pelatihan yang pernah diikuti', 'Kerja sama penyuluh pertanian'],
+  },
+  {
+    id: 'membership',
+    icon: 'heart',
+    title: 'Voucher & membership',
+    description: 'Benefit untuk anggota yang ingin menikmati ekosistem Kopi Garut lebih dekat.',
+    items: ['Diskon di cafe mitra', 'Diskon wisata kopi', 'Event khusus anggota', 'Merchandise Kopi Garut'],
+  },
+  {
+    id: 'tourism',
+    icon: 'compass',
+    title: 'Wisata kopi',
+    description: 'Pengalaman langsung dari kebun, proses, budaya, dan orang-orang di balik kopi.',
+    items: ['One Day Coffee Tour', 'Farm Experience', 'Coffee Camping', 'Coffee & Culture Experience', 'Petik kopi langsung'],
+  },
+  {
+    id: 'government-dashboard',
+    icon: 'bar-chart-2',
+    title: 'Dashboard dinas',
+    description: 'Ringkasan data untuk melihat pertumbuhan kopi Garut dari satu pintu.',
+    items: ['Jumlah petani aktif', 'Produksi per kecamatan', 'Tren harga dan persebaran lahan', 'Data pelatihan dan kemitraan'],
+  },
+];

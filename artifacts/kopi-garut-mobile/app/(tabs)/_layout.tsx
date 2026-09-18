@@ -1,13 +1,13 @@
 import React from 'react';
 import { ColorValue, Platform, StyleSheet, useColorScheme, View } from 'react-native';
 import { useColors } from '@/hooks/useColors';
-import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Tabs } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { SymbolView } from 'expo-symbols';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
 
 // IMPORTANT: iOS 26 uses NativeTabs for native tabs with liquid glass support.
 // NativeTabs intentionally does NOT use custom design tokens — liquid glass
@@ -48,7 +48,7 @@ function ClassicTabLayout() {
   const bottomInset = isWeb ? 34 : insets.bottom;
 
   const tabIcon = (
-    icon: keyof typeof Feather.glyphMap,
+    icon: BrandIconName,
     color: ColorValue,
     focused: boolean,
   ) => (
@@ -58,7 +58,7 @@ function ClassicTabLayout() {
         focused && { backgroundColor: colors.secondary },
       ]}
     >
-      <Feather name={icon} size={focused ? 21 : 20} color={color} />
+      <BrandIcon name={icon} size={focused ? 21 : 20} color={color} />
     </View>
   );
 
