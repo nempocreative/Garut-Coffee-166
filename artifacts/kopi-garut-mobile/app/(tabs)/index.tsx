@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -69,32 +69,37 @@ function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; cr
   const beanThree = useSharedValue(0);
 
   useEffect(() => {
-    const float = (delay: number) =>
+    const float = (delay: number, duration: number) =>
       withDelay(
         delay,
-        withRepeat(
-          withSequence(
-            withTiming(-5, { duration: 900, easing: Easing.inOut(Easing.ease) }),
-            withTiming(0, { duration: 900, easing: Easing.inOut(Easing.ease) }),
-          ),
-          -1,
-          false,
-        ),
+        withRepeat(withTiming(1, { duration, easing: Easing.inOut(Easing.ease) }), -1, true),
       );
 
-    beanOne.value = float(0);
-    beanTwo.value = float(220);
-    beanThree.value = float(440);
+    beanOne.value = float(0, 2200);
+    beanTwo.value = float(260, 2500);
+    beanThree.value = float(520, 2350);
   }, [beanOne, beanTwo, beanThree]);
 
   const beanOneStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: beanOne.value }, { rotate: '-18deg' }],
+    transform: [
+      { translateX: interpolate(beanOne.value, [0, 0.5, 1], [0, 2, 0]) },
+      { translateY: interpolate(beanOne.value, [0, 0.5, 1], [0, -6, 0]) },
+      { rotate: `${interpolate(beanOne.value, [0, 0.5, 1], [-18, -8, -18])}deg` },
+    ],
   }));
   const beanTwoStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: beanTwo.value }, { rotate: '10deg' }],
+    transform: [
+      { translateX: interpolate(beanTwo.value, [0, 0.5, 1], [0, -2, 0]) },
+      { translateY: interpolate(beanTwo.value, [0, 0.5, 1], [0, -4, 0]) },
+      { rotate: `${interpolate(beanTwo.value, [0, 0.5, 1], [10, 18, 10])}deg` },
+    ],
   }));
   const beanThreeStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: beanThree.value }, { rotate: '-8deg' }],
+    transform: [
+      { translateX: interpolate(beanThree.value, [0, 0.5, 1], [0, 2, 0]) },
+      { translateY: interpolate(beanThree.value, [0, 0.5, 1], [0, -7, 0]) },
+      { rotate: `${interpolate(beanThree.value, [0, 0.5, 1], [-8, -16, -8])}deg` },
+    ],
   }));
 
   return (
@@ -277,7 +282,7 @@ export default function HomeScreen() {
         <View style={styles.storyLeadCopy}>
           <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
           <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
-          <CoffeeBeanAnimation beanColor={colors.primary} creaseColor={colors.secondary} />
+          <CoffeeBeanAnimation beanColor={colors.foreground} creaseColor={colors.secondary} />
         </View>
       </View>
       </Pressable>
