@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
+import { Image as ExpoImage } from 'expo-image';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
-import { hubStats } from '@/data/hub';
+import { coffeePrices, coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 const promoSlides = [
@@ -201,6 +202,106 @@ export default function HomeScreen() {
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
     </View>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>TEMUKAN PROFIL RASA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
+      <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Jelajahi</Link>
+    </View>
+    <View style={styles.tasteGrid}>
+      {[
+        { label: 'Cerah & manis', detail: 'Lemon, melati, gula merah', icon: 'trending-up' as const, route: '/product/papandayan-honey' as const },
+        { label: 'Buah & juicy', detail: 'Stroberi, kakao, molase', icon: 'heart' as const, route: '/product/cikajang-natural' as const },
+        { label: 'Hangat & nyaman', detail: 'Karamel, cokelat, rempah', icon: 'coffee' as const, route: '/product/samarang-dark' as const },
+      ].map((taste, index) => (
+        <Pressable
+          key={taste.label}
+          accessibilityRole="button"
+          accessibilityLabel={`Lihat kopi ${taste.label}`}
+          onPress={() => router.push(taste.route)}
+          style={({ pressed }) => [styles.tasteCard, { backgroundColor: index === 1 ? colors.primary : colors.card, borderColor: index === 1 ? colors.primary : colors.border, opacity: pressed ? 0.78 : 1 }]}
+        >
+          <ExpoImage source={coffees[index === 0 ? 0 : index === 1 ? 1 : 3].image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.tasteImage]} />
+          <View style={[StyleSheet.absoluteFill, styles.tasteImageShade, { backgroundColor: index === 1 ? colors.foreground : colors.card }]} />
+          <View style={[styles.tasteIcon, { backgroundColor: index === 1 ? colors.primaryForeground : colors.secondary }]}><BrandIcon name={taste.icon} size={17} color={index === 1 ? colors.primary : colors.primary} /></View>
+          <Text style={[styles.tasteLabel, { color: index === 1 ? colors.primaryForeground : colors.foreground }]}>{taste.label}</Text>
+          <Text style={[styles.tasteDetail, { color: index === 1 ? colors.background : colors.mutedForeground }]}>{taste.detail}</Text>
+          <BrandIcon name="arrow-up-right" size={15} color={index === 1 ? colors.primaryForeground : colors.primary} />
+        </Pressable>
+      ))}
+    </View>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>CERITA DARI KEBUN</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Orang di balik rasa</Text></View>
+      <Link href="/farmers" style={[styles.seeAll, { color: colors.primary }]}>Semua petani</Link>
+    </View>
+    <Pressable
+      testID="home-farmer-story"
+      accessibilityRole="button"
+      accessibilityLabel={`Buka cerita ${farmers[0].name}`}
+      onPress={() => router.push(`/farmer/${farmers[0].id}`)}
+      style={({ pressed }) => [styles.farmerFeature, { backgroundColor: colors.foreground, opacity: pressed ? 0.86 : 1 }]}
+    >
+      <View style={styles.farmerImageWrap}>
+        <ExpoImage source={farmers[0].image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.farmerImage]} />
+        <LinearGradient colors={['transparent', colors.foreground]} locations={[0.2, 1]} style={StyleSheet.absoluteFill} />
+        <View style={styles.farmerFeatureCopy}>
+          <View style={styles.farmerTag}><BrandIcon name="map-pin" size={12} color={colors.primaryForeground} /><Text style={[styles.farmerTagText, { color: colors.primaryForeground }]}>{farmers[0].location}</Text></View>
+          <Text style={[styles.farmerName, { color: colors.card }]}>{farmers[0].name}</Text>
+          <Text style={[styles.farmerStory, { color: colors.background }]}>{farmers[0].story}</Text>
+          <View style={styles.farmerMetaRow}><Text style={[styles.farmerMeta, { color: colors.background }]}>{farmers[0].group}</Text><BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} /></View>
+        </View>
+      </View>
+    </Pressable>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>WILAYAH ASAL</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
+      <Link href="/regions" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
+    </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regionRail}>
+      {regions.slice(0, 3).map((region, index) => (
+        <Pressable key={region.id} onPress={() => router.push(`/region/${region.id}`)} style={({ pressed }) => [styles.regionCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
+          <ExpoImage source={region.image} contentFit="cover" style={styles.regionImage} />
+          <View style={[styles.regionNumber, { backgroundColor: index === 0 ? colors.primary : colors.secondary }]}><Text style={[styles.regionNumberText, { color: index === 0 ? colors.primaryForeground : colors.primary }]}>0{index + 1}</Text></View>
+          <Text style={[styles.regionName, { color: colors.foreground }]}>{region.name}</Text>
+          <Text style={[styles.regionDetail, { color: colors.mutedForeground }]}>{region.elevation} · {region.village}</Text>
+          <Text style={[styles.regionSpecialty, { color: colors.primary }]}>{region.specialty}</Text>
+        </Pressable>
+      ))}
+    </ScrollView>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>AGENDA TERDEKAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Selalu ada cerita baru</Text></View>
+      <Link href="/events" style={[styles.seeAll, { color: colors.primary }]}>Lihat agenda</Link>
+    </View>
+    <Pressable
+      testID="home-event"
+      accessibilityRole="button"
+      accessibilityLabel={`Buka ${hubEvents[0].title}`}
+      onPress={() => router.push('/events')}
+      style={({ pressed }) => [styles.eventFeature, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
+    >
+      <View style={[styles.eventDate, { backgroundColor: colors.primary }]}><BrandIcon name="calendar" size={17} color={colors.primaryForeground} /><Text style={[styles.eventDateText, { color: colors.primaryForeground }]}>{hubEvents[0].date}</Text></View>
+      <View style={styles.eventCopy}><Text style={[styles.eventType, { color: colors.primary }]}>{hubEvents[0].type}</Text><Text style={[styles.eventTitle, { color: colors.foreground }]}>{hubEvents[0].title}</Text><Text style={[styles.eventLocation, { color: colors.mutedForeground }]}>{hubEvents[0].location}</Text></View>
+      <BrandIcon name="arrow-up-right" size={18} color={colors.primary} />
+    </Pressable>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>PENGALAMAN LANGSUNG</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
+      <Link href="/tourism" style={[styles.seeAll, { color: colors.primary }]}>Lihat wisata</Link>
+    </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tourRail}>
+      {coffeeTours.slice(0, 2).map((tour) => (
+        <Pressable key={tour.id} onPress={() => router.push('/tourism')} style={({ pressed }) => [styles.tourCard, { opacity: pressed ? 0.8 : 1 }]}>
+          <View style={styles.tourImageWrap}>
+            <ExpoImage source={tour.image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.tourImage]} />
+            <LinearGradient colors={['transparent', colors.foreground]} locations={[0.15, 1]} style={StyleSheet.absoluteFill} />
+            <View style={styles.tourCopy}><Text style={[styles.tourType, { color: colors.primaryForeground }]}>{tour.type}</Text><Text style={[styles.tourTitle, { color: colors.card }]}>{tour.title}</Text><Text style={[styles.tourMeta, { color: colors.background }]}>{tour.duration} · {tour.location}</Text></View>
+          </View>
+        </Pressable>
+      ))}
+    </ScrollView>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>HARGA ACUAN</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Pantau nilai kopi</Text></View>
+      <Link href="/prices" style={[styles.seeAll, { color: colors.primary }]}>Buka harga</Link>
+    </View>
+    <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      {coffeePrices.slice(0, 3).map((item, index) => <Pressable key={item.label} onPress={() => router.push('/prices')} style={[styles.priceRow, index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}><View><Text style={[styles.priceLabel, { color: colors.foreground }]}>{item.label}</Text><Text style={[styles.priceUnit, { color: colors.mutedForeground }]}>{item.unit}</Text></View><View style={styles.priceValueWrap}><Text style={[styles.priceValue, { color: colors.primary }]}>{item.price}</Text><Text style={[styles.priceChange, { color: colors.mutedForeground }]}>{item.change}</Text></View><BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} /></Pressable>)}
+    </View>
   </Screen>;
 }
 
@@ -251,4 +352,51 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
   statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
   featured: { flexDirection: 'row', gap: 12, marginHorizontal: -20, paddingHorizontal: 20 },
+  tasteGrid: { flexDirection: 'row', gap: 8 },
+  tasteCard: { flex: 1, minHeight: 151, borderRadius: 17, borderWidth: 1, padding: 11, gap: 7, overflow: 'hidden' },
+  tasteImage: { opacity: 0.38 },
+  tasteImageShade: { opacity: 0.62 },
+  tasteIcon: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center', marginBottom: 3 },
+  tasteLabel: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  tasteDetail: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
+  farmerFeature: { height: 258, borderRadius: 22, overflow: 'hidden' },
+  farmerImageWrap: { flex: 1, justifyContent: 'flex-end' },
+  farmerImage: { borderRadius: 22 },
+  farmerFeatureCopy: { padding: 16, gap: 6 },
+  farmerTag: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  farmerTagText: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.9, textTransform: 'uppercase' },
+  farmerName: { fontFamily: 'Manrope_700Bold', fontSize: 24, fontWeight: '800', letterSpacing: -0.5 },
+  farmerStory: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16, maxWidth: 290 },
+  farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
+  farmerMeta: { fontFamily: 'Manrope_700Bold', fontSize: 10, letterSpacing: 0.3 },
+  regionRail: { gap: 10, paddingRight: 20 },
+  regionCard: { width: 154, minHeight: 176, borderRadius: 18, borderWidth: 1, padding: 10, gap: 5, overflow: 'hidden' },
+  regionImage: { width: '100%', height: 55, borderRadius: 12, marginBottom: 2 },
+  regionNumber: { width: 29, height: 29, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  regionNumberText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
+  regionName: { fontFamily: 'Manrope_700Bold', fontSize: 16, fontWeight: '700' },
+  regionDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
+  regionSpecialty: { fontFamily: 'Manrope_700Bold', fontSize: 10, lineHeight: 14, marginTop: 2 },
+  eventFeature: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  eventDate: { width: 56, minHeight: 58, borderRadius: 14, alignItems: 'center', justifyContent: 'center', gap: 4, paddingHorizontal: 4 },
+  eventDateText: { fontFamily: 'Manrope_700Bold', textAlign: 'center', fontSize: 8, lineHeight: 11 },
+  eventCopy: { flex: 1, gap: 3 },
+  eventType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.2, textTransform: 'uppercase' },
+  eventTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, lineHeight: 18, fontWeight: '700' },
+  eventLocation: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
+  tourRail: { gap: 10, paddingRight: 20 },
+  tourCard: { width: 245, height: 170, borderRadius: 20, overflow: 'hidden' },
+  tourImageWrap: { flex: 1, justifyContent: 'flex-end' },
+  tourImage: { borderRadius: 20 },
+  tourCopy: { padding: 13, gap: 3 },
+  tourType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1, textTransform: 'uppercase' },
+  tourTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
+  tourMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
+  pricePanel: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 14 },
+  priceRow: { minHeight: 65, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  priceLabel: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
+  priceUnit: { fontFamily: 'Manrope_400Regular', fontSize: 10, marginTop: 2 },
+  priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
+  priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
+  priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
 });

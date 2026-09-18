@@ -16,6 +16,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StoreProvider } from '@/context/StoreContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
+import { AppLoading } from '@/components/AppLoading';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -48,14 +49,16 @@ export default function RootLayout() {
     Manrope_600SemiBold,
     Manrope_700Bold,
   });
+  const [loadingFinished, setLoadingFinished] = React.useState(false);
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
-    }
+    if (!fontsLoaded && !fontError) return;
+    void SplashScreen.hideAsync();
+    const timeout = setTimeout(() => setLoadingFinished(true), 900);
+    return () => clearTimeout(timeout);
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) return null;
+  if ((!fontsLoaded && !fontError) || !loadingFinished) return <AppLoading />;
 
   return (
     <SafeAreaProvider>
