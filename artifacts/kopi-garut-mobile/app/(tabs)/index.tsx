@@ -145,13 +145,6 @@ export default function HomeScreen() {
         ))}
       </View>
     </Animated.View>
-    <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}>
-        <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI SEMUA</Text>
-        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Temukan lebih banyak</Text>
-      </View>
-      <Text style={[styles.categoryHint, { color: colors.mutedForeground }]}>Geser untuk melihat semua</Text>
-    </View>
     <View>
       <ScrollView
         ref={categoryRef}
