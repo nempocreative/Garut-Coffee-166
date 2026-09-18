@@ -56,8 +56,10 @@ function ClassicTabLayout() {
           borderTopWidth: isWeb ? 1 : 0,
           borderTopColor: colors.border,
           elevation: 0,
-          ...(isWeb ? { height: 84 } : {}),
+          height: isWeb ? 84 : 72,
+          paddingTop: 7,
         },
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
         tabBarBackground: () =>
           isIOS ? (
             <BlurView

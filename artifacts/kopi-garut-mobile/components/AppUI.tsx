@@ -33,15 +33,15 @@ export function Button({ label, onPress, icon, disabled = false, secondary = fal
   return <Pressable testID={testID} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.button, { backgroundColor: secondary ? colors.secondary : colors.primary, opacity: disabled ? 0.45 : pressed ? 0.78 : 1 }]}>{icon && <Feather name={icon} size={16} color={secondary ? colors.foreground : colors.primaryForeground} />}<Text style={[styles.buttonText, { color: secondary ? colors.foreground : colors.primaryForeground }]}>{label}</Text></Pressable>;
 }
 
-export function CoffeeCard({ coffee, index = 0 }: { coffee: Coffee; index?: number }) {
+export function CoffeeCard({ coffee, index = 0, grid = false }: { coffee: Coffee; index?: number; grid?: boolean }) {
   const colors = useColors();
   const router = useRouter();
   const { favorites, toggleFavorite, addToCart } = useStore();
   const saved = favorites.includes(coffee.id);
-  return <Animated.View entering={FadeInDown.delay(index * 50).duration(450)} style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-    <Pressable testID={`coffee-card-${coffee.id}`} onPress={() => router.push(`/product/${coffee.id}`)} style={styles.cardImageWrap}><Image source={coffee.image} contentFit="cover" style={styles.cardImage} />{coffee.badge && <View style={[styles.badge, { backgroundColor: colors.accent }]}><Text style={[styles.badgeText, { color: colors.accentForeground }]}>{coffee.badge}</Text></View>}</Pressable>
-    <View style={styles.cardBody}><View style={{ flex: 1 }}><Text style={[styles.cardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={1} style={[styles.cardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={styles.favorite}><Ionicons name={saved ? 'heart' : 'heart-outline'} size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
-    <Pressable testID={`add-${coffee.id}`} onPress={() => addToCart(coffee.id)} style={[styles.addButton, { borderColor: colors.border }]}><Feather name="plus" size={16} color={colors.primary} /><Text style={[styles.addText, { color: colors.foreground }]}>Add to bag</Text></Pressable>
+  return <Animated.View entering={FadeInDown.delay(index * 50).duration(450)} style={[styles.card, grid && styles.gridCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+    <Pressable testID={`coffee-card-${coffee.id}`} onPress={() => router.push(`/product/${coffee.id}`)} style={[styles.cardImageWrap, grid && styles.gridCardImageWrap]}><Image source={coffee.image} contentFit="cover" style={styles.cardImage} />{coffee.badge && <View style={[styles.badge, { backgroundColor: colors.accent }]}><Text style={[styles.badgeText, { color: colors.accentForeground }]}>{coffee.badge}</Text></View>}</Pressable>
+    <View style={[styles.cardBody, grid && styles.gridCardBody]}><View style={{ flex: 1 }}><Text numberOfLines={1} style={[styles.cardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={1} style={[styles.cardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={({ pressed }) => [styles.favorite, { opacity: pressed ? 0.55 : 1 }]}><Ionicons name={saved ? 'heart' : 'heart-outline'} size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
+    <Pressable testID={`add-${coffee.id}`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { borderColor: colors.border, opacity: pressed ? 0.65 : 1 }, grid && styles.gridAddButton]}><Feather name="plus" size={16} color={colors.primary} /><Text style={[styles.addText, { color: colors.foreground }]}>Add to bag</Text></Pressable>
   </Animated.View>;
 }
 
@@ -72,17 +72,21 @@ const styles = StyleSheet.create({
   button: { height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 20 },
   buttonText: { fontSize: 14, fontWeight: '700', letterSpacing: 0.1 },
   card: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', width: 254 },
+  gridCard: { width: '100%', flex: 1, borderRadius: 17 },
   cardImageWrap: { height: 180, position: 'relative' },
+  gridCardImageWrap: { height: 132 },
   cardImage: { width: '100%', height: '100%' },
   badge: { position: 'absolute', left: 12, top: 12, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8 },
   badgeText: { fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
   cardBody: { flexDirection: 'row', padding: 14, paddingBottom: 10, gap: 8 },
+  gridCardBody: { padding: 11, paddingBottom: 8, gap: 4 },
   cardTitle: { fontSize: 17, fontWeight: '700', letterSpacing: -0.2 },
   cardTagline: { fontSize: 12, marginTop: 4 },
   price: { fontSize: 13, fontWeight: '700', marginTop: 10 },
   smallUnit: { fontSize: 10, fontWeight: '400' },
   favorite: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   addButton: { marginHorizontal: 14, marginBottom: 14, borderWidth: 1, height: 38, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  gridAddButton: { marginHorizontal: 11, marginBottom: 11, height: 35, borderRadius: 10 },
   addText: { fontSize: 12, fontWeight: '700' },
   search: { height: 50, borderRadius: 15, borderWidth: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, gap: 10 },
   searchInput: { flex: 1, fontSize: 14 },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -33,7 +33,7 @@ export default function HomeScreen() {
     <View style={styles.categoryRow}>
       {['Bright', 'Fruity', 'Everyday', 'Comfort'].map((category) => <Pressable testID={`home-category-${category}`} key={category} onPress={() => router.push('/catalog')} style={[styles.category, { backgroundColor: colors.secondary }]}><Text style={[styles.categoryText, { color: colors.foreground }]}>{category}</Text><Feather name="arrow-up-right" size={13} color={colors.primary} /></Pressable>)}
     </View>
-    <View style={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
     <View style={styles.story}>
       <ImageBackground source={require('../../assets/images/origin-coffee.jpg')} imageStyle={styles.storyImage} style={styles.storyImageContainer}>
         <View style={[styles.storyShade, { backgroundColor: colors.foreground }]} />
