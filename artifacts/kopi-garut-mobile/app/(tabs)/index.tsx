@@ -63,13 +63,6 @@ const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
-const quickStartItems = [
-  { icon: 'coffee' as const, label: 'Belanja kopi', description: 'Temukan rasa dan produk pilihan', route: '/catalog' as const },
-  { icon: 'maximize' as const, label: 'Scan QR kopi', description: 'Lihat asal dan cerita lot', route: '/traceability' as const },
-  { icon: 'users' as const, label: 'Untuk petani', description: 'Program, data, dan pendampingan', route: '/program' as const },
-  { icon: 'briefcase' as const, label: 'Untuk bisnis', description: 'Cari kopi dan peluang kemitraan', route: '/partnership' as const },
-];
-
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
@@ -145,47 +138,39 @@ export default function HomeScreen() {
               setActiveSlide(index);
               bannerRef.current?.scrollTo({ x: index * bannerWidth, animated: true });
             }}
-            style={[styles.paginationTrack, { backgroundColor: colors.card }]}
+            style={styles.paginationTrack}
           >
             <View style={[styles.paginationDot, { backgroundColor: index === activeSlide ? colors.primary : colors.border, width: index === activeSlide ? 22 : 6 }]} />
           </Pressable>
         ))}
       </View>
     </Animated.View>
-    <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}>
-        <Text style={[styles.sectionKicker, { color: colors.primary }]}>MULAI DARI SINI</Text>
-        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Kamu sedang mencari apa?</Text>
+    <Pressable
+      testID="home-qr-feature"
+      accessibilityRole="button"
+      accessibilityLabel="Buka fitur QR Kopi"
+      onPress={() => router.push('/traceability')}
+      style={({ pressed }) => [
+        styles.traceCard,
+        {
+          backgroundColor: colors.secondary,
+          borderColor: colors.border,
+          opacity: pressed ? 0.82 : 1,
+        },
+      ]}
+    >
+      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}>
+        <BrandIcon name="maximize" size={19} color={colors.primary} />
       </View>
-    </View>
-    <View style={styles.quickStartGrid}>
-      {quickStartItems.map((item, index) => (
-        <Pressable
-          key={item.label}
-          testID={`quick-start-${index}`}
-          accessibilityRole="button"
-          accessibilityLabel={item.label}
-          onPress={() => router.push(item.route)}
-          style={({ pressed }) => [
-            styles.quickStartCard,
-            {
-              backgroundColor: index === 0 ? colors.primary : colors.card,
-              borderColor: index === 0 ? colors.primary : colors.border,
-              opacity: pressed ? 0.78 : 1,
-            },
-          ]}
-        >
-          <View style={[styles.quickStartIcon, { backgroundColor: index === 0 ? colors.primaryForeground : colors.secondary }]}>
-            <BrandIcon name={item.icon} size={18} color={colors.primary} />
-          </View>
-          <Text style={[styles.quickStartTitle, { color: index === 0 ? colors.primaryForeground : colors.foreground }]}>{item.label}</Text>
-          <Text style={[styles.quickStartDescription, { color: index === 0 ? colors.background : colors.mutedForeground }]}>{item.description}</Text>
-          <View style={styles.quickStartArrow}>
-            <BrandIcon name="arrow-up-right" size={15} color={index === 0 ? colors.primaryForeground : colors.primary} />
-          </View>
-        </Pressable>
-      ))}
-    </View>
+      <View style={styles.traceCopy}>
+        <Text style={[styles.traceKicker, { color: colors.primary }]}>FITUR QR KOPI</Text>
+        <Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text>
+        <Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text>
+      </View>
+      <View style={[styles.traceButton, { backgroundColor: colors.primary }]}>
+        <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
+      </View>
+    </Pressable>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI SEMUA</Text>
@@ -283,11 +268,6 @@ export default function HomeScreen() {
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
-    <View style={[styles.traceCard, { backgroundColor: colors.secondary }]}>
-      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><BrandIcon name="maximize" size={19} color={colors.primary} /></View>
-      <View style={styles.traceCopy}><Text style={[styles.traceKicker, { color: colors.primary }]}>JEJAK PRODUK</Text><Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text><Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text></View>
-      <Pressable onPress={() => router.push('/traceability')} style={[styles.traceButton, { backgroundColor: colors.primary }]}><BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} /></Pressable>
-    </View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
@@ -433,12 +413,6 @@ const styles = StyleSheet.create({
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 14 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
-  quickStartGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  quickStartCard: { width: '48.5%', minHeight: 126, borderRadius: 18, borderWidth: 1, padding: 12, gap: 6, position: 'relative' },
-  quickStartIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
-  quickStartTitle: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700', paddingRight: 19 },
-  quickStartDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, paddingRight: 4 },
-  quickStartArrow: { position: 'absolute', right: 12, top: 13 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden' },
   storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
   storyLeadCopy: { flex: 1, justifyContent: 'center', gap: 4, paddingVertical: 4 },
@@ -454,7 +428,7 @@ const styles = StyleSheet.create({
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
-  traceCard: { borderRadius: 18, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  traceCard: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
   traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   traceCopy: { flex: 1, gap: 3 },
   traceKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.2 },
