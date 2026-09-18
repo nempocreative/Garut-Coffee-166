@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  storyLeadWrap: { position: 'relative', marginTop: 42, zIndex: 1 },
-  storyMountainAccent: { position: 'absolute', top: -48, left: 0, right: 0, height: 154, justifyContent: 'flex-end', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' },
-  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -12, width: '100%', height: 164, opacity: 0.2 },
+  storyLeadWrap: { position: 'relative', marginTop: 58, zIndex: 1, overflow: 'visible' },
+  storyMountainAccent: { position: 'absolute', top: -62, left: -20, right: -20, height: 136, justifyContent: 'flex-end', overflow: 'visible', zIndex: 2, pointerEvents: 'none' },
+  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -46, width: '100%', height: 176, opacity: 0.32, zIndex: 2 },
 });
