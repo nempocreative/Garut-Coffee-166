@@ -349,6 +349,14 @@ export default function HomeScreen() {
     <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {coffeePrices.slice(0, 3).map((item, index) => <Pressable key={item.label} onPress={() => router.push('/prices')} style={[styles.priceRow, index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}><View><Text style={[styles.priceLabel, { color: colors.foreground }]}>{item.label}</Text><Text style={[styles.priceUnit, { color: colors.mutedForeground }]}>{item.unit}</Text></View><View style={styles.priceValueWrap}><Text style={[styles.priceValue, { color: colors.primary }]}>{item.price}</Text><Text style={[styles.priceChange, { color: colors.mutedForeground }]}>{item.change}</Text></View><BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} /></Pressable>)}
     </View>
+    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={[styles.homeFooter, { borderTopColor: colors.border }]}>
+      <ExpoImage
+        source={require('../../assets/images/garut-mountains.png')}
+        contentFit="contain"
+        style={[styles.footerMountain, { tintColor: colors.foreground }]}
+      />
+      <View style={[styles.footerRule, { backgroundColor: colors.border }]} />
+    </Animated.View>
   </Screen>;
 }
 
@@ -453,4 +461,7 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
+  homeFooter: { height: 94, marginHorizontal: -20, marginBottom: -20, justifyContent: 'flex-end', overflow: 'hidden', borderTopWidth: 1 },
+  footerMountain: { width: '100%', height: 82, opacity: 0.28 },
+  footerRule: { position: 'absolute', left: 20, right: 20, bottom: 15, height: 1 },
 });
