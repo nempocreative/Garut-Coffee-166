@@ -206,6 +206,13 @@ export default function HomeScreen() {
         </View>
       )}
     </View>
+    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
+      <ExpoImage
+        source={require('../../assets/images/garut-mountains.png')}
+        contentFit="contain"
+        style={[styles.mountainAccent, { tintColor: colors.foreground }]}
+      />
+    </Animated.View>
     <Animated.View entering={FadeInDown.delay(180).duration(600)}>
       <Pressable
         testID="collective-story"
@@ -236,13 +243,6 @@ export default function HomeScreen() {
         </Animated.View>
       </View>
       </Pressable>
-    </Animated.View>
-    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
-      <ExpoImage
-        source={require('../../assets/images/garut-mountains.png')}
-        contentFit="contain"
-        style={[styles.mountainAccent, { tintColor: colors.foreground }]}
-      />
     </Animated.View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
