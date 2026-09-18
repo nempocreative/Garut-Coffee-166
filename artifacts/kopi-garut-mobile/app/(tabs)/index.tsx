@@ -141,6 +141,20 @@ export default function HomeScreen() {
         ))}
       </View>
     </Animated.View>
+    <Pressable
+      onPress={() => router.push('/collective')}
+      style={({ pressed }) => [styles.quote, { backgroundColor: colors.secondary, opacity: pressed ? 0.8 : 1 }]}
+    >
+      <View style={styles.quoteTop}>
+        <View style={styles.quoteBrand}>
+          <View style={[styles.quoteDot, { backgroundColor: colors.primary }]} />
+          <Text style={[styles.quoteKicker, { color: colors.primary }]}>GARUT COFFEE COLLECTIVE</Text>
+        </View>
+        <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
+      </View>
+      <Text style={[styles.quoteText, { color: colors.foreground }]}>One Region. Many Stories. One Identity.</Text>
+      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>Satu ekosistem untuk petani, usaha, wisata, dan pecinta kopi Garut.</Text>
+    </Pressable>
     <View style={styles.sectionHeading}>
       <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAH CEPAT</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mau lihat apa?</Text></View>
       <BrandIcon name="chevron-right" size={18} color={colors.mutedForeground} />
@@ -177,11 +191,6 @@ export default function HomeScreen() {
     </View>
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
-    </View>
-    <View style={[styles.quote, { backgroundColor: colors.secondary }]}>
-      <Text style={[styles.quoteMark, { color: colors.accent }]}>“</Text>
-      <Text style={[styles.quoteText, { color: colors.foreground }]}>Satu platform untuk petani, usaha, wisata, dan pecinta kopi Garut.</Text>
-      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>— Garut Coffee Hub, Jawa Barat</Text>
     </View>
   </Screen>;
 }
@@ -236,8 +245,11 @@ const styles = StyleSheet.create({
   storyCopy: { padding: 20, gap: 8, alignItems: 'flex-start' },
   storyTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 27, fontWeight: '700', maxWidth: 290 },
   storyText: { fontFamily: 'Manrope_400Regular', opacity: 0.9, fontSize: 13, lineHeight: 19, maxWidth: 300 },
-  quote: { borderRadius: 22, padding: 20, gap: 7 },
-  quoteMark: { fontFamily: 'Manrope_700Bold', fontSize: 40, lineHeight: 28, fontWeight: '700' },
-  quoteText: { fontFamily: 'Manrope_600SemiBold', fontSize: 18, lineHeight: 25, fontWeight: '600' },
-  quoteByline: { fontFamily: 'Manrope_400Regular', fontSize: 12, marginTop: 4 },
+  quote: { borderRadius: 22, padding: 20, gap: 10 },
+  quoteTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  quoteBrand: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  quoteDot: { width: 6, height: 6, borderRadius: 3 },
+  quoteKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.2 },
+  quoteText: { fontFamily: 'Manrope_600SemiBold', fontSize: 20, lineHeight: 27, fontWeight: '600', maxWidth: 300 },
+  quoteByline: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 18 },
 });
