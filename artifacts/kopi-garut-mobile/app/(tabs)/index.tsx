@@ -108,10 +108,8 @@ export default function HomeScreen() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        decelerationRate="fast"
-        snapToInterval={bannerWidth}
-        snapToAlignment="start"
-        disableIntervalMomentum
+        decelerationRate="normal"
+        bounces={false}
         onMomentumScrollEnd={(event) => setActiveSlide(Math.round(event.nativeEvent.contentOffset.x / bannerWidth))}
       >
         {promoSlides.map((slide, index) => (
@@ -199,9 +197,8 @@ export default function HomeScreen() {
         ref={categoryRef}
         horizontal
         pagingEnabled
-        decelerationRate="fast"
-        snapToAlignment="start"
-        disableIntervalMomentum
+        decelerationRate="normal"
+        bounces={false}
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(event) => setActiveCategoryPage(Math.round(event.nativeEvent.contentOffset.x / categoryPageWidth))}
         style={styles.categoryPager}
