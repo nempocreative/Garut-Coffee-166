@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -63,94 +63,32 @@ const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
-function CoffeeBeanAnimation({
-  beanColor,
-  creaseColor,
-  primaryColor,
-  accentColor,
-  mutedColor,
-}: {
-  beanColor: string;
-  creaseColor: string;
-  primaryColor: string;
-  accentColor: string;
-  mutedColor: string;
-}) {
-  const beanOne = useSharedValue(0);
-  const beanTwo = useSharedValue(0);
-  const beanThree = useSharedValue(0);
-  const beanFour = useSharedValue(0);
+function CoffeeBeanAnimation() {
+  const beans = useSharedValue(0);
 
   useEffect(() => {
-    const float = (delay: number, duration: number) =>
-      withDelay(
-        delay,
-        withRepeat(withTiming(1, { duration, easing: Easing.inOut(Easing.ease) }), -1, true),
-      );
+    beans.value = withRepeat(
+      withTiming(1, { duration: 2600, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      true,
+    );
+  }, [beans]);
 
-    beanOne.value = float(0, 2200);
-    beanTwo.value = float(260, 2500);
-    beanThree.value = float(520, 2350);
-    beanFour.value = float(780, 2450);
-  }, [beanOne, beanTwo, beanThree, beanFour]);
-
-  const beanOneStyle = useAnimatedStyle(() => ({
+  const beansStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateX: interpolate(beanOne.value, [0, 0.5, 1], [0, 2, 0]) },
-      { translateY: interpolate(beanOne.value, [0, 0.5, 1], [0, -6, 0]) },
-      { rotate: `${interpolate(beanOne.value, [0, 0.5, 1], [-18, -8, -18])}deg` },
-    ],
-  }));
-  const beanTwoStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: interpolate(beanTwo.value, [0, 0.5, 1], [0, -2, 0]) },
-      { translateY: interpolate(beanTwo.value, [0, 0.5, 1], [0, -4, 0]) },
-      { rotate: `${interpolate(beanTwo.value, [0, 0.5, 1], [10, 18, 10])}deg` },
-    ],
-  }));
-  const beanThreeStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: interpolate(beanThree.value, [0, 0.5, 1], [0, 2, 0]) },
-      { translateY: interpolate(beanThree.value, [0, 0.5, 1], [0, -7, 0]) },
-      { rotate: `${interpolate(beanThree.value, [0, 0.5, 1], [-8, -16, -8])}deg` },
-    ],
-  }));
-  const beanFourStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: interpolate(beanFour.value, [0, 0.5, 1], [0, -2, 0]) },
-      { translateY: interpolate(beanFour.value, [0, 0.5, 1], [0, -5, 0]) },
-      { rotate: `${interpolate(beanFour.value, [0, 0.5, 1], [12, 20, 12])}deg` },
+      { translateY: interpolate(beans.value, [0, 0.5, 1], [0, -4, 0]) },
+      { rotate: `${interpolate(beans.value, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
     ],
   }));
 
   return (
-    <View style={styles.coffeeBeanAnimation}>
-      <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanOneStyle]}>
-        <CoffeeBeanBody leftColor={beanColor} rightColor={creaseColor} creaseColor={beanColor} />
-      </Animated.View>
-      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanLarge, { backgroundColor: beanColor }, beanTwoStyle]}>
-        <CoffeeBeanBody leftColor={primaryColor} rightColor={beanColor} creaseColor={beanColor} />
-      </Animated.View>
-      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanSmall, { backgroundColor: beanColor }, beanThreeStyle]}>
-        <CoffeeBeanBody leftColor={accentColor} rightColor={beanColor} creaseColor={beanColor} />
-      </Animated.View>
-      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanFourth, { backgroundColor: beanColor }, beanFourStyle]}>
-        <CoffeeBeanBody leftColor={mutedColor} rightColor={beanColor} creaseColor={beanColor} />
-      </Animated.View>
-    </View>
-  );
-}
-
-function CoffeeBeanBody({ leftColor, rightColor, creaseColor }: { leftColor: string; rightColor: string; creaseColor: string }) {
-  return (
-    <View style={[StyleSheet.absoluteFill, { backgroundColor: leftColor }]}>
-      <View style={[styles.coffeeBeanRightHalf, { backgroundColor: rightColor }]} />
-      <View style={styles.coffeeBeanCrease}>
-        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseTop, { backgroundColor: creaseColor }]} />
-        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseMiddle, { backgroundColor: creaseColor }]} />
-        <View style={[styles.coffeeBeanCreaseSegment, styles.coffeeBeanCreaseBottom, { backgroundColor: creaseColor }]} />
-      </View>
-    </View>
+    <Animated.View style={[styles.coffeeBeanAnimation, beansStyle]}>
+      <ExpoImage
+        source={require('../../assets/images/coffee-beans-natural.png')}
+        contentFit="contain"
+        style={styles.coffeeBeanImage}
+      />
+    </Animated.View>
   );
 }
 
@@ -298,13 +236,6 @@ export default function HomeScreen() {
       )}
     </View>
     <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
-      <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
-        <ExpoImage
-          source={require('../../assets/images/garut-mountains.png')}
-          contentFit="contain"
-          style={[styles.mountainAccent, { tintColor: colors.foreground }]}
-        />
-      </Animated.View>
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
@@ -315,19 +246,19 @@ export default function HomeScreen() {
           { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
         ]}
       >
-      <View style={styles.storyLeadBody}>
-        <View style={styles.storyLeadCopy}>
-          <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
-          <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
-          <CoffeeBeanAnimation
-            beanColor={colors.foreground}
-            creaseColor={colors.secondary}
-            primaryColor={colors.primary}
-            accentColor={colors.accent}
-            mutedColor={colors.mutedForeground}
-          />
+        <ExpoImage
+          source={require('../../assets/images/story-background.png')}
+          contentFit="cover"
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.card, opacity: 0.12 }]} />
+        <View style={styles.storyLeadBody}>
+          <View style={styles.storyLeadCopy}>
+            <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
+            <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
+            <CoffeeBeanAnimation />
+          </View>
         </View>
-      </View>
       </Pressable>
     </Animated.View>
     <View style={styles.sectionHeading}>
@@ -485,17 +416,8 @@ const styles = StyleSheet.create({
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35, textAlign: 'center' },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1, textAlign: 'center' },
-  coffeeBeanAnimation: { height: 38, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 7 },
-  coffeeBean: { width: 21, height: 30, borderRadius: 15, borderTopLeftRadius: 11, borderTopRightRadius: 16, borderBottomLeftRadius: 16, borderBottomRightRadius: 11, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-  coffeeBeanLarge: { width: 24, height: 33, borderTopLeftRadius: 13, borderTopRightRadius: 18, borderBottomLeftRadius: 18, borderBottomRightRadius: 13, marginTop: 6 },
-  coffeeBeanSmall: { width: 18, height: 27, borderTopLeftRadius: 10, borderTopRightRadius: 14, borderBottomLeftRadius: 14, borderBottomRightRadius: 10 },
-  coffeeBeanFourth: { width: 20, height: 29, borderTopLeftRadius: 11, borderTopRightRadius: 15, borderBottomLeftRadius: 15, borderBottomRightRadius: 11 },
-  coffeeBeanRightHalf: { position: 'absolute', right: 0, top: 0, bottom: 0, width: '58%', borderTopLeftRadius: 13, borderBottomLeftRadius: 13 },
-  coffeeBeanCrease: { position: 'absolute', width: 15, height: '100%', left: '36%', top: 0, opacity: 0.98 },
-  coffeeBeanCreaseSegment: { position: 'absolute', width: 3, borderRadius: 3 },
-  coffeeBeanCreaseTop: { height: '38%', left: '54%', top: '-4%', transform: [{ rotate: '16deg' }] },
-  coffeeBeanCreaseMiddle: { height: '42%', left: '27%', top: '27%', transform: [{ rotate: '-17deg' }] },
-  coffeeBeanCreaseBottom: { height: '37%', left: '45%', top: '62%', transform: [{ rotate: '20deg' }] },
+  coffeeBeanAnimation: { width: 116, height: 39, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
+  coffeeBeanImage: { width: '100%', height: '100%' },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
@@ -548,7 +470,5 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  storyLeadWrap: { position: 'relative', marginTop: 34, zIndex: 1, overflow: 'visible' },
-  storyMountainAccent: { position: 'absolute', top: -116, left: -8, right: -8, height: 136, justifyContent: 'flex-end', overflow: 'visible', zIndex: 0, pointerEvents: 'none' },
-  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -46, width: '100%', height: 176, opacity: 0.32, zIndex: 0 },
+  storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
 });
