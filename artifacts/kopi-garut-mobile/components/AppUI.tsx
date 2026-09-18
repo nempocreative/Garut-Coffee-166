@@ -17,7 +17,7 @@ export function Screen({ children, scroll = true, style }: { children: React.Rea
   return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18 }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18 }, style]}>{children}</View>;
 }
 
-export function Header({ title, subtitle, cart = true, back = false }: { title: string; subtitle?: string; cart?: boolean; back?: boolean }) {
+export function Header({ title, subtitle, cart = true, qr = false, back = false }: { title: string; subtitle?: string; cart?: boolean; qr?: boolean; back?: boolean }) {
   const colors = useColors();
   const router = useRouter();
   const { cart: items } = useStore();
@@ -26,7 +26,10 @@ export function Header({ title, subtitle, cart = true, back = false }: { title: 
   return <View style={styles.header}>
     <View style={styles.headerTop}>
       {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
-      {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+      <View style={styles.headerActions}>
+        {qr && <Pressable testID="header-qr" accessibilityRole="button" accessibilityLabel="Buka QR Kopi" onPress={() => router.push('/traceability')} style={({ pressed }) => [styles.headerQrButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="maximize" size={18} color={colors.foreground} /></Pressable>}
+        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+      </View>
     </View>
     <View style={styles.headerBottom}>
       <View style={styles.headerCopy}>
@@ -75,6 +78,7 @@ const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 24, minHeight: '100%' },
   header: { gap: 15, marginBottom: 2 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 50 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 11 },
   logo: { width: 44, height: 44, borderRadius: 15, borderWidth: 1 },
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
@@ -90,6 +94,7 @@ const styles = StyleSheet.create({
   locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800', letterSpacing: 1.5 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   cartButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  headerQrButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   headerActionSpacer: { width: 46, height: 46 },
   count: { position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   countText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },

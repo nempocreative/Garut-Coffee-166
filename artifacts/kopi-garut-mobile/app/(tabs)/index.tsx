@@ -76,7 +76,7 @@ export default function HomeScreen() {
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
 
   return <Screen>
-    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
+    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
     <Pressable
       testID="home-search"
       accessibilityRole="button"
@@ -145,32 +145,6 @@ export default function HomeScreen() {
         ))}
       </View>
     </Animated.View>
-    <Pressable
-      testID="home-qr-feature"
-      accessibilityRole="button"
-      accessibilityLabel="Buka fitur QR Kopi"
-      onPress={() => router.push('/traceability')}
-      style={({ pressed }) => [
-        styles.traceCard,
-        {
-          backgroundColor: colors.secondary,
-          borderColor: colors.border,
-          opacity: pressed ? 0.82 : 1,
-        },
-      ]}
-    >
-      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}>
-        <BrandIcon name="maximize" size={19} color={colors.primary} />
-      </View>
-      <View style={styles.traceCopy}>
-        <Text style={[styles.traceKicker, { color: colors.primary }]}>FITUR QR KOPI</Text>
-        <Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text>
-        <Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text>
-      </View>
-      <View style={[styles.traceButton, { backgroundColor: colors.primary }]}>
-        <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
-      </View>
-    </Pressable>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI SEMUA</Text>
@@ -428,13 +402,6 @@ const styles = StyleSheet.create({
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
-  traceCard: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
-  traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  traceCopy: { flex: 1, gap: 3 },
-  traceKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.2 },
-  traceTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '700' },
-  traceText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15 },
-  traceButton: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
