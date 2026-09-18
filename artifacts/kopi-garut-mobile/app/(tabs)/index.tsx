@@ -237,6 +237,13 @@ export default function HomeScreen() {
       </View>
       </Pressable>
     </Animated.View>
+    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
+      <ExpoImage
+        source={require('../../assets/images/garut-mountains.png')}
+        contentFit="contain"
+        style={[styles.mountainAccent, { tintColor: colors.foreground }]}
+      />
+    </Animated.View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
@@ -349,13 +356,6 @@ export default function HomeScreen() {
     <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
       {coffeePrices.slice(0, 3).map((item, index) => <Pressable key={item.label} onPress={() => router.push('/prices')} style={[styles.priceRow, index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}><View><Text style={[styles.priceLabel, { color: colors.foreground }]}>{item.label}</Text><Text style={[styles.priceUnit, { color: colors.mutedForeground }]}>{item.unit}</Text></View><View style={styles.priceValueWrap}><Text style={[styles.priceValue, { color: colors.primary }]}>{item.price}</Text><Text style={[styles.priceChange, { color: colors.mutedForeground }]}>{item.change}</Text></View><BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} /></Pressable>)}
     </View>
-    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.homeFooter}>
-      <ExpoImage
-        source={require('../../assets/images/garut-mountains.png')}
-        contentFit="contain"
-        style={[styles.footerMountain, { tintColor: colors.foreground }]}
-      />
-    </Animated.View>
   </Screen>;
 }
 
@@ -460,6 +460,6 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  homeFooter: { height: 110, marginHorizontal: -20, marginTop: -20, marginBottom: -20, justifyContent: 'flex-end', overflow: 'hidden', position: 'relative' },
-  footerMountain: { position: 'absolute', left: 0, right: 0, bottom: -8, width: '100%', height: 118, opacity: 0.24 },
+  storyMountainAccent: { height: 82, marginHorizontal: -20, marginTop: -20, marginBottom: -8, justifyContent: 'flex-end', overflow: 'hidden', position: 'relative' },
+  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -8, width: '100%', height: 96, opacity: 0.24 },
 });
