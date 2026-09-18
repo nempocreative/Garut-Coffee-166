@@ -22,9 +22,11 @@ export function Header({ title, subtitle, cart = true, back = false }: { title: 
   const router = useRouter();
   const { cart: items } = useStore();
   return <View style={styles.header}>
-    {back ? <Pressable testID="header-back" onPress={() => router.back()} style={styles.iconButton}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={styles.logo} /><Text style={[styles.wordmarkText, { color: colors.foreground }]}>KOPI GARUT</Text></View>}
+    <View style={styles.headerTop}>
+      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><Text style={[styles.wordmarkText, { color: colors.foreground }]}>KOPI GARUT</Text><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>ROASTERY · WEST JAVA</Text></View></View>}
+      {cart ? <Link href="/cart" testID="header-cart" style={[styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border }]}><Feather name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Link> : <View style={{ width: 42 }} />}
+    </View>
     <View style={styles.headerCopy}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text><Text style={[styles.headerTitle, { color: colors.foreground }]}>{title}</Text></View>
-    {cart ? <Link href="/cart" testID="header-cart" style={[styles.iconButton, { backgroundColor: colors.secondary }]}><Feather name="shopping-bag" size={19} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Link> : <View style={{ width: 40 }} />}
   </View>;
 }
 
@@ -59,14 +61,17 @@ export function LoadingState() { const colors = useColors(); return <View style=
 
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 24, minHeight: '100%' },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52, marginBottom: 4 },
-  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  logo: { width: 28, height: 28, borderRadius: 9 },
-  wordmarkText: { fontSize: 11, fontWeight: '700', letterSpacing: 1.8 },
-  headerCopy: { flex: 1, gap: 2 },
-  eyebrow: { fontSize: 10, fontWeight: '700', letterSpacing: 1.5, textTransform: 'uppercase' },
-  headerTitle: { fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
+  header: { gap: 14, marginBottom: 2 },
+  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 42 },
+  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  logo: { width: 32, height: 32, borderRadius: 11, borderWidth: 1 },
+  wordmarkText: { fontSize: 11, fontWeight: '800', letterSpacing: 1.8 },
+  brandMeta: { fontSize: 8, fontWeight: '600', letterSpacing: 1.1, marginTop: 3 },
+  headerCopy: { gap: 3 },
+  eyebrow: { fontSize: 10, fontWeight: '800', letterSpacing: 1.6, textTransform: 'uppercase' },
+  headerTitle: { fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  cartButton: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   count: { position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   countText: { fontSize: 9, fontWeight: '700' },
   button: { height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 20 },
