@@ -21,14 +21,18 @@ export function Header({ title, subtitle, cart = true, back = false }: { title: 
   const colors = useColors();
   const router = useRouter();
   const { cart: items } = useStore();
+  const subtitleParts = subtitle?.split(' · ') ?? [];
+  const titleParts = title.split(', ');
   return <View style={styles.header}>
     <View style={styles.headerTop}>
       {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>SPECIALTY COFFEE · GARUT</Text></View></View>}
       {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Open cart" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><Feather name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
     </View>
     <View style={styles.headerBottom}>
-      <View style={styles.headerCopy}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text><Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{title}</Text></View>
-      {!back && <View style={[styles.originPill, { backgroundColor: colors.muted, borderColor: colors.border }]}><Feather name="map-pin" size={11} color={colors.primary} /><Text style={[styles.originPillText, { color: colors.foreground }]}>GARUT</Text></View>}
+      <View style={styles.headerCopy}>
+        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDot, { backgroundColor: colors.accent }]} /><View style={styles.locationInline}><Feather name="map-pin" size={10} color={colors.primary} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+        <Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+      </View>
     </View>
   </View>;
 }
@@ -71,15 +75,17 @@ const styles = StyleSheet.create({
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
   brandName: { fontSize: 19, lineHeight: 22, fontWeight: '800', letterSpacing: -0.6 },
   brandMeta: { fontSize: 8, fontWeight: '700', letterSpacing: 1.05, marginTop: 4 },
-  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 },
+  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
   headerCopy: { flex: 1, gap: 3 },
   eyebrow: { fontSize: 10, fontWeight: '800', letterSpacing: 1.6, textTransform: 'uppercase' },
   headerTitle: { fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
+  contextRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  contextDot: { width: 3, height: 3, borderRadius: 2 },
+  locationInline: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  locationLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 1.5 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   cartButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   headerActionSpacer: { width: 46, height: 46 },
-  originPill: { height: 30, borderRadius: 15, borderWidth: 1, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 2 },
-  originPillText: { fontSize: 9, fontWeight: '800', letterSpacing: 1.1 },
   count: { position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   countText: { fontSize: 9, fontWeight: '700' },
   button: { height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 20 },
