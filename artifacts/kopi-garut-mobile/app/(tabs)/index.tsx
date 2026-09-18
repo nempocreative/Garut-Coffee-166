@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
@@ -68,12 +68,23 @@ export default function HomeScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const bannerWidth = Math.max(260, width - 40);
+  const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   const bannerRef = useRef<ScrollView>(null);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const nextSlide = (activeSlide + 1) % promoSlides.length;
+      setActiveSlide(nextSlide);
+      bannerRef.current?.scrollTo({ x: nextSlide * bannerWidth, animated: true });
+    }, 4500);
+
+    return () => clearTimeout(timer);
+  }, [activeSlide, bannerWidth]);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
@@ -230,7 +241,7 @@ export default function HomeScreen() {
       <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
