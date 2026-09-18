@@ -3,7 +3,7 @@ import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWind
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Svg, { Ellipse, Path } from 'react-native-svg';
+import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
@@ -164,10 +164,34 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
     'alert-circle': 'alert-circle',
   };
   const palettes = [
-    { gradient: [colors.accent, colors.secondary], icon: colors.foreground },
-    { gradient: [colors.primary, colors.accent], icon: colors.primaryForeground },
-    { gradient: [colors.secondary, colors.card], icon: colors.primary },
-    { gradient: [colors.muted, colors.accent], icon: colors.foreground },
+    {
+      gradient: [colors.accent, colors.secondary],
+      icon: colors.foreground,
+      iconSurface: colors.card,
+      iconDepth: colors.border,
+      iconHighlight: colors.background,
+    },
+    {
+      gradient: [colors.primary, colors.accent],
+      icon: colors.primaryForeground,
+      iconSurface: colors.accent,
+      iconDepth: colors.primary,
+      iconHighlight: colors.card,
+    },
+    {
+      gradient: [colors.secondary, colors.card],
+      icon: colors.primary,
+      iconSurface: colors.background,
+      iconDepth: colors.border,
+      iconHighlight: colors.card,
+    },
+    {
+      gradient: [colors.muted, colors.accent],
+      icon: colors.foreground,
+      iconSurface: colors.card,
+      iconDepth: colors.border,
+      iconHighlight: colors.background,
+    },
   ] as const;
   const palette = palettes[index % palettes.length];
 
@@ -179,11 +203,33 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         end={{ x: 0.9, y: 1 }}
         style={styles.menuIconSurface}
       >
-        <MaterialCommunityIcons
-          name={menuIconGlyphs[name] ?? 'circle-outline'}
-          size={23}
-          color={palette.icon}
-        />
+        <View style={styles.menuIconVisual}>
+          <Svg width={46} height={46} viewBox="0 0 46 46" style={StyleSheet.absoluteFill}>
+            <Defs>
+              <SvgLinearGradient id={`menu-badge-${index}`} x1="0" y1="0" x2="1" y2="1">
+                <Stop offset="0" stopColor={palette.iconHighlight} stopOpacity={0.72} />
+                <Stop offset="0.46" stopColor={palette.iconSurface} />
+                <Stop offset="1" stopColor={palette.iconDepth} stopOpacity={0.92} />
+              </SvgLinearGradient>
+            </Defs>
+            <Circle cx="23" cy="22.5" r="12.5" fill={palette.iconDepth} opacity={0.62} />
+            <Circle cx="23" cy="20.5" r="12.5" fill={`url(#menu-badge-${index})`} />
+            <Ellipse
+              cx="19"
+              cy="14.5"
+              rx="5.8"
+              ry="2.5"
+              fill={palette.iconHighlight}
+              opacity={0.34}
+              transform="rotate(-14 19 14.5)"
+            />
+          </Svg>
+          <MaterialCommunityIcons
+            name={menuIconGlyphs[name] ?? 'circle-outline'}
+            size={21}
+            color={palette.icon}
+          />
+        </View>
       </LinearGradient>
     </View>
   );
@@ -535,6 +581,7 @@ const styles = StyleSheet.create({
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center' },
   menuIconSurface: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  menuIconVisual: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
