@@ -138,6 +138,7 @@ export default function HomeScreen() {
         {promoSlides.map((slide, index) => (
           <Pressable
             key={slide.id}
+            testID={`promo-dot-${index}`}
             accessibilityRole="button"
             accessibilityLabel={`Tampilkan promo ${index + 1}`}
             onPress={() => {
@@ -228,8 +229,20 @@ export default function HomeScreen() {
       </ScrollView>
       {categoryPages.length > 1 && (
         <View style={styles.categoryPagination}>
-          {categoryPages.map((page, index) => (
-            <View key={`category-dot-${index}`} style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+          {categoryPages.map((_, index) => (
+            <Pressable
+              key={`category-dot-${index}`}
+              testID={`category-dot-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={`Tampilkan menu halaman ${index + 1}`}
+              onPress={() => {
+                setActiveCategoryPage(index);
+                categoryRef.current?.scrollTo({ x: index * categoryPageWidth, animated: true });
+              }}
+              style={styles.categoryPaginationHit}
+            >
+              <View style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+            </Pressable>
           ))}
         </View>
       )}
@@ -401,8 +414,8 @@ const styles = StyleSheet.create({
   heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 17, opacity: 0.9, maxWidth: 290 },
   heroButton: { height: 38, borderRadius: 12, paddingHorizontal: 13, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
   heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
-  pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 20, opacity: 0.92 },
-  paginationTrack: { height: 6, borderRadius: 3, justifyContent: 'center', overflow: 'hidden' },
+  pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 0, paddingHorizontal: 5, paddingVertical: 3, borderRadius: 20, opacity: 0.92, zIndex: 2, elevation: 2 },
+  paginationTrack: { width: 20, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   paginationDot: { height: 6, borderRadius: 3 },
   sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 1, gap: 14 },
   headingCopy: { flexShrink: 1 },
@@ -417,7 +430,8 @@ const styles = StyleSheet.create({
   categoryItem: { alignItems: 'center', gap: 8 },
   categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
-  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginTop: 14 },
+  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 14 },
+  categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   quickStartGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   quickStartCard: { width: '48.5%', minHeight: 126, borderRadius: 18, borderWidth: 1, padding: 12, gap: 6, position: 'relative' },
