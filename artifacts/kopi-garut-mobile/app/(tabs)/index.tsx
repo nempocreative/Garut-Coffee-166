@@ -11,26 +11,26 @@ import { useColors } from '@/hooks/useColors';
 const promoSlides = [
   {
     id: 'morning-edit',
-    kicker: 'THE MORNING EDIT',
-    title: 'Start with a cup that knows where it came from.',
-    description: 'Single-origin coffees from the volcanic highlands of Garut.',
-    cta: 'Explore the collection',
+    kicker: 'EDISI PAGI',
+    title: 'Kopi dari Garut untuk memulai hari.',
+    description: 'Single origin dari dataran tinggi Garut, disangrai untuk rasa yang jernih.',
+    cta: 'Lihat koleksi',
     image: require('../../assets/images/hero-coffee.jpg'),
   },
   {
     id: 'origin-notes',
-    kicker: 'FROM GARUT, WITH CARE',
-    title: 'A little more character in every pour.',
-    description: 'Meet small-batch coffees with bright, thoughtful tasting notes.',
-    cta: 'Find your flavour',
+    kicker: 'DARI GARUT, DENGAN CERMAT',
+    title: 'Rasa khas Garut di setiap seduhan.',
+    description: 'Lot kecil dengan karakter cerah dan catatan rasa yang berkesan.',
+    cta: 'Pilih kopimu',
     image: require('../../assets/images/origin-coffee.jpg'),
   },
   {
     id: 'weekend-ritual',
-    kicker: 'WEEKEND RITUAL',
-    title: 'Make room for a slower kind of morning.',
-    description: 'Build a considered coffee ritual with beans roasted for clarity.',
-    cta: 'Shop the ritual',
+    kicker: 'RITUAL AKHIR PEKAN',
+    title: 'Pelankan pagi, nikmati setiap tegukan.',
+    description: 'Biji kopi pilihan untuk ritual yang lebih berarti.',
+    cta: 'Temukan favorit',
     image: require('../../assets/images/hero-coffee.jpg'),
   },
 ];
@@ -58,7 +58,7 @@ export default function HomeScreen() {
   const goToCatalog = () => router.push('/catalog');
 
   return <Screen>
-    <Header title="Good morning, Aruna" subtitle="WEDNESDAY · GARUT" />
+    <Header title="Selamat pagi, Aruna" subtitle="RABU · GARUT" />
     <Animated.View entering={FadeInDown.duration(550)} style={styles.hero}>
       <ScrollView
         ref={bannerRef}
@@ -97,7 +97,7 @@ export default function HomeScreen() {
           <Pressable
             key={slide.id}
             accessibilityRole="button"
-            accessibilityLabel={`Show promo ${index + 1}`}
+            accessibilityLabel={`Tampilkan promo ${index + 1}`}
             onPress={() => {
               setActiveSlide(index);
               bannerRef.current?.scrollTo({ x: index * bannerWidth, animated: true });
@@ -110,28 +110,28 @@ export default function HomeScreen() {
       </View>
     </Animated.View>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>SELECTED FOR YOU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>A clear start</Text></View>
-      <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>See all</Link>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>PILIHAN UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Awal yang cerah</Text></View>
+      <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <View style={styles.categoryRow}>
-      {['Bright', 'Fruity', 'Everyday', 'Comfort'].map((category) => <Pressable testID={`home-category-${category}`} key={category} onPress={() => router.push('/catalog')} style={[styles.category, { backgroundColor: colors.secondary }]}><Text style={[styles.categoryText, { color: colors.foreground }]}>{category}</Text><Feather name="arrow-up-right" size={13} color={colors.primary} /></Pressable>)}
+      {['Cerah', 'Buah', 'Harian', 'Nyaman'].map((category) => <Pressable testID={`home-category-${category}`} key={category} onPress={() => router.push('/catalog')} style={[styles.category, { backgroundColor: colors.secondary }]}><Text style={[styles.categoryText, { color: colors.foreground }]}>{category}</Text><Feather name="arrow-up-right" size={13} color={colors.primary} /></Pressable>)}
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
     <View style={styles.story}>
       <ImageBackground source={require('../../assets/images/origin-coffee.jpg')} imageStyle={styles.storyImage} style={styles.storyImageContainer}>
         <View style={[styles.storyShade, { backgroundColor: colors.foreground }]} />
         <View style={styles.storyCopy}>
-          <Text style={[styles.heroKicker, { color: colors.background }]}>THE ORIGIN</Text>
-          <Text style={[styles.storyTitle, { color: colors.card }]}>Between volcanic soil and cool mountain air.</Text>
-          <Text style={[styles.storyText, { color: colors.background }]}>We work with small farms around Garut, West Java — roasting their character, never hiding it.</Text>
-          <Button label="Read our approach" onPress={() => router.push('/catalog')} secondary />
+          <Text style={[styles.heroKicker, { color: colors.background }]}>ASAL KOPI</Text>
+          <Text style={[styles.storyTitle, { color: colors.card }]}>Di antara tanah vulkanik dan udara pegunungan yang sejuk.</Text>
+          <Text style={[styles.storyText, { color: colors.background }]}>Kami bekerja bersama petani kecil di sekitar Garut, Jawa Barat — menyangrai karakternya tanpa menyembunyikannya.</Text>
+          <Button label="Lihat pendekatan kami" onPress={() => router.push('/catalog')} secondary />
         </View>
       </ImageBackground>
     </View>
     <View style={[styles.quote, { backgroundColor: colors.secondary }]}>
       <Text style={[styles.quoteMark, { color: colors.accent }]}>“</Text>
-      <Text style={[styles.quoteText, { color: colors.foreground }]}>Coffee with a sense of place makes the day feel a little more intentional.</Text>
-      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>— Kopi Garut, West Java</Text>
+      <Text style={[styles.quoteText, { color: colors.foreground }]}>Kopi yang punya cerita tentang tempat asalnya membuat hari terasa lebih berarti.</Text>
+      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>— Kopi Garut, Jawa Barat</Text>
     </View>
   </Screen>;
 }
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
   promoDot: { width: 5, height: 5, borderRadius: 3 },
   promoPillText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 1.1 },
   heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '700', letterSpacing: 1.5 },
-  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '700', letterSpacing: -0.5, maxWidth: 320 },
-  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 290 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '700', letterSpacing: -0.5, maxWidth: 290 },
+  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 275 },
   heroButton: { height: 36, borderRadius: 11, paddingHorizontal: 12, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
   heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
   pagination: { position: 'absolute', right: 14, top: 12, flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 20 },

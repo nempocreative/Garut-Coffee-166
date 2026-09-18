@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 
 function RootLayoutNav() {
   return (
-    <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Back' }}>
+    <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
