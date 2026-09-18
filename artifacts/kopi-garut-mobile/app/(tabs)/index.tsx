@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
@@ -53,10 +53,14 @@ const categoryItems = [
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
   { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
   { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
+  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const },
+  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
+  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const },
+  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const },
 ];
 
-const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 10) }, (_, pageIndex) =>
-  categoryItems.slice(pageIndex * 10, pageIndex * 10 + 10),
+const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
+  categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
 const quickStartItems = [
@@ -71,37 +75,12 @@ export default function HomeScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const bannerWidth = Math.max(260, width - 40);
-  const categoryPageWidth = Math.max(260, width - 40);
-  const categoryItemWidth = Math.max(52, Math.floor((categoryPageWidth - 32) / 5));
+  const categoryPageWidth = Math.max(300, width);
+  const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   const bannerRef = useRef<ScrollView>(null);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((current) => {
-        const next = (current + 1) % promoSlides.length;
-        bannerRef.current?.scrollTo({ x: next * bannerWidth, animated: true });
-        return next;
-      });
-    }, 5200);
-
-    return () => clearInterval(interval);
-  }, [bannerWidth]);
-
-  useEffect(() => {
-    if (categoryPages.length <= 1) return;
-    const interval = setInterval(() => {
-      setActiveCategoryPage((current) => {
-        const next = (current + 1) % categoryPages.length;
-        categoryRef.current?.scrollTo({ x: next * categoryPageWidth, animated: true });
-        return next;
-      });
-    }, 4800);
-
-    return () => clearInterval(interval);
-  }, [categoryPageWidth]);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
@@ -131,6 +110,8 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         decelerationRate="fast"
         snapToInterval={bannerWidth}
+        snapToAlignment="start"
+        disableIntervalMomentum
         onMomentumScrollEnd={(event) => setActiveSlide(Math.round(event.nativeEvent.contentOffset.x / bannerWidth))}
       >
         {promoSlides.map((slide, index) => (
@@ -211,15 +192,16 @@ export default function HomeScreen() {
         <Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI SEMUA</Text>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Temukan lebih banyak</Text>
       </View>
-      <View style={[styles.headingRule, { backgroundColor: colors.border }]} />
+      <Text style={[styles.categoryHint, { color: colors.mutedForeground }]}>Geser untuk melihat semua</Text>
     </View>
     <View>
       <ScrollView
         ref={categoryRef}
         horizontal
         pagingEnabled
-        snapToInterval={categoryPageWidth}
         decelerationRate="fast"
+        snapToAlignment="start"
+        disableIntervalMomentum
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(event) => setActiveCategoryPage(Math.round(event.nativeEvent.contentOffset.x / categoryPageWidth))}
         style={styles.categoryPager}
@@ -228,7 +210,7 @@ export default function HomeScreen() {
           <View key={`category-page-${pageIndex}`} style={[styles.categoryPage, { width: categoryPageWidth }]}>
             {[0, 1].map((rowIndex) => (
               <View key={`category-row-${rowIndex}`} style={styles.categoryRow}>
-                {page.slice(rowIndex * 5, rowIndex * 5 + 5).map((item) => (
+                {page.slice(rowIndex * 4, rowIndex * 4 + 4).map((item) => (
                   <Pressable
                     key={item.label}
                     accessibilityRole="button"
@@ -428,6 +410,7 @@ const styles = StyleSheet.create({
   sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 1, gap: 14 },
   headingCopy: { flexShrink: 1 },
   headingRule: { width: 42, height: 1, marginBottom: 7 },
+  categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 1.5 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 4, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
