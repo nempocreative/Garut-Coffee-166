@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
   pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 0, paddingHorizontal: 5, paddingVertical: 3, borderRadius: 20, opacity: 0.92, zIndex: 2, elevation: 2 },
   paginationTrack: { width: 20, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   paginationDot: { height: 6, borderRadius: 3 },
-  sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 0, gap: 14 },
+  sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 18, gap: 14 },
   headingCopy: { flexShrink: 1 },
   headingRule: { width: 42, height: 1, marginBottom: 7 },
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
