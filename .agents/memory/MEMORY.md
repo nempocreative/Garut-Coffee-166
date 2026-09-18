@@ -1,0 +1,1 @@
+- [Role-based access](auth-role-access.md) — centralize protected menu and route rules while the MVP uses a device-local role session.

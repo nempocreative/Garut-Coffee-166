@@ -11,9 +11,11 @@ import {
   Manrope_700Bold,
   useFonts,
 } from '@expo-google-fonts/manrope';
-import { Stack } from 'expo-router';
+import { Stack, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StoreProvider } from '@/context/StoreContext';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { canAccessRoute } from '@/data/auth';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +23,17 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 function RootLayoutNav() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { session, ready } = useAuth();
+
+  useEffect(() => {
+    if (!ready || pathname === '/login') return;
+    if (!canAccessRoute(pathname, session?.id)) {
+      router.replace('/login');
+    }
+  }, [pathname, ready, router, session?.id]);
+
   return (
     <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -49,11 +62,13 @@ export default function RootLayout() {
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <StoreProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <KeyboardProvider>
-                <RootLayoutNav />
-              </KeyboardProvider>
-            </GestureHandlerRootView>
+            <AuthProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <KeyboardProvider>
+                  <RootLayoutNav />
+                </KeyboardProvider>
+              </GestureHandlerRootView>
+            </AuthProvider>
           </StoreProvider>
         </QueryClientProvider>
       </ErrorBoundary>

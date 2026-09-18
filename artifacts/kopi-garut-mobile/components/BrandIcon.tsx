@@ -31,6 +31,8 @@ export type BrandIconName =
   | 'shield'
   | 'settings'
   | 'info'
+  | 'lock'
+  | 'circle'
   | 'alert-circle'
   | 'x'
   | 'send';
@@ -179,6 +181,13 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
           <Path d="M12 11v5M12 8h.01" {...props} />
         </>
       )}
+      {name === 'lock' && (
+        <>
+          <Rect x="5" y="10" width="14" height="10" rx="2" {...props} />
+          <Path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v2" {...props} />
+        </>
+      )}
+      {name === 'circle' && <Circle cx="12" cy="12" r="8.5" {...props} />}
       {name === 'alert-circle' && (
         <>
           <Circle cx="12" cy="12" r="8.5" {...props} />
