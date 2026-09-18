@@ -6,7 +6,7 @@ import Svg, { Ellipse, Path } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
-import { BrandIcon } from '@/components/BrandIcon';
+import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
 import { coffeePrices, coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
@@ -144,6 +144,30 @@ function CoffeeCupAnimation() {
   );
 }
 
+function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
+  const colors = useColors();
+  const palettes = [
+    { gradient: [colors.accent, colors.secondary], icon: colors.foreground },
+    { gradient: [colors.primary, colors.accent], icon: colors.primaryForeground },
+    { gradient: [colors.secondary, colors.card], icon: colors.primary },
+    { gradient: [colors.muted, colors.accent], icon: colors.foreground },
+  ] as const;
+  const palette = palettes[index % palettes.length];
+
+  return (
+    <View style={styles.menuIconStage}>
+      <LinearGradient
+        colors={palette.gradient}
+        start={{ x: 0.15, y: 0 }}
+        end={{ x: 0.9, y: 1 }}
+        style={styles.menuIconSurface}
+      >
+        <BrandIcon name={name} size={21} color={palette.icon} strokeWidth={2.2} />
+      </LinearGradient>
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
@@ -256,9 +280,7 @@ export default function HomeScreen() {
                     onPress={() => router.push(item.route)}
                     style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
                   >
-                    <View style={[styles.categoryIcon, { backgroundColor: colors.secondary }]}>
-                      <BrandIcon name={item.icon} size={19} color={colors.primary} />
-                    </View>
+                    <HomeMenuIcon name={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
                     <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
                   </Pressable>
                 ))}
@@ -490,7 +512,8 @@ const styles = StyleSheet.create({
   categoryPage: { paddingHorizontal: 20, gap: 16 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryItem: { alignItems: 'center', gap: 8 },
-  categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center' },
+  menuIconSurface: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
