@@ -4,33 +4,37 @@ import { Feather } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Button, CoffeeCard, Header, Screen } from '@/components/AppUI';
+import { CoffeeCard, Header, HubTile, Screen } from '@/components/AppUI';
 import { coffees } from '@/data/coffees';
+import { hubStats } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 const promoSlides = [
   {
-    id: 'morning-edit',
-    kicker: 'EDISI PAGI',
-    title: 'Kopi dari Garut untuk memulai hari.',
-    description: 'Single origin dari dataran tinggi Garut, disangrai untuk rasa yang jernih.',
-    cta: 'Lihat koleksi',
+    id: 'coffee-hub',
+    kicker: 'GARUT COFFEE HUB',
+    title: 'Dari lereng Gunung Garut ke Indonesia.',
+    description: 'Satu ruang untuk kopi, petani, wilayah, dan pengalaman.',
+    cta: 'Jelajahi hub',
+    route: '/catalog' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
   },
   {
-    id: 'origin-notes',
-    kicker: 'DARI GARUT, DENGAN CERMAT',
-    title: 'Rasa khas Garut di setiap seduhan.',
-    description: 'Lot kecil dengan karakter cerah dan catatan rasa yang berkesan.',
-    cta: 'Pilih kopimu',
+    id: 'traceability',
+    kicker: 'JEJAK YANG TERBUKA',
+    title: 'Kenali siapa di balik setiap cangkir.',
+    description: 'Lihat petani, kebun, proses, dan cerita produknya.',
+    cta: 'Lihat petani',
+    route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
   },
   {
-    id: 'weekend-ritual',
-    kicker: 'RITUAL AKHIR PEKAN',
-    title: 'Pelankan pagi, nikmati setiap tegukan.',
-    description: 'Biji kopi pilihan untuk ritual yang lebih berarti.',
-    cta: 'Temukan favorit',
+    id: 'coffee-tour',
+    kicker: 'KOPI & WISATA',
+    title: 'Datang, belajar, dan bawa pulang cerita.',
+    description: 'Temukan coffee tour, event, dan mitra di Garut.',
+    cta: 'Lihat wisata',
+    route: '/tourism' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
   },
 ];
@@ -55,10 +59,8 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, [bannerWidth]);
 
-  const goToCatalog = () => router.push('/catalog');
-
   return <Screen>
-    <Header title="Selamat pagi, Aruna" subtitle="RABU · GARUT" />
+    <Header title="Garut Coffee Hub" subtitle="KOPI GARUT · JAWA BARAT" />
     <Animated.View entering={FadeInDown.duration(550)} style={styles.hero}>
       <ScrollView
         ref={bannerRef}
@@ -82,7 +84,7 @@ export default function HomeScreen() {
               <Text style={[styles.heroDescription, { color: colors.background }]}>{slide.description}</Text>
               <Pressable
                 testID={index === 0 ? 'hero-browse' : `promo-browse-${index}`}
-                onPress={goToCatalog}
+                onPress={() => router.push(slide.route)}
                 style={({ pressed }) => [styles.heroButton, { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 }]}
               >
                 <Text style={[styles.heroButtonText, { color: colors.primaryForeground }]}>{slide.cta}</Text>
@@ -110,28 +112,39 @@ export default function HomeScreen() {
       </View>
     </Animated.View>
     <View style={styles.sectionHeading}>
-      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>PILIHAN UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Awal yang cerah</Text></View>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>JELAJAHI HUB</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Semua tentang Kopi Garut</Text></View>
+    </View>
+    <View style={styles.hubGrid}>
+      <HubTile icon="coffee" title="Produk kopi" description="Seri kopi dan cerita rasanya" onPress={() => router.push('/catalog')} />
+      <HubTile icon="users" title="Petani kopi" description="Kenali orang di balik cangkir" onPress={() => router.push('/farmers')} />
+      <HubTile icon="map" title="Wilayah kopi" description="Jelajahi kebun di Garut" onPress={() => router.push('/regions')} />
+      <HubTile icon="compass" title="Wisata kopi" description="Tur kebun dan pengalaman" onPress={() => router.push('/tourism')} />
+      <HubTile icon="trending-up" title="Harga kopi" description="Data harga yang transparan" onPress={() => router.push('/prices')} />
+      <HubTile icon="calendar" title="Event & pelatihan" description="Agenda untuk ekosistem kopi" onPress={() => router.push('/events')} />
+      <HubTile icon="briefcase" title="Kemitraan" description="Bergabung sebagai cafe mitra" onPress={() => router.push('/partnership')} />
+      <HubTile icon="bar-chart-2" title="Dashboard dinas" description="Data pertanian dalam satu layar" onPress={() => router.push('/dashboard')} />
+    </View>
+    <View style={[styles.traceCard, { backgroundColor: colors.secondary }]}>
+      <View style={[styles.traceIcon, { backgroundColor: colors.card }]}><Feather name="maximize" size={19} color={colors.primary} /></View>
+      <View style={styles.traceCopy}><Text style={[styles.traceKicker, { color: colors.primary }]}>JEJAK PRODUK</Text><Text style={[styles.traceTitle, { color: colors.foreground }]}>Scan QR, kenali asalnya.</Text><Text style={[styles.traceText, { color: colors.mutedForeground }]}>Lihat petani, tanggal panen, dan proses pascapanen kopi.</Text></View>
+      <Pressable onPress={() => router.push('/traceability')} style={[styles.traceButton, { backgroundColor: colors.primary }]}><Feather name="arrow-up-right" size={16} color={colors.primaryForeground} /></Pressable>
+    </View>
+    <View style={styles.sectionHeading}>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>KOPI GARUT DALAM ANGKA</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
+      <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
+    </View>
+    <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
+    </View>
+    <View style={styles.sectionHeading}>
+      <View><Text style={[styles.sectionKicker, { color: colors.primary }]}>PILIHAN PRODUK</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Seri untuk harimu</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
-    <View style={styles.categoryRow}>
-      {['Cerah', 'Buah', 'Harian', 'Nyaman'].map((category) => <Pressable testID={`home-category-${category}`} key={category} onPress={() => router.push('/catalog')} style={[styles.category, { backgroundColor: colors.secondary }]}><Text style={[styles.categoryText, { color: colors.foreground }]}>{category}</Text><Feather name="arrow-up-right" size={13} color={colors.primary} /></Pressable>)}
-    </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} /><CoffeeCard coffee={coffees[1]} index={1} /></ScrollView>
-    <View style={styles.story}>
-      <ImageBackground source={require('../../assets/images/origin-coffee.jpg')} imageStyle={styles.storyImage} style={styles.storyImageContainer}>
-        <View style={[styles.storyShade, { backgroundColor: colors.foreground }]} />
-        <View style={styles.storyCopy}>
-          <Text style={[styles.heroKicker, { color: colors.background }]}>ASAL KOPI</Text>
-          <Text style={[styles.storyTitle, { color: colors.card }]}>Di antara tanah vulkanik dan udara pegunungan yang sejuk.</Text>
-          <Text style={[styles.storyText, { color: colors.background }]}>Kami bekerja bersama petani kecil di sekitar Garut, Jawa Barat — menyangrai karakternya tanpa menyembunyikannya.</Text>
-          <Button label="Lihat pendekatan kami" onPress={() => router.push('/catalog')} secondary />
-        </View>
-      </ImageBackground>
-    </View>
     <View style={[styles.quote, { backgroundColor: colors.secondary }]}>
       <Text style={[styles.quoteMark, { color: colors.accent }]}>“</Text>
-      <Text style={[styles.quoteText, { color: colors.foreground }]}>Kopi yang punya cerita tentang tempat asalnya membuat hari terasa lebih berarti.</Text>
-      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>— Kopi Garut, Jawa Barat</Text>
+      <Text style={[styles.quoteText, { color: colors.foreground }]}>Satu platform untuk petani, usaha, wisata, dan pecinta kopi Garut.</Text>
+      <Text style={[styles.quoteByline, { color: colors.mutedForeground }]}>— Garut Coffee Hub, Jawa Barat</Text>
     </View>
   </Screen>;
 }
@@ -157,6 +170,18 @@ const styles = StyleSheet.create({
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 1.4 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, fontWeight: '700', marginTop: 4 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
+  hubGrid: { gap: 9 },
+  traceCard: { borderRadius: 18, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  traceIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  traceCopy: { flex: 1, gap: 3 },
+  traceKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.2 },
+  traceTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '700' },
+  traceText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15 },
+  traceButton: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
+  stat: { width: '50%', gap: 3 },
+  statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
+  statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
   categoryRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: -9 },
   category: { borderRadius: 13, paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 6 },
   categoryText: { fontFamily: 'Manrope_600SemiBold', fontSize: 12, fontWeight: '600' },

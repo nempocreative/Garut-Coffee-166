@@ -59,6 +59,11 @@ export function SearchBar({ value, onChangeText }: { value: string; onChangeText
   return <View style={[styles.search, { backgroundColor: colors.card, borderColor: colors.border }]}><Feather name="search" size={18} color={colors.mutedForeground} /><TextInput testID="catalog-search" value={value} onChangeText={onChangeText} placeholder="Cari kopi atau asalnya" placeholderTextColor={colors.mutedForeground} style={[styles.searchInput, { color: colors.foreground }]} /></View>;
 }
 
+export function HubTile({ icon, title, description, onPress }: { icon: keyof typeof Feather.glyphMap; title: string; description: string; onPress: () => void }) {
+  const colors = useColors();
+  return <Pressable onPress={onPress} style={({ pressed }) => [styles.hubTile, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}><View style={[styles.hubTileIcon, { backgroundColor: colors.secondary }]}><Feather name={icon} size={19} color={colors.primary} /></View><View style={styles.hubTileCopy}><Text style={[styles.hubTileTitle, { color: colors.foreground }]}>{title}</Text><Text numberOfLines={2} style={[styles.hubTileDescription, { color: colors.mutedForeground }]}>{description}</Text></View><Feather name="chevron-right" size={17} color={colors.mutedForeground} /></Pressable>;
+}
+
 export function EmptyState({ icon = 'heart', title, text, action, onAction }: { icon?: keyof typeof Feather.glyphMap; title: string; text: string; action?: string; onAction?: () => void }) {
   const colors = useColors();
   return <View style={[styles.empty, { borderColor: colors.border }]}><View style={[styles.emptyIcon, { backgroundColor: colors.secondary }]}><Feather name={icon} size={24} color={colors.primary} /></View><Text style={[styles.emptyTitle, { color: colors.foreground }]}>{title}</Text><Text style={[styles.emptyText, { color: colors.mutedForeground }]}>{text}</Text>{action && onAction && <Button label={action} onPress={onAction} secondary />}</View>;
@@ -109,6 +114,11 @@ const styles = StyleSheet.create({
   addText: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
   search: { height: 50, borderRadius: 15, borderWidth: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, gap: 10 },
   searchInput: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 14 },
+  hubTile: { width: '100%', minHeight: 78, borderRadius: 17, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  hubTileIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  hubTileCopy: { flex: 1, gap: 3 },
+  hubTileTitle: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '700' },
+  hubTileDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15 },
   empty: { alignItems: 'center', borderWidth: 1, borderStyle: 'dashed', borderRadius: 22, padding: 28, gap: 10, marginTop: 10 },
   emptyIcon: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
   emptyTitle: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '700' },

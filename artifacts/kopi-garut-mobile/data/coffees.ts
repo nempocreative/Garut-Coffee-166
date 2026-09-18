@@ -3,6 +3,7 @@ import { ImageSource } from 'expo-image';
 export type Coffee = {
   id: string;
   name: string;
+  series: string;
   tagline: string;
   price: number;
   roast: string;
@@ -14,6 +15,9 @@ export type Coffee = {
   image: ImageSource;
   category: string;
   recommendedBrew: string;
+  farmerName: string;
+  farmerGroup: string;
+  stock: number;
   badge?: string;
 };
 
@@ -29,7 +33,8 @@ export type Order = {
 export const coffees: Coffee[] = [
   {
     id: 'papandayan-honey',
-    name: 'Papandayan Honey',
+    name: 'Papandayan Series',
+    series: 'Papandayan Series',
     tagline: 'Pagi cerah dari dataran tinggi.',
     price: 118000,
     roast: 'Ringan–sedang',
@@ -41,11 +46,15 @@ export const coffees: Coffee[] = [
     image: require('../assets/images/hero-coffee.jpg'),
     category: 'Cerah',
     recommendedBrew: 'Seduh tuang',
+    farmerName: 'H. Asep Rahmat',
+    farmerGroup: 'KTH Papandayan Lestari',
+    stock: 86,
     badge: 'Favorit rumah',
   },
   {
     id: 'cikajang-natural',
-    name: 'Cikajang Natural',
+    name: 'Cikuray Series',
+    series: 'Cikuray Series',
     tagline: 'Buah beri, kakao lembut, akhir rasa panjang.',
     price: 132000,
     roast: 'Sedang',
@@ -57,11 +66,15 @@ export const coffees: Coffee[] = [
     image: require('../assets/images/origin-coffee.jpg'),
     category: 'Buah',
     recommendedBrew: 'Aeropress',
+    farmerName: 'Iis Nurhayati',
+    farmerGroup: 'KTH Cikuray Mandiri',
+    stock: 52,
     badge: 'Lot kecil',
   },
   {
     id: 'talaga-washed',
-    name: 'Talaga Washed',
+    name: 'Kamojang Series',
+    series: 'Kamojang Series',
     tagline: 'Bersih, tenang, kaya rasa.',
     price: 105000,
     roast: 'Sedang–ringan',
@@ -73,10 +86,14 @@ export const coffees: Coffee[] = [
     image: require('../assets/images/hero-coffee.jpg'),
     category: 'Harian',
     recommendedBrew: 'V60',
+    farmerName: 'Deni Suhendar',
+    farmerGroup: 'Kelompok Tani Talaga',
+    stock: 74,
   },
   {
     id: 'samarang-dark',
-    name: 'Samarang Afterglow',
+    name: 'Darajat Series',
+    series: 'Darajat Series',
     tagline: 'Karamel pekat untuk pagi yang terlambat.',
     price: 99000,
     roast: 'Sedang–gelap',
@@ -88,6 +105,9 @@ export const coffees: Coffee[] = [
     image: require('../assets/images/origin-coffee.jpg'),
     category: 'Nyaman',
     recommendedBrew: 'French press',
+    farmerName: 'Ujang Kusnadi',
+    farmerGroup: 'KTH Darajat Sejahtera',
+    stock: 31,
   },
 ];
 
