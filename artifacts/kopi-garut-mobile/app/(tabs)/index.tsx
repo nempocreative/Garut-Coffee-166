@@ -247,7 +247,7 @@ export default function HomeScreen() {
         ]}
       >
         <ExpoImage
-          source={require('../../assets/images/story-background.png')}
+          source={require('../../assets/images/mountain-banner.png')}
           contentFit="cover"
           style={StyleSheet.absoluteFill}
         />
@@ -271,7 +271,35 @@ export default function HomeScreen() {
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
     </View>
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      {hubStats.map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text></View>)}
+      <View style={[styles.statsIntro, { backgroundColor: colors.primary }]}>
+        <View style={styles.statsIntroCopy}>
+          <Text style={[styles.statsEyebrow, { color: colors.primaryForeground }]}>EKOSISTEM KOPI GARUT</Text>
+          <Text style={[styles.statsIntroTitle, { color: colors.primaryForeground }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
+        </View>
+        <View style={[styles.statsIntroIcon, { backgroundColor: colors.accent }]}>
+          <BrandIcon name="trending-up" size={22} color={colors.accentForeground} />
+        </View>
+      </View>
+      <View style={styles.statsList}>
+        {hubStats.map((stat, index) => (
+          <View
+            key={stat.label}
+            style={[
+              styles.stat,
+              index % 2 === 0 && styles.statDividerRight,
+              index > 1 && styles.statDividerTop,
+              index % 2 === 0 && { borderRightColor: colors.border },
+              index > 1 && { borderTopColor: colors.border },
+            ]}
+          >
+            <View style={[styles.statIcon, { backgroundColor: colors.secondary }]}>
+              <BrandIcon name={index === 0 ? 'users' : index === 1 ? 'map' : index === 2 ? 'package' : 'compass'} size={16} color={colors.primary} />
+            </View>
+            <Text style={[styles.statValue, { color: colors.foreground }]}>{stat.value}</Text>
+            <Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text>
+          </View>
+        ))}
+      </View>
     </View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
@@ -426,10 +454,19 @@ const styles = StyleSheet.create({
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { width: 64, height: 22, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
-  statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
-  stat: { width: '50%', gap: 3 },
-  statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
-  statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
+  statsGrid: { borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  statsIntro: { minHeight: 102, padding: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  statsIntroCopy: { flex: 1, gap: 7 },
+  statsEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
+  statsIntroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 220 },
+  statsIntroIcon: { width: 44, height: 44, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  statsList: { flexDirection: 'row', flexWrap: 'wrap' },
+  stat: { width: '50%', minHeight: 96, padding: 13, gap: 6, justifyContent: 'center' },
+  statIcon: { width: 28, height: 28, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  statDividerRight: { borderRightWidth: 1 },
+  statDividerTop: { borderTopWidth: 1 },
+  statValue: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '800' },
+  statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   featured: { flexDirection: 'row', gap: 12, marginHorizontal: -20, paddingHorizontal: 20 },
   tasteGrid: { flexDirection: 'row', gap: 8 },
   tasteCard: { flex: 1, minHeight: 151, borderRadius: 17, borderWidth: 1, padding: 11, gap: 7, overflow: 'hidden' },
