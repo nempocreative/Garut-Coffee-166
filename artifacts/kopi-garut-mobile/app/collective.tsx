@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BrandIcon } from '@/components/BrandIcon';
 import { Header, Screen } from '@/components/AppUI';
-import { collectiveModules } from '@/data/hub';
+import { collectiveModules, collectiveRoadmap } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 export default function CollectiveScreen() {
@@ -59,6 +59,28 @@ export default function CollectiveScreen() {
         ))}
       </View>
 
+      <View style={styles.roadmapIntro}>
+        <Text style={[styles.sectionKicker, { color: colors.primary }]}>PERLUASAN EKOSISTEM</Text>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Yang bisa tumbuh berikutnya</Text>
+        <Text style={[styles.sectionText, { color: colors.mutedForeground }]}>
+          Ruang lanjutan untuk membuat data, layanan, dan peluang kopi Garut semakin terbuka.
+        </Text>
+      </View>
+
+      <View style={styles.roadmap}>
+        {collectiveRoadmap.map((item) => (
+          <View key={item.id} style={[styles.roadmapItem, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View style={[styles.roadmapIcon, { backgroundColor: colors.secondary }]}>
+              <BrandIcon name={item.icon} size={17} color={colors.primary} />
+            </View>
+            <View style={styles.roadmapCopy}>
+              <Text style={[styles.roadmapTitle, { color: colors.foreground }]}>{item.title}</Text>
+              <Text style={[styles.roadmapText, { color: colors.mutedForeground }]}>{item.description}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+
       <View style={[styles.closing, { backgroundColor: colors.secondary }]}>
         <BrandIcon name="users" size={22} color={colors.primary} />
         <View style={styles.closingCopy}>
@@ -91,6 +113,13 @@ const styles = StyleSheet.create({
   item: { flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
   itemDot: { width: 5, height: 5, borderRadius: 3, marginTop: 5 },
   itemText: { flex: 1, fontSize: 10, lineHeight: 14 },
+  roadmapIntro: { gap: 5, marginTop: 4 },
+  roadmap: { gap: 9 },
+  roadmapItem: { borderWidth: 1, borderRadius: 17, padding: 12, flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  roadmapIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  roadmapCopy: { flex: 1, gap: 3 },
+  roadmapTitle: { fontSize: 13, fontWeight: '700' },
+  roadmapText: { fontSize: 11, lineHeight: 17 },
   closing: { borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'flex-start', gap: 11 },
   closingCopy: { flex: 1, gap: 5 },
   closingTitle: { fontSize: 15, lineHeight: 20, fontWeight: '700' },

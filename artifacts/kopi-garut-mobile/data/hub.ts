@@ -202,3 +202,66 @@ export const collectiveModules: CollectiveModule[] = [
     items: ['Jumlah petani aktif', 'Produksi per kecamatan', 'Tren harga dan persebaran lahan', 'Data pelatihan dan kemitraan'],
   },
 ];
+
+export const collectiveRoadmap = [
+  {
+    id: 'season-calendar',
+    icon: 'calendar' as const,
+    title: 'Kalender musim kopi',
+    description: 'Musim berbunga, panen, pemupukan, dan perawatan untuk membantu petani dan pembeli membaca waktu terbaik.',
+  },
+  {
+    id: 'market-demand',
+    icon: 'trending-up' as const,
+    title: 'Permintaan pasar',
+    description: 'Cafe dan pembeli dapat memasang kebutuhan seperti 500 kg green bean Arabika Grade 1 untuk direspons kelompok tani.',
+  },
+  {
+    id: 'farm-equipment',
+    icon: 'settings' as const,
+    title: 'Alat & mesin pertanian',
+    description: 'Temukan lokasi, pemilik, dan status ketersediaan pulper, huller, dryer, dan roaster.',
+  },
+  {
+    id: 'government-support',
+    icon: 'shield' as const,
+    title: 'Program bantuan dinas',
+    description: 'Pendaftaran bantuan bibit, alat, pelatihan, dan pendampingan dalam satu menu.',
+  },
+  {
+    id: 'consultation',
+    icon: 'info' as const,
+    title: 'Pusat konsultasi',
+    description: 'Ruang bertanya tentang hama, penyakit, pemupukan, dan pascapanen kepada penyuluh atau tim pendamping.',
+  },
+  {
+    id: 'gallery',
+    icon: 'maximize' as const,
+    title: 'Galeri Kopi Garut',
+    description: 'Kumpulan foto dan video kebun, petani, panen, pengolahan, dan cafe mitra untuk memperkuat promosi.',
+  },
+  {
+    id: 'quality',
+    icon: 'check' as const,
+    title: 'Penilaian mutu',
+    description: 'Setiap lot dapat dilengkapi grade, moisture, defect, dan cupping score agar pembeli memilih dengan lebih yakin.',
+  },
+  {
+    id: 'jobs',
+    icon: 'briefcase' as const,
+    title: 'Lowongan & kemitraan',
+    description: 'Hubungkan talenta barista, roastery, cafe, dan UMKM kopi untuk membangun ekosistem yang lebih hidup.',
+  },
+  {
+    id: 'adopt-tree',
+    icon: 'heart' as const,
+    title: 'Adopsi pohon kopi',
+    description: 'Pengunjung dapat mengikuti perkembangan pohon, menerima laporan, dan memperoleh hasil panen atau produk.',
+  },
+  {
+    id: 'export',
+    icon: 'arrow-up-right' as const,
+    title: 'Ekspor kopi Garut',
+    description: 'Halaman bisnis untuk kopi siap ekspor, profil eksportir, standar mutu, dan kontak kerja sama.',
+  },
+];

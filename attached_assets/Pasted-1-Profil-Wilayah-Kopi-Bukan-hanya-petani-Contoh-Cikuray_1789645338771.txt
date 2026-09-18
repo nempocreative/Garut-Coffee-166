@@ -1,0 +1,168 @@
+1. Profil Wilayah Kopi
+
+Bukan hanya petani.
+
+Contoh:
+
+Cikuray
+Papandayan
+Kamojang
+Darajat
+Karacak
+
+Isi:
+
+Ketinggian
+Jenis tanah
+Curah hujan
+Karakter rasa kopi
+Jumlah petani
+Luas lahan
+
+Ini membuat Kopi Garut punya cerita (storytelling).
+
+2. Kalender Musim Kopi
+
+Menampilkan:
+
+Musim berbunga
+Musim panen
+Musim pemupukan
+Musim perawatan
+
+Berguna untuk petani dan pembeli.
+
+3. Permintaan Pasar
+
+Cafe atau pembeli bisa memasang kebutuhan:
+
+Contoh:
+
+Mencari 500 kg Green Bean Arabika Grade 1
+
+Petani atau kelompok tani bisa langsung merespons.
+
+4. Data Alat & Mesin Pertanian
+Mesin pulper
+Huller
+Dryer
+Roaster
+
+Informasi:
+
+Lokasi
+Pemilik
+Status tersedia
+
+Bisa membantu petani yang belum punya fasilitas sendiri.
+
+5. Program Bantuan Dinas
+
+Menu khusus:
+
+Bantuan bibit
+Bantuan alat
+Pelatihan
+Pendampingan
+
+Petani bisa mendaftar langsung.
+
+6. Pusat Konsultasi
+
+Petani dapat bertanya:
+
+Hama
+Penyakit
+Pemupukan
+Pascapanen
+
+Dijawab oleh penyuluh atau tim pendamping.
+
+7. Galeri Kopi Garut
+
+Foto dan video:
+
+Kebun kopi
+Petani
+Panen
+Proses pengolahan
+Cafe mitra
+
+Ini penting untuk promosi.
+
+8. Sistem Penilaian Mutu
+
+Setiap lot kopi memiliki:
+
+Grade
+Moisture
+Defect
+Cupping score
+
+Membantu pembeli memilih kualitas.
+
+9. Lowongan & Kemitraan
+
+Untuk:
+
+Barista
+Roastery
+Cafe
+UMKM kopi
+
+Membangun ekosistem yang lebih hidup.
+
+10. Statistik Kopi Garut
+
+Menampilkan:
+
+Jumlah petani
+Luas lahan
+Produksi tahunan
+Jumlah kelompok tani
+Jumlah cafe mitra
+Jumlah transaksi
+
+Berguna untuk dinas dan investor.
+
+11. Program Adopsi Pohon Kopi
+
+Pengunjung bisa:
+
+Mengadopsi pohon kopi
+Mendapat laporan perkembangan
+Mendapat hasil panen atau produk
+
+Menarik untuk wisatawan dan perusahaan.
+
+12. Ekspor Kopi Garut
+
+Halaman khusus:
+
+Data kopi siap ekspor
+Profil eksportir
+Standar mutu
+Kontak bisnis
+13. Kopi & Wisata
+
+Karena Nempo bergerak di wisata, buat menu:
+
+Coffee Experience
+Coffee Tour
+Coffee Camping
+Farm Visit
+Coffee Class
+Coffee Festival
+
+Ini bisa menjadi pembeda dibanding aplikasi pertanian lain.
+
+14. Cerita Petani (Paling Penting)
+
+Setiap petani punya halaman cerita:
+
+Perjalanan bertani
+Kondisi kebun
+Foto keluarga
+Video singkat
+
+Pembeli saat scan QR produk bisa melihat siapa yang menanam kopi tersebut.
