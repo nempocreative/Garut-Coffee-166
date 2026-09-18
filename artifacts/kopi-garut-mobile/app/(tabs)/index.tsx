@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
+import Svg, { Ellipse, Path } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
@@ -89,6 +90,57 @@ function CoffeeBeanAnimation() {
         style={styles.coffeeBeanImage}
       />
     </Animated.View>
+  );
+}
+
+function CoffeeCupAnimation() {
+  const colors = useColors();
+  const steam = useSharedValue(0);
+  const cup = useSharedValue(0);
+
+  useEffect(() => {
+    steam.value = withRepeat(
+      withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      false,
+    );
+    cup.value = withRepeat(
+      withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      true,
+    );
+  }, [cup, steam]);
+
+  const cupStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: interpolate(cup.value, [0, 1], [2, -2]) }],
+  }));
+  const leftSteamStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(steam.value, [0, 0.5, 1], [0.2, 0.8, 0.2]),
+    transform: [{ translateY: interpolate(steam.value, [0, 0.5, 1], [5, -5, 5]) }],
+  }));
+  const rightSteamStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(steam.value, [0, 0.5, 1], [0.75, 0.2, 0.75]),
+    transform: [{ translateY: interpolate(steam.value, [0, 0.5, 1], [-2, 5, -2]) }],
+  }));
+
+  return (
+    <View style={styles.coffeeCupAnimation}>
+      <Animated.View style={[styles.coffeeSteam, styles.coffeeSteamLeft, leftSteamStyle]}>
+        <View style={[styles.coffeeSteamLine, { backgroundColor: colors.primary }]} />
+      </Animated.View>
+      <Animated.View style={[styles.coffeeSteam, styles.coffeeSteamRight, rightSteamStyle]}>
+        <View style={[styles.coffeeSteamLine, styles.coffeeSteamLineRight, { backgroundColor: colors.primary }]} />
+      </Animated.View>
+      <Animated.View style={[styles.coffeeCupGraphic, cupStyle]}>
+        <Svg width={58} height={52} viewBox="0 0 28 25">
+          <Ellipse cx="12.5" cy="8.5" rx="7.5" ry="2.2" fill={colors.accent} stroke={colors.primary} strokeWidth="0.9" />
+          <Path d="M5 8.5h15v5.2A5.3 5.3 0 0 1 14.7 19h-4.4A5.3 5.3 0 0 1 5 13.7V8.5Z" fill={colors.card} stroke={colors.primary} strokeWidth="0.9" />
+          <Path d="M20 10.5h1.3a2.7 2.7 0 0 1 0 5.4H20" fill="none" stroke={colors.primary} strokeWidth="0.9" strokeLinecap="round" />
+          <Path d="M4 21h18" fill="none" stroke={colors.primary} strokeWidth="1" strokeLinecap="round" />
+          <Path d="M9.5 13.2h.01M15.2 13.2h.01M10.8 15.2c1.1.9 2.2.9 3.3 0" fill="none" stroke={colors.primary} strokeWidth="0.9" strokeLinecap="round" />
+        </Svg>
+      </Animated.View>
+    </View>
   );
 }
 
@@ -273,12 +325,9 @@ export default function HomeScreen() {
     <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={[styles.statsIntro, { backgroundColor: colors.primary }]}>
         <View style={styles.statsIntroCopy}>
-          <Text style={[styles.statsEyebrow, { color: colors.primaryForeground }]}>EKOSISTEM KOPI GARUT</Text>
           <Text style={[styles.statsIntroTitle, { color: colors.primaryForeground }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
         </View>
-        <View style={[styles.statsIntroIcon, { backgroundColor: colors.accent }]}>
-          <BrandIcon name="trending-up" size={22} color={colors.accentForeground} />
-        </View>
+        <CoffeeCupAnimation />
       </View>
       <View style={styles.statsList}>
         {hubStats.map((stat, index) => (
@@ -454,12 +503,18 @@ const styles = StyleSheet.create({
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { width: 64, height: 22, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
+  coffeeCupAnimation: { width: 58, height: 64, alignItems: 'center', justifyContent: 'flex-end', overflow: 'visible' },
+  coffeeSteam: { position: 'absolute', top: 1, width: 9, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
+  coffeeSteamLeft: { left: 14 },
+  coffeeSteamRight: { right: 14 },
+  coffeeSteamLine: { width: 2, height: 14, borderRadius: 2, transform: [{ rotate: '18deg' }] },
+  coffeeSteamLineRight: { transform: [{ rotate: '-18deg' }] },
+  coffeeCupGraphic: { width: 58, height: 52, alignItems: 'center', justifyContent: 'center' },
   statsGrid: { borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
   statsIntro: { minHeight: 78, padding: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
   statsIntroCopy: { flex: 1, gap: 4 },
   statsEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
   statsIntroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, lineHeight: 18, fontWeight: '700', maxWidth: 220 },
-  statsIntroIcon: { width: 36, height: 36, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   statsList: { flexDirection: 'row', flexWrap: 'wrap' },
   stat: { width: '50%', minHeight: 78, padding: 10, gap: 4, justifyContent: 'center' },
   statIcon: { width: 24, height: 24, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
