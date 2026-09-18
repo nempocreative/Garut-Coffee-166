@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -165,26 +165,32 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
-    <Pressable
-      testID="collective-story"
-      accessibilityRole="button"
-      accessibilityLabel="Buka cerita kolektif Kopi Garut"
-      onPress={() => router.push('/collective')}
-      style={({ pressed }) => [
-        styles.storyLead,
-        { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
-      ]}
-    >
-      <View style={[styles.storyLeadMark, { backgroundColor: colors.primary }]}>
-        <BrandIcon name="coffee" size={19} color={colors.primaryForeground} />
+    <Animated.View entering={FadeInDown.delay(180).duration(600)}>
+      <Pressable
+        testID="collective-story"
+        accessibilityRole="button"
+        accessibilityLabel="Buka cerita kolektif Kopi Garut"
+        onPress={() => router.push('/collective')}
+        style={({ pressed }) => [
+          styles.storyLead,
+          { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
+        ]}
+      >
+      <View style={styles.storyLeadTop}>
+        <Animated.View entering={ZoomIn.delay(330).duration(450)} style={[styles.storyLeadMark, { backgroundColor: colors.primary }]}>
+          <BrandIcon name="coffee" size={19} color={colors.primaryForeground} />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(430).duration(400)}>
+          <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
+        </Animated.View>
       </View>
       <View style={styles.storyLeadCopy}>
         <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
         <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
         <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
       </View>
-      <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
-    </Pressable>
+      </Pressable>
+    </Animated.View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionKicker, { color: colors.primary }]}>REKOMENDASI UNTUKMU</Text><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
@@ -334,9 +340,10 @@ const styles = StyleSheet.create({
   categoryItem: { width: 59, alignItems: 'center', gap: 8 },
   categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
-  storyLead: { minHeight: 108, borderRadius: 20, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
-  storyLeadMark: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' },
-  storyLeadCopy: { flex: 1, gap: 3 },
+  storyLead: { minHeight: 142, borderRadius: 20, borderWidth: 1, padding: 16, gap: 12 },
+  storyLeadTop: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  storyLeadMark: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  storyLeadCopy: { gap: 4 },
   storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
