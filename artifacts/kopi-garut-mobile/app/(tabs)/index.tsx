@@ -51,7 +51,13 @@ const categoryItems = [
   { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
   { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
+  { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
+  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
 ];
+
+const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 10) }, (_, pageIndex) =>
+  categoryItems.slice(pageIndex * 10, pageIndex * 10 + 10),
+);
 
 const quickStartItems = [
   { icon: 'coffee' as const, label: 'Belanja kopi', description: 'Temukan rasa dan produk pilihan', route: '/catalog' as const },
@@ -65,8 +71,12 @@ export default function HomeScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const bannerWidth = Math.max(260, width - 40);
+  const categoryPageWidth = Math.max(260, width - 40);
+  const categoryItemWidth = Math.max(52, Math.floor((categoryPageWidth - 32) / 5));
   const bannerRef = useRef<ScrollView>(null);
+  const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeCategoryPage, setActiveCategoryPage] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -79,6 +89,19 @@ export default function HomeScreen() {
 
     return () => clearInterval(interval);
   }, [bannerWidth]);
+
+  useEffect(() => {
+    if (categoryPages.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveCategoryPage((current) => {
+        const next = (current + 1) % categoryPages.length;
+        categoryRef.current?.scrollTo({ x: next * categoryPageWidth, animated: true });
+        return next;
+      });
+    }, 4800);
+
+    return () => clearInterval(interval);
+  }, [categoryPageWidth]);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" />
@@ -190,22 +213,48 @@ export default function HomeScreen() {
       </View>
       <View style={[styles.headingRule, { backgroundColor: colors.border }]} />
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryRail}>
-      {categoryItems.map((item) => (
-        <Pressable
-          key={item.label}
-          accessibilityRole="button"
-          accessibilityLabel={`Buka ${item.label}`}
-          onPress={() => router.push(item.route)}
-          style={({ pressed }) => [styles.categoryItem, { opacity: pressed ? 0.7 : 1 }]}
-        >
-          <View style={[styles.categoryIcon, { backgroundColor: colors.secondary }]}>
-            <BrandIcon name={item.icon} size={19} color={colors.primary} />
+    <View>
+      <ScrollView
+        ref={categoryRef}
+        horizontal
+        pagingEnabled
+        snapToInterval={categoryPageWidth}
+        decelerationRate="fast"
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={(event) => setActiveCategoryPage(Math.round(event.nativeEvent.contentOffset.x / categoryPageWidth))}
+        style={styles.categoryPager}
+      >
+        {categoryPages.map((page, pageIndex) => (
+          <View key={`category-page-${pageIndex}`} style={[styles.categoryPage, { width: categoryPageWidth }]}>
+            {[0, 1].map((rowIndex) => (
+              <View key={`category-row-${rowIndex}`} style={styles.categoryRow}>
+                {page.slice(rowIndex * 5, rowIndex * 5 + 5).map((item) => (
+                  <Pressable
+                    key={item.label}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Buka ${item.label}`}
+                    onPress={() => router.push(item.route)}
+                    style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
+                  >
+                    <View style={[styles.categoryIcon, { backgroundColor: colors.secondary }]}>
+                      <BrandIcon name={item.icon} size={19} color={colors.primary} />
+                    </View>
+                    <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            ))}
           </View>
-          <Text style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
-        </Pressable>
-      ))}
-    </ScrollView>
+        ))}
+      </ScrollView>
+      {categoryPages.length > 1 && (
+        <View style={styles.categoryPagination}>
+          {categoryPages.map((page, index) => (
+            <View key={`category-dot-${index}`} style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+          ))}
+        </View>
+      )}
+    </View>
     <Animated.View entering={FadeInDown.delay(180).duration(600)}>
       <Pressable
         testID="collective-story"
@@ -382,10 +431,14 @@ const styles = StyleSheet.create({
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 1.5 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 4, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
-  categoryRail: { gap: 18, paddingRight: 12, paddingTop: 2 },
-  categoryItem: { width: 59, alignItems: 'center', gap: 8 },
+  categoryPager: { marginHorizontal: -20 },
+  categoryPage: { paddingHorizontal: 20, gap: 16 },
+  categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  categoryItem: { alignItems: 'center', gap: 8 },
   categoryIcon: { width: 50, height: 50, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
+  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginTop: 14 },
+  categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   quickStartGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   quickStartCard: { width: '48.5%', minHeight: 126, borderRadius: 18, borderWidth: 1, padding: 12, gap: 6, position: 'relative' },
   quickStartIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
