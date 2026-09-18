@@ -14,8 +14,8 @@ const promoSlides = [
   {
     id: 'coffee-hub',
     kicker: 'PILIHAN HARI INI',
-    title: 'Kopi pilihan dari Garut, siap dikirim.',
-    description: 'Temukan seri single origin, proses, dan rasa favoritmu.',
+    title: 'Kopi pilihan Garut, siap dikirim.',
+    description: 'Temukan single origin favoritmu.',
     cta: 'Belanja sekarang',
     route: '/catalog' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
@@ -23,8 +23,8 @@ const promoSlides = [
   {
     id: 'traceability',
     kicker: 'JEJAK YANG TERBUKA',
-    title: 'Kenali siapa di balik setiap cangkir.',
-    description: 'Lihat petani, kebun, proses, dan cerita produknya.',
+    title: 'Kenali asal setiap cangkir.',
+    description: 'Lihat petani, kebun, dan prosesnya.',
     cta: 'Lihat petani',
     route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
@@ -32,8 +32,8 @@ const promoSlides = [
   {
     id: 'coffee-tour',
     kicker: 'KOPI & WISATA',
-    title: 'Datang, belajar, dan bawa pulang cerita.',
-    description: 'Temukan coffee tour, event, dan mitra di Garut.',
+    title: 'Datang dan bawa pulang cerita.',
+    description: 'Temukan wisata kopi di Garut.',
     cta: 'Lihat wisata',
     route: '/tourism' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
@@ -109,10 +109,6 @@ export default function HomeScreen() {
           <ImageBackground key={slide.id} source={slide.image} imageStyle={styles.heroImage} style={[styles.heroImageContainer, { width: bannerWidth }]}>
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.18, 1]} style={styles.heroShade} />
             <View style={styles.heroCopy}>
-              <View style={styles.heroMeta}>
-                <View style={[styles.promoDot, { backgroundColor: colors.primary }]} />
-                <Text style={[styles.promoPillText, { color: colors.background }]}>KOPI GARUT / {slide.kicker}</Text>
-              </View>
               <Text style={[styles.heroTitle, { color: colors.card }]}>{slide.title}</Text>
               <Text style={[styles.heroDescription, { color: colors.background }]}>{slide.description}</Text>
               <Pressable
@@ -349,18 +345,18 @@ const styles = StyleSheet.create({
   searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  heroSection: { height: 250, borderRadius: 27, overflow: 'hidden', marginTop: -3 },
+  heroSection: { height: 205, borderRadius: 27, overflow: 'hidden', marginTop: -3 },
   heroImageContainer: { flex: 1, justifyContent: 'flex-end' },
   heroImage: { borderRadius: 27 },
   heroShade: { ...StyleSheet.absoluteFill, opacity: 0.9 },
-  heroCopy: { paddingHorizontal: 20, paddingBottom: 21, gap: 8 },
+  heroCopy: { paddingHorizontal: 18, paddingBottom: 16, gap: 6 },
   heroMeta: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 2 },
   promoDot: { width: 5, height: 5, borderRadius: 3 },
   promoPillText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
-  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, lineHeight: 31, fontWeight: '700', letterSpacing: -0.7, maxWidth: 310 },
-  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 17, opacity: 0.9, maxWidth: 290 },
-  heroButton: { height: 38, borderRadius: 12, paddingHorizontal: 13, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
-  heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 27, fontWeight: '700', letterSpacing: -0.6, maxWidth: 300 },
+  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 270 },
+  heroButton: { height: 34, borderRadius: 11, paddingHorizontal: 12, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 1 },
+  heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
   pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 0, paddingHorizontal: 5, paddingVertical: 3, borderRadius: 20, opacity: 0.92, zIndex: 2, elevation: 2 },
   paginationTrack: { width: 20, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   paginationDot: { height: 6, borderRadius: 3 },
