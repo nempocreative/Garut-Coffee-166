@@ -23,7 +23,7 @@ export function Header({ title, subtitle, cart = true, back = false }: { title: 
   const { cart: items } = useStore();
   return <View style={styles.header}>
     <View style={styles.headerTop}>
-      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><Text style={[styles.wordmarkText, { color: colors.foreground }]}>KOPI GARUT</Text><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>ROASTERY · WEST JAVA</Text></View></View>}
+      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><Feather name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/icon.png')} style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>SPECIALTY COFFEE · GARUT</Text></View></View>}
       {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Open cart" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><Feather name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
     </View>
     <View style={styles.headerBottom}>
@@ -65,18 +65,19 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 24, minHeight: '100%' },
   header: { gap: 15, marginBottom: 2 },
-  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 44 },
-  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 9 },
-  logo: { width: 32, height: 32, borderRadius: 11, borderWidth: 1 },
-  wordmarkText: { fontSize: 11, fontWeight: '800', letterSpacing: 1.8 },
-  brandMeta: { fontSize: 8, fontWeight: '600', letterSpacing: 1.1, marginTop: 3 },
+  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 50 },
+  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 11 },
+  logo: { width: 44, height: 44, borderRadius: 15, borderWidth: 1 },
+  brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
+  brandName: { fontSize: 19, lineHeight: 22, fontWeight: '800', letterSpacing: -0.6 },
+  brandMeta: { fontSize: 8, fontWeight: '700', letterSpacing: 1.05, marginTop: 4 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 },
   headerCopy: { flex: 1, gap: 3 },
   eyebrow: { fontSize: 10, fontWeight: '800', letterSpacing: 1.6, textTransform: 'uppercase' },
   headerTitle: { fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  cartButton: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  headerActionSpacer: { width: 44, height: 44 },
+  cartButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  headerActionSpacer: { width: 46, height: 46 },
   originPill: { height: 30, borderRadius: 15, borderWidth: 1, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 2 },
   originPillText: { fontSize: 9, fontWeight: '800', letterSpacing: 1.1 },
   count: { position: 'absolute', top: -2, right: -2, minWidth: 17, height: 17, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
