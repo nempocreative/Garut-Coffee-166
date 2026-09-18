@@ -206,14 +206,14 @@ export default function HomeScreen() {
         </View>
       )}
     </View>
-    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
-      <ExpoImage
-        source={require('../../assets/images/garut-mountains.png')}
-        contentFit="contain"
-        style={[styles.mountainAccent, { tintColor: colors.foreground }]}
-      />
-    </Animated.View>
-    <Animated.View entering={FadeInDown.delay(180).duration(600)}>
+    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
+      <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyMountainAccent}>
+        <ExpoImage
+          source={require('../../assets/images/garut-mountains.png')}
+          contentFit="contain"
+          style={[styles.mountainAccent, { tintColor: colors.foreground }]}
+        />
+      </Animated.View>
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
@@ -460,6 +460,7 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  storyMountainAccent: { height: 82, marginHorizontal: -20, marginTop: -36, marginBottom: -20, justifyContent: 'flex-end', overflow: 'hidden', position: 'relative' },
-  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -8, width: '100%', height: 96, opacity: 0.24 },
+  storyLeadWrap: { position: 'relative', marginTop: 42, zIndex: 1 },
+  storyMountainAccent: { position: 'absolute', top: -48, left: 0, right: 0, height: 154, justifyContent: 'flex-end', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' },
+  mountainAccent: { position: 'absolute', left: 0, right: 0, bottom: -12, width: '100%', height: 164, opacity: 0.2 },
 });
