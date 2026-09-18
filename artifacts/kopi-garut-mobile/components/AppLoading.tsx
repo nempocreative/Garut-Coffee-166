@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
-import { BrandIcon } from '@/components/BrandIcon';
 
 export function AppLoading() {
   const logoScale = useSharedValue(1);
@@ -44,7 +43,10 @@ export function AppLoading() {
 
   const logoStyle = useAnimatedStyle(() => ({ transform: [{ scale: logoScale.value }] }));
   const ringStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${ringRotation.value}deg` }] }));
-  const glowStyle = useAnimatedStyle(() => ({ opacity: glowOpacity.value }));
+  const glowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+    transform: [{ scale: 0.92 + glowOpacity.value * 0.13 }],
+  }));
 
   return (
     <View style={styles.root}>
@@ -57,8 +59,6 @@ export function AppLoading() {
             <View style={styles.ringAccent} />
           </Animated.View>
           <Animated.View style={[styles.logoFrame, logoStyle]}>
-            <Text style={styles.logoLetter}>G</Text>
-            <BrandIcon name="coffee" size={34} color="#A8543B" />
             <Image
               source={require('../assets/images/kopi-garut-logo.png')}
               contentFit="contain"
@@ -91,9 +91,8 @@ const styles = StyleSheet.create({
   glow: { position: 'absolute', width: 132, height: 132, borderRadius: 66, backgroundColor: '#D3A15F' },
   ring: { position: 'absolute', width: 156, height: 156, borderRadius: 78, borderWidth: 1, borderColor: 'rgba(168, 84, 59, 0.28)', borderStyle: 'dashed', alignItems: 'flex-start', justifyContent: 'center' },
   ringAccent: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#A8543B', marginLeft: -4 },
-  logoFrame: { width: 82, height: 82, borderRadius: 28, backgroundColor: '#FFF9F1', alignItems: 'center', justifyContent: 'center', shadowColor: '#2A201D', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.12, shadowRadius: 20, elevation: 5 },
-  logoLetter: { position: 'absolute', color: '#A8543B', fontFamily: 'Manrope_700Bold', fontSize: 42, fontWeight: '800', opacity: 0.14 },
-  logo: { width: 68, height: 68, borderRadius: 22, position: 'absolute' },
+  logoFrame: { width: 108, height: 108, alignItems: 'center', justifyContent: 'center' },
+  logo: { width: 108, height: 108, borderRadius: 54 },
   copy: { alignItems: 'center', gap: 8, marginTop: 22 },
   brand: { color: '#2A201D', fontFamily: 'Manrope_700Bold', fontSize: 25, fontWeight: '800', letterSpacing: -0.7 },
   brandAccent: { color: '#A8543B' },
