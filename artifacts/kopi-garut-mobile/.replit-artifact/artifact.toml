@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/"
+title = "Kopi Garut"
+description = "Aplikasi mobile untuk brand kopi Garut yang membantu profesional menemukan kopi pilihan, memahami cerita origin, menyimpan favorit, dan membuat pesanan dengan cepat."
+version = "1.0.0"
+id = "artifacts/kopi-garut-mobile"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/" ]
+localPort = 26016
+
+[services.development]
+run = "pnpm --filter @workspace/kopi-garut-mobile run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kopi-garut-mobile", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/kopi-garut-mobile", "run", "serve" ]
+
+[services.env]
+PORT = "26016"
+BASE_PATH = "/"
