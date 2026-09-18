@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -62,6 +62,55 @@ const categoryItems = [
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
+
+function CoffeeBeanAnimation({ beanColor, creaseColor }: { beanColor: string; creaseColor: string }) {
+  const beanOne = useSharedValue(0);
+  const beanTwo = useSharedValue(0);
+  const beanThree = useSharedValue(0);
+
+  useEffect(() => {
+    const float = (delay: number) =>
+      withDelay(
+        delay,
+        withRepeat(
+          withSequence(
+            withTiming(-5, { duration: 900, easing: Easing.inOut(Easing.ease) }),
+            withTiming(0, { duration: 900, easing: Easing.inOut(Easing.ease) }),
+          ),
+          -1,
+          false,
+        ),
+      );
+
+    beanOne.value = float(0);
+    beanTwo.value = float(220);
+    beanThree.value = float(440);
+  }, [beanOne, beanTwo, beanThree]);
+
+  const beanOneStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: beanOne.value }, { rotate: '-18deg' }],
+  }));
+  const beanTwoStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: beanTwo.value }, { rotate: '10deg' }],
+  }));
+  const beanThreeStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: beanThree.value }, { rotate: '-8deg' }],
+  }));
+
+  return (
+    <View style={styles.coffeeBeanAnimation}>
+      <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanOneStyle]}>
+        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+      </Animated.View>
+      <Animated.View style={[styles.coffeeBean, styles.coffeeBeanMiddle, { backgroundColor: beanColor }, beanTwoStyle]}>
+        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+      </Animated.View>
+      <Animated.View style={[styles.coffeeBean, { backgroundColor: beanColor }, beanThreeStyle]}>
+        <View style={[styles.coffeeBeanCrease, { backgroundColor: creaseColor }]} />
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function HomeScreen() {
   const colors = useColors();
@@ -226,21 +275,10 @@ export default function HomeScreen() {
       >
       <View style={styles.storyLeadBody}>
         <View style={styles.storyLeadCopy}>
-          <Text style={[styles.storyLeadKicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text>
           <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
           <Text style={[styles.storyLeadText, { color: colors.mutedForeground }]}>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</Text>
+          <CoffeeBeanAnimation beanColor={colors.primary} creaseColor={colors.secondary} />
         </View>
-        <Animated.View entering={FadeInDown.delay(330).duration(500)} style={[styles.storyLeadArt, { backgroundColor: colors.accent }]}>
-          <View style={[styles.storyLeadSun, { backgroundColor: colors.card }]} />
-          <View style={[styles.storyLeadMountainBack, { borderBottomColor: colors.secondary }]} />
-          <View style={[styles.storyLeadMountainFront, { borderBottomColor: colors.primary }]} />
-          <View style={[styles.storyLeadMountainPeak, { borderBottomColor: colors.card }]} />
-          <View style={[styles.storyLeadGround, { backgroundColor: colors.foreground }]} />
-          <View style={[styles.storyLeadBean, { backgroundColor: colors.card }]}>
-            <View style={[styles.storyLeadBeanLine, { backgroundColor: colors.primary }]} />
-          </View>
-          <View style={[styles.storyLeadBeanSmall, { backgroundColor: colors.primary }]} />
-        </Animated.View>
       </View>
       </Pressable>
     </Animated.View>
@@ -395,19 +433,14 @@ const styles = StyleSheet.create({
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden', zIndex: 1 },
   storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
-  storyLeadCopy: { flex: 1, justifyContent: 'center', gap: 4, paddingVertical: 4 },
-  storyLeadArt: { width: 108, minHeight: 130, borderRadius: 16, overflow: 'hidden', position: 'relative' },
-  storyLeadSun: { position: 'absolute', top: 15, right: 14, width: 20, height: 20, borderRadius: 10, opacity: 0.82 },
-  storyLeadMountainBack: { position: 'absolute', right: -27, bottom: 22, width: 0, height: 0, borderLeftWidth: 68, borderRightWidth: 68, borderBottomWidth: 86, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
-  storyLeadMountainFront: { position: 'absolute', left: -42, bottom: 15, width: 0, height: 0, borderLeftWidth: 67, borderRightWidth: 67, borderBottomWidth: 76, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
-  storyLeadMountainPeak: { position: 'absolute', left: 19, bottom: 69, width: 0, height: 0, borderLeftWidth: 18, borderRightWidth: 18, borderBottomWidth: 25, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
-  storyLeadGround: { position: 'absolute', left: -8, right: -8, bottom: -15, height: 45, borderRadius: 30 },
-  storyLeadBean: { position: 'absolute', right: 17, bottom: 12, width: 27, height: 40, borderRadius: 22, transform: [{ rotate: '28deg' }] },
-  storyLeadBeanLine: { position: 'absolute', left: 12, top: 4, width: 3, height: 31, borderRadius: 3, transform: [{ rotate: '-16deg' }] },
-  storyLeadBeanSmall: { position: 'absolute', right: 52, bottom: 11, width: 14, height: 22, borderRadius: 12, transform: [{ rotate: '-24deg' }] },
-  storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35 },
-  storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
-  storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1 },
+  storyLeadCopy: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 4, paddingVertical: 4 },
+  storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35, textAlign: 'center' },
+  storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
+  storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, marginTop: 1, textAlign: 'center' },
+  coffeeBeanAnimation: { height: 36, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, marginTop: 7 },
+  coffeeBean: { width: 18, height: 27, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  coffeeBeanMiddle: { marginTop: 6 },
+  coffeeBeanCrease: { width: 3, height: 19, borderRadius: 3, opacity: 0.78, transform: [{ rotate: '18deg' }] },
   statsGrid: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', flexWrap: 'wrap', rowGap: 18 },
   stat: { width: '50%', gap: 3 },
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, fontWeight: '800' },
