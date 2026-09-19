@@ -42,22 +42,22 @@ const promoSlides = [
 ];
 
 const categoryItems = [
-  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const },
-  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
-  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
-  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
-  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const },
-  { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
-  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
-  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
-  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
-  { icon: 'shield' as const, label: 'Program', route: '/program' as const },
-  { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
-  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
-  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const },
-  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
-  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const },
-  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const },
+  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const, image: require('../../assets/images/coffee-bean-menu-ai.png') },
+  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const, image: require('../../assets/images/farmer-menu-ai.png') },
+  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const, image: require('../../assets/images/region-menu-ai.png') },
+  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const, image: require('../../assets/images/tourism-menu-ai-clean.png') },
+  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const, image: require('../../assets/images/price-menu-ai.png') },
+  { icon: 'calendar' as const, label: 'Event', route: '/events' as const, image: require('../../assets/images/event-menu-ai.png') },
+  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const, image: require('../../assets/images/partnership-menu-ai.png') },
+  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const, image: require('../../assets/images/data-menu-ai.png') },
+  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const, image: require('../../assets/images/collective-menu-ai.png') },
+  { icon: 'shield' as const, label: 'Program', route: '/program' as const, image: require('../../assets/images/program-menu-ai.png') },
+  { icon: 'check' as const, label: 'Standar', route: '/standards' as const, image: require('../../assets/images/standards-menu-ai.png') },
+  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const, image: require('../../assets/images/documents-menu-ai.png') },
+  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const, image: require('../../assets/images/traceability-menu-ai.png') },
+  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const, image: require('../../assets/images/complaints-menu-ai.png') },
+  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const, image: require('../../assets/images/verification-menu-ai.png') },
+  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const, image: require('../../assets/images/reports-menu-ai.png') },
 ];
 
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
@@ -279,7 +279,7 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
   );
 }
 
-function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
+function HomeMenuIcon({ image, index }: { image: number; index: number }) {
   const colors = useColors();
   const palettes = [
     {
@@ -310,23 +310,7 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         style={[styles.menuIconSurface, { borderColor: colors.primary }]}
       />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
-        {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
-          <ExpoImage
-            source={
-              name === 'coffee'
-                ? require('../../assets/images/coffee-bean-menu-ai.png')
-                : name === 'users'
-                  ? require('../../assets/images/farmer-menu-ai.png')
-                  : name === 'map'
-                    ? require('../../assets/images/region-menu.png')
-                    : require('../../assets/images/traceability-menu-ai.png')
-            }
-            contentFit="contain"
-            style={styles.menuIllustrationImage}
-          />
-        ) : (
-          <ThreeDMenuGlyph name={name} colors={palette.glyph} />
-        )}
+        <ExpoImage source={image} contentFit="contain" style={styles.menuIllustrationImage} />
       </View>
     </View>
   );
@@ -444,7 +428,7 @@ export default function HomeScreen() {
                     onPress={() => router.push(item.route)}
                     style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
                   >
-                    <HomeMenuIcon name={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
+                    <HomeMenuIcon image={item.image} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
                     <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
                   </Pressable>
                 ))}
