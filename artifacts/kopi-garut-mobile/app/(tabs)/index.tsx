@@ -314,7 +314,7 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
             <ExpoImage
               source={
                 name === 'coffee'
-                  ? require('../../assets/images/coffee-bean-menu.png')
+                  ? require('../../assets/images/coffee-bean-menu-original.png')
                   : name === 'users'
                     ? require('../../assets/images/farmer-menu.png')
                     : name === 'map'
