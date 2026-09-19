@@ -706,37 +706,57 @@ export default function HomeScreen() {
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
     <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text></View>
+      <View style={styles.headingCopy}>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text>
+        <Text style={[styles.sectionHint, { color: colors.mutedForeground }]}>Satu ekosistem, banyak langkah nyata.</Text>
+      </View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
     </View>
-    <View style={[styles.statsGrid, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <View style={[styles.statsIntro, { backgroundColor: colors.primary }]}>
-        <View style={styles.statsIntroCopy}>
-          <Text style={[styles.statsIntroTitle, { color: colors.primaryForeground }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
-        </View>
-        <RoadTrafficAnimation />
-      </View>
-      <View style={styles.statsList}>
-        {hubStats.map((stat, index) => (
-          <View
-            key={stat.label}
-            style={[
-              styles.stat,
-              index % 2 === 0 && styles.statDividerRight,
-              index > 1 && styles.statDividerTop,
-              index % 2 === 0 && { borderRightColor: colors.border },
-              index > 1 && { borderTopColor: colors.border },
-            ]}
-          >
-            <View style={[styles.statIcon, { backgroundColor: colors.secondary }]}>
-              <BrandIcon name={index === 0 ? 'users' : index === 1 ? 'map' : index === 2 ? 'package' : 'compass'} size={16} color={colors.primary} />
-            </View>
-            <Text style={[styles.statValue, { color: colors.foreground }]}>{stat.value}</Text>
-            <Text style={[styles.statLabel, { color: colors.mutedForeground }]}>{stat.label}</Text>
+    <Pressable
+      testID="home-growth-stats"
+      accessibilityRole="button"
+      accessibilityLabel="Buka data pertumbuhan Kopi Garut"
+      onPress={() => router.push('/dashboard')}
+      style={({ pressed }) => [
+        styles.statsGrid,
+        { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.9 : 1 },
+      ]}
+    >
+      <LinearGradient
+        colors={[colors.foreground, colors.primary]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.statsRoadPanel}
+      >
+        <View style={[styles.statsRoadGlow, { backgroundColor: colors.accent }]} />
+        <View style={[styles.statsRoadGlowSmall, { backgroundColor: colors.primaryForeground }]} />
+        <View style={styles.statsRoadHeader}>
+          <View style={styles.statsRoadEyebrowRow}>
+            <View style={[styles.statsRoadMarker, { backgroundColor: colors.accent }]} />
+            <Text style={[styles.statsRoadEyebrow, { color: colors.primaryForeground }]}>RUTE KOPI GARUT</Text>
           </View>
-        ))}
-      </View>
-    </View>
+          <Text style={[styles.statsRoadTitle, { color: colors.card }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
+        </View>
+        <View style={styles.statsRoute}>
+          <View style={[styles.statsRouteLine, { backgroundColor: colors.primaryForeground }]} />
+          <View style={styles.statsStops}>
+            {hubStats.map((stat, index) => (
+              <View key={stat.label} style={styles.statsStop}>
+                <View style={[styles.statsSign, { backgroundColor: index === 0 ? colors.accent : colors.card, borderColor: colors.primaryForeground }]}>
+                  <Text style={[styles.statsSignValue, { color: index === 0 ? colors.foreground : colors.primary }]}>{stat.value}</Text>
+                </View>
+                <View style={[styles.statsSignPole, { backgroundColor: colors.primaryForeground }]} />
+                <Text style={[styles.statsStopLabel, { color: colors.background }]}>{stat.label}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+        <View style={styles.statsRoadFooter}>
+          <Text style={[styles.statsRoadFooterText, { color: colors.primaryForeground }]}>DARI KEBUN <Text style={{ color: colors.accent }}>→</Text> KE CANGKIR</Text>
+          <BrandIcon name="arrow-up-right" size={14} color={colors.primaryForeground} />
+        </View>
+      </LinearGradient>
+    </Pressable>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Jelajahi</Link>
@@ -867,6 +887,7 @@ const styles = StyleSheet.create({
   headingRule: { width: 42, height: 1, marginBottom: 7 },
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 0, letterSpacing: -0.3 },
+  sectionHint: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, marginTop: 2 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
   categoryPager: { marginHorizontal: -20 },
   categoryPage: { paddingHorizontal: 20, gap: 16 },
@@ -912,6 +933,24 @@ const styles = StyleSheet.create({
   trafficVan: { width: 30, height: 12, bottom: 6 },
   trafficWindow: { width: 8, height: 4, borderRadius: 2, opacity: 0.8 },
   roadShoulder: { width: 36, height: 3, borderRadius: 2, opacity: 0.7 },
+  statsRoadPanel: { minHeight: 208, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
+  statsRoadGlow: { position: 'absolute', width: 142, height: 142, borderRadius: 71, top: -72, right: -40, opacity: 0.1 },
+  statsRoadGlowSmall: { position: 'absolute', width: 68, height: 68, borderRadius: 34, bottom: -32, left: -22, opacity: 0.08 },
+  statsRoadHeader: { gap: 5 },
+  statsRoadEyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  statsRoadMarker: { width: 7, height: 7, borderRadius: 4 },
+  statsRoadEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.45 },
+  statsRoadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 270 },
+  statsRoute: { position: 'relative', marginTop: 13 },
+  statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 21, height: 2, opacity: 0.55 },
+  statsStops: { flexDirection: 'row', alignItems: 'flex-start' },
+  statsStop: { flex: 1, alignItems: 'center', gap: 3 },
+  statsSign: { minWidth: 57, height: 42, borderRadius: 11, borderWidth: 1, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
+  statsSignValue: { fontFamily: 'Manrope_700Bold', fontSize: 11, lineHeight: 14, fontWeight: '800', textAlign: 'center' },
+  statsSignPole: { width: 2, height: 7, opacity: 0.75 },
+  statsStopLabel: { fontFamily: 'Manrope_400Regular', fontSize: 8, lineHeight: 11, textAlign: 'center', maxWidth: 76 },
+  statsRoadFooter: { marginTop: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  statsRoadFooterText: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 1.25 },
   voucherCarousel: { gap: 8 },
   voucherSlide: { flexDirection: 'row', gap: 8 },
   voucherCard: { flex: 1, minHeight: 104, borderRadius: 17, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative', shadowOpacity: 0.16, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
