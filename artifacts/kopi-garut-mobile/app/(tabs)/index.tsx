@@ -601,7 +601,11 @@ export default function HomeScreen() {
             onPress={() => router.push('/catalog')}
             style={({ pressed }) => [
               styles.voucherCard,
-              { opacity: pressed ? 0.84 : 1 },
+              {
+                borderColor: colors.primaryForeground,
+                shadowColor: colors.foreground,
+                opacity: pressed ? 0.84 : 1,
+              },
             ]}
           >
             <LinearGradient
@@ -610,8 +614,9 @@ export default function HomeScreen() {
               end={{ x: 1, y: 0.9 }}
               style={StyleSheet.absoluteFill}
             />
-            <View style={[styles.voucherCutout, styles.voucherCutoutTop, { backgroundColor: colors.background }]} />
-            <View style={[styles.voucherCutout, styles.voucherCutoutBottom, { backgroundColor: colors.background }]} />
+            <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.voucherInnerBorder, { borderColor: colors.primaryForeground }]} />
+            <View pointerEvents="none" style={[styles.voucherCutout, styles.voucherCutoutLeft, { backgroundColor: colors.background }]} />
+            <View pointerEvents="none" style={[styles.voucherCutout, styles.voucherCutoutRight, { backgroundColor: colors.background }]} />
             <View style={styles.voucherCardTop}>
               <View style={styles.voucherEyebrowRow}>
                 <BrandIcon name="shopping-bag" size={12} color={colors.primaryForeground} />
@@ -858,10 +863,11 @@ const styles = StyleSheet.create({
   coffeeBeanImage: { width: '100%', height: '100%' },
   voucherCarousel: { gap: 8 },
   voucherSlide: { flexDirection: 'row', gap: 8 },
-  voucherCard: { flex: 1, minHeight: 104, borderRadius: 17, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative' },
-  voucherCutout: { position: 'absolute', width: 19, height: 19, borderRadius: 10, left: -10 },
-  voucherCutoutTop: { top: -1 },
-  voucherCutoutBottom: { bottom: -1 },
+  voucherCard: { flex: 1, minHeight: 104, borderRadius: 17, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative', shadowOpacity: 0.16, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
+  voucherInnerBorder: { margin: 4, borderWidth: 1, borderRadius: 13, opacity: 0.28 },
+  voucherCutout: { position: 'absolute', top: '50%', width: 19, height: 19, borderRadius: 10, marginTop: -10 },
+  voucherCutoutLeft: { left: -10 },
+  voucherCutoutRight: { right: -10 },
   voucherCardTop: { flex: 1, gap: 1, paddingRight: 3 },
   voucherEyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 1 },
   voucherEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 1.35 },
