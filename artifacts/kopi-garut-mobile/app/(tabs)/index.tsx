@@ -16,31 +16,55 @@ const promoSlides = [
     id: 'garut-promo',
     route: '/catalog' as const,
     image: require('../../assets/images/kopi-garut-promo-banner.jpg'),
+    eyebrow: 'KOPI GARUT',
+    title: 'Panen rasa dari Garut',
+    description: 'Temukan kopi spesialti dari lereng pilihan.',
+    cta: 'Lihat koleksi',
   },
   {
     id: 'traceability',
     route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
+    eyebrow: 'ASAL YANG TERJAGA',
+    title: 'Kenali kebun pilihan',
+    description: 'Ikuti cerita kopi dari kebun sampai cangkir.',
+    cta: 'Jelajahi asal',
   },
   {
     id: 'coffee-tour',
     route: '/tourism' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
+    eyebrow: 'PENGALAMAN KOPI',
+    title: 'Seduh sambil menjelajah',
+    description: 'Nikmati perjalanan rasa di dataran tinggi Garut.',
+    cta: 'Lihat wisata',
   },
   {
     id: 'coffee-regions',
     route: '/regions' as const,
-    image: require('../../assets/images/origin-coffee.jpg'),
+    image: require('../../assets/images/event-festival-garut.jpg'),
+    eyebrow: 'WILAYAH KOPI',
+    title: 'Dari lereng ke cangkir',
+    description: 'Temukan karakter unik dari setiap wilayah.',
+    cta: 'Buka wilayah',
   },
   {
     id: 'coffee-collective',
     route: '/collective' as const,
-    image: require('../../assets/images/hero-coffee.jpg'),
+    image: require('../../assets/images/farmer-asep-rahmat.jpg'),
+    eyebrow: 'TUMBUH BERSAMA',
+    title: 'Kopi Garut untuk banyak orang',
+    description: 'Satu ekosistem untuk petani dan penikmat kopi.',
+    cta: 'Kenali kolektif',
   },
   {
     id: 'coffee-partnership',
     route: '/partnership' as const,
-    image: require('../../assets/images/origin-coffee.jpg'),
+    image: require('../../assets/images/farmer-iis-nurhayati.jpg'),
+    eyebrow: 'JADI MITRA',
+    title: 'Bangun rantai kopi bersama',
+    description: 'Temukan peluang kolaborasi dengan ekosistem Garut.',
+    cta: 'Lihat kemitraan',
   },
 ];
 
@@ -486,7 +510,9 @@ export default function HomeScreen() {
   const storyCardHeight = Math.round(storyCardWidth * 1.42);
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
-  const promoHeight = Math.round(Math.min(330, Math.max(250, (width - 40) * 0.9)));
+  // Keep the carousel closer to the source images' square crop so people, cups,
+  // and product packs stay visible instead of being cut off on narrow screens.
+  const promoHeight = Math.round(Math.min(208, Math.max(174, (width - 40) * 0.64)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeVoucherSlide, setActiveVoucherSlide] = useState(0);
@@ -561,7 +587,26 @@ export default function HomeScreen() {
             onPress={() => router.push(currentSlide.route)}
             style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.86 : 1 })}
           >
-            <ExpoImage source={currentSlide.image} contentFit="cover" style={styles.promoImage} />
+            <ExpoImage
+              source={currentSlide.image}
+              contentFit="cover"
+              contentPosition="center"
+              transition={220}
+              style={styles.promoImage}
+            />
+            <LinearGradient
+              colors={[`${colors.foreground}E6`, `${colors.foreground}52`, `${colors.foreground}12`]}
+              locations={[0, 0.58, 1]}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.promoShade}
+            />
+            <View style={styles.promoCopy}>
+              <Text style={[styles.promoEyebrow, { color: colors.accent }]}>{currentSlide.eyebrow}</Text>
+              <Text numberOfLines={2} style={[styles.promoTitle, { color: colors.card }]}>{currentSlide.title}</Text>
+              <Text numberOfLines={1} style={[styles.promoDescription, { color: colors.card }]}>{currentSlide.description}</Text>
+              <Text style={[styles.promoCta, { color: colors.card }]}>{currentSlide.cta} <Text style={{ color: colors.accent }}>›</Text></Text>
+            </View>
           </Pressable>
         </View>
         <View style={styles.promoDots}>
@@ -1038,6 +1083,12 @@ const styles = StyleSheet.create({
   promoGallery: { position: 'relative', overflow: 'hidden' },
   promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
   promoImage: { ...StyleSheet.absoluteFill },
+  promoShade: { ...StyleSheet.absoluteFill },
+  promoCopy: { ...StyleSheet.absoluteFill, justifyContent: 'flex-end', alignItems: 'flex-start', padding: 18, paddingBottom: 28, gap: 4 },
+  promoEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.35 },
+  promoTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '800', letterSpacing: -0.35, maxWidth: 265 },
+  promoDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 250 },
+  promoCta: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800', marginTop: 3 },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
   promoDot: { height: 5, borderRadius: 3 },
@@ -1091,22 +1142,22 @@ const styles = StyleSheet.create({
   trafficVan: { width: 30, height: 12, bottom: 6 },
   trafficWindow: { width: 8, height: 4, borderRadius: 2, opacity: 0.8 },
   roadShoulder: { width: 36, height: 3, borderRadius: 2, opacity: 0.7 },
-  statsRoadPanel: { minHeight: 224, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
+  statsRoadPanel: { minHeight: 240, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
   statsRoadGlow: { position: 'absolute', width: 142, height: 142, borderRadius: 71, top: -72, right: -40, opacity: 0.1 },
   statsRoadGlowSmall: { position: 'absolute', width: 68, height: 68, borderRadius: 34, bottom: -32, left: -22, opacity: 0.08 },
   statsRoadDecor: { position: 'absolute', top: 11, right: 12, width: 72, height: 72, borderRadius: 36, borderWidth: 1, alignItems: 'center', justifyContent: 'center', opacity: 0.92 },
   statsRoadDecorCircle: { width: 58, height: 58, borderRadius: 29, alignItems: 'center', justifyContent: 'center' },
   statsRoadHeader: { gap: 5 },
   statsRoadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 238 },
-  statsRoute: { position: 'relative', marginTop: 18, paddingTop: 10 },
-  statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 31, height: 2, opacity: 0.55 },
+  statsRoute: { position: 'relative', marginTop: 22, paddingTop: 28 },
+  statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 49, height: 2, opacity: 0.55 },
   statsStops: { flexDirection: 'row', alignItems: 'flex-start' },
   statsStop: { flex: 1, alignItems: 'center', gap: 3 },
   statsSign: { minWidth: 57, height: 42, borderRadius: 11, borderWidth: 1, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   statsSignValue: { fontFamily: 'Manrope_700Bold', fontSize: 11, lineHeight: 14, fontWeight: '800', textAlign: 'center' },
   statsSignPole: { width: 2, height: 7, opacity: 0.75 },
   statsStopLabel: { fontFamily: 'Manrope_400Regular', fontSize: 8, lineHeight: 11, textAlign: 'center', maxWidth: 76 },
-  statsRoadFooter: { marginTop: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  statsRoadFooter: { marginTop: 18, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   statsRoadFooterText: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 1.25 },
   voucherCarousel: { height: 124, gap: 8 },
   voucherSlide: { height: 104, flexDirection: 'row', gap: 8 },
