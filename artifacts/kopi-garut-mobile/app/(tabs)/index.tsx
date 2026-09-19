@@ -310,11 +310,17 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         style={styles.menuIconSurface}
       >
         <View style={styles.menuIconVisual}>
-          {name === 'coffee' ? (
+          {name === 'coffee' || name === 'users' || name === 'maximize' ? (
             <ExpoImage
-              source={require('../../assets/images/coffee-bean-menu.png')}
+              source={
+                name === 'coffee'
+                  ? require('../../assets/images/coffee-bean-menu.png')
+                  : name === 'users'
+                    ? require('../../assets/images/farmer-menu.png')
+                    : require('../../assets/images/traceability-menu.png')
+              }
               contentFit="contain"
-              style={styles.menuCoffeeImage}
+              style={styles.menuIllustrationImage}
             />
           ) : (
             <ThreeDMenuGlyph name={name} colors={palette.glyph} />
@@ -672,7 +678,7 @@ const styles = StyleSheet.create({
   menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center' },
   menuIconSurface: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   menuIconVisual: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
-  menuCoffeeImage: { width: 34, height: 34 },
+  menuIllustrationImage: { width: 36, height: 36 },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
