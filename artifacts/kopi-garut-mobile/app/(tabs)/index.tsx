@@ -311,6 +311,35 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
   );
 }
 
+type MenuCoffeeOrnamentColors = {
+  bean: string;
+  shadow: string;
+  highlight: string;
+};
+
+function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
+  return (
+    <Svg width={56} height={56} viewBox="0 0 56 56" style={styles.menuCoffeeOrnament}>
+      <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(-35 7.8 8.2)" />
+      <Ellipse cx="6.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 6.5 6.5)" />
+      <Path d="M4.4 2.4c1.7 1.9 2 4.4 1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+      <Ellipse cx="48.2" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(35 48.2 8.2)" />
+      <Ellipse cx="49.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 49.5 6.5)" />
+      <Path d="M51.6 2.4c-1.7 1.9-2 4.4-1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+      <Ellipse cx="7.8" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(35 7.8 47.8)" />
+      <Ellipse cx="6.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 6.5 49.5)" />
+      <Path d="M4.4 53.6c1.7-1.9 2-4.4 1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+      <Ellipse cx="48.2" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(-35 48.2 47.8)" />
+      <Ellipse cx="49.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 49.5 49.5)" />
+      <Path d="M51.6 53.6c-1.7-1.9-2-4.4-1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+      <Circle cx="26.5" cy="3.2" r="1.7" fill={colors.shadow} />
+      <Circle cx="29.5" cy="3.2" r="1.7" fill={colors.bean} />
+      <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} />
+      <Circle cx="29.5" cy="52.8" r="1.7" fill={colors.bean} />
+    </Svg>
+  );
+}
+
 function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const colors = useColors();
   const palettes = [
@@ -347,14 +376,13 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
         end={{ x: 0.9, y: 1 }}
         style={[styles.menuIconSurface, { borderColor: colors.primary, shadowColor: colors.foreground }]}
       />
+      <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.foreground, highlight: colors.card }} />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
-        <View style={[styles.menuIconDropShadow, { backgroundColor: colors.foreground }]} />
         <View style={styles.menuGlyphExtrusion}>
           <ThreeDMenuGlyph name={icon} colors={extrusion} />
         </View>
         <View style={styles.menuGlyphFront}>
           <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
-          <View style={[styles.menuGlyphSheen, { backgroundColor: colors.card }]} />
         </View>
       </View>
     </View>
@@ -721,11 +749,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 4,
   },
+  menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  menuIconDropShadow: { position: 'absolute', width: 28, height: 7, borderRadius: 10, bottom: 6, opacity: 0.28, transform: [{ scaleX: 1.15 }] },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -1 }, { translateY: 4 }], opacity: 0.95 },
   menuGlyphFront: { position: 'absolute', transform: [{ translateY: -1 }] },
-  menuGlyphSheen: { position: 'absolute', width: 12, height: 3, borderRadius: 3, top: 7, left: 7, opacity: 0.34, transform: [{ rotate: '-28deg' }] },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
