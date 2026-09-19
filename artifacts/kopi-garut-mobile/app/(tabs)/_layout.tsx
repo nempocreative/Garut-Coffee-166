@@ -1,42 +1,10 @@
 import React from 'react';
-import { ColorValue, Platform, StyleSheet, useColorScheme, View } from 'react-native';
+import { Platform, StyleSheet, useColorScheme, View } from 'react-native';
 import { useColors } from '@/hooks/useColors';
 import { BlurView } from 'expo-blur';
-import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Tabs } from 'expo-router';
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
-import { SymbolView } from 'expo-symbols';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
-
-// IMPORTANT: iOS 26 uses NativeTabs for native tabs with liquid glass support.
-// NativeTabs intentionally does NOT use custom design tokens — liquid glass
-// is a system-level appearance provided by iOS and cannot be overridden.
-// Custom brand colors are applied only on the ClassicTabLayout path (older iOS / Android / web).
-function NativeTabLayout() {
-  return (
-    <NativeTabs>
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Icon
-          sf={{ default: 'house', selected: 'house.fill' }}
-        />
-        <NativeTabs.Trigger.Label>Beranda</NativeTabs.Trigger.Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="catalog">
-        <NativeTabs.Trigger.Icon sf={{ default: 'square.grid.2x2', selected: 'square.grid.2x2.fill' }} />
-          <NativeTabs.Trigger.Label>Jelajah</NativeTabs.Trigger.Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="orders">
-        <NativeTabs.Trigger.Icon sf={{ default: 'shippingbox', selected: 'shippingbox.fill' }} />
-        <NativeTabs.Trigger.Label>Pesanan</NativeTabs.Trigger.Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="profile">
-        <NativeTabs.Trigger.Icon sf={{ default: 'person', selected: 'person.fill' }} />
-        <NativeTabs.Trigger.Label>Akun</NativeTabs.Trigger.Label>
-      </NativeTabs.Trigger>
-    </NativeTabs>
-  );
-}
+import { ThreeDNavIcon, ThreeDNavIconName } from '@/components/BrandIcon';
 
 function ClassicTabLayout() {
   const colors = useColors();
@@ -47,18 +15,21 @@ function ClassicTabLayout() {
   const isWeb = Platform.OS === 'web';
   const bottomInset = isWeb ? 34 : insets.bottom;
 
-  const tabIcon = (
-    icon: BrandIconName,
-    color: ColorValue,
-    focused: boolean,
-  ) => (
+  const tabIcon = (icon: ThreeDNavIconName, focused: boolean) => (
     <View
       style={[
         styles.tabIcon,
         focused && { backgroundColor: colors.secondary },
       ]}
     >
-      <BrandIcon name={icon} size={focused ? 21 : 20} color={color} />
+      <ThreeDNavIcon
+        name={icon}
+        size={focused ? 31 : 29}
+        mainColor={focused ? colors.primary : colors.mutedForeground}
+        lightColor={focused ? colors.accent : colors.secondary}
+        shadowColor={focused ? colors.foreground : colors.border}
+        accentColor={focused ? colors.primaryForeground : colors.card}
+      />
     </View>
   );
 
@@ -115,35 +86,28 @@ function ClassicTabLayout() {
         name="index"
         options={{
            title: 'Beranda',
-          tabBarIcon: ({ color, focused }) =>
-            isIOS ? (
-              <View style={[styles.tabIcon, focused && { backgroundColor: colors.secondary }]}>
-                <SymbolView name={focused ? 'house.fill' : 'house'} tintColor={color} size={21} />
-              </View>
-            ) : (
-              tabIcon('home', color, focused)
-            ),
+          tabBarIcon: ({ focused }) => tabIcon('home', focused),
         }}
       />
       <Tabs.Screen
         name="catalog"
         options={{
           title: 'Jelajah',
-          tabBarIcon: ({ color, focused }) => tabIcon('grid', color, focused),
+          tabBarIcon: ({ focused }) => tabIcon('grid', focused),
         }}
       />
       <Tabs.Screen
         name="orders"
         options={{
           title: 'Pesanan',
-          tabBarIcon: ({ color, focused }) => tabIcon('package', color, focused),
+          tabBarIcon: ({ focused }) => tabIcon('package', focused),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Akun',
-          tabBarIcon: ({ color, focused }) => tabIcon('user', color, focused),
+          tabBarIcon: ({ focused }) => tabIcon('user', focused),
         }}
       />
       <Tabs.Screen
@@ -157,17 +121,14 @@ function ClassicTabLayout() {
 }
 
 export default function TabLayout() {
-  if (isLiquidGlassAvailable()) {
-    return <NativeTabLayout />;
-  }
   return <ClassicTabLayout />;
 }
 
 const styles = StyleSheet.create({
   tabIcon: {
-    width: 38,
-    height: 30,
-    borderRadius: 15,
+    width: 44,
+    height: 38,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
   },

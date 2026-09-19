@@ -199,3 +199,71 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
     </Svg>
   );
 }
+
+export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user';
+
+type ThreeDNavIconProps = {
+  name: ThreeDNavIconName;
+  size?: number;
+  mainColor: ColorValue;
+  lightColor: ColorValue;
+  shadowColor: ColorValue;
+  accentColor: ColorValue;
+};
+
+/**
+ * Small layered glyphs for the bottom navigation.
+ *
+ * Each icon is drawn with a dark extrusion, a front face, and a highlight
+ * plane so it stays legible even when the tab bar is translucent.
+ */
+export function ThreeDNavIcon({
+  name,
+  size = 30,
+  mainColor,
+  lightColor,
+  shadowColor,
+  accentColor,
+}: ThreeDNavIconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 30 30">
+      {name === 'home' && (
+        <>
+          <Path d="m3.5 13 11.5-9.5L26.5 13v13h-23V13Z" fill={shadowColor} />
+          <Path d="m3.5 11.5 11.5-9L26.5 11.5v13h-23v-13Z" fill={mainColor} />
+          <Path d="m15 2.5 11.5 9-5.8 2.4L15 9.6 9.3 13.9 3.5 11.5l11.5-9Z" fill={lightColor} opacity={0.9} />
+          <Path d="M10.5 24.5v-7h9v7" fill={accentColor} />
+          <Path d="M12.5 24.5v-5h5v5" fill={mainColor} opacity={0.82} />
+        </>
+      )}
+      {name === 'grid' && (
+        <>
+          <Path d="m4 6 7-2 5 2-7 2-5-2ZM17 10l8-2v7l-8 2v-7ZM4 19l7-2v7l-7 2v-7ZM17 20l8-2v7l-8 2v-7Z" fill={shadowColor} />
+          <Path d="m3 4.5 7-2 5 2-7 2-5-2ZM16 8.5l8-2v7l-8 2v-7ZM3 17.5l7-2v7l-7 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={mainColor} />
+          <Path d="m3 4.5 5 2v7l-5-2v-7ZM16 8.5l8-2v7l-8 2v-7ZM3 17.5l7-2v7l-7 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={lightColor} opacity={0.82} />
+          <Path d="m10 2.5 5 2-7 2-5-2 7-2ZM24 6.5l-8 2 8-2ZM10 15.5l-7 2 7-2ZM24 16.5l-8 2 8-2Z" fill={accentColor} opacity={0.85} />
+        </>
+      )}
+      {name === 'package' && (
+        <>
+          <Path d="m3.5 9.5 11.5-5 11.5 5v13l-11.5 5-11.5-5v-13Z" fill={shadowColor} />
+          <Path d="m3.5 8 11.5-5 11.5 5v13l-11.5 5-11.5-5V8Z" fill={mainColor} />
+          <Path d="m3.5 8 11.5-5 11.5 5-11.5 5L3.5 8Z" fill={lightColor} />
+          <Path d="m15 13 11.5-5v13L15 26V13Z" fill={accentColor} opacity={0.72} />
+          <Path d="M15 13v13M3.5 8 15 13l11.5-5" fill="none" stroke={shadowColor} strokeWidth="1.4" strokeLinejoin="round" />
+        </>
+      )}
+      {name === 'user' && (
+        <>
+          <Circle cx="15" cy="9.5" r="5" fill={shadowColor} />
+          <Circle cx="15" cy="8" r="5" fill={mainColor} />
+          <Circle cx="13.4" cy="6.5" r="1.7" fill={lightColor} opacity={0.92} />
+          <Path d="M3.5 26c.7-6.2 4.3-9.5 11.5-9.5S25.8 19.8 26.5 26Z" fill={shadowColor} />
+          <Path d="M3.5 24.5c.7-6.2 4.3-9.5 11.5-9.5s10.8 3.3 11.5 9.5Z" fill={mainColor} />
+          <Path d="M15 15c5.3 0 9.1 2.4 10.7 6.8-3.1-1.9-6.7-2.9-10.7-2.9s-7.6 1-10.7 2.9C5.9 17.4 9.7 15 15 15Z" fill={lightColor} opacity={0.72} />
+          <Path d="M9.2 23.3c3.8-1.2 7.7-1.2 11.6 0" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round" opacity={0.9} />
+        </>
+      )}
+    </Svg>
+  );
+}
