@@ -7,6 +7,9 @@ export type Farmer = {
   location: string;
   landArea: string;
   annualProduction: string;
+  coffeeType: string;
+  joinedAt: string;
+  membershipId: string;
   products: string[];
   image: ImageSource;
   story: string;
@@ -50,8 +53,11 @@ export const farmers: Farmer[] = [
     location: 'Cisurupan, Garut',
     landArea: '1,8 hektare',
     annualProduction: '4,2 ton cherry',
+    coffeeType: 'Arabika Typica',
+    joinedAt: '12 Maret 2021',
+    membershipId: 'KGR-CIS-001',
     products: ['Papandayan Series'],
-    image: require('../assets/images/hero-coffee.jpg'),
+    image: require('../assets/images/farmer-asep-rahmat.jpg'),
     story: 'Menjaga kualitas dari pemetikan hingga pengeringan bersama anggota kelompok tani.',
   },
   {
@@ -61,8 +67,11 @@ export const farmers: Farmer[] = [
     location: 'Cikajang, Garut',
     landArea: '1,2 hektare',
     annualProduction: '2,8 ton cherry',
+    coffeeType: 'Arabika Sigarar Utang',
+    joinedAt: '8 Juli 2022',
+    membershipId: 'KGR-CIK-014',
     products: ['Cikuray Series'],
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/farmer-iis-nurhayati.jpg'),
     story: 'Mengolah kopi natural dengan sabar untuk menjaga rasa buah yang menjadi ciri kebunnya.',
   },
   {
@@ -72,8 +81,11 @@ export const farmers: Farmer[] = [
     location: 'Pakenjeng, Garut',
     landArea: '2,4 hektare',
     annualProduction: '5,1 ton cherry',
+    coffeeType: 'Arabika Lini S',
+    joinedAt: '19 Januari 2020',
+    membershipId: 'KGR-PAK-008',
     products: ['Kamojang Series'],
-    image: require('../assets/images/hero-coffee.jpg'),
+    image: require('../assets/images/farmer-deni-suhendar.jpg'),
     story: 'Membangun kebun yang produktif sambil mempertahankan naungan alami di lereng pegunungan.',
   },
   {
@@ -83,8 +95,11 @@ export const farmers: Farmer[] = [
     location: 'Samarang, Garut',
     landArea: '0,9 hektare',
     annualProduction: '1,9 ton cherry',
+    coffeeType: 'Arabika Ateng',
+    joinedAt: '27 September 2023',
+    membershipId: 'KGR-SAM-021',
     products: ['Darajat Series'],
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/farmer-ujang-kusnadi.jpg'),
     story: 'Mengembangkan kopi sangrai yang nyaman untuk dinikmati di rumah maupun di kedai mitra.',
   },
 ];

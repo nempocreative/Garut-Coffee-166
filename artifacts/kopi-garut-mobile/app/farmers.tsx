@@ -25,7 +25,7 @@ export default function FarmersScreen() {
 
   return (
     <Screen>
-      <Header title="Petani kopi" subtitle="ORANG DI BALIK CANGKIR" cart={false} back />
+      <Header title="Petani kopi" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text>
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.statsPanel, { backgroundColor: colors.foreground }]}>
         <View style={styles.statsIntro}><Text style={[styles.statsKicker, { color: colors.accent }]}>EKOSISTEM KOPI GARUT</Text><Text style={[styles.statsTitle, { color: colors.card }]}>Tumbuh dari banyak tangan.</Text></View>
@@ -48,7 +48,13 @@ export default function FarmersScreen() {
         <Image source={featured.image} contentFit="cover" style={StyleSheet.absoluteFill} />
         <LinearGradient colors={['transparent', colors.foreground]} locations={[0.16, 1]} style={StyleSheet.absoluteFill} />
         <View style={styles.featuredCopy}>
-          <View style={styles.featuredTag}><BrandIcon name="map-pin" size={12} color={colors.primaryForeground} /><Text style={[styles.featuredTagText, { color: colors.primaryForeground }]}>{featured.location}</Text></View>
+          <View style={styles.featuredTopRow}>
+            <View style={styles.featuredTag}><BrandIcon name="map-pin" size={12} color={colors.primaryForeground} /><Text style={[styles.featuredTagText, { color: colors.primaryForeground }]}>{featured.location}</Text></View>
+            <View style={[styles.verifiedBadge, { backgroundColor: colors.accent }]}>
+              <View style={styles.verifiedIcon}><BrandIcon name="shield" size={14} color={colors.accentForeground} /><View style={[styles.verifiedCheck, { backgroundColor: colors.accentForeground }]}><BrandIcon name="check" size={7} color={colors.accent} strokeWidth={2.5} /></View></View>
+              <Text style={[styles.verifiedText, { color: colors.accentForeground }]}>TERVERIFIKASI</Text>
+            </View>
+          </View>
           <Text style={[styles.featuredName, { color: colors.card }]}>{featured.name}</Text>
           <Text style={[styles.featuredStory, { color: colors.background }]}>{featured.story}</Text>
           <View style={styles.featuredMeta}><Text style={[styles.featuredGroup, { color: colors.background }]}>{featured.group}</Text><BrandIcon name="arrow-up-right" size={17} color={colors.primaryForeground} /></View>
@@ -58,15 +64,40 @@ export default function FarmersScreen() {
       <View style={styles.list}>
         {visibleFarmers.slice(1).map((farmer, index) => <Animated.View key={farmer.id} entering={FadeInDown.delay(index * 70).duration(450)}>
           <Pressable onPress={() => router.push(`/farmer/${farmer.id}`)} style={({ pressed }) => [styles.card, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
-            <Image source={farmer.image} contentFit="cover" style={styles.image} />
-            <View style={styles.cardCopy}>
-              <View style={styles.locationRow}><BrandIcon name="map-pin" size={11} color={colors.primary} /><Text style={[styles.location, { color: colors.primary }]}>{farmer.location}</Text></View>
-              <Text style={[styles.name, { color: colors.foreground }]}>{farmer.name}</Text>
-              <Text style={[styles.group, { color: colors.mutedForeground }]}>{farmer.group}</Text>
-              <Text numberOfLines={2} style={[styles.story, { color: colors.mutedForeground }]}>{farmer.story}</Text>
-              <View style={styles.cardMeta}><Text style={[styles.meta, { color: colors.foreground }]}>{farmer.annualProduction}</Text><Text style={[styles.product, { color: colors.primary }]}>{farmer.products[0]}</Text></View>
+            <View style={[styles.cardAccent, { backgroundColor: index % 2 === 0 ? colors.primary : colors.accent }]} />
+            <View style={styles.cardInner}>
+              <View style={styles.photoFrame}>
+                <Image source={farmer.image} contentFit="cover" style={styles.image} />
+                <View style={[styles.photoIndex, { backgroundColor: colors.foreground }]}>
+                  <Text style={[styles.photoIndexText, { color: colors.accent }]}>{String(index + 2).padStart(2, '0')}</Text>
+                </View>
+              </View>
+              <View style={styles.cardCopy}>
+                <View style={styles.cardIdentity}>
+                  <Text style={[styles.identityLabel, { color: colors.primary }]}>ORANG DI BALIK RASA</Text>
+                  <View style={[styles.verifiedBadge, styles.compactVerifiedBadge, { backgroundColor: colors.primary }]}>
+                    <View style={styles.verifiedIcon}>
+                      <BrandIcon name="shield" size={12} color={colors.primaryForeground} />
+                      <View style={[styles.verifiedCheck, styles.compactVerifiedCheck, { backgroundColor: colors.primaryForeground }]}>
+                        <BrandIcon name="check" size={6} color={colors.primary} strokeWidth={2.5} />
+                      </View>
+                    </View>
+                    <Text style={[styles.verifiedText, styles.compactVerifiedText, { color: colors.primaryForeground }]}>OK</Text>
+                  </View>
+                </View>
+                <View style={styles.locationRow}><BrandIcon name="map-pin" size={11} color={colors.primary} /><Text style={[styles.location, { color: colors.primary }]}>{farmer.location}</Text></View>
+                <Text style={[styles.name, { color: colors.foreground }]}>{farmer.name}</Text>
+                <Text style={[styles.group, { color: colors.mutedForeground }]}>{farmer.group}</Text>
+                <View style={[styles.idDivider, { backgroundColor: colors.border }]} />
+                <View style={styles.profileGrid}>
+                  <View style={styles.profileFact}><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>JENIS KOPI</Text><Text numberOfLines={1} style={[styles.meta, { color: colors.foreground }]}>{farmer.coffeeType}</Text></View>
+                  <View style={styles.profileFact}><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>LUAS LAHAN</Text><Text style={[styles.meta, { color: colors.foreground }]}>{farmer.landArea}</Text></View>
+                  <View style={styles.profileFact}><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>ANGGOTA SEJAK</Text><Text numberOfLines={1} style={[styles.meta, { color: colors.foreground }]}>{farmer.joinedAt}</Text></View>
+                  <View style={styles.profileFact}><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>ID KEANGGOTAAN</Text><Text style={[styles.memberId, { color: colors.primary }]}>{farmer.membershipId}</Text></View>
+                </View>
+              </View>
+              <View style={[styles.arrow, { backgroundColor: colors.secondary }]}><BrandIcon name="chevron-right" size={16} color={colors.primary} /></View>
             </View>
-            <View style={[styles.arrow, { backgroundColor: colors.secondary }]}><BrandIcon name="chevron-right" size={16} color={colors.primary} /></View>
           </Pressable>
         </Animated.View>)}
       </View>
@@ -93,8 +124,13 @@ const styles = StyleSheet.create({
   filterText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
   featured: { height: 262, borderRadius: 22, overflow: 'hidden' },
   featuredCopy: { flex: 1, justifyContent: 'flex-end', padding: 17, gap: 6 },
+  featuredTopRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   featuredTag: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   featuredTagText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase' },
+  verifiedBadge: { minHeight: 24, borderRadius: 8, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  verifiedIcon: { width: 16, height: 17, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  verifiedCheck: { position: 'absolute', right: -2, bottom: -1, width: 8, height: 8, borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
+  verifiedText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7 },
   featuredName: { fontFamily: 'Manrope_700Bold', fontSize: 27, lineHeight: 31, fontWeight: '800', letterSpacing: -0.7 },
   featuredStory: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16, maxWidth: 300 },
   featuredMeta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
@@ -103,16 +139,28 @@ const styles = StyleSheet.create({
   listHeadingText: { fontFamily: 'Manrope_700Bold', fontSize: 18, fontWeight: '700' },
   listHeadingHint: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
   list: { gap: 11 },
-  card: { minHeight: 137, borderWidth: 1, borderRadius: 19, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 11 },
-  image: { width: 90, height: 116, borderRadius: 14 },
-  cardCopy: { flex: 1, gap: 3 },
+  card: { minHeight: 148, borderWidth: 1, borderRadius: 19, overflow: 'hidden' },
+  cardAccent: { height: 4, width: '100%' },
+  cardInner: { flex: 1, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  photoFrame: { width: 86, height: 122, borderRadius: 13, overflow: 'hidden', position: 'relative' },
+  image: { width: '100%', height: '100%' },
+  photoIndex: { position: 'absolute', left: 6, bottom: 6, minWidth: 24, height: 20, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
+  photoIndexText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.6 },
+  cardCopy: { flex: 1, gap: 3, minWidth: 0 },
+  cardIdentity: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, marginBottom: 2 },
+  compactVerifiedBadge: { minHeight: 18, borderRadius: 6, paddingHorizontal: 4, gap: 2 },
+  compactVerifiedCheck: { width: 7, height: 7, right: -2, bottom: -1 },
+  compactVerifiedText: { fontSize: 6, letterSpacing: 0.3 },
+  identityLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 0.65, flexShrink: 1 },
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   location: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.7, textTransform: 'uppercase' },
   name: { fontFamily: 'Manrope_700Bold', fontSize: 16, fontWeight: '700', marginTop: 1 },
   group: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  story: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, marginTop: 3 },
-  cardMeta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginTop: 4 },
-  meta: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
-  product: { fontFamily: 'Manrope_700Bold', fontSize: 9, textAlign: 'right', flexShrink: 1 },
+  idDivider: { height: 1, width: '100%', marginTop: 5, marginBottom: 4 },
+  profileGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 8, rowGap: 5 },
+  profileFact: { width: '47%', minWidth: 0, gap: 1 },
+  metaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7, marginBottom: 1 },
+  meta: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, fontWeight: '700' },
+  memberId: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, fontWeight: '800', letterSpacing: 0.3 },
   arrow: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
 });

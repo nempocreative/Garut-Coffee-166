@@ -19,7 +19,7 @@ export default function FarmerDetailScreen() {
 
   return (
     <Screen>
-      <Header title="Profil petani" subtitle="CERITA DARI KEBUN" cart={false} back />
+      <Header title="Profil petani" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <View style={styles.hero}>
         <Image source={farmer.image} contentFit="cover" style={StyleSheet.absoluteFill} />
         <LinearGradient colors={['transparent', colors.foreground]} locations={[0.1, 1]} style={StyleSheet.absoluteFill} />
@@ -33,7 +33,10 @@ export default function FarmerDetailScreen() {
       <View style={[styles.facts, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="map" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>LOKASI</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.location}</Text></View>
         <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="grid" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>LUAS LAHAN</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.landArea}</Text></View>
+        <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="coffee" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>JENIS KOPI</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.coffeeType}</Text></View>
         <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="trending-up" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>PRODUKSI / TAHUN</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.annualProduction}</Text></View>
+        <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="calendar" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>ANGGOTA SEJAK</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.joinedAt}</Text></View>
+        <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="shield" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>ID KEANGGOTAAN</Text><Text style={[styles.value, { color: colors.primary }]}>{farmer.membershipId}</Text></View>
       </View>
       <View style={styles.sectionHeading}><View><Text style={[styles.kicker, { color: colors.primary }]}>HASIL KEBUN</Text><Text style={[styles.section, { color: colors.foreground }]}>Produk yang dihasilkan</Text></View><BrandIcon name="coffee" size={21} color={colors.primary} /></View>
       <View style={styles.products}>
