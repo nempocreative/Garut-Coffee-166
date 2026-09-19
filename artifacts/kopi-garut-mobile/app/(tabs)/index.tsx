@@ -197,6 +197,46 @@ function CoffeeCupAnimation() {
   );
 }
 
+function RoadTrafficAnimation() {
+  const colors = useColors();
+  const traffic = useSharedValue(0);
+
+  useEffect(() => {
+    traffic.value = withRepeat(
+      withTiming(1, { duration: 3200, easing: Easing.linear }),
+      -1,
+      false,
+    );
+  }, [traffic]);
+
+  const forwardVehicleStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: interpolate(traffic.value, [0, 1], [-28, 96]) }],
+  }));
+  const returningVehicleStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: interpolate(traffic.value, [0, 1], [96, -28]) }],
+  }));
+
+  return (
+    <View style={styles.roadTraffic}>
+      <View style={[styles.roadHorizon, { backgroundColor: colors.accent }]} />
+      <View style={[styles.roadTrack, { backgroundColor: colors.foreground }]}>
+        <View style={styles.roadLaneMark}>
+          <View style={[styles.roadLaneDash, { backgroundColor: colors.primaryForeground }]} />
+          <View style={[styles.roadLaneDash, { backgroundColor: colors.primaryForeground }]} />
+          <View style={[styles.roadLaneDash, { backgroundColor: colors.primaryForeground }]} />
+        </View>
+        <Animated.View style={[styles.trafficVehicle, styles.trafficCar, { backgroundColor: colors.accent }, forwardVehicleStyle]}>
+          <View style={[styles.trafficWindow, { backgroundColor: colors.card }]} />
+        </Animated.View>
+        <Animated.View style={[styles.trafficVehicle, styles.trafficVan, { backgroundColor: colors.primaryForeground }, returningVehicleStyle]}>
+          <View style={[styles.trafficWindow, { backgroundColor: colors.card }]} />
+        </Animated.View>
+      </View>
+      <View style={[styles.roadShoulder, { backgroundColor: colors.accent }]} />
+    </View>
+  );
+}
+
 type MenuGlyphColors = {
   main: string;
   light: string;
@@ -674,7 +714,7 @@ export default function HomeScreen() {
         <View style={styles.statsIntroCopy}>
           <Text style={[styles.statsIntroTitle, { color: colors.primaryForeground }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
         </View>
-        <CoffeeCupAnimation />
+        <RoadTrafficAnimation />
       </View>
       <View style={styles.statsList}>
         {hubStats.map((stat, index) => (
@@ -862,6 +902,16 @@ const styles = StyleSheet.create({
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { width: 64, height: 22, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
+  roadTraffic: { width: 96, height: 62, alignItems: 'center', justifyContent: 'center', gap: 5, overflow: 'hidden' },
+  roadHorizon: { width: 54, height: 4, borderRadius: 2, opacity: 0.8 },
+  roadTrack: { width: 96, height: 43, borderRadius: 14, overflow: 'hidden', justifyContent: 'center', transform: [{ rotate: '-7deg' }] },
+  roadLaneMark: { position: 'absolute', left: 9, right: 9, top: 21, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', opacity: 0.75 },
+  roadLaneDash: { width: 16, height: 2, borderRadius: 2 },
+  trafficVehicle: { position: 'absolute', borderRadius: 4, justifyContent: 'center', paddingHorizontal: 3 },
+  trafficCar: { width: 25, height: 11, top: 7 },
+  trafficVan: { width: 30, height: 12, bottom: 6 },
+  trafficWindow: { width: 8, height: 4, borderRadius: 2, opacity: 0.8 },
+  roadShoulder: { width: 36, height: 3, borderRadius: 2, opacity: 0.7 },
   voucherCarousel: { gap: 8 },
   voucherSlide: { flexDirection: 'row', gap: 8 },
   voucherCard: { flex: 1, minHeight: 104, borderRadius: 17, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative', shadowOpacity: 0.16, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
