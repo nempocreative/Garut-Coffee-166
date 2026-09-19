@@ -310,14 +310,16 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         style={styles.menuIconSurface}
       >
         <View style={styles.menuIconVisual}>
-          {name === 'coffee' || name === 'users' || name === 'maximize' ? (
+          {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
             <ExpoImage
               source={
                 name === 'coffee'
                   ? require('../../assets/images/coffee-bean-menu.png')
                   : name === 'users'
                     ? require('../../assets/images/farmer-menu.png')
-                    : require('../../assets/images/traceability-menu.png')
+                    : name === 'map'
+                      ? require('../../assets/images/region-menu.png')
+                      : require('../../assets/images/traceability-menu.png')
               }
               contentFit="contain"
               style={styles.menuIllustrationImage}
