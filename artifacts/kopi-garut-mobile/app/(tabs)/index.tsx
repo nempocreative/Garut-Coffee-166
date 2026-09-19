@@ -316,23 +316,8 @@ type MenuCoffeeOrnamentColors = {
 };
 
 function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
-  const rotation = useSharedValue(0);
-
-  useEffect(() => {
-    rotation.value = withRepeat(
-      withTiming(360, { duration: 12000, easing: Easing.linear }),
-      -1,
-      false,
-    );
-  }, [rotation]);
-
-  const ornamentStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
-  }));
-
   return (
-    <Animated.View pointerEvents="none" style={[styles.menuCoffeeOrnament, ornamentStyle]}>
-      <Svg width={56} height={56} viewBox="0 0 56 56">
+    <Svg width={56} height={56} viewBox="0 0 56 56" style={styles.menuCoffeeOrnament}>
         <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 7.8 8.2)" />
         <Ellipse cx="6.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 6.5 6.5)" />
         <Path d="M4.4 2.4c1.7 1.9 2 4.4 1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
@@ -349,13 +334,32 @@ function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
         <Circle cx="29.5" cy="3.2" r="1.7" fill={colors.bean} />
         <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} opacity={0.34} />
         <Circle cx="29.5" cy="52.8" r="1.7" fill={colors.bean} />
-      </Svg>
-    </Animated.View>
+    </Svg>
   );
 }
 
 function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const colors = useColors();
+  const isCoffeeIcon = icon === 'coffee';
+  const iconMotion = useSharedValue(0);
+
+  useEffect(() => {
+    if (!isCoffeeIcon) return;
+
+    iconMotion.value = withRepeat(
+      withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      true,
+    );
+  }, [iconMotion, isCoffeeIcon]);
+
+  const iconMotionStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: isCoffeeIcon ? interpolate(iconMotion.value, [0, 0.5, 1], [0, -2, 0]) : 0 },
+      { rotate: isCoffeeIcon ? `${interpolate(iconMotion.value, [0, 0.5, 1], [-2, 2, -2])}deg` : '0deg' },
+    ],
+  }));
+
   const palettes = [
     {
       gradient: [colors.primary, colors.accent],
@@ -391,14 +395,14 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
         style={[styles.menuIconSurface, { borderColor: colors.primary, shadowColor: colors.foreground }]}
       />
       <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
-      <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
+      <Animated.View pointerEvents="none" style={[styles.menuIconVisualOverlay, iconMotionStyle]}>
         <View style={styles.menuGlyphExtrusion}>
           <ThreeDMenuGlyph name={icon} colors={extrusion} />
         </View>
         <View style={styles.menuGlyphFront}>
           <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 }
