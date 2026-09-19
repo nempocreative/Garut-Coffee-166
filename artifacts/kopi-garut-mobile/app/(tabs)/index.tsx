@@ -857,12 +857,41 @@ export default function HomeScreen() {
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regionRail}>
       {regions.slice(0, 3).map((region, index) => (
-        <Pressable key={region.id} onPress={() => router.push(`/region/${region.id}`)} style={({ pressed }) => [styles.regionCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
-          <ExpoImage source={region.image} contentFit="cover" style={styles.regionImage} />
-          <View style={[styles.regionNumber, { backgroundColor: index === 0 ? colors.primary : colors.secondary }]}><Text style={[styles.regionNumberText, { color: index === 0 ? colors.primaryForeground : colors.primary }]}>0{index + 1}</Text></View>
-          <Text style={[styles.regionName, { color: colors.foreground }]}>{region.name}</Text>
-          <Text style={[styles.regionDetail, { color: colors.mutedForeground }]}>{region.elevation} · {region.village}</Text>
-          <Text style={[styles.regionSpecialty, { color: colors.primary }]}>{region.specialty}</Text>
+        <Pressable
+          key={region.id}
+          accessibilityRole="button"
+          accessibilityLabel={`Buka wilayah ${region.name}`}
+          onPress={() => router.push(`/region/${region.id}`)}
+          style={({ pressed }) => [
+            styles.regionCard,
+            { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.82 : 1 },
+          ]}
+        >
+          <View style={styles.regionImageWrap}>
+            <ExpoImage source={region.image} contentFit="cover" style={styles.regionImage} />
+            <LinearGradient colors={['transparent', colors.foreground]} locations={[0.2, 1]} style={StyleSheet.absoluteFill} />
+            <View style={styles.regionCardTop}>
+              <View style={[styles.regionNumber, { backgroundColor: index === 0 ? colors.primary : colors.secondary }]}>
+                <Text style={[styles.regionNumberText, { color: index === 0 ? colors.primaryForeground : colors.primary }]}>0{index + 1}</Text>
+              </View>
+              <View style={[styles.regionArrow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+                <BrandIcon name="arrow-up-right" size={14} color={colors.primary} strokeWidth={2.2} />
+              </View>
+            </View>
+          </View>
+          <View style={styles.regionCardBody}>
+            <Text numberOfLines={1} style={[styles.regionName, { color: colors.foreground }]}>{region.name}</Text>
+            <View style={styles.regionDetailRow}>
+              <BrandIcon name="map-pin" size={12} color={colors.primary} />
+              <Text style={[styles.regionDetail, { color: colors.mutedForeground }]}>{region.village}</Text>
+              <View style={[styles.regionDetailDivider, { backgroundColor: colors.border }]} />
+              <Text style={[styles.regionDetail, { color: colors.mutedForeground }]}>{region.elevation}</Text>
+            </View>
+            <View style={[styles.regionSpecialtyChip, { backgroundColor: colors.secondary }]}>
+              <BrandIcon name="coffee" size={12} color={colors.primary} />
+              <Text numberOfLines={1} style={[styles.regionSpecialty, { color: colors.primary }]}>{region.specialty}</Text>
+            </View>
+          </View>
         </Pressable>
       ))}
     </ScrollView>
@@ -1071,13 +1100,20 @@ const styles = StyleSheet.create({
   farmerVerificationMark: { width: 17, height: 17, borderRadius: 8.5, alignItems: 'center', justifyContent: 'center' },
   farmerVerificationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.55 },
   regionRail: { gap: 10, paddingRight: 20 },
-  regionCard: { width: 154, minHeight: 176, borderRadius: 18, borderWidth: 1, padding: 10, gap: 5, overflow: 'hidden' },
-  regionImage: { width: '100%', height: 55, borderRadius: 12, marginBottom: 2 },
-  regionNumber: { width: 29, height: 29, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  regionCard: { width: 176, minHeight: 210, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  regionImageWrap: { width: '100%', height: 88, position: 'relative' },
+  regionImage: { width: '100%', height: '100%' },
+  regionCardTop: { position: 'absolute', top: 10, left: 10, right: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  regionNumber: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   regionNumberText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
-  regionName: { fontFamily: 'Manrope_700Bold', fontSize: 16, fontWeight: '700' },
+  regionArrow: { width: 30, height: 30, borderRadius: 11, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  regionCardBody: { padding: 11, gap: 7 },
+  regionName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '700' },
+  regionDetailRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   regionDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  regionSpecialty: { fontFamily: 'Manrope_700Bold', fontSize: 10, lineHeight: 14, marginTop: 2 },
+  regionDetailDivider: { width: 3, height: 3, borderRadius: 2, marginHorizontal: 1 },
+  regionSpecialtyChip: { alignSelf: 'flex-start', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 6 },
+  regionSpecialty: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, lineHeight: 12, fontWeight: '700' },
   eventFeature: { borderRadius: 18, borderWidth: 1, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 11 },
   eventDate: { width: 56, minHeight: 58, borderRadius: 14, alignItems: 'center', justifyContent: 'center', gap: 4, paddingHorizontal: 4 },
   eventDateText: { fontFamily: 'Manrope_700Bold', textAlign: 'center', fontSize: 8, lineHeight: 11 },
