@@ -13,9 +13,9 @@ import { useColors } from '@/hooks/useColors';
 
 const promoSlides = [
   {
-    id: 'coffee-hub',
+    id: 'garut-promo',
     route: '/catalog' as const,
-    image: require('../../assets/images/hero-coffee.jpg'),
+    image: require('../../assets/images/kopi-garut-promo-banner.jpg'),
   },
   {
     id: 'traceability',
@@ -85,6 +85,20 @@ const voucherSlides = [
     { discount: '20%', title: 'Akhir pekan', code: 'WEEK20', note: 'Sabtu–Minggu', variant: 'primary' },
   ],
 ] as const;
+
+const storyReelImages = [
+  require('../../assets/images/event-festival-garut.jpg'),
+  require('../../assets/images/origin-coffee.jpg'),
+  require('../../assets/images/hero-coffee.jpg'),
+  require('../../assets/images/farmer-asep-rahmat.jpg'),
+  require('../../assets/images/farmer-iis-nurhayati.jpg'),
+  require('../../assets/images/farmer-deni-suhendar.jpg'),
+];
+
+const storyReels = hubEvents.map((event, index) => ({
+  ...event,
+  image: storyReelImages[index],
+}));
 
 function CoffeeBeanAnimation() {
   const beans = useSharedValue(0);
@@ -468,13 +482,17 @@ export default function HomeScreen() {
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
   const regionCardWidth = Math.max(150, Math.floor((width - 40 - 10) / 2));
+  const storyCardWidth = Math.max(140, Math.floor((width - 40 - 8) / 2));
+  const storyCardHeight = Math.round(storyCardWidth * 1.42);
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
-  const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
+  const promoHeight = Math.round(Math.min(330, Math.max(250, (width - 40) * 0.9)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeVoucherSlide, setActiveVoucherSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const storyRef = useRef<ScrollView>(null);
 
   const currentSlide = promoSlides[activeSlide];
 
@@ -493,6 +511,19 @@ export default function HomeScreen() {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveStoryIndex((current) => {
+        const lastStartIndex = Math.max(0, storyReels.length - 2);
+        const next = current >= lastStartIndex ? 0 : current + 1;
+        storyRef.current?.scrollTo({ x: next * (storyCardWidth + 8), animated: true });
+        return next;
+      });
+    }, 3800);
+
+    return () => clearInterval(timer);
+  }, [storyCardWidth]);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
@@ -906,49 +937,63 @@ export default function HomeScreen() {
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Selalu ada cerita baru</Text></View>
       <Link href="/events" style={[styles.seeAll, { color: colors.primary }]}>Lihat agenda</Link>
     </View>
-    <Pressable
-      testID="home-event"
-      accessibilityRole="button"
-      accessibilityLabel={`Buka ${hubEvents[0].title}`}
-      onPress={() => router.push('/events')}
-      style={({ pressed }) => [
-        styles.eventFeature,
-        { borderColor: colors.border, opacity: pressed ? 0.86 : 1 },
-      ]}
+    <ScrollView
+      ref={storyRef}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      snapToInterval={storyCardWidth + 8}
+      decelerationRate="fast"
+      onMomentumScrollEnd={(event) => {
+        const nextIndex = Math.round(event.nativeEvent.contentOffset.x / (storyCardWidth + 8));
+        setActiveStoryIndex(Math.min(nextIndex, Math.max(0, storyReels.length - 2)));
+      }}
+      contentContainerStyle={styles.storyRail}
     >
-      <ExpoImage
-        source={require('../../assets/images/event-festival-garut.jpg')}
-        contentFit="cover"
-        style={StyleSheet.absoluteFill}
-      />
-      <LinearGradient colors={['transparent', colors.foreground]} locations={[0.26, 1]} style={StyleSheet.absoluteFill} />
-      <View style={styles.eventReelTop}>
-        <View style={[styles.eventReelTag, { backgroundColor: colors.card }]}>
-          <BrandIcon name="calendar" size={12} color={colors.primary} />
-          <Text style={[styles.eventReelTagText, { color: colors.foreground }]}>{hubEvents[0].type}</Text>
-        </View>
-        <View style={[styles.eventReelCount, { backgroundColor: colors.foreground }]}>
-          <Text style={[styles.eventReelCountText, { color: colors.accent }]}>01</Text>
-        </View>
-      </View>
-      <View style={styles.eventReelCopy}>
-        <View style={styles.eventReelMeta}>
-          <Text style={[styles.eventReelDate, { color: colors.accent }]}>{hubEvents[0].date}</Text>
-          <View style={[styles.eventReelMetaDot, { backgroundColor: colors.accent }]} />
-          <View style={styles.eventReelLocation}>
-            <BrandIcon name="map-pin" size={12} color={colors.background} />
-            <Text style={[styles.eventLocation, { color: colors.background }]}>{hubEvents[0].location}</Text>
+      {storyReels.map((story, index) => (
+        <Pressable
+          key={story.id}
+          testID={`home-story-reel-${story.id}`}
+          accessibilityRole="button"
+          accessibilityLabel={`Buka cerita ${story.title}`}
+          onPress={() => router.push('/events')}
+          style={({ pressed }) => [
+            styles.storyReelCard,
+            {
+              width: storyCardWidth,
+              height: storyCardHeight,
+              borderColor: colors.border,
+              opacity: pressed ? 0.86 : 1,
+            },
+          ]}
+        >
+          <ExpoImage source={story.image} contentFit="cover" style={StyleSheet.absoluteFill} />
+          <LinearGradient colors={['transparent', colors.foreground]} locations={[0.18, 1]} style={StyleSheet.absoluteFill} />
+          <View style={styles.storyReelTop}>
+            <View style={[styles.storyReelTag, { backgroundColor: colors.card }]}>
+              <BrandIcon name="calendar" size={11} color={colors.primary} />
+              <Text style={[styles.storyReelTagText, { color: colors.foreground }]}>CERITA BARU</Text>
+            </View>
+            <View style={[styles.storyReelCount, { backgroundColor: colors.foreground }]}>
+              <Text style={[styles.storyReelCountText, { color: colors.accent }]}>0{index + 1}</Text>
+            </View>
           </View>
-        </View>
-        <Text numberOfLines={2} style={[styles.eventTitle, { color: colors.card }]}>{hubEvents[0].title}</Text>
-        <View style={styles.eventReelFooter}>
-          <Text style={[styles.eventReelCta, { color: colors.primaryForeground }]}>Lihat agenda</Text>
-          <View style={[styles.eventTicketArrow, { backgroundColor: colors.card }]}>
-            <BrandIcon name="arrow-up-right" size={15} color={colors.primary} strokeWidth={2.2} />
+          <View style={styles.storyReelCopy}>
+            <View style={styles.storyReelMeta}>
+              <Text numberOfLines={1} style={[styles.storyReelDate, { color: colors.accent }]}>{story.date}</Text>
+              <View style={[styles.storyReelMetaDot, { backgroundColor: colors.accent }]} />
+              <Text numberOfLines={1} style={[styles.storyReelLocation, { color: colors.background }]}>{story.location}</Text>
+            </View>
+            <Text numberOfLines={3} style={[styles.storyReelTitle, { color: colors.card }]}>{story.title}</Text>
+            <View style={styles.storyReelFooter}>
+              <Text style={[styles.storyReelCta, { color: colors.primaryForeground }]}>{story.type}</Text>
+              <View style={[styles.storyReelArrow, { backgroundColor: colors.card }]}>
+                <BrandIcon name="arrow-up-right" size={14} color={colors.primary} strokeWidth={2.2} />
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </Pressable>
+        </Pressable>
+      ))}
+    </ScrollView>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
       <Link href="/tourism" style={[styles.seeAll, { color: colors.primary }]}>Lihat wisata</Link>
@@ -1046,22 +1091,22 @@ const styles = StyleSheet.create({
   trafficVan: { width: 30, height: 12, bottom: 6 },
   trafficWindow: { width: 8, height: 4, borderRadius: 2, opacity: 0.8 },
   roadShoulder: { width: 36, height: 3, borderRadius: 2, opacity: 0.7 },
-  statsRoadPanel: { minHeight: 208, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
+  statsRoadPanel: { minHeight: 224, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
   statsRoadGlow: { position: 'absolute', width: 142, height: 142, borderRadius: 71, top: -72, right: -40, opacity: 0.1 },
   statsRoadGlowSmall: { position: 'absolute', width: 68, height: 68, borderRadius: 34, bottom: -32, left: -22, opacity: 0.08 },
   statsRoadDecor: { position: 'absolute', top: 11, right: 12, width: 72, height: 72, borderRadius: 36, borderWidth: 1, alignItems: 'center', justifyContent: 'center', opacity: 0.92 },
   statsRoadDecorCircle: { width: 58, height: 58, borderRadius: 29, alignItems: 'center', justifyContent: 'center' },
   statsRoadHeader: { gap: 5 },
   statsRoadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 238 },
-  statsRoute: { position: 'relative', marginTop: 13 },
-  statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 21, height: 2, opacity: 0.55 },
+  statsRoute: { position: 'relative', marginTop: 18, paddingTop: 10 },
+  statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 31, height: 2, opacity: 0.55 },
   statsStops: { flexDirection: 'row', alignItems: 'flex-start' },
   statsStop: { flex: 1, alignItems: 'center', gap: 3 },
   statsSign: { minWidth: 57, height: 42, borderRadius: 11, borderWidth: 1, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   statsSignValue: { fontFamily: 'Manrope_700Bold', fontSize: 11, lineHeight: 14, fontWeight: '800', textAlign: 'center' },
   statsSignPole: { width: 2, height: 7, opacity: 0.75 },
   statsStopLabel: { fontFamily: 'Manrope_400Regular', fontSize: 8, lineHeight: 11, textAlign: 'center', maxWidth: 76 },
-  statsRoadFooter: { marginTop: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  statsRoadFooter: { marginTop: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   statsRoadFooterText: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 1.25 },
   voucherCarousel: { height: 124, gap: 8 },
   voucherSlide: { height: 104, flexDirection: 'row', gap: 8 },
@@ -1153,22 +1198,22 @@ const styles = StyleSheet.create({
   regionDetailDivider: { width: 3, height: 3, borderRadius: 2, marginHorizontal: 1 },
   regionSpecialtyChip: { alignSelf: 'flex-start', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 6 },
   regionSpecialty: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, lineHeight: 12, fontWeight: '700' },
-  eventFeature: { height: 252, borderRadius: 22, borderWidth: 1, overflow: 'hidden', position: 'relative' },
-  eventReelTop: { position: 'absolute', top: 13, left: 13, right: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  eventReelTag: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 6 },
-  eventReelTagText: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.8, textTransform: 'uppercase' },
-  eventReelCount: { width: 30, height: 30, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  eventReelCountText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
-  eventReelCopy: { position: 'absolute', left: 15, right: 15, bottom: 14, gap: 7 },
-  eventReelMeta: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  eventReelDate: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800' },
-  eventReelMetaDot: { width: 3, height: 3, borderRadius: 2 },
-  eventReelLocation: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  eventTitle: { fontFamily: 'Manrope_700Bold', fontSize: 21, lineHeight: 25, fontWeight: '700' },
-  eventReelFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
-  eventReelCta: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1, fontWeight: '800' },
-  eventLocation: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  eventTicketArrow: { width: 28, height: 28, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  storyRail: { gap: 8, paddingRight: 20 },
+  storyReelCard: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', position: 'relative' },
+  storyReelTop: { position: 'absolute', top: 11, left: 11, right: 11, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  storyReelTag: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 9, paddingHorizontal: 7, paddingVertical: 5 },
+  storyReelTagText: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 0.8, textTransform: 'uppercase' },
+  storyReelCount: { width: 27, height: 27, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  storyReelCountText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800' },
+  storyReelCopy: { position: 'absolute', left: 12, right: 12, bottom: 12, gap: 6 },
+  storyReelMeta: { height: 12, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  storyReelDate: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 8, lineHeight: 10, fontWeight: '800' },
+  storyReelMetaDot: { width: 3, height: 3, borderRadius: 2 },
+  storyReelLocation: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 8, lineHeight: 10 },
+  storyReelTitle: { height: 57, fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
+  storyReelFooter: { height: 27, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
+  storyReelCta: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.8, fontWeight: '800', textTransform: 'uppercase' },
+  storyReelArrow: { width: 27, height: 27, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   tourRail: { gap: 10, paddingRight: 20 },
   tourCard: { width: 245, height: 170, borderRadius: 20, overflow: 'hidden' },
   tourImageWrap: { flex: 1, justifyContent: 'flex-end' },
