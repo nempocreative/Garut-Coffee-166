@@ -467,6 +467,7 @@ export default function HomeScreen() {
   const { width } = useWindowDimensions();
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
+  const regionCardWidth = Math.max(150, Math.floor((width - 40 - 10) / 2));
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
@@ -855,7 +856,13 @@ export default function HomeScreen() {
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
       <Link href="/regions" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regionRail}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      snapToInterval={regionCardWidth + 10}
+      decelerationRate="fast"
+      contentContainerStyle={styles.regionRail}
+    >
       {regions.slice(0, 3).map((region, index) => (
         <Pressable
           key={region.id}
@@ -864,7 +871,7 @@ export default function HomeScreen() {
           onPress={() => router.push(`/region/${region.id}`)}
           style={({ pressed }) => [
             styles.regionCard,
-            { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.82 : 1 },
+            { width: regionCardWidth, backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.82 : 1 },
           ]}
         >
           <View style={styles.regionImageWrap}>
@@ -1100,8 +1107,8 @@ const styles = StyleSheet.create({
   farmerVerificationMark: { width: 17, height: 17, borderRadius: 8.5, alignItems: 'center', justifyContent: 'center' },
   farmerVerificationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.55 },
   regionRail: { gap: 10, paddingRight: 20 },
-  regionCard: { width: 176, minHeight: 210, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
-  regionImageWrap: { width: '100%', height: 88, position: 'relative' },
+  regionCard: { minHeight: 226, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  regionImageWrap: { width: '100%', height: 116, position: 'relative' },
   regionImage: { width: '100%', height: '100%' },
   regionCardTop: { position: 'absolute', top: 10, left: 10, right: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   regionNumber: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
