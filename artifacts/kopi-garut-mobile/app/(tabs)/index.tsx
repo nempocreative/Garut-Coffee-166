@@ -1043,17 +1043,17 @@ export default function HomeScreen() {
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
       <Link href="/tourism" style={[styles.seeAll, { color: colors.primary }]}>Lihat wisata</Link>
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tourRail}>
+    <View style={styles.tourGrid}>
       {coffeeTours.slice(0, 2).map((tour) => (
         <Pressable key={tour.id} onPress={() => router.push('/tourism')} style={({ pressed }) => [styles.tourCard, { opacity: pressed ? 0.8 : 1 }]}>
           <View style={styles.tourImageWrap}>
             <ExpoImage source={tour.image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.tourImage]} />
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.15, 1]} style={StyleSheet.absoluteFill} />
-            <View style={styles.tourCopy}><Text style={[styles.tourType, { color: colors.primaryForeground }]}>{tour.type}</Text><Text style={[styles.tourTitle, { color: colors.card }]}>{tour.title}</Text><Text style={[styles.tourMeta, { color: colors.background }]}>{tour.duration} · {tour.location}</Text></View>
+            <View style={styles.tourCopy}><Text style={[styles.tourType, { color: colors.primaryForeground }]}>{tour.type}</Text><Text numberOfLines={2} style={[styles.tourTitle, { color: colors.card }]}>{tour.title}</Text><Text numberOfLines={1} style={[styles.tourMeta, { color: colors.background }]}>{tour.duration} · {tour.location}</Text></View>
           </View>
         </Pressable>
       ))}
-    </ScrollView>
+    </View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Pantau nilai kopi</Text></View>
       <Link href="/prices" style={[styles.seeAll, { color: colors.primary }]}>Buka harga</Link>
@@ -1265,8 +1265,8 @@ const styles = StyleSheet.create({
   storyReelFooter: { height: 27, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
   storyReelCta: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.8, fontWeight: '800', textTransform: 'uppercase' },
   storyReelArrow: { width: 27, height: 27, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  tourRail: { gap: 10, paddingRight: 20 },
-  tourCard: { width: 245, height: 170, borderRadius: 20, overflow: 'hidden' },
+  tourGrid: { flexDirection: 'row', gap: 10 },
+  tourCard: { flex: 1, height: 190, borderRadius: 20, overflow: 'hidden' },
   tourImageWrap: { flex: 1, justifyContent: 'flex-end' },
   tourImage: { borderRadius: 20 },
   tourCopy: { padding: 13, gap: 3 },
@@ -1280,8 +1280,8 @@ const styles = StyleSheet.create({
   priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
   priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
   priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
-  homeFooter: { alignItems: 'center', gap: 3, marginTop: 0, paddingTop: 0, paddingBottom: 8 },
-  footerMountain: { width: '100%', height: 104, opacity: 0.42 },
+  homeFooter: { alignItems: 'center', gap: 1, marginTop: -8, paddingTop: 0, paddingBottom: 4 },
+  footerMountain: { width: '100%', height: 68, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
   storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });
