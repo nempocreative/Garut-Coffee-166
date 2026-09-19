@@ -17,24 +17,26 @@ export function Screen({ children, scroll = true, style }: { children: React.Rea
   return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18 }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18 }, style]}>{children}</View>;
 }
 
-export function Header({ title, subtitle, cart = true, qr = false, back = false }: { title: string; subtitle?: string; cart?: boolean; qr?: boolean; back?: boolean }) {
+export function Header({ title, subtitle, cart = true, qr = false, back = false, home = false }: { title: string; subtitle?: string; cart?: boolean; qr?: boolean; back?: boolean; home?: boolean }) {
   const colors = useColors();
   const router = useRouter();
   const { cart: items } = useStore();
   const subtitleParts = subtitle?.split(' · ') ?? [];
   const titleParts = title.split(', ');
-  return <View style={styles.header}>
+  const headerForeground = home ? colors.card : colors.foreground;
+  const headerMuted = home ? colors.background : colors.mutedForeground;
+  return <View style={[styles.header, home && [styles.homeHeader, { backgroundColor: colors.foreground, borderColor: colors.secondaryForeground }]]}>
     <View style={styles.headerTop}>
-      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={[styles.wordmark, home && styles.homeWordmark]}>{home ? <View style={[styles.homeMonogram, { backgroundColor: colors.primary }]}><Text style={[styles.homeMonogramText, { color: colors.primaryForeground }]}>KG</Text></View> : <Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.border }]} />}<View><View style={[styles.brandNameRow, home && styles.homeBrandNameRow]}><Text style={[styles.brandName, home && styles.homeBrandName, { color: headerForeground }]}>Kopi</Text><Text style={[styles.brandName, home && styles.homeBrandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, home && styles.homeBrandMeta, { color: headerMuted }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
       <View style={styles.headerActions}>
-        {qr && <Pressable testID="header-qr" accessibilityRole="button" accessibilityLabel="Buka QR Kopi" onPress={() => router.push('/traceability')} style={({ pressed }) => [styles.headerQrButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="maximize" size={18} color={colors.foreground} /></Pressable>}
-        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+        {qr && <Pressable testID="header-qr" accessibilityRole="button" accessibilityLabel="Buka QR Kopi" onPress={() => router.push('/traceability')} style={({ pressed }) => [styles.headerQrButton, { backgroundColor: colors.secondary, borderColor: home ? colors.accent : colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="maximize" size={18} color={colors.foreground} /></Pressable>}
+        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: home ? colors.accent : colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
       </View>
     </View>
-    <View style={styles.headerBottom}>
+    <View style={[styles.headerBottom, home && [styles.homeHeaderBottom, { borderTopColor: colors.secondaryForeground }]]}>
       <View style={styles.headerCopy}>
-        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
-        <Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, home && styles.homeEyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, home && styles.homeLocationLabel, { color: headerForeground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+        <Text numberOfLines={2} style={[styles.headerTitle, home && styles.homeHeaderTitle, { color: headerForeground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
       </View>
     </View>
   </View>;
@@ -77,20 +79,31 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   header: { gap: 16, marginBottom: 0 },
+  homeHeader: { borderRadius: 24, borderWidth: 1, padding: 18, gap: 18, overflow: 'hidden' },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  homeWordmark: { gap: 12, alignItems: 'center' },
+  homeMonogram: { width: 52, height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  homeMonogramText: { fontFamily: 'Manrope_700Bold', fontSize: 15, fontWeight: '800', letterSpacing: 1.2 },
   logo: { width: 36, height: 36, borderRadius: 12, borderWidth: 1 },
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
+  homeBrandNameRow: { flexDirection: 'column', alignItems: 'flex-start', gap: 0 },
   brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
+  homeBrandName: { fontSize: 23, lineHeight: 22, letterSpacing: -0.8 },
   brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
+  homeBrandMeta: { fontSize: 7.5, letterSpacing: 1.4, marginTop: 6 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
+  homeHeaderBottom: { borderTopWidth: 1, paddingTop: 16 },
   headerCopy: { flex: 1, gap: 5 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
+  homeEyebrow: { fontSize: 9, letterSpacing: 2.1 },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
+  homeHeaderTitle: { fontSize: 30, lineHeight: 35, letterSpacing: -1.1, maxWidth: 320 },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   contextDivider: { width: 18, height: 1 },
   locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.7 },
+  homeLocationLabel: { letterSpacing: 2.1 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   cartButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   headerQrButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },

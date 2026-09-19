@@ -423,7 +423,7 @@ export default function HomeScreen() {
   }, [activeSlide, bannerWidth]);
 
   return <Screen>
-    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
+    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr home />
     <Pressable
       testID="home-search"
       accessibilityRole="button"
