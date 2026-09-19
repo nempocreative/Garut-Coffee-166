@@ -792,17 +792,38 @@ export default function HomeScreen() {
       accessibilityRole="button"
       accessibilityLabel={`Buka cerita ${farmers[0].name}`}
       onPress={() => router.push(`/farmer/${farmers[0].id}`)}
-      style={({ pressed }) => [styles.farmerFeature, { backgroundColor: colors.foreground, opacity: pressed ? 0.86 : 1 }]}
+      style={({ pressed }) => [
+        styles.farmerFeature,
+        { backgroundColor: colors.foreground, borderColor: colors.border, opacity: pressed ? 0.86 : 1 },
+      ]}
     >
-      <View style={styles.farmerImageWrap}>
-        <ExpoImage source={farmers[0].image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.farmerImage]} />
-        <LinearGradient colors={['transparent', colors.foreground]} locations={[0.2, 1]} style={StyleSheet.absoluteFill} />
-        <View style={styles.farmerFeatureCopy}>
-          <View style={styles.farmerTag}><BrandIcon name="map-pin" size={12} color={colors.primaryForeground} /><Text style={[styles.farmerTagText, { color: colors.primaryForeground }]}>{farmers[0].location}</Text></View>
-          <Text style={[styles.farmerName, { color: colors.card }]}>{farmers[0].name}</Text>
-          <Text style={[styles.farmerStory, { color: colors.background }]}>{farmers[0].story}</Text>
-          <View style={styles.farmerMetaRow}><Text style={[styles.farmerMeta, { color: colors.background }]}>{farmers[0].group}</Text><BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} /></View>
+      <View style={[styles.farmerCardAccent, { backgroundColor: colors.accent }]} />
+      <View style={styles.farmerPortraitWrap}>
+        <ExpoImage source={farmers[0].image} contentFit="cover" style={styles.farmerImage} />
+        <LinearGradient colors={['transparent', colors.foreground]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
+        <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.primaryForeground }]}>
+          <BrandIcon name="coffee" size={14} color={colors.primary} />
         </View>
+      </View>
+      <View style={styles.farmerFeatureCopy}>
+        <View style={styles.farmerCardTop}>
+          <View style={styles.farmerCardLabelWrap}>
+            <View style={[styles.farmerCardDot, { backgroundColor: colors.accent }]} />
+            <Text style={[styles.farmerCardLabel, { color: colors.primaryForeground }]}>KARTU PETANI</Text>
+          </View>
+          <Text style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>GARUT / 01</Text>
+        </View>
+        <Text style={[styles.farmerName, { color: colors.card }]}>{farmers[0].name}</Text>
+        <Text numberOfLines={3} style={[styles.farmerStory, { color: colors.background }]}>{farmers[0].story}</Text>
+        <View style={[styles.farmerCardRule, { backgroundColor: colors.border }]} />
+        <View style={styles.farmerMetaRow}>
+          <View style={styles.farmerMetaItem}>
+            <BrandIcon name="map-pin" size={12} color={colors.accent} />
+            <Text numberOfLines={1} style={[styles.farmerMeta, { color: colors.background }]}>{farmers[0].location}</Text>
+          </View>
+          <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
+        </View>
+        <Text numberOfLines={1} style={[styles.farmerGroup, { color: colors.mutedForeground }]}>{farmers[0].group}</Text>
       </View>
     </Pressable>
     <View style={styles.sectionHeading}>
@@ -999,16 +1020,24 @@ const styles = StyleSheet.create({
   tasteIcon: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center', marginBottom: 3 },
   tasteLabel: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   tasteDetail: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
-  farmerFeature: { height: 258, borderRadius: 22, overflow: 'hidden' },
-  farmerImageWrap: { flex: 1, justifyContent: 'flex-end' },
-  farmerImage: { borderRadius: 22 },
-  farmerFeatureCopy: { padding: 16, gap: 6 },
-  farmerTag: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  farmerTagText: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.9, textTransform: 'uppercase' },
-  farmerName: { fontFamily: 'Manrope_700Bold', fontSize: 24, fontWeight: '800', letterSpacing: -0.5 },
-  farmerStory: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16, maxWidth: 290 },
-  farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
-  farmerMeta: { fontFamily: 'Manrope_700Bold', fontSize: 10, letterSpacing: 0.3 },
+  farmerFeature: { height: 184, borderRadius: 22, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center' },
+  farmerCardAccent: { position: 'absolute', top: 0, bottom: 0, left: 0, width: 4 },
+  farmerPortraitWrap: { width: 112, height: 156, marginLeft: 14, marginRight: 13, borderRadius: 16, overflow: 'hidden', position: 'relative' },
+  farmerImage: { width: '100%', height: '100%' },
+  farmerPortraitBadge: { position: 'absolute', left: 9, bottom: 9, width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  farmerFeatureCopy: { flex: 1, minWidth: 0, height: 156, paddingRight: 14, gap: 5 },
+  farmerCardTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
+  farmerCardLabelWrap: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  farmerCardDot: { width: 6, height: 6, borderRadius: 3 },
+  farmerCardLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15 },
+  farmerCardCode: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7 },
+  farmerName: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 24, fontWeight: '800', letterSpacing: -0.5 },
+  farmerStory: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, maxWidth: 190 },
+  farmerCardRule: { width: '100%', height: 1, opacity: 0.65 },
+  farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
+  farmerMetaItem: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  farmerMeta: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.2 },
+  farmerGroup: { fontFamily: 'Manrope_400Regular', fontSize: 8.5, lineHeight: 11 },
   regionRail: { gap: 10, paddingRight: 20 },
   regionCard: { width: 154, minHeight: 176, borderRadius: 18, borderWidth: 1, padding: 10, gap: 5, overflow: 'hidden' },
   regionImage: { width: '100%', height: 55, borderRadius: 12, marginBottom: 2 },
