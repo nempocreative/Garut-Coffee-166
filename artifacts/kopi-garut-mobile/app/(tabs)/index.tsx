@@ -311,7 +311,7 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
   );
 }
 
-function HomeMenuIcon({ image, index }: { image: number; index: number }) {
+function HomeMenuIcon({ image, index, icon }: { image: number; index: number; icon: BrandIconName }) {
   const colors = useColors();
   const palettes = [
     {
@@ -342,7 +342,11 @@ function HomeMenuIcon({ image, index }: { image: number; index: number }) {
         style={[styles.menuIconSurface, { borderColor: colors.primary }]}
       />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
-        <ExpoImage source={image} contentFit="contain" style={styles.menuIllustrationImage} />
+        {icon === 'briefcase' ? (
+          <ThreeDMenuGlyph name="briefcase" colors={palette.glyph} />
+        ) : (
+          <ExpoImage source={image} contentFit="contain" style={styles.menuIllustrationImage} />
+        )}
       </View>
     </View>
   );
@@ -460,7 +464,11 @@ export default function HomeScreen() {
                     onPress={() => router.push(item.route)}
                     style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
                   >
-                    <HomeMenuIcon image={item.image} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
+                    <HomeMenuIcon
+                      image={item.image}
+                      icon={item.icon}
+                      index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)}
+                    />
                     <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
                   </Pressable>
                 ))}
