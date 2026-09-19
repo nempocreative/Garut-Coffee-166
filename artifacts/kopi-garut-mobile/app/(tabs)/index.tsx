@@ -447,7 +447,7 @@ export default function HomeScreen() {
       : interpolate(carouselProgress.value, [0, 1], [-promoShift, -promoShift * 2]);
     return {
       transform: [{ translateX }, { scale: 0.86 }],
-      opacity: transitionTarget === null ? 0.34 : interpolate(carouselProgress.value, [0, 1], [0.34, 0]),
+      opacity: 0.34,
     };
   });
   const currentCarouselStyle = useAnimatedStyle(() => ({
@@ -455,14 +455,14 @@ export default function HomeScreen() {
       { translateX: transitionTarget === null ? 0 : interpolate(carouselProgress.value, [0, 1], [0, -promoShift]) },
       { scale: transitionTarget === null ? 1 : interpolate(carouselProgress.value, [0, 1], [1, 0.86]) },
     ],
-    opacity: transitionTarget === null ? 1 : interpolate(carouselProgress.value, [0, 1], [1, 0.34]),
+    opacity: 1,
   }));
   const incomingCarouselStyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: interpolate(carouselProgress.value, [0, 1], [promoShift, 0]) },
       { scale: interpolate(carouselProgress.value, [0, 1], [0.86, 1]) },
     ],
-    opacity: interpolate(carouselProgress.value, [0, 1], [0.34, 1]),
+    opacity: 1,
   }));
   const nextBackdropStyle = useAnimatedStyle(() => ({
     transform: [{
@@ -470,7 +470,7 @@ export default function HomeScreen() {
         ? promoShift
         : interpolate(carouselProgress.value, [0, 1], [promoShift * 2, promoShift]),
     }, { scale: 0.86 }],
-    opacity: transitionTarget === null ? 0.34 : interpolate(carouselProgress.value, [0, 1], [0, 0.34]),
+    opacity: 0.34,
   }));
 
   useEffect(() => {
