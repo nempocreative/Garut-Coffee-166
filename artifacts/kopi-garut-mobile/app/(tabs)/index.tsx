@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } fr
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
-import Animated, { Easing, FadeIn, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
@@ -474,7 +474,12 @@ export default function HomeScreen() {
         >
           <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
         </Pressable>
-        <Animated.View key={currentSlide.id} entering={FadeIn.duration(420)} style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }]}>
+        <Animated.View
+          key={currentSlide.id}
+          entering={SlideInRight.duration(620).easing(Easing.out(Easing.cubic))}
+          exiting={SlideOutLeft.duration(620).easing(Easing.in(Easing.cubic))}
+          style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }]}
+        >
           <Pressable
             testID={`promo-browse-${activeSlide}`}
             accessibilityRole="button"
