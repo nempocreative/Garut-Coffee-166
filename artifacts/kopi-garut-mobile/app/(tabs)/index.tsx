@@ -822,8 +822,6 @@ export default function HomeScreen() {
               <Text style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>GARUT / 0{index + 1}</Text>
             </View>
             <Text numberOfLines={1} style={[styles.farmerName, { color: colors.card }]}>{farmer.name}</Text>
-            <Text numberOfLines={3} style={[styles.farmerStory, { color: colors.background }]}>{farmer.story}</Text>
-            <View style={[styles.farmerCardRule, { backgroundColor: colors.border }]} />
             <View style={styles.farmerMetaRow}>
               <View style={styles.farmerMetaItem}>
                 <BrandIcon name="map-pin" size={12} color={colors.accent} />
@@ -831,7 +829,16 @@ export default function HomeScreen() {
               </View>
               <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
             </View>
-            <Text numberOfLines={1} style={[styles.farmerGroup, { color: colors.mutedForeground }]}>{farmer.group}</Text>
+            <View style={[styles.farmerCardRule, { backgroundColor: colors.border }]} />
+            <View style={[styles.farmerVerification, { backgroundColor: colors.secondary }]}>
+              <View style={[styles.farmerVerificationIcon, { backgroundColor: colors.primary }]}>
+                <BrandIcon name="shield" size={12} color={colors.primaryForeground} />
+              </View>
+              <View style={styles.farmerVerificationCopy}>
+                <Text style={[styles.farmerVerificationLabel, { color: colors.primary }]}>LISENSI TERVERIFIKASI</Text>
+                <Text numberOfLines={1} style={[styles.farmerVerificationAuthority, { color: colors.secondaryForeground }]}>DINAS PERTANIAN GARUT</Text>
+              </View>
+            </View>
           </View>
         </Pressable>
       ))}
@@ -1031,7 +1038,7 @@ const styles = StyleSheet.create({
   tasteLabel: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   tasteDetail: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   farmerRail: { flexDirection: 'row', gap: 8, paddingRight: 20 },
-  farmerFeature: { height: 286, borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
+  farmerFeature: { height: 250, borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
   farmerCardAccent: { position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 4 },
   farmerPortraitWrap: { width: '100%', height: 112, margin: 0, borderRadius: 0, overflow: 'hidden', position: 'relative' },
   farmerImage: { width: '100%', height: '100%' },
@@ -1043,12 +1050,15 @@ const styles = StyleSheet.create({
   farmerCardLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15 },
   farmerCardCode: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7 },
   farmerName: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '800', letterSpacing: -0.4 },
-  farmerStory: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 13, maxWidth: 190 },
   farmerCardRule: { width: '100%', height: 1, opacity: 0.65 },
   farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
   farmerMetaItem: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 5 },
   farmerMeta: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.2 },
-  farmerGroup: { fontFamily: 'Manrope_400Regular', fontSize: 8.5, lineHeight: 11 },
+  farmerVerification: { minHeight: 38, borderRadius: 11, paddingHorizontal: 7, paddingVertical: 6, flexDirection: 'row', alignItems: 'center', gap: 7 },
+  farmerVerificationIcon: { width: 25, height: 25, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  farmerVerificationCopy: { flex: 1, minWidth: 0, gap: 1 },
+  farmerVerificationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 0.55 },
+  farmerVerificationAuthority: { fontFamily: 'Manrope_600SemiBold', fontSize: 7.5, lineHeight: 10 },
   regionRail: { gap: 10, paddingRight: 20 },
   regionCard: { width: 154, minHeight: 176, borderRadius: 18, borderWidth: 1, padding: 10, gap: 5, overflow: 'hidden' },
   regionImage: { width: '100%', height: 55, borderRadius: 12, marginBottom: 2 },
