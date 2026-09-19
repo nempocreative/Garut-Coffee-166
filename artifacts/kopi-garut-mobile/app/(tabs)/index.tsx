@@ -42,22 +42,22 @@ const promoSlides = [
 ];
 
 const categoryItems = [
-  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const, image: require('../../assets/images/coffee-bean-menu-ai.png') },
-  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const, image: require('../../assets/images/farmer-menu-ai.png') },
-  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const, image: require('../../assets/images/region-menu-ai.png') },
-  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const, image: require('../../assets/images/tourism-menu-ai-transparent.png') },
-  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const, image: require('../../assets/images/price-menu-ai.png') },
-  { icon: 'calendar' as const, label: 'Event', route: '/events' as const, image: require('../../assets/images/event-menu-ai-transparent.png') },
-  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const, image: require('../../assets/images/partnership-menu-ai-transparent.png') },
-  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const, image: require('../../assets/images/data-menu-ai-transparent.png') },
-  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const, image: require('../../assets/images/collective-menu-ai.png') },
-  { icon: 'shield' as const, label: 'Program', route: '/program' as const, image: require('../../assets/images/program-menu-ai.png') },
-  { icon: 'check' as const, label: 'Standar', route: '/standards' as const, image: require('../../assets/images/standards-menu-ai-transparent.png') },
-  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const, image: require('../../assets/images/documents-menu-ai-transparent.png') },
-  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const, image: require('../../assets/images/traceability-menu-ai.png') },
-  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const, image: require('../../assets/images/complaints-menu-ai-transparent.png') },
-  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const, image: require('../../assets/images/verification-menu-ai-transparent.png') },
-  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const, image: require('../../assets/images/reports-menu-ai-transparent.png') },
+  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const },
+  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
+  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
+  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
+  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const },
+  { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
+  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
+  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
+  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
+  { icon: 'shield' as const, label: 'Program', route: '/program' as const },
+  { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
+  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
+  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const },
+  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
+  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const },
+  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const },
 ];
 
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
@@ -311,7 +311,7 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
   );
 }
 
-function HomeMenuIcon({ image, index, icon }: { image: number; index: number; icon: BrandIconName }) {
+function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const colors = useColors();
   const palettes = [
     {
@@ -332,6 +332,12 @@ function HomeMenuIcon({ image, index, icon }: { image: number; index: number; ic
     },
   ] as const;
   const palette = palettes[index % palettes.length];
+  const extrusion = {
+    main: colors.foreground,
+    light: colors.secondaryForeground,
+    dark: colors.foreground,
+    accent: colors.secondaryForeground,
+  };
 
   return (
     <View style={styles.menuIconStage}>
@@ -339,14 +345,17 @@ function HomeMenuIcon({ image, index, icon }: { image: number; index: number; ic
         colors={palette.gradient}
         start={{ x: 0.15, y: 0 }}
         end={{ x: 0.9, y: 1 }}
-        style={[styles.menuIconSurface, { borderColor: colors.primary }]}
+        style={[styles.menuIconSurface, { borderColor: colors.primary, shadowColor: colors.foreground }]}
       />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
-        {icon === 'briefcase' ? (
-          <ThreeDMenuGlyph name="briefcase" colors={palette.glyph} />
-        ) : (
-          <ExpoImage source={image} contentFit="contain" style={styles.menuIllustrationImage} />
-        )}
+        <View style={[styles.menuIconDropShadow, { backgroundColor: colors.foreground }]} />
+        <View style={styles.menuGlyphExtrusion}>
+          <ThreeDMenuGlyph name={icon} colors={extrusion} />
+        </View>
+        <View style={styles.menuGlyphFront}>
+          <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
+          <View style={[styles.menuGlyphSheen, { backgroundColor: colors.card }]} />
+        </View>
       </View>
     </View>
   );
@@ -464,11 +473,7 @@ export default function HomeScreen() {
                     onPress={() => router.push(item.route)}
                     style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
                   >
-                    <HomeMenuIcon
-                      image={item.image}
-                      icon={item.icon}
-                      index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)}
-                    />
+                    <HomeMenuIcon icon={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
                     <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
                   </Pressable>
                 ))}
@@ -702,10 +707,25 @@ const styles = StyleSheet.create({
   categoryPage: { paddingHorizontal: 20, gap: 16 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryItem: { alignItems: 'center', gap: 8 },
-  menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
-  menuIconSurface: { width: 46, height: 46, borderRadius: 15, borderWidth: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  menuIconStage: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
+  menuIconSurface: {
+    width: 50,
+    height: 50,
+    borderRadius: 16,
+    borderWidth: 1.2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    shadowOpacity: 0.28,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 4,
+  },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  menuIllustrationImage: { width: 42, height: 42 },
+  menuIconDropShadow: { position: 'absolute', width: 28, height: 7, borderRadius: 10, bottom: 6, opacity: 0.28, transform: [{ scaleX: 1.15 }] },
+  menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -1 }, { translateY: 4 }], opacity: 0.95 },
+  menuGlyphFront: { position: 'absolute', transform: [{ translateY: -1 }] },
+  menuGlyphSheen: { position: 'absolute', width: 12, height: 3, borderRadius: 3, top: 7, left: 7, opacity: 0.34, transform: [{ rotate: '-28deg' }] },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
