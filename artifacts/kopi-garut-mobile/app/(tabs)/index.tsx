@@ -168,7 +168,6 @@ function CoffeeCupAnimation() {
           <Ellipse cx="12.5" cy="8.5" rx="7.5" ry="2.2" fill={colors.accent} stroke={colors.primary} strokeWidth="0.9" />
           <Path d="M5 8.5h15v5.2A5.3 5.3 0 0 1 14.7 19h-4.4A5.3 5.3 0 0 1 5 13.7V8.5Z" fill={colors.card} stroke={colors.primary} strokeWidth="0.9" />
           <Path d="M20 10.5h1.3a2.7 2.7 0 0 1 0 5.4H20" fill="none" stroke={colors.primary} strokeWidth="0.9" strokeLinecap="round" />
-          <Path d="M4 21h18" fill="none" stroke={colors.primary} strokeWidth="1" strokeLinecap="round" />
           <Path d="M9.5 13.2h.01M15.2 13.2h.01M10.8 15.2c1.1.9 2.2.9 3.3 0" fill="none" stroke={colors.primary} strokeWidth="0.9" strokeLinecap="round" />
         </Svg>
       </Animated.View>
@@ -193,7 +192,6 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
           <Ellipse cx="13.5" cy="9.5" rx="7.5" ry="2.4" fill={colors.light} />
           <Ellipse cx="13.5" cy="9.5" rx="5.5" ry="1.2" fill={colors.accent} opacity={0.85} />
           <Path d="M21 12h1.2a3.2 3.2 0 0 1 0 6.4H21" fill={colors.accent} />
-          <Path d="M9 26h12" stroke={colors.dark} strokeWidth="1.8" strokeLinecap="round" />
         </>
       )}
       {name === 'users' && (
@@ -320,21 +318,21 @@ type MenuCoffeeOrnamentColors = {
 function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
   return (
     <Svg width={56} height={56} viewBox="0 0 56 56" style={styles.menuCoffeeOrnament}>
-      <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(-35 7.8 8.2)" />
+      <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 7.8 8.2)" />
       <Ellipse cx="6.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 6.5 6.5)" />
       <Path d="M4.4 2.4c1.7 1.9 2 4.4 1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="48.2" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(35 48.2 8.2)" />
+      <Ellipse cx="48.2" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 48.2 8.2)" />
       <Ellipse cx="49.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 49.5 6.5)" />
       <Path d="M51.6 2.4c-1.7 1.9-2 4.4-1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="7.8" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(35 7.8 47.8)" />
+      <Ellipse cx="7.8" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 7.8 47.8)" />
       <Ellipse cx="6.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 6.5 49.5)" />
       <Path d="M4.4 53.6c1.7-1.9 2-4.4 1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="48.2" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} transform="rotate(-35 48.2 47.8)" />
+      <Ellipse cx="48.2" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 48.2 47.8)" />
       <Ellipse cx="49.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 49.5 49.5)" />
       <Path d="M51.6 53.6c-1.7-1.9-2-4.4-1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Circle cx="26.5" cy="3.2" r="1.7" fill={colors.shadow} />
+      <Circle cx="26.5" cy="3.2" r="1.7" fill={colors.shadow} opacity={0.34} />
       <Circle cx="29.5" cy="3.2" r="1.7" fill={colors.bean} />
-      <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} />
+      <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} opacity={0.34} />
       <Circle cx="29.5" cy="52.8" r="1.7" fill={colors.bean} />
     </Svg>
   );
@@ -362,9 +360,9 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   ] as const;
   const palette = palettes[index % palettes.length];
   const extrusion = {
-    main: colors.foreground,
-    light: colors.secondaryForeground,
-    dark: colors.foreground,
+    main: colors.secondaryForeground,
+    light: colors.secondary,
+    dark: colors.secondaryForeground,
     accent: colors.secondaryForeground,
   };
 
@@ -376,7 +374,7 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
         end={{ x: 0.9, y: 1 }}
         style={[styles.menuIconSurface, { borderColor: colors.primary, shadowColor: colors.foreground }]}
       />
-      <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.foreground, highlight: colors.card }} />
+      <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
         <View style={styles.menuGlyphExtrusion}>
           <ThreeDMenuGlyph name={icon} colors={extrusion} />
@@ -744,15 +742,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    shadowOpacity: 0.28,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
+     shadowOpacity: 0.16,
+     shadowRadius: 3,
+     shadowOffset: { width: 0, height: 2 },
+     elevation: 2,
   },
   menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -1 }, { translateY: 4 }], opacity: 0.95 },
-  menuGlyphFront: { position: 'absolute', transform: [{ translateY: -1 }] },
+  menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
+  menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
