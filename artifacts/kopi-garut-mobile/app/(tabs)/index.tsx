@@ -22,26 +22,6 @@ const promoSlides = [
     route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
   },
-  {
-    id: 'coffee-tour',
-    route: '/tourism' as const,
-    image: require('../../assets/images/mountain-banner.png'),
-  },
-  {
-    id: 'coffee-regions',
-    route: '/regions' as const,
-    image: require('../../assets/images/garut-mountains.png'),
-  },
-  {
-    id: 'coffee-collective',
-    route: '/collective' as const,
-    image: require('../../assets/images/story-background.png'),
-  },
-  {
-    id: 'coffee-beans',
-    route: '/partnership' as const,
-    image: require('../../assets/images/coffee-beans-natural.png'),
-  },
 ];
 
 const categoryItems = [
