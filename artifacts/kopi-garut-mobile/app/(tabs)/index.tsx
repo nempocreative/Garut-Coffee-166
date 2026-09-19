@@ -749,7 +749,7 @@ const styles = StyleSheet.create({
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
-  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
+  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12, transform: [{ translateY: -8 }] },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden', zIndex: 1 },
@@ -830,5 +830,5 @@ const styles = StyleSheet.create({
   homeFooter: { alignItems: 'center', gap: 3, marginTop: 0, paddingTop: 0, paddingBottom: 8 },
   footerMountain: { width: '100%', height: 104, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
+  storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });
