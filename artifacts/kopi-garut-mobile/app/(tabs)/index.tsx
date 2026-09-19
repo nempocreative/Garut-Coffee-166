@@ -316,25 +316,41 @@ type MenuCoffeeOrnamentColors = {
 };
 
 function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 12000, easing: Easing.linear }),
+      -1,
+      false,
+    );
+  }, [rotation]);
+
+  const ornamentStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${rotation.value}deg` }],
+  }));
+
   return (
-    <Svg width={56} height={56} viewBox="0 0 56 56" style={styles.menuCoffeeOrnament}>
-      <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 7.8 8.2)" />
-      <Ellipse cx="6.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 6.5 6.5)" />
-      <Path d="M4.4 2.4c1.7 1.9 2 4.4 1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="48.2" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 48.2 8.2)" />
-      <Ellipse cx="49.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 49.5 6.5)" />
-      <Path d="M51.6 2.4c-1.7 1.9-2 4.4-1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="7.8" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 7.8 47.8)" />
-      <Ellipse cx="6.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 6.5 49.5)" />
-      <Path d="M4.4 53.6c1.7-1.9 2-4.4 1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Ellipse cx="48.2" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 48.2 47.8)" />
-      <Ellipse cx="49.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 49.5 49.5)" />
-      <Path d="M51.6 53.6c-1.7-1.9-2-4.4-1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
-      <Circle cx="26.5" cy="3.2" r="1.7" fill={colors.shadow} opacity={0.34} />
-      <Circle cx="29.5" cy="3.2" r="1.7" fill={colors.bean} />
-      <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} opacity={0.34} />
-      <Circle cx="29.5" cy="52.8" r="1.7" fill={colors.bean} />
-    </Svg>
+    <Animated.View pointerEvents="none" style={[styles.menuCoffeeOrnament, ornamentStyle]}>
+      <Svg width={56} height={56} viewBox="0 0 56 56">
+        <Ellipse cx="7.8" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 7.8 8.2)" />
+        <Ellipse cx="6.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 6.5 6.5)" />
+        <Path d="M4.4 2.4c1.7 1.9 2 4.4 1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+        <Ellipse cx="48.2" cy="8.2" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 48.2 8.2)" />
+        <Ellipse cx="49.5" cy="6.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 49.5 6.5)" />
+        <Path d="M51.6 2.4c-1.7 1.9-2 4.4-1.2 8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+        <Ellipse cx="7.8" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(35 7.8 47.8)" />
+        <Ellipse cx="6.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(35 6.5 49.5)" />
+        <Path d="M4.4 53.6c1.7-1.9 2-4.4 1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+        <Ellipse cx="48.2" cy="47.8" rx="4" ry="5.7" fill={colors.shadow} opacity={0.34} transform="rotate(-35 48.2 47.8)" />
+        <Ellipse cx="49.5" cy="49.5" rx="4" ry="5.7" fill={colors.bean} transform="rotate(-35 49.5 49.5)" />
+        <Path d="M51.6 53.6c-1.7-1.9-2-4.4-1.2-8" fill="none" stroke={colors.highlight} strokeWidth="1" strokeLinecap="round" opacity={0.92} />
+        <Circle cx="26.5" cy="3.2" r="1.7" fill={colors.shadow} opacity={0.34} />
+        <Circle cx="29.5" cy="3.2" r="1.7" fill={colors.bean} />
+        <Circle cx="26.5" cy="52.8" r="1.7" fill={colors.shadow} opacity={0.34} />
+        <Circle cx="29.5" cy="52.8" r="1.7" fill={colors.bean} />
+      </Svg>
+    </Animated.View>
   );
 }
 
