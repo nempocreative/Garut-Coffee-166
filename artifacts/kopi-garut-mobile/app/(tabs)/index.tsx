@@ -22,6 +22,26 @@ const promoSlides = [
     route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
   },
+  {
+    id: 'coffee-tour',
+    route: '/tourism' as const,
+    image: require('../../assets/images/hero-coffee.jpg'),
+  },
+  {
+    id: 'coffee-regions',
+    route: '/regions' as const,
+    image: require('../../assets/images/origin-coffee.jpg'),
+  },
+  {
+    id: 'coffee-collective',
+    route: '/collective' as const,
+    image: require('../../assets/images/hero-coffee.jpg'),
+  },
+  {
+    id: 'coffee-partnership',
+    route: '/partnership' as const,
+    image: require('../../assets/images/origin-coffee.jpg'),
+  },
 ];
 
 const categoryItems = [
