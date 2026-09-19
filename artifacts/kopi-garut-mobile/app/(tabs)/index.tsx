@@ -409,6 +409,8 @@ export default function HomeScreen() {
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
+  const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
+  const promoSideHeight = Math.max(120, promoHeight - 26);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
@@ -444,14 +446,18 @@ export default function HomeScreen() {
         <BrandIcon name="sliders" size={15} color={colors.primary} />
       </View>
     </Pressable>
-    <Animated.View entering={FadeInDown.duration(550)} style={styles.heroSection}>
-      <View style={styles.promoGallery}>
+    <Animated.View entering={FadeInDown.duration(550)} style={[styles.heroSection, { height: promoHeight }]}>
+      <View style={[styles.promoGallery, { height: promoHeight }]}>
         <Pressable
           testID="promo-previous"
           accessibilityRole="button"
           accessibilityLabel="Buka promo sebelumnya"
           onPress={() => router.push(previousSlide.route)}
-          style={({ pressed }) => [styles.promoBackdrop, styles.promoPrevious, { opacity: pressed ? 0.5 : 0.34 }]}
+          style={({ pressed }) => [
+            styles.promoBackdrop,
+            styles.promoPrevious,
+            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
+          ]}
         >
           <ExpoImage source={previousSlide.image} contentFit="cover" style={styles.promoImage} />
         </Pressable>
@@ -460,11 +466,15 @@ export default function HomeScreen() {
           accessibilityRole="button"
           accessibilityLabel="Buka promo berikutnya"
           onPress={() => router.push(nextSlide.route)}
-          style={({ pressed }) => [styles.promoBackdrop, styles.promoNext, { opacity: pressed ? 0.5 : 0.34 }]}
+          style={({ pressed }) => [
+            styles.promoBackdrop,
+            styles.promoNext,
+            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
+          ]}
         >
           <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
         </Pressable>
-        <Animated.View key={currentSlide.id} entering={FadeIn.duration(420)} style={[styles.promoActive, { shadowColor: colors.foreground }]}>
+        <Animated.View key={currentSlide.id} entering={FadeIn.duration(420)} style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }]}>
           <Pressable
             testID={`promo-browse-${activeSlide}`}
             accessibilityRole="button"
@@ -723,12 +733,12 @@ const styles = StyleSheet.create({
   searchBeanImage: { width: 32, height: 32 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  heroSection: { height: 220, marginTop: 0 },
-  promoGallery: { height: 220, position: 'relative', overflow: 'hidden' },
-  promoBackdrop: { position: 'absolute', top: 20, width: '52%', height: 180, borderRadius: 22, overflow: 'hidden', zIndex: 1, transform: [{ scale: 0.86 }] },
+  heroSection: { marginTop: 0 },
+  promoGallery: { position: 'relative', overflow: 'hidden' },
+  promoBackdrop: { position: 'absolute', width: '52%', borderRadius: 22, overflow: 'hidden', zIndex: 1, transform: [{ scale: 0.86 }] },
   promoPrevious: { left: '-13%' },
   promoNext: { right: '-13%' },
-  promoActive: { position: 'absolute', left: '19%', top: 0, width: '62%', height: 220, borderRadius: 26, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
+  promoActive: { position: 'absolute', left: '7%', top: 0, width: '86%', borderRadius: 26, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
   promoImage: { ...StyleSheet.absoluteFill },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
