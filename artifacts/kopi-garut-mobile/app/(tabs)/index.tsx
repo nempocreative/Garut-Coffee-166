@@ -410,14 +410,11 @@ export default function HomeScreen() {
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
-  const promoSideHeight = Math.max(120, promoHeight - 26);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
 
-  const previousSlide = promoSlides[(activeSlide - 1 + promoSlides.length) % promoSlides.length];
   const currentSlide = promoSlides[activeSlide];
-  const nextSlide = promoSlides[(activeSlide + 1) % promoSlides.length];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -455,18 +452,6 @@ export default function HomeScreen() {
         style={[styles.promoScene, { height: promoHeight }]}
       >
         <View style={[styles.promoGallery, { height: promoHeight }]}>
-        <Pressable
-          testID="promo-previous"
-          accessibilityRole="button"
-          accessibilityLabel="Buka promo sebelumnya"
-          onPress={() => router.push(previousSlide.route)}
-          style={({ pressed }) => [
-            styles.promoBackdrop,
-            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
-          ]}
-        >
-          <ExpoImage source={previousSlide.image} contentFit="cover" style={styles.promoImage} />
-        </Pressable>
         <View style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }]}>
           <Pressable
             testID={`promo-browse-${activeSlide}`}
@@ -478,18 +463,6 @@ export default function HomeScreen() {
             <ExpoImage source={currentSlide.image} contentFit="cover" style={styles.promoImage} />
           </Pressable>
         </View>
-        <Pressable
-          testID="promo-next"
-          accessibilityRole="button"
-          accessibilityLabel="Buka promo berikutnya"
-          onPress={() => router.push(nextSlide.route)}
-          style={({ pressed }) => [
-            styles.promoBackdrop,
-            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
-          ]}
-        >
-          <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
-        </Pressable>
         <View style={styles.promoDots}>
           {promoSlides.map((slide, index) => (
             <Pressable
@@ -742,8 +715,7 @@ const styles = StyleSheet.create({
   heroSection: { marginTop: 0 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
-  promoBackdrop: { position: 'absolute', left: '7%', top: 0, width: '86%', borderRadius: 22, overflow: 'hidden', zIndex: 1 },
-  promoActive: { position: 'absolute', left: '7%', top: 0, width: '86%', borderRadius: 26, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
+  promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
   promoImage: { ...StyleSheet.absoluteFill },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
