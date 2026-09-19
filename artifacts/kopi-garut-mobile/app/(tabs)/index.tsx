@@ -279,35 +279,6 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
   );
 }
 
-function TraceabilityMenuIllustration({ colors }: { colors: MenuGlyphColors }) {
-  return (
-    <Svg width={42} height={42} viewBox="0 0 42 42">
-      <Ellipse cx="21" cy="35.5" rx="13.5" ry="3.8" fill={colors.dark} opacity={0.35} />
-      <Path
-        d="M8 30.8c0-3.4 5.6-6.1 13-6.1s13 2.7 13 6.1-5.6 6.1-13 6.1-13-2.7-13-6.1Z"
-        fill={colors.dark}
-      />
-      <Path
-        d="M8 29.2c0-3.4 5.6-6.1 13-6.1s13 2.7 13 6.1-5.6 6.1-13 6.1-13-2.7-13-6.1Z"
-        fill={colors.main}
-      />
-      <Path d="M12.5 28.2c2.8-1.6 7-2.3 11.3-1.8" fill="none" stroke={colors.light} strokeWidth="1.2" strokeLinecap="round" opacity={0.8} />
-      <Circle cx="14" cy="31.2" r="1.25" fill={colors.accent} />
-      <Circle cx="27.5" cy="29.2" r="1.45" fill={colors.accent} />
-      <Circle cx="24" cy="33" r="0.9" fill={colors.accent} />
-      <Path d="M20.5 27.2c.2-4.8-.2-8.5-2.1-12.2" fill="none" stroke={colors.dark} strokeWidth="2.5" strokeLinecap="round" />
-      <Path d="M21.5 27.2c-.1-4.8-.1-8.5-1.4-12.2" fill="none" stroke={colors.main} strokeWidth="2.5" strokeLinecap="round" />
-      <Path d="M20.5 16.7C15 17 10.7 14.2 10 9.3c4.8-.7 9.2 1.2 10.5 6.1Z" fill={colors.dark} />
-      <Path d="M21 15.6c-5.1.2-8.8-2.4-9.5-6.1 4.4-.4 8.2 1.6 9.5 6.1Z" fill={colors.main} />
-      <Path d="M21.4 16.7c5.1.3 9.8-2.5 10.6-7.4-4.7-.7-9.1 1.3-10.6 7.4Z" fill={colors.dark} />
-      <Path d="M21.1 15.6c4.8.2 8.9-2.4 9.6-6.1-4.3-.4-8.2 1.6-9.6 6.1Z" fill={colors.light} />
-      <Path d="M20.7 14.6c-.5-5.1.9-9.2 4.6-11.6 3.1 4.1 1.6 8.9-4.6 11.6Z" fill={colors.dark} />
-      <Path d="M21.5 13.8c-.2-4.7 1-8.1 3.6-9.9 2.3 3.5 1 7.3-3.6 9.9Z" fill={colors.accent} />
-      <Path d="M12 10.1c2.1 1.1 4.6 2.9 7.2 5.7M29.9 10.2c-2.2 1.1-4.7 2.9-7.2 5.6M24.7 5.3c-1.3 2.4-2.1 5.2-2.5 8.1" fill="none" stroke={colors.accent} strokeWidth="0.8" strokeLinecap="round" opacity={0.75} />
-    </Svg>
-  );
-}
-
 function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
   const colors = useColors();
   const palettes = [
@@ -339,20 +310,20 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         style={[styles.menuIconSurface, { borderColor: colors.primary }]}
       />
       <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
-        {name === 'coffee' || name === 'users' || name === 'map' ? (
+        {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
           <ExpoImage
             source={
               name === 'coffee'
                 ? require('../../assets/images/coffee-bean-menu-original.png')
                 : name === 'users'
                   ? require('../../assets/images/farmer-menu.png')
-                  : require('../../assets/images/region-menu.png')
+                  : name === 'map'
+                    ? require('../../assets/images/region-menu.png')
+                    : require('../../assets/images/traceability-menu-ai.png')
             }
             contentFit="contain"
             style={styles.menuIllustrationImage}
           />
-        ) : name === 'maximize' ? (
-          <TraceabilityMenuIllustration colors={palette.glyph} />
         ) : (
           <ThreeDMenuGlyph name={name} colors={palette.glyph} />
         )}
