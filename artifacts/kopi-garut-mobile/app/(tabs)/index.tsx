@@ -823,8 +823,8 @@ export default function HomeScreen() {
                 <View style={[styles.farmerCardDot, { backgroundColor: index === 0 ? colors.accent : colors.primary }]} />
                 <Text style={[styles.farmerCardLabel, { color: colors.primaryForeground }]}>Petani pilihan</Text>
               </View>
+              <Text style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>{farmer.membershipId}</Text>
             </View>
-            <Text style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>{farmer.membershipId}</Text>
             <Text numberOfLines={1} style={[styles.farmerName, { color: colors.card }]}>{farmer.name}</Text>
             <View style={styles.farmerMetaRow}>
               <View style={styles.farmerMetaItem}>
@@ -1053,11 +1053,11 @@ const styles = StyleSheet.create({
   farmerPortraitBadge: { position: 'absolute', left: 9, bottom: 9, width: 34, height: 34, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', padding: 5 },
   farmerBadgeImage: { width: '100%', height: '100%' },
   farmerFeatureCopy: { flex: 1, minWidth: 0, padding: 11, gap: 4, justifyContent: 'space-between' },
-  farmerCardTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
-  farmerCardLabelWrap: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  farmerCardTop: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  farmerCardLabelWrap: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 5 },
   farmerCardDot: { width: 6, height: 6, borderRadius: 3 },
   farmerCardLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, lineHeight: 10, fontWeight: '700', letterSpacing: 0.3 },
-  farmerCardCode: { width: '100%', flexShrink: 0, fontFamily: 'Manrope_700Bold', fontSize: 7, lineHeight: 10, fontWeight: '800', letterSpacing: 0.7 },
+  farmerCardCode: { flexShrink: 0, fontFamily: 'Manrope_700Bold', fontSize: 7, lineHeight: 10, fontWeight: '800', letterSpacing: 0.4 },
   farmerName: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 18, fontWeight: '800', letterSpacing: -0.3 },
   farmerCardRule: { width: '100%', height: 1, opacity: 0.65 },
   farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
