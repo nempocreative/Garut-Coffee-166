@@ -316,7 +316,7 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
               name === 'coffee'
                 ? require('../../assets/images/coffee-bean-menu-ai.png')
                 : name === 'users'
-                  ? require('../../assets/images/farmer-menu.png')
+                  ? require('../../assets/images/farmer-menu-ai.png')
                   : name === 'map'
                     ? require('../../assets/images/region-menu.png')
                     : require('../../assets/images/traceability-menu-ai.png')
