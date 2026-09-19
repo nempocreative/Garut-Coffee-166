@@ -334,7 +334,6 @@ function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
 
 function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const colors = useColors();
-  const shouldAnimateIcon = true;
   const iconMotion = useSharedValue(0);
 
   useEffect(() => {
@@ -347,8 +346,9 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
 
   const iconMotionStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateY: shouldAnimateIcon ? interpolate(iconMotion.value, [0, 0.5, 1], [0, -2, 0]) : 0 },
-      { rotate: shouldAnimateIcon ? `${interpolate(iconMotion.value, [0, 0.5, 1], [-2, 2, -2])}deg` : '0deg' },
+      { translateY: interpolate(iconMotion.value, [0, 0.5, 1], [0, -3, 0]) },
+      { rotate: `${interpolate(iconMotion.value, [0, 0.5, 1], [-4, 4, -4])}deg` },
+      { scale: interpolate(iconMotion.value, [0, 0.5, 1], [1, 1.04, 1]) },
     ],
   }));
 
