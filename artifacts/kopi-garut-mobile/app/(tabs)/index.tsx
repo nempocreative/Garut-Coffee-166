@@ -708,7 +708,6 @@ export default function HomeScreen() {
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text>
-        <Text style={[styles.sectionHint, { color: colors.mutedForeground }]}>Satu ekosistem, banyak langkah nyata.</Text>
       </View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
     </View>
@@ -730,11 +729,12 @@ export default function HomeScreen() {
       >
         <View style={[styles.statsRoadGlow, { backgroundColor: colors.accent }]} />
         <View style={[styles.statsRoadGlowSmall, { backgroundColor: colors.primaryForeground }]} />
-        <View style={styles.statsRoadHeader}>
-          <View style={styles.statsRoadEyebrowRow}>
-            <View style={[styles.statsRoadMarker, { backgroundColor: colors.accent }]} />
-            <Text style={[styles.statsRoadEyebrow, { color: colors.primaryForeground }]}>RUTE KOPI GARUT</Text>
+        <View style={[styles.statsRoadDecor, { borderColor: colors.primaryForeground }]}>
+          <View style={[styles.statsRoadDecorCircle, { backgroundColor: colors.accent }]}>
+            <CoffeeCupAnimation />
           </View>
+        </View>
+        <View style={styles.statsRoadHeader}>
           <Text style={[styles.statsRoadTitle, { color: colors.card }]}>Tumbuh dari kebun, terasa di setiap cangkir.</Text>
         </View>
         <View style={styles.statsRoute}>
@@ -887,7 +887,6 @@ const styles = StyleSheet.create({
   headingRule: { width: 42, height: 1, marginBottom: 7 },
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 0, letterSpacing: -0.3 },
-  sectionHint: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, marginTop: 2 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
   categoryPager: { marginHorizontal: -20 },
   categoryPage: { paddingHorizontal: 20, gap: 16 },
@@ -936,11 +935,10 @@ const styles = StyleSheet.create({
   statsRoadPanel: { minHeight: 208, padding: 16, gap: 4, position: 'relative', overflow: 'hidden' },
   statsRoadGlow: { position: 'absolute', width: 142, height: 142, borderRadius: 71, top: -72, right: -40, opacity: 0.1 },
   statsRoadGlowSmall: { position: 'absolute', width: 68, height: 68, borderRadius: 34, bottom: -32, left: -22, opacity: 0.08 },
+  statsRoadDecor: { position: 'absolute', top: 11, right: 12, width: 72, height: 72, borderRadius: 36, borderWidth: 1, alignItems: 'center', justifyContent: 'center', opacity: 0.92 },
+  statsRoadDecorCircle: { width: 58, height: 58, borderRadius: 29, alignItems: 'center', justifyContent: 'center' },
   statsRoadHeader: { gap: 5 },
-  statsRoadEyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  statsRoadMarker: { width: 7, height: 7, borderRadius: 4 },
-  statsRoadEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.45 },
-  statsRoadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 270 },
+  statsRoadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 21, fontWeight: '700', maxWidth: 238 },
   statsRoute: { position: 'relative', marginTop: 13 },
   statsRouteLine: { position: 'absolute', left: 24, right: 24, top: 21, height: 2, opacity: 0.55 },
   statsStops: { flexDirection: 'row', alignItems: 'flex-start' },
