@@ -809,8 +809,12 @@ export default function HomeScreen() {
           <View style={styles.farmerPortraitWrap}>
             <ExpoImage source={farmer.image} contentFit="cover" style={styles.farmerImage} />
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
-            <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.primaryForeground }]}>
-              <BrandIcon name="coffee" size={14} color={colors.primary} />
+            <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.card, borderColor: colors.accent }]}>
+              <ExpoImage
+                source={require('../../assets/images/coffee-bean-menu.png')}
+                contentFit="contain"
+                style={styles.farmerBadgeImage}
+              />
             </View>
           </View>
           <View style={styles.farmerFeatureCopy}>
@@ -819,7 +823,7 @@ export default function HomeScreen() {
                 <View style={[styles.farmerCardDot, { backgroundColor: index === 0 ? colors.accent : colors.primary }]} />
               <Text style={[styles.farmerCardLabel, { color: colors.primaryForeground }]}>PETANI PILIHAN</Text>
               </View>
-              <Text style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>GARUT / 0{index + 1}</Text>
+              <Text numberOfLines={1} style={[styles.farmerCardCode, { color: colors.mutedForeground }]}>{farmer.membershipId}</Text>
             </View>
             <Text numberOfLines={1} style={[styles.farmerName, { color: colors.card }]}>{farmer.name}</Text>
             <View style={styles.farmerMetaRow}>
@@ -827,7 +831,9 @@ export default function HomeScreen() {
                 <BrandIcon name="map-pin" size={12} color={colors.accent} />
                 <Text numberOfLines={1} style={[styles.farmerMeta, { color: colors.background }]}>{farmer.location}</Text>
               </View>
-              <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
+              <View style={[styles.farmerArrow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+                <BrandIcon name="arrow-up-right" size={13} color={colors.primary} strokeWidth={2.2} />
+              </View>
             </View>
              <View style={styles.farmerQuickMeta}>
                <Text numberOfLines={1} style={[styles.farmerQuickMetaText, { color: colors.background }]}>{farmer.coffeeType}</Text>
@@ -835,9 +841,11 @@ export default function HomeScreen() {
              </View>
              <Text numberOfLines={2} style={[styles.farmerStory, { color: colors.background }]}>{farmer.story}</Text>
             <View style={[styles.farmerCardRule, { backgroundColor: colors.border }]} />
-             <View style={styles.farmerVerification}>
-               <BrandIcon name="shield" size={12} color={colors.accent} />
-               <Text style={[styles.farmerVerificationLabel, { color: colors.accent }]}>Diverifikasi</Text>
+             <View style={[styles.farmerVerification, { backgroundColor: colors.card, borderColor: colors.border }]}>
+               <View style={[styles.farmerVerificationMark, { backgroundColor: colors.accent }]}>
+                 <BrandIcon name="check" size={10} color={colors.foreground} strokeWidth={2.4} />
+               </View>
+               <Text style={[styles.farmerVerificationLabel, { color: colors.accentForeground }]}>Diverifikasi</Text>
             </View>
           </View>
         </Pressable>
@@ -1042,7 +1050,8 @@ const styles = StyleSheet.create({
   farmerCardAccent: { position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 4 },
   farmerPortraitWrap: { width: '100%', height: 112, margin: 0, borderRadius: 0, overflow: 'hidden', position: 'relative' },
   farmerImage: { width: '100%', height: '100%' },
-  farmerPortraitBadge: { position: 'absolute', left: 9, bottom: 9, width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  farmerPortraitBadge: { position: 'absolute', left: 9, bottom: 9, width: 34, height: 34, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', padding: 5 },
+  farmerBadgeImage: { width: '100%', height: '100%' },
   farmerFeatureCopy: { flex: 1, minWidth: 0, padding: 11, gap: 4, justifyContent: 'space-between' },
   farmerCardTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
   farmerCardLabelWrap: { flexDirection: 'row', alignItems: 'center', gap: 5 },
@@ -1054,13 +1063,13 @@ const styles = StyleSheet.create({
   farmerMetaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
   farmerMetaItem: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 5 },
   farmerMeta: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.2 },
+  farmerArrow: { width: 25, height: 25, borderRadius: 12.5, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   farmerQuickMeta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
   farmerQuickMetaText: { flex: 1, fontFamily: 'Manrope_600SemiBold', fontSize: 8, lineHeight: 11 },
   farmerStory: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1 },
-  farmerVerification: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingTop: 1 },
-  farmerVerificationCopy: { flex: 1, minWidth: 0, gap: 1 },
+  farmerVerification: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 8, borderWidth: 1, paddingHorizontal: 6, paddingVertical: 4, alignSelf: 'flex-start' },
+  farmerVerificationMark: { width: 17, height: 17, borderRadius: 8.5, alignItems: 'center', justifyContent: 'center' },
   farmerVerificationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.55 },
-  farmerVerificationAuthority: { fontFamily: 'Manrope_600SemiBold', fontSize: 7.5, lineHeight: 10 },
   regionRail: { gap: 10, paddingRight: 20 },
   regionCard: { width: 154, minHeight: 176, borderRadius: 18, borderWidth: 1, padding: 10, gap: 5, overflow: 'hidden' },
   regionImage: { width: '100%', height: 55, borderRadius: 12, marginBottom: 2 },
