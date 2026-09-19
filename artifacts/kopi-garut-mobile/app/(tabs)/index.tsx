@@ -913,43 +913,39 @@ export default function HomeScreen() {
       onPress={() => router.push('/events')}
       style={({ pressed }) => [
         styles.eventFeature,
-        { borderColor: colors.primary, opacity: pressed ? 0.86 : 1 },
+        { borderColor: colors.border, opacity: pressed ? 0.86 : 1 },
       ]}
     >
-      <LinearGradient
-        colors={[colors.foreground, colors.primary]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+      <ExpoImage
+        source={require('../../assets/images/event-festival-garut.jpg')}
+        contentFit="cover"
         style={StyleSheet.absoluteFill}
       />
-      <View style={[styles.eventTicketCutout, styles.eventTicketCutoutTop, { backgroundColor: colors.background }]} />
-      <View style={[styles.eventTicketCutout, styles.eventTicketCutoutBottom, { backgroundColor: colors.background }]} />
-      <View style={styles.eventTicketHeader}>
-        <View style={styles.eventTicketBrand}>
-          <View style={[styles.eventTicketBrandDot, { backgroundColor: colors.accent }]} />
-          <Text style={[styles.eventTicketBrandText, { color: colors.primaryForeground }]}>AGENDA TERDEKAT</Text>
+      <LinearGradient colors={['transparent', colors.foreground]} locations={[0.26, 1]} style={StyleSheet.absoluteFill} />
+      <View style={styles.eventReelTop}>
+        <View style={[styles.eventReelTag, { backgroundColor: colors.card }]}>
+          <BrandIcon name="calendar" size={12} color={colors.primary} />
+          <Text style={[styles.eventReelTagText, { color: colors.foreground }]}>{hubEvents[0].type}</Text>
         </View>
-        <Text style={[styles.eventTicketNumber, { color: colors.accent }]}>01</Text>
+        <View style={[styles.eventReelCount, { backgroundColor: colors.foreground }]}>
+          <Text style={[styles.eventReelCountText, { color: colors.accent }]}>01</Text>
+        </View>
       </View>
-      <View style={styles.eventTicketBody}>
-        <View style={[styles.eventDate, { backgroundColor: colors.accent }]}>
-          <BrandIcon name="calendar" size={18} color={colors.accentForeground} />
-          <Text style={[styles.eventDateText, { color: colors.accentForeground }]}>{hubEvents[0].date}</Text>
-        </View>
-        <View style={[styles.eventTicketDivider, { borderColor: colors.primaryForeground }]} />
-        <View style={styles.eventCopy}>
-          <Text style={[styles.eventType, { color: colors.accent }]}>{hubEvents[0].type}</Text>
-          <Text numberOfLines={2} style={[styles.eventTitle, { color: colors.card }]}>{hubEvents[0].title}</Text>
-          <View style={styles.eventLocationRow}>
-            <BrandIcon name="map-pin" size={12} color={colors.primaryForeground} />
+      <View style={styles.eventReelCopy}>
+        <View style={styles.eventReelMeta}>
+          <Text style={[styles.eventReelDate, { color: colors.accent }]}>{hubEvents[0].date}</Text>
+          <View style={[styles.eventReelMetaDot, { backgroundColor: colors.accent }]} />
+          <View style={styles.eventReelLocation}>
+            <BrandIcon name="map-pin" size={12} color={colors.background} />
             <Text style={[styles.eventLocation, { color: colors.background }]}>{hubEvents[0].location}</Text>
           </View>
         </View>
-      </View>
-      <View style={[styles.eventTicketFooter, { borderTopColor: colors.primaryForeground }]}>
-        <Text style={[styles.eventTicketCta, { color: colors.primaryForeground }]}>LIHAT DETAIL ACARA</Text>
-        <View style={[styles.eventTicketArrow, { backgroundColor: colors.card }]}>
-          <BrandIcon name="arrow-up-right" size={15} color={colors.primary} strokeWidth={2.2} />
+        <Text numberOfLines={2} style={[styles.eventTitle, { color: colors.card }]}>{hubEvents[0].title}</Text>
+        <View style={styles.eventReelFooter}>
+          <Text style={[styles.eventReelCta, { color: colors.primaryForeground }]}>Lihat agenda</Text>
+          <View style={[styles.eventTicketArrow, { backgroundColor: colors.card }]}>
+            <BrandIcon name="arrow-up-right" size={15} color={colors.primary} strokeWidth={2.2} />
+          </View>
         </View>
       </View>
     </Pressable>
@@ -1157,26 +1153,21 @@ const styles = StyleSheet.create({
   regionDetailDivider: { width: 3, height: 3, borderRadius: 2, marginHorizontal: 1 },
   regionSpecialtyChip: { alignSelf: 'flex-start', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 6 },
   regionSpecialty: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, lineHeight: 12, fontWeight: '700' },
-  eventFeature: { minHeight: 190, borderRadius: 21, borderWidth: 1, padding: 16, overflow: 'hidden', gap: 13 },
-  eventTicketCutout: { position: 'absolute', left: -13, width: 26, height: 26, borderRadius: 13 },
-  eventTicketCutoutTop: { top: 68 },
-  eventTicketCutoutBottom: { bottom: 57 },
-  eventTicketHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  eventTicketBrand: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  eventTicketBrandDot: { width: 7, height: 7, borderRadius: 4 },
-  eventTicketBrandText: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.2, fontWeight: '800' },
-  eventTicketNumber: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 20, fontWeight: '800' },
-  eventTicketBody: { flexDirection: 'row', alignItems: 'center', gap: 13, flex: 1 },
-  eventDate: { width: 76, minHeight: 72, borderRadius: 15, alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 6 },
-  eventDateText: { fontFamily: 'Manrope_700Bold', textAlign: 'center', fontSize: 8, lineHeight: 11 },
-  eventTicketDivider: { height: '78%', borderLeftWidth: 1, borderStyle: 'dashed' },
-  eventCopy: { flex: 1, minWidth: 0, gap: 4 },
-  eventType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.2, textTransform: 'uppercase' },
-  eventTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
-  eventLocationRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 2 },
+  eventFeature: { height: 252, borderRadius: 22, borderWidth: 1, overflow: 'hidden', position: 'relative' },
+  eventReelTop: { position: 'absolute', top: 13, left: 13, right: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  eventReelTag: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 6 },
+  eventReelTagText: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.8, textTransform: 'uppercase' },
+  eventReelCount: { width: 30, height: 30, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  eventReelCountText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
+  eventReelCopy: { position: 'absolute', left: 15, right: 15, bottom: 14, gap: 7 },
+  eventReelMeta: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  eventReelDate: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800' },
+  eventReelMetaDot: { width: 3, height: 3, borderRadius: 2 },
+  eventReelLocation: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  eventTitle: { fontFamily: 'Manrope_700Bold', fontSize: 21, lineHeight: 25, fontWeight: '700' },
+  eventReelFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
+  eventReelCta: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1, fontWeight: '800' },
   eventLocation: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  eventTicketFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 11, borderTopWidth: 1, borderStyle: 'dashed' },
-  eventTicketCta: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.1, fontWeight: '800' },
   eventTicketArrow: { width: 28, height: 28, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   tourRail: { gap: 10, paddingRight: 20 },
   tourCard: { width: 245, height: 170, borderRadius: 20, overflow: 'hidden' },
