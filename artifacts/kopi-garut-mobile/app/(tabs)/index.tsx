@@ -69,20 +69,20 @@ const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }
 
 const voucherSlides = [
   [
-    { discount: '15%', title: 'Kopi pilihan', code: 'GARUT15', note: 'Min. belanja 150K', variant: 'primary' },
-    { discount: '20%', title: 'Panen baru', code: 'PANEN20', note: 'Untuk koleksi natural', variant: 'dark' },
+    { discount: '15%', title: 'Kopi pilihan', code: 'GARUT15', note: 'Min 150K', variant: 'primary' },
+    { discount: '20%', title: 'Panen baru', code: 'PANEN20', note: 'Koleksi natural', variant: 'dark' },
   ],
   [
-    { discount: '25K', title: 'Ongkir hemat', code: 'KIRIM25', note: 'Min. belanja 200K', variant: 'dark' },
-    { discount: '10%', title: 'Teman ngopi', code: 'NGOPI10', note: 'Ajak satu teman', variant: 'primary' },
+    { discount: '25K', title: 'Ongkir hemat', code: 'KIRIM25', note: 'Min 200K', variant: 'dark' },
+    { discount: '10%', title: 'Teman ngopi', code: 'NGOPI10', note: 'Ajak teman', variant: 'primary' },
   ],
   [
-    { discount: '30K', title: 'Kopi pertama', code: 'PERTAMA30', note: 'Khusus pengguna baru', variant: 'primary' },
-    { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Dukung kebun Garut', variant: 'dark' },
+    { discount: '30K', title: 'Kopi pertama', code: 'AWAL30', note: 'Pengguna baru', variant: 'primary' },
+    { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Kopi Garut', variant: 'dark' },
   ],
   [
-    { discount: '10%', title: 'Langganan rasa', code: 'RUTIN10', note: 'Untuk pesanan berulang', variant: 'dark' },
-    { discount: '20%', title: 'Akhir pekan', code: 'WEEKEND20', note: 'Berlaku Sabtu–Minggu', variant: 'primary' },
+    { discount: '10%', title: 'Langganan', code: 'RUTIN10', note: 'Pesanan rutin', variant: 'dark' },
+    { discount: '20%', title: 'Akhir pekan', code: 'WEEK20', note: 'Sabtu–Minggu', variant: 'primary' },
   ],
 ] as const;
 
