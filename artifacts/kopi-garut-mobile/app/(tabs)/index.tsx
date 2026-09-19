@@ -1046,7 +1046,7 @@ const styles = StyleSheet.create({
   tasteLabel: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   tasteDetail: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   farmerRail: { flexDirection: 'row', gap: 8, paddingRight: 20 },
-  farmerFeature: { height: 258, borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
+  farmerFeature: { height: 286, borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
   farmerCardAccent: { position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 4 },
   farmerPortraitWrap: { width: '100%', height: 112, margin: 0, borderRadius: 0, overflow: 'hidden', position: 'relative' },
   farmerImage: { width: '100%', height: '100%' },
