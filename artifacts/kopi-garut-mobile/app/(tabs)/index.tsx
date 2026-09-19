@@ -283,20 +283,20 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
   const colors = useColors();
   const palettes = [
     {
-      gradient: [colors.accent, colors.secondary],
-      glyph: { main: colors.primary, light: colors.card, dark: colors.foreground, accent: colors.accent },
-    },
-    {
       gradient: [colors.primary, colors.accent],
-      glyph: { main: colors.accent, light: colors.card, dark: colors.primary, accent: colors.primaryForeground },
+      glyph: { main: colors.accent, light: colors.card, dark: colors.foreground, accent: colors.primaryForeground },
     },
     {
-      gradient: [colors.secondary, colors.card],
-      glyph: { main: colors.accent, light: colors.primaryForeground, dark: colors.primary, accent: colors.foreground },
+      gradient: [colors.foreground, colors.primary],
+      glyph: { main: colors.accent, light: colors.card, dark: colors.foreground, accent: colors.accent },
     },
     {
-      gradient: [colors.muted, colors.accent],
-      glyph: { main: colors.primary, light: colors.card, dark: colors.foreground, accent: colors.secondary },
+      gradient: [colors.accent, colors.primary],
+      glyph: { main: colors.primaryForeground, light: colors.card, dark: colors.foreground, accent: colors.primary },
+    },
+    {
+      gradient: [colors.secondary, colors.foreground],
+      glyph: { main: colors.accent, light: colors.card, dark: colors.foreground, accent: colors.primaryForeground },
     },
   ] as const;
   const palette = palettes[index % palettes.length];
@@ -307,7 +307,7 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         colors={palette.gradient}
         start={{ x: 0.15, y: 0 }}
         end={{ x: 0.9, y: 1 }}
-        style={styles.menuIconSurface}
+        style={[styles.menuIconSurface, { borderColor: colors.primary }]}
       >
         <View style={styles.menuIconVisual}>
           {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
@@ -678,7 +678,7 @@ const styles = StyleSheet.create({
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center' },
-  menuIconSurface: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  menuIconSurface: { width: 46, height: 46, borderRadius: 15, borderWidth: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   menuIconVisual: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
   menuIllustrationImage: { width: 36, height: 36 },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
