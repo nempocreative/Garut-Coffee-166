@@ -67,6 +67,25 @@ const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
+const voucherSlides = [
+  [
+    { discount: '15%', title: 'Kopi pilihan', code: 'GARUT15', note: 'Min. belanja 150K', variant: 'primary' },
+    { discount: '20%', title: 'Panen baru', code: 'PANEN20', note: 'Untuk koleksi natural', variant: 'dark' },
+  ],
+  [
+    { discount: '25K', title: 'Ongkir hemat', code: 'KIRIM25', note: 'Min. belanja 200K', variant: 'dark' },
+    { discount: '10%', title: 'Teman ngopi', code: 'NGOPI10', note: 'Ajak satu teman', variant: 'primary' },
+  ],
+  [
+    { discount: '30K', title: 'Kopi pertama', code: 'PERTAMA30', note: 'Khusus pengguna baru', variant: 'primary' },
+    { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Dukung kebun Garut', variant: 'dark' },
+  ],
+  [
+    { discount: '10%', title: 'Langganan rasa', code: 'RUTIN10', note: 'Untuk pesanan berulang', variant: 'dark' },
+    { discount: '20%', title: 'Akhir pekan', code: 'WEEKEND20', note: 'Berlaku Sabtu–Minggu', variant: 'primary' },
+  ],
+] as const;
+
 function CoffeeBeanAnimation() {
   const beans = useSharedValue(0);
 
@@ -412,6 +431,7 @@ export default function HomeScreen() {
   const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeVoucherSlide, setActiveVoucherSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
 
   const currentSlide = promoSlides[activeSlide];
@@ -420,6 +440,14 @@ export default function HomeScreen() {
     const timer = setInterval(() => {
       setActiveSlide((current) => (current + 1) % promoSlides.length);
     }, 4200);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveVoucherSlide((current) => (current + 1) % voucherSlides.length);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, []);
@@ -558,39 +586,74 @@ export default function HomeScreen() {
         </View>
       </Pressable>
     </Animated.View>
-    <Pressable
-      testID="home-voucher"
-      accessibilityRole="button"
-      accessibilityLabel="Pakai voucher belanja GARUT15"
-      onPress={() => router.push('/catalog')}
-      style={({ pressed }) => [styles.voucherCard, { opacity: pressed ? 0.86 : 1 }]}
-    >
-      <LinearGradient
-        colors={[colors.foreground, colors.primary]}
-        start={{ x: 0, y: 0.2 }}
-        end={{ x: 1, y: 0.8 }}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={[styles.voucherCutout, styles.voucherCutoutTop, { backgroundColor: colors.background }]} />
-      <View style={[styles.voucherCutout, styles.voucherCutoutBottom, { backgroundColor: colors.background }]} />
-      <View style={styles.voucherCopy}>
-        <View style={styles.voucherEyebrowRow}>
-          <BrandIcon name="shopping-bag" size={13} color={colors.primaryForeground} />
-          <Text style={[styles.voucherEyebrow, { color: colors.primaryForeground }]}>VOUCHER BELANJA</Text>
-        </View>
-        <Text style={[styles.voucherTitle, { color: colors.card }]}>Potongan 15%</Text>
-        <Text style={[styles.voucherSubtitle, { color: colors.background }]}>Untuk kopi pilihan dari Garut</Text>
+    <View style={styles.voucherCarousel}>
+      <Animated.View
+        key={`voucher-slide-${activeVoucherSlide}`}
+        entering={FadeInDown.duration(500)}
+        style={styles.voucherSlide}
+      >
+        {voucherSlides[activeVoucherSlide].map((voucher) => (
+          <Pressable
+            key={voucher.code}
+            testID={`home-voucher-${voucher.code}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Pakai voucher ${voucher.code}`}
+            onPress={() => router.push('/catalog')}
+            style={({ pressed }) => [
+              styles.voucherCard,
+              { opacity: pressed ? 0.84 : 1 },
+            ]}
+          >
+            <LinearGradient
+              colors={voucher.variant === 'primary' ? [colors.primary, colors.accent] : [colors.foreground, colors.primary]}
+              start={{ x: 0, y: 0.2 }}
+              end={{ x: 1, y: 0.9 }}
+              style={StyleSheet.absoluteFill}
+            />
+            <View style={[styles.voucherCutout, styles.voucherCutoutTop, { backgroundColor: colors.background }]} />
+            <View style={[styles.voucherCutout, styles.voucherCutoutBottom, { backgroundColor: colors.background }]} />
+            <View style={styles.voucherCardTop}>
+              <View style={styles.voucherEyebrowRow}>
+                <BrandIcon name="shopping-bag" size={12} color={colors.primaryForeground} />
+                <Text style={[styles.voucherEyebrow, { color: colors.primaryForeground }]}>VOUCHER</Text>
+              </View>
+              <Text style={[styles.voucherDiscount, { color: colors.card }]}>{voucher.discount}</Text>
+              <Text style={[styles.voucherTitle, { color: colors.card }]}>{voucher.title}</Text>
+              <Text style={[styles.voucherSubtitle, { color: colors.background }]}>{voucher.note}</Text>
+            </View>
+            <View style={[styles.voucherDivider, { borderColor: colors.primaryForeground }]} />
+            <View style={styles.voucherAction}>
+              <Text style={[styles.voucherCodeLabel, { color: colors.background }]}>KODE</Text>
+              <Text style={[styles.voucherCode, { color: colors.card }]}>{voucher.code}</Text>
+              <View style={[styles.voucherButton, { backgroundColor: colors.card }]}>
+                <Text style={[styles.voucherButtonText, { color: colors.foreground }]}>Pakai</Text>
+                <BrandIcon name="arrow-up-right" size={12} color={colors.foreground} />
+              </View>
+            </View>
+          </Pressable>
+        ))}
+      </Animated.View>
+      <View style={styles.voucherDots}>
+        {voucherSlides.map((_, index) => (
+          <Pressable
+            key={`voucher-dot-${index}`}
+            testID={`home-voucher-dot-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Tampilkan voucher halaman ${index + 1}`}
+            onPress={() => setActiveVoucherSlide(index)}
+            style={styles.voucherDotHit}
+          >
+            <View
+              style={[
+                styles.voucherDot,
+                { backgroundColor: index === activeVoucherSlide ? colors.primary : colors.border },
+                index === activeVoucherSlide && styles.voucherDotActive,
+              ]}
+            />
+          </Pressable>
+        ))}
       </View>
-      <View style={[styles.voucherDivider, { borderColor: colors.primaryForeground }]} />
-      <View style={styles.voucherAction}>
-        <Text style={[styles.voucherCodeLabel, { color: colors.background }]}>KODE</Text>
-        <Text style={[styles.voucherCode, { color: colors.card }]}>GARUT15</Text>
-        <View style={[styles.voucherButton, { backgroundColor: colors.card }]}>
-          <Text style={[styles.voucherButtonText, { color: colors.foreground }]}>Pakai</Text>
-          <BrandIcon name="arrow-up-right" size={13} color={colors.foreground} />
-        </View>
-      </View>
-    </Pressable>
+    </View>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
@@ -793,21 +856,28 @@ const styles = StyleSheet.create({
   storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { width: 64, height: 22, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
-  voucherCard: { minHeight: 126, borderRadius: 19, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 17, paddingHorizontal: 18, position: 'relative' },
+  voucherCarousel: { gap: 8 },
+  voucherSlide: { flexDirection: 'row', gap: 10 },
+  voucherCard: { flex: 1, minHeight: 170, borderRadius: 19, overflow: 'hidden', paddingVertical: 14, paddingHorizontal: 13, position: 'relative' },
   voucherCutout: { position: 'absolute', width: 19, height: 19, borderRadius: 10, left: -10 },
   voucherCutoutTop: { top: -1 },
   voucherCutoutBottom: { bottom: -1 },
-  voucherCopy: { flex: 1, gap: 3, paddingRight: 9 },
-  voucherEyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 },
-  voucherEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.45 },
-  voucherTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 27, fontWeight: '800', letterSpacing: -0.6 },
-  voucherSubtitle: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
-  voucherDivider: { height: 84, borderLeftWidth: 1, borderStyle: 'dashed', opacity: 0.68, marginHorizontal: 12 },
-  voucherAction: { width: 88, alignItems: 'center', gap: 3 },
+  voucherCardTop: { flex: 1, gap: 2 },
+  voucherEyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 2 },
+  voucherEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 1.35 },
+  voucherDiscount: { fontFamily: 'Manrope_700Bold', fontSize: 28, lineHeight: 31, fontWeight: '800', letterSpacing: -0.8, marginTop: 5 },
+  voucherTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 16, fontWeight: '800' },
+  voucherSubtitle: { fontFamily: 'Manrope_400Regular', fontSize: 8.5, lineHeight: 12, marginTop: 3 },
+  voucherDivider: { borderTopWidth: 1, borderStyle: 'dashed', opacity: 0.68, marginVertical: 9 },
+  voucherAction: { alignItems: 'flex-start', gap: 2 },
   voucherCodeLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 1.5 },
-  voucherCode: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800', letterSpacing: 0.7 },
-  voucherButton: { height: 30, borderRadius: 10, paddingHorizontal: 10, marginTop: 7, flexDirection: 'row', alignItems: 'center', gap: 4 },
-  voucherButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
+  voucherCode: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800', letterSpacing: 0.45 },
+  voucherButton: { height: 27, borderRadius: 9, paddingHorizontal: 9, marginTop: 6, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  voucherButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800' },
+  voucherDots: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 12 },
+  voucherDotHit: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
+  voucherDot: { width: 5, height: 5, borderRadius: 3 },
+  voucherDotActive: { width: 16 },
   coffeeCupAnimation: { width: 58, height: 64, alignItems: 'center', justifyContent: 'flex-end', overflow: 'visible' },
   coffeeSteam: { position: 'absolute', top: 1, width: 9, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
   coffeeSteamLeft: { left: 14 },
