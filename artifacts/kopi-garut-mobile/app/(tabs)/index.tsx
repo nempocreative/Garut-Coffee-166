@@ -340,23 +340,21 @@ function MenuCoffeeOrnament({ colors }: { colors: MenuCoffeeOrnamentColors }) {
 
 function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const colors = useColors();
-  const isCoffeeIcon = icon === 'coffee';
+  const shouldAnimateIcon = true;
   const iconMotion = useSharedValue(0);
 
   useEffect(() => {
-    if (!isCoffeeIcon) return;
-
     iconMotion.value = withRepeat(
       withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
     );
-  }, [iconMotion, isCoffeeIcon]);
+  }, [iconMotion]);
 
   const iconMotionStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateY: isCoffeeIcon ? interpolate(iconMotion.value, [0, 0.5, 1], [0, -2, 0]) : 0 },
-      { rotate: isCoffeeIcon ? `${interpolate(iconMotion.value, [0, 0.5, 1], [-2, 2, -2])}deg` : '0deg' },
+      { translateY: shouldAnimateIcon ? interpolate(iconMotion.value, [0, 0.5, 1], [0, -2, 0]) : 0 },
+      { rotate: shouldAnimateIcon ? `${interpolate(iconMotion.value, [0, 0.5, 1], [-2, 2, -2])}deg` : '0deg' },
     ],
   }));
 
