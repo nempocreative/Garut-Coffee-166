@@ -308,27 +308,26 @@ function HomeMenuIcon({ name, index }: { name: BrandIconName; index: number }) {
         start={{ x: 0.15, y: 0 }}
         end={{ x: 0.9, y: 1 }}
         style={[styles.menuIconSurface, { borderColor: colors.primary }]}
-      >
-        <View style={styles.menuIconVisual}>
-          {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
-            <ExpoImage
-              source={
-                name === 'coffee'
-                  ? require('../../assets/images/coffee-bean-menu-original.png')
-                  : name === 'users'
-                    ? require('../../assets/images/farmer-menu.png')
-                    : name === 'map'
-                      ? require('../../assets/images/region-menu.png')
-                      : require('../../assets/images/traceability-menu.png')
-              }
-              contentFit="contain"
-              style={styles.menuIllustrationImage}
-            />
-          ) : (
-            <ThreeDMenuGlyph name={name} colors={palette.glyph} />
-          )}
-        </View>
-      </LinearGradient>
+      />
+      <View pointerEvents="none" style={styles.menuIconVisualOverlay}>
+        {name === 'coffee' || name === 'users' || name === 'map' || name === 'maximize' ? (
+          <ExpoImage
+            source={
+              name === 'coffee'
+                ? require('../../assets/images/coffee-bean-menu-original.png')
+                : name === 'users'
+                  ? require('../../assets/images/farmer-menu.png')
+                  : name === 'map'
+                    ? require('../../assets/images/region-menu.png')
+                    : require('../../assets/images/traceability-menu.png')
+            }
+            contentFit="contain"
+            style={styles.menuIllustrationImage}
+          />
+        ) : (
+          <ThreeDMenuGlyph name={name} colors={palette.glyph} />
+        )}
+      </View>
     </View>
   );
 }
@@ -679,8 +678,8 @@ const styles = StyleSheet.create({
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center' },
   menuIconSurface: { width: 46, height: 46, borderRadius: 15, borderWidth: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-  menuIconVisual: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
-  menuIllustrationImage: { width: 33, height: 33 },
+  menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2 },
+  menuIllustrationImage: { width: 50, height: 50 },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
