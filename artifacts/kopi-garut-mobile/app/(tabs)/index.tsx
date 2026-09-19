@@ -589,7 +589,8 @@ export default function HomeScreen() {
     <View style={styles.voucherCarousel}>
       <Animated.View
         key={`voucher-slide-${activeVoucherSlide}`}
-        entering={FadeInDown.duration(500)}
+        entering={SlideInRight.duration(500)}
+        exiting={SlideOutLeft.duration(500)}
         style={styles.voucherSlide}
       >
         {voucherSlides[activeVoucherSlide].map((voucher) => (
