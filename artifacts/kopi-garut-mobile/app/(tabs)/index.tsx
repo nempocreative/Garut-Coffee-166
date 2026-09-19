@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } fr
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
-import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
@@ -411,20 +411,77 @@ export default function HomeScreen() {
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   const promoHeight = Math.round(Math.min(176, Math.max(145, (width - 40) * 0.86 * 9 / 16)));
   const promoSideHeight = Math.max(120, promoHeight - 26);
+  const promoShift = Math.max(120, (width - 40) * 0.43);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [transitionTarget, setTransitionTarget] = useState<number | null>(null);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
+  const carouselProgress = useSharedValue(0);
+
+  const completeSlideTransition = (index: number) => {
+    setActiveSlide(index);
+    setTransitionTarget(null);
+    carouselProgress.value = 0;
+  };
+
+  const startSlideTransition = (index: number) => {
+    if (transitionTarget !== null || index === activeSlide) return;
+    setTransitionTarget(index);
+    carouselProgress.value = 0;
+    carouselProgress.value = withTiming(1, { duration: 680, easing: Easing.inOut(Easing.ease) }, (finished) => {
+      if (finished) runOnJS(completeSlideTransition)(index);
+    });
+  };
+
   const previousSlide = promoSlides[(activeSlide - 1 + promoSlides.length) % promoSlides.length];
   const currentSlide = promoSlides[activeSlide];
-  const nextSlide = promoSlides[(activeSlide + 1) % promoSlides.length];
+  const incomingSlide = transitionTarget === null ? null : promoSlides[transitionTarget];
+  const nextSlideIndex = transitionTarget === null
+    ? (activeSlide + 1) % promoSlides.length
+    : (transitionTarget + 1) % promoSlides.length;
+  const nextSlide = promoSlides[nextSlideIndex];
+
+  const previousBackdropStyle = useAnimatedStyle(() => {
+    const translateX = transitionTarget === null
+      ? -promoShift
+      : interpolate(carouselProgress.value, [0, 1], [-promoShift, -promoShift * 2]);
+    return {
+      transform: [{ translateX }, { scale: 0.86 }],
+      opacity: transitionTarget === null ? 0.34 : interpolate(carouselProgress.value, [0, 1], [0.34, 0]),
+    };
+  });
+  const currentCarouselStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: transitionTarget === null ? 0 : interpolate(carouselProgress.value, [0, 1], [0, -promoShift]) },
+      { scale: transitionTarget === null ? 1 : interpolate(carouselProgress.value, [0, 1], [1, 0.86]) },
+    ],
+    opacity: transitionTarget === null ? 1 : interpolate(carouselProgress.value, [0, 1], [1, 0.34]),
+  }));
+  const incomingCarouselStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: interpolate(carouselProgress.value, [0, 1], [promoShift, 0]) },
+      { scale: interpolate(carouselProgress.value, [0, 1], [0.86, 1]) },
+    ],
+    opacity: interpolate(carouselProgress.value, [0, 1], [0.34, 1]),
+  }));
+  const nextBackdropStyle = useAnimatedStyle(() => ({
+    transform: [{
+      translateX: transitionTarget === null
+        ? promoShift
+        : interpolate(carouselProgress.value, [0, 1], [promoShift * 2, promoShift]),
+    }, { scale: 0.86 }],
+    opacity: transitionTarget === null ? 0.34 : interpolate(carouselProgress.value, [0, 1], [0, 0.34]),
+  }));
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveSlide((current) => (current + 1) % promoSlides.length);
+      if (transitionTarget === null) {
+        startSlideTransition((activeSlide + 1) % promoSlides.length);
+      }
     }, 4200);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [activeSlide, transitionTarget]);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
@@ -448,38 +505,18 @@ export default function HomeScreen() {
     </Pressable>
     <Animated.View entering={FadeInDown.duration(550)} style={[styles.heroSection, { height: promoHeight }]}>
       <View style={[styles.promoGallery, { height: promoHeight }]}>
-        <Pressable
-          testID="promo-previous"
-          accessibilityRole="button"
-          accessibilityLabel="Buka promo sebelumnya"
-          onPress={() => router.push(previousSlide.route)}
-          style={({ pressed }) => [
-            styles.promoBackdrop,
-            styles.promoPrevious,
-            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
-          ]}
-        >
-          <ExpoImage source={previousSlide.image} contentFit="cover" style={styles.promoImage} />
-        </Pressable>
-        <Pressable
-          testID="promo-next"
-          accessibilityRole="button"
-          accessibilityLabel="Buka promo berikutnya"
-          onPress={() => router.push(nextSlide.route)}
-          style={({ pressed }) => [
-            styles.promoBackdrop,
-            styles.promoNext,
-            { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2, opacity: pressed ? 0.5 : 0.34 },
-          ]}
-        >
-          <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
-        </Pressable>
-        <Animated.View
-          key={currentSlide.id}
-          entering={SlideInRight.duration(620).easing(Easing.out(Easing.cubic))}
-          exiting={SlideOutLeft.duration(620).easing(Easing.in(Easing.cubic))}
-          style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }]}
-        >
+        <Animated.View style={[styles.promoBackdrop, { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2 }, previousBackdropStyle]}>
+          <Pressable
+            testID="promo-previous"
+            accessibilityRole="button"
+            accessibilityLabel="Buka promo sebelumnya"
+            onPress={() => router.push(previousSlide.route)}
+            style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.5 : 1 })}
+          >
+            <ExpoImage source={previousSlide.image} contentFit="cover" style={styles.promoImage} />
+          </Pressable>
+        </Animated.View>
+        <Animated.View style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }, currentCarouselStyle]}>
           <Pressable
             testID={`promo-browse-${activeSlide}`}
             accessibilityRole="button"
@@ -490,6 +527,30 @@ export default function HomeScreen() {
             <ExpoImage source={currentSlide.image} contentFit="cover" style={styles.promoImage} />
           </Pressable>
         </Animated.View>
+        {incomingSlide && (
+          <Animated.View style={[styles.promoActive, { height: promoHeight, shadowColor: colors.foreground }, incomingCarouselStyle]}>
+            <Pressable
+              testID={`promo-incoming-${transitionTarget}`}
+              accessibilityRole="button"
+              accessibilityLabel={`Buka promo ${transitionTarget! + 1}`}
+              onPress={() => router.push(incomingSlide.route)}
+              style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.86 : 1 })}
+            >
+              <ExpoImage source={incomingSlide.image} contentFit="cover" style={styles.promoImage} />
+            </Pressable>
+          </Animated.View>
+        )}
+        <Animated.View style={[styles.promoBackdrop, { height: promoSideHeight, top: (promoHeight - promoSideHeight) / 2 }, nextBackdropStyle]}>
+          <Pressable
+            testID="promo-next"
+            accessibilityRole="button"
+            accessibilityLabel="Buka promo berikutnya"
+            onPress={() => router.push(nextSlide.route)}
+            style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.5 : 1 })}
+          >
+            <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
+          </Pressable>
+        </Animated.View>
         <View style={styles.promoDots}>
           {promoSlides.map((slide, index) => (
             <Pressable
@@ -497,7 +558,7 @@ export default function HomeScreen() {
               testID={`promo-dot-${index}`}
               accessibilityRole="button"
               accessibilityLabel={`Tampilkan promo ${index + 1}`}
-              onPress={() => setActiveSlide(index)}
+              onPress={() => startSlideTransition(index)}
               style={styles.promoDotHit}
             >
               <View style={[styles.promoDot, { backgroundColor: index === activeSlide ? colors.primary : colors.card, width: index === activeSlide ? 18 : 5 }]} />
@@ -740,9 +801,7 @@ const styles = StyleSheet.create({
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   heroSection: { marginTop: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
-  promoBackdrop: { position: 'absolute', width: '52%', borderRadius: 22, overflow: 'hidden', zIndex: 1, transform: [{ scale: 0.86 }] },
-  promoPrevious: { left: '-13%' },
-  promoNext: { right: '-13%' },
+  promoBackdrop: { position: 'absolute', left: '7%', top: 0, width: '86%', borderRadius: 22, overflow: 'hidden', zIndex: 1 },
   promoActive: { position: 'absolute', left: '7%', top: 0, width: '86%', borderRadius: 26, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
   promoImage: { ...StyleSheet.absoluteFill },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
