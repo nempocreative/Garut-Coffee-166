@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
-import Animated, { Easing, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeIn, FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
@@ -14,30 +14,33 @@ import { useColors } from '@/hooks/useColors';
 const promoSlides = [
   {
     id: 'coffee-hub',
-    kicker: 'PILIHAN HARI INI',
-    title: 'Kopi pilihan Garut, siap dikirim.',
-    description: 'Temukan single origin favoritmu.',
-    cta: 'Belanja sekarang',
     route: '/catalog' as const,
     image: require('../../assets/images/hero-coffee.jpg'),
   },
   {
     id: 'traceability',
-    kicker: 'JEJAK YANG TERBUKA',
-    title: 'Kenali asal setiap cangkir.',
-    description: 'Lihat petani, kebun, dan prosesnya.',
-    cta: 'Lihat petani',
     route: '/farmers' as const,
     image: require('../../assets/images/origin-coffee.jpg'),
   },
   {
     id: 'coffee-tour',
-    kicker: 'KOPI & WISATA',
-    title: 'Datang dan bawa pulang cerita.',
-    description: 'Temukan wisata kopi di Garut.',
-    cta: 'Lihat wisata',
     route: '/tourism' as const,
-    image: require('../../assets/images/hero-coffee.jpg'),
+    image: require('../../assets/images/mountain-banner.png'),
+  },
+  {
+    id: 'coffee-regions',
+    route: '/regions' as const,
+    image: require('../../assets/images/garut-mountains.png'),
+  },
+  {
+    id: 'coffee-collective',
+    route: '/collective' as const,
+    image: require('../../assets/images/story-background.png'),
+  },
+  {
+    id: 'coffee-beans',
+    route: '/partnership' as const,
+    image: require('../../assets/images/coffee-beans-natural.png'),
   },
 ];
 
@@ -403,24 +406,23 @@ export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const bannerWidth = Math.max(260, width - 40);
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const categoryPageWidth = Math.max(300, width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
-  const bannerRef = useRef<ScrollView>(null);
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
+  const previousSlide = promoSlides[(activeSlide - 1 + promoSlides.length) % promoSlides.length];
+  const currentSlide = promoSlides[activeSlide];
+  const nextSlide = promoSlides[(activeSlide + 1) % promoSlides.length];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const nextSlide = (activeSlide + 1) % promoSlides.length;
-      setActiveSlide(nextSlide);
-      bannerRef.current?.scrollTo({ x: nextSlide * bannerWidth, animated: true });
-    }, 4500);
+    const timer = setInterval(() => {
+      setActiveSlide((current) => (current + 1) % promoSlides.length);
+    }, 4200);
 
-    return () => clearTimeout(timer);
-  }, [activeSlide, bannerWidth]);
+    return () => clearInterval(timer);
+  }, []);
 
   return <Screen>
     <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" qr />
@@ -443,49 +445,50 @@ export default function HomeScreen() {
       </View>
     </Pressable>
     <Animated.View entering={FadeInDown.duration(550)} style={styles.heroSection}>
-      <ScrollView
-        ref={bannerRef}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        decelerationRate="normal"
-        bounces={false}
-        onMomentumScrollEnd={(event) => setActiveSlide(Math.round(event.nativeEvent.contentOffset.x / bannerWidth))}
-      >
-        {promoSlides.map((slide, index) => (
-          <ImageBackground key={slide.id} source={slide.image} imageStyle={styles.heroImage} style={[styles.heroImageContainer, { width: bannerWidth }]}>
-            <LinearGradient colors={['transparent', colors.foreground]} locations={[0.18, 1]} style={styles.heroShade} />
-            <View style={styles.heroCopy}>
-              <Text style={[styles.heroTitle, { color: colors.card }]}>{slide.title}</Text>
-              <Text style={[styles.heroDescription, { color: colors.background }]}>{slide.description}</Text>
-              <Pressable
-                testID={index === 0 ? 'hero-browse' : `promo-browse-${index}`}
-                onPress={() => router.push(slide.route)}
-                style={({ pressed }) => [styles.heroButton, { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 }]}
-              >
-                <Text style={[styles.heroButtonText, { color: colors.primaryForeground }]}>{slide.cta}</Text>
-                <BrandIcon name="arrow-up-right" size={16} color={colors.primaryForeground} />
-              </Pressable>
-            </View>
-          </ImageBackground>
-        ))}
-      </ScrollView>
-      <View style={[styles.pagination, { backgroundColor: colors.foreground }]}>
-        {promoSlides.map((slide, index) => (
+      <View style={styles.promoGallery}>
+        <Pressable
+          testID="promo-previous"
+          accessibilityRole="button"
+          accessibilityLabel="Buka promo sebelumnya"
+          onPress={() => router.push(previousSlide.route)}
+          style={({ pressed }) => [styles.promoBackdrop, styles.promoPrevious, { opacity: pressed ? 0.5 : 0.34 }]}
+        >
+          <ExpoImage source={previousSlide.image} contentFit="cover" style={styles.promoImage} />
+        </Pressable>
+        <Pressable
+          testID="promo-next"
+          accessibilityRole="button"
+          accessibilityLabel="Buka promo berikutnya"
+          onPress={() => router.push(nextSlide.route)}
+          style={({ pressed }) => [styles.promoBackdrop, styles.promoNext, { opacity: pressed ? 0.5 : 0.34 }]}
+        >
+          <ExpoImage source={nextSlide.image} contentFit="cover" style={styles.promoImage} />
+        </Pressable>
+        <Animated.View key={currentSlide.id} entering={FadeIn.duration(420)} style={[styles.promoActive, { shadowColor: colors.foreground }]}>
           <Pressable
-            key={slide.id}
-            testID={`promo-dot-${index}`}
+            testID={`promo-browse-${activeSlide}`}
             accessibilityRole="button"
-            accessibilityLabel={`Tampilkan promo ${index + 1}`}
-            onPress={() => {
-              setActiveSlide(index);
-              bannerRef.current?.scrollTo({ x: index * bannerWidth, animated: true });
-            }}
-            style={styles.paginationTrack}
+            accessibilityLabel={`Buka promo ${activeSlide + 1}`}
+            onPress={() => router.push(currentSlide.route)}
+            style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.86 : 1 })}
           >
-            <View style={[styles.paginationDot, { backgroundColor: index === activeSlide ? colors.primary : colors.border, width: index === activeSlide ? 22 : 6 }]} />
+            <ExpoImage source={currentSlide.image} contentFit="cover" style={styles.promoImage} />
           </Pressable>
-        ))}
+        </Animated.View>
+        <View style={styles.promoDots}>
+          {promoSlides.map((slide, index) => (
+            <Pressable
+              key={slide.id}
+              testID={`promo-dot-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={`Tampilkan promo ${index + 1}`}
+              onPress={() => setActiveSlide(index)}
+              style={styles.promoDotHit}
+            >
+              <View style={[styles.promoDot, { backgroundColor: index === activeSlide ? colors.primary : colors.card, width: index === activeSlide ? 18 : 5 }]} />
+            </Pressable>
+          ))}
+        </View>
       </View>
     </Animated.View>
     <View>
@@ -720,21 +723,16 @@ const styles = StyleSheet.create({
   searchBeanImage: { width: 32, height: 32 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  heroSection: { height: 205, borderRadius: 27, overflow: 'hidden', marginTop: 0 },
-  heroImageContainer: { flex: 1, justifyContent: 'flex-end' },
-  heroImage: { borderRadius: 27 },
-  heroShade: { ...StyleSheet.absoluteFill, opacity: 0.9 },
-  heroCopy: { paddingHorizontal: 18, paddingBottom: 16, gap: 6 },
-  heroMeta: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 2 },
-  promoDot: { width: 5, height: 5, borderRadius: 3 },
-  promoPillText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
-  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 27, fontWeight: '700', letterSpacing: -0.6, maxWidth: 300 },
-  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 270 },
-  heroButton: { height: 34, borderRadius: 11, paddingHorizontal: 12, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 1 },
-  heroButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
-  pagination: { position: 'absolute', right: 15, top: 15, flexDirection: 'row', alignItems: 'center', gap: 0, paddingHorizontal: 5, paddingVertical: 3, borderRadius: 20, opacity: 0.92, zIndex: 2, elevation: 2 },
-  paginationTrack: { width: 20, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  paginationDot: { height: 6, borderRadius: 3 },
+  heroSection: { height: 220, marginTop: 0 },
+  promoGallery: { height: 220, position: 'relative', overflow: 'hidden' },
+  promoBackdrop: { position: 'absolute', top: 20, width: '52%', height: 180, borderRadius: 22, overflow: 'hidden', zIndex: 1, transform: [{ scale: 0.86 }] },
+  promoPrevious: { left: '-13%' },
+  promoNext: { right: '-13%' },
+  promoActive: { position: 'absolute', left: '19%', top: 0, width: '62%', height: 220, borderRadius: 26, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
+  promoImage: { ...StyleSheet.absoluteFill },
+  promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
+  promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
+  promoDot: { height: 5, borderRadius: 3 },
   sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 18, gap: 14 },
   headingCopy: { flexShrink: 1 },
   headingRule: { width: 42, height: 1, marginBottom: 7 },
