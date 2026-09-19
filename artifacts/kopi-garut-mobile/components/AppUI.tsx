@@ -17,7 +17,7 @@ export function Screen({ children, scroll = true, style }: { children: React.Rea
   return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18 }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18 }, style]}>{children}</View>;
 }
 
-export function Header({ title, subtitle, cart = true, qr = false, back = false }: { title: string; subtitle?: string; cart?: boolean; qr?: boolean; back?: boolean }) {
+export function Header({ title, subtitle, cart = true, notifications = false, back = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean }) {
   const colors = useColors();
   const router = useRouter();
   const { cart: items } = useStore();
@@ -27,8 +27,8 @@ export function Header({ title, subtitle, cart = true, qr = false, back = false 
     <View style={styles.headerTop}>
       {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
       <View style={styles.headerActions}>
-        {qr && <Pressable testID="header-qr" accessibilityRole="button" accessibilityLabel="Buka QR Kopi" onPress={() => router.push('/traceability')} style={({ pressed }) => [styles.headerQrButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="maximize" size={18} color={colors.foreground} /></Pressable>}
-        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-bag" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+        {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerQrButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="bell" size={18} color={colors.foreground} /></Pressable>}
+        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.cartButton, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="shopping-cart" size={18} color={colors.foreground} />{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
       </View>
     </View>
     <View style={styles.headerBottom}>

@@ -25,6 +25,8 @@ export type BrandIconName =
   | 'bar-chart-2'
   | 'maximize'
   | 'shopping-bag'
+  | 'shopping-cart'
+  | 'bell'
   | 'heart'
   | 'repeat'
   | 'check'
@@ -165,6 +167,19 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
           <Path d="M9 9V6.5a3 3 0 0 1 6 0V9" {...props} />
         </>
       )}
+      {name === 'shopping-cart' && (
+        <>
+          <Path d="M4 5h2l1.6 10.5h10.8L21 8H7" {...props} />
+          <Path d="M9 19.5h.01M17 19.5h.01" {...props} strokeWidth={2.6} />
+          <Path d="M7.7 15.5h10.8" {...props} />
+        </>
+      )}
+      {name === 'bell' && (
+        <>
+          <Path d="M6.5 17.5h11l-1.3-2v-4a4.7 4.7 0 0 0-9.4 0v4l-1.3 2Z" {...props} />
+          <Path d="M10 20a2.2 2.2 0 0 0 4 0M12 4.2v1.1" {...props} />
+        </>
+      )}
       {name === 'heart' && <Path d="M20.5 8.8c0 5-8.5 10-8.5 10s-8.5-5-8.5-10A4.5 4.5 0 0 1 12 6.2a4.5 4.5 0 0 1 8.5 2.6Z" {...props} />}
       {name === 'repeat' && <Path d="M17 2.5 20.5 6 17 9.5M4 6h16M7 21.5 3.5 18 7 14.5M20 18H4" {...props} />}
       {name === 'check' && <Path d="m5 12.5 4.2 4.2L19.5 6.5" {...props} />}
@@ -200,7 +215,7 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
   );
 }
 
-export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user';
+export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user' | 'scan';
 
 type ThreeDNavIconProps = {
   name: ThreeDNavIconName;
@@ -262,6 +277,14 @@ export function ThreeDNavIcon({
           <Path d="M3.5 24.5c.7-6.2 4.3-9.5 11.5-9.5s10.8 3.3 11.5 9.5Z" fill={mainColor} />
           <Path d="M15 15c5.3 0 9.1 2.4 10.7 6.8-3.1-1.9-6.7-2.9-10.7-2.9s-7.6 1-10.7 2.9C5.9 17.4 9.7 15 15 15Z" fill={lightColor} opacity={0.72} />
           <Path d="M9.2 23.3c3.8-1.2 7.7-1.2 11.6 0" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round" opacity={0.9} />
+        </>
+      )}
+      {name === 'scan' && (
+        <>
+          <Path d="M5 11H3V4h7v2H5v5ZM20 4h7v7h-2V6h-5V4ZM3 19h2v5h5v2H3v-7ZM25 19h2v7h-7v-2h5v-5Z" fill={shadowColor} />
+          <Path d="M5 9.5H3V2.5h7v2H5v5ZM20 2.5h7v7h-2v-5h-5v-2ZM3 17.5h2v5h5v2H3v-7ZM25 17.5h2v7h-7v-2h5v-5Z" fill={mainColor} />
+          <Path d="M5 4.5h5v1.4H6.5v3.6H5v-5ZM20 4.5h5v5h-1.5V5.9H20V4.5ZM5 18.5h1.5v3.6H10v1.4H5v-5ZM23.5 18.5H25v5h-5v-1.4h3.5v-3.6Z" fill={lightColor} />
+          <Circle cx="15" cy="15" r="2.2" fill={accentColor} />
         </>
       )}
     </Svg>
