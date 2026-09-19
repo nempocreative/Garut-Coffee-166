@@ -679,7 +679,7 @@ const styles = StyleSheet.create({
   menuIconStage: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   menuIconSurface: { width: 46, height: 46, borderRadius: 15, borderWidth: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  menuIllustrationImage: { width: 50, height: 50 },
+  menuIllustrationImage: { width: 42, height: 42 },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12 },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
