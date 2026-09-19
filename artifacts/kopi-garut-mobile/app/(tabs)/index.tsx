@@ -93,6 +93,38 @@ function CoffeeBeanAnimation() {
   );
 }
 
+function SearchBeanAnimation() {
+  const motion = useSharedValue(0);
+
+  useEffect(() => {
+    motion.value = withRepeat(
+      withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
+      -1,
+      true,
+    );
+  }, [motion]);
+
+  const beanStyle = useAnimatedStyle(() => ({
+    transform: [
+      { perspective: 240 },
+      { translateY: interpolate(motion.value, [0, 0.5, 1], [1, -1, 1]) },
+      { rotateY: `${interpolate(motion.value, [0, 0.5, 1], [-20, 20, -20])}deg` },
+      { rotateZ: `${interpolate(motion.value, [0, 0.5, 1], [-4, 4, -4])}deg` },
+      { scale: interpolate(motion.value, [0, 0.5, 1], [0.9, 1.04, 0.9]) },
+    ],
+  }));
+
+  return (
+    <Animated.View style={[styles.searchBeanAnimation, beanStyle]}>
+      <ExpoImage
+        source={require('../../assets/images/coffee-bean-menu.png')}
+        contentFit="contain"
+        style={styles.searchBeanImage}
+      />
+    </Animated.View>
+  );
+}
+
 function CoffeeCupAnimation() {
   const colors = useColors();
   const steam = useSharedValue(0);
@@ -351,7 +383,7 @@ export default function HomeScreen() {
         { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.75 : 1 },
       ]}
     >
-      <BrandIcon name="search" size={18} color={colors.mutedForeground} />
+      <SearchBeanAnimation />
       <Text style={[styles.searchPlaceholder, { color: colors.mutedForeground }]}>
         Cari kopi, petani, atau wilayah
       </Text>
@@ -633,6 +665,8 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  searchBeanAnimation: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
+  searchBeanImage: { width: 32, height: 32 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   heroSection: { height: 205, borderRadius: 27, overflow: 'hidden', marginTop: 0 },
