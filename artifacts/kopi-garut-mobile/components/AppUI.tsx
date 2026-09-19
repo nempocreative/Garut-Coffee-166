@@ -33,7 +33,7 @@ export function Header({ title, subtitle, cart = true, qr = false, back = false 
     </View>
     <View style={styles.headerBottom}>
       <View style={styles.headerCopy}>
-        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDot, { backgroundColor: colors.accent }]} /><View style={styles.locationInline}><BrandIcon name="compass" size={11} color={colors.primary} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
         <Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
       </View>
     </View>
@@ -76,22 +76,21 @@ export function LoadingState() { const colors = useColors(); return <View style=
 
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
-  header: { gap: 14, marginBottom: 0 },
-  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 50 },
+  header: { gap: 16, marginBottom: 0 },
+  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 11 },
-  logo: { width: 44, height: 44, borderRadius: 15, borderWidth: 1 },
+  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  logo: { width: 36, height: 36, borderRadius: 12, borderWidth: 1 },
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
-  brandName: { fontFamily: 'Manrope_700Bold', fontSize: 19, lineHeight: 22, fontWeight: '800', letterSpacing: -0.6 },
-  brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '700', letterSpacing: 1.05, marginTop: 4 },
+  brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
+  brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
-  headerCopy: { flex: 1, gap: 3 },
-  eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800', letterSpacing: 1.6, textTransform: 'uppercase' },
+  headerCopy: { flex: 1, gap: 5 },
+  eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
-  contextRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  contextDot: { width: 3, height: 3, borderRadius: 2 },
-  locationInline: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800', letterSpacing: 1.5 },
+  contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  contextDivider: { width: 18, height: 1 },
+  locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.7 },
   iconButton: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   cartButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   headerQrButton: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
