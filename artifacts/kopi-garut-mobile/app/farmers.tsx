@@ -65,6 +65,7 @@ export default function FarmersScreen() {
         {visibleFarmers.slice(1).map((farmer, index) => <Animated.View key={farmer.id} entering={FadeInDown.delay(index * 70).duration(450)}>
           <Pressable onPress={() => router.push(`/farmer/${farmer.id}`)} style={({ pressed }) => [styles.card, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
             <View style={[styles.cardAccent, { backgroundColor: index % 2 === 0 ? colors.primary : colors.accent }]} />
+            <View style={[styles.cardGlow, { backgroundColor: colors.secondary }]} />
             <View style={styles.cardInner}>
               <View style={styles.photoFrame}>
                 <Image source={farmer.image} contentFit="cover" style={styles.image} />
@@ -139,28 +140,29 @@ const styles = StyleSheet.create({
   listHeadingText: { fontFamily: 'Manrope_700Bold', fontSize: 18, fontWeight: '700' },
   listHeadingHint: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
   list: { gap: 11 },
-  card: { minHeight: 148, borderWidth: 1, borderRadius: 19, overflow: 'hidden' },
-  cardAccent: { height: 4, width: '100%' },
-  cardInner: { flex: 1, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  photoFrame: { width: 86, height: 122, borderRadius: 13, overflow: 'hidden', position: 'relative' },
+  card: { minHeight: 190, borderWidth: 1, borderRadius: 23, overflow: 'hidden' },
+  cardAccent: { height: 6, width: '100%' },
+  cardGlow: { position: 'absolute', width: 150, height: 150, borderRadius: 75, right: -62, top: -66, opacity: 0.62 },
+  cardInner: { flex: 1, padding: 12, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
+  photoFrame: { width: 100, height: 164, borderRadius: 16, overflow: 'hidden', position: 'relative' },
   image: { width: '100%', height: '100%' },
   photoIndex: { position: 'absolute', left: 6, bottom: 6, minWidth: 24, height: 20, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
   photoIndexText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.6 },
-  cardCopy: { flex: 1, gap: 3, minWidth: 0 },
-  cardIdentity: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, marginBottom: 2 },
+  cardCopy: { flex: 1, gap: 4, minWidth: 0, justifyContent: 'space-between', paddingVertical: 2 },
+  cardIdentity: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, marginBottom: 4 },
   compactVerifiedBadge: { minHeight: 18, borderRadius: 6, paddingHorizontal: 4, gap: 2 },
   compactVerifiedCheck: { width: 7, height: 7, right: -2, bottom: -1 },
   compactVerifiedText: { fontSize: 6, letterSpacing: 0.3 },
-  identityLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 0.65, flexShrink: 1 },
+  identityLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.7, flexShrink: 1 },
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   location: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.7, textTransform: 'uppercase' },
-  name: { fontFamily: 'Manrope_700Bold', fontSize: 16, fontWeight: '700', marginTop: 1 },
-  group: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  idDivider: { height: 1, width: '100%', marginTop: 5, marginBottom: 4 },
-  profileGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 8, rowGap: 5 },
+  name: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 22, fontWeight: '700', marginTop: 2 },
+  group: { fontFamily: 'Manrope_400Regular', fontSize: 10.5 },
+  idDivider: { height: 1, width: '100%', marginTop: 8, marginBottom: 6 },
+  profileGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 8, rowGap: 8 },
   profileFact: { width: '47%', minWidth: 0, gap: 1 },
   metaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7, marginBottom: 1 },
-  meta: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, fontWeight: '700' },
-  memberId: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, fontWeight: '800', letterSpacing: 0.3 },
-  arrow: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  meta: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
+  memberId: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
+  arrow: { width: 35, height: 35, borderRadius: 13, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-end' },
 });
