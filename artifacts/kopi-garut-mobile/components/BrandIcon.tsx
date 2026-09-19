@@ -215,7 +215,7 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
   );
 }
 
-export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user' | 'scan';
+export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user' | 'scan' | 'bell' | 'shopping-cart';
 
 type ThreeDNavIconProps = {
   name: ThreeDNavIconName;
@@ -285,6 +285,28 @@ export function ThreeDNavIcon({
           <Path d="M5 9.5H3V2.5h7v2H5v5ZM20 2.5h7v7h-2v-5h-5v-2ZM3 17.5h2v5h5v2H3v-7ZM25 17.5h2v7h-7v-2h5v-5Z" fill={mainColor} />
           <Path d="M5 4.5h5v1.4H6.5v3.6H5v-5ZM20 4.5h5v5h-1.5V5.9H20V4.5ZM5 18.5h1.5v3.6H10v1.4H5v-5ZM23.5 18.5H25v5h-5v-1.4h3.5v-3.6Z" fill={lightColor} />
           <Circle cx="15" cy="15" r="2.2" fill={accentColor} />
+        </>
+      )}
+      {name === 'bell' && (
+        <>
+          <Path d="M5 20h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0v4.7L5 20Z" fill={shadowColor} />
+          <Path d="M5 18.5h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0V15L5 18.5Z" fill={mainColor} />
+          <Path d="M7.6 13.5c.5-4.4 3-6.5 6.2-6.5 2.4 0 4.6 1.2 5.7 3.4-2.2-1.2-4.8-1.8-7.2-1.2-2.2.5-3.7 2-4.7 4.3Z" fill={lightColor} opacity={0.8} />
+          <Path d="M11 22c.8 2.6 7.2 2.6 8 0" fill="none" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round" />
+          <Circle cx="15" cy="4.2" r="1.5" fill={accentColor} />
+        </>
+      )}
+      {name === 'shopping-cart' && (
+        <>
+          <Path d="M3.5 5.5h3l2 14h14l3-10H9.5" fill="none" stroke={shadowColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M3.5 4h3l2 14h14l3-10H9.5" fill="none" stroke={mainColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+          <Path d="M9 9.2h16l-2.3 8.2H10.2L9 9.2Z" fill={shadowColor} />
+          <Path d="M9 7.7h16l-2.3 8.2H10.2L9 7.7Z" fill={mainColor} />
+          <Path d="M10.2 9.2h13.3l-.8 2.4H10.6l-.4-2.4Z" fill={lightColor} opacity={0.82} />
+          <Circle cx="11.5" cy="23.5" r="2" fill={shadowColor} />
+          <Circle cx="11.5" cy="22" r="2" fill={accentColor} />
+          <Circle cx="22" cy="23.5" r="2" fill={shadowColor} />
+          <Circle cx="22" cy="22" r="2" fill={accentColor} />
         </>
       )}
     </Svg>
