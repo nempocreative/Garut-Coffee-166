@@ -69,7 +69,7 @@ const promoSlides = [
 ];
 
 const categoryItems = [
-  { icon: 'coffee' as const, label: 'Produk', route: '/catalog' as const },
+  { icon: 'coffee' as const, label: 'Kopi', route: '/catalog' as const },
   { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
   { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
   { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
