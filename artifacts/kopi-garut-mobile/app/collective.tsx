@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { Header, Screen } from '@/components/AppUI';
@@ -22,8 +23,7 @@ type EcosystemStage = {
   icon: BrandIconName;
   label: string;
   title: string;
-  description: string;
-  links: Array<{ label: string; detail: string; route: EcosystemRoute }>;
+  links: Array<{ label: string; route: EcosystemRoute }>;
 };
 
 const stages: EcosystemStage[] = [
@@ -31,45 +31,41 @@ const stages: EcosystemStage[] = [
     number: '01',
     icon: 'map',
     label: 'KEBUN',
-    title: 'Kopi dimulai dari petani dan wilayahnya.',
-    description: 'Kenali orang dan lereng yang membentuk karakter setiap kopi Garut.',
+    title: 'Kenali asalnya',
     links: [
-      { label: 'Petani & kebun', detail: 'Cerita orang di balik kopi', route: '/farmers' },
-      { label: 'Wilayah kopi', detail: 'Karakter dari setiap lereng', route: '/regions' },
+      { label: 'Petani & kebun', route: '/farmers' },
+      { label: 'Wilayah kopi', route: '/regions' },
     ],
   },
   {
     number: '02',
     icon: 'package',
     label: 'PROSES & MUTU',
-    title: 'Hasil panen dirawat sampai siap dipercaya.',
-    description: 'Lihat bagaimana kopi diproses, dijaga mutunya, dan punya perjalanan yang bisa ditelusuri.',
+    title: 'Jaga kualitasnya',
     links: [
-      { label: 'Jejak kopi', detail: 'Lacak dari lot sampai cangkir', route: '/traceability' },
-      { label: 'Standar kopi', detail: 'Mutu yang dijaga bersama', route: '/standards' },
-      { label: 'Dokumen & panduan', detail: 'Rujukan untuk tumbuh lebih baik', route: '/documents' },
+      { label: 'Jejak kopi', route: '/traceability' },
+      { label: 'Standar kopi', route: '/standards' },
+      { label: 'Dokumen & panduan', route: '/documents' },
     ],
   },
   {
     number: '03',
     icon: 'briefcase',
     label: 'PASAR & MITRA',
-    title: 'Kopi bertemu orang yang ingin membawanya lebih jauh.',
-    description: 'Temukan produk pilihan atau buka peluang kerja sama dengan usaha yang punya visi serupa.',
+    title: 'Bawa lebih jauh',
     links: [
-      { label: 'Katalog kopi', detail: 'Pilih kopi untuk di rumah', route: '/catalog' },
-      { label: 'Jadi mitra', detail: 'Bawa kopi Garut ke usahamu', route: '/partnership' },
+      { label: 'Katalog kopi', route: '/catalog' },
+      { label: 'Jadi mitra', route: '/partnership' },
     ],
   },
   {
     number: '04',
     icon: 'coffee',
     label: 'PENGALAMAN',
-    title: 'Perjalanan berakhir di cangkir dan pertemuan baru.',
-    description: 'Datang, belajar, dan rasakan sendiri cerita yang sudah dimulai dari kebun.',
+    title: 'Datang & rasakan',
     links: [
-      { label: 'Event & pelatihan', detail: 'Agenda untuk bertemu dan belajar', route: '/events' },
-      { label: 'Wisata kopi', detail: 'Datang langsung ke sumbernya', route: '/tourism' },
+      { label: 'Event & pelatihan', route: '/events' },
+      { label: 'Wisata kopi', route: '/tourism' },
     ],
   },
 ];
@@ -83,22 +79,29 @@ export default function CollectiveScreen() {
       <Header title="Ekosistem Kopi" subtitle="DARI KEBUN KE CANGKIR" cart={false} back />
 
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.hero, { backgroundColor: colors.foreground }]}>
-        <View style={[styles.heroIcon, { backgroundColor: colors.primary }]}>
-          <BrandIcon name="coffee" size={24} color={colors.primaryForeground} />
+        <Image source={require('../assets/images/hero-coffee.jpg')} contentFit="cover" style={styles.heroImage} />
+        <View style={[styles.heroShade, { backgroundColor: colors.foreground }]} />
+        <View style={styles.heroContent}>
+          <View style={styles.heroTopline}>
+            <View style={[styles.heroIcon, { backgroundColor: colors.primary }]}>
+              <BrandIcon name="coffee" size={24} color={colors.primaryForeground} />
+            </View>
+            <View style={[styles.heroBadge, { backgroundColor: colors.card }]}>
+              <Text style={[styles.heroBadgeText, { color: colors.primary }]}>01—04</Text>
+            </View>
+          </View>
+          <Text style={[styles.heroKicker, { color: colors.accent }]}>RANTAI KOPI GARUT</Text>
+          <Text style={[styles.heroTitle, { color: colors.card }]}>Satu perjalanan,{'\n'}banyak tangan.</Text>
+          <View style={styles.heroRoute}>
+            <View style={[styles.heroRouteLine, { backgroundColor: colors.accent }]} />
+            <Text style={[styles.heroRouteText, { color: colors.background }]}>KEBUN  ·  MUTU  ·  PASAR  ·  CANGKIR</Text>
+          </View>
         </View>
-        <Text style={[styles.heroKicker, { color: colors.accent }]}>RANTAI KOPI GARUT</Text>
-        <Text style={[styles.heroTitle, { color: colors.card }]}>Satu perjalanan, banyak tangan.</Text>
-        <Text style={[styles.heroText, { color: colors.background }]}>
-          Dari kebun, proses, pasar, sampai pengalaman. Semuanya terhubung di sini.
-        </Text>
       </Animated.View>
 
       <View style={styles.intro}>
         <Text style={[styles.introKicker, { color: colors.primary }]}>BAGAIMANA KOPI BERJALAN</Text>
         <Text style={[styles.introTitle, { color: colors.foreground }]}>Ikuti alurnya, temukan peranmu.</Text>
-        <Text style={[styles.introText, { color: colors.mutedForeground }]}>
-          Setiap tahap punya orang, cerita, dan ruangnya sendiri. Pilih bagian yang ingin kamu kenali lebih dekat.
-        </Text>
       </View>
 
       <View style={styles.stageList}>
@@ -117,7 +120,6 @@ export default function CollectiveScreen() {
                   <BrandIcon name={stage.icon} size={19} color={colors.primary} />
                 </View>
               </View>
-              <Text style={[styles.stageDescription, { color: colors.mutedForeground }]}>{stage.description}</Text>
               <View style={styles.linkList}>
                 {stage.links.map((link) => (
                   <Pressable
@@ -133,7 +135,6 @@ export default function CollectiveScreen() {
                     <View style={[styles.linkMarker, { backgroundColor: colors.accent }]} />
                     <View style={styles.linkCopy}>
                       <Text style={[styles.linkLabel, { color: colors.foreground }]}>{link.label}</Text>
-                      <Text style={[styles.linkDetail, { color: colors.mutedForeground }]}>{link.detail}</Text>
                     </View>
                     <BrandIcon name="arrow-up-right" size={16} color={colors.primary} />
                   </Pressable>
@@ -156,9 +157,7 @@ export default function CollectiveScreen() {
         </View>
         <View style={styles.closingCopy}>
           <Text style={[styles.closingTitle, { color: colors.foreground }]}>Semua tahap saling menguatkan.</Text>
-          <Text style={[styles.closingText, { color: colors.secondaryForeground }]}>
-            Saat kebun, proses, pasar, dan penikmat terhubung, kopi Garut bisa tumbuh lebih jauh.
-          </Text>
+          <Text style={[styles.closingText, { color: colors.secondaryForeground }]}>Temukan ruangmu di dalamnya.</Text>
         </View>
       </View>
     </Screen>
@@ -166,17 +165,24 @@ export default function CollectiveScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { borderRadius: 22, padding: 20, gap: 10 },
+  hero: { borderRadius: 22, minHeight: 246, overflow: 'hidden', position: 'relative' },
+  heroImage: { ...StyleSheet.absoluteFill, opacity: 0.42 },
+  heroShade: { ...StyleSheet.absoluteFill, opacity: 0.78 },
+  heroContent: { padding: 18, gap: 10, minHeight: 246, justifyContent: 'space-between' },
+  heroTopline: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   heroIcon: { width: 52, height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  heroBadge: { paddingHorizontal: 10, paddingVertical: 7, borderRadius: 12, opacity: 0.92 },
+  heroBadgeText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800', letterSpacing: 1 },
   heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.25 },
-  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 25, lineHeight: 30, fontWeight: '800', letterSpacing: -0.55, maxWidth: 310 },
-  heroText: { fontFamily: 'Manrope_400Regular', fontSize: 13, lineHeight: 20, opacity: 0.86 },
-  intro: { gap: 5, marginTop: 1 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 28, lineHeight: 31, fontWeight: '800', letterSpacing: -0.65, maxWidth: 310 },
+  heroRoute: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 3 },
+  heroRouteLine: { width: 24, height: 2 },
+  heroRouteText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.8, opacity: 0.82 },
+  intro: { gap: 5, marginTop: 1, paddingHorizontal: 2 },
   introKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
   introTitle: { fontFamily: 'Manrope_700Bold', fontSize: 21, lineHeight: 26, fontWeight: '800', letterSpacing: -0.45 },
-  introText: { fontFamily: 'Manrope_400Regular', fontSize: 13, lineHeight: 20, marginTop: 2 },
   stageList: { gap: 0 },
-  stage: { borderWidth: 1, borderRadius: 20, padding: 14, gap: 11 },
+  stage: { borderWidth: 1, borderRadius: 20, padding: 14, gap: 12 },
   stageHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
   stageNumber: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   stageNumberText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
@@ -184,13 +190,11 @@ const styles = StyleSheet.create({
   stageLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.25 },
   stageTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '800' },
   stageIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  stageDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 17 },
   linkList: { gap: 0 },
-  linkRow: { minHeight: 54, borderTopWidth: 1, flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 8 },
+  linkRow: { minHeight: 47, borderTopWidth: 1, flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 6 },
   linkMarker: { width: 7, height: 7, borderRadius: 4 },
   linkCopy: { flex: 1, gap: 2 },
   linkLabel: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '800' },
-  linkDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   connector: { height: 25, alignItems: 'center', justifyContent: 'center' },
   connectorDot: { width: 8, height: 8, borderRadius: 4, zIndex: 2 },
   connectorLine: { position: 'absolute', width: 1, height: '100%' },
