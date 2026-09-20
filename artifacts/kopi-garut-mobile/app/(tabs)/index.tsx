@@ -75,7 +75,6 @@ const categoryItems = [
   { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
   { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
-  { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
   { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
   { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
