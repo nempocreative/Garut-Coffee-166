@@ -30,6 +30,9 @@ export type CoffeeLot = {
   process: string;
   harvestPeriod: string;
   qualityNote: string;
+  storyTitle: string;
+  story: string;
+  journey: { label: string; title: string; detail: string }[];
 };
 
 export type CartItem = { coffeeId: string; quantity: number };
@@ -129,9 +132,29 @@ export const coffeeLots: CoffeeLot[] = [
     variety: 'Arabika',
     region: 'Papandayan',
     weightKg: 350,
-    process: 'Natural',
+    process: 'Madu',
     harvestPeriod: 'September 2026',
-    qualityNote: 'Lot terkurasi dari wilayah kopi Garut.',
+    qualityNote: 'Lot terkurasi dari lereng Papandayan.',
+    storyTitle: 'Dari lereng sejuk ke cangkir pagimu.',
+    story:
+      'Buah kopi dipetik saat kulitnya merah penuh oleh keluarga tani di lereng Papandayan. Setelah melalui proses madu dan pengeringan perlahan, biji ini disangrai ringan–sedang agar rasa lemon, gula merah, dan melatinya tetap terasa jernih.',
+    journey: [
+      {
+        label: 'Kebun',
+        title: 'Dipetik saat matang',
+        detail: 'Buah merah dipilih satu per satu di ketinggian 1.650 mdpl.',
+      },
+      {
+        label: 'Proses',
+        title: 'Dikeringkan dengan sabar',
+        detail: 'Lapisan madu dijaga selama pengeringan untuk membangun rasa manis.',
+      },
+      {
+        label: 'Cangkir',
+        title: 'Diseduh untuk dinikmati',
+        detail: 'Sangrai ringan–sedang menjaga akhir rasa tetap bersih dan hangat.',
+      },
+    ],
   },
 ];
 

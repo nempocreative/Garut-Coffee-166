@@ -18,17 +18,14 @@ export function Screen({ children, scroll = true, style }: { children: React.Rea
   return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18 }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18 }, style]}>{children}</View>;
 }
 
-export function Header({ title, subtitle, cart = true, notifications = false, back = false, extendOrnament = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean; extendOrnament?: boolean }) {
+export function Header({ title, cart = true, notifications = false, back = false, extendOrnament = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean; extendOrnament?: boolean }) {
   const colors = useColors();
   const router = useRouter();
   const { cart: items } = useStore();
-  const subtitleParts = subtitle?.split(' · ') ?? [];
   const titleParts = title.split(', ');
   const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
   const ornamentTextColor = colors.primaryForeground;
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
-  const eyebrowColor = extendOrnament ? colors.accent : colors.primary;
-  const locationColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
@@ -61,7 +58,6 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
       <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
           <View style={styles.headerCopy}>
-            {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: locationColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitle}</Text>}
             <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: extendOrnament ? colors.accent : colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
           </View>
         </View>
