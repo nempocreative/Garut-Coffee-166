@@ -26,7 +26,9 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
   const titleParts = title.split(', ');
   const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
   const ornamentTextColor = colors.primaryForeground;
-  const titleTextColor = colors.foreground;
+  const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
+  const eyebrowColor = extendOrnament ? colors.accent : colors.primary;
+  const locationColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
@@ -36,7 +38,7 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
             <Stop offset="100%" stopColor={colors.secondaryForeground} />
           </SvgLinearGradient>
         </Defs>
-        <Path d={extendOrnament ? "M0 0h400v154c-40-14-76-14-112 1-47 20-80 29-127 21-58-10-103-1-161 22V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" />
+        <Path d={extendOrnament ? "M0 0h400v151c-43-12-77-12-116 1-46 16-77 20-124 12-57-10-107-4-160 13V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" />
         <Path d="M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z" fill={colors.primary} opacity={0.18} />
         <Path d="M314 14c19 12 31 29 36 50" fill="none" stroke={colors.accent} strokeWidth="2.5" strokeLinecap="round" opacity={0.42} />
         <Path d="M326 10c19 12 31 28 37 45" fill="none" stroke={colors.primaryForeground} strokeWidth="1" strokeLinecap="round" opacity={0.28} />
@@ -50,10 +52,10 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
           {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
         </View>
       </View>
-      <View style={[styles.headerBottomSurface, extendOrnament && styles.headerBottomSurfaceExtended, { backgroundColor: colors.background }]}>
+      <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
           <View style={styles.headerCopy}>
-            {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+            {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: locationColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitle}</Text>}
             <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
           </View>
         </View>
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92 },
-  headerOrnamentExtended: { height: 245 },
+  headerOrnamentExtended: { height: 225 },
   headerContent: { position: 'relative', zIndex: 3, gap: 14 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46, position: 'relative', zIndex: 4 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
@@ -110,7 +112,6 @@ const styles = StyleSheet.create({
   brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
   brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
   headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
-  headerBottomSurfaceExtended: { marginHorizontal: -8, paddingHorizontal: 8 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
