@@ -40,17 +40,19 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
         <Path d="M326 10c19 12 31 28 37 45" fill="none" stroke={colors.primaryForeground} strokeWidth="1" strokeLinecap="round" opacity={0.28} />
       </Svg>
     </View>
-    <View style={styles.headerTop}>
-      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.primaryForeground }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
-      <View style={styles.headerActions}>
-        {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
-        {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+    <View style={styles.headerContent}>
+      <View style={styles.headerTop}>
+        {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.primaryForeground }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+        <View style={styles.headerActions}>
+          {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
+          {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
+        </View>
       </View>
-    </View>
-    <View style={styles.headerBottom}>
-      <View style={styles.headerCopy}>
-        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: ornamentTextColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitle}</Text>}
-        <Text numberOfLines={2} style={[styles.headerTitle, { color: ornamentTextColor }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
+      <View style={styles.headerBottom}>
+        <View style={styles.headerCopy}>
+          {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: ornamentTextColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitle}</Text>}
+          <Text numberOfLines={2} style={[styles.headerTitle, { color: ornamentTextColor }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
+        </View>
       </View>
     </View>
   </View>;
@@ -92,17 +94,18 @@ export function LoadingState() { const colors = useColors(); return <View style=
 
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
-  header: { gap: 16, marginBottom: 0, position: 'relative', zIndex: 1 },
+  header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 150 },
-  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46 },
+  headerContent: { position: 'relative', zIndex: 3, gap: 18 },
+  headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46, position: 'relative', zIndex: 4 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10, flexShrink: 1 },
   logo: { width: 36, height: 36, borderRadius: 12, borderWidth: 1 },
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
   brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
   brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
-  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
-  headerCopy: { flex: 1, gap: 5 },
+  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3, paddingBottom: 12 },
+  headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
