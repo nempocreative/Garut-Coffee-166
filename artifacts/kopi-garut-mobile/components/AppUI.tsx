@@ -26,6 +26,7 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
   const titleParts = title.split(', ');
   const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
   const ornamentTextColor = colors.primaryForeground;
+  const titleTextColor = colors.foreground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={styles.headerOrnament}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
@@ -49,10 +50,12 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
           {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
         </View>
       </View>
-      <View style={styles.headerBottom}>
-        <View style={styles.headerCopy}>
-          {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: ornamentTextColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitle}</Text>}
-          <Text numberOfLines={isHomeGreeting ? 2 : 2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: ornamentTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: colors.accent }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
+      <View style={[styles.headerBottomSurface, { backgroundColor: colors.background }]}>
+        <View style={styles.headerBottom}>
+          <View style={styles.headerCopy}>
+            {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
+            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -96,8 +99,8 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
-  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 150 },
-  headerContent: { position: 'relative', zIndex: 3, gap: 18 },
+  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92 },
+  headerContent: { position: 'relative', zIndex: 3, gap: 14 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46, position: 'relative', zIndex: 4 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10, flexShrink: 1 },
@@ -105,7 +108,8 @@ const styles = StyleSheet.create({
   brandNameRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
   brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
   brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
-  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3, paddingBottom: 12 },
+  headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
+  headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
