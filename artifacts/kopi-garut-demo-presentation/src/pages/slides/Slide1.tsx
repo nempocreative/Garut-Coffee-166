@@ -34,7 +34,7 @@ export default function Slide1() {
         <span className="h-[0.45vw] w-[0.45vw] rounded-full bg-[#A8543B]" />
         Dari kebun sampai cangkir
       </div>
-      <div className="absolute bottom-[6vh] right-[6.5vw] text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 12</div>
+      <div className="absolute bottom-[6vh] right-[6.5vw] text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 16</div>
     </div>
   );
 }

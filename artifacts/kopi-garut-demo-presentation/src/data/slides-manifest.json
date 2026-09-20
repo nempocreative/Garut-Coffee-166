@@ -26,70 +26,102 @@
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a04",
     "position": 4,
+    "filepath": "src/pages/slides/Slide4MainMenu.tsx",
+    "title": "Lima menu inti untuk satu perjalanan",
+    "description": "Penjelasan menu navigasi utama aplikasi Kopi Garut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
+    "position": 5,
+    "filepath": "src/pages/slides/Slide5Explore.tsx",
+    "title": "Lebih dari sekadar katalog",
+    "description": "Kategori jelajah yang menghubungkan produk, asal, pengalaman, kolaborasi, dan dukungan.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
+    "position": 6,
     "filepath": "src/pages/slides/Slide2.tsx",
     "title": "Satu platform untuk ekosistem kopi Garut",
     "description": "Empat cara platform menyatukan ekosistem kopi Garut.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
-    "position": 5,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
+    "position": 7,
     "filepath": "src/pages/slides/Slide3.tsx",
     "title": "Mulai dari beranda yang informatif",
     "description": "Beranda sebagai pintu masuk untuk menemukan produk, cerita, dan agenda.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
-    "position": 6,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
+    "position": 8,
     "filepath": "src/pages/slides/Slide4.tsx",
     "title": "Kenali kopi dari sumbernya",
     "description": "Informasi wilayah, petani, proses, dan standar yang mendukung kualitas.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
-    "position": 7,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a09",
+    "position": 9,
     "filepath": "src/pages/slides/Slide5.tsx",
     "title": "Katalog yang membawa cerita",
     "description": "Katalog produk yang tetap dekat dengan asal dan karakter kopi.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
-    "position": 8,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a10",
+    "position": 10,
     "filepath": "src/pages/slides/Slide8Traceability.tsx",
     "title": "Dari lot panen ke pilihan pelanggan",
     "description": "Alur traceability yang menghubungkan wilayah, petani, proses, dan produk.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a09",
-    "position": 9,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a11",
+    "position": 11,
     "filepath": "src/pages/slides/Slide6.tsx",
     "title": "Data yang membantu mengambil keputusan",
     "description": "Data, laporan, dokumen, program, harga, dan traceability dalam satu alur.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a10",
-    "position": 10,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a12",
+    "position": 12,
+    "filepath": "src/pages/slides/Slide12Programs.tsx",
+    "title": "Fitur berbeda sesuai peran",
+    "description": "Ruang kerja program untuk petani, kelompok tani, penyuluh, dan pengelola.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a13",
+    "position": 13,
     "filepath": "src/pages/slides/Slide7.tsx",
     "title": "Dari koneksi menjadi kolaborasi",
     "description": "Kemitraan, program, agenda, dan kanal umpan balik untuk pertumbuhan bersama.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a11",
-    "position": 11,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a14",
+    "position": 14,
     "filepath": "src/pages/slides/Slide11Impact.tsx",
     "title": "Platform yang tumbuh bersama data",
     "description": "Dampak dan arah pengembangan platform Kopi Garut.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a12",
-    "position": 12,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a15",
+    "position": 15,
+    "filepath": "src/pages/slides/Slide15Advantages.tsx",
+    "title": "Satu aplikasi, banyak nilai",
+    "description": "Keunggulan aplikasi Kopi Garut bagi ekosistem daerah.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a16",
+    "position": 16,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Kopi Garut.",
