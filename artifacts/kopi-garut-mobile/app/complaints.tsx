@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Header, Screen } from '@/components/AppUI';
 import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { Complaint, ComplaintCategory, complaintCategories } from '@/data/program';
@@ -49,6 +50,7 @@ const categoryGuidance: Record<ComplaintCategory, { icon: 'users' | 'map' | 'pac
 
 export default function ComplaintsScreen() {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { session } = useAuth();
   const [category, setCategory] = useState<ComplaintCategory>('Petani belum terdata');
@@ -139,7 +141,13 @@ export default function ComplaintsScreen() {
       <Header back title="Sampaikan keluhan" subtitle="PROGRAM · RUANG KELUHAN" />
       <KeyboardAwareScrollViewCompat
         style={[styles.formScroll, { backgroundColor: colors.background }]}
-        contentContainerStyle={[styles.formContent, { backgroundColor: colors.background }]}
+        contentContainerStyle={[
+          styles.formContent,
+          {
+            backgroundColor: colors.background,
+            paddingBottom: Platform.OS === 'web' ? 34 : Math.max(insets.bottom + 28, 34),
+          },
+        ]}
         bottomOffset={28}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
