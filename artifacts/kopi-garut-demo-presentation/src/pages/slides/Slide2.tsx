@@ -1,33 +1,38 @@
+import logo from '@assets/kopi-garut-logo-presentation.png';
+
 export default function Slide2() {
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#f4eee3] text-[#18382b]">
-      <div className="absolute -right-[8vw] -top-[15vh] h-[46vw] w-[46vw] rounded-full border-[0.12vw] border-[#d9b994] opacity-70" />
-      <div className="absolute right-[10vw] top-[12vh] h-[14vw] w-[14vw] rounded-full bg-[#e5d7c1]" />
-      <div className="absolute left-[7vw] top-[8vh] text-[1.5vw] font-semibold uppercase tracking-[0.2em] text-[#a45e3a]">
-        Kopi Garut / 02
+    <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
+      <div className="absolute right-0 top-0 h-full w-[25vw] bg-[#E7D9C8]" />
+      <div className="absolute right-[7vw] top-[13vh] h-[30vw] w-[30vw] rounded-full border-[0.12vw] border-[#D3A15F]/60" />
+      <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
+        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
+        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">04 / 12</span>
       </div>
-      <div className="absolute left-[7vw] top-[19vh] w-[55vw]">
-        <h2 className="font-display text-[4.25vw] font-bold leading-[1.04] tracking-[-0.04em]">
-          Satu platform untuk ekosistem kopi Garut
-        </h2>
-        <div className="mt-[3vh] h-[0.4vh] w-[7vw] bg-[#d36f45]" />
+
+      <div className="absolute left-[6.5vw] top-[17vh] w-[56vw]">
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Satu ruang untuk ekosistem</p>
+        <h2 className="mt-[1.6vh] text-[4.4vw] font-extrabold leading-[1.02] tracking-[-0.065em]"><span className="block">Satu platform untuk</span><span className="text-[#A8543B]">ekosistem kopi Garut.</span></h2>
+        <p className="mt-[2.3vh] max-w-[40vw] text-[1.7vw] leading-[1.25] text-[#806E63]">Dari informasi asal hingga peluang kolaborasi, semua bertemu dalam satu pengalaman.</p>
       </div>
-      <div className="absolute bottom-[12vh] left-[7vw] right-[7vw] grid grid-cols-2 gap-x-[7vw] gap-y-[5vh]">
-        <div className="flex items-start gap-[1.5vw]">
-          <span className="font-display text-[2.8vw] font-bold text-[#d36f45]">01</span>
-          <p className="max-w-[30vw] pt-[0.7vh] text-[2vw] font-medium leading-[1.15]">Mengenalkan kopi berdasarkan asal dan ceritanya</p>
+
+      <div className="absolute bottom-[10vh] left-[6.5vw] right-[8vw] grid grid-cols-4 gap-[1vw]">
+        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+          <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">01</p>
+          <p className="mt-[5vh] text-[1.5vw] font-bold leading-[1.18]">Mengenalkan kopi berdasarkan asal dan ceritanya</p>
         </div>
-        <div className="flex items-start gap-[1.5vw]">
-          <span className="font-display text-[2.8vw] font-bold text-[#d36f45]">02</span>
-          <p className="max-w-[30vw] pt-[0.7vh] text-[2vw] font-medium leading-[1.15]">Membuka akses informasi bagi petani, kelompok, dan mitra</p>
+        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+          <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">02</p>
+          <p className="mt-[5vh] text-[1.5vw] font-bold leading-[1.18]">Membuka akses informasi bagi petani dan mitra</p>
         </div>
-        <div className="flex items-start gap-[1.5vw]">
-          <span className="font-display text-[2.8vw] font-bold text-[#d36f45]">03</span>
-          <p className="max-w-[30vw] pt-[0.7vh] text-[2vw] font-medium leading-[1.15]">Menyatukan katalog, data wilayah, program, dan kemitraan</p>
+        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+          <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">03</p>
+          <p className="mt-[5vh] text-[1.5vw] font-bold leading-[1.18]">Menyatukan Kopi, Petani, Wilayah, dan Wisata</p>
         </div>
-        <div className="flex items-start gap-[1.5vw]">
-          <span className="font-display text-[2.8vw] font-bold text-[#d36f45]">04</span>
-          <p className="max-w-[30vw] pt-[0.7vh] text-[2vw] font-medium leading-[1.15]">Menjadikan setiap interaksi lebih mudah ditelusuri</p>
+        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#A8543B] p-[1.5vw] text-[#FFF9F1] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.14)]">
+          <p className="text-[2.6vw] font-extrabold leading-none text-[#D3A15F]">04</p>
+          <p className="mt-[5vh] text-[1.5vw] font-bold leading-[1.18]">Membuat setiap cerita lebih mudah ditelusuri</p>
         </div>
       </div>
     </div>

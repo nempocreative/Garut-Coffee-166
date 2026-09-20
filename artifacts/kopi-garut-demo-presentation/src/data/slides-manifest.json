@@ -10,56 +10,88 @@
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a02",
     "position": 2,
+    "filepath": "src/pages/slides/Slide2Context.tsx",
+    "title": "Potensi besar, cerita yang tersebar",
+    "description": "Konteks kebutuhan untuk menyatukan informasi dan pelaku ekosistem kopi Garut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a03",
+    "position": 3,
+    "filepath": "src/pages/slides/Slide3Ecosystem.tsx",
+    "title": "Satu ekosistem, empat kebutuhan",
+    "description": "Pengguna utama dan kebutuhan yang dilayani oleh platform.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a04",
+    "position": 4,
     "filepath": "src/pages/slides/Slide2.tsx",
     "title": "Satu platform untuk ekosistem kopi Garut",
     "description": "Empat cara platform menyatukan ekosistem kopi Garut.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a03",
-    "position": 3,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
+    "position": 5,
     "filepath": "src/pages/slides/Slide3.tsx",
     "title": "Mulai dari beranda yang informatif",
     "description": "Beranda sebagai pintu masuk untuk menemukan produk, cerita, dan agenda.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a04",
-    "position": 4,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
+    "position": 6,
     "filepath": "src/pages/slides/Slide4.tsx",
     "title": "Kenali kopi dari sumbernya",
     "description": "Informasi wilayah, petani, proses, dan standar yang mendukung kualitas.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
-    "position": 5,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
+    "position": 7,
     "filepath": "src/pages/slides/Slide5.tsx",
     "title": "Katalog yang membawa cerita",
     "description": "Katalog produk yang tetap dekat dengan asal dan karakter kopi.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
-    "position": 6,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
+    "position": 8,
+    "filepath": "src/pages/slides/Slide8Traceability.tsx",
+    "title": "Dari lot panen ke pilihan pelanggan",
+    "description": "Alur traceability yang menghubungkan wilayah, petani, proses, dan produk.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a09",
+    "position": 9,
     "filepath": "src/pages/slides/Slide6.tsx",
     "title": "Data yang membantu mengambil keputusan",
     "description": "Data, laporan, dokumen, program, harga, dan traceability dalam satu alur.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
-    "position": 7,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a10",
+    "position": 10,
     "filepath": "src/pages/slides/Slide7.tsx",
     "title": "Dari koneksi menjadi kolaborasi",
     "description": "Kemitraan, program, agenda, dan kanal umpan balik untuk pertumbuhan bersama.",
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
-    "position": 8,
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a11",
+    "position": 11,
+    "filepath": "src/pages/slides/Slide11Impact.tsx",
+    "title": "Platform yang tumbuh bersama data",
+    "description": "Dampak dan arah pengembangan platform Kopi Garut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a12",
+    "position": 12,
     "filepath": "src/pages/slides/Slide8.tsx",
-    "title": "Demo singkat, dampak yang berkelanjutan",
+    "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Kopi Garut.",
     "speakerNotes": ""
   }

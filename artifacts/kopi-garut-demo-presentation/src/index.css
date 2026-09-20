@@ -11,13 +11,13 @@
 }
 
 :root {
-  --slide-primary: #18382b;
-  --slide-accent: #d36f45;
-  --slide-bg: #f4eee3;
-  --slide-text: #20372d;
-  --slide-muted: #746d62;
-  --font-display-family: 'Playfair Display', Georgia, serif;
-  --font-body-family: 'DM Sans', sans-serif;
+  --slide-primary: #a8543b;
+  --slide-accent: #d3a15f;
+  --slide-bg: #f6f0e8;
+  --slide-text: #2a201d;
+  --slide-muted: #806e63;
+  --font-display-family: 'Manrope', sans-serif;
+  --font-body-family: 'Manrope', sans-serif;
   color-scheme: light;
 }
 
@@ -30,7 +30,7 @@ body,
 }
 
 body {
-  background: #111814;
+  background: #2a201d;
   color: var(--slide-text);
   font-family: var(--font-body-family);
 }
@@ -45,4 +45,12 @@ body {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
 }
