@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Header, Screen } from '@/components/AppUI';
+import { Header } from '@/components/AppUI';
 import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { Complaint, ComplaintCategory, complaintCategories } from '@/data/program';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -51,6 +51,7 @@ const categoryGuidance: Record<ComplaintCategory, { icon: 'users' | 'map' | 'pac
 export default function ComplaintsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const router = useRouter();
   const { session } = useAuth();
   const [category, setCategory] = useState<ComplaintCategory>('Petani belum terdata');
@@ -137,22 +138,22 @@ export default function ComplaintsScreen() {
   const isSuccess = feedback.startsWith('Keluhan diterima');
 
   return (
-    <Screen scroll={false} style={styles.screen}>
+    <KeyboardAwareScrollViewCompat
+      style={[styles.screen, { backgroundColor: colors.background }]}
+      contentContainerStyle={[
+        styles.formContent,
+        {
+          backgroundColor: colors.background,
+          paddingTop: topInset + 18,
+          paddingBottom: Platform.OS === 'web' ? 34 : Math.max(insets.bottom + 28, 34),
+        },
+      ]}
+      bottomOffset={28}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       <Header back title="Sampaikan keluhan" subtitle="PROGRAM · RUANG KELUHAN" />
-      <KeyboardAwareScrollViewCompat
-        style={[styles.formScroll, { backgroundColor: colors.background }]}
-        contentContainerStyle={[
-          styles.formContent,
-          {
-            backgroundColor: colors.background,
-            paddingBottom: Platform.OS === 'web' ? 34 : Math.max(insets.bottom + 28, 34),
-          },
-        ]}
-        bottomOffset={28}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
         <ProgramIntro
           eyebrow="RUANG KELUHAN"
           title="Ada yang perlu dibenahi?"
@@ -375,14 +376,12 @@ export default function ComplaintsScreen() {
             )}
           </>
         )}
-      </KeyboardAwareScrollViewCompat>
-    </Screen>
+    </KeyboardAwareScrollViewCompat>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  formScroll: { flex: 1 },
   formContent: { paddingBottom: 32, gap: 16 },
   heroCard: { borderRadius: 22, padding: 17, gap: 9, overflow: 'hidden' },
   heroTopline: { flexDirection: 'row', alignItems: 'center', gap: 9 },
