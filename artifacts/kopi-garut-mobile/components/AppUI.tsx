@@ -5,7 +5,7 @@ import React from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, { Defs, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
@@ -27,14 +27,17 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
   const ornamentTextColor = colors.primaryForeground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={styles.headerOrnament}>
-      <LinearGradient colors={[colors.foreground, colors.secondaryForeground]} start={{ x: 0.1, y: 0 }} end={{ x: 0.95, y: 1 }} style={StyleSheet.absoluteFill} />
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
-        <Path d="M0 0h400v123c-41-9-78-6-113 5-48 15-77 20-126 9-58-13-99-9-161 10V0Z" fill={colors.foreground} opacity={0.72} />
-        <Path d="M0 0h400v91c-45 3-77 18-109 30-42 16-72 21-119 12-57-11-105-3-172 20V0Z" fill={colors.primary} opacity={0.2} />
-        <Path d="M303 24c14-13 38-16 55-5-8 4-14 11-18 20-11 1-25-3-37-15Z" fill={colors.accent} opacity={0.28} />
-        <Path d="M335 19c-4 9-8 17-16 25" fill="none" stroke={colors.primaryForeground} strokeWidth="1.4" strokeLinecap="round" opacity={0.42} />
-        <Circle cx="365" cy="47" r="3" fill={colors.accent} opacity={0.55} />
-        <Circle cx="378" cy="31" r="1.8" fill={colors.primaryForeground} opacity={0.4} />
+        <Defs>
+          <SvgLinearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <Stop offset="0%" stopColor={colors.foreground} />
+            <Stop offset="100%" stopColor={colors.secondaryForeground} />
+          </SvgLinearGradient>
+        </Defs>
+        <Path d="M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z" fill="url(#headerGradient)" />
+        <Path d="M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z" fill={colors.primary} opacity={0.18} />
+        <Path d="M314 14c19 12 31 29 36 50" fill="none" stroke={colors.accent} strokeWidth="2.5" strokeLinecap="round" opacity={0.42} />
+        <Path d="M326 10c19 12 31 28 37 45" fill="none" stroke={colors.primaryForeground} strokeWidth="1" strokeLinecap="round" opacity={0.28} />
       </Svg>
     </View>
     <View style={styles.headerTop}>
@@ -90,7 +93,7 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   header: { gap: 16, marginBottom: 0, position: 'relative', zIndex: 1 },
-  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 164, overflow: 'hidden', borderBottomLeftRadius: 42, borderBottomRightRadius: 42 },
+  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 150 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10 },
