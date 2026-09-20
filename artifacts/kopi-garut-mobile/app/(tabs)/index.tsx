@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
-import { coffeePrices, coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
+import { coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 const promoSlides = [
@@ -73,7 +73,6 @@ const categoryItems = [
   { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
   { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
   { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
-  { icon: 'trending-up' as const, label: 'Harga', route: '/prices' as const },
   { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
   { icon: 'bar-chart-2' as const, label: 'Data', route: '/dashboard' as const },
@@ -1054,13 +1053,6 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </View>
-    <View style={styles.sectionHeading}>
-      <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Pantau nilai kopi</Text></View>
-      <Link href="/prices" style={[styles.seeAll, { color: colors.primary }]}>Buka harga</Link>
-    </View>
-    <View style={[styles.pricePanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      {coffeePrices.slice(0, 3).map((item, index) => <Pressable key={item.label} onPress={() => router.push('/prices')} style={[styles.priceRow, index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}><View><Text style={[styles.priceLabel, { color: colors.foreground }]}>{item.label}</Text><Text style={[styles.priceUnit, { color: colors.mutedForeground }]}>{item.unit}</Text></View><View style={styles.priceValueWrap}><Text style={[styles.priceValue, { color: colors.primary }]}>{item.price}</Text><Text style={[styles.priceChange, { color: colors.mutedForeground }]}>{item.change}</Text></View><BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} /></Pressable>)}
-    </View>
     <View style={styles.homeFooter}>
       <ExpoImage
         source={require('../../assets/images/garut-mountains.png')}
@@ -1273,13 +1265,6 @@ const styles = StyleSheet.create({
   tourType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1, textTransform: 'uppercase' },
   tourTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
   tourMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  pricePanel: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 14 },
-  priceRow: { minHeight: 65, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  priceLabel: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
-  priceUnit: { fontFamily: 'Manrope_400Regular', fontSize: 10, marginTop: 2 },
-  priceValueWrap: { flex: 1, alignItems: 'flex-end', gap: 2 },
-  priceValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
-  priceChange: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
   homeFooter: { alignItems: 'center', gap: 1, marginTop: -8, paddingTop: 0, paddingBottom: 4 },
   footerMountain: { width: '100%', height: 68, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
