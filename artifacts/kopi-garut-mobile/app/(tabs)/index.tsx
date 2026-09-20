@@ -552,7 +552,7 @@ export default function HomeScreen() {
   }, [storyCardWidth]);
 
   return <Screen>
-    <Header title="Mau menikmati kopi apa hari ini?" notifications />
+    <Header title="Mau menikmati kopi apa hari ini?" notifications extendOrnament />
     <Pressable
       testID="home-search"
       accessibilityRole="button"
@@ -1073,7 +1073,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  searchEntry: { height: 52, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10, position: 'relative', zIndex: 5 },
   searchBeanAnimation: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   searchBeanImage: { width: 32, height: 32 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
