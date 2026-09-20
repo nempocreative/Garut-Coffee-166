@@ -1,14 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Header, Screen } from '@/components/AppUI';
 import { FilterChip, InfoRow, ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { Complaint, ComplaintCategory, complaintCategories } from '@/data/program';
 import { BrandIcon } from '@/components/BrandIcon';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
+import { useAuth } from '@/context/AuthContext';
 import { useColors } from '@/hooks/useColors';
 
 const STORAGE_KEY = '@kopi-garut/program-complaints';
+const DRAFT_STORAGE_KEY = '@kopi-garut/program-complaint-draft';
 
 const categoryGuidance: Record<ComplaintCategory, { icon: 'users' | 'map' | 'package' | 'briefcase' | 'info'; title: string; description: string }> = {
   'Petani belum terdata': { icon: 'users', title: 'Kenalkan petani atau kelompoknya', description: 'Sebutkan nama petani atau kelompok, lokasi kebun, dan apakah mereka sudah pernah mendapat pendampingan.' },
@@ -20,6 +23,8 @@ const categoryGuidance: Record<ComplaintCategory, { icon: 'users' | 'map' | 'pac
 
 export default function ComplaintsScreen() {
   const colors = useColors();
+  const router = useRouter();
+  const { session } = useAuth();
   const [category, setCategory] = useState<ComplaintCategory>('Petani belum terdata');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
@@ -34,9 +39,19 @@ export default function ComplaintsScreen() {
   }), [complaints]);
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY).then((value) => {
+    Promise.all([AsyncStorage.getItem(STORAGE_KEY), AsyncStorage.getItem(DRAFT_STORAGE_KEY)]).then(([value, draft]) => {
       if (value) {
-        try { setComplaints(JSON.parse(value) as Complaint[]); } catch { setFeedback('Riwayat laporan belum dapat dibaca.'); }
+        try { setComplaints(JSON.parse(value) as Complaint[]); } catch { setFeedback('Riwayat usulan belum dapat dibaca.'); }
+      }
+      if (draft) {
+        try {
+          const savedDraft = JSON.parse(draft) as Partial<Complaint>;
+          if (savedDraft.category && complaintCategories.includes(savedDraft.category as ComplaintCategory)) setCategory(savedDraft.category as ComplaintCategory);
+          if (typeof savedDraft.location === 'string') setLocation(savedDraft.location);
+          if (typeof savedDraft.description === 'string') setDescription(savedDraft.description);
+        } catch {
+          setFeedback('Draf usulan belum dapat dipulihkan.');
+        }
       }
       setLoading(false);
     }).catch(() => { setFeedback('Riwayat laporan belum dapat dimuat.'); setLoading(false); });
@@ -47,13 +62,25 @@ export default function ComplaintsScreen() {
       setFeedback('Lengkapi lokasi dan kebutuhan dukungan sebelum mengirim.');
       return;
     }
+    if (!session) {
+      try {
+        await AsyncStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({ category, location: location.trim(), description: description.trim() }));
+        router.push({ pathname: '/login', params: { returnTo: '/complaints' } });
+      } catch {
+        setFeedback('Usulan belum bisa disiapkan. Coba lagi sebelum masuk.');
+      }
+      return;
+    }
     const next: Complaint = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, category, location: location.trim(), description: description.trim(), status: 'Diterima', createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) };
     const updated = [next, ...complaints];
     setComplaints(updated);
     setLocation('');
     setDescription('');
     setFeedback('Usulan diterima. Tim program akan meninjau dan menghubungi kamu bila perlu.');
-    try { await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { setFeedback('Laporan tampil di layar, tetapi belum tersimpan di perangkat.'); }
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      await AsyncStorage.removeItem(DRAFT_STORAGE_KEY);
+    } catch { setFeedback('Usulan tampil di layar, tetapi belum tersimpan di perangkat.'); }
   };
 
   const selectedGuidance = categoryGuidance[category];
@@ -98,7 +125,7 @@ export default function ComplaintsScreen() {
         <TextInput testID="complaint-description" accessibilityLabel="Kebutuhan dukungan" value={description} onChangeText={setDescription} multiline numberOfLines={5} textAlignVertical="top" placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika untuk lahan baru." placeholderTextColor={colors.mutedForeground} style={[styles.input, styles.textarea, { color: colors.foreground, backgroundColor: colors.card, borderColor: colors.border }]} />
         <Text style={[styles.fieldNote, { color: colors.mutedForeground }]}>Boleh sertakan nama kelompok atau perkiraan jumlah penerima. Hindari data pribadi yang tidak diperlukan.</Text>
         {feedback ? <View style={[styles.feedback, { backgroundColor: feedback.startsWith('Usulan diterima') ? colors.secondary : colors.muted }]}><BrandIcon name={feedback.startsWith('Usulan diterima') ? 'check' : 'info'} size={16} color={colors.primary} /><Text style={[styles.feedbackText, { color: colors.foreground }]}>{feedback}</Text></View> : null}
-        <Pressable testID="submit-complaint" accessibilityRole="button" accessibilityLabel="Kirim usulan dukungan" accessibilityHint="Menyimpan usulan di perangkat ini" onPress={submitComplaint} style={({ pressed }) => [styles.submit, { backgroundColor: colors.primary, opacity: pressed ? 0.78 : 1 }]}><BrandIcon name="send" size={17} color={colors.primaryForeground} /><Text style={[styles.submitText, { color: colors.primaryForeground }]}>Kirim usulan</Text></Pressable>
+        <Pressable testID="submit-complaint" accessibilityRole="button" accessibilityLabel="Kirim usulan dukungan" accessibilityHint={session ? 'Menyimpan usulan di perangkat ini' : 'Masuk sebelum mengirim usulan'} onPress={submitComplaint} style={({ pressed }) => [styles.submit, { backgroundColor: colors.primary, opacity: pressed ? 0.78 : 1 }]}><BrandIcon name="send" size={17} color={colors.primaryForeground} /><Text style={[styles.submitText, { color: colors.primaryForeground }]}>{session ? 'Kirim usulan' : 'Masuk untuk mengirim'}</Text></Pressable>
         <ProgramSectionTitle eyebrow="RIWAYAT DI PERANGKAT INI" title="Usulan terbaru" />
         {loading ? <View style={[styles.loading, { backgroundColor: colors.muted }]}><View style={[styles.loadingLine, { backgroundColor: colors.border }]} /><View style={[styles.loadingLineShort, { backgroundColor: colors.border }]} /></View> : <><View style={styles.summaryRow}><View style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}><Text style={[styles.summaryValue, { color: colors.foreground }]}>{summary.total}</Text><Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>Total usulan</Text></View><View style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}><Text style={[styles.summaryValue, { color: colors.primary }]}>{summary.received}</Text><Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>Diterima</Text></View><View style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}><Text style={[styles.summaryValue, { color: colors.accent }]}>{summary.reviewed}</Text><Text style={[styles.summaryLabel, { color: colors.mutedForeground }]}>Ditinjau</Text></View></View>{complaints.length > 0 ? <View style={styles.history}>{complaints.slice(0, 3).map((item) => <ProgramCard key={item.id}><View style={styles.historyTop}><View style={styles.historyCopy}><Text style={[styles.historyTitle, { color: colors.foreground }]}>{item.category}</Text><Text style={[styles.historyMeta, { color: colors.mutedForeground }]}>{item.location} · {item.createdAt}</Text></View><StatusPill label={item.status} positive={item.status === 'Diterima'} /></View><View style={[styles.historyDivider, { backgroundColor: colors.border }]} /><Text style={[styles.historyDescription, { color: colors.mutedForeground }]}>{item.description}</Text><View style={styles.historyFooter}><BrandIcon name={item.status === 'Diterima' ? 'check' : 'info'} size={13} color={item.status === 'Diterima' ? colors.primary : colors.accent} /><Text style={[styles.historyStatusText, { color: colors.mutedForeground }]}>{item.status === 'Diterima' ? 'Tersimpan dan menunggu peninjauan.' : 'Usulan sedang dipelajari oleh tim.'}</Text></View></ProgramCard>)}</View> : <View style={[styles.empty, { borderColor: colors.border }]}><BrandIcon name="send" size={20} color={colors.primary} /><Text style={[styles.emptyTitle, { color: colors.foreground }]}>Belum ada usulan</Text><Text style={[styles.emptyText, { color: colors.mutedForeground }]}>Usulan tentang petani, lahan, atau kebutuhan bantuan akan tersimpan di perangkat ini.</Text></View>}</>}
       </KeyboardAwareScrollViewCompat>

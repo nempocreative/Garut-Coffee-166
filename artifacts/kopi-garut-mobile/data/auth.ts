@@ -13,7 +13,7 @@ export const roleProfiles: RoleProfile[] = [
     id: 'pengguna',
     name: 'Aruna Rahma',
     label: 'Pengguna',
-    description: 'Jelajahi kopi, simpan favorit, dan kirim masukan.',
+    description: 'Jelajahi kopi, simpan favorit, dan kirim usulan dukungan.',
     initials: 'AR',
   },
   {
@@ -41,7 +41,6 @@ export const protectedRouteRoles: Record<string, AuthRole[]> = {
   '/reports': ['pengguna', 'petani', 'penyuluh'],
   '/notifications': ['pengguna', 'petani', 'penyuluh'],
   '/documents': ['pengguna', 'petani', 'penyuluh'],
-  '/complaints': ['pengguna', 'petani', 'penyuluh'],
 };
 
 export function canAccessRoute(route: string, role?: AuthRole | null) {

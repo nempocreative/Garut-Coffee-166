@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -12,18 +12,21 @@ import { useColors } from '@/hooks/useColors';
 export default function LoginScreen() {
   const colors = useColors();
   const router = useRouter();
+  const params = useLocalSearchParams<{ returnTo?: string }>();
   const { session, signIn } = useAuth();
+  const returnTo = params.returnTo === '/complaints' ? '/complaints' : '/program';
+  const isSubmittingUsulan = returnTo === '/complaints';
   const [selectedRole, setSelectedRole] = useState(session?.id ?? 'pengguna');
   const selectedProfile = roleProfiles.find((profile) => profile.id === selectedRole) ?? roleProfiles[0];
 
   const submit = async () => {
     await signIn(selectedProfile.id);
-    router.replace('/program');
+    router.replace(returnTo);
   };
 
   return (
     <Screen>
-      <Header title={session ? 'Ganti akun' : 'Masuk ke Kopi Garut'} subtitle="AKSES PROGRAM" cart={false} back />
+      <Header title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : session ? 'Ganti akun' : 'Masuk ke Kopi Garut'} subtitle="AKSES PROGRAM" cart={false} back />
       <LinearGradient
         colors={[colors.foreground, colors.secondaryForeground]}
         start={{ x: 0, y: 0 }}
@@ -36,8 +39,8 @@ export default function LoginScreen() {
             <BrandIcon name="coffee" size={13} color={colors.accent} />
             <Text style={[styles.heroKickerText, { color: colors.primaryForeground }]}>EKOSISTEM KOPI GARUT</Text>
           </View>
-          <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>Satu ruang untuk cerita kopi.</Text>
-          <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>Masuk untuk menemukan asal, rasa, dan orang-orang di balik setiap cangkir.</Text>
+          <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Satu langkah untuk mengirim usulan.' : 'Satu ruang untuk cerita kopi.'}</Text>
+          <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Pilih peran agar tim bisa menindaklanjuti petani, lahan, atau kebutuhan dukungan yang kamu sampaikan.' : 'Masuk untuk menemukan asal, rasa, dan orang-orang di balik setiap cangkir.'}</Text>
         </View>
         <View style={[styles.heroLogoFrame, { backgroundColor: colors.card, borderColor: colors.primaryForeground }]}>
           <Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={styles.heroLogo} />
