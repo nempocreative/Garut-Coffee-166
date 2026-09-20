@@ -56,7 +56,7 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
         <View style={styles.headerBottom}>
           <View style={styles.headerCopy}>
             {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: locationColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: eyebrowColor }]}>{subtitle}</Text>}
-            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: extendOrnament ? colors.accent : colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
           </View>
         </View>
       </View>
