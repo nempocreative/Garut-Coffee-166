@@ -55,7 +55,7 @@ const promoSlides = [
     eyebrow: 'TUMBUH BERSAMA',
     title: 'Kopi Garut untuk banyak orang',
     description: 'Satu ekosistem untuk petani dan penikmat kopi.',
-    cta: 'Kenali kolektif',
+    cta: 'Jelajah ekosistem',
   },
   {
     id: 'coffee-partnership',
@@ -75,7 +75,7 @@ const categoryItems = [
   { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
   { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
-  { icon: 'grid' as const, label: 'Kolektif', route: '/collective' as const },
+  { icon: 'grid' as const, label: 'Ekosistem', route: '/collective' as const },
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
   { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
   { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
@@ -680,7 +680,7 @@ export default function HomeScreen() {
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
-        accessibilityLabel="Buka cerita kolektif Kopi Garut"
+        accessibilityLabel="Buka cerita ekosistem Kopi Garut"
         onPress={() => router.push('/collective')}
         style={({ pressed }) => [
           styles.storyLead,
