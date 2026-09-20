@@ -23,7 +23,7 @@ export default function LoginScreen() {
 
   return (
     <Screen>
-      <Header title={session ? 'Ganti akun' : 'Masuk ke Kopi Garut'} subtitle="AKSES PROGRAM" cart={false} />
+      <Header title={session ? 'Ganti akun' : 'Masuk ke Kopi Garut'} subtitle="AKSES PROGRAM" cart={false} back />
       <LinearGradient
         colors={[colors.foreground, colors.secondaryForeground]}
         start={{ x: 0, y: 0 }}
