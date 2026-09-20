@@ -1,0 +1,66 @@
+[
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a01",
+    "position": 1,
+    "filepath": "src/pages/slides/Slide1.tsx",
+    "title": "Kopi Garut",
+    "description": "Platform digital untuk menghubungkan asal kopi, petani, mitra, dan pengalaman Garut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a02",
+    "position": 2,
+    "filepath": "src/pages/slides/Slide2.tsx",
+    "title": "Satu platform untuk ekosistem kopi Garut",
+    "description": "Empat cara platform menyatukan ekosistem kopi Garut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a03",
+    "position": 3,
+    "filepath": "src/pages/slides/Slide3.tsx",
+    "title": "Mulai dari beranda yang informatif",
+    "description": "Beranda sebagai pintu masuk untuk menemukan produk, cerita, dan agenda.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a04",
+    "position": 4,
+    "filepath": "src/pages/slides/Slide4.tsx",
+    "title": "Kenali kopi dari sumbernya",
+    "description": "Informasi wilayah, petani, proses, dan standar yang mendukung kualitas.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
+    "position": 5,
+    "filepath": "src/pages/slides/Slide5.tsx",
+    "title": "Katalog yang membawa cerita",
+    "description": "Katalog produk yang tetap dekat dengan asal dan karakter kopi.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
+    "position": 6,
+    "filepath": "src/pages/slides/Slide6.tsx",
+    "title": "Data yang membantu mengambil keputusan",
+    "description": "Data, laporan, dokumen, program, harga, dan traceability dalam satu alur.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
+    "position": 7,
+    "filepath": "src/pages/slides/Slide7.tsx",
+    "title": "Dari koneksi menjadi kolaborasi",
+    "description": "Kemitraan, program, agenda, dan kanal umpan balik untuk pertumbuhan bersama.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
+    "position": 8,
+    "filepath": "src/pages/slides/Slide8.tsx",
+    "title": "Demo singkat, dampak yang berkelanjutan",
+    "description": "Penutup demo platform Kopi Garut.",
+    "speakerNotes": ""
+  }
+]

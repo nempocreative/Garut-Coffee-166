@@ -1,0 +1,28 @@
+kind = "slides"
+previewPath = "/kopi-garut-demo-presentation/"
+title = "Kopi Garut — Demo Platform"
+description = "Presentasi demo platform Kopi Garut yang memperkenalkan alur pengalaman aplikasi, fitur utama, dan cara platform menghubungkan petani, mitra, wilayah, produk, serta pelanggan."
+version = "1.0.0"
+id = "artifacts/kopi-garut-demo-presentation"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/kopi-garut-demo-presentation/" ]
+localPort = 24260
+
+[services.development]
+run = "pnpm --filter @workspace/kopi-garut-demo-presentation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kopi-garut-demo-presentation", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kopi-garut-demo-presentation/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24260"
+BASE_PATH = "/kopi-garut-demo-presentation/"
