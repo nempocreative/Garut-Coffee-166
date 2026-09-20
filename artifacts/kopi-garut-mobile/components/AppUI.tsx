@@ -24,6 +24,7 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
   const { cart: items } = useStore();
   const subtitleParts = subtitle?.split(' · ') ?? [];
   const titleParts = title.split(', ');
+  const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
   const ornamentTextColor = colors.primaryForeground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={styles.headerOrnament}>
@@ -51,7 +52,7 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
       <View style={styles.headerBottom}>
         <View style={styles.headerCopy}>
           {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: ornamentTextColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitle}</Text>}
-          <Text numberOfLines={2} style={[styles.headerTitle, { color: ornamentTextColor }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
+          <Text numberOfLines={isHomeGreeting ? 2 : 2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: ornamentTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: colors.accent }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
         </View>
       </View>
     </View>
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
+  homeHeaderTitle: { fontSize: 25, lineHeight: 29, letterSpacing: -0.65 },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   contextDivider: { width: 18, height: 1 },
   locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.7 },
