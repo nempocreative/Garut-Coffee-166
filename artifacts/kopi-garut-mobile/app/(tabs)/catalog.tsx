@@ -28,7 +28,7 @@ export default function CatalogScreen() {
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <View style={styles.headerContent}>
-          <Header title="Jelajahi kopi" subtitle="PILIHAN DARI GARUT" />
+          <Header title="Jelajahi kopi" />
           <Pressable
             testID="catalog-featured-coffee"
             accessibilityRole="button"
