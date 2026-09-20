@@ -38,7 +38,7 @@ export default function ProfileScreen() {
           </Text>
           <Pressable
             testID="profile-login"
-            onPress={() => router.push('/login')}
+            onPress={() => router.push({ pathname: '/login', params: { returnTo: '/profile' } })}
             style={({ pressed }) => [
               styles.loginButton,
               { backgroundColor: colors.card, opacity: pressed ? 0.78 : 1 },

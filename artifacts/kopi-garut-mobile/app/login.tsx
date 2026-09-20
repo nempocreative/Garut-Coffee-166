@@ -14,8 +14,13 @@ export default function LoginScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ returnTo?: string }>();
   const { session, signIn } = useAuth();
-  const returnTo = params.returnTo === '/complaints' ? '/complaints' : '/program';
+  const returnTo = params.returnTo === '/complaints'
+    ? '/complaints'
+    : params.returnTo === '/profile'
+      ? '/profile'
+      : '/program';
   const isSubmittingUsulan = returnTo === '/complaints';
+  const isAccountLogin = returnTo === '/profile';
   const [selectedRole, setSelectedRole] = useState(session?.id ?? 'pengguna');
   const selectedProfile = roleProfiles.find((profile) => profile.id === selectedRole) ?? roleProfiles[0];
 
@@ -26,7 +31,12 @@ export default function LoginScreen() {
 
   return (
     <Screen>
-      <Header title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : session ? 'Ganti akun' : 'Masuk ke Kopi Garut'} subtitle="AKSES PROGRAM" cart={false} back />
+      <Header
+        title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : isAccountLogin ? 'Masuk ke akun' : session ? 'Ganti akun' : 'Masuk ke Kopi Garut'}
+        subtitle={isAccountLogin ? 'AKUN PEMBELI' : 'AKSES PROGRAM'}
+        cart={false}
+        back
+      />
       <LinearGradient
         colors={[colors.foreground, colors.secondaryForeground]}
         start={{ x: 0, y: 0 }}
