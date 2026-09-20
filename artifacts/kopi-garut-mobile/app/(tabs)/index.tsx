@@ -552,7 +552,7 @@ export default function HomeScreen() {
   }, [storyCardWidth]);
 
   return <Screen>
-    <Header title="Mau menikmati kopi apa hari ini?" subtitle="KOPI GARUT · JAWA BARAT" notifications />
+    <Header title="Mau menikmati kopi apa hari ini?" notifications />
     <Pressable
       testID="home-search"
       accessibilityRole="button"
