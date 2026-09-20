@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Header, Screen } from '@/components/AppUI';
-import { InfoRow, ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
+import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { Complaint, ComplaintCategory, complaintCategories } from '@/data/program';
 import { BrandIcon } from '@/components/BrandIcon';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
@@ -121,7 +122,7 @@ export default function ComplaintsScreen() {
     setComplaints(updated);
     setLocation('');
     setDescription('');
-    setFeedback('Usulan diterima. Tim program akan meninjau dan menghubungi kamu bila perlu.');
+    setFeedback('Keluhan diterima. Tim program akan meninjau dan menghubungi kamu bila perlu.');
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       await AsyncStorage.removeItem(DRAFT_STORAGE_KEY);
@@ -131,11 +132,11 @@ export default function ComplaintsScreen() {
   };
 
   const selectedGuidance = categoryGuidance[category];
-  const isSuccess = feedback.startsWith('Usulan diterima');
+  const isSuccess = feedback.startsWith('Keluhan diterima');
 
   return (
     <Screen scroll={false} style={styles.screen}>
-      <Header back title="Usulan dukungan" subtitle="PROGRAM · JANGKAUAN" />
+      <Header back title="Sampaikan keluhan" subtitle="PROGRAM · RUANG KELUHAN" />
       <KeyboardAwareScrollViewCompat
         style={styles.formScroll}
         contentContainerStyle={styles.formContent}
@@ -143,29 +144,36 @@ export default function ComplaintsScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <ProgramIntro
-          eyebrow="JANGKAUAN & DUKUNGAN"
-          title="Bantu kami menjangkau yang belum terjangkau"
-          description="Sampaikan kebutuhan nyata dari lapangan agar dukungan Kopi Garut dapat sampai kepada petani, kelompok, dan lahan yang tepat."
+          eyebrow="RUANG KELUHAN"
+          title="Ada yang perlu dibenahi?"
+          description="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Kopi Garut menentukan dukungan yang lebih tepat."
         />
 
-        <ProgramCard muted>
-          <View style={styles.promiseRow}>
-            <View style={[styles.promiseIcon, { backgroundColor: colors.card }]}>
-              <BrandIcon name="shield" size={18} color={colors.primary} />
+        <LinearGradient
+          colors={[colors.foreground, colors.secondaryForeground]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.heroCard}
+        >
+          <View style={styles.heroTopline}>
+            <View style={[styles.heroIcon, { backgroundColor: colors.primary }]}>
+              <BrandIcon name="send" size={17} color={colors.primaryForeground} />
             </View>
-            <View style={styles.promiseCopy}>
-              <Text style={[styles.promiseKicker, { color: colors.primary }]}>UNTUK TIM PROGRAM</Text>
-              <Text style={[styles.promiseTitle, { color: colors.foreground }]}>Informasi lapangan, langkah yang lebih tepat</Text>
-              <Text style={[styles.promiseText, { color: colors.mutedForeground }]}>
-                Usulan ini membantu tim menemukan kebutuhan yang belum masuk jangkauan. Sampaikan informasi seperlunya, tanpa data pribadi yang sensitif.
-              </Text>
-            </View>
+            <Text style={[styles.heroKicker, { color: colors.primaryForeground }]}>LAPORANMU BERARTI</Text>
           </View>
-        </ProgramCard>
+          <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>Satu laporan, satu langkah lebih dekat</Text>
+          <Text style={[styles.heroText, { color: colors.primaryForeground }]}>
+            Tim akan membaca laporanmu dan mengarahkannya ke pendamping atau program yang sesuai.
+          </Text>
+          <View style={styles.heroFooter}>
+            <View style={[styles.heroDot, { backgroundColor: colors.accent }]} />
+            <Text style={[styles.heroFooterText, { color: colors.primaryForeground }]}>Tanpa data pribadi sensitif</Text>
+          </View>
+        </LinearGradient>
 
-        <ProgramSectionTitle eyebrow="01 · TUJUAN USULAN" title="Dukungan apa yang dibutuhkan?" />
-        <Text style={[styles.sectionHint, { color: colors.mutedForeground }]}>Pilih satu tujuan agar usulan dapat diarahkan ke tim yang sesuai.</Text>
-        <View style={styles.categoryList}>
+        <ProgramSectionTitle eyebrow="01 · PILIH TOPIK" title="Apa yang terjadi?" />
+        <Text style={[styles.sectionHint, { color: colors.mutedForeground }]}>Pilih topik yang paling dekat dengan kondisi di lapangan.</Text>
+        <View style={styles.categoryGrid}>
           {complaintCategories.map((item, index) => {
             const guidance = categoryGuidance[item];
             const selected = category === item;
@@ -187,27 +195,18 @@ export default function ComplaintsScreen() {
                   },
                 ]}
               >
-                <View style={[styles.categoryNumber, { backgroundColor: selected ? colors.primary : colors.muted }]}>
-                  <Text style={[styles.categoryNumberText, { color: selected ? colors.primaryForeground : colors.mutedForeground }]}>
+                <View style={styles.categoryTop}>
+                  <View style={[styles.categoryIconWrap, { backgroundColor: selected ? colors.primary : colors.muted }]}>
+                    <BrandIcon name={guidance.icon} size={17} color={selected ? colors.primaryForeground : colors.mutedForeground} />
+                  </View>
+                  <Text style={[styles.categoryNumberText, { color: selected ? colors.primary : colors.mutedForeground }]}>
                     {String(index + 1).padStart(2, '0')}
                   </Text>
-                </View>
-                <View style={styles.categoryIconWrap}>
-                  <BrandIcon name={guidance.icon} size={18} color={selected ? colors.primary : colors.mutedForeground} />
+                  {selected ? <BrandIcon name="check" size={15} color={colors.primary} /> : null}
                 </View>
                 <View style={styles.categoryCopy}>
                   <Text style={[styles.categoryTitle, { color: colors.foreground }]}>{item}</Text>
-                  <Text style={[styles.categoryDescription, { color: colors.mutedForeground }]}>{guidance.shortDescription}</Text>
-                </View>
-                <View style={styles.categoryState}>
-                  {selected ? (
-                    <>
-                      <BrandIcon name="check" size={16} color={colors.primary} />
-                      <Text style={[styles.selectedLabel, { color: colors.primary }]}>Dipilih</Text>
-                    </>
-                  ) : (
-                    <BrandIcon name="chevron-right" size={17} color={colors.mutedForeground} />
-                  )}
+                  <Text numberOfLines={2} style={[styles.categoryDescription, { color: colors.mutedForeground }]}>{guidance.shortDescription}</Text>
                 </View>
               </Pressable>
             );
@@ -225,59 +224,54 @@ export default function ComplaintsScreen() {
           </View>
         </View>
 
-        <ProgramSectionTitle eyebrow="02 · DETAIL LAPANGAN" title="Ceritakan titik dukungannya" />
-        <ProgramCard>
-          <InfoRow
-            icon="map-pin"
-            label="Lokasi"
-            value="Desa, blok, atau titik lahan"
-            detail="Lokasi yang spesifik membantu tim menyiapkan verifikasi lapangan."
-          />
-          <InfoRow
-            icon="briefcase"
-            label="Kebutuhan"
-            value="Bantuan yang paling dibutuhkan"
-            detail="Misalnya bibit, pendampingan, alat, atau akses program."
-            last
-          />
-        </ProgramCard>
-
-        <View style={styles.fieldsGroup}>
-          <View style={styles.fieldHeader}>
-            <Text style={[styles.label, { color: colors.foreground }]}>Lokasi petani atau lahan</Text>
-            <Text style={[styles.required, { color: colors.primary }]}>Wajib diisi</Text>
+        <ProgramSectionTitle eyebrow="02 · DETAIL LAPANGAN" title="Ceritakan kondisinya" />
+        <View style={[styles.formCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View style={styles.formCardHeader}>
+            <View style={[styles.formCardIcon, { backgroundColor: colors.secondary }]}>
+              <BrandIcon name="map-pin" size={17} color={colors.primary} />
+            </View>
+            <View style={styles.formCardCopy}>
+              <Text style={[styles.formCardTitle, { color: colors.foreground }]}>Bantu tim menemukan lokasinya</Text>
+              <Text style={[styles.formCardText, { color: colors.mutedForeground }]}>Lokasi yang spesifik mempercepat tindak lanjut.</Text>
+            </View>
           </View>
-          <TextInput
-            testID="complaint-location"
-            accessibilityLabel="Lokasi petani atau lahan"
-            accessibilityHint="Masukkan desa, blok, atau titik lahan"
-            value={location}
-            onChangeText={setLocation}
-            placeholder="Contoh: Desa Mekarsari, Blok 2"
-            placeholderTextColor={colors.mutedForeground}
-            style={[styles.input, { color: colors.foreground, backgroundColor: colors.card, borderColor: colors.border }]}
-          />
+          <View style={styles.fieldsGroup}>
+            <View style={styles.fieldHeader}>
+              <Text style={[styles.label, { color: colors.foreground }]}>Lokasi petani atau lahan</Text>
+              <Text style={[styles.required, { color: colors.primary }]}>Wajib</Text>
+            </View>
+            <TextInput
+              testID="complaint-location"
+              accessibilityLabel="Lokasi petani atau lahan"
+              accessibilityHint="Masukkan desa, blok, atau titik lahan"
+              value={location}
+              onChangeText={setLocation}
+              placeholder="Contoh: Desa Mekarsari, Blok 2"
+              placeholderTextColor={colors.mutedForeground}
+              style={[styles.input, { color: colors.foreground, backgroundColor: colors.background, borderColor: colors.border }]}
+            />
 
-          <View style={styles.fieldHeader}>
-            <Text style={[styles.label, { color: colors.foreground }]}>Kebutuhan dukungan</Text>
-            <Text style={[styles.required, { color: colors.primary }]}>Wajib diisi</Text>
+            <View style={styles.fieldHeader}>
+              <Text style={[styles.label, { color: colors.foreground }]}>Ceritakan kebutuhanmu</Text>
+              <Text style={[styles.required, { color: colors.primary }]}>Wajib</Text>
+            </View>
+            <TextInput
+              testID="complaint-description"
+              accessibilityLabel="Kebutuhan dukungan"
+              accessibilityHint="Jelaskan siapa yang perlu dibantu dan dukungan yang dibutuhkan"
+              value={description}
+              onChangeText={setDescription}
+              multiline
+              numberOfLines={5}
+              textAlignVertical="top"
+              placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika."
+              placeholderTextColor={colors.mutedForeground}
+              style={[styles.input, styles.textarea, { color: colors.foreground, backgroundColor: colors.background, borderColor: colors.border }]}
+            />
+            <Text style={[styles.fieldNote, { color: colors.mutedForeground }]}>
+              Sertakan nama kelompok, perkiraan jumlah penerima, atau waktu yang diharapkan. Hindari NIK, nomor telepon, dan data pribadi.
+            </Text>
           </View>
-          <TextInput
-            testID="complaint-description"
-            accessibilityLabel="Kebutuhan dukungan"
-            accessibilityHint="Jelaskan siapa yang perlu dibantu dan dukungan yang dibutuhkan"
-            value={description}
-            onChangeText={setDescription}
-            multiline
-            numberOfLines={5}
-            textAlignVertical="top"
-            placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika untuk lahan baru."
-            placeholderTextColor={colors.mutedForeground}
-            style={[styles.input, styles.textarea, { color: colors.foreground, backgroundColor: colors.card, borderColor: colors.border }]}
-          />
-          <Text style={[styles.fieldNote, { color: colors.mutedForeground }]}>
-            Boleh sertakan nama kelompok, perkiraan jumlah penerima, atau waktu yang diharapkan. Hindari NIK, nomor telepon, dan data pribadi lain.
-          </Text>
         </View>
 
         {feedback ? (
@@ -296,15 +290,15 @@ export default function ComplaintsScreen() {
             onPress={submitComplaint}
             style={({ pressed }) => [styles.submit, { backgroundColor: colors.primary, opacity: pressed ? 0.78 : 1 }]}
           >
-            <Text style={[styles.submitText, { color: colors.primaryForeground }]}>{session ? 'Kirim usulan dukungan' : 'Masuk untuk mengirim usulan'}</Text>
+            <Text style={[styles.submitText, { color: colors.primaryForeground }]}>{session ? 'Kirim keluhan' : 'Masuk untuk mengirim keluhan'}</Text>
             <BrandIcon name={session ? 'send' : 'lock'} size={17} color={colors.primaryForeground} />
           </Pressable>
           <Text style={[styles.submitNote, { color: colors.mutedForeground }]}>
-            {session ? 'Usulan akan tersimpan di perangkat ini dan masuk ke riwayat.' : 'Draf akan tetap tersimpan saat kamu masuk ke akun.'}
+            {session ? 'Laporan akan tersimpan di perangkat ini dan masuk ke riwayat.' : 'Draf akan tetap tersimpan saat kamu masuk ke akun.'}
           </Text>
         </View>
 
-        <ProgramSectionTitle eyebrow="03 · RIWAYAT DI PERANGKAT INI" title="Usulan terbaru" />
+        <ProgramSectionTitle eyebrow="03 · RIWAYAT DI PERANGKAT INI" title="Laporan terbaru" />
         {loading ? (
           <View style={[styles.loading, { backgroundColor: colors.muted }]}>
             <View style={[styles.loadingLine, { backgroundColor: colors.border }]} />
@@ -379,30 +373,37 @@ export default function ComplaintsScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   formScroll: { flex: 1 },
-  formContent: { paddingBottom: 80, gap: 14 },
-  promiseRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 11 },
-  promiseIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  promiseCopy: { flex: 1, gap: 3 },
-  promiseKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1.1 },
-  promiseTitle: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 18 },
-  promiseText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
+  formContent: { paddingBottom: 80, gap: 16 },
+  heroCard: { borderRadius: 22, padding: 17, gap: 9, overflow: 'hidden' },
+  heroTopline: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  heroIcon: { width: 32, height: 32, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1.15, opacity: 0.76 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 19, lineHeight: 24, letterSpacing: -0.25, maxWidth: 280 },
+  heroText: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 17, maxWidth: 320, opacity: 0.78 },
+  heroFooter: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 3 },
+  heroDot: { width: 7, height: 7, borderRadius: 4 },
+  heroFooterText: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, opacity: 0.82 },
   sectionHint: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16, marginTop: -7 },
-  categoryList: { gap: 8 },
-  categoryCard: { minHeight: 72, borderWidth: 1, borderRadius: 17, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 9 },
-  categoryNumber: { width: 29, height: 29, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  categoryNumberText: { fontFamily: 'Manrope_700Bold', fontSize: 10, letterSpacing: 0.3 },
-  categoryIconWrap: { width: 30, alignItems: 'center', justifyContent: 'center' },
-  categoryCopy: { flex: 1, gap: 2 },
-  categoryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 17 },
-  categoryDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
-  categoryState: { minWidth: 44, alignItems: 'center', justifyContent: 'center', gap: 2 },
-  selectedLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.2 },
+  categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 9 },
+  categoryCard: { width: '48.4%', minHeight: 106, borderWidth: 1, borderRadius: 17, padding: 11, justifyContent: 'space-between' },
+  categoryTop: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  categoryNumberText: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.6 },
+  categoryIconWrap: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  categoryCopy: { gap: 3, paddingRight: 2 },
+  categoryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 16 },
+  categoryDescription: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 13 },
   guidanceCard: { borderRadius: 17, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
   guidanceIcon: { width: 31, height: 31, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   guidanceCopy: { flex: 1, gap: 2 },
   guidanceEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.05 },
   guidanceTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 17 },
   guidanceText: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 15 },
+  formCard: { borderWidth: 1, borderRadius: 20, padding: 14, gap: 15 },
+  formCardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  formCardIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  formCardCopy: { flex: 1, gap: 2 },
+  formCardTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 17 },
+  formCardText: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   fieldsGroup: { gap: 8 },
   fieldHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 2 },
   label: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 17 },
