@@ -5,11 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/kopi-garut-logo.png",
-      "splash": {
-        "backgroundColor": "#F6F0E8",
-        "image": "./assets/images/kopi-garut-logo.png",
-        "resizeMode": "contain"
-      },
     "scheme": "kopi-garut-mobile",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -19,7 +14,18 @@
     "web": {
       "favicon": "./assets/images/kopi-garut-logo.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F6F0E8",
+          "image": "./assets/images/kopi-garut-logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

@@ -1,1 +1,2 @@
 - [Role-based access](auth-role-access.md) — centralize protected menu and route rules while the MVP uses a device-local role session.
+- [Expo iOS config](expo-ios-config.md) — validate Expo SDK upgrades; SDK 57 expects splash settings through the splash-screen plugin.
