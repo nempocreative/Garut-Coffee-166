@@ -5,6 +5,7 @@ import React from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
@@ -23,9 +24,21 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
   const { cart: items } = useStore();
   const subtitleParts = subtitle?.split(' · ') ?? [];
   const titleParts = title.split(', ');
+  const ornamentTextColor = colors.primaryForeground;
   return <View style={styles.header}>
+    <View pointerEvents="none" style={styles.headerOrnament}>
+      <LinearGradient colors={[colors.foreground, colors.secondaryForeground]} start={{ x: 0.1, y: 0 }} end={{ x: 0.95, y: 1 }} style={StyleSheet.absoluteFill} />
+      <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
+        <Path d="M0 0h400v123c-41-9-78-6-113 5-48 15-77 20-126 9-58-13-99-9-161 10V0Z" fill={colors.foreground} opacity={0.72} />
+        <Path d="M0 0h400v91c-45 3-77 18-109 30-42 16-72 21-119 12-57-11-105-3-172 20V0Z" fill={colors.primary} opacity={0.2} />
+        <Path d="M303 24c14-13 38-16 55-5-8 4-14 11-18 20-11 1-25-3-37-15Z" fill={colors.accent} opacity={0.28} />
+        <Path d="M335 19c-4 9-8 17-16 25" fill="none" stroke={colors.primaryForeground} strokeWidth="1.4" strokeLinecap="round" opacity={0.42} />
+        <Circle cx="365" cy="47" r="3" fill={colors.accent} opacity={0.55} />
+        <Circle cx="378" cy="31" r="1.8" fill={colors.primaryForeground} opacity={0.4} />
+      </Svg>
+    </View>
     <View style={styles.headerTop}>
-      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.border }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: colors.foreground }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.primary }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: colors.mutedForeground }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+      {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.primaryForeground }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
       <View style={styles.headerActions}>
         {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
         {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
@@ -33,8 +46,8 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
     </View>
     <View style={styles.headerBottom}>
       <View style={styles.headerCopy}>
-        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: colors.foreground }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.primary }]}>{subtitle}</Text>}
-        <Text numberOfLines={2} style={[styles.headerTitle, { color: colors.foreground }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+        {subtitleParts.length === 2 ? <View style={styles.contextRow}><Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitleParts[0]}</Text><View style={[styles.contextDivider, { backgroundColor: colors.accent }]} /><Text style={[styles.locationLabel, { color: ornamentTextColor }]}>{subtitleParts[1]}</Text></View> : <Text style={[styles.eyebrow, { color: colors.accent }]}>{subtitle}</Text>}
+        <Text numberOfLines={2} style={[styles.headerTitle, { color: ornamentTextColor }]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.accent }}>{titleParts[1]}</Text></> : title}</Text>
       </View>
     </View>
   </View>;
@@ -76,7 +89,8 @@ export function LoadingState() { const colors = useColors(); return <View style=
 
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
-  header: { gap: 16, marginBottom: 0 },
+  header: { gap: 16, marginBottom: 0, position: 'relative', zIndex: 1 },
+  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 164, overflow: 'hidden', borderBottomLeftRadius: 42, borderBottomRightRadius: 42 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10 },
