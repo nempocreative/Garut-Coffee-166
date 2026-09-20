@@ -11,7 +11,7 @@ export default function Slide8() {
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Kopi Garut" className="h-[3vw] w-[3vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.14vw]" />
         <div><p className="text-[1.25vw] font-extrabold tracking-[-0.05em]">Kopi <span className="text-[#A8543B]">Garut</span></p><p className="mt-[0.25vw] text-[0.6vw] font-bold uppercase tracking-[0.2em] text-[#806E63]">KOPI SPESIALTI · GARUT</p></div>
-        <span className="ml-[0.6vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">16 / 16</span>
+        <span className="ml-[0.6vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">19 / 19</span>
       </div>
       <div className="absolute left-[6.5vw] top-[27vh] w-[51vw]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Penutup demo</p>
