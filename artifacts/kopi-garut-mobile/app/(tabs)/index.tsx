@@ -633,8 +633,14 @@ export default function HomeScreen() {
       >
         {categoryPages.map((page, pageIndex) => (
           <View key={`category-page-${pageIndex}`} style={[styles.categoryPage, { width: categoryPageWidth }]}>
-            {[0, 1].map((rowIndex) => (
-              <View key={`category-row-${rowIndex}`} style={styles.categoryRow}>
+            {Array.from({ length: Math.ceil(page.length / 4) }, (_, rowIndex) => (
+              <View
+                key={`category-row-${rowIndex}`}
+                style={[
+                  styles.categoryRow,
+                  page.length < 4 && styles.categoryRowCompact,
+                ]}
+              >
                 {page.slice(rowIndex * 4, rowIndex * 4 + 4).map((item) => (
                   <Pressable
                     key={item.label}
@@ -1086,8 +1092,9 @@ const styles = StyleSheet.create({
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 0, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
   categoryPager: { marginHorizontal: -20 },
-  categoryPage: { paddingHorizontal: 20, gap: 16 },
+  categoryPage: { paddingHorizontal: 20, gap: 12 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  categoryRowCompact: { justifyContent: 'flex-start', columnGap: 14 },
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   menuIconSurface: {
