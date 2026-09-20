@@ -5,7 +5,7 @@ import React from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Defs, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
+import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
@@ -39,9 +39,15 @@ export function Header({ title, subtitle, cart = true, notifications = false, ba
           </SvgLinearGradient>
         </Defs>
         <Path d={extendOrnament ? "M0 0h400v151c-43-12-77-12-116 1-46 16-77 20-124 12-57-10-107-4-160 13V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" />
-        <Path d="M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z" fill={colors.primary} opacity={0.18} />
-        <Path d="M314 14c19 12 31 29 36 50" fill="none" stroke={colors.accent} strokeWidth="2.5" strokeLinecap="round" opacity={0.42} />
-        <Path d="M326 10c19 12 31 28 37 45" fill="none" stroke={colors.primaryForeground} strokeWidth="1" strokeLinecap="round" opacity={0.28} />
+        <Path d={extendOrnament ? "M0 0h400v66c-48-9-86-4-123 9-44 16-75 18-119 9C100 74 51 77 0 93V0Z" : "M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z"} fill={colors.primary} opacity={0.18} />
+        <Path d={extendOrnament ? "M0 0h400v108c-45-10-81-8-119 5-45 15-78 17-123 9-56-10-106-5-158 13V0Z" : "M0 0h400v78c-42-9-77-7-114 6-45 16-77 19-123 12C99 86 51 88 0 103V0Z"} fill={colors.accent} opacity={0.1} />
+        <Path d={extendOrnament ? "M20 105c38-22 74-25 111-15 34 9 59 8 92-3 36-12 72-14 112-4" : "M8 77c34-18 68-20 101-11 33 9 59 8 91-3 34-12 68-13 104-5"} fill="none" stroke={colors.primaryForeground} strokeWidth="1.25" strokeLinecap="round" opacity={0.2} />
+        <Path d={extendOrnament ? "M300 16c22 10 37 27 44 50M313 10c21 12 36 29 42 49" : "M314 14c19 12 31 29 36 50M326 10c19 12 31 28 37 45"} fill="none" stroke={colors.accent} strokeWidth="2.5" strokeLinecap="round" opacity={0.42} />
+        <Path d={extendOrnament ? "M313 10c21 12 36 29 42 49" : "M326 10c19 12 31 28 37 45"} fill="none" stroke={colors.primaryForeground} strokeWidth="1" strokeLinecap="round" opacity={0.28} />
+        <Ellipse cx={extendOrnament ? 43 : 30} cy={extendOrnament ? 43 : 34} rx="7" ry="3.6" fill={colors.accent} opacity={0.26} transform={`rotate(-34 ${extendOrnament ? 43 : 30} ${extendOrnament ? 43 : 34})`} />
+        <Path d={extendOrnament ? "M39 36c4 4 5 9 3 15" : "M26 27c4 4 5 8 3 13"} fill="none" stroke={colors.primaryForeground} strokeWidth="1.2" strokeLinecap="round" opacity={0.35} />
+        <Circle cx={extendOrnament ? 69 : 57} cy={extendOrnament ? 31 : 25} r="2.4" fill={colors.accent} opacity={0.7} />
+        <Circle cx={extendOrnament ? 79 : 67} cy={extendOrnament ? 24 : 19} r="1.2" fill={colors.primaryForeground} opacity={0.48} />
       </Svg>
     </View>
     <View style={styles.headerContent}>
