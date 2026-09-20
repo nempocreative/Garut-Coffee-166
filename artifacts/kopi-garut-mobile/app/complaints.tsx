@@ -142,6 +142,8 @@ export default function ComplaintsScreen() {
         contentContainerStyle={styles.formContent}
         bottomOffset={28}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       >
         <ProgramIntro
           eyebrow="RUANG KELUHAN"
