@@ -382,7 +382,7 @@ export default function ComplaintsScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  formContent: { paddingBottom: 32, gap: 16 },
+  formContent: { flexGrow: 1, paddingHorizontal: 20, paddingBottom: 32, gap: 20 },
   heroCard: { borderRadius: 22, padding: 17, gap: 9, overflow: 'hidden' },
   heroTopline: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   heroIcon: { width: 32, height: 32, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },

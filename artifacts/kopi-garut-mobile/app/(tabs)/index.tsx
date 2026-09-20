@@ -78,6 +78,7 @@ const categoryItems = [
   { icon: 'grid' as const, label: 'Ekosistem', route: '/collective' as const },
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
   { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
+  { icon: 'package' as const, label: 'Produk turunan', route: '/diversification' as const },
 ];
 
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
