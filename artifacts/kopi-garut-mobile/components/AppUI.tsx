@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import React from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -11,19 +11,29 @@ import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
 import { BrandIcon, BrandIconName, ThreeDNavIcon } from '@/components/BrandIcon';
 
-export function Screen({ children, scroll = true, style }: { children: React.ReactNode; scroll?: boolean; style?: object }) {
+export function useBottomMenuPadding(gap = 32) {
+  const insets = useSafeAreaInsets();
+  const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
+  return 90 + bottomInset + gap;
+}
+
+export function Screen({ children, scroll = true, style, bottomGap = 32 }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number }) {
   const { background } = useColors();
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
-  return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18 }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18 }, style]}>{children}</View>;
+  const contentBottomPadding = useBottomMenuPadding(bottomGap);
+  return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
 }
 
 export function Header({ title, cart = true, notifications = false, back = false, extendOrnament = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean; extendOrnament?: boolean }) {
   const colors = useColors();
   const router = useRouter();
+  const pathname = usePathname();
   const { cart: items } = useStore();
   const titleParts = title.split(', ');
   const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
+  const isHomeRoute = pathname === '/' || pathname === '/(tabs)';
+  const showBack = back || !isHomeRoute;
   const ornamentTextColor = colors.primaryForeground;
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   return <View style={styles.header}>
@@ -42,9 +52,9 @@ export function Header({ title, cart = true, notifications = false, back = false
     </View>
     <View style={styles.headerContent}>
       <View style={styles.headerTop}>
-        {back ? <Pressable testID="header-back" onPress={() => router.back()} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.primaryForeground }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+        {showBack ? <Pressable testID="header-back" accessibilityRole="button" accessibilityLabel="Kembali ke halaman sebelumnya" onPress={() => router.canGoBack() ? router.back() : router.replace('/')} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={[styles.logo, { borderColor: colors.primaryForeground }]} /><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
         <View style={styles.headerActions}>
-          {back && <Pressable testID="header-menu" accessibilityRole="button" accessibilityLabel="Buka menu utama" onPress={() => router.replace('/')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="grid" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
+          {showBack && <Pressable testID="header-menu" accessibilityRole="button" accessibilityLabel="Buka menu utama" onPress={() => router.replace('/')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="grid" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
           {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
           {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
         </View>

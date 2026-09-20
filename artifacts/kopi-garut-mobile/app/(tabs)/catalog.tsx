@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { BrandIcon } from '@/components/BrandIcon';
-import { CoffeeCard, Header, SearchBar } from '@/components/AppUI';
+import { CoffeeCard, Header, SearchBar, useBottomMenuPadding } from '@/components/AppUI';
 import { coffees } from '@/data/coffees';
 import { useColors } from '@/hooks/useColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +14,7 @@ export default function CatalogScreen() {
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const bottomMenuPadding = useBottomMenuPadding();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
   const visible = useMemo(() => coffees.filter((coffee) => (filter === 'Semua' || coffee.category === filter) && `${coffee.name} ${coffee.origin} ${coffee.tastingNotes.join(' ')}`.toLowerCase().includes(query.toLowerCase())), [filter, query]);
@@ -23,7 +24,7 @@ export default function CatalogScreen() {
       data={visible}
       numColumns={2}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingBottom: bottomMenuPadding }]}
       columnWrapperStyle={styles.row}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={

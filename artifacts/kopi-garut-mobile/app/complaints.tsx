@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Header } from '@/components/AppUI';
+import { Header, useBottomMenuPadding } from '@/components/AppUI';
 import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { Complaint, ComplaintCategory, complaintCategories } from '@/data/program';
 import { BrandIcon } from '@/components/BrandIcon';
@@ -51,6 +51,7 @@ const categoryGuidance: Record<ComplaintCategory, { icon: 'users' | 'map' | 'pac
 export default function ComplaintsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const bottomMenuPadding = useBottomMenuPadding();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const router = useRouter();
   const { session } = useAuth();
@@ -145,7 +146,7 @@ export default function ComplaintsScreen() {
         {
           backgroundColor: colors.background,
           paddingTop: topInset + 18,
-          paddingBottom: Platform.OS === 'web' ? 34 : Math.max(insets.bottom + 28, 34),
+          paddingBottom: bottomMenuPadding,
         },
       ]}
       bottomOffset={28}

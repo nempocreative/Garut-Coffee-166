@@ -7,10 +7,13 @@ import { useRouter } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Header, Screen } from '@/components/AppUI';
 import { formatPrice, findCoffee, orderStatusLabels, type Coffee, type Order } from '@/data/coffees';
+import { farmers } from '@/data/hub';
+import { documents, extensionCases, extensionVisit } from '@/data/program';
 import { useAuth } from '@/context/AuthContext';
 import { useStore } from '@/context/StoreContext';
 import { useColors } from '@/hooks/useColors';
 import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
+import { FarmerQrCard } from '@/components/FarmerQrCard';
 
 export default function ProfileScreen() {
   const colors = useColors();
@@ -65,6 +68,14 @@ export default function ProfileScreen() {
 
   if (session.id === 'pengguna') {
     return <BuyerProfileScreen />;
+  }
+
+  if (session.id === 'petani') {
+    return <FarmerProfileScreen />;
+  }
+
+  if (session.id === 'penyuluh') {
+    return <EducatorProfileScreen />;
   }
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -184,6 +195,424 @@ export default function ProfileScreen() {
         <AccountMenuRow icon="arrow-left" title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onPress={() => void signOut()} colors={colors} destructive />
       </View>
     </Screen>
+  );
+}
+
+function FarmerProfileScreen() {
+  const colors = useColors();
+  const router = useRouter();
+  const { session, signOut } = useAuth();
+  const farmer = farmers[0];
+
+  if (!session || !farmer) return null;
+
+  const locationName = farmer.location.split(',')[0];
+
+  return (
+    <Screen>
+      <Header title="Akun petani" subtitle="RUANG PETANI" cart={false} notifications />
+
+      <View style={[farmerStyles.hero, { backgroundColor: colors.foreground }]}>
+        <Image source={farmer.image} contentFit="cover" style={farmerStyles.heroImage} />
+        <LinearGradient
+          colors={['transparent', colors.foreground]}
+          start={{ x: 0.2, y: 0.1 }}
+          end={{ x: 0.55, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={farmerStyles.heroContent}>
+          <View style={farmerStyles.heroTop}>
+            <View style={[farmerStyles.verifiedBadge, { backgroundColor: colors.card }]}>
+              <View style={[farmerStyles.verifiedDot, { backgroundColor: colors.accent }]} />
+              <Text style={[farmerStyles.verifiedText, { color: colors.foreground }]}>PETANI TERVERIFIKASI</Text>
+            </View>
+            <View style={[farmerStyles.heroAvatar, { backgroundColor: colors.card }]}>
+              <Text style={[farmerStyles.heroAvatarText, { color: colors.primary }]}>{session.initials}</Text>
+            </View>
+          </View>
+          <View style={farmerStyles.heroCopy}>
+            <Text style={[farmerStyles.heroKicker, { color: colors.accent }]}>RUANG KEBUN</Text>
+            <Text style={[farmerStyles.heroTitle, { color: colors.card }]}>{session.name}</Text>
+            <Text style={[farmerStyles.heroDescription, { color: colors.background }]}>
+              {farmer.group} · {farmer.location}
+            </Text>
+          </View>
+          <View style={[farmerStyles.heroFoot, { borderTopColor: colors.primaryForeground }]}>
+            <View>
+              <Text style={[farmerStyles.heroFootLabel, { color: colors.background }]}>ANGGOTA SEJAK</Text>
+              <Text style={[farmerStyles.heroFootValue, { color: colors.card }]}>{farmer.joinedAt}</Text>
+            </View>
+            <BrandIcon name="coffee" size={25} color={colors.accent} />
+          </View>
+        </View>
+      </View>
+
+      <View style={[farmerStyles.identityCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <View style={[farmerStyles.identityIcon, { backgroundColor: colors.secondary }]}>
+          <BrandIcon name="shield" size={19} color={colors.primary} />
+        </View>
+        <View style={farmerStyles.identityCopy}>
+          <Text style={[farmerStyles.identityKicker, { color: colors.primary }]}>ID KEANGGOTAAN</Text>
+          <Text style={[farmerStyles.identityValue, { color: colors.foreground }]}>{farmer.membershipId}</Text>
+          <Text style={[farmerStyles.identityDescription, { color: colors.mutedForeground }]}>Profil aktif di ekosistem Kopi Garut</Text>
+        </View>
+        <Pressable
+          testID="farmer-verification"
+          accessibilityRole="button"
+          accessibilityLabel="Buka status verifikasi"
+          onPress={() => router.push('/verification')}
+          style={({ pressed }) => [farmerStyles.identityAction, { backgroundColor: colors.secondary, opacity: pressed ? 0.68 : 1 }]}
+        >
+          <Feather name="arrow-up-right" size={16} color={colors.primary} />
+        </Pressable>
+      </View>
+
+      <FarmerQrCard farmer={farmer} />
+
+      <View style={[farmerStyles.statRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerStat value={farmer.landArea} label="Luas kebun" color={colors} />
+        <View style={[farmerStyles.statDivider, { backgroundColor: colors.border }]} />
+        <FarmerStat value={farmer.annualProduction.replace(' cherry', '')} label="Produksi / tahun" color={colors} />
+        <View style={[farmerStyles.statDivider, { backgroundColor: colors.border }]} />
+        <FarmerStat value="5 tahun" label="Bersama kami" color={colors} />
+      </View>
+
+      <View style={farmerStyles.sectionHeader}>
+        <View>
+          <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>PROFIL KEBUN</Text>
+          <Text style={[farmerStyles.sectionTitle, { color: colors.foreground }]}>Data yang siap dipercaya</Text>
+        </View>
+        <BrandIcon name="map-pin" size={21} color={colors.accent} />
+      </View>
+
+      <View style={[farmerStyles.detailCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerDetailRow icon="map-pin" label="Wilayah kebun" value={`${locationName} · 1.450 mdpl`} colors={colors} />
+        <FarmerDetailRow icon="users" label="Kelompok tani" value={farmer.group} colors={colors} />
+        <FarmerDetailRow icon="coffee" label="Varietas utama" value={farmer.coffeeType} colors={colors} />
+        <FarmerDetailRow icon="package" label="Produk unggulan" value={farmer.products.join(' · ')} colors={colors} last />
+      </View>
+
+      <View style={[farmerStyles.readinessCard, { backgroundColor: colors.secondary }]}>
+        <View style={farmerStyles.readinessTop}>
+          <View style={farmerStyles.readinessCopy}>
+            <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>KESIAPAN PROFIL</Text>
+            <Text style={[farmerStyles.readinessTitle, { color: colors.foreground }]}>Profil kebun 82% lengkap</Text>
+            <Text style={[farmerStyles.readinessText, { color: colors.mutedForeground }]}>Tinggal lengkapi foto pascapanen untuk memperkuat kepercayaan pembeli.</Text>
+          </View>
+          <View style={[farmerStyles.readinessMark, { backgroundColor: colors.primary }]}>
+            <Text style={[farmerStyles.readinessValue, { color: colors.primaryForeground }]}>82%</Text>
+          </View>
+        </View>
+        <View style={[farmerStyles.progressTrack, { backgroundColor: colors.card }]}>
+          <View style={[farmerStyles.progressFill, { backgroundColor: colors.primary, width: '82%' }]} />
+        </View>
+        <Pressable
+          testID="farmer-complete-profile"
+          accessibilityRole="button"
+          accessibilityLabel="Lengkapi profil kebun"
+          onPress={() => router.push('/documents')}
+          style={({ pressed }) => [farmerStyles.readinessAction, { borderColor: colors.primary, opacity: pressed ? 0.7 : 1 }]}
+        >
+          <Text style={[farmerStyles.readinessActionText, { color: colors.primary }]}>Lengkapi profil</Text>
+          <Feather name="arrow-up-right" size={14} color={colors.primary} />
+        </Pressable>
+      </View>
+
+      <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>AKSES PETANI</Text>
+      <View style={farmerStyles.actionGrid}>
+        <FarmerActionCard icon="shield" title="Verifikasi kebun" detail="Perbarui status dan dokumen" onPress={() => router.push('/verification')} colors={colors} testID="farmer-action-verification" />
+        <FarmerActionCard icon="package" title="Lot & mutu" detail="Catat panen dan kualitas" onPress={() => router.push('/curation')} colors={colors} testID="farmer-action-lot" />
+        <FarmerActionCard icon="users" title="Kelompok tani" detail="Lihat gerak kelompok" onPress={() => router.push('/group-dashboard')} colors={colors} testID="farmer-action-group" />
+        <FarmerActionCard icon="bar-chart-2" title="Laporan kebun" detail="Pantau hasil dan peluang" onPress={() => router.push('/reports')} colors={colors} testID="farmer-action-reports" />
+      </View>
+
+      <View style={farmerStyles.sectionHeader}>
+        <View>
+          <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>PERJALANAN TERBARU</Text>
+          <Text style={[farmerStyles.sectionTitle, { color: colors.foreground }]}>Aktivitas kebun</Text>
+        </View>
+        <Text style={[farmerStyles.sectionLink, { color: colors.primary }]}>Maret 2026</Text>
+      </View>
+
+      <View style={[farmerStyles.activityCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerActivity icon="check" title="Profil petani terverifikasi" detail="Data dasar dan kelompok tani telah diperiksa" date="Selesai" colors={colors} positive />
+        <FarmerActivity icon="package" title="Lot Papandayan Series diperbarui" detail="Arabika Typica · proses natural" date="12 Mar" colors={colors} />
+        <FarmerActivity icon="calendar" title="Pendampingan pascapanen berikutnya" detail="Kelas sortasi dan pengeringan" date="17 Okt" colors={colors} last />
+      </View>
+
+      <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>KEANGGOTAAN & BANTUAN</Text>
+      <View style={[farmerStyles.menuGroup, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerMenuRow icon="grid" title="Dokumen & legalitas" description="Kelola dokumen pendukung profil" onPress={() => router.push('/documents')} colors={colors} />
+        <FarmerMenuRow icon="check" title="Standar mutu kopi" description="Lihat panduan kualitas dan kesiapan lot" onPress={() => router.push('/standards')} colors={colors} />
+        <FarmerMenuRow icon="briefcase" title="Kemitraan & pasar" description="Temukan peluang pembelian hasil kebun" onPress={() => router.push('/partnership')} colors={colors} />
+        <FarmerMenuRow icon="repeat" title="Ganti akun" description="Beralih ke ruang pengguna lain" onPress={() => router.push('/login')} colors={colors} />
+        <FarmerMenuRow icon="arrow-left" title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onPress={() => void signOut()} colors={colors} destructive />
+      </View>
+    </Screen>
+  );
+}
+
+function EducatorProfileScreen() {
+  const colors = useColors();
+  const router = useRouter();
+  const { session, signOut } = useAuth();
+
+  if (!session) return null;
+
+  return (
+    <Screen>
+      <Header title="Akun penyuluh" subtitle="RUANG PENDAMPINGAN" cart={false} notifications />
+
+      <View style={[educatorStyles.hero, { backgroundColor: colors.foreground }]}>
+        <Image source={require('../../assets/images/garut-mountains.png')} contentFit="cover" style={educatorStyles.heroImage} />
+        <LinearGradient
+          colors={['transparent', colors.foreground]}
+          start={{ x: 0.1, y: 0 }}
+          end={{ x: 0.62, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={educatorStyles.heroContent}>
+          <View style={educatorStyles.heroTop}>
+            <View style={[educatorStyles.activeBadge, { backgroundColor: colors.card }]}>
+              <View style={[educatorStyles.activeDot, { backgroundColor: colors.accent }]} />
+              <Text style={[educatorStyles.activeText, { color: colors.foreground }]}>PENDAMPING AKTIF</Text>
+            </View>
+            <View style={[educatorStyles.heroAvatar, { backgroundColor: colors.card }]}>
+              <Text style={[educatorStyles.heroAvatarText, { color: colors.primary }]}>{session.initials}</Text>
+            </View>
+          </View>
+          <View style={educatorStyles.heroCopy}>
+            <Text style={[educatorStyles.heroKicker, { color: colors.accent }]}>RUANG BELAJAR KEBUN</Text>
+            <Text style={[educatorStyles.heroTitle, { color: colors.card }]}>{session.name}</Text>
+            <Text style={[educatorStyles.heroDescription, { color: colors.background }]}>Penyuluh Kopi Garut · Dinas Pertanian & tim pendamping</Text>
+          </View>
+          <View style={[educatorStyles.heroFoot, { borderTopColor: colors.primaryForeground }]}>
+            <View>
+              <Text style={[educatorStyles.heroFootLabel, { color: colors.background }]}>WILAYAH DAMPINGAN</Text>
+              <Text style={[educatorStyles.heroFootValue, { color: colors.card }]}>Cikajang · Cisurupan</Text>
+            </View>
+            <BrandIcon name="users" size={25} color={colors.accent} />
+          </View>
+        </View>
+      </View>
+
+      <View style={[educatorStyles.statRow, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerStat value={extensionCases[0]?.value ?? '18'} label="Kunjungan bulan ini" color={colors} />
+        <View style={[educatorStyles.statDivider, { backgroundColor: colors.border }]} />
+        <FarmerStat value={extensionCases[2]?.value ?? '6'} label="Kasus terbuka" color={colors} />
+        <View style={[educatorStyles.statDivider, { backgroundColor: colors.border }]} />
+        <FarmerStat value={extensionCases[3]?.value ?? '3'} label="Jatuh tempo" color={colors} />
+      </View>
+
+      <View style={educatorStyles.sectionHeader}>
+        <View>
+          <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>PRIORITAS HARI INI</Text>
+          <Text style={[educatorStyles.sectionTitle, { color: colors.foreground }]}>Tindak lanjut lapangan</Text>
+        </View>
+        <Text style={[educatorStyles.sectionLink, { color: colors.primary }]}>3 catatan</Text>
+      </View>
+
+      <View style={[educatorStyles.priorityCard, { backgroundColor: colors.foreground }]}>
+        <View style={educatorStyles.priorityTop}>
+          <View style={[educatorStyles.priorityIcon, { backgroundColor: colors.accent }]}>
+            <BrandIcon name="alert-circle" size={19} color={colors.accentForeground} />
+          </View>
+          <View style={educatorStyles.priorityCopy}>
+            <Text style={[educatorStyles.priorityKicker, { color: colors.accent }]}>PERLU DIKUNJUNGI LAGI</Text>
+            <Text style={[educatorStyles.priorityTitle, { color: colors.card }]}>{extensionVisit.farmer} · {extensionVisit.group}</Text>
+          </View>
+        </View>
+        <Text style={[educatorStyles.priorityText, { color: colors.background }]}>
+          {extensionVisit.issue} Rekomendasi: {extensionVisit.recommendation}
+        </Text>
+        <View style={[educatorStyles.priorityFoot, { borderTopColor: colors.primaryForeground }]}>
+          <View>
+            <Text style={[educatorStyles.priorityMetaLabel, { color: colors.background }]}>KUNJUNGAN BERIKUTNYA</Text>
+            <Text style={[educatorStyles.priorityMetaValue, { color: colors.card }]}>{extensionVisit.nextVisit}</Text>
+          </View>
+          <Pressable
+            testID="educator-open-dashboard"
+            accessibilityRole="button"
+            accessibilityLabel="Buka dashboard penyuluh"
+            onPress={() => router.push('/extension-dashboard')}
+            style={({ pressed }) => [educatorStyles.priorityAction, { backgroundColor: colors.card, opacity: pressed ? 0.76 : 1 }]}
+          >
+            <Text style={[educatorStyles.priorityActionText, { color: colors.foreground }]}>Buka catatan</Text>
+            <Feather name="arrow-up-right" size={14} color={colors.primary} />
+          </Pressable>
+        </View>
+      </View>
+
+      <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>AKSES KERJA LAPANGAN</Text>
+      <View style={educatorStyles.actionGrid}>
+        <EducatorActionCard icon="map-pin" title="Dashboard penyuluh" detail="Catat kunjungan dan tindak lanjut" onPress={() => router.push('/extension-dashboard')} colors={colors} testID="educator-action-dashboard" />
+        <EducatorActionCard icon="coffee" title="Materi edukasi" detail="Bagikan panduan budidaya dan mutu" onPress={() => router.push('/documents')} colors={colors} testID="educator-action-materials" />
+        <EducatorActionCard icon="bar-chart-2" title="Laporan wilayah" detail="Baca perkembangan kelompok dampingan" onPress={() => router.push('/reports')} colors={colors} testID="educator-action-reports" />
+        <EducatorActionCard icon="send" title="Usulan dukungan" detail="Ajukan kebutuhan petani ke tim" onPress={() => router.push('/complaints')} colors={colors} testID="educator-action-support" />
+      </View>
+
+      <View style={educatorStyles.sectionHeader}>
+        <View>
+          <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>MATERI UNTUK PETANI</Text>
+          <Text style={[educatorStyles.sectionTitle, { color: colors.foreground }]}>Siap dibawa ke kebun</Text>
+        </View>
+        <Pressable
+          testID="educator-all-materials"
+          accessibilityRole="button"
+          accessibilityLabel="Buka semua materi edukasi"
+          onPress={() => router.push('/documents')}
+          style={({ pressed }) => ({ opacity: pressed ? 0.65 : 1 })}
+        >
+          <Text style={[educatorStyles.sectionLink, { color: colors.primary }]}>Lihat semua</Text>
+        </Pressable>
+      </View>
+
+      <View style={[educatorStyles.materialCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        {documents.slice(0, 3).map((document, index) => (
+          <Pressable
+            key={document.id}
+            testID={`educator-material-${document.id}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Buka ${document.title}`}
+            onPress={() => router.push('/documents')}
+            style={({ pressed }) => [
+              educatorStyles.materialRow,
+              index < 2 && { borderBottomColor: colors.border, borderBottomWidth: 1 },
+              { opacity: pressed ? 0.68 : 1 },
+            ]}
+          >
+            <View style={[educatorStyles.materialIcon, { backgroundColor: colors.secondary }]}>
+              <BrandIcon name={document.icon} size={16} color={colors.primary} />
+            </View>
+            <View style={educatorStyles.materialCopy}>
+              <Text style={[educatorStyles.materialTitle, { color: colors.foreground }]}>{document.title}</Text>
+              <Text style={[educatorStyles.materialMeta, { color: colors.mutedForeground }]}>{document.meta} · {document.category}</Text>
+            </View>
+            <Feather name="arrow-up-right" size={15} color={colors.mutedForeground} />
+          </Pressable>
+        ))}
+      </View>
+
+      <View style={educatorStyles.sectionHeader}>
+        <View>
+          <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>AGENDA PENDAMPINGAN</Text>
+          <Text style={[educatorStyles.sectionTitle, { color: colors.foreground }]}>Berikutnya di lapangan</Text>
+        </View>
+        <BrandIcon name="calendar" size={21} color={colors.accent} />
+      </View>
+
+      <View style={[educatorStyles.activityCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerActivity icon="calendar" title="Pelatihan sortasi & defect" detail="Rumah produksi Cikuray · Besok 09.00" date="BESOK" colors={colors} positive />
+        <FarmerActivity icon="map-pin" title={`Kunjungan ${extensionVisit.farmer}`} detail={`${extensionVisit.location} · tindak lanjut kebun`} date={extensionVisit.nextVisit} colors={colors} />
+        <FarmerActivity icon="users" title="Forum kelompok tani" detail="Evaluasi kebutuhan alat dan program bantuan" date="20 Jun" colors={colors} last />
+      </View>
+
+      <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>RUANG DINAS & TIM</Text>
+      <View style={[educatorStyles.menuGroup, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <FarmerMenuRow icon="package" title="Pusat dokumen" description="SOP, modul, formulir, dan regulasi" onPress={() => router.push('/documents')} colors={colors} />
+        <FarmerMenuRow icon="check" title="Standar Kopi Garut" description="Rujukan mutu untuk edukasi petani" onPress={() => router.push('/standards')} colors={colors} />
+        <FarmerMenuRow icon="bell" title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onPress={() => router.push('/notifications')} colors={colors} />
+        <FarmerMenuRow icon="repeat" title="Ganti akun" description="Beralih ke ruang pengguna lain" onPress={() => router.push('/login')} colors={colors} />
+        <FarmerMenuRow icon="arrow-left" title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onPress={() => void signOut()} colors={colors} destructive />
+      </View>
+    </Screen>
+  );
+}
+
+function EducatorActionCard({ icon, title, detail, onPress, colors, testID }: { icon: BrandIconName; title: string; detail: string; onPress: () => void; colors: ReturnType<typeof useColors>; testID: string }) {
+  return (
+    <Pressable
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={onPress}
+      style={({ pressed }) => [educatorStyles.actionCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.74 : 1 }]}
+    >
+      <View style={[educatorStyles.actionIcon, { backgroundColor: colors.secondary }]}>
+        <BrandIcon name={icon} size={18} color={colors.primary} />
+      </View>
+      <Text style={[educatorStyles.actionTitle, { color: colors.foreground }]}>{title}</Text>
+      <Text numberOfLines={2} style={[educatorStyles.actionDetail, { color: colors.mutedForeground }]}>{detail}</Text>
+      <Feather name="arrow-up-right" size={14} color={colors.mutedForeground} style={educatorStyles.actionArrow} />
+    </Pressable>
+  );
+}
+
+function FarmerStat({ value, label, color }: { value: string; label: string; color: ReturnType<typeof useColors> }) {
+  return (
+    <View style={farmerStyles.stat}>
+      <Text numberOfLines={1} adjustsFontSizeToFit style={[farmerStyles.statValue, { color: color.foreground }]}>{value}</Text>
+      <Text style={[farmerStyles.statLabel, { color: color.mutedForeground }]}>{label}</Text>
+    </View>
+  );
+}
+
+function FarmerDetailRow({ icon, label, value, colors, last = false }: { icon: BrandIconName; label: string; value: string; colors: ReturnType<typeof useColors>; last?: boolean }) {
+  return (
+    <View style={[farmerStyles.detailRow, !last && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}>
+      <View style={[farmerStyles.detailIcon, { backgroundColor: colors.secondary }]}>
+        <BrandIcon name={icon} size={16} color={colors.primary} />
+      </View>
+      <View style={farmerStyles.detailCopy}>
+        <Text style={[farmerStyles.detailLabel, { color: colors.mutedForeground }]}>{label}</Text>
+        <Text style={[farmerStyles.detailValue, { color: colors.foreground }]}>{value}</Text>
+      </View>
+      <Feather name="chevron-right" size={16} color={colors.mutedForeground} />
+    </View>
+  );
+}
+
+function FarmerActionCard({ icon, title, detail, onPress, colors, testID }: { icon: BrandIconName; title: string; detail: string; onPress: () => void; colors: ReturnType<typeof useColors>; testID: string }) {
+  return (
+    <Pressable
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={onPress}
+      style={({ pressed }) => [farmerStyles.actionCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.74 : 1 }]}
+    >
+      <View style={[farmerStyles.actionIcon, { backgroundColor: colors.secondary }]}>
+        <BrandIcon name={icon} size={18} color={colors.primary} />
+      </View>
+      <Text style={[farmerStyles.actionTitle, { color: colors.foreground }]}>{title}</Text>
+      <Text numberOfLines={2} style={[farmerStyles.actionDetail, { color: colors.mutedForeground }]}>{detail}</Text>
+      <Feather name="arrow-up-right" size={14} color={colors.mutedForeground} style={farmerStyles.actionArrow} />
+    </Pressable>
+  );
+}
+
+function FarmerActivity({ icon, title, detail, date, colors, positive = false, last = false }: { icon: BrandIconName; title: string; detail: string; date: string; colors: ReturnType<typeof useColors>; positive?: boolean; last?: boolean }) {
+  return (
+    <View style={[farmerStyles.activityRow, !last && { borderBottomColor: colors.border, borderBottomWidth: 1 }]}>
+      <View style={[farmerStyles.activityIcon, { backgroundColor: positive ? colors.primary : colors.secondary }]}>
+        <BrandIcon name={icon} size={15} color={positive ? colors.primaryForeground : colors.primary} />
+      </View>
+      <View style={farmerStyles.activityCopy}>
+        <Text style={[farmerStyles.activityTitle, { color: colors.foreground }]}>{title}</Text>
+        <Text style={[farmerStyles.activityDetail, { color: colors.mutedForeground }]}>{detail}</Text>
+      </View>
+      <Text style={[farmerStyles.activityDate, { color: colors.primary }]}>{date}</Text>
+    </View>
+  );
+}
+
+function FarmerMenuRow({ icon, title, description, onPress, colors, destructive = false }: { icon: BrandIconName; title: string; description: string; onPress: () => void; colors: ReturnType<typeof useColors>; destructive?: boolean }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={onPress}
+      style={({ pressed }) => [farmerStyles.menuRow, { opacity: pressed ? 0.68 : 1 }]}
+    >
+      <View style={[farmerStyles.menuIcon, { backgroundColor: destructive ? colors.muted : colors.secondary }]}>
+        <BrandIcon name={icon} size={17} color={destructive ? colors.primary : colors.foreground} />
+      </View>
+      <View style={farmerStyles.menuCopy}>
+        <Text style={[farmerStyles.menuTitle, { color: destructive ? colors.primary : colors.foreground }]}>{title}</Text>
+        <Text style={[farmerStyles.menuDescription, { color: colors.mutedForeground }]}>{description}</Text>
+      </View>
+      <Feather name="chevron-right" size={17} color={destructive ? colors.primary : colors.mutedForeground} />
+    </Pressable>
   );
 }
 
@@ -634,6 +1063,128 @@ const statusDescriptions: Record<(typeof statusSteps)[number], string> = {
   Preparing: 'Kopi sedang disiapkan dengan teliti.',
   Delivered: 'Pesanan sudah sampai di rumahmu.',
 };
+
+const educatorStyles = StyleSheet.create({
+  hero: { minHeight: 270, borderRadius: 23, overflow: 'hidden', position: 'relative' },
+  heroImage: { position: 'absolute', top: 0, right: 0, width: '62%', height: '100%', opacity: 0.72 },
+  heroContent: { minHeight: 270, padding: 17, justifyContent: 'space-between', gap: 15, position: 'relative' },
+  heroTop: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  activeBadge: { borderRadius: 99, paddingHorizontal: 9, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  activeDot: { width: 6, height: 6, borderRadius: 3 },
+  activeText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.55 },
+  heroAvatar: { width: 48, height: 48, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  heroAvatarText: { fontFamily: 'Manrope_700Bold', fontSize: 15, fontWeight: '800' },
+  heroCopy: { maxWidth: 275, gap: 6 },
+  heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.25 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, lineHeight: 31, fontWeight: '700', letterSpacing: -0.7 },
+  heroDescription: { fontFamily: 'Manrope_400Regular', opacity: 0.86, fontSize: 11, lineHeight: 17 },
+  heroFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, paddingTop: 11 },
+  heroFootLabel: { fontFamily: 'Manrope_700Bold', opacity: 0.7, fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  heroFootValue: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', marginTop: 2 },
+  statRow: { borderRadius: 17, borderWidth: 1, minHeight: 76, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingHorizontal: 7 },
+  statDivider: { width: 1, height: 31 },
+  sectionHeader: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 },
+  sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
+  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 23, fontWeight: '700', marginTop: 4 },
+  sectionLink: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', paddingBottom: 2 },
+  priorityCard: { borderRadius: 20, padding: 15, gap: 12 },
+  priorityTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  priorityIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  priorityCopy: { flex: 1, gap: 4 },
+  priorityKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  priorityTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, lineHeight: 18, fontWeight: '700' },
+  priorityText: { fontFamily: 'Manrope_400Regular', fontSize: 10.5, lineHeight: 16, opacity: 0.86 },
+  priorityFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, paddingTop: 11, gap: 8 },
+  priorityMetaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1 },
+  priorityMetaValue: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700', marginTop: 2 },
+  priorityAction: { borderRadius: 11, paddingHorizontal: 10, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  priorityActionText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
+  actionGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 },
+  actionCard: { width: '48.6%', minHeight: 116, borderRadius: 17, borderWidth: 1, padding: 11, gap: 5, position: 'relative' },
+  actionIcon: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  actionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 16, fontWeight: '700' },
+  actionDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, maxWidth: 125 },
+  actionArrow: { position: 'absolute', right: 11, top: 13 },
+  materialCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 12, overflow: 'hidden' },
+  materialRow: { minHeight: 70, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  materialIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  materialCopy: { flex: 1, gap: 3 },
+  materialTitle: { fontFamily: 'Manrope_700Bold', fontSize: 11.5, lineHeight: 16, fontWeight: '700' },
+  materialMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
+  activityCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 12, overflow: 'hidden' },
+  menuGroup: { borderRadius: 17, borderWidth: 1, paddingVertical: 3, overflow: 'hidden' },
+});
+
+const farmerStyles = StyleSheet.create({
+  hero: { minHeight: 270, borderRadius: 23, overflow: 'hidden', position: 'relative' },
+  heroImage: { position: 'absolute', top: 0, right: 0, width: '58%', height: '100%', opacity: 0.9 },
+  heroContent: { minHeight: 270, padding: 17, justifyContent: 'space-between', gap: 15, position: 'relative' },
+  heroTop: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  verifiedBadge: { borderRadius: 99, paddingHorizontal: 9, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  verifiedDot: { width: 6, height: 6, borderRadius: 3 },
+  verifiedText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.55 },
+  heroAvatar: { width: 48, height: 48, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  heroAvatarText: { fontFamily: 'Manrope_700Bold', fontSize: 15, fontWeight: '800' },
+  heroCopy: { maxWidth: 265, gap: 6 },
+  heroKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.25 },
+  heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, lineHeight: 31, fontWeight: '700', letterSpacing: -0.7 },
+  heroDescription: { fontFamily: 'Manrope_400Regular', opacity: 0.86, fontSize: 11, lineHeight: 17 },
+  heroFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, paddingTop: 11 },
+  heroFootLabel: { fontFamily: 'Manrope_700Bold', opacity: 0.7, fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  heroFootValue: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', marginTop: 2 },
+  identityCard: { borderRadius: 18, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  identityIcon: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  identityCopy: { flex: 1, gap: 2 },
+  identityKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  identityValue: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '700' },
+  identityDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
+  identityAction: { width: 34, height: 34, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  statRow: { borderRadius: 17, borderWidth: 1, minHeight: 76, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingHorizontal: 7 },
+  stat: { flex: 1, alignItems: 'center', gap: 3, minWidth: 0 },
+  statValue: { fontFamily: 'Manrope_700Bold', fontSize: 17, fontWeight: '700' },
+  statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, textAlign: 'center' },
+  statDivider: { width: 1, height: 31 },
+  sectionHeader: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 },
+  sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
+  sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 23, fontWeight: '700', marginTop: 4 },
+  sectionLink: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', paddingBottom: 2 },
+  detailCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 12, overflow: 'hidden' },
+  detailRow: { minHeight: 67, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  detailIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  detailCopy: { flex: 1, gap: 3 },
+  detailLabel: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
+  detailValue: { fontFamily: 'Manrope_700Bold', fontSize: 12, lineHeight: 16, fontWeight: '700' },
+  readinessCard: { borderRadius: 19, padding: 14, gap: 12 },
+  readinessTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  readinessCopy: { flex: 1, gap: 4 },
+  readinessTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700' },
+  readinessText: { fontFamily: 'Manrope_400Regular', fontSize: 10.5, lineHeight: 15 },
+  readinessMark: { width: 49, height: 49, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  readinessValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800' },
+  progressTrack: { height: 8, borderRadius: 8, overflow: 'hidden' },
+  progressFill: { height: '100%', borderRadius: 8 },
+  readinessAction: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  readinessActionText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
+  actionGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 },
+  actionCard: { width: '48.6%', minHeight: 116, borderRadius: 17, borderWidth: 1, padding: 11, gap: 5, position: 'relative' },
+  actionIcon: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  actionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
+  actionDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, maxWidth: 125 },
+  actionArrow: { position: 'absolute', right: 11, top: 13 },
+  activityCard: { borderRadius: 18, borderWidth: 1, paddingHorizontal: 12, overflow: 'hidden' },
+  activityRow: { minHeight: 73, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  activityIcon: { width: 34, height: 34, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  activityCopy: { flex: 1, gap: 3 },
+  activityTitle: { fontFamily: 'Manrope_700Bold', fontSize: 11.5, lineHeight: 16, fontWeight: '700' },
+  activityDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
+  activityDate: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
+  menuGroup: { borderRadius: 17, borderWidth: 1, paddingVertical: 3, overflow: 'hidden' },
+  menuRow: { minHeight: 68, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  menuIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  menuCopy: { flex: 1, gap: 3 },
+  menuTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
+  menuDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10.5, lineHeight: 15 },
+});
 
 const buyerStyles = StyleSheet.create({
   hero: { borderRadius: 22, padding: 18, gap: 7, overflow: 'hidden' },

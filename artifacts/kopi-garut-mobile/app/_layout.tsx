@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { View } from 'react-native';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -17,6 +18,7 @@ import { StoreProvider } from '@/context/StoreContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
 import { AppLoading } from '@/components/AppLoading';
+import { BottomMenu } from '@/components/BottomMenu';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -36,9 +38,12 @@ function RootLayoutNav() {
   }, [pathname, ready, router, session?.id]);
 
   return (
-    <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <View style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+      <BottomMenu />
+    </View>
   );
 }
 

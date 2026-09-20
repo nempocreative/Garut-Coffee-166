@@ -62,12 +62,12 @@ export default function TraceabilityScreen() {
           </View>
 
           <View style={styles.imageFrame}>
-            <Image source={coffee.image} contentFit="cover" style={styles.image} />
+            <Image source={farmer.image} contentFit="cover" style={styles.image} />
             <LinearGradient colors={['transparent', colors.foreground]} style={styles.imageShade} />
             <View style={styles.imageOverlay}>
               <View>
-                <Text style={[styles.imageKicker, { color: colors.accent }]}>ASAL KOPI</Text>
-                <Text style={[styles.imageTitle, { color: colors.card }]}>{lot.region}, Garut</Text>
+                <Text style={[styles.imageKicker, { color: colors.accent }]}>PETANI PRODUSEN</Text>
+                <Text style={[styles.imageTitle, { color: colors.card }]}>{farmer.name}</Text>
               </View>
               <View style={[styles.verifiedPill, { backgroundColor: colors.card }]}>
                 <BrandIcon name="shield" size={13} color={colors.primary} />
@@ -80,8 +80,50 @@ export default function TraceabilityScreen() {
             <Text style={[styles.resultKicker, { color: colors.primary }]}>LOT {lot.id}</Text>
             <Text style={[styles.resultTitle, { color: colors.foreground }]}>{coffee.name}</Text>
             <Text style={[styles.resultMeta, { color: colors.mutedForeground }]}>
-              {lot.variety} · {farmer.name} · {farmer.group}
+              {lot.variety} · {lot.process} · {lot.weightKg} kg
             </Text>
+          </View>
+
+          <View style={[styles.originCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View style={styles.originHeader}>
+              <View style={[styles.originHeaderIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="map-pin" size={17} color={colors.primary} />
+              </View>
+              <View style={styles.originHeaderCopy}>
+                <Text style={[styles.sectionKicker, { color: colors.primary }]}>ASAL & PRODUSEN</Text>
+                <Text style={[styles.originHeaderTitle, { color: colors.foreground }]}>Kenali kebun dan petaninya</Text>
+              </View>
+            </View>
+            <View style={[styles.originRow, { borderTopColor: colors.border }]}>
+              <View style={[styles.originRowIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="map" size={15} color={colors.primary} />
+              </View>
+              <View style={styles.originRowCopy}>
+                <Text style={[styles.originLabel, { color: colors.mutedForeground }]}>ASAL KEBUN</Text>
+                <Text style={[styles.originValue, { color: colors.foreground }]}>{farmer.location}</Text>
+                <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>Wilayah {lot.region}, Garut · {coffee.altitude}</Text>
+              </View>
+            </View>
+            <View style={[styles.originRow, { borderTopColor: colors.border }]}>
+              <View style={[styles.originRowIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="user" size={15} color={colors.primary} />
+              </View>
+              <View style={styles.originRowCopy}>
+                <Text style={[styles.originLabel, { color: colors.mutedForeground }]}>PETANI PRODUSEN</Text>
+                <Text style={[styles.originValue, { color: colors.foreground }]}>{farmer.name}</Text>
+                <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>{farmer.group}</Text>
+              </View>
+            </View>
+            <View style={[styles.originRow, { borderTopColor: colors.border }]}>
+              <View style={[styles.originRowIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="coffee" size={15} color={colors.primary} />
+              </View>
+              <View style={styles.originRowCopy}>
+                <Text style={[styles.originLabel, { color: colors.mutedForeground }]}>JENIS KOPI</Text>
+                <Text style={[styles.originValue, { color: colors.foreground }]}>{farmer.coffeeType}</Text>
+                <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>{lot.variety} · Proses {lot.process}</Text>
+              </View>
+            </View>
           </View>
 
           <View style={[styles.storyCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -199,6 +241,17 @@ const styles = StyleSheet.create({
   resultKicker: { fontSize: 9, fontWeight: '800', letterSpacing: 1.2 },
   resultTitle: { fontSize: 22, fontWeight: '700' },
   resultMeta: { fontSize: 12 },
+  originCard: { borderWidth: 1, borderRadius: 20, padding: 15, gap: 2 },
+  originHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingBottom: 11 },
+  originHeaderIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  originHeaderCopy: { flex: 1, gap: 3 },
+  originHeaderTitle: { fontSize: 16, fontWeight: '700' },
+  originRow: { borderTopWidth: 1, paddingTop: 11, marginTop: 9, flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  originRowIcon: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  originRowCopy: { flex: 1, gap: 3 },
+  originLabel: { fontSize: 8, fontWeight: '800', letterSpacing: 1.1 },
+  originValue: { fontSize: 14, fontWeight: '700' },
+  originMeta: { fontSize: 11, lineHeight: 16 },
   storyCard: { borderWidth: 1, borderRadius: 20, padding: 16, gap: 11 },
   storyHeader: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   storyIcon: { width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
