@@ -2,8 +2,9 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { BrandIcon } from '@/components/BrandIcon';
+import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { Button, Header, Screen } from '@/components/AppUI';
 import { ProgramSectionTitle } from '@/components/ProgramUI';
 import { programLinks } from '@/data/program';
@@ -17,12 +18,129 @@ const roleCards = [
   { id: 'extension', role: 'penyuluh', icon: 'map-pin' as const, title: 'Penyuluh', description: 'Catat kunjungan dan tindak lanjut kebun.', route: '/extension-dashboard' },
 ];
 
+type ProgramCategory = 'Semua' | 'Bantuan' | 'Pelatihan' | 'Pendampingan' | 'Akses pasar';
+type ProgramOffer = {
+  id: string;
+  category: Exclude<ProgramCategory, 'Semua'>;
+  icon: BrandIconName;
+  title: string;
+  description: string;
+  target: string;
+  support: string;
+  deadline: string;
+};
+type ProgramApplication = {
+  programId: string;
+  role: string;
+  submittedAt: string;
+};
+
+const applicationStorageKey = '@kopi-garut/program-applications';
+const programCategories: ProgramCategory[] = ['Semua', 'Bantuan', 'Pelatihan', 'Pendampingan', 'Akses pasar'];
+const programOffers: ProgramOffer[] = [
+  {
+    id: 'bibit-unggul',
+    category: 'Bantuan',
+    icon: 'coffee',
+    title: 'Bibit kopi unggul',
+    description: 'Bibit Arabika untuk kebun yang siap dipulihkan atau diperluas.',
+    target: 'Petani aktif',
+    support: 'Maks. 250 bibit',
+    deadline: '30 Nov 2026',
+  },
+  {
+    id: 'dryer-bersama',
+    category: 'Bantuan',
+    icon: 'package',
+    title: 'Dryer bersama',
+    description: 'Dukungan alat pascapanen untuk memperkuat kapasitas kelompok.',
+    target: 'Kelompok tani',
+    support: '1 unit / kelompok',
+    deadline: '15 Des 2026',
+  },
+  {
+    id: 'pascapanen',
+    category: 'Pelatihan',
+    icon: 'calendar',
+    title: 'Kelas pascapanen',
+    description: 'Belajar sortasi, pengeringan, dan pencatatan mutu per lot.',
+    target: 'Petani & pengurus',
+    support: '1 hari praktik',
+    deadline: 'Kuota 24 orang',
+  },
+  {
+    id: 'kebun-produktif',
+    category: 'Pendampingan',
+    icon: 'map-pin',
+    title: 'Kebun produktif',
+    description: 'Pendampingan berkala untuk merawat kebun dan menyusun target panen.',
+    target: 'Petani aktif',
+    support: '4 kunjungan',
+    deadline: 'Pendaftaran dibuka',
+  },
+  {
+    id: 'akses-pasar',
+    category: 'Akses pasar',
+    icon: 'briefcase',
+    title: 'Temu cafe mitra',
+    description: 'Hubungkan lot kopi dengan cafe dan roastery yang mencari pasokan.',
+    target: 'Petani & kelompok',
+    support: '12 lot tersedia',
+    deadline: 'Pendaftaran dibuka',
+  },
+];
+
 export default function ProgramScreen() {
   const colors = useColors();
   const router = useRouter();
   const { session } = useAuth();
+  const [selectedCategory, setSelectedCategory] = React.useState<ProgramCategory>('Semua');
+  const [applications, setApplications] = React.useState<ProgramApplication[]>([]);
+  const [feedback, setFeedback] = React.useState<string | null>(null);
   const visibleLinks = programLinks.filter((link) => canAccessRoute(link.route, session?.id));
   const visibleRoleCards = roleCards.filter((role) => role.role === session?.id);
+  const filteredOffers = selectedCategory === 'Semua'
+    ? programOffers
+    : programOffers.filter((offer) => offer.category === selectedCategory);
+  const myApplications = applications.filter((application) => application.role === session?.id);
+
+  React.useEffect(() => {
+    AsyncStorage.getItem(applicationStorageKey).then((value) => {
+      if (!value) return;
+      try {
+        const saved = JSON.parse(value) as ProgramApplication[];
+        if (Array.isArray(saved)) setApplications(saved);
+      } catch {
+        setApplications([]);
+      }
+    });
+  }, []);
+
+  const applyForProgram = async (offer: ProgramOffer) => {
+    if (!session) {
+      router.push('/login');
+      return;
+    }
+
+    const alreadyApplied = applications.some((application) => application.programId === offer.id && application.role === session.id);
+    if (alreadyApplied) {
+      setFeedback('Pengajuan ini sudah tercatat dan sedang ditinjau.');
+      return;
+    }
+
+    const nextApplications = [
+      ...applications,
+      { programId: offer.id, role: session.id, submittedAt: new Date().toISOString() },
+    ];
+    setApplications(nextApplications);
+    setFeedback(`Pengajuan ${offer.title} sudah dikirim.`);
+    try {
+      await AsyncStorage.setItem(applicationStorageKey, JSON.stringify(nextApplications));
+    } catch {
+      setFeedback('Pengajuan tampil, tetapi belum tersimpan di perangkat.');
+    }
+  };
+
   return (
     <Screen>
       <Header back title="Program Kopi Garut" subtitle="PROGRAM · GARUT" />
@@ -51,6 +169,117 @@ export default function ProgramScreen() {
         <View style={[styles.statDivider, { backgroundColor: colors.border }]} />
         <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>01</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>EKOSISTEM</Text></View>
       </View>
+
+      <ProgramSectionTitle eyebrow="PROGRAM BERJALAN" title="Bantuan & pemberdayaan" />
+      <View style={styles.categoryList}>
+        {programCategories.map((category) => {
+          const selected = selectedCategory === category;
+          return (
+            <Pressable
+              key={category}
+              testID={`program-category-${category}`}
+              accessibilityRole="button"
+              accessibilityState={{ selected }}
+              onPress={() => setSelectedCategory(category)}
+              style={({ pressed }) => [
+                styles.categoryChip,
+                {
+                  backgroundColor: selected ? colors.primary : colors.card,
+                  borderColor: selected ? colors.primary : colors.border,
+                  opacity: pressed ? 0.76 : 1,
+                },
+              ]}
+            >
+              <Text style={[styles.categoryText, { color: selected ? colors.primaryForeground : colors.foreground }]}>{category}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      <View style={styles.offerList}>
+        {filteredOffers.map((offer, index) => {
+          const applied = myApplications.some((application) => application.programId === offer.id);
+          return (
+            <Animated.View key={offer.id} entering={FadeInDown.delay(80 + index * 45).duration(420)}>
+              <View style={[styles.offerCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+                <View style={styles.offerHeader}>
+                  <View style={[styles.offerIcon, { backgroundColor: colors.secondary }]}>
+                    <BrandIcon name={offer.icon} size={19} color={colors.primary} />
+                  </View>
+                  <View style={styles.offerHeading}>
+                    <Text style={[styles.offerCategory, { color: colors.primary }]}>{offer.category}</Text>
+                    <Text style={[styles.offerTitle, { color: colors.foreground }]}>{offer.title}</Text>
+                  </View>
+                  <View style={[styles.openPill, { backgroundColor: colors.secondary }]}>
+                    <View style={[styles.openDot, { backgroundColor: colors.primary }]} />
+                    <Text style={[styles.openText, { color: colors.primary }]}>Dibuka</Text>
+                  </View>
+                </View>
+                <Text numberOfLines={2} style={[styles.offerDescription, { color: colors.mutedForeground }]}>{offer.description}</Text>
+                <View style={[styles.offerMeta, { borderTopColor: colors.border }]}>
+                  <View style={styles.offerMetaItem}>
+                    <Text style={[styles.offerMetaLabel, { color: colors.mutedForeground }]}>UNTUK</Text>
+                    <Text numberOfLines={1} style={[styles.offerMetaValue, { color: colors.foreground }]}>{offer.target}</Text>
+                  </View>
+                  <View style={styles.offerMetaItem}>
+                    <Text style={[styles.offerMetaLabel, { color: colors.mutedForeground }]}>DUKUNGAN</Text>
+                    <Text numberOfLines={1} style={[styles.offerMetaValue, { color: colors.foreground }]}>{offer.support}</Text>
+                  </View>
+                  <View style={styles.offerMetaItem}>
+                    <Text style={[styles.offerMetaLabel, { color: colors.mutedForeground }]}>BATAS</Text>
+                    <Text numberOfLines={1} style={[styles.offerMetaValue, { color: colors.foreground }]}>{offer.deadline}</Text>
+                  </View>
+                </View>
+                <Pressable
+                  testID={`apply-program-${offer.id}`}
+                  accessibilityRole="button"
+                  accessibilityLabel={applied ? `Pengajuan ${offer.title} sudah dikirim` : `Ajukan ${offer.title}`}
+                  onPress={() => void applyForProgram(offer)}
+                  style={({ pressed }) => [
+                    styles.offerAction,
+                    {
+                      backgroundColor: applied ? colors.secondary : colors.primary,
+                      opacity: pressed ? 0.78 : 1,
+                    },
+                  ]}
+                >
+                  <BrandIcon name={applied ? 'check' : 'arrow-up-right'} size={15} color={applied ? colors.primary : colors.primaryForeground} />
+                  <Text style={[styles.offerActionText, { color: applied ? colors.primary : colors.primaryForeground }]}>
+                    {applied ? 'Sudah diajukan' : session ? 'Ajukan program' : 'Masuk untuk mengajukan'}
+                  </Text>
+                </Pressable>
+              </View>
+            </Animated.View>
+          );
+        })}
+      </View>
+      {feedback && (
+        <View style={[styles.feedback, { backgroundColor: colors.secondary }]}>
+          <BrandIcon name="check" size={16} color={colors.primary} />
+          <Text style={[styles.feedbackText, { color: colors.secondaryForeground }]}>{feedback}</Text>
+        </View>
+      )}
+
+      {session && myApplications.length > 0 && (
+        <>
+          <ProgramSectionTitle eyebrow="PENGAJUAN SAYA" title="Sedang ditinjau" />
+          <View style={styles.applicationList}>
+            {myApplications.map((application) => {
+              const offer = programOffers.find((item) => item.id === application.programId);
+              if (!offer) return null;
+              return (
+                <View key={`${application.role}-${application.programId}`} style={[styles.applicationCard, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
+                  <View style={[styles.applicationIcon, { backgroundColor: colors.primary }]}><BrandIcon name="calendar" size={16} color={colors.primaryForeground} /></View>
+                  <View style={styles.applicationCopy}>
+                    <Text style={[styles.applicationTitle, { color: colors.foreground }]}>{offer.title}</Text>
+                    <Text style={[styles.applicationMeta, { color: colors.mutedForeground }]}>Pengajuan diterima · menunggu verifikasi</Text>
+                  </View>
+                  <View style={[styles.applicationStatus, { backgroundColor: colors.card }]}><Text style={[styles.applicationStatusText, { color: colors.primary }]}>PROSES</Text></View>
+                </View>
+              );
+            })}
+          </View>
+        </>
+      )}
 
       <ProgramSectionTitle eyebrow="MULAI DARI PERANMU" title="Pilih ruang kerja" />
       {!session ? (
@@ -109,6 +338,36 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 22, fontWeight: '800' },
   statLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1 },
   statDivider: { width: 1, height: 30 },
+  categoryList: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  categoryChip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 12, paddingVertical: 9 },
+  categoryText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
+  offerList: { gap: 11 },
+  offerCard: { borderWidth: 1, borderRadius: 20, padding: 13, gap: 11 },
+  offerHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  offerIcon: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  offerHeading: { flex: 1, gap: 2 },
+  offerCategory: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase' },
+  offerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '800' },
+  openPill: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 20, paddingHorizontal: 8, paddingVertical: 6 },
+  openDot: { width: 5, height: 5, borderRadius: 3 },
+  openText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800' },
+  offerDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
+  offerMeta: { flexDirection: 'row', borderTopWidth: 1, paddingTop: 10, gap: 7 },
+  offerMetaItem: { flex: 1, gap: 3 },
+  offerMetaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.8 },
+  offerMetaValue: { fontFamily: 'Manrope_700Bold', fontSize: 10, lineHeight: 14 },
+  offerAction: { minHeight: 40, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  offerActionText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800' },
+  feedback: { borderRadius: 15, padding: 11, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  feedbackText: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
+  applicationList: { gap: 9 },
+  applicationCard: { borderWidth: 1, borderRadius: 17, padding: 11, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  applicationIcon: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  applicationCopy: { flex: 1, gap: 3 },
+  applicationTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '800' },
+  applicationMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
+  applicationStatus: { borderRadius: 8, paddingHorizontal: 7, paddingVertical: 5 },
+  applicationStatusText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.6 },
   roleList: { gap: 10 },
   roleCard: { minHeight: 72, borderRadius: 18, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 11 },
   roleIcon: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },

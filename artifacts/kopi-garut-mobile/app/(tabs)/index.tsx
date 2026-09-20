@@ -77,12 +77,7 @@ const categoryItems = [
   { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
   { icon: 'grid' as const, label: 'Ekosistem', route: '/collective' as const },
   { icon: 'shield' as const, label: 'Program', route: '/program' as const },
-  { icon: 'check' as const, label: 'Standar', route: '/standards' as const },
-  { icon: 'package' as const, label: 'Dokumen', route: '/documents' as const },
-  { icon: 'maximize' as const, label: 'Jejak', route: '/traceability' as const },
   { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
-  { icon: 'shield' as const, label: 'Verifikasi', route: '/verification' as const },
-  { icon: 'bar-chart-2' as const, label: 'Laporan', route: '/reports' as const },
 ];
 
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>

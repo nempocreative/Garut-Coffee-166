@@ -10,9 +10,6 @@ import { useColors } from '@/hooks/useColors';
 type EcosystemRoute =
   | '/farmers'
   | '/regions'
-  | '/traceability'
-  | '/standards'
-  | '/documents'
   | '/catalog'
   | '/partnership'
   | '/events'
@@ -42,11 +39,7 @@ const stages: EcosystemStage[] = [
     icon: 'package',
     label: 'PROSES & MUTU',
     title: 'Jaga kualitasnya',
-    links: [
-      { label: 'Jejak kopi', route: '/traceability' },
-      { label: 'Standar kopi', route: '/standards' },
-      { label: 'Dokumen & panduan', route: '/documents' },
-    ],
+    links: [],
   },
   {
     number: '03',

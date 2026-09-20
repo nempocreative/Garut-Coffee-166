@@ -28,7 +28,7 @@ export const programLinks: ProgramLink[] = [
   { id: 'reports', icon: 'bar-chart-2', title: 'Laporan digital', description: 'Baca perkembangan kopi Garut dengan filter yang jelas.', route: '/reports' },
   { id: 'notifications', icon: 'alert-circle', title: 'Notifikasi program', description: 'Pengingat pelatihan, permintaan pembeli, dan musim panen.', route: '/notifications' },
   { id: 'documents', icon: 'package', title: 'Pusat dokumen', description: 'Panduan, SOP, modul, regulasi, dan formulir program.', route: '/documents' },
-  { id: 'complaints', icon: 'send', title: 'Keluhan & masukan', description: 'Sampaikan masalah kebun, alat, infrastruktur, atau pemasaran.', route: '/complaints' },
+  { id: 'complaints', icon: 'send', title: 'Usulan & kebutuhan dukungan', description: 'Sampaikan petani yang belum terdata, kebutuhan bibit, atau lahan siap dibantu.', route: '/complaints' },
 ];
 
 export type VerificationItem = {
@@ -150,7 +150,7 @@ export const documents = [
   { id: 'extension', title: 'Lembar kunjungan penyuluh', category: 'Program' as const, meta: 'Template · 1 lembar', detail: 'Template untuk mencatat kondisi kebun, masalah, rekomendasi, dan tindak lanjut.', icon: 'map-pin' as const },
 ];
 
-export type ComplaintCategory = 'Hama & penyakit' | 'Infrastruktur' | 'Kebutuhan alat' | 'Pemasaran' | 'Lainnya';
+export type ComplaintCategory = 'Petani belum terdata' | 'Bantuan bibit' | 'Lahan siap dikembangkan' | 'Pendampingan' | 'Lainnya';
 
 export type Complaint = {
   id: string;
@@ -161,4 +161,4 @@ export type Complaint = {
   createdAt: string;
 };
 
-export const complaintCategories: ComplaintCategory[] = ['Hama & penyakit', 'Infrastruktur', 'Kebutuhan alat', 'Pemasaran', 'Lainnya'];
+export const complaintCategories: ComplaintCategory[] = ['Petani belum terdata', 'Bantuan bibit', 'Lahan siap dikembangkan', 'Pendampingan', 'Lainnya'];
