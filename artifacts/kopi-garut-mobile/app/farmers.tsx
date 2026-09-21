@@ -69,6 +69,11 @@ export default function FarmersScreen() {
             <View style={styles.cardInner}>
               <View style={styles.photoFrame}>
                 <Image source={farmer.image} contentFit="cover" style={styles.image} />
+                <LinearGradient colors={['transparent', `${colors.foreground}B8`]} locations={[0.42, 1]} style={StyleSheet.absoluteFill} />
+                <View style={[styles.photoLabel, { backgroundColor: `${colors.foreground}B8` }]}>
+                  <BrandIcon name="user" size={10} color={colors.accent} />
+                  <Text style={[styles.photoLabelText, { color: colors.card }]}>PROFIL PETANI</Text>
+                </View>
                 <View style={[styles.photoIndex, { backgroundColor: colors.foreground }]}>
                   <Text style={[styles.photoIndexText, { color: colors.accent }]}>{String(index + 2).padStart(2, '0')}</Text>
                 </View>
@@ -83,12 +88,16 @@ export default function FarmersScreen() {
                         <BrandIcon name="check" size={6} color={colors.primary} strokeWidth={2.5} />
                       </View>
                     </View>
-                    <Text style={[styles.verifiedText, styles.compactVerifiedText, { color: colors.primaryForeground }]}>OK</Text>
+                    <Text style={[styles.verifiedText, styles.compactVerifiedText, { color: colors.primaryForeground }]}>TERVERIFIKASI</Text>
                   </View>
                 </View>
                 <View style={styles.locationRow}><BrandIcon name="map-pin" size={11} color={colors.primary} /><Text style={[styles.location, { color: colors.primary }]}>{farmer.location}</Text></View>
                 <Text style={[styles.name, { color: colors.foreground }]}>{farmer.name}</Text>
                 <Text style={[styles.group, { color: colors.mutedForeground }]}>{farmer.group}</Text>
+                <View style={[styles.productPill, { backgroundColor: colors.secondary }]}>
+                  <BrandIcon name="coffee" size={11} color={colors.primary} />
+                  <Text numberOfLines={1} style={[styles.productPillText, { color: colors.foreground }]}>{farmer.products[0]}</Text>
+                </View>
                  <Text numberOfLines={2} style={[styles.storyPreview, { color: colors.mutedForeground }]}>{farmer.story}</Text>
                  <View style={[styles.productionHighlight, { backgroundColor: colors.secondary }]}>
                    <View style={[styles.productionIcon, { backgroundColor: colors.accent }]}><BrandIcon name="coffee" size={12} color={colors.accentForeground} /></View>
@@ -102,7 +111,10 @@ export default function FarmersScreen() {
                   <View style={styles.profileFact}><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>ID KEANGGOTAAN</Text><Text style={[styles.memberId, { color: colors.primary }]}>{farmer.membershipId}</Text></View>
                 </View>
               </View>
-              <View style={[styles.arrow, { backgroundColor: colors.secondary }]}><BrandIcon name="chevron-right" size={16} color={colors.primary} /></View>
+              <View style={styles.cardAction}>
+                <Text style={[styles.cardActionText, { color: colors.primary }]}>Buka profil</Text>
+                <View style={[styles.arrow, { backgroundColor: colors.secondary }]}><BrandIcon name="chevron-right" size={16} color={colors.primary} /></View>
+              </View>
             </View>
           </Pressable>
         </Animated.View>)}
@@ -151,6 +163,8 @@ const styles = StyleSheet.create({
    cardInner: { flex: 1, padding: 14, flexDirection: 'row', alignItems: 'stretch', gap: 14 },
    photoFrame: { width: 118, height: 248, borderRadius: 17, overflow: 'hidden', position: 'relative' },
   image: { width: '100%', height: '100%' },
+  photoLabel: { position: 'absolute', top: 8, left: 8, borderRadius: 8, paddingHorizontal: 7, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  photoLabelText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.5 },
   photoIndex: { position: 'absolute', left: 6, bottom: 6, minWidth: 24, height: 20, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
   photoIndexText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.6 },
    cardCopy: { flex: 1, gap: 4, minWidth: 0, justifyContent: 'flex-start', paddingVertical: 2 },
@@ -163,6 +177,8 @@ const styles = StyleSheet.create({
   location: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.7, textTransform: 'uppercase' },
   name: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 22, fontWeight: '700', marginTop: 2 },
   group: { fontFamily: 'Manrope_400Regular', fontSize: 10.5 },
+  productPill: { alignSelf: 'flex-start', maxWidth: '100%', borderRadius: 9, paddingHorizontal: 7, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 3 },
+  productPillText: { flexShrink: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
    storyPreview: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 15, marginTop: 5 },
    productionHighlight: { flexDirection: 'row', alignItems: 'center', gap: 7, borderRadius: 11, padding: 7, marginTop: 5 },
    productionIcon: { width: 25, height: 25, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
@@ -174,5 +190,7 @@ const styles = StyleSheet.create({
   metaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7, marginBottom: 1 },
   meta: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
   memberId: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
+  cardAction: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', gap: 7, marginTop: 'auto' },
+  cardActionText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.2 },
   arrow: { width: 35, height: 35, borderRadius: 13, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-end' },
 });

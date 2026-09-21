@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -8,6 +8,41 @@ import { BrandIcon } from '@/components/BrandIcon';
 import { useColors } from '@/hooks/useColors';
 
 const partnerTypes = ['Cafe & restoran', 'Roastery', 'Hotel & kantor'];
+
+const activePartners = [
+  {
+    name: 'Ruang Seduh Roastery',
+    type: 'CAFE & ROASTERY',
+    location: 'Garut Kota',
+    detail: 'Menyajikan Papandayan Series sebagai pilihan pour-over untuk pelanggan.',
+    image: require('../assets/images/origin-coffee.jpg'),
+    icon: 'coffee' as const,
+  },
+  {
+    name: 'Dapur Lereng',
+    type: 'RESTORAN',
+    location: 'Cisurupan',
+    detail: 'Memasangkan kopi Garut dengan menu rumahan dan hasil kebun lokal.',
+    image: require('../assets/images/event-festival-garut.jpg'),
+    icon: 'users' as const,
+  },
+  {
+    name: 'Hotel Darajat View',
+    type: 'HOTEL',
+    location: 'Samarang',
+    detail: 'Menghadirkan kopi asal Garut sebagai sambutan hangat untuk setiap tamu.',
+    image: require('../assets/images/mountain-banner.png'),
+    icon: 'briefcase' as const,
+  },
+  {
+    name: 'Kedai Pagi Garut',
+    type: 'CAFE',
+    location: 'Tarogong',
+    detail: 'Menjadikan kopi petani Garut bagian dari ritual pagi warga kota.',
+    image: require('../assets/images/kopi-garut-promo-banner.jpg'),
+    icon: 'coffee' as const,
+  },
+];
 
 const benefits = [
   { icon: 'coffee' as const, title: 'Sumber yang jelas', text: 'Kopi pilihan dengan cerita kebun yang bisa kamu bagikan.' },
@@ -70,6 +105,44 @@ export default function PartnershipScreen() {
           <Text style={[styles.trustValue, { color: colors.primary }]}>GARUT</Text>
           <Text style={[styles.trustLabel, { color: colors.mutedForeground }]}>Satu ekosistem</Text>
         </View>
+      </Animated.View>
+
+      <Animated.View entering={FadeInDown.delay(140).duration(500)} style={styles.partnerShowcase}>
+        <View style={styles.partnerHeading}>
+          <View style={styles.headingCopy}>
+            <Text style={[styles.eyebrow, { color: colors.primary }]}>SUDAH BERJALAN BERSAMA</Text>
+            <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Dari meja sarapan sampai lobi hotel.</Text>
+          </View>
+          <View style={[styles.partnerHeadingIcon, { backgroundColor: colors.secondary }]}>
+            <BrandIcon name="arrow-up-right" size={17} color={colors.primary} />
+          </View>
+        </View>
+        <Text style={[styles.partnerIntro, { color: colors.mutedForeground }]}>
+          Mereka membawa cerita kebun Garut lebih dekat ke pelanggan, tamu, dan keluarga di berbagai meja.
+        </Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.partnerRail}>
+          {activePartners.map((partner, index) => (
+            <View key={partner.name} style={[styles.partnerCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <View style={styles.partnerImageFrame}>
+                <ExpoImage source={partner.image} contentFit="cover" style={styles.partnerImage} />
+                <LinearGradient colors={['transparent', `${colors.foreground}D9`]} locations={[0.3, 1]} style={StyleSheet.absoluteFill} />
+                <View style={[styles.partnerType, { backgroundColor: colors.accent }]}>
+                  <BrandIcon name={partner.icon} size={11} color={colors.accentForeground} />
+                  <Text style={[styles.partnerTypeText, { color: colors.accentForeground }]}>{partner.type}</Text>
+                </View>
+                <Text style={[styles.partnerIndex, { color: colors.card }]}>{String(index + 1).padStart(2, '0')}</Text>
+              </View>
+              <View style={styles.partnerCardCopy}>
+                <Text numberOfLines={1} style={[styles.partnerName, { color: colors.foreground }]}>{partner.name}</Text>
+                <View style={styles.partnerLocation}>
+                  <BrandIcon name="map-pin" size={11} color={colors.primary} />
+                  <Text style={[styles.partnerLocationText, { color: colors.primary }]}>{partner.location}</Text>
+                </View>
+                <Text numberOfLines={3} style={[styles.partnerDetail, { color: colors.mutedForeground }]}>{partner.detail}</Text>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
       </Animated.View>
 
       <View style={styles.sectionHeading}>
@@ -187,6 +260,22 @@ const styles = StyleSheet.create({
   trustValue: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '800', letterSpacing: 0.2 },
   trustLabel: { fontFamily: 'Manrope_400Regular', fontSize: 9 },
   trustDivider: { width: 1, height: 28 },
+  partnerShowcase: { gap: 10 },
+  partnerHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  partnerHeadingIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  partnerIntro: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 17, maxWidth: 340 },
+  partnerRail: { gap: 10, paddingRight: 20 },
+  partnerCard: { width: 220, borderRadius: 19, borderWidth: 1, overflow: 'hidden' },
+  partnerImageFrame: { height: 116, position: 'relative' },
+  partnerImage: { width: '100%', height: '100%' },
+  partnerType: { position: 'absolute', left: 9, top: 9, borderRadius: 8, paddingHorizontal: 7, paddingVertical: 6, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  partnerTypeText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.65 },
+  partnerIndex: { position: 'absolute', right: 11, bottom: 8, fontFamily: 'Manrope_700Bold', fontSize: 21, fontWeight: '800', opacity: 0.75 },
+  partnerCardCopy: { minHeight: 108, padding: 12, gap: 5 },
+  partnerName: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '800' },
+  partnerLocation: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  partnerLocationText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.5, textTransform: 'uppercase' },
+  partnerDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 15 },
   sectionHeading: { marginTop: 3 },
   headingCopy: { gap: 4 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.45 },
