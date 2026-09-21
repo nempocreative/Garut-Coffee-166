@@ -62,7 +62,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Konsentrat kopi gula aren',
     price: 'Rp 28.000',
     status: 'Siap minum',
-    image: require('../assets/images/hero-coffee.jpg'),
+    image: require('../assets/images/coffee-palm-sugar-concentrate.png'),
     badge: 'Favorit baru',
   },
   {
