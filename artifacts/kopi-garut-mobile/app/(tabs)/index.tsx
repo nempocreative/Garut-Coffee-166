@@ -45,7 +45,7 @@ const promoSlides = [
   {
     id: 'coffee-regions',
     route: '/regions' as const,
-    image: require('../../assets/images/event-festival-garut.jpg'),
+    image: require('../../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.png'),
     eyebrow: 'WILAYAH KOPI',
     title: 'Dari lereng ke cangkir',
     description: 'Temukan karakter unik dari setiap wilayah.',
