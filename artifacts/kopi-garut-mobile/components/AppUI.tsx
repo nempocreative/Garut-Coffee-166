@@ -12,6 +12,14 @@ import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
 import { BrandIcon, BrandIconName, ThreeDNavIcon } from '@/components/BrandIcon';
 
+const homeWeekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+const homeMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+function getHomeDateLabel() {
+  const date = new Date();
+  return `${homeWeekdays[date.getDay()]}, ${date.getDate()} ${homeMonths[date.getMonth()]} ${date.getFullYear()}`;
+}
+
 export function useBottomMenuPadding(gap = 32) {
   const insets = useSafeAreaInsets();
   const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
@@ -44,6 +52,7 @@ export function Header({ title, cart = true, notifications = false, back = false
   const ornamentTextColor = colors.primaryForeground;
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   const homeTitleShadow = isHomeGreeting ? { textShadowColor: colors.foreground, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 } : null;
+  const homeDateLabel = isHomeGreeting ? getHomeDateLabel() : null;
   return <View style={styles.header}>
     <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
@@ -83,8 +92,9 @@ export function Header({ title, cart = true, notifications = false, back = false
         <View style={styles.headerBottom}>
           <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy]}>
             {isHomeGreeting ? <View style={styles.homeGreetingLines}>
-              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati</Text></Text>
+              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati{'\u00A0'}</Text></Text>
               <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text>
+              <Text numberOfLines={1} style={[styles.homeDate, { color: colors.primaryForeground }, homeTitleShadow]}>{homeDateLabel}</Text>
             </View> : <Text numberOfLines={2} style={[styles.headerTitle, { color: titleTextColor }, homeTitleShadow]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>}
           </View>
         </View>
@@ -144,11 +154,12 @@ const styles = StyleSheet.create({
   headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
-  homeHeaderCopy: { paddingLeft: 96, paddingRight: 28 },
+  homeHeaderCopy: { paddingLeft: 56, paddingRight: 28 },
   homeGreetingLines: { alignItems: 'flex-end', gap: 0, paddingRight: 12 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
-  homeHeaderTitle: { fontSize: 20, lineHeight: 24, letterSpacing: -0.5, textAlign: 'right' },
+  homeHeaderTitle: { fontSize: 18, lineHeight: 22, letterSpacing: -0.45, textAlign: 'right' },
+  homeDate: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, lineHeight: 12, fontWeight: '700', letterSpacing: 0.15, textAlign: 'right', opacity: 0.9, marginTop: 1 },
   homeGreetingHighlight: { fontStyle: 'italic', fontWeight: '800' },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   contextDivider: { width: 18, height: 1 },
