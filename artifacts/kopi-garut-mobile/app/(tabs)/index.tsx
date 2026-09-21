@@ -18,7 +18,7 @@ const promoSlides = [
   {
     id: 'garut-promo',
     route: '/catalog' as const,
-    image: require('../../assets/images/kopi-garut-promo-banner.jpg'),
+    image: require('../../assets/images/kopi-garut-panen-rasa-banner.png'),
     eyebrow: 'KOPI GARUT',
     title: 'Panen rasa dari Garut',
     description: 'Temukan kopi spesialti dari lereng pilihan.',
@@ -36,7 +36,7 @@ const promoSlides = [
   {
     id: 'coffee-tour',
     route: '/tourism' as const,
-    image: require('../../assets/images/hero-coffee.jpg'),
+    image: require('../../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.png'),
     eyebrow: 'PENGALAMAN KOPI',
     title: 'Seduh sambil menjelajah',
     description: 'Nikmati perjalanan rasa di dataran tinggi Garut.',
