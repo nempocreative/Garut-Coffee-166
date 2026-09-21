@@ -58,7 +58,7 @@ const regularPrograms = [
     cycle: 'Menjelang musim panen',
     next: 'Cikajang · 17 Okt 2026',
     description: 'Praktik sortasi, pengeringan, dan pencatatan mutu untuk menjaga nilai jual kopi.',
-    image: require('../assets/images/farmer-iis-nurhayati.jpg'),
+    image: require('../assets/images/farmer-iis-nurhayati.png'),
   },
 ];
 

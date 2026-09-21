@@ -57,7 +57,7 @@ export const farmers: Farmer[] = [
     joinedAt: '12 Maret 2021',
     membershipId: 'KGR-CIS-001',
     products: ['Papandayan Series'],
-    image: require('../assets/images/farmer-asep-rahmat.jpg'),
+    image: require('../assets/images/farmer-asep-rahmat.png'),
     story: 'Menjaga kualitas dari pemetikan hingga pengeringan bersama anggota kelompok tani.',
   },
   {
@@ -71,7 +71,7 @@ export const farmers: Farmer[] = [
     joinedAt: '8 Juli 2022',
     membershipId: 'KGR-CIK-014',
     products: ['Cikuray Series'],
-    image: require('../assets/images/farmer-iis-nurhayati.jpg'),
+    image: require('../assets/images/farmer-iis-nurhayati.png'),
     story: 'Mengolah kopi natural dengan sabar untuk menjaga rasa buah yang menjadi ciri kebunnya.',
   },
   {
@@ -85,7 +85,7 @@ export const farmers: Farmer[] = [
     joinedAt: '19 Januari 2020',
     membershipId: 'KGR-PAK-008',
     products: ['Kamojang Series'],
-    image: require('../assets/images/farmer-deni-suhendar.jpg'),
+    image: require('../assets/images/farmer-deni-suhendar.png'),
     story: 'Membangun kebun yang produktif sambil mempertahankan naungan alami di lereng pegunungan.',
   },
   {
@@ -99,7 +99,7 @@ export const farmers: Farmer[] = [
     joinedAt: '27 September 2023',
     membershipId: 'KGR-SAM-021',
     products: ['Darajat Series'],
-    image: require('../assets/images/farmer-ujang-kusnadi.jpg'),
+    image: require('../assets/images/farmer-ujang-kusnadi.png'),
     story: 'Mengembangkan kopi sangrai yang nyaman untuk dinikmati di rumah maupun di kedai mitra.',
   },
 ];

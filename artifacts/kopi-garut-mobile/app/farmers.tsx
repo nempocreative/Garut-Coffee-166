@@ -45,8 +45,14 @@ export default function FarmersScreen() {
         onPress={() => router.push(`/farmer/${featured.id}`)}
         style={({ pressed }) => [styles.featured, { backgroundColor: colors.foreground, opacity: pressed ? 0.86 : 1 }]}
       >
-        <Image source={featured.image} contentFit="cover" style={StyleSheet.absoluteFill} />
-        <LinearGradient colors={['transparent', colors.foreground]} locations={[0.16, 1]} style={StyleSheet.absoluteFill} />
+        <View style={styles.featuredImageWrap}>
+          <Image source={featured.image} contentFit="cover" style={styles.featuredImage} />
+          <LinearGradient colors={['transparent', `${colors.foreground}C7`]} locations={[0.48, 1]} style={StyleSheet.absoluteFill} />
+          <View style={[styles.featuredPhotoLabel, { backgroundColor: `${colors.foreground}B8` }]}>
+            <BrandIcon name="user" size={10} color={colors.accent} />
+            <Text style={[styles.featuredPhotoLabelText, { color: colors.card }]}>PETANI PILIHAN</Text>
+          </View>
+        </View>
         <View style={styles.featuredCopy}>
           <View style={styles.featuredTopRow}>
             <View style={styles.featuredTag}><BrandIcon name="map-pin" size={12} color={colors.primaryForeground} /><Text style={[styles.featuredTagText, { color: colors.primaryForeground }]}>{featured.location}</Text></View>
@@ -55,8 +61,8 @@ export default function FarmersScreen() {
               <Text style={[styles.verifiedText, { color: colors.accentForeground }]}>TERVERIFIKASI</Text>
             </View>
           </View>
-          <Text style={[styles.featuredName, { color: colors.card }]}>{featured.name}</Text>
-          <Text style={[styles.featuredStory, { color: colors.background }]}>{featured.story}</Text>
+          <Text numberOfLines={2} style={[styles.featuredName, { color: colors.card }]}>{featured.name}</Text>
+          <Text numberOfLines={4} style={[styles.featuredStory, { color: colors.background }]}>{featured.story}</Text>
           <View style={styles.featuredMeta}><Text style={[styles.featuredGroup, { color: colors.background }]}>{featured.group}</Text><BrandIcon name="arrow-up-right" size={17} color={colors.primaryForeground} /></View>
         </View>
       </Pressable> : <EmptyState icon="users" title="Petani tidak ditemukan" text="Coba ubah kata kunci atau pilih wilayah lain." action="Tampilkan semua" onAction={() => { setQuery(''); setFilter('Semua'); }} />}
@@ -140,9 +146,13 @@ const styles = StyleSheet.create({
   filterRow: { gap: 8, paddingRight: 20 },
   filter: { borderRadius: 20, paddingHorizontal: 14, paddingVertical: 10 },
   filterText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
-  featured: { height: 262, borderRadius: 22, overflow: 'hidden' },
-  featuredCopy: { flex: 1, justifyContent: 'flex-end', padding: 17, gap: 6 },
-  featuredTopRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  featured: { height: 248, borderRadius: 22, overflow: 'hidden', flexDirection: 'row' },
+  featuredImageWrap: { width: 136, height: '100%', position: 'relative' },
+  featuredImage: { width: '100%', height: '100%' },
+  featuredPhotoLabel: { position: 'absolute', left: 8, right: 8, bottom: 8, borderRadius: 8, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 },
+  featuredPhotoLabelText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.55 },
+  featuredCopy: { flex: 1, minWidth: 0, justifyContent: 'space-between', padding: 14, gap: 8 },
+  featuredTopRow: { alignItems: 'flex-start', gap: 8 },
   featuredTag: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   featuredTagText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase' },
   verifiedBadge: { minHeight: 24, borderRadius: 8, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', gap: 5 },

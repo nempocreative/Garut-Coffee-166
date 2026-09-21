@@ -111,9 +111,9 @@ const storyReelImages = [
   require('../../assets/images/event-festival-garut.jpg'),
   require('../../assets/images/origin-coffee.jpg'),
   require('../../assets/images/hero-coffee.jpg'),
-  require('../../assets/images/farmer-asep-rahmat.jpg'),
-  require('../../assets/images/farmer-iis-nurhayati.jpg'),
-  require('../../assets/images/farmer-deni-suhendar.jpg'),
+  require('../../assets/images/farmer-story-1.png'),
+  require('../../assets/images/farmer-story-2.png'),
+  require('../../assets/images/farmer-story-3.png'),
 ];
 
 const storyReels = hubEvents.map((event, index) => ({
