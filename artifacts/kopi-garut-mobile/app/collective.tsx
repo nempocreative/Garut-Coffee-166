@@ -13,7 +13,9 @@ type EcosystemRoute =
   | '/catalog'
   | '/partnership'
   | '/events'
-  | '/tourism';
+  | '/tourism'
+  | '/standards'
+  | '/traceability';
 
 type EcosystemStage = {
   number: string;
@@ -39,7 +41,10 @@ const stages: EcosystemStage[] = [
     icon: 'package',
     label: 'PROSES & MUTU',
     title: 'Jaga kualitasnya',
-    links: [],
+    links: [
+      { label: 'Standar Kopi Garut', route: '/standards' },
+      { label: 'Lacak lot lewat QR', route: '/traceability' },
+    ],
   },
   {
     number: '03',
@@ -63,6 +68,13 @@ const stages: EcosystemStage[] = [
   },
 ];
 
+const roleItems: Array<{ icon: BrandIconName; title: string; text: string; route: EcosystemRoute }> = [
+  { icon: 'user', title: 'Saya petani', text: 'Kelola profil kebun dan cerita panen.', route: '/farmers' },
+  { icon: 'coffee', title: 'Saya pembeli', text: 'Temukan kopi dan kenali asalnya.', route: '/catalog' },
+  { icon: 'briefcase', title: 'Saya punya usaha', text: 'Jadi mitra dan bawa kopi ke pelanggan.', route: '/partnership' },
+  { icon: 'compass', title: 'Saya ingin berkunjung', text: 'Rasakan kopi langsung dari Garut.', route: '/tourism' },
+];
+
 export default function CollectiveScreen() {
   const colors = useColors();
   const router = useRouter();
@@ -84,7 +96,7 @@ export default function CollectiveScreen() {
             </View>
           </View>
           <Text style={[styles.heroKicker, { color: colors.accent }]}>RANTAI KOPI GARUT</Text>
-          <Text style={[styles.heroTitle, { color: colors.card }]}>Satu perjalanan,{'\n'}banyak tangan.</Text>
+          <Text style={[styles.heroTitle, { color: colors.card }]}>Satu alur,{'\n'}banyak peran.</Text>
           <View style={styles.heroRoute}>
             <View style={[styles.heroRouteLine, { backgroundColor: colors.accent }]} />
             <Text style={[styles.heroRouteText, { color: colors.background }]}>KEBUN  ·  MUTU  ·  PASAR  ·  CANGKIR</Text>
@@ -94,7 +106,35 @@ export default function CollectiveScreen() {
 
       <View style={styles.intro}>
         <Text style={[styles.introKicker, { color: colors.primary }]}>BAGAIMANA KOPI BERJALAN</Text>
-        <Text style={[styles.introTitle, { color: colors.foreground }]}>Ikuti alurnya, temukan peranmu.</Text>
+        <Text style={[styles.introTitle, { color: colors.foreground }]}>Kopi Garut bukan hanya katalog.</Text>
+        <Text style={[styles.introText, { color: colors.mutedForeground }]}>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</Text>
+      </View>
+
+      <View style={styles.roleSection}>
+        <Text style={[styles.roleSectionTitle, { color: colors.foreground }]}>Kamu datang sebagai siapa?</Text>
+        <View style={styles.roleGrid}>
+          {roleItems.map((role, index) => (
+            <Pressable
+              key={role.title}
+              accessibilityRole="button"
+              accessibilityLabel={role.title}
+              onPress={() => router.push(role.route as never)}
+              style={({ pressed }) => [
+                styles.roleCard,
+                { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.7 : 1 },
+              ]}
+            >
+              <View style={[styles.roleIcon, { backgroundColor: index % 2 === 0 ? colors.secondary : colors.accent }]}>
+                <BrandIcon name={role.icon} size={17} color={index % 2 === 0 ? colors.primary : colors.accentForeground} />
+              </View>
+              <View style={styles.roleCopy}>
+                <Text style={[styles.roleTitle, { color: colors.foreground }]}>{role.title}</Text>
+                <Text style={[styles.roleText, { color: colors.mutedForeground }]}>{role.text}</Text>
+              </View>
+              <BrandIcon name="arrow-up-right" size={14} color={colors.primary} />
+            </Pressable>
+          ))}
+        </View>
       </View>
 
       <View style={styles.stageList}>
@@ -149,8 +189,8 @@ export default function CollectiveScreen() {
           <BrandIcon name="heart" size={19} color={colors.accentForeground} />
         </View>
         <View style={styles.closingCopy}>
-          <Text style={[styles.closingTitle, { color: colors.foreground }]}>Semua tahap saling menguatkan.</Text>
-          <Text style={[styles.closingText, { color: colors.secondaryForeground }]}>Temukan ruangmu di dalamnya.</Text>
+          <Text style={[styles.closingTitle, { color: colors.foreground }]}>Sekarang pilih langkahmu.</Text>
+          <Text style={[styles.closingText, { color: colors.secondaryForeground }]}>Mulai dari kebun, kopi, usaha, atau pengalaman.</Text>
         </View>
       </View>
     </Screen>
@@ -174,6 +214,15 @@ const styles = StyleSheet.create({
   intro: { gap: 5, marginTop: 1, paddingHorizontal: 2 },
   introKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
   introTitle: { fontFamily: 'Manrope_700Bold', fontSize: 21, lineHeight: 26, fontWeight: '800', letterSpacing: -0.45 },
+  introText: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 18, marginTop: 2 },
+  roleSection: { gap: 10 },
+  roleSectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, fontWeight: '800' },
+  roleGrid: { gap: 8 },
+  roleCard: { minHeight: 67, borderWidth: 1, borderRadius: 16, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  roleIcon: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  roleCopy: { flex: 1, gap: 2 },
+  roleTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '800' },
+  roleText: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   stageList: { gap: 0 },
   stage: { borderWidth: 1, borderRadius: 20, padding: 14, gap: 12 },
   stageHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
