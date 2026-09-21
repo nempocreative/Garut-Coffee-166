@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
-  homeHeaderCopy: { paddingLeft: 132, paddingRight: 0 },
+  homeHeaderCopy: { paddingLeft: 96, paddingRight: 0 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   homeHeaderTitle: { fontSize: 20, lineHeight: 24, letterSpacing: -0.5, textAlign: 'right' },
