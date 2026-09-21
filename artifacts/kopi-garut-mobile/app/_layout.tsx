@@ -23,6 +23,7 @@ import { BottomMenu } from '@/components/BottomMenu';
 import { FloatingCoffeeGameButton } from '@/components/FloatingCoffeeGameButton';
 import { FloatingSupportButton } from '@/components/FloatingSupportButton';
 import { CoffeeGameProvider } from '@/context/CoffeeGameContext';
+import { ScrollVisibilityProvider } from '@/context/ScrollVisibilityContext';
 
 // Expo Go runs on the phone, outside Replit's local proxy. Give generated API
 // requests the public development host instead of leaving them as relative URLs.
@@ -94,7 +95,9 @@ export default function RootLayout() {
               <AuthProvider>
                 <GestureHandlerRootView style={{ flex: 1 }}>
                   <KeyboardProvider>
-                    <RootLayoutNav />
+                    <ScrollVisibilityProvider>
+                      <RootLayoutNav />
+                    </ScrollVisibilityProvider>
                   </KeyboardProvider>
                 </GestureHandlerRootView>
               </AuthProvider>

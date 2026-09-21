@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
+import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
 import { BrandIcon, BrandIconName, ThreeDNavIcon } from '@/components/BrandIcon';
 
@@ -22,12 +23,13 @@ export function Screen({ children, scroll = true, style, bottomGap = 32 }: { chi
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const scrollRef = useRef<ScrollView>(null);
+  const { notifyScroll } = useScrollVisibility();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const contentBottomPadding = useBottomMenuPadding(bottomGap);
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [pathname]);
-  return scroll ? <ScrollView ref={scrollRef} style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
+  return scroll ? <ScrollView ref={scrollRef} onScroll={notifyScroll} scrollEventThrottle={16} style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
 }
 
 export function Header({ title, cart = true, notifications = false, back = false, extendOrnament = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean; extendOrnament?: boolean }) {
@@ -143,8 +145,8 @@ const styles = StyleSheet.create({
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '700', letterSpacing: 0.1 },
   card: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', width: 254 },
   gridCard: { width: '100%', flex: 1, borderRadius: 17 },
-  cardImageWrap: { height: 180, position: 'relative' },
-  gridCardImageWrap: { height: 132 },
+  cardImageWrap: { aspectRatio: 1, position: 'relative' },
+  gridCardImageWrap: { aspectRatio: 1 },
   cardImage: { width: '100%', height: '100%' },
   badge: { position: 'absolute', left: 12, top: 12, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8 },
   badgeText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },

@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   filters: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   productGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10 },
   productCard: { width: '48.4%', borderWidth: 1, borderRadius: 19, overflow: 'hidden' },
-  productImageWrap: { height: 126, position: 'relative' },
+  productImageWrap: { aspectRatio: 1, position: 'relative' },
   productImage: { width: '100%', height: '100%' },
   productImageShade: StyleSheet.absoluteFill,
   productBadge: { position: 'absolute', left: 9, top: 9, borderRadius: 7, paddingHorizontal: 7, paddingVertical: 5, maxWidth: '78%' },

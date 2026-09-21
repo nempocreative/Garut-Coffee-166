@@ -32,7 +32,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Essential oil kopi',
     price: 'Rp 55.000',
     status: 'Aroma kopi premium',
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/coffee-essential-oil.png'),
     badge: 'Produk baru',
   },
   {
@@ -42,7 +42,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Pewangi sepatu kopi',
     price: 'Rp 32.000',
     status: 'Aroma tahan lama',
-    image: require('../assets/images/coffee-beans-natural.png'),
+    image: require('../assets/images/coffee-shoe-deodorizer.png'),
     badge: 'Upcycle ampas',
   },
   {
@@ -52,7 +52,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Minyak aroma kopi',
     price: 'Rp 42.000',
     status: 'Blend lokal Garut',
-    image: require('../assets/images/hero-coffee.jpg'),
+    image: require('../assets/images/coffee-aroma-oil.png'),
     badge: 'Produk UMKM',
   },
   {

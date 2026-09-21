@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { useCoffeeGame } from '@/context/CoffeeGameContext';
+import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
 
 export function FloatingCoffeeGameButton() {
@@ -13,6 +14,7 @@ export function FloatingCoffeeGameButton() {
   const router = useRouter();
   const pathname = usePathname();
   const { points } = useCoffeeGame();
+  const { isScrolling } = useScrollVisibility();
   const basketLift = useSharedValue(0);
   const basketTilt = useSharedValue(0);
 
@@ -43,17 +45,14 @@ export function FloatingCoffeeGameButton() {
     ],
   }));
 
-  if (pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
+  if (isScrolling || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
 
   const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
   const pointLabel = points > 999 ? '999+' : String(points);
 
   return (
-    <View
-      pointerEvents="box-none"
-      style={[StyleSheet.absoluteFill, Platform.OS === 'web' ? ({ position: 'fixed' } as any) : null]}
-    >
+    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
       <Pressable
         testID="floating-coffee-game-button"
         accessibilityRole="button"

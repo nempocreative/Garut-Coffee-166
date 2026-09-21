@@ -1226,7 +1226,7 @@ const styles = StyleSheet.create({
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
   diversifiedRail: { gap: 10, paddingTop: 12, paddingRight: 20 },
   diversifiedCard: { borderRadius: 18, borderWidth: 1, overflow: 'hidden' },
-  diversifiedImageWrap: { height: 126, position: 'relative' },
+  diversifiedImageWrap: { aspectRatio: 1, position: 'relative' },
   diversifiedImage: { width: '100%', height: '100%' },
   diversifiedBadge: { position: 'absolute', left: 9, top: 9, maxWidth: '78%', borderRadius: 7, paddingHorizontal: 7, paddingVertical: 5 },
   diversifiedBadgeText: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.15 },

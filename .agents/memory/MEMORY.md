@@ -3,3 +3,4 @@
 - [Expo tunnel fallback](expo-tunnel-fallback.md) — keep mobile preview usable with a LAN fallback when the Expo tunnel service disconnects.
 - [Expo font loading](expo-font-loading.md) — never let web preview remain on the branded splash indefinitely when font loading stalls.
 - [Offline calendar sync](offline-calendar-sync.md) — use device-local queueing with reachability polling when adding native connectivity dependencies is unnecessary.
+- [Floating action visibility](floating-action-visibility.md) — hide Mini Games and Live Chat while scrolling, then restore them after scrolling settles.

@@ -9,6 +9,7 @@ import { coffees, type Coffee } from '@/data/coffees';
 import { useColors } from '@/hooks/useColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePathname } from 'expo-router';
+import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 
 const filters = ['Semua', 'Cerah', 'Buah', 'Harian', 'Nyaman'];
 export default function CatalogScreen() {
@@ -17,6 +18,7 @@ export default function CatalogScreen() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
+  const { notifyScroll } = useScrollVisibility();
   const listRef = useRef<FlatList<Coffee>>(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
@@ -33,6 +35,8 @@ export default function CatalogScreen() {
       keyExtractor={(item) => item.id}
       contentContainerStyle={[styles.content, { paddingBottom: bottomMenuPadding }]}
       columnWrapperStyle={styles.row}
+      onScroll={notifyScroll}
+      scrollEventThrottle={16}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
         <View style={styles.headerContent}>

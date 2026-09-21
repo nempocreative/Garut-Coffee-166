@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { BrandIcon } from '@/components/BrandIcon';
+import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
 
 const INSTAGRAM_URL = 'https://instagram.com/kopigarut';
@@ -43,6 +44,7 @@ export function FloatingSupportButton() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const pathname = usePathname();
+  const { isScrolling } = useScrollVisibility();
   const [open, setOpen] = useState(false);
   const beanLift = useSharedValue(0);
   const beanTilt = useSharedValue(0);
@@ -67,6 +69,10 @@ export function FloatingSupportButton() {
     );
   }, [beanLift, beanTilt]);
 
+  useEffect(() => {
+    if (isScrolling && open) setOpen(false);
+  }, [isScrolling, open]);
+
   const beanAnimation = useAnimatedStyle(() => ({
     transform: [
       { translateY: beanLift.value },
@@ -74,7 +80,7 @@ export function FloatingSupportButton() {
     ],
   }));
 
-  if (pathname === '/login' || pathname === '/support') return null;
+  if (isScrolling || pathname === '/login' || pathname === '/support') return null;
 
   const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
