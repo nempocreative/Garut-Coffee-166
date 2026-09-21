@@ -22,7 +22,8 @@ type FallingBean = {
 };
 
 const BEAN_SIZE = 52;
-const BASKET_WIDTH = 132;
+const BASKET_WIDTH = 148;
+const BASKET_HEIGHT = 132;
 const FALL_END = 154;
 
 function FallingCoffeeBean({ bean, onReachBottom }: { bean: FallingBean; onReachBottom: (left: number) => void }) {
@@ -314,8 +315,8 @@ const styles = StyleSheet.create({
   beanImage: { width: 38, height: 38 },
   startHint: { position: 'absolute', top: 58, left: 30, right: 30, minHeight: 58, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
   startHintText: { fontFamily: 'Manrope_600SemiBold', fontSize: 11 },
-  basket: { position: 'absolute', bottom: 0, width: BASKET_WIDTH, height: 116, alignItems: 'center', justifyContent: 'center' },
-  basketImage: { width: BASKET_WIDTH, height: 116 },
+  basket: { position: 'absolute', bottom: 0, width: BASKET_WIDTH, height: BASKET_HEIGHT, alignItems: 'center', justifyContent: 'center' },
+  basketImage: { width: BASKET_WIDTH, height: BASKET_HEIGHT },
   scoreRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   scoreLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1.1 },
   scoreValue: { fontFamily: 'Manrope_700Bold', fontSize: 18 },
