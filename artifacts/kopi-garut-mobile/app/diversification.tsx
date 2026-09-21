@@ -7,7 +7,7 @@ import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
 import { FilterChip, ProgramSectionTitle } from '@/components/ProgramUI';
 import { useColors } from '@/hooks/useColors';
 
-type DiversificationCategory = 'Semua' | 'Olahan kopi' | 'Merchandise';
+type DiversificationCategory = 'Semua' | 'Olahan kopi' | 'Aroma kopi' | 'Merchandise';
 
 type DiversifiedProduct = {
   id: string;
@@ -20,9 +20,39 @@ type DiversifiedProduct = {
   badge: string;
 };
 
-const categories: DiversificationCategory[] = ['Semua', 'Olahan kopi', 'Merchandise'];
+const categories: DiversificationCategory[] = ['Semua', 'Olahan kopi', 'Aroma kopi', 'Merchandise'];
 
 const products: DiversifiedProduct[] = [
+  {
+    id: 'essential-oil-kopi',
+    category: 'Aroma kopi',
+    icon: 'trending-up',
+    title: 'Essential oil kopi',
+    price: 'Rp 55.000',
+    status: 'Aroma kopi premium',
+    image: require('../assets/images/origin-coffee.jpg'),
+    badge: 'Produk baru',
+  },
+  {
+    id: 'pewangi-sepatu-kopi',
+    category: 'Aroma kopi',
+    icon: 'package',
+    title: 'Pewangi sepatu kopi',
+    price: 'Rp 32.000',
+    status: 'Aroma tahan lama',
+    image: require('../assets/images/coffee-beans-natural.png'),
+    badge: 'Upcycle ampas',
+  },
+  {
+    id: 'minyak-aroma-kopi',
+    category: 'Aroma kopi',
+    icon: 'repeat',
+    title: 'Minyak aroma kopi',
+    price: 'Rp 42.000',
+    status: 'Blend lokal Garut',
+    image: require('../assets/images/hero-coffee.jpg'),
+    badge: 'Produk UMKM',
+  },
   {
     id: 'coffee-concentrate',
     category: 'Olahan kopi',
@@ -111,7 +141,7 @@ export default function DiversificationScreen() {
         </View>
         <View style={styles.heroStats}>
           <View style={styles.heroStat}>
-            <Text style={[styles.heroValue, { color: colors.primaryForeground }]}>2</Text>
+            <Text style={[styles.heroValue, { color: colors.primaryForeground }]}>{categories.length - 1}</Text>
             <Text style={[styles.heroLabel, { color: colors.primaryForeground }]}>kategori</Text>
           </View>
           <View style={[styles.heroDivider, { backgroundColor: colors.primaryForeground }]} />
