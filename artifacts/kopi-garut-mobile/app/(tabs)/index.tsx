@@ -650,7 +650,7 @@ export default function HomeScreen() {
                     style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
                   >
                     <HomeMenuIcon icon={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
-                    <Text numberOfLines={1} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
+                    <Text numberOfLines={2} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
                   </Pressable>
                 ))}
               </View>
@@ -1114,7 +1114,7 @@ const styles = StyleSheet.create({
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
-  categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, fontWeight: '600' },
+  categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12, transform: [{ translateY: -8 }] },
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },

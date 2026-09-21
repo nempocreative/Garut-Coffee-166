@@ -463,21 +463,25 @@ export default function ProgramScreen() {
           ))}
         </View>
       )}
-      <ProgramSectionTitle eyebrow="SEMUA LAYANAN" title="Jelajahi program" />
-      {session ? <View style={styles.linkList}>
-        {visibleLinks.map((link, index) => (
-          <Animated.View key={link.id} entering={FadeInDown.delay(100 + index * 45).duration(420)} style={styles.serviceColumn}>
-            <Pressable testID={`program-link-${link.id}`} accessibilityRole="button" accessibilityLabel={link.title} onPress={() => router.push(link.route as never)} style={({ pressed }) => [styles.serviceTile, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
-              <View style={styles.serviceTop}>
-                <View style={[styles.serviceIcon, { backgroundColor: colors.secondary }]}><BrandIcon name={link.icon} size={18} color={colors.primary} /></View>
-                <BrandIcon name="arrow-up-right" size={15} color={colors.primary} />
-              </View>
-              <Text numberOfLines={2} style={[styles.serviceTitle, { color: colors.foreground }]}>{link.title}</Text>
-              <View style={[styles.serviceNumber, { backgroundColor: colors.muted }]}><Text style={[styles.serviceNumberText, { color: colors.mutedForeground }]}>{String(index + 1).padStart(2, '0')}</Text></View>
-            </Pressable>
-          </Animated.View>
-        ))}
-      </View> : <Text style={[styles.hiddenHint, { color: colors.mutedForeground }]}>Layanan program akan muncul setelah kamu masuk.</Text>}
+      {session && (
+        <>
+          <ProgramSectionTitle eyebrow="SEMUA LAYANAN" title="Jelajahi program" />
+          <View style={styles.linkList}>
+            {visibleLinks.map((link, index) => (
+              <Animated.View key={link.id} entering={FadeInDown.delay(100 + index * 45).duration(420)} style={styles.serviceColumn}>
+                <Pressable testID={`program-link-${link.id}`} accessibilityRole="button" accessibilityLabel={link.title} onPress={() => router.push(link.route as never)} style={({ pressed }) => [styles.serviceTile, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}>
+                  <View style={styles.serviceTop}>
+                    <View style={[styles.serviceIcon, { backgroundColor: colors.secondary }]}><BrandIcon name={link.icon} size={18} color={colors.primary} /></View>
+                    <BrandIcon name="arrow-up-right" size={15} color={colors.primary} />
+                  </View>
+                  <Text numberOfLines={2} style={[styles.serviceTitle, { color: colors.foreground }]}>{link.title}</Text>
+                  <View style={[styles.serviceNumber, { backgroundColor: colors.muted }]}><Text style={[styles.serviceNumberText, { color: colors.mutedForeground }]}>{String(index + 1).padStart(2, '0')}</Text></View>
+                </Pressable>
+              </Animated.View>
+            ))}
+          </View>
+        </>
+      )}
     </Screen>
   );
 }
