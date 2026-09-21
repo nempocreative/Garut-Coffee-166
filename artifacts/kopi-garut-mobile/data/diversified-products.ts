@@ -82,7 +82,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Sabun scrub kopi',
     price: 'Rp 32.000',
     status: 'Produk UMKM',
-    image: require('../assets/images/coffee-beans-natural.png'),
+    image: require('../assets/images/coffee-scrub.png'),
     badge: 'Terbuat dari ampas',
   },
   {
