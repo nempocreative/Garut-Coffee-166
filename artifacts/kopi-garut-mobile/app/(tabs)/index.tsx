@@ -18,7 +18,7 @@ const promoSlides = [
   {
     id: 'garut-promo',
     route: '/catalog' as const,
-    image: require('../../assets/images/kopi-garut-panen-rasa-banner.png'),
+    image: require('../../assets/images/kopi-garut-panen-rasa-banner.webp'),
     eyebrow: 'KOPI GARUT',
     title: 'Panen rasa dari Garut',
     description: 'Temukan kopi spesialti dari lereng pilihan.',
@@ -27,7 +27,7 @@ const promoSlides = [
   {
     id: 'traceability',
     route: '/farmers' as const,
-    image: require('../../assets/images/kopi-garut-kenali-kebun-pilihan-banner.png'),
+    image: require('../../assets/images/kopi-garut-kenali-kebun-pilihan-banner.webp'),
     eyebrow: 'ASAL YANG TERJAGA',
     title: 'Kenali kebun pilihan',
     description: 'Ikuti cerita kopi dari kebun sampai cangkir.',
@@ -36,7 +36,7 @@ const promoSlides = [
   {
     id: 'coffee-tour',
     route: '/tourism' as const,
-    image: require('../../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.png'),
+    image: require('../../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.webp'),
     eyebrow: 'PENGALAMAN KOPI',
     title: 'Seduh sambil menjelajah',
     description: 'Nikmati perjalanan rasa di dataran tinggi Garut.',
@@ -45,7 +45,7 @@ const promoSlides = [
   {
     id: 'coffee-regions',
     route: '/regions' as const,
-    image: require('../../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.png'),
+    image: require('../../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.webp'),
     eyebrow: 'WILAYAH KOPI',
     title: 'Dari lereng ke cangkir',
     description: 'Temukan karakter unik dari setiap wilayah.',
@@ -54,7 +54,7 @@ const promoSlides = [
   {
     id: 'coffee-collective',
     route: '/collective' as const,
-    image: require('../../assets/images/kopi-garut-banyak-orang-banner.png'),
+    image: require('../../assets/images/kopi-garut-banyak-orang-banner.webp'),
     eyebrow: 'TUMBUH BERSAMA',
     title: 'Kopi Garut untuk banyak orang',
     description: 'Satu ekosistem untuk petani dan penikmat kopi.',
@@ -63,7 +63,7 @@ const promoSlides = [
   {
     id: 'coffee-partnership',
     route: '/partnership' as const,
-    image: require('../../assets/images/kopi-garut-bangun-rantai-kopi-banner.png'),
+    image: require('../../assets/images/kopi-garut-bangun-rantai-kopi-banner.webp'),
     eyebrow: 'JADI MITRA',
     title: 'Bangun rantai kopi bersama',
     description: 'Temukan peluang kolaborasi dengan ekosistem Garut.',
@@ -515,12 +515,14 @@ export default function HomeScreen() {
   const promoHeight = Math.round(Math.min(208, Math.max(174, (width - 40) * 0.64)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [displayedSlide, setDisplayedSlide] = useState(0);
   const [activeVoucherSlide, setActiveVoucherSlide] = useState(0);
   const [activeCategoryPage, setActiveCategoryPage] = useState(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const storyRef = useRef<ScrollView>(null);
 
-  const currentSlide = promoSlides[activeSlide];
+  const currentSlide = promoSlides[displayedSlide];
+  const pendingSlide = promoSlides[activeSlide];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -573,7 +575,7 @@ export default function HomeScreen() {
     </Pressable>
     <Animated.View entering={FadeInDown.duration(550)} style={[styles.heroSection, { height: promoHeight }]}>
       <Animated.View
-        key={`promo-scene-${activeSlide}`}
+        key={`promo-scene-${displayedSlide}`}
         entering={SlideInRight.duration(680)}
         exiting={SlideOutLeft.duration(680)}
         style={[styles.promoScene, { height: promoHeight }]}
@@ -591,9 +593,20 @@ export default function HomeScreen() {
               source={currentSlide.image}
               contentFit="cover"
               contentPosition="center"
+              cachePolicy="memory-disk"
               transition={220}
               style={styles.promoImage}
             />
+            {activeSlide !== displayedSlide && (
+              <ExpoImage
+                source={pendingSlide.image}
+                contentFit="cover"
+                contentPosition="center"
+                cachePolicy="memory-disk"
+                onLoad={() => setDisplayedSlide(activeSlide)}
+                style={[styles.promoImage, styles.promoPreloadImage]}
+              />
+            )}
             <LinearGradient
               colors={[`${colors.foreground}E6`, `${colors.foreground}52`, `${colors.foreground}12`]}
               locations={[0, 0.58, 1]}
@@ -1195,6 +1208,7 @@ const styles = StyleSheet.create({
   promoGallery: { position: 'relative', overflow: 'hidden' },
   promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
   promoImage: { ...StyleSheet.absoluteFill },
+  promoPreloadImage: { opacity: 0 },
   promoShade: { ...StyleSheet.absoluteFill },
   promoCopy: { ...StyleSheet.absoluteFill, justifyContent: 'flex-end', alignItems: 'flex-start', padding: 18, paddingBottom: 28, gap: 4 },
   promoEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.35 },

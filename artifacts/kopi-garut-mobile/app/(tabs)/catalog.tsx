@@ -1,26 +1,33 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { BrandIcon } from '@/components/BrandIcon';
 import { CoffeeCard, Header, SearchBar, useBottomMenuPadding } from '@/components/AppUI';
-import { coffees } from '@/data/coffees';
+import { coffees, type Coffee } from '@/data/coffees';
 import { useColors } from '@/hooks/useColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { usePathname } from 'expo-router';
 
 const filters = ['Semua', 'Cerah', 'Buah', 'Harian', 'Nyaman'];
 export default function CatalogScreen() {
   const colors = useColors();
   const router = useRouter();
+  const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
+  const listRef = useRef<FlatList<Coffee>>(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
   const visible = useMemo(() => coffees.filter((coffee) => (filter === 'Semua' || coffee.category === filter) && `${coffee.name} ${coffee.origin} ${coffee.tastingNotes.join(' ')}`.toLowerCase().includes(query.toLowerCase())), [filter, query]);
   const featuredCoffee = coffees[0];
+  useEffect(() => {
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [pathname]);
   return <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: Platform.OS === 'web' ? 67 : insets.top }}>
     <FlatList
+      ref={listRef}
       data={visible}
       numColumns={2}
       keyExtractor={(item) => item.id}
@@ -97,7 +104,7 @@ export default function CatalogScreen() {
 const styles = StyleSheet.create({
   content: { paddingHorizontal: 20, paddingBottom: 120, paddingTop: 16, gap: 14 },
   headerContent: { gap: 14 },
-  row: { gap: 12, alignItems: 'flex-start' },
+  row: { gap: 12, alignItems: 'stretch' },
   featuredCard: { height: 184, borderRadius: 24, overflow: 'hidden', position: 'relative', shadowOffset: { width: 0, height: 7 }, shadowOpacity: 0.16, shadowRadius: 12, elevation: 4 },
   featuredImage: { ...StyleSheet.absoluteFill, width: '100%', height: '100%' },
   featuredCopy: { flex: 1, justifyContent: 'flex-end', padding: 17, gap: 6 },

@@ -1,7 +1,7 @@
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,9 +20,14 @@ export function useBottomMenuPadding(gap = 32) {
 export function Screen({ children, scroll = true, style, bottomGap = 32 }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number }) {
   const { background } = useColors();
   const insets = useSafeAreaInsets();
+  const pathname = usePathname();
+  const scrollRef = useRef<ScrollView>(null);
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const contentBottomPadding = useBottomMenuPadding(bottomGap);
-  return scroll ? <ScrollView style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ y: 0, animated: false });
+  }, [pathname]);
+  return scroll ? <ScrollView ref={scrollRef} style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
 }
 
 export function Header({ title, cart = true, notifications = false, back = false, extendOrnament = false }: { title: string; subtitle?: string; cart?: boolean; notifications?: boolean; back?: boolean; extendOrnament?: boolean }) {
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
   badgeText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
   cardBody: { flexDirection: 'row', padding: 14, paddingBottom: 10, gap: 8 },
   cardInfo: { flex: 1 },
-  gridCardBody: { minHeight: 124, padding: 11, paddingBottom: 8, gap: 4 },
+  gridCardBody: { flex: 1, minHeight: 124, padding: 11, paddingBottom: 8, gap: 4 },
   gridCardTitle: { lineHeight: 20, minHeight: 40 },
   gridCardTagline: { lineHeight: 16, minHeight: 32, marginTop: 3 },
   gridPrice: { marginTop: 8 },
