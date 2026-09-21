@@ -1174,42 +1174,67 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </View>
-    <View style={styles.homeFooter}>
+    <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
       <ExpoImage
         source={require('../../assets/images/garut-mountains.png')}
         contentFit="contain"
         style={[styles.footerMountain, { tintColor: colors.foreground }]}
       />
       <Text style={[styles.footerCaption, { color: colors.mutedForeground }]}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
-      <View style={styles.footerContactRow}>
+      <View style={[styles.footerContactPanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
+        <View style={styles.footerSocialRow}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Buka Instagram Kopi Garut"
           onPress={() => void Linking.openURL('https://instagram.com/kopigarut')}
-          style={({ pressed }) => [styles.footerContact, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
+          style={({ pressed }) => [styles.footerSocialItem, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
         >
           <Ionicons name="logo-instagram" size={17} color={colors.primary} />
-          <Text style={[styles.footerContactText, { color: colors.foreground }]}>@kopigarut</Text>
+          <Text style={[styles.footerSocialText, { color: colors.foreground }]}>@kopigarut</Text>
         </Pressable>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Buka TikTok Kopi Garut"
           onPress={() => void Linking.openURL('https://tiktok.com/@kopigarut')}
-          style={({ pressed }) => [styles.footerContact, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
+          style={({ pressed }) => [styles.footerSocialItem, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
         >
           <Ionicons name="logo-tiktok" size={17} color={colors.primary} />
-          <Text style={[styles.footerContactText, { color: colors.foreground }]}>@kopigarut</Text>
+          <Text style={[styles.footerSocialText, { color: colors.foreground }]}>@kopigarut</Text>
+        </Pressable>
+        </View>
+        <View style={[styles.footerDivider, { backgroundColor: colors.border }]} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Hubungi WhatsApp Kopi Garut"
+          onPress={() => void Linking.openURL('https://wa.me/6285174411616')}
+          style={({ pressed }) => [styles.footerDirectContact, { opacity: pressed ? 0.7 : 1 }]}
+        >
+          <View style={[styles.footerDirectIcon, { backgroundColor: colors.secondary }]}>
+            <Ionicons name="logo-whatsapp" size={17} color={colors.primary} />
+          </View>
+          <View style={styles.footerDirectCopy}>
+            <Text style={[styles.footerDirectLabel, { color: colors.mutedForeground }]}>WHATSAPP</Text>
+            <Text style={[styles.footerDirectValue, { color: colors.foreground }]}>085174411616</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <View style={[styles.footerDivider, { backgroundColor: colors.border }]} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Kirim email ke cs@kopigarut.id"
+          onPress={() => void Linking.openURL('mailto:cs@kopigarut.id')}
+          style={({ pressed }) => [styles.footerDirectContact, { opacity: pressed ? 0.7 : 1 }]}
+        >
+          <View style={[styles.footerDirectIcon, { backgroundColor: colors.secondary }]}>
+            <Ionicons name="mail-outline" size={17} color={colors.primary} />
+          </View>
+          <View style={styles.footerDirectCopy}>
+            <Text style={[styles.footerDirectLabel, { color: colors.mutedForeground }]}>EMAIL</Text>
+            <Text style={[styles.footerDirectValue, { color: colors.foreground }]}>cs@kopigarut.id</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={16} color={colors.mutedForeground} />
         </Pressable>
       </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Kirim email ke cs@kopigarut.id"
-        onPress={() => void Linking.openURL('mailto:cs@kopigarut.id')}
-        style={({ pressed }) => [styles.footerEmail, { opacity: pressed ? 0.7 : 1 }]}
-      >
-        <Ionicons name="mail-outline" size={15} color={colors.primary} />
-        <Text style={[styles.footerEmailText, { color: colors.primary }]}>cs@kopigarut.id</Text>
-      </Pressable>
     </View>
   </Screen>;
 }
@@ -1447,13 +1472,18 @@ const styles = StyleSheet.create({
   tourType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1, textTransform: 'uppercase' },
   tourTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
   tourMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  homeFooter: { alignItems: 'center', gap: 1, marginTop: -8, paddingTop: 0, paddingBottom: 4 },
-  footerMountain: { width: '100%', height: 68, opacity: 0.42 },
+  homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 14, paddingTop: 18, paddingBottom: 24, borderTopWidth: 1 },
+  footerMountain: { width: '94%', height: 62, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  footerContactRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 9 },
-  footerContact: { minHeight: 32, borderRadius: 16, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  footerContactText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
-  footerEmail: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 7, paddingVertical: 4, paddingHorizontal: 8 },
-  footerEmailText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 0.15 },
+  footerContactPanel: { width: '100%', borderWidth: 1, borderRadius: 18, overflow: 'hidden', marginTop: 12 },
+  footerSocialRow: { flexDirection: 'row', gap: 8, padding: 10 },
+  footerSocialItem: { flex: 1, minHeight: 38, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  footerSocialText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
+  footerDivider: { width: '100%', height: 1 },
+  footerDirectContact: { minHeight: 56, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  footerDirectIcon: { width: 34, height: 34, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  footerDirectCopy: { flex: 1, gap: 2 },
+  footerDirectLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.2 },
+  footerDirectValue: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
   storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });

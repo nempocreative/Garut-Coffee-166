@@ -45,9 +45,9 @@ export default function LoginScreen() {
       >
         <View style={[styles.heroGlow, { backgroundColor: colors.accent }]} />
         <View style={styles.heroCopy}>
-          <View style={[styles.heroKicker, { backgroundColor: colors.primaryForeground }]}>
+          <View style={styles.heroKicker}>
             <BrandIcon name="coffee" size={13} color={colors.accent} />
-            <Text style={[styles.heroKickerText, { color: colors.primaryForeground }]}>EKOSISTEM KOPI GARUT</Text>
+            <Text style={[styles.heroKickerText, { color: colors.accent }]}>EKOSISTEM KOPI GARUT</Text>
           </View>
           <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Satu langkah untuk mengirim usulan.' : 'Satu ruang untuk cerita kopi.'}</Text>
           <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Pilih peran agar tim bisa menindaklanjuti petani, lahan, atau kebutuhan dukungan yang kamu sampaikan.' : 'Masuk untuk menemukan asal, rasa, dan orang-orang di balik setiap cangkir.'}</Text>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   hero: { minHeight: 184, borderRadius: 24, padding: 19, overflow: 'hidden', flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
   heroGlow: { position: 'absolute', width: 150, height: 150, borderRadius: 75, right: -45, top: -52, opacity: 0.24 },
   heroCopy: { flex: 1, gap: 9, zIndex: 2 },
-  heroKicker: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 20, paddingHorizontal: 9, paddingVertical: 6, opacity: 0.96 },
+  heroKicker: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 1, opacity: 0.96 },
   heroKickerText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.05 },
   heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 28, letterSpacing: -0.6, maxWidth: 220 },
   heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 17, opacity: 0.78, maxWidth: 225 },
