@@ -50,7 +50,10 @@ export function FloatingCoffeeGameButton() {
   const pointLabel = points > 999 ? '999+' : String(points);
 
   return (
-    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+    <View
+      pointerEvents="box-none"
+      style={[StyleSheet.absoluteFill, Platform.OS === 'web' ? ({ position: 'fixed' } as any) : null]}
+    >
       <Pressable
         testID="floating-coffee-game-button"
         accessibilityRole="button"
@@ -95,12 +98,12 @@ const styles = StyleSheet.create({
     shadowRadius: 9,
   },
   basketAnimationContainer: {
-    width: 36,
-    height: 36,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  gamesCartImage: { width: 36, height: 36 },
+  gamesCartImage: { width: 48, height: 48 },
   pointBadge: {
     position: 'absolute',
     right: -4,
