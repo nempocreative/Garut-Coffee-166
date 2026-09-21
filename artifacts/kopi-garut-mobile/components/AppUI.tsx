@@ -5,7 +5,6 @@ import React, { useEffect, useRef } from 'react';
 import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
 import { useStore } from '@/context/StoreContext';
 import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
@@ -45,17 +44,8 @@ export function Header({ title, cart = true, notifications = false, back = false
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   return <View style={styles.header}>
     <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
-      <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
-        <Defs>
-          <SvgLinearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <Stop offset="0%" stopColor={colors.foreground} />
-            <Stop offset="100%" stopColor={colors.secondaryForeground} />
-          </SvgLinearGradient>
-        </Defs>
-        <Path d={extendOrnament ? "M0 0h400v151c-43-12-77-12-116 1-46 16-77 20-124 12-57-10-107-4-160 13V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" />
-        <Path d={extendOrnament ? "M0 0h400v66c-48-9-86-4-123 9-44 16-75 18-119 9C100 74 51 77 0 93V0Z" : "M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z"} fill={colors.primary} opacity={0.18} />
-        <Path d={extendOrnament ? "M0 0h400v108c-45-10-81-8-119 5-45 15-78 17-123 9-56-10-106-5-158 13V0Z" : "M0 0h400v78c-42-9-77-7-114 6-45 16-77 19-123 12C99 86 51 88 0 103V0Z"} fill={colors.accent} opacity={0.1} />
-      </Svg>
+      <Image source={require('../assets/images/header-garut-pattern.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.foreground, opacity: extendOrnament ? 0.28 : 0.38 }]} />
     </View>
     <View style={styles.headerContent}>
       <View style={styles.headerTop}>
@@ -114,7 +104,7 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
-  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92 },
+  headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },
   headerContent: { position: 'relative', zIndex: 3, gap: 14 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46, position: 'relative', zIndex: 4 },
