@@ -41,6 +41,7 @@ const colors = {
     // Accent highlights (badges, selected items, focus rings)
     accent: '#D3A15F',
     accentForeground: '#3D2C26',
+    brandHighlight: '#FFD84D',
 
     // Destructive actions (delete, error states)
     destructive: '#B84E45',

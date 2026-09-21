@@ -72,7 +72,7 @@ export function Header({ title, cart = true, notifications = false, back = false
     </View>
     <View style={styles.headerContent}>
       <View style={styles.headerTop}>
-        {showBack ? <Pressable testID="header-back" accessibilityRole="button" accessibilityLabel="Kembali ke halaman sebelumnya" onPress={() => router.canGoBack() ? router.back() : router.replace('/')} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><View style={[styles.logoFrame, { backgroundColor: colors.card, borderColor: colors.primaryForeground }]}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={styles.logo} /></View><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.accent }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
+        {showBack ? <Pressable testID="header-back" accessibilityRole="button" accessibilityLabel="Kembali ke halaman sebelumnya" onPress={() => router.canGoBack() ? router.back() : router.replace('/')} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><View style={[styles.logoFrame, { backgroundColor: colors.card, borderColor: colors.primaryForeground }]}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={styles.logo} /></View><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Kopi</Text><Text style={[styles.brandName, { color: colors.brandHighlight }]}>Garut</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>KOPI SPESIALTI · GARUT</Text></View></View>}
         <View style={styles.headerActions}>
           {showBack && <Pressable testID="header-home" accessibilityRole="button" accessibilityLabel="Kembali ke Beranda" onPress={() => router.replace('/')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="home" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
           {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
@@ -82,7 +82,7 @@ export function Header({ title, cart = true, notifications = false, back = false
       <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
           <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy]}>
-            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={[{ color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>{isHomeGreeting ? <>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati</Text>{'\n'}<Text style={[{ color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
           </View>
         </View>
       </View>
@@ -141,10 +141,11 @@ const styles = StyleSheet.create({
   headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
-  homeHeaderCopy: { paddingLeft: 110 },
+  homeHeaderCopy: { paddingLeft: 132, paddingRight: 0 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
-  homeHeaderTitle: { fontSize: 25, lineHeight: 29, letterSpacing: -0.65 },
+  homeHeaderTitle: { fontSize: 20, lineHeight: 24, letterSpacing: -0.5, textAlign: 'right' },
+  homeGreetingHighlight: { fontStyle: 'italic', fontWeight: '800' },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   contextDivider: { width: 18, height: 1 },
   locationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.7 },

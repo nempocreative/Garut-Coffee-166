@@ -618,7 +618,7 @@ export default function HomeScreen() {
               style={styles.promoShade}
             />
             <View style={styles.promoCopy}>
-              <Text style={[styles.promoEyebrow, { color: colors.accent }]}>{currentSlide.eyebrow}</Text>
+              <Text style={[styles.promoEyebrow, { color: colors.brandHighlight }]}>{currentSlide.eyebrow}</Text>
               <Text numberOfLines={2} style={[styles.promoTitle, { color: colors.card }]}>{currentSlide.title}</Text>
               <Text numberOfLines={1} style={[styles.promoDescription, { color: colors.card }]}>{currentSlide.description}</Text>
               <Text style={[styles.promoCta, { color: colors.card }]}>{currentSlide.cta} <Text style={{ color: colors.accent }}>›</Text></Text>
