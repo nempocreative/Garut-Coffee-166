@@ -21,7 +21,7 @@ export default function LoginScreen() {
       : '/program';
   const isSubmittingUsulan = returnTo === '/complaints';
   const isAccountLogin = returnTo === '/profile';
-  const [selectedRole, setSelectedRole] = useState(session?.id ?? 'pengguna');
+  const [selectedRole, setSelectedRole] = useState(session?.id ?? (isAccountLogin ? 'petani' : 'pengguna'));
   const selectedProfile = roleProfiles.find((profile) => profile.id === selectedRole) ?? roleProfiles[0];
 
   const submit = async () => {
@@ -33,7 +33,7 @@ export default function LoginScreen() {
     <Screen>
       <Header
         title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : isAccountLogin ? 'Masuk ke akun' : session ? 'Ganti akun' : 'Masuk ke Kopi Garut'}
-        subtitle={isAccountLogin ? 'AKUN PEMBELI' : 'AKSES PROGRAM'}
+        subtitle={isAccountLogin ? 'AKUN PETANI' : 'AKSES PROGRAM'}
         cart={false}
         back
       />

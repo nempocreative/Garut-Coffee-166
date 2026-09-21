@@ -4,26 +4,39 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
 import { ThreeDNavIcon, ThreeDNavIconName } from '@/components/BrandIcon';
 import { useColors } from '@/hooks/useColors';
 
 type BottomMenuItem = {
   label: string;
-  icon: ThreeDNavIconName;
+  icon: ThreeDNavIconName | 'farmer';
   route: '/' | '/catalog' | '/traceability' | '/orders' | '/profile';
   matches: (pathname: string) => boolean;
 };
 
 const menuItems: BottomMenuItem[] = [
   { label: 'Beranda', icon: 'home', route: '/', matches: (pathname) => pathname === '/' || pathname === '/index' || pathname.startsWith('/(tabs)') && pathname.endsWith('/index') },
-  { label: 'Jelajah', icon: 'grid', route: '/catalog', matches: (pathname) => pathname === '/catalog' || pathname.startsWith('/product') || pathname === '/favorites' },
+  { label: 'Jelajah', icon: 'coffee', route: '/catalog', matches: (pathname) => pathname === '/catalog' || pathname.startsWith('/product') || pathname === '/favorites' },
   { label: 'Jejak', icon: 'scan', route: '/traceability', matches: (pathname) => pathname === '/traceability' },
   { label: 'Pesanan', icon: 'package', route: '/orders', matches: (pathname) => pathname === '/orders' || pathname === '/cart' },
-  { label: 'Akun', icon: 'user', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
+  { label: 'Akun', icon: 'farmer', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
 ];
 
 function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean }) {
   const colors = useColors();
+
+  if (item.icon === 'farmer') {
+    return (
+      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+        <Image
+          source={require('../assets/images/farmer-menu.png')}
+          contentFit="contain"
+          style={styles.farmerIconImage}
+        />
+      </View>
+    );
+  }
 
   if (item.icon !== 'scan') {
     return (
@@ -161,6 +174,10 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  farmerIconImage: {
+    width: 38,
+    height: 38,
   },
   centerCircle: {
     width: 60,

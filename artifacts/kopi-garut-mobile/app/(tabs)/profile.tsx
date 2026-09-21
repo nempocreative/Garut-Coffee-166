@@ -31,13 +31,26 @@ export default function ProfileScreen() {
           end={{ x: 1, y: 1 }}
           style={styles.loginHero}
         >
-          <View style={[styles.loginIcon, { backgroundColor: colors.card }]}>
-            <BrandIcon name="user" size={23} color={colors.primary} />
+          <View style={styles.loginBrandRow}>
+            <View style={[styles.loginBrandMark, { backgroundColor: colors.card }]}>
+              <Image
+                source={require('../../assets/images/kopi-garut-logo.png')}
+                contentFit="contain"
+                style={styles.loginLogo}
+              />
+            </View>
+            <View>
+              <Text style={[styles.loginBrandName, { color: colors.card }]}>Kopi <Text style={{ color: colors.accent }}>Garut</Text></Text>
+              <Text style={[styles.loginBrandMeta, { color: colors.background }]}>RUANG PERSONAL</Text>
+            </View>
           </View>
-          <Text style={[styles.loginKicker, { color: colors.accent }]}>RUANG KOPIMU</Text>
-          <Text style={[styles.loginTitle, { color: colors.card }]}>Masuk untuk membuka ruangmu.</Text>
+          <View style={[styles.loginStatus, { backgroundColor: colors.primary }]}>
+            <View style={[styles.loginStatusDot, { backgroundColor: colors.accent }]} />
+            <Text style={[styles.loginStatusText, { color: colors.primaryForeground }]}>AKUN KOPI GARUT</Text>
+          </View>
+          <Text style={[styles.loginTitle, { color: colors.card }]}>Simpan ritual kopi pilihanmu.</Text>
           <Text style={[styles.loginText, { color: colors.background }]}>
-            Simpan kopi favorit, pantau pesanan, dan temukan cerita yang ingin kamu bawa pulang.
+            Satu ruang untuk kopi favorit, pesanan, dan cerita petani yang ingin kamu bawa pulang.
           </Text>
           <Pressable
             testID="profile-login"
@@ -47,19 +60,37 @@ export default function ProfileScreen() {
               { backgroundColor: colors.card, opacity: pressed ? 0.78 : 1 },
             ]}
           >
-            <Text style={[styles.loginButtonText, { color: colors.foreground }]}>Pilih akun</Text>
+            <Text style={[styles.loginButtonText, { color: colors.foreground }]}>Masuk ke ruangmu</Text>
             <BrandIcon name="arrow-up-right" size={16} color={colors.primary} />
           </Pressable>
+          <View style={[styles.loginFoot, { borderTopColor: colors.primaryForeground }]}>
+            <Text style={[styles.loginFootText, { color: colors.background }]}>PILIH PERAN YANG SESUAI</Text>
+            <Text style={[styles.loginFootValue, { color: colors.card }]}>Pembeli · Petani · Penyuluh</Text>
+          </View>
         </LinearGradient>
         <View style={[styles.guestNote, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
           <View style={[styles.guestNoteIcon, { backgroundColor: colors.card }]}>
-            <BrandIcon name="shield" size={17} color={colors.primary} />
+            <BrandIcon name="compass" size={17} color={colors.primary} />
           </View>
           <View style={styles.guestNoteCopy}>
-            <Text style={[styles.guestNoteTitle, { color: colors.foreground }]}>Tetap bisa menjelajah</Text>
+            <Text style={[styles.guestNoteTitle, { color: colors.foreground }]}>Jelajah tetap terbuka</Text>
             <Text style={[styles.noteText, { color: colors.mutedForeground }]}>
-              Katalog dan cerita Kopi Garut tetap terbuka tanpa masuk akun.
+              Temukan katalog, asal kopi, dan cerita petani tanpa harus masuk akun.
             </Text>
+          </View>
+        </View>
+        <View style={styles.guestBenefits}>
+          <View style={styles.guestBenefitsHeader}>
+            <View>
+              <Text style={[styles.sectionKicker, { color: colors.primary }]}>DI DALAM RUANGMU</Text>
+              <Text style={[styles.guestBenefitsTitle, { color: colors.foreground }]}>Lebih mudah setelah masuk</Text>
+            </View>
+            <BrandIcon name="coffee" size={21} color={colors.accent} />
+          </View>
+          <View style={styles.guestBenefitsRow}>
+            <GuestBenefit icon="heart" title="Simpan" detail="Kopi favorit" colors={colors} />
+            <GuestBenefit icon="package" title="Pantau" detail="Pesananmu" colors={colors} />
+            <GuestBenefit icon="users" title="Terhubung" detail="Program Garut" colors={colors} />
           </View>
         </View>
       </Screen>
@@ -1008,6 +1039,28 @@ function ProfileStat({ value, label, color }: { value: string; label: string; co
   );
 }
 
+function GuestBenefit({
+  icon,
+  title,
+  detail,
+  colors,
+}: {
+  icon: BrandIconName;
+  title: string;
+  detail: string;
+  colors: ReturnType<typeof useColors>;
+}) {
+  return (
+    <View style={[styles.guestBenefit, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      <View style={[styles.guestBenefitIcon, { backgroundColor: colors.secondary }]}>
+        <BrandIcon name={icon} size={16} color={colors.primary} />
+      </View>
+      <Text style={[styles.guestBenefitTitle, { color: colors.foreground }]}>{title}</Text>
+      <Text style={[styles.guestBenefitDetail, { color: colors.mutedForeground }]}>{detail}</Text>
+    </View>
+  );
+}
+
 function QuickAction({
   icon,
   title,
@@ -1290,17 +1343,34 @@ const buyerStyles = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-  loginHero: { borderRadius: 22, padding: 19, gap: 11, overflow: 'hidden' },
-  loginIcon: { width: 47, height: 47, borderRadius: 17, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
-  loginKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
-  loginTitle: { fontFamily: 'Manrope_700Bold', fontSize: 23, lineHeight: 28, fontWeight: '700', letterSpacing: -0.4 },
+  loginHero: { borderRadius: 24, padding: 18, gap: 11, overflow: 'hidden' },
+  loginBrandRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 4 },
+  loginBrandMark: { width: 47, height: 47, borderRadius: 16, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  loginLogo: { width: 40, height: 40 },
+  loginBrandName: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 19, fontWeight: '800', letterSpacing: -0.4 },
+  loginBrandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1.2, marginTop: 3, opacity: 0.72 },
+  loginStatus: { alignSelf: 'flex-start', borderRadius: 99, paddingHorizontal: 9, paddingVertical: 6, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  loginStatusDot: { width: 6, height: 6, borderRadius: 3 },
+  loginStatusText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.7 },
+  loginTitle: { fontFamily: 'Manrope_700Bold', fontSize: 24, lineHeight: 29, fontWeight: '700', letterSpacing: -0.55 },
   loginText: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 18, opacity: 0.86 },
-  loginButton: { alignSelf: 'flex-start', borderRadius: 13, paddingHorizontal: 13, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 2 },
+  loginButton: { minHeight: 47, borderRadius: 14, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 7, marginTop: 2 },
   loginButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
+  loginFoot: { borderTopWidth: 1, paddingTop: 10, marginTop: 2, gap: 3 },
+  loginFootText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.1, opacity: 0.66 },
+  loginFootValue: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, opacity: 0.9 },
   guestNote: { borderRadius: 17, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
   guestNoteIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   guestNoteCopy: { flex: 1, gap: 3 },
   guestNoteTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
+  guestBenefits: { gap: 11, marginTop: 3 },
+  guestBenefitsHeader: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 },
+  guestBenefitsTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 22, marginTop: 4, letterSpacing: -0.3 },
+  guestBenefitsRow: { flexDirection: 'row', gap: 8 },
+  guestBenefit: { flex: 1, minHeight: 99, borderRadius: 16, borderWidth: 1, padding: 10, gap: 7 },
+  guestBenefitIcon: { width: 32, height: 32, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  guestBenefitTitle: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '700' },
+  guestBenefitDetail: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 13 },
   profileHero: { borderRadius: 22, padding: 18, gap: 7, overflow: 'hidden' },
   profileTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 5 },
   avatar: { width: 52, height: 52, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },

@@ -215,7 +215,7 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
   );
 }
 
-export type ThreeDNavIconName = 'home' | 'grid' | 'package' | 'user' | 'scan' | 'bell' | 'shopping-cart';
+export type ThreeDNavIconName = 'home' | 'grid' | 'coffee' | 'package' | 'user' | 'scan' | 'bell' | 'shopping-cart';
 
 type ThreeDNavIconProps = {
   name: ThreeDNavIconName;
@@ -257,6 +257,18 @@ export function ThreeDNavIcon({
           <Path d="m3 4.5 7-2 5 2-7 2-5-2ZM16 8.5l8-2v7l-8 2v-7ZM3 17.5l7-2v7l-7 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={mainColor} />
           <Path d="m3 4.5 5 2v7l-5-2v-7ZM16 8.5l8-2v7l-8 2v-7ZM3 17.5l7-2v7l-7 2v-7ZM16 18.5l8-2v7l-8 2v-7Z" fill={lightColor} opacity={0.82} />
           <Path d="m10 2.5 5 2-7 2-5-2 7-2ZM24 6.5l-8 2 8-2ZM10 15.5l-7 2 7-2ZM24 16.5l-8 2 8-2Z" fill={accentColor} opacity={0.85} />
+        </>
+      )}
+      {name === 'coffee' && (
+        <>
+          <Path d="M5 9h15v7a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6V9Z" fill={shadowColor} />
+          <Path d="M4 7.5h15v7a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6v-7Z" fill={mainColor} />
+          <Path d="M19 10h1.5a3.5 3.5 0 0 1 0 7H19" fill="none" stroke={shadowColor} strokeWidth="2.4" strokeLinecap="round" />
+          <Path d="M19 8.5h1.5a3.5 3.5 0 0 1 0 7H19" fill="none" stroke={lightColor} strokeWidth="2.2" strokeLinecap="round" />
+          <Path d="M7 12h9v2.5a4.5 4.5 0 0 1-4.5 4.5h-1A4.5 4.5 0 0 1 7 14.5V12Z" fill={lightColor} opacity={0.72} />
+          <Path d="M8 4.5c-1.2-1.2.8-1.7 0-3M12 4.5c-1.2-1.2.8-1.7 0-3" fill="none" stroke={accentColor} strokeWidth="1.6" strokeLinecap="round" />
+          <Path d="M3 24h17" fill="none" stroke={shadowColor} strokeWidth="2.4" strokeLinecap="round" />
+          <Path d="M3 22.5h17" fill="none" stroke={mainColor} strokeWidth="2.2" strokeLinecap="round" />
         </>
       )}
       {name === 'package' && (

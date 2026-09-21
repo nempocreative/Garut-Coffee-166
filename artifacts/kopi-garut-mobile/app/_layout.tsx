@@ -20,6 +20,7 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
 import { AppLoading } from '@/components/AppLoading';
 import { BottomMenu } from '@/components/BottomMenu';
+import { FloatingSupportButton } from '@/components/FloatingSupportButton';
 
 // Expo Go runs on the phone, outside Replit's local proxy. Give generated API
 // requests the public development host instead of leaving them as relative URLs.
@@ -50,6 +51,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <BottomMenu />
+      <FloatingSupportButton />
     </View>
   );
 }

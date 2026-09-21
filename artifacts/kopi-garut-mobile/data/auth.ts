@@ -12,7 +12,7 @@ export const roleProfiles: RoleProfile[] = [
   {
     id: 'pengguna',
     name: 'Aruna Rahma',
-    label: 'Pengguna',
+    label: 'Pembeli',
     description: 'Jelajahi kopi, simpan favorit, dan kirim usulan dukungan.',
     initials: 'AR',
   },
