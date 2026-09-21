@@ -461,8 +461,14 @@ function EducatorProfileScreen() {
       <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>AKSES KERJA LAPANGAN</Text>
       <View style={educatorStyles.actionGrid}>
         <EducatorActionCard icon="map-pin" title="Dashboard penyuluh" detail="Catat kunjungan dan tindak lanjut" onPress={() => router.push('/extension-dashboard')} colors={colors} testID="educator-action-dashboard" />
+        <EducatorActionCard icon="users" title="Daftar petani binaan" detail="Cari petani berdasarkan wilayah" onPress={() => router.push('/extension-farmers')} colors={colors} testID="educator-action-farmers" />
+        <EducatorActionCard icon="calendar" title="Kunjungan lapangan" detail="Buat catatan dan status kunjungan" onPress={() => router.push('/extension-visits')} colors={colors} testID="educator-action-visits" />
+        <EducatorActionCard icon="users" title="Pelatihan & kehadiran" detail="Atur agenda dan daftar hadir" onPress={() => router.push('/extension-training')} colors={colors} testID="educator-action-training" />
+        <EducatorActionCard icon="bar-chart-2" title="Laporan pendampingan" detail="Rekap kerja dan kondisi wilayah" onPress={() => router.push('/extension-reports')} colors={colors} testID="educator-action-reports" />
+        <EducatorActionCard icon="map" title="Peta & skor kebun" detail="Pantau kondisi titik binaan" onPress={() => router.push('/extension-map')} colors={colors} testID="educator-action-map" />
+        <EducatorActionCard icon="alert-circle" title="Masalah & tindak lanjut" detail="Atur prioritas laporan kebun" onPress={() => router.push('/extension-issues')} colors={colors} testID="educator-action-issues" />
         <EducatorActionCard icon="coffee" title="Materi edukasi" detail="Bagikan panduan budidaya dan mutu" onPress={() => router.push('/documents')} colors={colors} testID="educator-action-materials" />
-        <EducatorActionCard icon="bar-chart-2" title="Laporan wilayah" detail="Baca perkembangan kelompok dampingan" onPress={() => router.push('/reports')} colors={colors} testID="educator-action-reports" />
+        <EducatorActionCard icon="bar-chart-2" title="Laporan wilayah" detail="Baca perkembangan kelompok dampingan" onPress={() => router.push('/reports')} colors={colors} testID="educator-action-region-reports" />
         <EducatorActionCard icon="send" title="Usulan dukungan" detail="Ajukan kebutuhan petani ke tim" onPress={() => router.push('/complaints')} colors={colors} testID="educator-action-support" />
       </View>
 

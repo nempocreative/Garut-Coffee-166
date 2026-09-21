@@ -62,7 +62,7 @@ export default function ExtensionDashboardScreen() {
       <ProgramIntro eyebrow="RUANG KERJA PENYULUH" title="Kunjungan yang berlanjut." description="Catat apa yang terlihat di kebun, ubah menjadi rekomendasi, lalu pastikan tindak lanjutnya kembali ke lapangan." />
       <View style={styles.metrics}>{extensionCases.map((item) => <MetricCard key={item.label} icon={item.icon} value={item.value} label={item.label} />)}</View>
       <View style={styles.quickGrid}>
-        <Pressable testID="extension-open-farmers" accessibilityRole="button" accessibilityLabel="Buka daftar petani binaan" onPress={() => router.push('/farmers')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+        <Pressable testID="extension-open-farmers" accessibilityRole="button" accessibilityLabel="Buka daftar petani binaan" onPress={() => router.push('/extension-farmers')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
           <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="users" size={18} color={colors.primary} /></View>
           <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Petani binaan</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Lihat profil dan wilayah</Text></View>
           <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
@@ -70,6 +70,31 @@ export default function ExtensionDashboardScreen() {
         <Pressable testID="extension-open-notifications" accessibilityRole="button" accessibilityLabel="Buka agenda dan pengingat" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
           <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="bell" size={18} color={colors.primary} /></View>
           <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Agenda & pengingat</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Pelatihan dan kunjungan</Text></View>
+          <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <Pressable testID="extension-open-visits" accessibilityRole="button" accessibilityLabel="Buka catatan kunjungan lapangan" onPress={() => router.push('/extension-visits')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+          <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="map-pin" size={18} color={colors.primary} /></View>
+          <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Kunjungan lapangan</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Catat temuan dan tindak lanjut</Text></View>
+          <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <Pressable testID="extension-open-training" accessibilityRole="button" accessibilityLabel="Buka pelatihan dan kehadiran" onPress={() => router.push('/extension-training')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+          <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="users" size={18} color={colors.primary} /></View>
+          <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Pelatihan & kehadiran</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Atur agenda dan daftar hadir</Text></View>
+          <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <Pressable testID="extension-open-reports" accessibilityRole="button" accessibilityLabel="Buka laporan pendampingan" onPress={() => router.push('/extension-reports')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+          <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="bar-chart-2" size={18} color={colors.primary} /></View>
+          <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Laporan pendampingan</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Rekap kerja dan kondisi wilayah</Text></View>
+          <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <Pressable testID="extension-open-map" accessibilityRole="button" accessibilityLabel="Buka peta dan skor kebun" onPress={() => router.push('/extension-map')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+          <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="map" size={18} color={colors.primary} /></View>
+          <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Peta & skor kebun</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Pantau kondisi titik binaan</Text></View>
+          <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
+        </Pressable>
+        <Pressable testID="extension-open-issues" accessibilityRole="button" accessibilityLabel="Buka masalah dan tindak lanjut" onPress={() => router.push('/extension-issues')} style={({ pressed }) => [styles.quickAction, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}>
+          <View style={[styles.quickIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="alert-circle" size={18} color={colors.primary} /></View>
+          <View style={styles.quickCopy}><Text style={[styles.quickTitle, { color: colors.foreground }]}>Masalah & tindak lanjut</Text><Text style={[styles.quickDetail, { color: colors.mutedForeground }]}>Atur prioritas laporan kebun</Text></View>
           <BrandIcon name="chevron-right" size={16} color={colors.mutedForeground} />
         </Pressable>
       </View>
@@ -80,7 +105,7 @@ export default function ExtensionDashboardScreen() {
         <InfoRow icon="check" label="Rekomendasi" value={extensionVisit.recommendation} />
         <InfoRow icon="calendar" label="Tindak lanjut" value={extensionVisit.followUp} detail={`Kunjungan berikutnya ${extensionVisit.nextVisit}`} last />
       </ProgramCard>
-      <ProgramSectionTitle eyebrow={`${farmIssues.length} LAPORAN MASUK`} title="Masalah kebun petani" />
+      <ProgramSectionTitle eyebrow={`${farmIssues.length} LAPORAN MASUK`} title="Masalah kebun petani" action="Lihat semua" onAction={() => router.push('/extension-issues')} />
       <View style={styles.filters}>
         {(['Semua', 'Menunggu arahan', 'Sudah ditinjau'] as const).map((item) => <FilterChip key={item} label={item} selected={issueFilter === item} onPress={() => setIssueFilter(item)} testID={`extension-issue-filter-${item.toLowerCase().replaceAll(' ', '-')}`} />)}
       </View>
