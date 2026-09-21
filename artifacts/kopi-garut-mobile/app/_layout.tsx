@@ -20,7 +20,9 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
 import { AppLoading } from '@/components/AppLoading';
 import { BottomMenu } from '@/components/BottomMenu';
+import { FloatingCoffeeGameButton } from '@/components/FloatingCoffeeGameButton';
 import { FloatingSupportButton } from '@/components/FloatingSupportButton';
+import { CoffeeGameProvider } from '@/context/CoffeeGameContext';
 
 // Expo Go runs on the phone, outside Replit's local proxy. Give generated API
 // requests the public development host instead of leaving them as relative URLs.
@@ -51,6 +53,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <BottomMenu />
+      <FloatingCoffeeGameButton />
       <FloatingSupportButton />
     </View>
   );
@@ -87,13 +90,15 @@ export default function RootLayout() {
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <StoreProvider>
-            <AuthProvider>
-              <GestureHandlerRootView style={{ flex: 1 }}>
-                <KeyboardProvider>
-                  <RootLayoutNav />
-                </KeyboardProvider>
-              </GestureHandlerRootView>
-            </AuthProvider>
+            <CoffeeGameProvider>
+              <AuthProvider>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <KeyboardProvider>
+                    <RootLayoutNav />
+                  </KeyboardProvider>
+                </GestureHandlerRootView>
+              </AuthProvider>
+            </CoffeeGameProvider>
           </StoreProvider>
         </QueryClientProvider>
       </ErrorBoundary>

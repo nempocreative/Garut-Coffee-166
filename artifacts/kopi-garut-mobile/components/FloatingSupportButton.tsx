@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
   floatingButton: {
     position: 'absolute',
     right: 18,
-    width: 64,
-    height: 64,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 10,
@@ -210,8 +210,8 @@ const styles = StyleSheet.create({
     zIndex: 30,
   },
   beanAnimationContainer: {
-    width: 64,
-    height: 64,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },

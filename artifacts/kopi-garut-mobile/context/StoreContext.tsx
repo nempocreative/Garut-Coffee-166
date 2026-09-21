@@ -13,7 +13,7 @@ type StoreValue = {
   addToCart: (id: string, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
-  placeOrder: (delivery: 'Standard' | 'Express') => Promise<void>;
+  placeOrder: (delivery: 'Standard' | 'Express', discount?: number) => Promise<void>;
 };
 
 const StoreContext = createContext<StoreValue | null>(null);
@@ -63,10 +63,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setCart((current) => quantity <= 0 ? current.filter((item) => item.coffeeId !== id) : current.map((item) => item.coffeeId === id ? { ...item, quantity } : item));
   }, []);
   const removeFromCart = useCallback((id: string) => setCart((current) => current.filter((item) => item.coffeeId !== id)), []);
-  const placeOrder = useCallback(async (delivery: 'Standard' | 'Express') => {
+  const placeOrder = useCallback(async (delivery: 'Standard' | 'Express', discount = 0) => {
     if (!cart.length) return;
     const multiplier = delivery === 'Express' ? 1.08 : 1;
-    const total = Math.round(cart.reduce((sum, item) => sum + getCartProductPrice(item.coffeeId) * item.quantity, 0) * multiplier);
+    const totalBeforeDiscount = Math.round(cart.reduce((sum, item) => sum + getCartProductPrice(item.coffeeId) * item.quantity, 0) * multiplier);
+    const total = Math.max(0, totalBeforeDiscount - discount);
     setOrders((current) => [{ id: `${Date.now()}`, items: cart, total, createdAt: new Date().toISOString(), status: 'Placed' }, ...current]);
     setCart([]);
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

@@ -4,13 +4,12 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Image } from 'expo-image';
 import { ThreeDNavIcon, ThreeDNavIconName } from '@/components/BrandIcon';
 import { useColors } from '@/hooks/useColors';
 
 type BottomMenuItem = {
   label: string;
-  icon: ThreeDNavIconName | 'farmer';
+  icon: ThreeDNavIconName;
   route: '/' | '/catalog' | '/traceability' | '/orders' | '/profile';
   matches: (pathname: string) => boolean;
 };
@@ -25,18 +24,6 @@ const menuItems: BottomMenuItem[] = [
 
 function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean }) {
   const colors = useColors();
-
-  if (item.icon === 'farmer') {
-    return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
-        <Image
-          source={require('../assets/images/farmer-menu.png')}
-          contentFit="contain"
-          style={styles.farmerIconImage}
-        />
-      </View>
-    );
-  }
 
   if (item.icon !== 'scan') {
     return (
@@ -174,10 +161,6 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  farmerIconImage: {
-    width: 38,
-    height: 38,
   },
   centerCircle: {
     width: 60,

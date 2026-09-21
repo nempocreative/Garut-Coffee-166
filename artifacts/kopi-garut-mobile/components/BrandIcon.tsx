@@ -215,7 +215,7 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
   );
 }
 
-export type ThreeDNavIconName = 'home' | 'grid' | 'coffee' | 'package' | 'user' | 'scan' | 'bell' | 'shopping-cart';
+export type ThreeDNavIconName = 'home' | 'grid' | 'coffee' | 'package' | 'user' | 'farmer' | 'scan' | 'bell' | 'shopping-cart';
 
 type ThreeDNavIconProps = {
   name: ThreeDNavIconName;
@@ -289,6 +289,21 @@ export function ThreeDNavIcon({
           <Path d="M3.5 24.5c.7-6.2 4.3-9.5 11.5-9.5s10.8 3.3 11.5 9.5Z" fill={mainColor} />
           <Path d="M15 15c5.3 0 9.1 2.4 10.7 6.8-3.1-1.9-6.7-2.9-10.7-2.9s-7.6 1-10.7 2.9C5.9 17.4 9.7 15 15 15Z" fill={lightColor} opacity={0.72} />
           <Path d="M9.2 23.3c3.8-1.2 7.7-1.2 11.6 0" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round" opacity={0.9} />
+        </>
+      )}
+      {name === 'farmer' && (
+        <>
+          <Path d="M3 11 15 4l12 7c-7 2.8-17 2.8-24 0Z" fill={shadowColor} />
+          <Path d="M3 9.5 15 2.5l12 7c-7 2.8-17 2.8-24 0Z" fill={mainColor} />
+          <Path d="M7 8.8 15 4.1l8 4.7c-4.8 1.3-11.2 1.3-16 0Z" fill={lightColor} opacity={0.85} />
+          <Circle cx="15" cy="16.5" r="5.3" fill={shadowColor} />
+          <Circle cx="15" cy="15" r="5.3" fill={mainColor} />
+          <Path d="M9 14.2c1.8-2.3 4-3.3 6.3-3.3 2.1 0 3.9.8 5.2 2.3-3.6-.5-7.4-.1-11.5 1Z" fill={lightColor} opacity={0.8} />
+          <Path d="M7 29c.7-5.7 3.3-8.3 8-8.3s7.3 2.6 8 8.3Z" fill={shadowColor} />
+          <Path d="M7 27.5c.7-5.7 3.3-8.3 8-8.3s7.3 2.6 8 8.3Z" fill={mainColor} />
+          <Path d="M10.5 24.2c2.8-1.5 6.2-1.5 9 0v3.3h-9Z" fill={accentColor} opacity={0.82} />
+          <Circle cx="12.8" cy="15.5" r="0.8" fill={accentColor} />
+          <Circle cx="17.2" cy="15.5" r="0.8" fill={accentColor} />
         </>
       )}
       {name === 'scan' && (
