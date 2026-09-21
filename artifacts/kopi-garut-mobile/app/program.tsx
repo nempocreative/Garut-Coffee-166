@@ -89,7 +89,7 @@ const derivativeProducts = [
   },
 ];
 
-type ProgramCategory = 'Semua' | 'CSR desa' | 'Pendidikan' | 'Lingkungan' | 'Kesejahteraan';
+type ProgramCategory = 'Semua' | 'CSR petani kopi' | 'Lingkungan kebun' | 'Keluarga petani' | 'Komunitas kopi';
 type ProgramOffer = {
   id: string;
   category: Exclude<ProgramCategory, 'Semua'>;
@@ -107,10 +107,10 @@ type ProgramApplication = {
 };
 
 const applicationStorageKey = '@kopi-garut/program-applications';
-const programCategories: ProgramCategory[] = ['Semua', 'CSR desa', 'Pendidikan', 'Lingkungan', 'Kesejahteraan'];
+const programCategories: ProgramCategory[] = ['Semua', 'CSR petani kopi', 'Lingkungan kebun', 'Keluarga petani', 'Komunitas kopi'];
 const derivativeProgramOffer: ProgramOffer = {
   id: 'pemberdayaan-produk-turunan',
-  category: 'CSR desa',
+  category: 'Komunitas kopi',
   icon: 'users',
   title: 'Pemberdayaan produk turunan kopi',
   description: 'Pendampingan desa untuk merancang, menguji, dan memasarkan produk baru berbasis kopi.',
@@ -120,53 +120,53 @@ const derivativeProgramOffer: ProgramOffer = {
 };
 const programOffers: ProgramOffer[] = [
   {
-    id: 'beasiswa-anak-petani',
-    category: 'Pendidikan',
+    id: 'beasiswa-anak-petani-kopi',
+    category: 'Keluarga petani',
     icon: 'calendar',
-    title: 'Beasiswa anak petani',
-    description: 'Dukungan pendidikan untuk membantu anak keluarga petani melanjutkan sekolah.',
-    target: 'Keluarga petani',
+    title: 'Beasiswa anak petani kopi',
+    description: 'Dukungan pendidikan untuk anak keluarga petani kopi agar bisa melanjutkan sekolah.',
+    target: 'Keluarga petani kopi',
     support: 'Beasiswa 1 semester',
     deadline: '30 Nov 2026',
   },
   {
-    id: 'ruang-belajar-desa',
-    category: 'Pendidikan',
-    icon: 'users',
-    title: 'Ruang belajar desa',
-    description: 'Pengadaan buku, perlengkapan belajar, dan ruang kegiatan untuk anak-anak desa.',
-    target: 'Sekolah & komunitas desa',
-    support: 'Paket perlengkapan belajar',
+    id: 'klinik-kesehatan-petani',
+    category: 'CSR petani kopi',
+    icon: 'heart',
+    title: 'Klinik kesehatan petani kopi',
+    description: 'Layanan pemeriksaan dasar dan edukasi kesehatan untuk petani kopi serta keluarganya.',
+    target: 'Petani kopi & keluarga',
+    support: 'Hari layanan kesehatan',
     deadline: 'Pendaftaran dibuka',
   },
   {
-    id: 'penghijauan-sumber-air',
-    category: 'Lingkungan',
-    icon: 'map',
-    title: 'Penghijauan sumber air',
-    description: 'Aksi tanam dan perawatan area resapan untuk menjaga kebun serta sumber air desa.',
-    target: 'Kelompok warga',
-    support: 'Bibit & aksi tanam',
+    id: 'pohon-penaung-kebun',
+    category: 'Lingkungan kebun',
+    icon: 'coffee',
+    title: 'Pohon penaung kebun kopi',
+    description: 'Penanaman pohon penaung dan tanaman pendamping untuk menjaga kelembapan serta mutu kebun kopi.',
+    target: 'Petani kopi aktif',
+    support: 'Bibit & pendampingan tanam',
     deadline: 'Musim hujan 2026',
   },
   {
-    id: 'air-bersih-desa',
-    category: 'Kesejahteraan',
+    id: 'konservasi-mata-air-kebun',
+    category: 'Lingkungan kebun',
     icon: 'map-pin',
-    title: 'Air bersih desa',
-    description: 'Dukungan sarana air bersih untuk meningkatkan kesehatan dan kualitas hidup warga.',
-    target: 'Warga desa',
-    support: 'Dukungan sarana',
+    title: 'Konservasi mata air kebun',
+    description: 'Menjaga sumber air di sekitar kebun kopi melalui aksi resapan dan perawatan bersama.',
+    target: 'Kelompok tani kopi',
+    support: 'Sarana konservasi',
     deadline: 'Seleksi desa',
   },
   {
-    id: 'dukungan-umkm-desa',
-    category: 'CSR desa',
-    icon: 'briefcase',
-    title: 'Dukungan usaha mikro desa',
-    description: 'Bantuan alat dasar untuk usaha kecil warga agar ekonomi desa tumbuh lebih beragam.',
-    target: 'Usaha mikro desa',
-    support: 'Paket alat usaha',
+    id: 'paket-panen-keluarga',
+    category: 'Keluarga petani',
+    icon: 'package',
+    title: 'Paket panen keluarga',
+    description: 'Dukungan kebutuhan dasar bagi keluarga petani kopi selama masa panen dan perawatan kebun.',
+    target: 'Keluarga petani kopi',
+    support: 'Paket kebutuhan dasar',
     deadline: 'Pendaftaran dibuka',
   },
 ];
@@ -328,9 +328,9 @@ export default function ProgramScreen() {
         </Pressable>
       </Animated.View>
 
-      <ProgramSectionTitle eyebrow="CSR KOPI GARUT" title="Kontribusi nyata untuk desa" />
+      <ProgramSectionTitle eyebrow="CSR KOPI GARUT" title="Kontribusi untuk petani & kebun kopi" />
       <Text style={[styles.programIntro, { color: colors.mutedForeground }]}>
-        Dukungan sosial dan lingkungan dari ekosistem Kopi Garut untuk membantu desa tumbuh lebih sehat, berdaya, dan berkelanjutan.
+        Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat kopi Garut tumbuh.
       </Text>
       <View style={styles.categoryList}>
         {programCategories.map((category) => {
