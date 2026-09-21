@@ -325,6 +325,7 @@ function FarmerProfileScreen() {
         <FarmerActionCard icon="calendar" title="Catatan panen" detail="Simpan hasil dan biaya kebun" onPress={() => router.push('/harvest-log')} colors={colors} testID="farmer-action-harvest" />
         <FarmerActionCard icon="send" title="Pengajuan penjualan" detail="Tawarkan lot dan terima permintaan" onPress={() => router.push('/sales-submissions')} colors={colors} testID="farmer-action-sales" />
         <FarmerActionCard icon="trending-up" title="Biaya kebun" detail="Catat biaya dan hitung laba bersih" onPress={() => router.push('/farm-costs')} colors={colors} testID="farmer-action-costs" />
+        <FarmerActionCard icon="briefcase" title="Pembayaran" detail="Catat uang muka dan sisa transaksi" onPress={() => router.push('/payment-records')} colors={colors} testID="farmer-action-payments" />
         <FarmerActionCard icon="alert-circle" title="Laporan masalah kebun" detail="Kirim foto dan minta arahan penyuluh" onPress={() => router.push('/farm-issues')} colors={colors} testID="farmer-action-issues" />
         <FarmerActionCard icon="calendar" title="Kalender kegiatan kebun" detail="Atur agenda kerja dan kunjungan" onPress={() => router.push('/farm-calendar')} colors={colors} testID="farmer-action-calendar" />
         <FarmerActionCard icon="package" title="Lot & mutu" detail="Catat panen dan kualitas" onPress={() => router.push('/curation')} colors={colors} testID="farmer-action-lot" />
@@ -355,6 +356,7 @@ function FarmerProfileScreen() {
         <FarmerMenuRow icon="trending-up" title="Harga kopi terbaru" description="Lihat harga acuan per bentuk dan mutu" onPress={() => router.push('/prices')} colors={colors} />
         <FarmerMenuRow icon="send" title="Pengajuan penjualan" description="Tawarkan lot dan kelola permintaan pembeli" onPress={() => router.push('/sales-submissions')} colors={colors} />
         <FarmerMenuRow icon="trending-up" title="Pencatatan biaya kebun" description="Catat biaya dan lihat perkiraan keuntungan bersih" onPress={() => router.push('/farm-costs')} colors={colors} />
+        <FarmerMenuRow icon="briefcase" title="Pencatatan pembayaran" description="Catat harga jual, uang muka, dan sisa pembayaran" onPress={() => router.push('/payment-records')} colors={colors} />
         <FarmerMenuRow icon="alert-circle" title="Laporan masalah kebun" description="Kirim foto, lokasi, dan keterangan ke penyuluh" onPress={() => router.push('/farm-issues')} colors={colors} />
         <FarmerMenuRow icon="calendar" title="Kalender kegiatan kebun" description="Atur pemupukan, panen, pengeringan, dan kunjungan" onPress={() => router.push('/farm-calendar')} colors={colors} />
         <FarmerMenuRow icon="briefcase" title="Kemitraan & pasar" description="Temukan peluang pembelian hasil kebun" onPress={() => router.push('/partnership')} colors={colors} />
