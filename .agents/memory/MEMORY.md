@@ -1,3 +1,4 @@
 - [Role-based access](auth-role-access.md) — centralize protected menu and route rules while the MVP uses a device-local role session.
 - [Expo iOS config](expo-ios-config.md) — validate Expo SDK upgrades; SDK 57 expects splash settings through the splash-screen plugin.
 - [Expo tunnel fallback](expo-tunnel-fallback.md) — keep mobile preview usable with a LAN fallback when the Expo tunnel service disconnects.
+- [Expo font loading](expo-font-loading.md) — never let web preview remain on the branded splash indefinitely when font loading stalls.

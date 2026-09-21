@@ -64,13 +64,21 @@ export default function RootLayout() {
   const [loadingFinished, setLoadingFinished] = React.useState(false);
 
   useEffect(() => {
-    if (!fontsLoaded && !fontError) return;
-    void SplashScreen.hideAsync();
-    const timeout = setTimeout(() => setLoadingFinished(true), 900);
+    const timeout = setTimeout(() => {
+      void SplashScreen.hideAsync();
+      setLoadingFinished(true);
+    }, 1500);
+
+    if (fontsLoaded || fontError) {
+      void SplashScreen.hideAsync();
+      setLoadingFinished(true);
+      clearTimeout(timeout);
+    }
+
     return () => clearTimeout(timeout);
   }, [fontsLoaded, fontError]);
 
-  if ((!fontsLoaded && !fontError) || !loadingFinished) return <AppLoading />;
+  if (!loadingFinished) return <AppLoading />;
 
   return (
     <SafeAreaProvider>
