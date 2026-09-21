@@ -39,6 +39,7 @@ export const protectedRouteRoles: Record<string, AuthRole[]> = {
   '/harvest-log': ['petani'],
   '/sales-submissions': ['petani'],
   '/farm-costs': ['petani'],
+  '/farm-issues': ['petani'],
   '/curation': ['petani'],
   '/group-dashboard': ['petani'],
   '/extension-dashboard': ['penyuluh'],
