@@ -9,17 +9,7 @@ import { FilterChip, InfoRow, MetricCard, ProgramCard, ProgramIntro, ProgramSect
 import { BrandIcon } from '@/components/BrandIcon';
 import { extensionCases, extensionVisit } from '@/data/program';
 import { useColors } from '@/hooks/useColors';
-
-const FARM_ISSUES_STORAGE_KEY = '@kopi-garut/farm-issues';
-
-type FarmIssue = {
-  id: string;
-  photoUri: string;
-  location: string;
-  description: string;
-  createdAt: string;
-  status: 'Menunggu arahan' | 'Sudah ditinjau';
-};
+import { EXTENSION_NOTIFICATIONS_STORAGE_KEY, FARM_ISSUES_STORAGE_KEY, ExtensionNotification, FarmIssue, notificationTime, supportId } from '@/data/extension-support';
 
 export default function ExtensionDashboardScreen() {
   const colors = useColors();
@@ -46,11 +36,37 @@ export default function ExtensionDashboardScreen() {
   const pendingFollowups = Math.max(3, farmIssues.filter((issue) => issue.status === 'Menunggu arahan').length);
 
   const reviewIssue = async (issue: FarmIssue) => {
-    const nextIssues = farmIssues.map((item) => item.id === issue.id ? { ...item, status: 'Sudah ditinjau' as const } : item);
+    const nextIssues = farmIssues.map((item) => item.id === issue.id ? {
+      ...item,
+      status: 'Sudah ditinjau' as const,
+      followUpStatus: 'Dijadwalkan' as const,
+      recommendation: 'Periksa bagian tanaman yang terdampak dan catat perubahan setelah perawatan.',
+      followUpDate: '27 Sep 2026',
+      followUpNote: 'Minta foto tindak lanjut sebelum kunjungan berikutnya.',
+      assignedTo: 'Rani Permata',
+      reviewedAt: notificationTime(),
+    } : item);
     setFarmIssues(nextIssues);
-    setFeedback(`Laporan ${issue.location} sudah ditandai ditinjau.`);
+    setFeedback(`Arahan untuk ${issue.location} sudah dikirim ke petani.`);
     try {
       await AsyncStorage.setItem(FARM_ISSUES_STORAGE_KEY, JSON.stringify(nextIssues));
+      const notification: ExtensionNotification = {
+        id: supportId('guidance'),
+        audience: 'petani',
+        farmerId: issue.farmerId,
+        issueId: issue.id,
+        title: 'Arahan penyuluh sudah tersedia',
+        detail: 'Periksa tanaman terdampak dan kirim foto tindak lanjut sebelum 27 Sep 2026.',
+        type: 'Arahan penyuluh',
+        time: notificationTime(),
+        icon: 'check',
+        route: '/farm-issues',
+        action: 'Lihat arahan',
+        priority: 'positive',
+      };
+      const storedNotifications = await AsyncStorage.getItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY);
+      const previous = storedNotifications ? JSON.parse(storedNotifications) as ExtensionNotification[] : [];
+      await AsyncStorage.setItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY, JSON.stringify([notification, ...previous]));
     } catch {
       setFeedback('Status tampil berubah, tetapi belum tersimpan di perangkat.');
     }

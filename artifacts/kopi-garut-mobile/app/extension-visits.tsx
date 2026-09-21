@@ -7,6 +7,7 @@ import { BrandIcon, BrandIconName } from '@/components/BrandIcon';
 import { FilterChip, ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { useColors } from '@/hooks/useColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ExtensionNotification, EXTENSION_NOTIFICATIONS_STORAGE_KEY } from '@/data/extension-support';
 
 const STORAGE_KEY = '@kopi-garut/extension-visits';
 const visitStatuses = ['Terjadwal', 'Selesai'] as const;
@@ -19,6 +20,7 @@ type VisitFilter = (typeof filters)[number];
 
 type FieldVisit = {
   id: string;
+  farmerId?: string;
   farmer: string;
   group: string;
   location: string;
@@ -35,6 +37,7 @@ type FieldVisit = {
 const initialVisits: FieldVisit[] = [
   {
     id: 'visit-iis-20260919',
+    farmerId: 'iis-nurhayati',
     farmer: 'Iis Nurhayati',
     group: 'KTH Cikuray Mandiri',
     location: 'Mekarsari, Cikajang',
@@ -49,6 +52,7 @@ const initialVisits: FieldVisit[] = [
   },
   {
     id: 'visit-asep-20260923',
+    farmerId: 'asep-rahmat',
     farmer: 'Asep Hidayat',
     group: 'KTH Papandayan Lestari',
     location: 'Sirnajaya, Cisurupan',
@@ -63,6 +67,7 @@ const initialVisits: FieldVisit[] = [
   },
   {
     id: 'visit-deni-20260925',
+    farmerId: 'deni-suhendar',
     farmer: 'Deni Suhendar',
     group: 'KTH Mekar Tani',
     location: 'Pakenjeng',
@@ -77,6 +82,7 @@ const initialVisits: FieldVisit[] = [
   },
   {
     id: 'visit-iis-20260912',
+    farmerId: 'iis-nurhayati',
     farmer: 'Iis Nurhayati',
     group: 'KTH Cikuray Mandiri',
     location: 'Mekarsari, Cikajang',
@@ -161,6 +167,7 @@ export default function ExtensionVisitsScreen() {
 
     const nextVisit: FieldVisit = {
       id: createId(),
+      farmerId: farmer.trim().toLowerCase().includes('iis') ? 'iis-nurhayati' : farmer.trim().toLowerCase().includes('deni') ? 'deni-suhendar' : farmer.trim().toLowerCase().includes('ujang') ? 'ujang-kusnadi' : 'asep-rahmat',
       farmer: farmer.trim(),
       group: group.trim() || 'Kelompok tani belum diisi',
       location: location.trim(),
@@ -187,6 +194,26 @@ export default function ExtensionVisitsScreen() {
     setRecommendation('');
     setStatus('Terjadwal');
     setFeedback('Kunjungan lapangan berhasil disimpan.');
+    const notification: ExtensionNotification = {
+      id: `${Date.now()}-visit`,
+      audience: 'petani',
+      farmerId: nextVisit.farmerId,
+      title: status === 'Selesai' ? 'Riwayat kunjungan diperbarui' : 'Kunjungan penyuluh dijadwalkan',
+      detail: `${nextVisit.date} · ${nextVisit.purpose}`,
+      type: 'Tindak lanjut',
+      time: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      icon: 'calendar',
+      route: '/farm-issues',
+      action: 'Lihat pendampingan',
+      priority: status === 'Selesai' ? 'positive' : 'normal',
+    };
+    try {
+      const storedNotifications = await AsyncStorage.getItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY);
+      const previous = storedNotifications ? JSON.parse(storedNotifications) as ExtensionNotification[] : [];
+      await AsyncStorage.setItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY, JSON.stringify([notification, ...previous]));
+    } catch {
+      setFeedback('Kunjungan tersimpan, tetapi notifikasi petani belum tersimpan.');
+    }
   };
 
   const completeVisit = async (visit: FieldVisit) => {

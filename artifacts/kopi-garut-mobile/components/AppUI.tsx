@@ -83,7 +83,7 @@ export function CoffeeCard({ coffee, index = 0, grid = false, cardWidth }: { cof
   return <Animated.View entering={FadeInDown.delay(index * 50).duration(450)} style={[styles.card, grid && styles.gridCard, cardWidth ? { width: cardWidth } : null, { backgroundColor: colors.card, borderColor: colors.border }]}>
     <Pressable testID={`coffee-card-${coffee.id}`} onPress={() => router.push(`/product/${coffee.id}`)} style={[styles.cardImageWrap, grid && styles.gridCardImageWrap]}><Image source={coffee.image} contentFit="cover" style={styles.cardImage} />{coffee.badge && <View style={[styles.badge, { backgroundColor: colors.accent }]}><Text style={[styles.badgeText, { color: colors.accentForeground }]}>{coffee.badge}</Text></View>}</Pressable>
     <View style={[styles.cardBody, grid && styles.gridCardBody]}><View style={styles.cardInfo}><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTitle, grid && styles.gridCardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTagline, grid && styles.gridCardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, grid && styles.gridPrice, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={({ pressed }) => [styles.favorite, { opacity: pressed ? 0.55 : 1 }]}><BrandIcon name="heart" size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
-    <Pressable testID={`add-${coffee.id}`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { borderColor: colors.border, opacity: pressed ? 0.65 : 1 }, grid && styles.gridAddButton]}><BrandIcon name="plus" size={16} color={colors.primary} /><Text style={[styles.addText, { color: colors.foreground }]}>{grid ? 'Tambah' : 'Tambah ke keranjang'}</Text></Pressable>
+    <Pressable testID={`add-${coffee.id}`} accessibilityRole="button" accessibilityLabel={`Tambah ${coffee.name} ke keranjang`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { backgroundColor: colors.primary, borderColor: colors.primary, opacity: pressed ? 0.78 : 1 }]}><BrandIcon name="plus" size={16} color={colors.primaryForeground} /><Text style={[styles.addText, { color: colors.primaryForeground }]}>{grid ? 'Tambah' : 'Tambah ke keranjang'}</Text></Pressable>
   </Animated.View>;
 }
 
@@ -154,8 +154,7 @@ const styles = StyleSheet.create({
   price: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '700', marginTop: 10 },
   smallUnit: { fontFamily: 'Manrope_400Regular', fontSize: 10, fontWeight: '400' },
   favorite: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
-  addButton: { marginHorizontal: 14, marginBottom: 14, borderWidth: 1, height: 38, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  gridAddButton: { marginHorizontal: 11, marginBottom: 11, height: 35, borderRadius: 10 },
+  addButton: { marginHorizontal: 12, marginBottom: 12, borderWidth: 1, height: 40, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 8 },
   addText: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
   search: { height: 50, borderRadius: 15, borderWidth: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, gap: 10 },
   searchInput: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 14 },

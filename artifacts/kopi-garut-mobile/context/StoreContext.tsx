@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { CartItem, Order } from '@/data/coffees';
+import { getCartProductPrice } from '@/data/cart-products';
 
 type StoreValue = {
   favorites: string[];
@@ -65,7 +66,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const placeOrder = useCallback(async (delivery: 'Standard' | 'Express') => {
     if (!cart.length) return;
     const multiplier = delivery === 'Express' ? 1.08 : 1;
-    const total = Math.round(cart.reduce((sum, item) => sum + (item.coffeeId === 'papandayan-honey' ? 118000 : item.coffeeId === 'cikajang-natural' ? 132000 : item.coffeeId === 'talaga-washed' ? 105000 : 99000) * item.quantity, 0) * multiplier);
+    const total = Math.round(cart.reduce((sum, item) => sum + getCartProductPrice(item.coffeeId) * item.quantity, 0) * multiplier);
     setOrders((current) => [{ id: `${Date.now()}`, items: cart, total, createdAt: new Date().toISOString(), status: 'Placed' }, ...current]);
     setCart([]);
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

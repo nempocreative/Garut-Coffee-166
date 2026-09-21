@@ -10,19 +10,10 @@ import { BrandIcon } from '@/components/BrandIcon';
 import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
 import { useColors } from '@/hooks/useColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from '@/context/AuthContext';
+import { EXTENSION_NOTIFICATIONS_STORAGE_KEY, FARM_ISSUES_STORAGE_KEY, ExtensionNotification, FarmIssue, notificationTime, supportId } from '@/data/extension-support';
 
-const STORAGE_KEY = '@kopi-garut/farm-issues';
-
-type FarmIssue = {
-  id: string;
-  photoUri: string;
-  location: string;
-  latitude?: number;
-  longitude?: number;
-  description: string;
-  createdAt: string;
-  status: 'Menunggu arahan' | 'Sudah ditinjau';
-};
+const STORAGE_KEY = FARM_ISSUES_STORAGE_KEY;
 
 function createdDate() {
   return new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -33,6 +24,7 @@ export default function FarmIssuesScreen() {
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const { session } = useAuth();
   const [cameraPermission, requestCameraPermission] = ImagePicker.useCameraPermissions();
   const [mediaPermission, requestMediaPermission] = ImagePicker.useMediaLibraryPermissions();
   const [locationPermission, requestLocationPermission] = Location.useForegroundPermissions();
@@ -103,6 +95,9 @@ export default function FarmIssuesScreen() {
     }
     const next: FarmIssue = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      farmerId: session?.id === 'petani' ? 'asep-rahmat' : undefined,
+      farmerName: session?.id === 'petani' ? session.name : undefined,
+      assignedTo: 'Rani Permata',
       photoUri,
       location: location.trim(),
       latitude: coordinates?.latitude,
@@ -120,6 +115,23 @@ export default function FarmIssuesScreen() {
     setFeedback('Laporan terkirim ke penyuluh. Arahan akan muncul setelah ditinjau.');
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      const notification: ExtensionNotification = {
+        id: supportId('issue'),
+        audience: 'penyuluh',
+        farmerId: next.farmerId,
+        issueId: next.id,
+        title: 'Laporan masalah baru dari petani',
+        detail: `${next.location}: ${next.description}`,
+        type: 'Laporan masalah',
+        time: notificationTime(),
+        icon: 'alert-circle',
+        route: '/extension-issues',
+        action: 'Buka daftar tugas',
+        priority: 'urgent',
+      };
+      const storedNotifications = await AsyncStorage.getItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY);
+      const previous = storedNotifications ? JSON.parse(storedNotifications) as ExtensionNotification[] : [];
+      await AsyncStorage.setItem(EXTENSION_NOTIFICATIONS_STORAGE_KEY, JSON.stringify([notification, ...previous]));
     } catch {
       setFeedback('Laporan tampil, tetapi belum tersimpan di perangkat.');
     }
@@ -242,6 +254,7 @@ export default function FarmIssuesScreen() {
               </View>
               <Text style={[styles.historyDescription, { color: colors.mutedForeground }]}>{item.description}</Text>
               <View style={styles.historyFooter}><BrandIcon name="users" size={13} color={colors.primary} /><Text style={[styles.historyFooterText, { color: colors.mutedForeground }]}>{item.status === 'Menunggu arahan' ? 'Menunggu arahan dari penyuluh.' : 'Arahan penyuluh sudah tersedia.'}</Text></View>
+               {item.recommendation && <View style={[styles.guidanceRow, { borderTopColor: colors.border }]}><BrandIcon name="check" size={13} color={colors.primary} /><View style={styles.guidanceCopy}><Text style={[styles.guidanceLabel, { color: colors.primary }]}>REKOMENDASI PENYULUH</Text><Text style={[styles.guidanceText, { color: colors.foreground }]}>{item.recommendation}</Text>{item.followUpDate && <Text style={[styles.guidanceFollowUp, { color: colors.mutedForeground }]}>Target {item.followUpDate} · {item.followUpNote}</Text>}</View></View>}
             </ProgramCard>
           ))}
         </View>
@@ -290,6 +303,11 @@ const styles = StyleSheet.create({
   historyDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
   historyFooter: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   historyFooterText: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
+  guidanceRow: { borderTopWidth: 1, paddingTop: 9, flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
+  guidanceCopy: { flex: 1, gap: 3 },
+  guidanceLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.8 },
+  guidanceText: { fontFamily: 'Manrope_600SemiBold', fontSize: 10.5, lineHeight: 15 },
+  guidanceFollowUp: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 14 },
   emptyRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   emptyIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   emptyCopy: { flex: 1, gap: 3 },

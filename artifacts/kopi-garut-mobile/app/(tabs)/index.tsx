@@ -8,8 +8,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
+import { diversifiedProducts } from '@/data/diversified-products';
 import { coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
+import { extensionTeam } from '@/data/extension-team';
 import { useColors } from '@/hooks/useColors';
+import { useStore } from '@/context/StoreContext';
 
 const promoSlides = [
   {
@@ -496,9 +499,12 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
 export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
+  const { addToCart } = useStore();
   const { width } = useWindowDimensions();
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
+  const diversifiedCardWidth = Math.max(166, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
+  const extensionCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
   const regionCardWidth = Math.max(150, Math.floor((width - 40 - 10) / 2));
   const storyCardWidth = Math.max(140, Math.floor((width - 40 - 8) / 2));
   const storyCardHeight = Math.round(storyCardWidth * 1.42);
@@ -785,6 +791,63 @@ export default function HomeScreen() {
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Lebih dari secangkir</Text>
+      </View>
+      <Link href="/diversification" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
+    </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.diversifiedRail}>
+      {diversifiedProducts.slice(0, 5).map((product) => (
+        <View
+          key={product.id}
+          style={[
+            styles.diversifiedCard,
+            { width: diversifiedCardWidth, backgroundColor: colors.card, borderColor: colors.border },
+          ]}
+        >
+          <Pressable
+            testID={`home-diversified-product-${product.id}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Lihat ${product.title}`}
+            onPress={() => router.push('/diversification')}
+            style={({ pressed }) => ({ opacity: pressed ? 0.82 : 1 })}
+          >
+            <View style={styles.diversifiedImageWrap}>
+              <ExpoImage source={product.image} contentFit="cover" style={styles.diversifiedImage} />
+              <LinearGradient colors={['transparent', `${colors.foreground}68`]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
+              <View style={[styles.diversifiedBadge, { backgroundColor: colors.accent }]}>
+                <Text numberOfLines={1} style={[styles.diversifiedBadgeText, { color: colors.accentForeground }]}>{product.badge}</Text>
+              </View>
+              <View style={[styles.diversifiedIcon, { backgroundColor: colors.card }]}>
+                <BrandIcon name={product.icon} size={15} color={colors.primary} />
+              </View>
+            </View>
+            <View style={styles.diversifiedBody}>
+              <Text style={[styles.diversifiedCategory, { color: colors.primary }]}>{product.category}</Text>
+              <Text numberOfLines={2} style={[styles.diversifiedTitle, { color: colors.foreground }]}>{product.title}</Text>
+              <View style={styles.diversifiedFooter}>
+                <Text style={[styles.diversifiedPrice, { color: colors.foreground }]}>{product.price}</Text>
+                <BrandIcon name="arrow-up-right" size={14} color={colors.primary} />
+              </View>
+            </View>
+          </Pressable>
+          <Pressable
+            testID={`home-diversified-add-${product.id}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Tambah ${product.title} ke keranjang`}
+            onPress={() => addToCart(product.id)}
+            style={({ pressed }) => [
+              styles.diversifiedAddButton,
+              { backgroundColor: colors.primary, opacity: pressed ? 0.74 : 1 },
+            ]}
+          >
+            <BrandIcon name="plus" size={13} color={colors.primaryForeground} strokeWidth={2.4} />
+            <Text style={[styles.diversifiedAddText, { color: colors.primaryForeground }]}>Tambah</Text>
+          </Pressable>
+        </View>
+      ))}
+    </ScrollView>
+    <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text>
       </View>
       <Link href="/dashboard" style={[styles.seeAll, { color: colors.primary }]}>Lihat data</Link>
@@ -929,6 +992,62 @@ export default function HomeScreen() {
       ))}
     </ScrollView>
     <View style={styles.sectionHeading}>
+      <View style={styles.headingCopy}>
+        <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Penyuluh di lapangan</Text>
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Buka ruang kerja penyuluh"
+        onPress={() => router.push('/extension-dashboard')}
+        style={({ pressed }) => ({ opacity: pressed ? 0.68 : 1 })}
+      >
+        <Text style={[styles.seeAll, { color: colors.primary }]}>Ruang kerja</Text>
+      </Pressable>
+    </View>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.extensionRail}
+    >
+      {extensionTeam.map((worker, index) => (
+        <Pressable
+          key={worker.id}
+          testID={`home-extension-worker-${worker.id}`}
+          accessibilityRole="button"
+          accessibilityLabel={`Lihat ${worker.name}, penyuluh wilayah ${worker.regions.join(' dan ')}`}
+          onPress={() => router.push('/extension-dashboard')}
+          style={({ pressed }) => [
+            styles.extensionCard,
+            { width: extensionCardWidth, backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.84 : 1 },
+          ]}
+        >
+          <View style={styles.extensionImageWrap}>
+            <ExpoImage source={worker.image} contentFit="cover" style={styles.extensionImage} />
+            <LinearGradient colors={['transparent', `${colors.foreground}E8`]} locations={[0.25, 1]} style={StyleSheet.absoluteFill} />
+            <View style={[styles.extensionStatus, { backgroundColor: colors.accent }]}>
+              <View style={[styles.extensionStatusDot, { backgroundColor: colors.foreground }]} />
+              <Text style={[styles.extensionStatusText, { color: colors.foreground }]}>AKTIF</Text>
+            </View>
+            <Text style={[styles.extensionImageRole, { color: colors.card }]}>{worker.role}</Text>
+          </View>
+          <View style={styles.extensionCopy}>
+            <Text numberOfLines={1} style={[styles.extensionName, { color: colors.foreground }]}>{worker.name}</Text>
+            <View style={styles.extensionRegionRow}>
+              <BrandIcon name="map-pin" size={12} color={colors.primary} />
+              <Text numberOfLines={1} style={[styles.extensionRegion, { color: colors.primary }]}>Wilayah: {worker.regions.join(' · ')}</Text>
+            </View>
+            <Text numberOfLines={2} style={[styles.extensionFocus, { color: colors.mutedForeground }]}>{worker.focus}</Text>
+            <View style={[styles.extensionCardFooter, { borderTopColor: colors.border }]}>
+              <Text style={[styles.extensionFooterLabel, { color: colors.mutedForeground }]}>PENDAMPINGAN KEBUN</Text>
+              <View style={[styles.extensionArrow, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="arrow-up-right" size={13} color={colors.primary} />
+              </View>
+            </View>
+          </View>
+        </Pressable>
+      ))}
+    </ScrollView>
+    <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
       <Link href="/regions" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
@@ -1061,6 +1180,7 @@ export default function HomeScreen() {
         style={[styles.footerMountain, { tintColor: colors.foreground }]}
       />
       <Text style={[styles.footerCaption, { color: colors.mutedForeground }]}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
+      <Text style={[styles.footerSocial, { color: colors.primary }]}>Instagram · @kopigarut</Text>
     </View>
   </Screen>;
 }
@@ -1091,6 +1211,20 @@ const styles = StyleSheet.create({
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '700', marginTop: 0, letterSpacing: -0.3 },
   seeAll: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700', paddingBottom: 3 },
+  diversifiedRail: { gap: 10, paddingTop: 12, paddingRight: 20 },
+  diversifiedCard: { borderRadius: 18, borderWidth: 1, overflow: 'hidden' },
+  diversifiedImageWrap: { height: 126, position: 'relative' },
+  diversifiedImage: { width: '100%', height: '100%' },
+  diversifiedBadge: { position: 'absolute', left: 9, top: 9, maxWidth: '78%', borderRadius: 7, paddingHorizontal: 7, paddingVertical: 5 },
+  diversifiedBadgeText: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.15 },
+  diversifiedIcon: { position: 'absolute', right: 9, top: 9, width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  diversifiedBody: { padding: 11, gap: 5 },
+  diversifiedCategory: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 0.65, textTransform: 'uppercase' },
+  diversifiedTitle: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, minHeight: 34 },
+  diversifiedFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginTop: 2 },
+  diversifiedPrice: { fontFamily: 'Manrope_700Bold', fontSize: 12 },
+  diversifiedAddButton: { marginHorizontal: 12, marginBottom: 12, height: 40, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 8 },
+  diversifiedAddText: { fontFamily: 'Manrope_700Bold', fontSize: 12, fontWeight: '700' },
   categoryPager: { marginHorizontal: -20 },
   categoryPage: { paddingHorizontal: 20, gap: 12 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -1228,15 +1362,32 @@ const styles = StyleSheet.create({
   farmerVerification: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 8, borderWidth: 1, paddingHorizontal: 6, paddingVertical: 4, alignSelf: 'flex-start' },
   farmerVerificationMark: { width: 17, height: 17, borderRadius: 8.5, alignItems: 'center', justifyContent: 'center' },
   farmerVerificationLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.55 },
+  sectionSubtitle: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, marginTop: 2 },
+  extensionRail: { flexDirection: 'row', gap: 8, paddingRight: 20 },
+  extensionCard: { minHeight: 252, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  extensionImageWrap: { height: 142, position: 'relative', justifyContent: 'flex-end' },
+  extensionImage: { width: '100%', height: '100%' },
+  extensionStatus: { position: 'absolute', top: 10, left: 10, borderRadius: 9, paddingHorizontal: 7, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  extensionStatusDot: { width: 5, height: 5, borderRadius: 3 },
+  extensionStatusText: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 0.8 },
+  extensionImageRole: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 0.2, marginHorizontal: 11, marginBottom: 10 },
+  extensionCopy: { minHeight: 109, padding: 11, gap: 5, justifyContent: 'space-between' },
+  extensionName: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 18, letterSpacing: -0.2 },
+  extensionRegionRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  extensionRegion: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, lineHeight: 13 },
+  extensionFocus: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 13, minHeight: 26 },
+  extensionCardFooter: { borderTopWidth: 1, paddingTop: 7, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  extensionFooterLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 0.8 },
+  extensionArrow: { width: 25, height: 25, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   regionRail: { gap: 10, paddingRight: 20 },
-  regionCard: { minHeight: 226, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  regionCard: { height: 226, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
   regionImageWrap: { width: '100%', height: 116, position: 'relative' },
   regionImage: { width: '100%', height: '100%' },
   regionCardTop: { position: 'absolute', top: 10, left: 10, right: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   regionNumber: { width: 31, height: 31, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   regionNumberText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
   regionArrow: { width: 30, height: 30, borderRadius: 11, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  regionCardBody: { padding: 11, gap: 7 },
+  regionCardBody: { flex: 1, padding: 11, gap: 7, justifyContent: 'space-between' },
   regionName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '700' },
   regionDetailRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   regionDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
@@ -1270,5 +1421,6 @@ const styles = StyleSheet.create({
   homeFooter: { alignItems: 'center', gap: 1, marginTop: -8, paddingTop: 0, paddingBottom: 4 },
   footerMountain: { width: '100%', height: 68, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
+  footerSocial: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 0.25, marginTop: 6 },
   storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });
