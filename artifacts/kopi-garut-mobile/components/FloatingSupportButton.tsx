@@ -108,7 +108,7 @@ export function FloatingSupportButton() {
             },
           ]}
         >
-          <Animated.View style={beanAnimation}>
+          <Animated.View style={[styles.beanAnimationContainer, beanAnimation]}>
             <Image
               source={require('../assets/images/coffee-bean-menu.png')}
               contentFit="contain"
@@ -208,6 +208,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.24,
     shadowRadius: 10,
     zIndex: 30,
+  },
+  beanAnimationContainer: {
+    width: 64,
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   coffeeBeanImage: { width: '100%', height: '100%' },
   menu: {
