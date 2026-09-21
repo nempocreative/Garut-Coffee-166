@@ -322,6 +322,7 @@ function FarmerProfileScreen() {
       <View style={farmerStyles.actionGrid}>
         <FarmerActionCard icon="shield" title="Verifikasi kebun" detail="Perbarui status dan dokumen" onPress={() => router.push('/verification')} colors={colors} testID="farmer-action-verification" />
         <FarmerActionCard icon="check" title="Cek standar kopi" detail="Ukur kesiapan mutu lot" onPress={() => router.push('/quality-check')} colors={colors} testID="farmer-action-quality-check" />
+        <FarmerActionCard icon="calendar" title="Catatan panen" detail="Simpan hasil dan biaya kebun" onPress={() => router.push('/harvest-log')} colors={colors} testID="farmer-action-harvest" />
         <FarmerActionCard icon="package" title="Lot & mutu" detail="Catat panen dan kualitas" onPress={() => router.push('/curation')} colors={colors} testID="farmer-action-lot" />
         <FarmerActionCard icon="users" title="Kelompok tani" detail="Lihat gerak kelompok" onPress={() => router.push('/group-dashboard')} colors={colors} testID="farmer-action-group" />
         <FarmerActionCard icon="bar-chart-2" title="Laporan kebun" detail="Pantau hasil dan peluang" onPress={() => router.push('/reports')} colors={colors} testID="farmer-action-reports" />
@@ -344,8 +345,10 @@ function FarmerProfileScreen() {
       <Text style={[farmerStyles.sectionKicker, { color: colors.primary }]}>KEANGGOTAAN & BANTUAN</Text>
       <View style={[farmerStyles.menuGroup, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <FarmerMenuRow icon="grid" title="Dokumen & legalitas" description="Kelola dokumen pendukung profil" onPress={() => router.push('/documents')} colors={colors} />
+        <FarmerMenuRow icon="calendar" title="Catatan panen" description="Simpan tanggal, hasil, blok, dan biaya produksi" onPress={() => router.push('/harvest-log')} colors={colors} />
         <FarmerMenuRow icon="check" title="Cek standar kopi" description="Isi pemeriksaan mutu langsung dari handphone" onPress={() => router.push('/quality-check')} colors={colors} />
         <FarmerMenuRow icon="check" title="Standar mutu kopi" description="Lihat panduan kualitas dan kesiapan lot" onPress={() => router.push('/standards')} colors={colors} />
+        <FarmerMenuRow icon="trending-up" title="Harga kopi terbaru" description="Lihat harga acuan per bentuk dan mutu" onPress={() => router.push('/prices')} colors={colors} />
         <FarmerMenuRow icon="briefcase" title="Kemitraan & pasar" description="Temukan peluang pembelian hasil kebun" onPress={() => router.push('/partnership')} colors={colors} />
         <FarmerMenuRow icon="repeat" title="Ganti akun" description="Beralih ke ruang pengguna lain" onPress={() => router.push('/login')} colors={colors} />
         <FarmerMenuRow icon="arrow-left" title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onPress={() => void signOut()} colors={colors} destructive />
