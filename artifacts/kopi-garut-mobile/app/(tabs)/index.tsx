@@ -54,7 +54,7 @@ const promoSlides = [
   {
     id: 'coffee-collective',
     route: '/collective' as const,
-    image: require('../../assets/images/farmer-asep-rahmat.jpg'),
+    image: require('../../assets/images/kopi-garut-banyak-orang-banner.png'),
     eyebrow: 'TUMBUH BERSAMA',
     title: 'Kopi Garut untuk banyak orang',
     description: 'Satu ekosistem untuk petani dan penikmat kopi.',
@@ -63,7 +63,7 @@ const promoSlides = [
   {
     id: 'coffee-partnership',
     route: '/partnership' as const,
-    image: require('../../assets/images/farmer-iis-nurhayati.jpg'),
+    image: require('../../assets/images/kopi-garut-bangun-rantai-kopi-banner.png'),
     eyebrow: 'JADI MITRA',
     title: 'Bangun rantai kopi bersama',
     description: 'Temukan peluang kolaborasi dengan ekosistem Garut.',

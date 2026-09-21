@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import Animated, { cancelAnimation, FadeInDown, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { cancelAnimation, Easing, FadeInDown, runOnJS, useAnimatedStyle, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 import { Button, Header, Screen } from '@/components/AppUI';
 import { BrandIcon } from '@/components/BrandIcon';
 import { useCoffeeGame } from '@/context/CoffeeGameContext';
@@ -21,35 +21,85 @@ type FallingBean = {
   duration: number;
 };
 
-const BEAN_SIZE = 52;
-const BASKET_WIDTH = 148;
-const BASKET_HEIGHT = 132;
-const FALL_END = 154;
+const BEAN_SIZE = 44;
+const BASKET_WIDTH = 118;
+const BASKET_HEIGHT = 104;
+const CATCH_AREA_HEIGHT = 280;
+const FALL_END = CATCH_AREA_HEIGHT - BASKET_HEIGHT + 14;
 
-function FallingCoffeeBean({ bean, onReachBottom }: { bean: FallingBean; onReachBottom: (left: number) => void }) {
+function FallingCoffeeBean({
+  bean,
+  catching,
+  catchTargetLeft,
+  onReachBottom,
+  onCatchAnimationComplete,
+}: {
+  bean: FallingBean;
+  catching: boolean;
+  catchTargetLeft: number;
+  onReachBottom: (left: number, id: number) => void;
+  onCatchAnimationComplete: (id: number) => void;
+}) {
   const fall = useSharedValue(-58);
+  const catchOffsetX = useSharedValue(0);
+  const catchScale = useSharedValue(1);
+  const catchOpacity = useSharedValue(1);
   const reachBottomRef = useRef(onReachBottom);
+  const catchCompleteRef = useRef(onCatchAnimationComplete);
   reachBottomRef.current = onReachBottom;
+  catchCompleteRef.current = onCatchAnimationComplete;
 
-  const notifyReachBottom = useCallback((left: number) => {
-    reachBottomRef.current(left);
+  const notifyReachBottom = useCallback((left: number, id: number) => {
+    reachBottomRef.current(left, id);
+  }, []);
+
+  const notifyCatchAnimationComplete = useCallback((id: number) => {
+    catchCompleteRef.current(id);
   }, []);
 
   useEffect(() => {
     fall.value = -58;
+    catchOffsetX.value = 0;
+    catchScale.value = 1;
+    catchOpacity.value = 1;
     fall.value = withTiming(FALL_END, { duration: bean.duration }, (finished) => {
-      if (finished) runOnJS(notifyReachBottom)(bean.left);
+      if (finished) runOnJS(notifyReachBottom)(bean.left, bean.id);
     });
     return () => cancelAnimation(fall);
-  }, [bean.duration, bean.left, fall, notifyReachBottom]);
+  }, [bean.duration, bean.left, catchOffsetX, catchOpacity, catchScale, fall, notifyReachBottom]);
+
+  useEffect(() => {
+    if (!catching) return undefined;
+    const targetOffsetX = catchTargetLeft - bean.left;
+    fall.value = withTiming(FALL_END + 24, {
+      duration: 240,
+      easing: Easing.out(Easing.cubic),
+    });
+    catchOffsetX.value = withTiming(targetOffsetX, {
+      duration: 240,
+      easing: Easing.out(Easing.cubic),
+    });
+    catchScale.value = withSequence(
+      withTiming(0.86, { duration: 90, easing: Easing.out(Easing.quad) }),
+      withTiming(0.48, { duration: 150, easing: Easing.in(Easing.quad) }),
+    );
+    catchOpacity.value = withTiming(0, {
+      duration: 240,
+      easing: Easing.in(Easing.quad),
+    }, (finished) => {
+      if (finished) runOnJS(notifyCatchAnimationComplete)(bean.id);
+    });
+    return undefined;
+  }, [bean.id, bean.left, catchTargetLeft, catching, catchOffsetX, catchOpacity, catchScale, fall, notifyCatchAnimationComplete]);
 
   const fallStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: fall.value }],
+    opacity: catchOpacity.value,
+    transform: [{ translateX: catchOffsetX.value }, { translateY: fall.value }, { scale: catchScale.value }],
   }));
 
   return (
     <Animated.View pointerEvents="none" testID={`falling-coffee-bean-${bean.id}`} style={[styles.fallingBean, { left: bean.left }, fallStyle]}>
-      <Image source={require('../assets/images/coffee-bean-menu.png')} contentFit="contain" style={styles.beanImage} />
+      <Image source={require('../assets/images/games-coffee-beans.png')} contentFit="contain" style={styles.beanImage} />
     </Animated.View>
   );
 }
@@ -61,8 +111,10 @@ export default function CoffeeGameScreen() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
   const [fallingBean, setFallingBean] = useState<FallingBean | null>(null);
+  const [catchingBeanId, setCatchingBeanId] = useState<number | null>(null);
+  const [catchTargetLeft, setCatchTargetLeft] = useState(0);
   const [roundPoints, setRoundPoints] = useState(0);
-  const [feedback, setFeedback] = useState('Tekan mulai, lalu geser keranjang untuk menangkap kopi.');
+  const [feedback, setFeedback] = useState('Siap');
   const roundPointsRef = useRef(0);
   const beanIdRef = useRef(0);
   const playingRef = useRef(false);
@@ -71,6 +123,8 @@ export default function CoffeeGameScreen() {
   const catchAreaWidthRef = useRef(300);
   const dragStartRef = useRef(94);
   const basketInitializedRef = useRef(false);
+  const basketBounce = useSharedValue(0);
+  const basketScale = useSharedValue(1);
 
   useEffect(() => {
     roundPointsRef.current = roundPoints;
@@ -91,7 +145,7 @@ export default function CoffeeGameScreen() {
           setFallingBean(null);
           playingRef.current = false;
           setIsPlaying(false);
-          setFeedback(earned > 0 ? `Putaran selesai. Kamu menangkap ${earned / 10} biji dan mendapat ${earned} poin.` : 'Putaran selesai. Coba tangkap bijinya lebih cepat.');
+          setFeedback(earned > 0 ? `Selesai · +${earned}` : 'Selesai · coba lagi');
           return 0;
         }
         return current - 1;
@@ -100,7 +154,7 @@ export default function CoffeeGameScreen() {
     return () => clearInterval(timer);
   }, [addPoints, isPlaying]);
 
-  const spawnBean = () => {
+  const spawnBean = useCallback(() => {
     beanIdRef.current += 1;
     const maxLeft = Math.max(12, catchAreaWidthRef.current - BEAN_SIZE - 12);
     setFallingBean({
@@ -108,7 +162,7 @@ export default function CoffeeGameScreen() {
       left: 12 + Math.floor(Math.random() * Math.max(1, maxLeft - 12)),
       duration: 1550 + Math.floor(Math.random() * 450),
     });
-  };
+  }, []);
 
   const clampBasketX = (nextX: number) => Math.max(0, Math.min(nextX, Math.max(0, catchAreaWidthRef.current - BASKET_WIDTH)));
 
@@ -140,41 +194,64 @@ export default function CoffeeGameScreen() {
   const startGame = () => {
     setTimeLeft(15);
     setRoundPoints(0);
+    setCatchingBeanId(null);
     roundPointsRef.current = 0;
     playingRef.current = true;
-    setFeedback('Geser keranjang ke kiri atau kanan untuk menangkap biji kopi.');
+    setFeedback('Geser keranjang');
     spawnBean();
     setIsPlaying(true);
   };
 
-  const handleBeanDrop = (beanLeft: number) => {
+  const handleCatchAnimationComplete = useCallback((beanId: number) => {
+    setCatchingBeanId((currentId) => {
+      if (currentId !== beanId) return currentId;
+      if (playingRef.current) spawnBean();
+      return null;
+    });
+  }, [spawnBean]);
+
+  const handleBeanDrop = useCallback((beanLeft: number, beanId: number) => {
     if (!playingRef.current) return;
     const beanRight = beanLeft + BEAN_SIZE;
     const basketRight = basketXRef.current + BASKET_WIDTH;
     const caught = beanRight >= basketXRef.current && beanLeft <= basketRight;
     if (caught) {
       setRoundPoints((current) => current + 10);
-      setFeedback('Mantap! Kopi masuk keranjang.');
+      setCatchingBeanId(beanId);
+      setCatchTargetLeft(basketXRef.current + (BASKET_WIDTH - BEAN_SIZE) / 2);
+      setFeedback('Hit · +10');
+      basketBounce.value = withSequence(
+        withTiming(-4, { duration: 90 }),
+        withTiming(0, { duration: 170 }),
+      );
+      basketScale.value = withSequence(
+        withTiming(1.04, { duration: 90 }),
+        withTiming(1, { duration: 170 }),
+      );
       void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } else {
-      setFeedback('Kopi terlewat. Geser keranjang ke posisi berikutnya.');
+      setFeedback('Miss');
+      spawnBean();
     }
-    spawnBean();
-  };
+  }, [basketBounce, basketScale, spawnBean]);
+
+  const basketAnimation = useAnimatedStyle(() => ({
+    transform: [{ translateY: basketBounce.value }, { scale: basketScale.value }],
+  }));
 
   const claimReward = (reward: (typeof rewards)[number]) => {
     if (points < reward.cost) {
-      setFeedback(`Butuh ${reward.cost - points} poin lagi untuk ${reward.title.toLowerCase()}.`);
+      setFeedback(`Kurang ${reward.cost - points} PT`);
       return;
     }
     redeemPoints(reward.id, reward.cost);
-    setFeedback(`${reward.title} sudah masuk ke voucher kamu.`);
+     setFeedback('Voucher aktif');
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
   return (
     <Screen bottomGap={24}>
-      <Header title="Games Kopi" subtitle="PANEN POIN" cart={false} back />
+      <Header title="Games" cart={false} back />
 
       <Animated.View entering={FadeInDown.duration(450)}>
         <LinearGradient
@@ -186,17 +263,14 @@ export default function CoffeeGameScreen() {
           <View style={styles.heroCopy}>
             <View style={styles.eyebrowRow}>
               <BrandIcon name="coffee" size={14} color={colors.accent} />
-              <Text style={[styles.eyebrow, { color: colors.accent }]}>GAMES KOPI GARUT</Text>
+              <Text style={[styles.eyebrow, { color: colors.accent }]}>PLAY TO EARN</Text>
             </View>
-            <Text style={[styles.heroTitle, { color: colors.card }]}>Tangkap biji, kumpulkan poin.</Text>
-            <Text style={[styles.heroDescription, { color: colors.background }]}>
-              Main sebentar setiap hari dan tukarkan poinmu menjadi potongan untuk pesanan kopi.
-            </Text>
+            <Text style={[styles.heroTitle, { color: colors.card }]}>Tangkap biji.</Text>
           </View>
           <View style={[styles.pointsOrb, { backgroundColor: colors.card }]}>
             <BrandIcon name="coffee" size={20} color={colors.primary} />
             <Text style={[styles.pointsValue, { color: colors.primary }]}>{ready ? points : '—'}</Text>
-            <Text style={[styles.pointsLabel, { color: colors.mutedForeground }]}>POIN</Text>
+            <Text style={[styles.pointsLabel, { color: colors.mutedForeground }]}>POINTS</Text>
           </View>
         </LinearGradient>
       </Animated.View>
@@ -204,49 +278,64 @@ export default function CoffeeGameScreen() {
       <View style={[styles.gameCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.gameHeader}>
           <View>
-            <Text style={[styles.sectionKicker, { color: colors.primary }]}>PUTARAN HARI INI</Text>
-            <Text style={[styles.gameTitle, { color: colors.foreground }]}>Panen biji kopi</Text>
+            <Text style={[styles.sectionKicker, { color: colors.primary }]}>MINI GAME</Text>
+            <Text style={[styles.gameTitle, { color: colors.foreground }]}>Coffee Catch</Text>
           </View>
           <View style={[styles.timerPill, { backgroundColor: colors.secondary }]}>
-            <BrandIcon name="calendar" size={14} color={colors.primary} />
+            <BrandIcon name="circle" size={8} color={isPlaying ? colors.primary : colors.mutedForeground} />
             <Text style={[styles.timerText, { color: colors.primary }]}>{isPlaying ? `${timeLeft}s` : '15s'}</Text>
           </View>
         </View>
-        <Text style={[styles.feedback, { color: colors.mutedForeground }]}>{feedback}</Text>
+        <View style={styles.statusRow}>
+          <View style={[styles.statusDot, { backgroundColor: feedback === 'Miss' ? colors.destructive : colors.accent }]} />
+          <Text style={[styles.feedback, { color: colors.mutedForeground }]}>{feedback}</Text>
+        </View>
         <View
           {...panResponder.panHandlers}
           onLayout={handleCatchAreaLayout}
           accessibilityLabel="Area permainan. Geser keranjang ke kiri atau kanan untuk menangkap biji kopi."
           style={[styles.catchArea, { backgroundColor: colors.secondary, borderColor: colors.border }]}
         >
-          {isPlaying && fallingBean && <FallingCoffeeBean key={fallingBean.id} bean={fallingBean} onReachBottom={handleBeanDrop} />}
+          {isPlaying && fallingBean && (
+            <FallingCoffeeBean
+              key={fallingBean.id}
+              bean={fallingBean}
+              catching={catchingBeanId === fallingBean.id}
+              catchTargetLeft={catchTargetLeft}
+              onReachBottom={handleBeanDrop}
+              onCatchAnimationComplete={handleCatchAnimationComplete}
+            />
+          )}
           {!isPlaying && (
             <View style={[styles.startHint, { backgroundColor: colors.card }]}>
               <BrandIcon name="coffee" size={18} color={colors.primary} />
-              <Text style={[styles.startHintText, { color: colors.foreground }]}>Geser keranjang untuk menangkap kopi</Text>
+              <Text style={[styles.startHintText, { color: colors.foreground }]}>Geser untuk bermain</Text>
             </View>
           )}
-          <View pointerEvents="none" style={[styles.basket, { left: basketX }]}>
+          <Animated.View pointerEvents="none" style={[styles.basket, basketAnimation, { left: basketX }]}>
             <Image
               source={require('../assets/images/games-basket.png')}
               contentFit="contain"
               style={styles.basketImage}
             />
-          </View>
+          </Animated.View>
         </View>
         <View style={styles.scoreRow}>
-          <Text style={[styles.scoreLabel, { color: colors.mutedForeground }]}>POIN PUTARAN</Text>
+          <Text style={[styles.scoreLabel, { color: colors.mutedForeground }]}>ROUND</Text>
           <Text style={[styles.scoreValue, { color: colors.primary }]}>+{roundPoints}</Text>
         </View>
-        <Button testID="coffee-game-start" label={isPlaying ? 'Tangkap biji yang jatuh' : 'Mulai bermain'} onPress={startGame} disabled={isPlaying} icon="coffee" />
+        <Button testID="coffee-game-start" label={isPlaying ? 'Berjalan' : 'Mulai'} onPress={startGame} disabled={isPlaying} icon="coffee" />
       </View>
 
       <View style={styles.sectionHeading}>
         <View>
-          <Text style={[styles.sectionKicker, { color: colors.primary }]}>TUKARKAN POIN</Text>
-          <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Hadiah untuk belanjamu</Text>
+            <Text style={[styles.sectionKicker, { color: colors.primary }]}>REWARDS</Text>
+            <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Hadiah</Text>
         </View>
-        <BrandIcon name="shopping-bag" size={22} color={colors.accent} />
+          <View style={[styles.balancePill, { backgroundColor: colors.secondary }]}>
+            <BrandIcon name="coffee" size={13} color={colors.primary} />
+            <Text style={[styles.balanceText, { color: colors.primary }]}>{ready ? points : '—'} PT</Text>
+          </View>
       </View>
 
       <View style={styles.rewardList}>
@@ -260,7 +349,7 @@ export default function CoffeeGameScreen() {
               </View>
               <View style={styles.rewardCopy}>
                 <Text style={[styles.rewardTitle, { color: colors.foreground }]}>{reward.title}</Text>
-                <Text style={[styles.rewardDetail, { color: colors.mutedForeground }]}>{reward.detail} · {reward.cost} poin</Text>
+                <Text style={[styles.rewardDetail, { color: colors.mutedForeground }]}>{reward.detail.replace('Min. belanja ', 'Min. ')} · {reward.cost} PT</Text>
               </View>
               <Pressable
                 testID={`coffee-reward-${reward.id}`}
@@ -286,7 +375,7 @@ export default function CoffeeGameScreen() {
       {vouchers.length > 0 && (
         <View style={[styles.voucherNote, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
           <BrandIcon name="check" size={18} color={colors.primary} />
-          <Text style={[styles.voucherText, { color: colors.foreground }]}>Voucher tersimpan: {vouchers.length}. Gunakan saat checkout untuk mendapatkan potongan belanja.</Text>
+          <Text style={[styles.voucherText, { color: colors.foreground }]}>{vouchers.length} voucher aktif</Text>
         </View>
       )}
     </Screen>
@@ -294,26 +383,27 @@ export default function CoffeeGameScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { borderRadius: 24, padding: 18, minHeight: 178, flexDirection: 'row', alignItems: 'flex-end', gap: 14, overflow: 'hidden' },
-  heroCopy: { flex: 1, gap: 9 },
+  hero: { borderRadius: 24, padding: 18, minHeight: 136, flexDirection: 'row', alignItems: 'flex-end', gap: 14, overflow: 'hidden' },
+  heroCopy: { flex: 1, gap: 7 },
   eyebrowRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, fontWeight: '800', letterSpacing: 1.2 },
   heroTitle: { fontFamily: 'Manrope_700Bold', fontSize: 25, lineHeight: 29, letterSpacing: -0.6 },
-  heroDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
   pointsOrb: { width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center', gap: 2 },
   pointsValue: { fontFamily: 'Manrope_700Bold', fontSize: 18, fontWeight: '800' },
   pointsLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 1.1 },
-  gameCard: { borderRadius: 22, borderWidth: 1, padding: 16, gap: 13 },
+  gameCard: { borderRadius: 22, borderWidth: 1, padding: 15, gap: 11 },
   gameHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   sectionKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
   gameTitle: { fontFamily: 'Manrope_700Bold', fontSize: 19, marginTop: 3 },
   timerPill: { borderRadius: 14, paddingHorizontal: 10, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 5 },
   timerText: { fontFamily: 'Manrope_700Bold', fontSize: 11 },
-  feedback: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
-  catchArea: { height: 224, borderRadius: 18, borderWidth: 1, overflow: 'hidden', position: 'relative' },
-  fallingBean: { position: 'absolute', top: 0, width: 52, height: 52, zIndex: 3 },
-  beanImage: { width: 38, height: 38 },
-  startHint: { position: 'absolute', top: 58, left: 30, right: 30, minHeight: 58, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
+  statusRow: { minHeight: 16, flexDirection: 'row', alignItems: 'center', gap: 7 },
+  statusDot: { width: 6, height: 6, borderRadius: 3 },
+  feedback: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, lineHeight: 14 },
+  catchArea: { height: CATCH_AREA_HEIGHT, borderRadius: 18, borderWidth: 1, overflow: 'hidden', position: 'relative' },
+  fallingBean: { position: 'absolute', top: 0, width: BEAN_SIZE, height: BEAN_SIZE, zIndex: 3 },
+  beanImage: { width: BEAN_SIZE, height: BEAN_SIZE },
+  startHint: { position: 'absolute', top: 52, left: 26, right: 26, minHeight: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
   startHintText: { fontFamily: 'Manrope_600SemiBold', fontSize: 11 },
   basket: { position: 'absolute', bottom: 0, width: BASKET_WIDTH, height: BASKET_HEIGHT, alignItems: 'center', justifyContent: 'center' },
   basketImage: { width: BASKET_WIDTH, height: BASKET_HEIGHT },
@@ -322,14 +412,16 @@ const styles = StyleSheet.create({
   scoreValue: { fontFamily: 'Manrope_700Bold', fontSize: 18 },
   sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   sectionTitle: { fontFamily: 'Manrope_700Bold', fontSize: 19, marginTop: 3 },
-  rewardList: { gap: 9 },
-  rewardCard: { minHeight: 70, borderRadius: 17, borderWidth: 1, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  rewardIcon: { width: 39, height: 39, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  rewardCopy: { flex: 1, gap: 3 },
+  balancePill: { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  balanceText: { fontFamily: 'Manrope_700Bold', fontSize: 10.5, letterSpacing: 0.2 },
+  rewardList: { gap: 8 },
+  rewardCard: { minHeight: 66, borderRadius: 17, borderWidth: 1, padding: 9, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  rewardIcon: { width: 37, height: 37, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  rewardCopy: { flex: 1, gap: 2 },
   rewardTitle: { fontFamily: 'Manrope_700Bold', fontSize: 12.5 },
-  rewardDetail: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
-  claimButton: { minWidth: 57, paddingHorizontal: 9, paddingVertical: 9, borderRadius: 12, alignItems: 'center' },
-  claimText: { fontFamily: 'Manrope_700Bold', fontSize: 10 },
+  rewardDetail: { fontFamily: 'Manrope_400Regular', fontSize: 9.5, lineHeight: 13 },
+  claimButton: { minWidth: 55, paddingHorizontal: 9, paddingVertical: 8, borderRadius: 11, alignItems: 'center' },
+  claimText: { fontFamily: 'Manrope_700Bold', fontSize: 9.5 },
   voucherNote: { borderRadius: 16, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 9 },
   voucherText: { flex: 1, fontFamily: 'Manrope_500Medium', fontSize: 11, lineHeight: 16 },
 });

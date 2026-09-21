@@ -67,7 +67,7 @@ export function FloatingCoffeeGameButton() {
       >
         <Animated.View style={[styles.basketAnimationContainer, basketAnimation]}>
           <Image
-            source={require('../assets/images/games-cart.png')}
+            source={require('../assets/images/mini-games-icon.png')}
             contentFit="contain"
             style={styles.gamesCartImage}
           />
@@ -83,9 +83,9 @@ export function FloatingCoffeeGameButton() {
 const styles = StyleSheet.create({
   floatingButton: {
     position: 'absolute',
-    left: 18,
-    width: 52,
-    height: 52,
+    left: 14,
+    width: 62,
+    height: 62,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 29,
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     shadowRadius: 9,
   },
   basketAnimationContainer: {
-    width: 52,
-    height: 52,
+    width: 62,
+    height: 62,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -98,7 +98,7 @@ export function FloatingSupportButton() {
           accessibilityState={{ expanded: open }}
           onPress={() => setOpen((current) => !current)}
           style={({ pressed }) => [
-            styles.floatingButton,
+     styles.floatingButton,
             {
               bottom: bottomOffset,
               backgroundColor: 'transparent',
@@ -109,8 +109,8 @@ export function FloatingSupportButton() {
           ]}
         >
           <Animated.View style={[styles.beanAnimationContainer, beanAnimation]}>
-            <Image
-              source={require('../assets/images/coffee-bean-menu.png')}
+             <Image
+               source={require('../assets/images/faq-live-chat.png')}
               contentFit="contain"
               style={styles.coffeeBeanImage}
             />
@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
   floatingButton: {
     position: 'absolute',
     right: 18,
-    width: 48,
-    height: 48,
+    width: 56,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 10,
@@ -210,8 +210,8 @@ const styles = StyleSheet.create({
     zIndex: 30,
   },
   beanAnimationContainer: {
-    width: 48,
-    height: 48,
+    width: 56,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
   },
