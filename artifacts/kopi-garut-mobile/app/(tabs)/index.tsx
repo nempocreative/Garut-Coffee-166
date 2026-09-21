@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -1180,7 +1181,35 @@ export default function HomeScreen() {
         style={[styles.footerMountain, { tintColor: colors.foreground }]}
       />
       <Text style={[styles.footerCaption, { color: colors.mutedForeground }]}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
-      <Text style={[styles.footerSocial, { color: colors.primary }]}>Instagram · @kopigarut</Text>
+      <View style={styles.footerContactRow}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Buka Instagram Kopi Garut"
+          onPress={() => void Linking.openURL('https://instagram.com/kopigarut')}
+          style={({ pressed }) => [styles.footerContact, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
+        >
+          <Ionicons name="logo-instagram" size={17} color={colors.primary} />
+          <Text style={[styles.footerContactText, { color: colors.foreground }]}>@kopigarut</Text>
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Buka TikTok Kopi Garut"
+          onPress={() => void Linking.openURL('https://tiktok.com/@kopigarut')}
+          style={({ pressed }) => [styles.footerContact, { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 }]}
+        >
+          <Ionicons name="logo-tiktok" size={17} color={colors.primary} />
+          <Text style={[styles.footerContactText, { color: colors.foreground }]}>@kopigarut</Text>
+        </Pressable>
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Kirim email ke cs@kopigarut.id"
+        onPress={() => void Linking.openURL('mailto:cs@kopigarut.id')}
+        style={({ pressed }) => [styles.footerEmail, { opacity: pressed ? 0.7 : 1 }]}
+      >
+        <Ionicons name="mail-outline" size={15} color={colors.primary} />
+        <Text style={[styles.footerEmailText, { color: colors.primary }]}>cs@kopigarut.id</Text>
+      </Pressable>
     </View>
   </Screen>;
 }
@@ -1421,6 +1450,10 @@ const styles = StyleSheet.create({
   homeFooter: { alignItems: 'center', gap: 1, marginTop: -8, paddingTop: 0, paddingBottom: 4 },
   footerMountain: { width: '100%', height: 68, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  footerSocial: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 0.25, marginTop: 6 },
+  footerContactRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 9 },
+  footerContact: { minHeight: 32, borderRadius: 16, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  footerContactText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700' },
+  footerEmail: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 7, paddingVertical: 4, paddingHorizontal: 8 },
+  footerEmailText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '700', letterSpacing: 0.15 },
   storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });
