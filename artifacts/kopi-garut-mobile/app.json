@@ -24,6 +24,13 @@
           "imageWidth": 200,
           "resizeMode": "contain"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Kopi Garut membutuhkan akses foto untuk menyimpan bukti pemeriksaan mutu.",
+          "cameraPermission": "Kopi Garut membutuhkan akses kamera untuk memotret kondisi biji kopi."
+        }
       ]
     ],
     "experiments": {

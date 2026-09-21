@@ -72,10 +72,17 @@ export default function QualityCheckScreen() {
   }, [cupping, defects, moisture]);
 
   const choosePhoto = async (source: 'camera' | 'library') => {
-    const result = source === 'camera'
-      ? await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.7 })
-      : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.7 });
-    if (!result.canceled && result.assets[0]?.uri) setPhotoUri(result.assets[0].uri);
+    try {
+      const result = source === 'camera'
+        ? await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.7 })
+        : await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.7 });
+      if (!result.canceled && result.assets[0]?.uri) {
+        setPhotoUri(result.assets[0].uri);
+        setFeedback('');
+      }
+    } catch {
+      setFeedback(source === 'camera' ? 'Kamera belum bisa dibuka. Coba pilih foto dari galeri.' : 'Galeri belum bisa dibuka. Coba lagi.');
+    }
   };
 
   const saveCheck = async () => {
