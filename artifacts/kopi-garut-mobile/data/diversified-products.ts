@@ -102,7 +102,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Mug Kopi Garut',
     price: 'Rp 65.000',
     status: 'Stok terbatas',
-    image: require('../assets/images/event-festival-garut.jpg'),
+    image: require('../assets/images/garut-mug.png'),
     badge: 'Koleksi rumah',
   },
   {
