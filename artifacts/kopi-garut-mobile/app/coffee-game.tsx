@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { PanResponder, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -21,48 +21,34 @@ type FallingBean = {
   duration: number;
 };
 
-function FallingCoffeeBean({ bean, onCatch, onMiss }: { bean: FallingBean; onCatch: () => void; onMiss: () => void }) {
-  const colors = useColors();
-  const fall = useSharedValue(-58);
-  const missRef = useRef(onMiss);
-  missRef.current = onMiss;
+const BEAN_SIZE = 52;
+const BASKET_WIDTH = 112;
+const FALL_END = 154;
 
-  const notifyMiss = React.useCallback(() => {
-    missRef.current();
+function FallingCoffeeBean({ bean, onReachBottom }: { bean: FallingBean; onReachBottom: (left: number) => void }) {
+  const fall = useSharedValue(-58);
+  const reachBottomRef = useRef(onReachBottom);
+  reachBottomRef.current = onReachBottom;
+
+  const notifyReachBottom = useCallback((left: number) => {
+    reachBottomRef.current(left);
   }, []);
 
   useEffect(() => {
     fall.value = -58;
-    fall.value = withTiming(238, { duration: bean.duration }, (finished) => {
-      if (finished) runOnJS(notifyMiss)();
+    fall.value = withTiming(FALL_END, { duration: bean.duration }, (finished) => {
+      if (finished) runOnJS(notifyReachBottom)(bean.left);
     });
     return () => cancelAnimation(fall);
-  }, [bean.duration, fall, notifyMiss]);
+  }, [bean.duration, bean.left, fall, notifyReachBottom]);
 
   const fallStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: fall.value }],
   }));
 
   return (
-    <Animated.View style={[styles.fallingBean, { left: bean.left }, fallStyle]}>
-      <Pressable
-        testID={`falling-coffee-bean-${bean.id}`}
-        accessibilityRole="button"
-        accessibilityLabel="Tangkap biji kopi"
-        hitSlop={10}
-        onPress={onCatch}
-        style={({ pressed }) => [
-          styles.fallingBeanButton,
-          {
-            backgroundColor: colors.accent,
-            borderColor: colors.primary,
-            shadowColor: colors.foreground,
-            opacity: pressed ? 0.68 : 1,
-          },
-        ]}
-      >
-        <Image source={require('../assets/images/coffee-bean-menu.png')} contentFit="contain" style={styles.beanImage} />
-      </Pressable>
+    <Animated.View pointerEvents="none" testID={`falling-coffee-bean-${bean.id}`} style={[styles.fallingBean, { left: bean.left }, fallStyle]}>
+      <Image source={require('../assets/images/coffee-bean-menu.png')} contentFit="contain" style={styles.beanImage} />
     </Animated.View>
   );
 }
@@ -75,10 +61,15 @@ export default function CoffeeGameScreen() {
   const [timeLeft, setTimeLeft] = useState(15);
   const [fallingBean, setFallingBean] = useState<FallingBean | null>(null);
   const [roundPoints, setRoundPoints] = useState(0);
-  const [feedback, setFeedback] = useState('Tekan mulai, lalu tangkap biji kopi yang jatuh.');
+  const [feedback, setFeedback] = useState('Tekan mulai, lalu geser keranjang untuk menangkap kopi.');
   const roundPointsRef = useRef(0);
   const beanIdRef = useRef(0);
   const playingRef = useRef(false);
+  const [basketX, setBasketX] = useState(94);
+  const basketXRef = useRef(94);
+  const catchAreaWidthRef = useRef(300);
+  const dragStartRef = useRef(94);
+  const basketInitializedRef = useRef(false);
 
   useEffect(() => {
     roundPointsRef.current = roundPoints;
@@ -110,11 +101,39 @@ export default function CoffeeGameScreen() {
 
   const spawnBean = () => {
     beanIdRef.current += 1;
+    const maxLeft = Math.max(12, catchAreaWidthRef.current - BEAN_SIZE - 12);
     setFallingBean({
       id: beanIdRef.current,
-      left: 12 + Math.floor(Math.random() * 240),
+      left: 12 + Math.floor(Math.random() * Math.max(1, maxLeft - 12)),
       duration: 1550 + Math.floor(Math.random() * 450),
     });
+  };
+
+  const clampBasketX = (nextX: number) => Math.max(0, Math.min(nextX, Math.max(0, catchAreaWidthRef.current - BASKET_WIDTH)));
+
+  const panResponder = useMemo(() => PanResponder.create({
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, gesture) => isPlaying && Math.abs(gesture.dx) > Math.abs(gesture.dy),
+    onPanResponderGrant: () => {
+      dragStartRef.current = basketXRef.current;
+    },
+    onPanResponderMove: (_, gesture) => {
+      const nextX = clampBasketX(dragStartRef.current + gesture.dx);
+      basketXRef.current = nextX;
+      setBasketX(nextX);
+    },
+  }), [isPlaying]);
+
+  const handleCatchAreaLayout = (event: { nativeEvent: { layout: { width: number } } }) => {
+    const width = event.nativeEvent.layout.width;
+    catchAreaWidthRef.current = width;
+    if (!basketInitializedRef.current) {
+      const centeredX = Math.max(0, (width - BASKET_WIDTH) / 2);
+      basketXRef.current = centeredX;
+      setBasketX(centeredX);
+      dragStartRef.current = centeredX;
+      basketInitializedRef.current = true;
+    }
   };
 
   const startGame = () => {
@@ -122,21 +141,23 @@ export default function CoffeeGameScreen() {
     setRoundPoints(0);
     roundPointsRef.current = 0;
     playingRef.current = true;
-    setFeedback('Tangkap biji kopi yang jatuh sebelum masuk keranjang.');
+    setFeedback('Geser keranjang ke kiri atau kanan untuk menangkap biji kopi.');
     spawnBean();
     setIsPlaying(true);
   };
 
-  const collectBean = () => {
+  const handleBeanDrop = (beanLeft: number) => {
     if (!playingRef.current) return;
-    setRoundPoints((current) => current + 10);
-    spawnBean();
-    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
-
-  const missBean = () => {
-    if (!playingRef.current) return;
-    setFeedback('Biji lolos. Tangkap yang berikutnya.');
+    const beanRight = beanLeft + BEAN_SIZE;
+    const basketRight = basketXRef.current + BASKET_WIDTH;
+    const caught = beanRight >= basketXRef.current && beanLeft <= basketRight;
+    if (caught) {
+      setRoundPoints((current) => current + 10);
+      setFeedback('Mantap! Kopi masuk keranjang.');
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    } else {
+      setFeedback('Kopi terlewat. Geser keranjang ke posisi berikutnya.');
+    }
     spawnBean();
   };
 
@@ -191,15 +212,20 @@ export default function CoffeeGameScreen() {
           </View>
         </View>
         <Text style={[styles.feedback, { color: colors.mutedForeground }]}>{feedback}</Text>
-        <View style={[styles.catchArea, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
-          {isPlaying && fallingBean && <FallingCoffeeBean key={fallingBean.id} bean={fallingBean} onCatch={collectBean} onMiss={missBean} />}
+        <View
+          {...panResponder.panHandlers}
+          onLayout={handleCatchAreaLayout}
+          accessibilityLabel="Area permainan. Geser keranjang ke kiri atau kanan untuk menangkap biji kopi."
+          style={[styles.catchArea, { backgroundColor: colors.secondary, borderColor: colors.border }]}
+        >
+          {isPlaying && fallingBean && <FallingCoffeeBean key={fallingBean.id} bean={fallingBean} onReachBottom={handleBeanDrop} />}
           {!isPlaying && (
             <View style={[styles.startHint, { backgroundColor: colors.card }]}>
               <BrandIcon name="coffee" size={18} color={colors.primary} />
-              <Text style={[styles.startHintText, { color: colors.foreground }]}>Biji kopi akan jatuh dari atas</Text>
+              <Text style={[styles.startHintText, { color: colors.foreground }]}>Geser keranjang untuk menangkap kopi</Text>
             </View>
           )}
-          <View style={[styles.basket, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <View pointerEvents="none" style={[styles.basket, { left: basketX, backgroundColor: colors.card, borderColor: colors.primary }]}>
             <BrandIcon name="shopping-bag" size={20} color={colors.primary} />
             <Text style={[styles.basketText, { color: colors.mutedForeground }]}>KERANJANG</Text>
           </View>
@@ -280,13 +306,12 @@ const styles = StyleSheet.create({
   timerPill: { borderRadius: 14, paddingHorizontal: 10, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 5 },
   timerText: { fontFamily: 'Manrope_700Bold', fontSize: 11 },
   feedback: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
-  catchArea: { height: 282, borderRadius: 18, borderWidth: 1, overflow: 'hidden', position: 'relative' },
+  catchArea: { height: 224, borderRadius: 18, borderWidth: 1, overflow: 'hidden', position: 'relative' },
   fallingBean: { position: 'absolute', top: 0, width: 52, height: 52, zIndex: 3 },
-  fallingBeanButton: { width: 52, height: 52, borderRadius: 26, borderWidth: 2, alignItems: 'center', justifyContent: 'center', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.22, shadowRadius: 6, elevation: 5 },
   beanImage: { width: 38, height: 38 },
-  startHint: { position: 'absolute', top: 82, left: 30, right: 30, minHeight: 58, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
+  startHint: { position: 'absolute', top: 58, left: 30, right: 30, minHeight: 58, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
   startHintText: { fontFamily: 'Manrope_600SemiBold', fontSize: 11 },
-  basket: { position: 'absolute', left: '29%', right: '29%', bottom: 14, height: 48, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', gap: 2 },
+  basket: { position: 'absolute', bottom: 14, width: BASKET_WIDTH, height: 48, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', gap: 2 },
   basketText: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 1.1 },
   scoreRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   scoreLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1.1 },
