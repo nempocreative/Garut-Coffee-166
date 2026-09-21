@@ -92,7 +92,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Totebag lereng Garut',
     price: 'Rp 79.000',
     status: 'Edisi petani',
-    image: require('../assets/images/mountain-banner.png'),
+    image: require('../assets/images/garut-totebag.png'),
     badge: 'Edisi terbatas',
   },
   {
