@@ -27,7 +27,7 @@ const promoSlides = [
   {
     id: 'traceability',
     route: '/farmers' as const,
-    image: require('../../assets/images/origin-coffee.jpg'),
+    image: require('../../assets/images/kopi-garut-kenali-kebun-pilihan-banner.png'),
     eyebrow: 'ASAL YANG TERJAGA',
     title: 'Kenali kebun pilihan',
     description: 'Ikuti cerita kopi dari kebun sampai cangkir.',
