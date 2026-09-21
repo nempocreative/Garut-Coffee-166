@@ -43,6 +43,7 @@ export function Header({ title, cart = true, notifications = false, back = false
   const showBack = back || !isHomeRoute;
   const ornamentTextColor = colors.primaryForeground;
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
+  const homeTitleShadow = isHomeGreeting ? { textShadowColor: colors.foreground, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 } : null;
   return <View style={styles.header}>
     <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
@@ -81,7 +82,7 @@ export function Header({ title, cart = true, notifications = false, back = false
       <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
           <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy]}>
-            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={{ color: extendOrnament ? colors.accent : colors.primary }}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>{isHomeGreeting ? <>Mau menikmati{'\n'}<Text style={[{ color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
           </View>
         </View>
       </View>
