@@ -80,7 +80,7 @@ export default function FarmerDetailScreen() {
       : undefined;
 
   return (
-    <Screen>
+    <Screen bottomMenu={false}>
       <Header title="Profil petani" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <View style={styles.hero}>
         <Image source={farmer.image} contentFit="cover" style={StyleSheet.absoluteFill} />

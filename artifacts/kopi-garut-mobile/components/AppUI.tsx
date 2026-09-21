@@ -18,14 +18,14 @@ export function useBottomMenuPadding(gap = 32) {
   return 90 + bottomInset + gap;
 }
 
-export function Screen({ children, scroll = true, style, bottomGap = 32 }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number }) {
+export function Screen({ children, scroll = true, style, bottomGap = 32, bottomMenu = true }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number; bottomMenu?: boolean }) {
   const { background } = useColors();
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const scrollRef = useRef<ScrollView>(null);
   const { notifyScroll } = useScrollVisibility();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
-  const contentBottomPadding = useBottomMenuPadding(bottomGap);
+  const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 34 : insets.bottom);
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [pathname]);

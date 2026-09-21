@@ -35,7 +35,7 @@ export default function ExtensionFarmersScreen() {
   const attentionCount = Object.values(farmerFollowUps).filter((item) => item.tone === 'attention').length;
 
   return (
-    <Screen>
+    <Screen bottomMenu={false}>
       <Header back title="Petani binaan" subtitle="PENYULUH · WILAYAH DAMPINGAN" cart={false} notifications />
       <ProgramIntro
         eyebrow="RUANG KERJA PENYULUH"

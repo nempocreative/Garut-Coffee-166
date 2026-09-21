@@ -24,7 +24,7 @@ export default function FarmersScreen() {
   const featured = visibleFarmers[0];
 
   return (
-    <Screen>
+    <Screen bottomMenu={false}>
       <Header title="Petani kopi" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text>
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.statsPanel, { backgroundColor: colors.foreground }]}>
