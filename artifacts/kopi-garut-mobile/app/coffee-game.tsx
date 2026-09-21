@@ -22,7 +22,7 @@ type FallingBean = {
 };
 
 const BEAN_SIZE = 52;
-const BASKET_WIDTH = 112;
+const BASKET_WIDTH = 132;
 const FALL_END = 154;
 
 function FallingCoffeeBean({ bean, onReachBottom }: { bean: FallingBean; onReachBottom: (left: number) => void }) {
@@ -225,9 +225,12 @@ export default function CoffeeGameScreen() {
               <Text style={[styles.startHintText, { color: colors.foreground }]}>Geser keranjang untuk menangkap kopi</Text>
             </View>
           )}
-          <View pointerEvents="none" style={[styles.basket, { left: basketX, backgroundColor: colors.card, borderColor: colors.primary }]}>
-            <BrandIcon name="shopping-bag" size={20} color={colors.primary} />
-            <Text style={[styles.basketText, { color: colors.mutedForeground }]}>KERANJANG</Text>
+          <View pointerEvents="none" style={[styles.basket, { left: basketX }]}>
+            <Image
+              source={require('../assets/images/games-basket.png')}
+              contentFit="contain"
+              style={styles.basketImage}
+            />
           </View>
         </View>
         <View style={styles.scoreRow}>
@@ -311,8 +314,8 @@ const styles = StyleSheet.create({
   beanImage: { width: 38, height: 38 },
   startHint: { position: 'absolute', top: 58, left: 30, right: 30, minHeight: 58, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 2 },
   startHintText: { fontFamily: 'Manrope_600SemiBold', fontSize: 11 },
-  basket: { position: 'absolute', bottom: 14, width: BASKET_WIDTH, height: 48, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', gap: 2 },
-  basketText: { fontFamily: 'Manrope_700Bold', fontSize: 7, letterSpacing: 1.1 },
+  basket: { position: 'absolute', bottom: 0, width: BASKET_WIDTH, height: 116, alignItems: 'center', justifyContent: 'center' },
+  basketImage: { width: BASKET_WIDTH, height: 116 },
   scoreRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   scoreLabel: { fontFamily: 'Manrope_700Bold', fontSize: 9, letterSpacing: 1.1 },
   scoreValue: { fontFamily: 'Manrope_700Bold', fontSize: 18 },

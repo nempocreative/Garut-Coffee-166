@@ -13,11 +13,11 @@ export function FloatingCoffeeGameButton() {
   const router = useRouter();
   const pathname = usePathname();
   const { points } = useCoffeeGame();
-  const beanLift = useSharedValue(0);
-  const beanTilt = useSharedValue(0);
+  const basketLift = useSharedValue(0);
+  const basketTilt = useSharedValue(0);
 
   useEffect(() => {
-    beanLift.value = withRepeat(
+    basketLift.value = withRepeat(
       withSequence(
         withTiming(-3, { duration: 950, easing: Easing.inOut(Easing.sin) }),
         withTiming(0, { duration: 950, easing: Easing.inOut(Easing.sin) }),
@@ -25,7 +25,7 @@ export function FloatingCoffeeGameButton() {
       -1,
       false,
     );
-    beanTilt.value = withRepeat(
+    basketTilt.value = withRepeat(
       withSequence(
         withTiming(-3, { duration: 1150, easing: Easing.inOut(Easing.sin) }),
         withTiming(3, { duration: 1150, easing: Easing.inOut(Easing.sin) }),
@@ -34,12 +34,12 @@ export function FloatingCoffeeGameButton() {
       -1,
       false,
     );
-  }, [beanLift, beanTilt]);
+  }, [basketLift, basketTilt]);
 
-  const beanAnimation = useAnimatedStyle(() => ({
+  const basketAnimation = useAnimatedStyle(() => ({
     transform: [
-      { translateY: beanLift.value },
-      { rotate: `${beanTilt.value}deg` },
+      { translateY: basketLift.value },
+      { rotate: `${basketTilt.value}deg` },
     ],
   }));
 
@@ -65,11 +65,11 @@ export function FloatingCoffeeGameButton() {
           },
         ]}
       >
-        <Animated.View style={[styles.beanAnimationContainer, beanAnimation]}>
+        <Animated.View style={[styles.basketAnimationContainer, basketAnimation]}>
           <Image
-            source={require('../assets/images/coffee-bean-menu.png')}
+            source={require('../assets/images/games-cart.png')}
             contentFit="contain"
-            style={styles.coffeeBeanImage}
+            style={styles.gamesCartImage}
           />
         </Animated.View>
         <View style={[styles.pointBadge, { backgroundColor: colors.primary, borderColor: colors.card }]}>
@@ -94,13 +94,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 9,
   },
-  beanAnimationContainer: {
+  basketAnimationContainer: {
     width: 52,
     height: 52,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  coffeeBeanImage: { width: '100%', height: '100%' },
+  gamesCartImage: { width: '100%', height: '100%' },
   pointBadge: {
     position: 'absolute',
     right: -4,
