@@ -137,6 +137,76 @@ export const notifications = [
   { id: 'harvest', title: 'Musim panen dimulai', detail: 'Puncak panen Arabika Garut diperkirakan mulai 2 minggu lagi.', type: 'Musim', time: 'Kemarin', icon: 'coffee' as const },
 ];
 
+export type FarmerNotification = {
+  id: string;
+  title: string;
+  detail: string;
+  type: 'Panen' | 'Data panen' | 'Pelatihan' | 'Harga' | 'Verifikasi lot';
+  time: string;
+  icon: BrandIconName;
+  route: ProgramRoute | '/farm-calendar' | '/harvest-log' | '/prices';
+  action: string;
+  priority: 'urgent' | 'normal' | 'positive';
+};
+
+export const farmerNotifications: FarmerNotification[] = [
+  {
+    id: 'farmer-harvest-window',
+    title: 'Jadwal panen tinggal 7 hari',
+    detail: 'Panen Papandayan Series · 29 Sep 2026 · Blok Utara. Pastikan cherry merah siap dipetik.',
+    type: 'Panen',
+    time: 'Hari ini',
+    icon: 'calendar',
+    route: '/farm-calendar',
+    action: 'Buka kalender',
+    priority: 'urgent',
+  },
+  {
+    id: 'farmer-data-deadline',
+    title: 'Batas pengumpulan data panen',
+    detail: 'Lengkapi catatan hasil, biaya, dan asal blok paling lambat 30 Sep 2026.',
+    type: 'Data panen',
+    time: 'Besok',
+    icon: 'bar-chart-2',
+    route: '/harvest-log',
+    action: 'Isi catatan panen',
+    priority: 'urgent',
+  },
+  {
+    id: 'farmer-training',
+    title: 'Pelatihan sortasi & defect',
+    detail: '29 Sep, 09.00 · Rumah produksi Cikuray. Bawa sampel kopi 300 gram.',
+    type: 'Pelatihan',
+    time: '2 hari lagi',
+    icon: 'users',
+    route: '/documents',
+    action: 'Lihat materi',
+    priority: 'normal',
+  },
+  {
+    id: 'farmer-price-change',
+    title: 'Harga Arabika Grade 1 naik',
+    detail: 'Harga acuan terbaru Rp68.000/kg, naik Rp4.000 dari pembaruan sebelumnya.',
+    type: 'Harga',
+    time: 'Kemarin',
+    icon: 'trending-up',
+    route: '/prices',
+    action: 'Lihat harga',
+    priority: 'positive',
+  },
+  {
+    id: 'farmer-lot-verification',
+    title: 'Status verifikasi lot diperbarui',
+    detail: 'Arabika Honey Lot 06 masih dalam tinjauan. Kurator menunggu foto kemasan.',
+    type: 'Verifikasi lot',
+    time: 'Kemarin',
+    icon: 'shield',
+    route: '/verification',
+    action: 'Cek status lot',
+    priority: 'normal',
+  },
+];
+
 export type DocumentCategory = 'Semua' | 'Budidaya' | 'Pascapanen' | 'Pelatihan' | 'Regulasi' | 'Program';
 
 export const documentCategories: DocumentCategory[] = ['Semua', 'Budidaya', 'Pascapanen', 'Pelatihan', 'Regulasi', 'Program'];

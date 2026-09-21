@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: farm-calendar
+    description: Offline-first farm calendar synchronization
 paths:
   /healthz:
     get:
@@ -24,6 +26,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /farm-calendar/sync:
+    post:
+      operationId: syncFarmCalendar
+      tags: [farm-calendar]
+      summary: Accept a locally queued farm calendar snapshot
+      description: Receives the latest device-local calendar snapshot after connectivity returns.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FarmCalendarSyncRequest"
+      responses:
+        "200":
+          description: Calendar snapshot accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FarmCalendarSyncResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +54,53 @@ components:
           type: string
       required:
         - status
+    FarmCalendarActivity:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        date:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+        time:
+          type: string
+        location:
+          type: string
+        notes:
+          type: string
+        done:
+          type: boolean
+      required:
+        - id
+        - type
+        - title
+        - date
+        - time
+        - location
+        - notes
+        - done
+    FarmCalendarSyncRequest:
+      type: object
+      properties:
+        activities:
+          type: array
+          items:
+            $ref: "#/components/schemas/FarmCalendarActivity"
+      required:
+        - activities
+    FarmCalendarSyncResponse:
+      type: object
+      properties:
+        acceptedCount:
+          type: integer
+        syncedAt:
+          type: string
+          format: date-time
+      required:
+        - acceptedCount
+        - syncedAt
 

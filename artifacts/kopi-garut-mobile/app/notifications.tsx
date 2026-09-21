@@ -1,26 +1,76 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Header, Screen } from '@/components/AppUI';
-import { ProgramCard, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
-import { notifications } from '@/data/program';
+import { FilterChip, ProgramIntro, ProgramSectionTitle, StatusPill } from '@/components/ProgramUI';
+import { farmerNotifications, notifications } from '@/data/program';
 import { BrandIcon } from '@/components/BrandIcon';
 import { useColors } from '@/hooks/useColors';
+import { useAuth } from '@/context/AuthContext';
 
 export default function NotificationsScreen() {
   const colors = useColors();
+  const router = useRouter();
+  const { session } = useAuth();
+  const isFarmer = session?.id === 'petani';
   const [readIds, setReadIds] = useState<string[]>([]);
-  const unreadCount = notifications.length - readIds.length;
-  const sortedNotifications = useMemo(() => notifications, []);
+  const [activeFilter, setActiveFilter] = useState('Semua');
+  const sourceNotifications = isFarmer ? farmerNotifications : notifications;
+  const unreadCount = sourceNotifications.filter((item) => !readIds.includes(item.id)).length;
+  const filters = isFarmer ? ['Semua', 'Panen', 'Data panen', 'Pelatihan', 'Harga', 'Verifikasi lot'] : ['Semua'];
+  const sortedNotifications = useMemo(
+    () => activeFilter === 'Semua' ? sourceNotifications : farmerNotifications.filter((item) => item.type === activeFilter),
+    [activeFilter, sourceNotifications],
+  );
+
+  const markAsRead = (id: string) => {
+    setReadIds((current) => current.includes(id) ? current : [...current, id]);
+  };
+
   return (
     <Screen>
-      <Header back title="Notifikasi program" subtitle="PROGRAM · PEMBARUAN" />
-      <ProgramIntro eyebrow="TETAP TERHUBUNG" title="Yang perlu kamu tahu." description="Pengingat penting untuk menjaga ritme pelatihan, permintaan pembeli, dan musim kebun tetap terbaca." />
-      <View style={[styles.summary, { backgroundColor: colors.foreground }]}><View style={styles.summaryCopy}><Text style={[styles.summaryKicker, { color: colors.accent }]}>PEMBARUAN TERKINI</Text><Text style={[styles.summaryTitle, { color: colors.card }]}>{unreadCount} notifikasi belum dibaca</Text></View><Pressable testID="mark-notifications-read" accessibilityRole="button" accessibilityLabel="Tandai semua notifikasi sudah dibaca" onPress={() => setReadIds(notifications.map((item) => item.id))} style={({ pressed }) => [styles.readButton, { backgroundColor: colors.primary, opacity: pressed ? 0.76 : 1 }]}><BrandIcon name="check" size={15} color={colors.primaryForeground} /></Pressable></View>
-      <ProgramSectionTitle eyebrow="MASUK TERBARU" title="Untuk kelompokmu" />
+      <Header back title={isFarmer ? 'Pengingat petani' : 'Notifikasi program'} subtitle={isFarmer ? 'PETANI · AGENDA' : 'PROGRAM · PEMBARUAN'} />
+      <ProgramIntro
+        eyebrow={isFarmer ? 'JANGAN LEWATKAN' : 'TETAP TERHUBUNG'}
+        title={isFarmer ? 'Kebun tetap siap.' : 'Yang perlu kamu tahu.'}
+        description={isFarmer ? 'Pengingat panen, data, pelatihan, harga, dan verifikasi lot tersusun dalam satu tempat.' : 'Pengingat penting untuk menjaga ritme pelatihan, permintaan pembeli, dan musim kebun tetap terbaca.'}
+      />
+      <View style={[styles.summary, { backgroundColor: colors.foreground }]}>
+        <View style={styles.summaryIcon}><BrandIcon name="bell" size={20} color={colors.accent} /></View>
+        <View style={styles.summaryCopy}>
+          <Text style={[styles.summaryKicker, { color: colors.accent }]}>{isFarmer ? 'AGENDA KEBUN' : 'PEMBARUAN TERKINI'}</Text>
+          <Text style={[styles.summaryTitle, { color: colors.card }]}>{unreadCount} notifikasi belum dibaca</Text>
+        </View>
+        <Pressable testID="mark-notifications-read" accessibilityRole="button" accessibilityLabel="Tandai semua notifikasi sudah dibaca" onPress={() => setReadIds(sourceNotifications.map((item) => item.id))} style={({ pressed }) => [styles.readButton, { backgroundColor: colors.primary, opacity: pressed ? 0.76 : 1 }]}>
+          <BrandIcon name="check" size={15} color={colors.primaryForeground} />
+        </Pressable>
+      </View>
+      {isFarmer && (
+        <View style={styles.filterWrap}>
+          {filters.map((filter) => <FilterChip key={filter} label={filter} selected={activeFilter === filter} onPress={() => setActiveFilter(filter)} testID={`notifications-filter-${filter.toLowerCase().replaceAll(' ', '-')}`} />)}
+        </View>
+      )}
+      <ProgramSectionTitle eyebrow={isFarmer ? 'AGENDA TERBARU' : 'MASUK TERBARU'} title={isFarmer ? 'Untuk kebunmu' : 'Untuk kelompokmu'} />
       <View style={styles.list}>
         {sortedNotifications.map((item) => {
           const isRead = readIds.includes(item.id);
-          return <Pressable key={item.id} testID={`notification-${item.id}`} accessibilityRole="button" accessibilityLabel={`Buka notifikasi ${item.title}`} onPress={() => setReadIds((current) => current.includes(item.id) ? current : [...current, item.id])} style={({ pressed }) => [styles.notification, { backgroundColor: colors.card, borderColor: isRead ? colors.border : colors.primary, opacity: pressed ? 0.78 : 1 }]}><View style={[styles.notificationIcon, { backgroundColor: isRead ? colors.muted : colors.secondary }]}><BrandIcon name={item.icon} size={18} color={isRead ? colors.mutedForeground : colors.primary} /></View><View style={styles.notificationCopy}><View style={styles.notificationTop}><Text style={[styles.notificationType, { color: colors.primary }]}>{item.type}</Text><Text style={[styles.notificationTime, { color: colors.mutedForeground }]}>{item.time}</Text></View><Text style={[styles.notificationTitle, { color: colors.foreground }]}>{item.title}</Text><Text style={[styles.notificationDetail, { color: colors.mutedForeground }]}>{item.detail}</Text>{!isRead && <StatusPill label="Belum dibaca" />}</View></Pressable>;
+          const farmerItem = isFarmer ? farmerNotifications.find((farmerNotification) => farmerNotification.id === item.id) : undefined;
+          const priorityColor = farmerItem?.priority === 'urgent' ? colors.accent : farmerItem?.priority === 'positive' ? colors.primary : colors.mutedForeground;
+          return <View key={item.id} style={[styles.notification, { backgroundColor: colors.card, borderColor: isRead ? colors.border : colors.primary }]}>
+            <Pressable testID={`notification-${item.id}`} accessibilityRole="button" accessibilityLabel={`Buka notifikasi ${item.title}`} onPress={() => { markAsRead(item.id); if (farmerItem) router.push(farmerItem.route); }} style={({ pressed }) => [styles.notificationMain, { opacity: pressed ? 0.78 : 1 }]}>
+              <View style={[styles.notificationIcon, { backgroundColor: isRead ? colors.muted : colors.secondary }]}><BrandIcon name={item.icon} size={18} color={isRead ? colors.mutedForeground : colors.primary} /></View>
+              <View style={styles.notificationCopy}>
+                <View style={styles.notificationTop}><Text style={[styles.notificationType, { color: priorityColor }]}>{item.type}</Text><Text style={[styles.notificationTime, { color: colors.mutedForeground }]}>{item.time}</Text></View>
+                <Text style={[styles.notificationTitle, { color: colors.foreground }]}>{item.title}</Text>
+                <Text style={[styles.notificationDetail, { color: colors.mutedForeground }]}>{item.detail}</Text>
+                {!isRead && <StatusPill label="Belum dibaca" />}
+              </View>
+            </Pressable>
+            {farmerItem && <Pressable testID={`notification-action-${item.id}`} accessibilityRole="button" accessibilityLabel={farmerItem.action} onPress={() => { markAsRead(item.id); router.push(farmerItem.route); }} style={({ pressed }) => [styles.actionButton, { borderTopColor: colors.border, opacity: pressed ? 0.68 : 1 }]}>
+              <Text style={[styles.actionText, { color: colors.primary }]}>{farmerItem.action}</Text>
+              <BrandIcon name="arrow-up-right" size={14} color={colors.primary} />
+            </Pressable>}
+          </View>;
         })}
       </View>
     </Screen>
@@ -28,13 +78,16 @@ export default function NotificationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  summary: { minHeight: 92, borderRadius: 20, padding: 15, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  summary: { minHeight: 92, borderRadius: 20, padding: 15, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  summaryIcon: { width: 38, height: 38, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.1)' },
   summaryCopy: { flex: 1, gap: 5 },
   summaryKicker: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.3 },
   summaryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 23 },
   readButton: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  filterWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   list: { gap: 10 },
-  notification: { borderWidth: 1, borderRadius: 19, padding: 13, flexDirection: 'row', alignItems: 'flex-start', gap: 11 },
+  notification: { borderWidth: 1, borderRadius: 19, overflow: 'hidden' },
+  notificationMain: { padding: 13, flexDirection: 'row', alignItems: 'flex-start', gap: 11 },
   notificationIcon: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   notificationCopy: { flex: 1, gap: 4 },
   notificationTop: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
@@ -42,4 +95,6 @@ const styles = StyleSheet.create({
   notificationTime: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
   notificationTitle: { fontFamily: 'Manrope_700Bold', fontSize: 14, lineHeight: 18 },
   notificationDetail: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 16 },
+  actionButton: { minHeight: 40, borderTopWidth: 1, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  actionText: { fontFamily: 'Manrope_700Bold', fontSize: 11 },
 });
