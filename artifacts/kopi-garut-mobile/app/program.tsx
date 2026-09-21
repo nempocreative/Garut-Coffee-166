@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,7 @@ import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { Button, Header, Screen } from '@/components/AppUI';
 import { ProgramSectionTitle } from '@/components/ProgramUI';
 import { programLinks } from '@/data/program';
+import { hubEvents } from '@/data/hub';
 import { useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
 import { useColors } from '@/hooks/useColors';
@@ -18,7 +19,77 @@ const roleCards = [
   { id: 'extension', role: 'penyuluh', icon: 'map-pin' as const, title: 'Penyuluh', description: 'Catat kunjungan dan tindak lanjut kebun.', route: '/extension-dashboard' },
 ];
 
-type ProgramCategory = 'Semua' | 'Bantuan' | 'Pelatihan' | 'Pendampingan' | 'Akses pasar';
+const regularPrograms = [
+  {
+    id: 'coffee-talk-garut',
+    icon: 'users' as const,
+    title: 'Coffee Talk Garut',
+    category: 'DIALOG & CERITA',
+    cycle: 'Rutin setiap bulan',
+    next: 'Sesi berikutnya · 10 Okt 2026',
+    description: 'Obrolan santai bersama petani, roaster, barista, dan pelaku usaha kopi.',
+    image: require('../assets/images/event-festival-garut.jpg'),
+  },
+  {
+    id: 'sekolah-barista',
+    icon: 'coffee' as const,
+    title: 'Sekolah Barista Kopi Garut',
+    category: 'KELAS KETERAMPILAN',
+    cycle: 'Batch per kuartal',
+    next: 'Batch 01 · 24 Okt 2026',
+    description: 'Belajar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.',
+    image: require('../assets/images/origin-coffee.jpg'),
+  },
+  {
+    id: 'cupping-kenal-asal',
+    icon: 'trending-up' as const,
+    title: 'Cupping & Kenal Asal',
+    category: 'MUTU & RASA',
+    cycle: 'Rutin setiap dua minggu',
+    next: 'Papandayan · 14 Nov 2026',
+    description: 'Membaca rasa, membandingkan proses, dan mengenal orang di balik setiap lot.',
+    image: require('../assets/images/coffee-beans-natural.png'),
+  },
+  {
+    id: 'kelas-pascapanen',
+    icon: 'package' as const,
+    title: 'Kelas Pascapanen',
+    category: 'UNTUK PETANI',
+    cycle: 'Menjelang musim panen',
+    next: 'Cikajang · 17 Okt 2026',
+    description: 'Praktik sortasi, pengeringan, dan pencatatan mutu untuk menjaga nilai jual kopi.',
+    image: require('../assets/images/farmer-iis-nurhayati.jpg'),
+  },
+];
+
+const derivativeProducts = [
+  {
+    id: 'essential-oil-kopi',
+    icon: 'trending-up' as const,
+    title: 'Essential oil kopi',
+    description: 'Aroma kopi untuk ruang, relaksasi, dan produk wellness desa.',
+  },
+  {
+    id: 'pewangi-sepatu',
+    icon: 'package' as const,
+    title: 'Pewangi sepatu',
+    description: 'Produk harian berbahan kopi yang praktis dan mudah dipasarkan.',
+  },
+  {
+    id: 'merchandise-desa',
+    icon: 'shopping-bag' as const,
+    title: 'Merchandise desa',
+    description: 'Tote bag, pin, kartu cerita, dan suvenir dengan identitas Garut.',
+  },
+  {
+    id: 'oleh-oleh-aroma',
+    icon: 'coffee' as const,
+    title: 'Oleh-oleh aroma',
+    description: 'Lilin, sabun, dan paket aroma untuk memperluas cerita kopi.',
+  },
+];
+
+type ProgramCategory = 'Semua' | 'CSR desa' | 'Pendidikan' | 'Lingkungan' | 'Kesejahteraan';
 type ProgramOffer = {
   id: string;
   category: Exclude<ProgramCategory, 'Semua'>;
@@ -36,59 +107,70 @@ type ProgramApplication = {
 };
 
 const applicationStorageKey = '@kopi-garut/program-applications';
-const programCategories: ProgramCategory[] = ['Semua', 'Bantuan', 'Pelatihan', 'Pendampingan', 'Akses pasar'];
+const programCategories: ProgramCategory[] = ['Semua', 'CSR desa', 'Pendidikan', 'Lingkungan', 'Kesejahteraan'];
+const derivativeProgramOffer: ProgramOffer = {
+  id: 'pemberdayaan-produk-turunan',
+  category: 'CSR desa',
+  icon: 'users',
+  title: 'Pemberdayaan produk turunan kopi',
+  description: 'Pendampingan desa untuk merancang, menguji, dan memasarkan produk baru berbasis kopi.',
+  target: 'Desa & kelompok tani',
+  support: 'Pendampingan 3 bulan',
+  deadline: 'Pendaftaran dibuka',
+};
 const programOffers: ProgramOffer[] = [
   {
-    id: 'bibit-unggul',
-    category: 'Bantuan',
-    icon: 'coffee',
-    title: 'Bibit kopi unggul',
-    description: 'Bibit Arabika untuk kebun yang siap dipulihkan atau diperluas.',
-    target: 'Petani aktif',
-    support: 'Maks. 250 bibit',
+    id: 'beasiswa-anak-petani',
+    category: 'Pendidikan',
+    icon: 'calendar',
+    title: 'Beasiswa anak petani',
+    description: 'Dukungan pendidikan untuk membantu anak keluarga petani melanjutkan sekolah.',
+    target: 'Keluarga petani',
+    support: 'Beasiswa 1 semester',
     deadline: '30 Nov 2026',
   },
   {
-    id: 'dryer-bersama',
-    category: 'Bantuan',
-    icon: 'package',
-    title: 'Dryer bersama',
-    description: 'Dukungan alat pascapanen untuk memperkuat kapasitas kelompok.',
-    target: 'Kelompok tani',
-    support: '1 unit / kelompok',
-    deadline: '15 Des 2026',
-  },
-  {
-    id: 'pascapanen',
-    category: 'Pelatihan',
-    icon: 'calendar',
-    title: 'Kelas pascapanen',
-    description: 'Belajar sortasi, pengeringan, dan pencatatan mutu per lot.',
-    target: 'Petani & pengurus',
-    support: '1 hari praktik',
-    deadline: 'Kuota 24 orang',
-  },
-  {
-    id: 'kebun-produktif',
-    category: 'Pendampingan',
-    icon: 'map-pin',
-    title: 'Kebun produktif',
-    description: 'Pendampingan berkala untuk merawat kebun dan menyusun target panen.',
-    target: 'Petani aktif',
-    support: '4 kunjungan',
+    id: 'ruang-belajar-desa',
+    category: 'Pendidikan',
+    icon: 'users',
+    title: 'Ruang belajar desa',
+    description: 'Pengadaan buku, perlengkapan belajar, dan ruang kegiatan untuk anak-anak desa.',
+    target: 'Sekolah & komunitas desa',
+    support: 'Paket perlengkapan belajar',
     deadline: 'Pendaftaran dibuka',
   },
   {
-    id: 'akses-pasar',
-    category: 'Akses pasar',
+    id: 'penghijauan-sumber-air',
+    category: 'Lingkungan',
+    icon: 'map',
+    title: 'Penghijauan sumber air',
+    description: 'Aksi tanam dan perawatan area resapan untuk menjaga kebun serta sumber air desa.',
+    target: 'Kelompok warga',
+    support: 'Bibit & aksi tanam',
+    deadline: 'Musim hujan 2026',
+  },
+  {
+    id: 'air-bersih-desa',
+    category: 'Kesejahteraan',
+    icon: 'map-pin',
+    title: 'Air bersih desa',
+    description: 'Dukungan sarana air bersih untuk meningkatkan kesehatan dan kualitas hidup warga.',
+    target: 'Warga desa',
+    support: 'Dukungan sarana',
+    deadline: 'Seleksi desa',
+  },
+  {
+    id: 'dukungan-umkm-desa',
+    category: 'CSR desa',
     icon: 'briefcase',
-    title: 'Temu cafe mitra',
-    description: 'Hubungkan lot kopi dengan cafe dan roastery yang mencari pasokan.',
-    target: 'Petani & kelompok',
-    support: '12 lot tersedia',
+    title: 'Dukungan usaha mikro desa',
+    description: 'Bantuan alat dasar untuk usaha kecil warga agar ekonomi desa tumbuh lebih beragam.',
+    target: 'Usaha mikro desa',
+    support: 'Paket alat usaha',
     deadline: 'Pendaftaran dibuka',
   },
 ];
+const applicationOffers = [...programOffers, derivativeProgramOffer];
 
 export default function ProgramScreen() {
   const colors = useColors();
@@ -154,23 +236,102 @@ export default function ProgramScreen() {
               <BrandIcon name="shield" size={21} color={colors.primaryForeground} />
             </View>
           </View>
-          <Text style={[styles.heroTitle, { color: colors.card }]}>Ruang untuk{'\n'}tumbuh bersama.</Text>
+          <Text style={[styles.heroTitle, { color: colors.card }]}>Belajar, berbagi,{'\n'}tumbuh bersama.</Text>
           <View style={styles.heroBottom}>
             <View style={[styles.heroLine, { backgroundColor: colors.accent }]} />
-            <Text style={[styles.heroMeta, { color: colors.background }]}>DATA  ·  AKSI  ·  DAMPAK</Text>
+            <Text style={[styles.heroMeta, { color: colors.background }]}>BELAJAR  ·  BERBAGI  ·  BERKARYA</Text>
           </View>
         </View>
       </Animated.View>
 
       <View style={[styles.statsBar, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
-        <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{roleCards.length}</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>PERAN</Text></View>
+        <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{regularPrograms.length}</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>PROGRAM RUTIN</Text></View>
         <View style={[styles.statDivider, { backgroundColor: colors.border }]} />
-        <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{programLinks.length}</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>LAYANAN</Text></View>
+        <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>{String(hubEvents.length).padStart(2, '0')}</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>AGENDA KOPI</Text></View>
         <View style={[styles.statDivider, { backgroundColor: colors.border }]} />
         <View style={styles.stat}><Text style={[styles.statValue, { color: colors.primary }]}>01</Text><Text style={[styles.statLabel, { color: colors.secondaryForeground }]}>EKOSISTEM</Text></View>
       </View>
 
-      <ProgramSectionTitle eyebrow="PROGRAM BERJALAN" title="Bantuan & pemberdayaan" />
+      <ProgramSectionTitle eyebrow="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." />
+      <Text style={[styles.programIntro, { color: colors.mutedForeground }]}>
+        Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan kopi Garut bersama-sama.
+      </Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regularProgramRail}>
+        {regularPrograms.map((program, index) => (
+          <Pressable
+            key={program.id}
+            testID={`regular-program-${program.id}`}
+            accessibilityRole="button"
+            accessibilityLabel={`Lihat jadwal ${program.title}`}
+            onPress={() => router.push('/events')}
+            style={({ pressed }) => [styles.regularProgramCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.78 : 1 }]}
+          >
+            <View style={styles.regularProgramImageFrame}>
+              <Image source={program.image} contentFit="cover" style={styles.regularProgramImage} />
+              <View style={[styles.regularProgramShade, { backgroundColor: colors.foreground }]} />
+              <View style={[styles.regularProgramBadge, { backgroundColor: colors.accent }]}>
+                <BrandIcon name={program.icon} size={12} color={colors.accentForeground} />
+                <Text style={[styles.regularProgramBadgeText, { color: colors.accentForeground }]}>{program.category}</Text>
+              </View>
+              <Text style={[styles.regularProgramIndex, { color: colors.card }]}>{String(index + 1).padStart(2, '0')}</Text>
+            </View>
+            <View style={styles.regularProgramCopy}>
+              <Text style={[styles.regularProgramTitle, { color: colors.foreground }]}>{program.title}</Text>
+              <Text style={[styles.regularProgramCycle, { color: colors.primary }]}>{program.cycle}</Text>
+              <Text numberOfLines={2} style={[styles.regularProgramDescription, { color: colors.mutedForeground }]}>{program.description}</Text>
+              <View style={[styles.regularProgramNext, { borderTopColor: colors.border }]}>
+                <Text numberOfLines={1} style={[styles.regularProgramNextText, { color: colors.foreground }]}>{program.next}</Text>
+                <BrandIcon name="arrow-up-right" size={14} color={colors.primary} />
+              </View>
+            </View>
+          </Pressable>
+        ))}
+      </ScrollView>
+
+      <ProgramSectionTitle eyebrow="PEMBERDAYAAN DESA" title="Dari kopi, lahir lebih banyak karya." />
+      <Animated.View entering={FadeInDown.delay(120).duration(460)} style={[styles.derivativeFeature, { backgroundColor: colors.foreground }]}>
+        <View style={styles.derivativeFeatureTop}>
+          <View style={[styles.derivativeKicker, { backgroundColor: colors.accent }]}>
+            <BrandIcon name="users" size={14} color={colors.accentForeground} />
+            <Text style={[styles.derivativeKickerText, { color: colors.accentForeground }]}>PROGRAM DESA</Text>
+          </View>
+          <Text style={[styles.derivativeIndex, { color: colors.card }]}>04</Text>
+        </View>
+        <Text style={[styles.derivativeTitle, { color: colors.card }]}>Produk turunan kopi</Text>
+        <Text style={[styles.derivativeDescription, { color: colors.background }]}>
+          Mengubah potensi kopi dan hasil sampingnya menjadi produk bernilai tambah yang bisa dibuat, dikelola, dan dipasarkan bersama oleh warga desa.
+        </Text>
+        <View style={styles.derivativeProductGrid}>
+          {derivativeProducts.map((product) => (
+            <View key={product.id} style={[styles.derivativeProduct, { backgroundColor: colors.card }]}>
+              <View style={[styles.derivativeProductIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name={product.icon} size={17} color={colors.primary} />
+              </View>
+              <Text style={[styles.derivativeProductTitle, { color: colors.foreground }]}>{product.title}</Text>
+              <Text style={[styles.derivativeProductDescription, { color: colors.mutedForeground }]}>{product.description}</Text>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.derivativeNote, { borderTopColor: colors.card }]}>
+          <BrandIcon name="map-pin" size={15} color={colors.accent} />
+          <Text style={[styles.derivativeNoteText, { color: colors.background }]}>Dikembangkan bersama desa, dari ide sampai siap dijual.</Text>
+        </View>
+        <Pressable
+          testID="apply-program-pemberdayaan-produk-turunan"
+          accessibilityRole="button"
+          accessibilityLabel="Ajukan pendampingan produk turunan kopi"
+          onPress={() => void applyForProgram(derivativeProgramOffer)}
+          style={({ pressed }) => [styles.derivativeAction, { backgroundColor: colors.accent, opacity: pressed ? 0.78 : 1 }]}
+        >
+          <Text style={[styles.derivativeActionText, { color: colors.accentForeground }]}>Ajukan pendampingan desa</Text>
+          <BrandIcon name="arrow-up-right" size={16} color={colors.accentForeground} />
+        </Pressable>
+      </Animated.View>
+
+      <ProgramSectionTitle eyebrow="CSR KOPI GARUT" title="Kontribusi nyata untuk desa" />
+      <Text style={[styles.programIntro, { color: colors.mutedForeground }]}>
+        Dukungan sosial dan lingkungan dari ekosistem Kopi Garut untuk membantu desa tumbuh lebih sehat, berdaya, dan berkelanjutan.
+      </Text>
       <View style={styles.categoryList}>
         {programCategories.map((category) => {
           const selected = selectedCategory === category;
@@ -264,7 +425,7 @@ export default function ProgramScreen() {
           <ProgramSectionTitle eyebrow="PENGAJUAN SAYA" title="Sedang ditinjau" />
           <View style={styles.applicationList}>
             {myApplications.map((application) => {
-              const offer = programOffers.find((item) => item.id === application.programId);
+              const offer = applicationOffers.find((item) => item.id === application.programId);
               if (!offer) return null;
               return (
                 <View key={`${application.role}-${application.programId}`} style={[styles.applicationCard, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
@@ -338,6 +499,37 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 22, fontWeight: '800' },
   statLabel: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1 },
   statDivider: { width: 1, height: 30 },
+  programIntro: { fontFamily: 'Manrope_400Regular', fontSize: 12, lineHeight: 18, maxWidth: 345 },
+  regularProgramRail: { gap: 10, paddingRight: 20 },
+  regularProgramCard: { width: 235, borderRadius: 20, borderWidth: 1, overflow: 'hidden' },
+  regularProgramImageFrame: { height: 122, position: 'relative', overflow: 'hidden' },
+  regularProgramImage: { width: '100%', height: '100%' },
+  regularProgramShade: { ...StyleSheet.absoluteFill, opacity: 0.12 },
+  regularProgramBadge: { position: 'absolute', left: 9, top: 9, borderRadius: 8, paddingHorizontal: 7, paddingVertical: 6, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  regularProgramBadgeText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7 },
+  regularProgramIndex: { position: 'absolute', right: 10, bottom: 7, fontFamily: 'Manrope_700Bold', fontSize: 21, fontWeight: '800', opacity: 0.72 },
+  regularProgramCopy: { minHeight: 164, padding: 12, gap: 5 },
+  regularProgramTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '800' },
+  regularProgramCycle: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
+  regularProgramDescription: { fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 15 },
+  regularProgramNext: { marginTop: 'auto', paddingTop: 8, borderTopWidth: 1, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  regularProgramNextText: { flex: 1, fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
+  derivativeFeature: { borderRadius: 22, padding: 14, gap: 13 },
+  derivativeFeatureTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  derivativeKicker: { borderRadius: 9, paddingHorizontal: 8, paddingVertical: 6, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  derivativeKickerText: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 0.9 },
+  derivativeIndex: { fontFamily: 'Manrope_700Bold', fontSize: 24, fontWeight: '800', opacity: 0.76 },
+  derivativeTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 27, fontWeight: '800', letterSpacing: -0.45 },
+  derivativeDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 17, opacity: 0.86 },
+  derivativeProductGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  derivativeProduct: { width: '48.5%', minHeight: 126, borderRadius: 16, padding: 10, gap: 5 },
+  derivativeProductIcon: { width: 31, height: 31, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 1 },
+  derivativeProductTitle: { fontFamily: 'Manrope_700Bold', fontSize: 11, lineHeight: 15, fontWeight: '800' },
+  derivativeProductDescription: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13 },
+  derivativeNote: { borderTopWidth: 1, paddingTop: 10, flexDirection: 'row', alignItems: 'center', gap: 7 },
+  derivativeNoteText: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14, opacity: 0.85 },
+  derivativeAction: { minHeight: 42, borderRadius: 13, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 9 },
+  derivativeActionText: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800' },
   categoryList: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   categoryChip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 12, paddingVertical: 9 },
   categoryText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },

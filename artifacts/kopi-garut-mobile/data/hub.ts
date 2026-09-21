@@ -118,8 +118,10 @@ export const coffeeTours: CoffeeTour[] = [
 ];
 
 export const hubEvents: HubEvent[] = [
+  { id: 'coffee-talk-garut', title: 'Coffee Talk Garut: Dari Kebun ke Cangkir', date: '10 Oktober 2026', location: 'Kota Garut', type: 'Coffee Talk', description: 'Obrolan rutin bersama petani, roaster, barista, dan pelaku usaha tentang masa depan kopi Garut.' },
   { id: 'festival-kopi', title: 'Festival Kopi Garut 2026', date: '3–4 Oktober 2026', location: 'Alun-alun Garut', type: 'Festival', description: 'Temu petani, roastery, cafe, dan pecinta kopi dalam satu perayaan.' },
   { id: 'kelas-pascapanen', title: 'Kelas Pascapanen untuk Kelompok Tani', date: '17 Oktober 2026', location: 'Cikajang', type: 'Pelatihan', description: 'Praktik sortasi, fermentasi, dan pengeringan untuk menjaga nilai jual kopi.' },
+  { id: 'sekolah-barista', title: 'Sekolah Barista Kopi Garut — Batch 01', date: '24 Oktober 2026', location: 'Kota Garut', type: 'Sekolah Barista', description: 'Kelas dasar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.' },
   { id: 'temu-cafe', title: 'Temu Mitra Cafe', date: '7 November 2026', location: 'Kota Garut', type: 'Kemitraan', description: 'Sesi temu usaha untuk memperluas akses kopi Garut ke kedai-kedai Indonesia.' },
   { id: 'cupping-papandayan', title: 'Cupping Session Papandayan', date: '14 November 2026', location: 'Cisurupan', type: 'Cupping', description: 'Mencicipi profil rasa dari kebun Papandayan bersama petani dan roaster lokal.' },
   { id: 'pasar-kopi-garut', title: 'Pasar Kopi Garut', date: '28 November 2026', location: 'Pendopo Garut', type: 'Pasar kopi', description: 'Temukan biji kopi, produk olahan, dan cerita dari pelaku ekosistem kopi Garut.' },

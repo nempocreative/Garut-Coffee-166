@@ -9,8 +9,10 @@ import { hubEvents } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 const eventImages: Record<string, ImageSource> = {
+  'coffee-talk-garut': require('../assets/images/event-festival-garut.jpg'),
   'festival-kopi': require('../assets/images/event-festival-garut.jpg'),
   'kelas-pascapanen': require('../assets/images/origin-coffee.jpg'),
+  'sekolah-barista': require('../assets/images/origin-coffee.jpg'),
   'temu-cafe': require('../assets/images/hero-coffee.jpg'),
   'cupping-papandayan': require('../assets/images/coffee-beans-natural.png'),
   'pasar-kopi-garut': require('../assets/images/event-festival-garut.jpg'),
