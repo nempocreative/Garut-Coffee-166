@@ -72,7 +72,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Cookies ampas kopi',
     price: 'Rp 35.000',
     status: 'Batch mingguan',
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/coffee-cookies.png'),
     badge: 'Batch kecil',
   },
   {
