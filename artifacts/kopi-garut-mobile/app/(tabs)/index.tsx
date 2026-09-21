@@ -504,6 +504,7 @@ export default function HomeScreen() {
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const diversifiedCardWidth = Math.max(166, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
+  const farmerCardHeight = farmerCardWidth + 164;
   const extensionCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
   const regionCardWidth = Math.max(150, Math.floor((width - 40 - 10) / 2));
   const storyCardWidth = Math.max(140, Math.floor((width - 40 - 8) / 2));
@@ -955,12 +956,12 @@ export default function HomeScreen() {
           onPress={() => router.push(`/farmer/${farmer.id}`)}
           style={({ pressed }) => [
             styles.farmerFeature,
-            { width: farmerCardWidth, backgroundColor: colors.foreground, borderColor: colors.border, opacity: pressed ? 0.86 : 1 },
+             { width: farmerCardWidth, height: farmerCardHeight, backgroundColor: colors.foreground, borderColor: colors.border, opacity: pressed ? 0.86 : 1 },
           ]}
         >
           <View style={[styles.farmerCardAccent, { backgroundColor: index === 0 ? colors.accent : colors.primary }]} />
           <View style={styles.farmerPortraitWrap}>
-            <ExpoImage source={farmer.image} contentFit="cover" style={styles.farmerImage} />
+              <ExpoImage source={farmer.image} contentFit="cover" style={styles.farmerImage} />
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
             <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.card, borderColor: colors.accent }]}>
               <ExpoImage
@@ -1351,9 +1352,9 @@ const styles = StyleSheet.create({
   tasteLabel: { fontFamily: 'Manrope_700Bold', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   tasteDetail: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 10, lineHeight: 14 },
   farmerRail: { flexDirection: 'row', gap: 8, paddingRight: 20 },
-  farmerFeature: { height: 286, borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
+  farmerFeature: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', flexDirection: 'column', alignItems: 'stretch' },
   farmerCardAccent: { position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 4 },
-  farmerPortraitWrap: { width: '100%', height: 112, margin: 0, borderRadius: 0, overflow: 'hidden', position: 'relative' },
+  farmerPortraitWrap: { width: '100%', aspectRatio: 1, margin: 0, borderRadius: 0, overflow: 'hidden', position: 'relative' },
   farmerImage: { width: '100%', height: '100%' },
   farmerPortraitBadge: { position: 'absolute', left: 9, bottom: 9, width: 34, height: 34, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center', padding: 5 },
   farmerBadgeImage: { width: '100%', height: '100%' },

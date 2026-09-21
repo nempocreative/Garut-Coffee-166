@@ -24,7 +24,7 @@ export default function FarmersScreen() {
   const featured = visibleFarmers[0];
 
   return (
-    <Screen bottomMenu={false}>
+    <Screen>
       <Header title="Petani kopi" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text>
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.statsPanel, { backgroundColor: colors.foreground }]}>
@@ -74,7 +74,12 @@ export default function FarmersScreen() {
             <View style={[styles.cardGlow, { backgroundColor: colors.secondary }]} />
             <View style={styles.cardInner}>
               <View style={styles.photoFrame}>
-                <Image source={farmer.image} contentFit="cover" style={styles.image} />
+                <Image
+                  source={farmer.image}
+                  contentFit="cover"
+                  contentPosition={farmer.id === 'iis-nurhayati' ? 'top center' : 'center'}
+                  style={styles.image}
+                />
                 <LinearGradient colors={['transparent', `${colors.foreground}B8`]} locations={[0.42, 1]} style={StyleSheet.absoluteFill} />
                 <View style={[styles.photoLabel, { backgroundColor: `${colors.foreground}B8` }]}>
                   <BrandIcon name="user" size={10} color={colors.accent} />
@@ -167,17 +172,17 @@ const styles = StyleSheet.create({
   listHeadingText: { fontFamily: 'Manrope_700Bold', fontSize: 18, fontWeight: '700' },
   listHeadingHint: { fontFamily: 'Manrope_400Regular', fontSize: 11 },
   list: { gap: 11 },
-   card: { minHeight: 278, borderWidth: 1, borderRadius: 23, overflow: 'hidden' },
+  card: { minHeight: 278, borderWidth: 1, borderRadius: 23, overflow: 'hidden' },
   cardAccent: { height: 6, width: '100%' },
   cardGlow: { position: 'absolute', width: 150, height: 150, borderRadius: 75, right: -62, top: -66, opacity: 0.62 },
-   cardInner: { flex: 1, padding: 14, flexDirection: 'row', alignItems: 'stretch', gap: 14 },
-   photoFrame: { width: 118, height: 248, borderRadius: 17, overflow: 'hidden', position: 'relative' },
+  cardInner: { flex: 1, padding: 14, flexDirection: 'column', alignItems: 'stretch', gap: 14 },
+  photoFrame: { width: '100%', height: 190, borderRadius: 17, overflow: 'hidden', position: 'relative' },
   image: { width: '100%', height: '100%' },
   photoLabel: { position: 'absolute', top: 8, left: 8, borderRadius: 8, paddingHorizontal: 7, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 4 },
   photoLabelText: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.5 },
   photoIndex: { position: 'absolute', left: 6, bottom: 6, minWidth: 24, height: 20, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
   photoIndexText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.6 },
-   cardCopy: { flex: 1, gap: 4, minWidth: 0, justifyContent: 'flex-start', paddingVertical: 2 },
+  cardCopy: { width: '100%', gap: 4, minWidth: 0, justifyContent: 'flex-start', paddingVertical: 2 },
   cardIdentity: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, marginBottom: 4 },
   compactVerifiedBadge: { minHeight: 18, borderRadius: 6, paddingHorizontal: 4, gap: 2 },
   compactVerifiedCheck: { width: 7, height: 7, right: -2, bottom: -1 },
@@ -200,7 +205,7 @@ const styles = StyleSheet.create({
   metaLabel: { fontFamily: 'Manrope_700Bold', fontSize: 7, fontWeight: '800', letterSpacing: 0.7, marginBottom: 1 },
   meta: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
   memberId: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
-  cardAction: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', gap: 7, marginTop: 'auto' },
+  cardAction: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', gap: 7, marginTop: 0 },
   cardActionText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.2 },
   arrow: { width: 35, height: 35, borderRadius: 13, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-end' },
 });
