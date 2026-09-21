@@ -82,7 +82,10 @@ export function Header({ title, cart = true, notifications = false, back = false
       <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
           <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy]}>
-            <Text numberOfLines={2} style={[styles.headerTitle, isHomeGreeting && styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>{isHomeGreeting ? <>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati</Text>{'\n'}<Text style={[{ color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text></> : titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>
+            {isHomeGreeting ? <View style={styles.homeGreetingLines}>
+              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati</Text></Text>
+              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text>
+            </View> : <Text numberOfLines={2} style={[styles.headerTitle, { color: titleTextColor }, homeTitleShadow]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>}
           </View>
         </View>
       </View>
@@ -142,6 +145,7 @@ const styles = StyleSheet.create({
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   homeHeaderCopy: { paddingLeft: 96, paddingRight: 28 },
+  homeGreetingLines: { alignItems: 'flex-end', gap: 0 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   homeHeaderTitle: { fontSize: 20, lineHeight: 24, letterSpacing: -0.5, textAlign: 'right' },
