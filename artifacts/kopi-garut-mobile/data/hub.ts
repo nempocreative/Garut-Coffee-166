@@ -128,11 +128,59 @@ export const hubEvents: HubEvent[] = [
   { id: 'kelas-brew-di-rumah', title: 'Kelas Seduh di Rumah', date: '5 Desember 2026', location: 'Kota Garut', type: 'Kelas', description: 'Belajar menyeduh kopi Garut dengan alat sederhana dan resep yang mudah diikuti.' },
 ];
 
-export const coffeePrices = [
-  { label: 'Cherry kopi', price: 'Rp 8.500', unit: 'per kg', change: '+4,2% bulan ini' },
-  { label: 'Gabah kopi', price: 'Rp 22.000', unit: 'per kg', change: '+2,1% bulan ini' },
-  { label: 'Green bean', price: 'Rp 68.000', unit: 'per kg', change: 'Harga rata-rata' },
-  { label: 'Roasted bean', price: 'Rp 125.000', unit: 'per 200 g', change: 'Harga rata-rata' },
+export type CoffeePrice = {
+  label: string;
+  price: string;
+  unit: string;
+  change: string;
+  grades: { label: string; price: string }[];
+};
+
+export const coffeePrices: CoffeePrice[] = [
+  {
+    label: 'Cherry kopi',
+    price: 'Rp 8.500',
+    unit: 'per kg',
+    change: '+4,2% bulan ini',
+    grades: [
+      { label: 'Grade 1', price: 'Rp 8.500' },
+      { label: 'Grade 2', price: 'Rp 7.500' },
+      { label: 'Standar', price: 'Rp 6.500' },
+    ],
+  },
+  {
+    label: 'Gabah kopi',
+    price: 'Rp 22.000',
+    unit: 'per kg',
+    change: '+2,1% bulan ini',
+    grades: [
+      { label: 'Grade 1', price: 'Rp 22.000' },
+      { label: 'Grade 2', price: 'Rp 19.000' },
+      { label: 'Standar', price: 'Rp 16.000' },
+    ],
+  },
+  {
+    label: 'Green bean',
+    price: 'Rp 68.000',
+    unit: 'per kg',
+    change: 'Harga rata-rata',
+    grades: [
+      { label: 'Grade 1', price: 'Rp 68.000' },
+      { label: 'Grade 2', price: 'Rp 58.000' },
+      { label: 'Standar', price: 'Rp 48.000' },
+    ],
+  },
+  {
+    label: 'Roasted bean',
+    price: 'Rp 125.000',
+    unit: 'per 200 g',
+    change: 'Harga rata-rata',
+    grades: [
+      { label: 'Grade 1', price: 'Rp 125.000' },
+      { label: 'Grade 2', price: 'Rp 108.000' },
+      { label: 'Standar', price: 'Rp 90.000' },
+    ],
+  },
 ];
 
 export const hubStats = [
