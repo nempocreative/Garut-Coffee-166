@@ -29,9 +29,12 @@ export type CoffeeLot = {
   weightKg: number;
   process: string;
   harvestPeriod: string;
+  harvestDate: string;
+  productionDate: string;
   qualityNote: string;
   storyTitle: string;
   story: string;
+  impact: string;
   journey: { label: string; title: string; detail: string }[];
 };
 
@@ -134,10 +137,14 @@ export const coffeeLots: CoffeeLot[] = [
     weightKg: 350,
     process: 'Madu',
     harvestPeriod: 'September 2026',
+    harvestDate: '12 September 2026',
+    productionDate: '20 September 2026',
     qualityNote: 'Lot terkurasi dari lereng Papandayan.',
-    storyTitle: 'Dari lereng sejuk ke cangkir pagimu.',
+    storyTitle: 'Satu cangkir, banyak kehidupan.',
     story:
-      'Buah kopi dipetik saat kulitnya merah penuh oleh keluarga tani di lereng Papandayan. Setelah melalui proses madu dan pengeringan perlahan, biji ini disangrai ringan–sedang agar rasa lemon, gula merah, dan melatinya tetap terasa jernih.',
+      'Di lereng Papandayan, kopi dipetik saat kulitnya merah penuh oleh keluarga tani yang merawat kebun dari musim ke musim. Setelah melalui proses madu dan pengeringan perlahan, biji ini disangrai ringan–sedang agar rasa lemon, gula merah, dan melatinya tetap terasa jernih. Bagi mereka, kopi bukan sekadar panen: kopi adalah pekerjaan yang menghidupkan rumah, menjaga kebun tetap terawat, dan membuka kesempatan bagi tangan-tangan lain untuk ikut bekerja.',
+    impact:
+      'Saat kamu memilih lot ini, kamu ikut menjaga pekerjaan di kebun, rumah pengeringan, proses sortir, hingga pengiriman. Jadi, yang sampai ke cangkir bukan hanya rasa—tetapi juga kesempatan untuk tumbuh bersama.',
     journey: [
       {
         label: 'Kebun',

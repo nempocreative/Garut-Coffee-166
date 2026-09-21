@@ -124,6 +124,26 @@ export default function TraceabilityScreen() {
                 <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>{lot.variety} · Proses {lot.process}</Text>
               </View>
             </View>
+            <View style={[styles.originRow, { borderTopColor: colors.border }]}>
+              <View style={[styles.originRowIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="calendar" size={15} color={colors.primary} />
+              </View>
+              <View style={styles.originRowCopy}>
+                <Text style={[styles.originLabel, { color: colors.mutedForeground }]}>TANGGAL PANEN</Text>
+                <Text style={[styles.originValue, { color: colors.foreground }]}>{lot.harvestDate}</Text>
+                <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>Buah kopi dipetik saat matang</Text>
+              </View>
+            </View>
+            <View style={[styles.originRow, { borderTopColor: colors.border }]}>
+              <View style={[styles.originRowIcon, { backgroundColor: colors.secondary }]}>
+                <BrandIcon name="package" size={15} color={colors.primary} />
+              </View>
+              <View style={styles.originRowCopy}>
+                <Text style={[styles.originLabel, { color: colors.mutedForeground }]}>TANGGAL PRODUKSI</Text>
+                <Text style={[styles.originValue, { color: colors.foreground }]}>{lot.productionDate}</Text>
+                <Text style={[styles.originMeta, { color: colors.mutedForeground }]}>Lot disiapkan dan dikemas untuk dijual</Text>
+              </View>
+            </View>
           </View>
 
           <View style={[styles.storyCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -137,9 +157,18 @@ export default function TraceabilityScreen() {
             <Text style={[styles.storyText, { color: colors.mutedForeground }]}>{lot.story}</Text>
             <View style={[styles.storyQuote, { borderTopColor: colors.border }]}>
               <Text style={[styles.quoteText, { color: colors.foreground }]}>
-                “Setiap tegukan membawa sedikit udara sejuk Papandayan.”
+                 “Yang menghangatkan cangkir ini bukan hanya kopi, tetapi juga kehidupan yang dijaganya.”
               </Text>
             </View>
+             <View style={[styles.storyImpact, { backgroundColor: colors.secondary }]}>
+               <View style={[styles.storyImpactIcon, { backgroundColor: colors.accent }]}>
+                 <BrandIcon name="briefcase" size={16} color={colors.accentForeground} />
+               </View>
+               <View style={styles.storyImpactCopy}>
+                 <Text style={[styles.storyImpactKicker, { color: colors.primary }]}>DAMPAK DI BALIK RASA</Text>
+                 <Text style={[styles.storyImpactText, { color: colors.foreground }]}>{lot.impact}</Text>
+               </View>
+             </View>
           </View>
 
           <View style={styles.sectionHeading}>
@@ -260,6 +289,11 @@ const styles = StyleSheet.create({
   storyText: { fontSize: 13, lineHeight: 20 },
   storyQuote: { borderTopWidth: 1, paddingTop: 12, marginTop: 2 },
   quoteText: { fontSize: 12, lineHeight: 18, fontStyle: 'italic' },
+  storyImpact: { borderRadius: 15, padding: 12, flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginTop: 1 },
+  storyImpactIcon: { width: 30, height: 30, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  storyImpactCopy: { flex: 1, gap: 4 },
+  storyImpactKicker: { fontSize: 8, fontWeight: '800', letterSpacing: 1.05 },
+  storyImpactText: { fontSize: 12, lineHeight: 18, fontWeight: '600' },
   sectionHeading: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 },
   sectionTitle: { fontSize: 19, lineHeight: 24, fontWeight: '700', marginTop: 4 },
   sectionMeta: { fontSize: 11, marginBottom: 2 },
