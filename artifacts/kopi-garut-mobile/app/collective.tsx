@@ -84,7 +84,7 @@ export default function CollectiveScreen() {
       <Header title="Ekosistem Kopi" subtitle="DARI KEBUN KE CANGKIR" cart={false} back />
 
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.hero, { backgroundColor: colors.foreground }]}>
-        <Image source={require('../assets/images/hero-coffee.jpg')} contentFit="cover" style={styles.heroImage} />
+        <Image source={require('../assets/images/hero-coffee.webp')} contentFit="cover" style={styles.heroImage} />
         <View style={[styles.heroShade, { backgroundColor: colors.foreground }]} />
         <View style={styles.heroContent}>
           <View style={styles.heroTopline}>

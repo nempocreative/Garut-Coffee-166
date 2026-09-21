@@ -410,7 +410,7 @@ function EducatorProfileScreen() {
       <Header title="Akun penyuluh" subtitle="RUANG PENDAMPINGAN" cart={false} notifications />
 
       <View style={[educatorStyles.hero, { backgroundColor: colors.foreground }]}>
-        <Image source={require('../../assets/images/garut-mountains.png')} contentFit="cover" style={educatorStyles.heroImage} />
+        <Image source={require('../../assets/images/garut-mountains.webp')} contentFit="cover" style={educatorStyles.heroImage} />
         <LinearGradient
           colors={['transparent', colors.foreground]}
           start={{ x: 0.1, y: 0 }}

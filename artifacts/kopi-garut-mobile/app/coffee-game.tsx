@@ -99,7 +99,7 @@ function FallingCoffeeBean({
 
   return (
     <Animated.View pointerEvents="none" testID={`falling-coffee-bean-${bean.id}`} style={[styles.fallingBean, { left: bean.left }, fallStyle]}>
-      <Image source={require('../assets/images/games-coffee-beans.png')} contentFit="contain" style={styles.beanImage} />
+      <Image source={require('../assets/images/games-coffee-beans.webp')} contentFit="contain" style={styles.beanImage} />
     </Animated.View>
   );
 }
@@ -314,7 +314,7 @@ export default function CoffeeGameScreen() {
           )}
           <Animated.View pointerEvents="none" style={[styles.basket, basketAnimation, { left: basketX }]}>
             <Image
-              source={require('../assets/images/games-basket.png')}
+              source={require('../assets/images/games-basket.webp')}
               contentFit="contain"
               style={styles.basketImage}
             />

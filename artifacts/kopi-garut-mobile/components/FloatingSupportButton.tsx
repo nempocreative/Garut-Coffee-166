@@ -117,7 +117,7 @@ export function FloatingSupportButton() {
         >
           <Animated.View style={[styles.beanAnimationContainer, beanAnimation]}>
              <Image
-               source={require('../assets/images/faq-live-chat.png')}
+               source={require('../assets/images/faq-live-chat.webp')}
               contentFit="contain"
               style={styles.coffeeBeanImage}
             />

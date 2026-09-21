@@ -15,7 +15,7 @@ const activePartners = [
     type: 'CAFE & ROASTERY',
     location: 'Garut Kota',
     detail: 'Menyajikan Papandayan Series sebagai pilihan pour-over untuk pelanggan.',
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/origin-coffee.webp'),
     icon: 'coffee' as const,
   },
   {
@@ -23,7 +23,7 @@ const activePartners = [
     type: 'RESTORAN',
     location: 'Cisurupan',
     detail: 'Memasangkan kopi Garut dengan menu rumahan dan hasil kebun lokal.',
-    image: require('../assets/images/event-festival-garut.jpg'),
+    image: require('../assets/images/event-festival-garut.webp'),
     icon: 'users' as const,
   },
   {
@@ -31,7 +31,7 @@ const activePartners = [
     type: 'HOTEL',
     location: 'Samarang',
     detail: 'Menghadirkan kopi asal Garut sebagai sambutan hangat untuk setiap tamu.',
-    image: require('../assets/images/mountain-banner.png'),
+    image: require('../assets/images/mountain-banner.webp'),
     icon: 'briefcase' as const,
   },
   {
@@ -39,7 +39,7 @@ const activePartners = [
     type: 'CAFE',
     location: 'Tarogong',
     detail: 'Menjadikan kopi petani Garut bagian dari ritual pagi warga kota.',
-    image: require('../assets/images/kopi-garut-promo-banner.jpg'),
+    image: require('../assets/images/kopi-garut-promo-banner.webp'),
     icon: 'coffee' as const,
   },
 ];
@@ -72,7 +72,7 @@ export default function PartnershipScreen() {
 
       <Animated.View entering={FadeInDown.duration(500)} style={styles.heroWrap}>
         <View style={styles.hero}>
-          <ExpoImage source={require('../assets/images/kopi-garut-promo-banner.jpg')} contentFit="cover" style={StyleSheet.absoluteFill} />
+          <ExpoImage source={require('../assets/images/kopi-garut-promo-banner.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
           <LinearGradient
             colors={['rgba(35, 22, 15, 0.08)', 'rgba(35, 22, 15, 0.94)']}
             locations={[0.1, 1]}

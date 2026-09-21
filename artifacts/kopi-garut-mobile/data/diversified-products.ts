@@ -32,7 +32,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Essential oil kopi',
     price: 'Rp 55.000',
     status: 'Aroma kopi premium',
-    image: require('../assets/images/coffee-essential-oil.png'),
+    image: require('../assets/images/coffee-essential-oil.webp'),
     badge: 'Produk baru',
   },
   {
@@ -42,7 +42,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Pewangi sepatu kopi',
     price: 'Rp 32.000',
     status: 'Aroma tahan lama',
-    image: require('../assets/images/coffee-shoe-deodorizer.png'),
+    image: require('../assets/images/coffee-shoe-deodorizer.webp'),
     badge: 'Upcycle ampas',
   },
   {
@@ -52,7 +52,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Minyak aroma kopi',
     price: 'Rp 42.000',
     status: 'Blend lokal Garut',
-    image: require('../assets/images/coffee-aroma-oil.png'),
+    image: require('../assets/images/coffee-aroma-oil.webp'),
     badge: 'Produk UMKM',
   },
   {
@@ -62,7 +62,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Konsentrat kopi gula aren',
     price: 'Rp 28.000',
     status: 'Siap minum',
-    image: require('../assets/images/coffee-palm-sugar-concentrate.png'),
+    image: require('../assets/images/coffee-palm-sugar-concentrate.webp'),
     badge: 'Favorit baru',
   },
   {
@@ -72,7 +72,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Cookies ampas kopi',
     price: 'Rp 35.000',
     status: 'Batch mingguan',
-    image: require('../assets/images/coffee-cookies.png'),
+    image: require('../assets/images/coffee-cookies.webp'),
     badge: 'Batch kecil',
   },
   {
@@ -82,7 +82,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Sabun scrub kopi',
     price: 'Rp 32.000',
     status: 'Produk UMKM',
-    image: require('../assets/images/coffee-scrub.png'),
+    image: require('../assets/images/coffee-scrub.webp'),
     badge: 'Terbuat dari ampas',
   },
   {
@@ -92,7 +92,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Totebag lereng Garut',
     price: 'Rp 79.000',
     status: 'Edisi petani',
-    image: require('../assets/images/garut-totebag.png'),
+    image: require('../assets/images/garut-totebag.webp'),
     badge: 'Edisi terbatas',
   },
   {
@@ -102,7 +102,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Mug Kopi Garut',
     price: 'Rp 65.000',
     status: 'Stok terbatas',
-    image: require('../assets/images/garut-mug.png'),
+    image: require('../assets/images/garut-mug.webp'),
     badge: 'Koleksi rumah',
   },
   {
@@ -112,7 +112,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     title: 'Lilin aroma kopi',
     price: 'Rp 68.000',
     status: 'Waktu nyala 24 jam',
-    image: require('../assets/images/coffee-candle.png'),
+    image: require('../assets/images/coffee-candle.webp'),
     badge: 'Ruang lebih hangat',
     description: 'Lilin soy wax dengan aroma kopi panggang untuk ruang istirahat.',
     maker: 'Rumah Aroma Cikuray',

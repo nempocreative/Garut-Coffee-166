@@ -28,7 +28,7 @@ const regularPrograms = [
     cycle: 'Rutin setiap bulan',
     next: 'Sesi berikutnya · 10 Okt 2026',
     description: 'Obrolan santai bersama petani, roaster, barista, dan pelaku usaha kopi.',
-    image: require('../assets/images/event-festival-garut.jpg'),
+    image: require('../assets/images/event-coffee-tasting.webp'),
   },
   {
     id: 'sekolah-barista',
@@ -38,7 +38,7 @@ const regularPrograms = [
     cycle: 'Batch per kuartal',
     next: 'Batch 01 · 24 Okt 2026',
     description: 'Belajar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.',
-    image: require('../assets/images/origin-coffee.jpg'),
+    image: require('../assets/images/event-coffee-workshop.webp'),
   },
   {
     id: 'cupping-kenal-asal',
@@ -48,7 +48,7 @@ const regularPrograms = [
     cycle: 'Rutin setiap dua minggu',
     next: 'Papandayan · 14 Nov 2026',
     description: 'Membaca rasa, membandingkan proses, dan mengenal orang di balik setiap lot.',
-    image: require('../assets/images/coffee-beans-natural.png'),
+    image: require('../assets/images/event-cupping-papandayan.webp'),
   },
   {
     id: 'kelas-pascapanen',
@@ -58,7 +58,7 @@ const regularPrograms = [
     cycle: 'Menjelang musim panen',
     next: 'Cikajang · 17 Okt 2026',
     description: 'Praktik sortasi, pengeringan, dan pencatatan mutu untuk menjaga nilai jual kopi.',
-    image: require('../assets/images/farmer-iis-nurhayati.png'),
+    image: require('../assets/images/event-postharvest-class.webp'),
   },
 ];
 
@@ -227,7 +227,7 @@ export default function ProgramScreen() {
     <Screen>
       <Header back title="Program Kopi Garut" subtitle="PROGRAM · GARUT" />
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.hero, { backgroundColor: colors.foreground }]}>
-        <Image source={require('../assets/images/mountain-banner.png')} contentFit="cover" style={styles.heroImage} />
+        <Image source={require('../assets/images/mountain-banner.webp')} contentFit="cover" style={styles.heroImage} />
         <View style={[styles.heroShade, { backgroundColor: colors.foreground }]} />
         <View style={styles.heroContent}>
           <View style={styles.heroTopline}>

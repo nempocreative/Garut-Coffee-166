@@ -20,7 +20,7 @@ export default function RegionsScreen() {
         end={{ x: 1, y: 1 }}
         style={styles.mapCard}
       >
-        <Image source={require('../assets/images/mountain-banner.png')} contentFit="cover" style={StyleSheet.absoluteFill} />
+        <Image source={require('../assets/images/mountain-banner.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.foreground, opacity: 0.58 }]} />
         <View style={[styles.mapGlow, { backgroundColor: colors.accent }]} />
         <View style={styles.mapTop}>

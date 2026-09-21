@@ -70,7 +70,7 @@ export function FloatingCoffeeGameButton() {
       >
         <Animated.View style={[styles.basketAnimationContainer, basketAnimation]}>
           <Image
-            source={require('../assets/images/mini-games-icon.png')}
+            source={require('../assets/images/mini-games-icon.webp')}
             contentFit="contain"
             style={styles.gamesCartImage}
           />

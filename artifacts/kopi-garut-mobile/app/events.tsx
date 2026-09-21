@@ -9,14 +9,14 @@ import { hubEvents } from '@/data/hub';
 import { useColors } from '@/hooks/useColors';
 
 const eventImages: Record<string, ImageSource> = {
-  'coffee-talk-garut': require('../assets/images/event-festival-garut.jpg'),
-  'festival-kopi': require('../assets/images/event-festival-garut.jpg'),
-  'kelas-pascapanen': require('../assets/images/origin-coffee.jpg'),
-  'sekolah-barista': require('../assets/images/origin-coffee.jpg'),
-  'temu-cafe': require('../assets/images/hero-coffee.jpg'),
-  'cupping-papandayan': require('../assets/images/coffee-beans-natural.png'),
-  'pasar-kopi-garut': require('../assets/images/event-festival-garut.jpg'),
-  'kelas-brew-di-rumah': require('../assets/images/hero-coffee.jpg'),
+  'coffee-talk-garut': require('../assets/images/event-coffee-tasting.webp'),
+  'festival-kopi': require('../assets/images/event-coffee-festival.webp'),
+  'kelas-pascapanen': require('../assets/images/event-postharvest-class.webp'),
+  'sekolah-barista': require('../assets/images/event-coffee-workshop.webp'),
+  'temu-cafe': require('../assets/images/event-cafe-partners.webp'),
+  'cupping-papandayan': require('../assets/images/event-cupping-papandayan.webp'),
+  'pasar-kopi-garut': require('../assets/images/event-coffee-market.webp'),
+  'kelas-brew-di-rumah': require('../assets/images/event-home-brew.webp'),
 };
 
 const eventFilters = ['Semua', ...Array.from(new Set(hubEvents.map((event) => event.type)))];

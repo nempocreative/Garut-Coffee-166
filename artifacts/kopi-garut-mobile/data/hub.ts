@@ -57,7 +57,7 @@ export const farmers: Farmer[] = [
     joinedAt: '12 Maret 2021',
     membershipId: 'KGR-CIS-001',
     products: ['Papandayan Series'],
-    image: require('../assets/images/farmer-asep-rahmat.png'),
+    image: require('../assets/images/farmer-asep-rahmat.webp'),
     story: 'Menjaga kualitas dari pemetikan hingga pengeringan bersama anggota kelompok tani.',
   },
   {
@@ -71,7 +71,7 @@ export const farmers: Farmer[] = [
     joinedAt: '8 Juli 2022',
     membershipId: 'KGR-CIK-014',
     products: ['Cikuray Series'],
-    image: require('../assets/images/farmer-iis-nurhayati.png'),
+    image: require('../assets/images/farmer-iis-nurhayati.webp'),
     story: 'Mengolah kopi natural dengan sabar untuk menjaga rasa buah yang menjadi ciri kebunnya.',
   },
   {
@@ -85,7 +85,7 @@ export const farmers: Farmer[] = [
     joinedAt: '19 Januari 2020',
     membershipId: 'KGR-PAK-008',
     products: ['Kamojang Series'],
-    image: require('../assets/images/farmer-deni-suhendar.png'),
+    image: require('../assets/images/farmer-deni-suhendar.webp'),
     story: 'Membangun kebun yang produktif sambil mempertahankan naungan alami di lereng pegunungan.',
   },
   {
@@ -99,22 +99,22 @@ export const farmers: Farmer[] = [
     joinedAt: '27 September 2023',
     membershipId: 'KGR-SAM-021',
     products: ['Darajat Series'],
-    image: require('../assets/images/farmer-ujang-kusnadi.png'),
+    image: require('../assets/images/farmer-ujang-kusnadi.webp'),
     story: 'Mengembangkan kopi sangrai yang nyaman untuk dinikmati di rumah maupun di kedai mitra.',
   },
 ];
 
 export const regions: Region[] = [
-  { id: 'papandayan', name: 'Papandayan', village: 'Cisurupan', elevation: '1.650 mdpl', farmerCount: 42, specialty: 'Rasa cerah dan manis', image: require('../assets/images/hero-coffee.jpg') },
-  { id: 'cikuray', name: 'Cikuray', village: 'Cikajang', elevation: '1.450 mdpl', farmerCount: 36, specialty: 'Buah tropis dan kakao', image: require('../assets/images/origin-coffee.jpg') },
-  { id: 'kamojang', name: 'Kamojang', village: 'Pakenjeng', elevation: '1.300 mdpl', farmerCount: 28, specialty: 'Bersih dan seimbang', image: require('../assets/images/hero-coffee.jpg') },
-  { id: 'darajat', name: 'Darajat', village: 'Samarang', elevation: '1.180 mdpl', farmerCount: 19, specialty: 'Karamel dan cokelat', image: require('../assets/images/origin-coffee.jpg') },
+  { id: 'papandayan', name: 'Papandayan', village: 'Cisurupan', elevation: '1.650 mdpl', farmerCount: 42, specialty: 'Rasa cerah dan manis', image: require('../assets/images/regions-banner.webp') },
+  { id: 'cikuray', name: 'Cikuray', village: 'Cikajang', elevation: '1.450 mdpl', farmerCount: 36, specialty: 'Buah tropis dan kakao', image: require('../assets/images/origin-coffee.webp') },
+  { id: 'kamojang', name: 'Kamojang', village: 'Pakenjeng', elevation: '1.300 mdpl', farmerCount: 28, specialty: 'Bersih dan seimbang', image: require('../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.webp') },
+  { id: 'darajat', name: 'Darajat', village: 'Samarang', elevation: '1.180 mdpl', farmerCount: 19, specialty: 'Karamel dan cokelat', image: require('../assets/images/origin-coffee.webp') },
 ];
 
 export const coffeeTours: CoffeeTour[] = [
-  { id: 'coffee-tour', title: 'Coffee Tour Lereng Papandayan', type: 'Kunjungan kebun', duration: '3 jam', price: 185000, location: 'Cisurupan', description: 'Berjalan di antara pohon kopi, belajar memetik cherry, lalu menikmati seduhan dari kebun yang dikunjungi.', image: require('../assets/images/hero-coffee.jpg') },
-  { id: 'roasting-class', title: 'Kelas Roasting Garut', type: 'Edukasi roasting', duration: '2,5 jam', price: 275000, location: 'Kota Garut', description: 'Kenali proses sangrai dan bawa pulang kopi hasil racikanmu sendiri.', image: require('../assets/images/origin-coffee.jpg') },
-  { id: 'camping-coffee', title: 'Camping & Coffee Experience', type: 'Paket wisata kopi', duration: '2 hari 1 malam', price: 850000, location: 'Darajat', description: 'Menginap di dataran tinggi, menikmati kopi saat matahari terbit, dan mendengar cerita petani.', image: require('../assets/images/hero-coffee.jpg') },
+  { id: 'coffee-tour', title: 'Coffee Tour Lereng Papandayan', type: 'Kunjungan kebun', duration: '3 jam', price: 185000, location: 'Cisurupan', description: 'Berjalan di antara pohon kopi, belajar memetik cherry, lalu menikmati seduhan dari kebun yang dikunjungi.', image: require('../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.webp') },
+  { id: 'roasting-class', title: 'Kelas Roasting Garut', type: 'Edukasi roasting', duration: '2,5 jam', price: 275000, location: 'Kota Garut', description: 'Kenali proses sangrai dan bawa pulang kopi hasil racikanmu sendiri.', image: require('../assets/images/farmer-story-1.webp') },
+  { id: 'camping-coffee', title: 'Camping & Coffee Experience', type: 'Paket wisata kopi', duration: '2 hari 1 malam', price: 850000, location: 'Darajat', description: 'Menginap di dataran tinggi, menikmati kopi saat matahari terbit, dan mendengar cerita petani.', image: require('../assets/images/farmer-story-3.webp') },
 ];
 
 export const hubEvents: HubEvent[] = [

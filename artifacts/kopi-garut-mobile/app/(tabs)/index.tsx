@@ -108,12 +108,14 @@ const voucherSlides = [
 ] as const;
 
 const storyReelImages = [
-  require('../../assets/images/event-festival-garut.jpg'),
-  require('../../assets/images/origin-coffee.jpg'),
-  require('../../assets/images/hero-coffee.jpg'),
-  require('../../assets/images/farmer-story-1.png'),
-  require('../../assets/images/farmer-story-2.png'),
-  require('../../assets/images/farmer-story-3.png'),
+  require('../../assets/images/event-coffee-tasting.webp'),
+  require('../../assets/images/event-coffee-festival.webp'),
+  require('../../assets/images/event-postharvest-class.webp'),
+  require('../../assets/images/event-coffee-workshop.webp'),
+  require('../../assets/images/event-cafe-partners.webp'),
+  require('../../assets/images/event-cupping-papandayan.webp'),
+  require('../../assets/images/event-coffee-market.webp'),
+  require('../../assets/images/event-home-brew.webp'),
 ];
 
 const storyReels = hubEvents.map((event, index) => ({
@@ -142,7 +144,7 @@ function CoffeeBeanAnimation() {
   return (
     <Animated.View style={[styles.coffeeBeanAnimation, beansStyle]}>
       <ExpoImage
-        source={require('../../assets/images/coffee-beans-natural.png')}
+        source={require('../../assets/images/coffee-beans-natural.webp')}
         contentFit="contain"
         style={styles.coffeeBeanImage}
       />
@@ -174,7 +176,7 @@ function SearchBeanAnimation() {
   return (
     <Animated.View style={[styles.searchBeanAnimation, beanStyle]}>
       <ExpoImage
-        source={require('../../assets/images/coffee-bean-menu.png')}
+        source={require('../../assets/images/coffee-bean-menu.webp')}
         contentFit="contain"
         style={styles.searchBeanImage}
       />
@@ -710,7 +712,7 @@ export default function HomeScreen() {
         ]}
       >
         <ExpoImage
-          source={require('../../assets/images/mountain-banner.png')}
+          source={require('../../assets/images/mountain-banner.webp')}
           contentFit="cover"
           style={StyleSheet.absoluteFill}
         />
@@ -965,7 +967,7 @@ export default function HomeScreen() {
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
             <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.card, borderColor: colors.accent }]}>
               <ExpoImage
-                source={require('../../assets/images/coffee-bean-menu.png')}
+                source={require('../../assets/images/coffee-bean-menu.webp')}
                 contentFit="contain"
                 style={styles.farmerBadgeImage}
               />
@@ -1189,7 +1191,7 @@ export default function HomeScreen() {
     </View>
     <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
       <ExpoImage
-        source={require('../../assets/images/garut-mountains.png')}
+        source={require('../../assets/images/garut-mountains.webp')}
         contentFit="contain"
         style={[styles.footerMountain, { tintColor: colors.foreground }]}
       />

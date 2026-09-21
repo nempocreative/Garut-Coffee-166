@@ -246,7 +246,7 @@ export default function ExtensionMapScreen() {
 
       <ProgramSectionTitle eyebrow="PETA WILAYAH BINAAN" title="Pilih titik kebun" />
       <View style={[styles.mapCard, { backgroundColor: colors.foreground }]}>
-        <Image source={require('../assets/images/mountain-banner.png')} resizeMode="cover" style={StyleSheet.absoluteFill} />
+        <Image source={require('../assets/images/mountain-banner.webp')} resizeMode="cover" style={StyleSheet.absoluteFill} />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.foreground, opacity: 0.68 }]} />
         <View style={[styles.mapContour, styles.mapContourOne, { borderColor: colors.primaryForeground }]} />
         <View style={[styles.mapContour, styles.mapContourTwo, { borderColor: colors.accent }]} />

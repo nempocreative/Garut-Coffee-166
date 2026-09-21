@@ -16,7 +16,7 @@ export const extensionTeam: ExtensionWorker[] = [
     role: 'Penyuluh utama',
     regions: ['Cikajang', 'Cisurupan'],
     focus: 'Mutu lot & tindak lanjut kebun',
-    image: require('../assets/images/penyuluh-rani-permata.jpg'),
+    image: require('../assets/images/penyuluh-rani-permata.webp'),
   },
   {
     id: 'dimas-suryana',
@@ -24,7 +24,7 @@ export const extensionTeam: ExtensionWorker[] = [
     role: 'Penyuluh lapangan',
     regions: ['Pakenjeng', 'Cisurupan'],
     focus: 'Perawatan tanaman & panen',
-    image: require('../assets/images/penyuluh-dimas-suryana.jpg'),
+    image: require('../assets/images/penyuluh-dimas-suryana.webp'),
   },
   {
     id: 'nia-kurniasih',
@@ -32,6 +32,6 @@ export const extensionTeam: ExtensionWorker[] = [
     role: 'Penyuluh lapangan',
     regions: ['Samarang', 'Cikajang'],
     focus: 'Pascapanen & pengeringan',
-    image: require('../assets/images/penyuluh-nia-kurniasih.jpg'),
+    image: require('../assets/images/penyuluh-nia-kurniasih.webp'),
   },
 ];
