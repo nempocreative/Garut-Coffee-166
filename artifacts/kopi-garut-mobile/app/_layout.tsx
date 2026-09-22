@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -51,7 +51,7 @@ function RootLayoutNav() {
   }, [pathname, ready, router, session?.id]);
 
   return (
-    <View style={[styles.viewport, { backgroundColor: colors.background }]}>
+    <View style={[styles.viewport, Platform.OS === 'web' && styles.webViewport, { backgroundColor: colors.background }]}>
       <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
@@ -69,6 +69,11 @@ const styles = StyleSheet.create({
     maxWidth: 430,
     alignSelf: 'center',
     overflow: 'hidden',
+  },
+  webViewport: {
+    maxWidth: '100%',
+    alignSelf: 'stretch',
+    overflow: 'visible',
   },
 });
 
