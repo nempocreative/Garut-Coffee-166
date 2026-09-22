@@ -1155,7 +1155,12 @@ export default function HomeScreen() {
       ))}
     </View>
     <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
-      <BrandIcon name="map" size={22} color={colors.primary} />
+      <ExpoImage
+        source={require('../../assets/images/garut-mountains.webp')}
+        contentFit="contain"
+        style={styles.footerMountain}
+        accessibilityLabel="Ilustrasi pegunungan Garut"
+      />
       <Text style={[styles.footerCaption, { color: colors.mutedForeground }]}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
     </View>
   </Screen>;
