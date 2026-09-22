@@ -46,7 +46,29 @@ export function FloatingCoffeeGameButton() {
   }));
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  if (isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
+  // The home screen already has a dense navigation grid. Keep the floating
+  // action out of that grid so it never covers a destination or its label.
+  const isHomeRoute = pathname === '/' || pathname === '/(tabs)';
+  const isDenseRoute = [
+    '/catalog',
+    '/favorites',
+    '/orders',
+    '/profile',
+    '/regions',
+    '/tourism',
+    '/events',
+    '/collective',
+    '/partnership',
+    '/program',
+    '/diversification',
+    '/extension-dashboard',
+    '/reports',
+    '/verification',
+    '/standards',
+    '/documents',
+    '/complaints',
+  ].includes(pathname);
+  if (isScrolling || isHomeRoute || isDenseRoute || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
 
   const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
   const bottomOffset = 91 + bottomInset;

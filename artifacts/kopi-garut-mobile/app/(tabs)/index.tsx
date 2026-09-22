@@ -712,7 +712,7 @@ export default function HomeScreen() {
         ]}
       >
         <ExpoImage
-          source={require('../../assets/images/mountain-banner.webp')}
+          source={require('../../assets/images/collective-banner.webp')}
           contentFit="cover"
           style={StyleSheet.absoluteFill}
         />
@@ -931,7 +931,15 @@ export default function HomeScreen() {
           onPress={() => router.push(taste.route)}
           style={({ pressed }) => [styles.tasteCard, { backgroundColor: index === 1 ? colors.primary : colors.card, borderColor: index === 1 ? colors.primary : colors.border, opacity: pressed ? 0.78 : 1 }]}
         >
-          <ExpoImage source={coffees[index === 0 ? 0 : index === 1 ? 1 : 3].image} contentFit="cover" style={[StyleSheet.absoluteFill, styles.tasteImage]} />
+          <ExpoImage
+            source={[
+              require('../../assets/images/coffee-beans-natural.webp'),
+              require('../../assets/images/coffee-palm-sugar-concentrate.webp'),
+              require('../../assets/images/garut-mug.webp'),
+            ][index]}
+            contentFit="cover"
+            style={[StyleSheet.absoluteFill, styles.tasteImage]}
+          />
           <View style={[StyleSheet.absoluteFill, styles.tasteImageShade, { backgroundColor: index === 1 ? colors.foreground : colors.card }]} />
           <View style={[styles.tasteIcon, { backgroundColor: index === 1 ? colors.primaryForeground : colors.secondary }]}><BrandIcon name={taste.icon} size={17} color={index === 1 ? colors.primary : colors.primary} /></View>
           <Text style={[styles.tasteLabel, { color: index === 1 ? colors.primaryForeground : colors.foreground }]}>{taste.label}</Text>

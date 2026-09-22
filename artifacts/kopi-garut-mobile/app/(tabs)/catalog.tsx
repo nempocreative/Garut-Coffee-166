@@ -23,6 +23,8 @@ export default function CatalogScreen() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
   const visible = useMemo(() => coffees.filter((coffee) => (filter === 'Semua' || coffee.category === filter) && `${coffee.name} ${coffee.origin} ${coffee.tastingNotes.join(' ')}`.toLowerCase().includes(query.toLowerCase())), [filter, query]);
+  // Keep the editorial banner distinct from the product grid below.
+  // This avoids showing the same Papandayan pack twice in the first viewport.
   const featuredCoffee = coffees[0];
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
@@ -48,7 +50,7 @@ export default function CatalogScreen() {
             onPress={() => router.push(`/product/${featuredCoffee.id}`)}
             style={({ pressed }) => [styles.featuredCard, { opacity: pressed ? 0.9 : 1, shadowColor: colors.foreground }]}
           >
-            <Image source={featuredCoffee.image} contentFit="cover" style={styles.featuredImage} />
+            <Image source={require('../../assets/images/hero-coffee.webp')} contentFit="cover" style={styles.featuredImage} />
             <LinearGradient
               colors={[`${colors.foreground}E8`, `${colors.foreground}72`, `${colors.foreground}08`]}
               locations={[0, 0.62, 1]}

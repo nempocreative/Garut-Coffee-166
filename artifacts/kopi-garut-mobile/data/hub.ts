@@ -108,7 +108,7 @@ export const regions: Region[] = [
   { id: 'papandayan', name: 'Papandayan', village: 'Cisurupan', elevation: '1.650 mdpl', farmerCount: 42, specialty: 'Rasa cerah dan manis', image: require('../assets/images/regions-banner.webp') },
   { id: 'cikuray', name: 'Cikuray', village: 'Cikajang', elevation: '1.450 mdpl', farmerCount: 36, specialty: 'Buah tropis dan kakao', image: require('../assets/images/origin-coffee.webp') },
   { id: 'kamojang', name: 'Kamojang', village: 'Pakenjeng', elevation: '1.300 mdpl', farmerCount: 28, specialty: 'Bersih dan seimbang', image: require('../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.webp') },
-  { id: 'darajat', name: 'Darajat', village: 'Samarang', elevation: '1.180 mdpl', farmerCount: 19, specialty: 'Karamel dan cokelat', image: require('../assets/images/origin-coffee.webp') },
+  { id: 'darajat', name: 'Darajat', village: 'Samarang', elevation: '1.180 mdpl', farmerCount: 19, specialty: 'Karamel dan cokelat', image: require('../assets/images/farmer-story-2.webp') },
 ];
 
 export const coffeeTours: CoffeeTour[] = [
