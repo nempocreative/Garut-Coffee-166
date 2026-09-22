@@ -12,7 +12,8 @@
     },
     "android": {},
     "web": {
-      "favicon": "./assets/images/kopi-garut-logo.png"
+      "favicon": "./assets/images/kopi-garut-logo.png",
+      "output": "static"
     },
     "plugins": [
       "expo-router",

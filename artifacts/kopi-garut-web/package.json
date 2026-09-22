@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node redirect-server.mjs",
+    "dev": "node expo-web-proxy.mjs",
     "build": "node build-web.mjs",
     "serve": "node -e \"require('http').createServer((req,res)=>res.end('Use the configured static artifact server')).listen(process.env.PORT||3000)\"",
     "typecheck": "tsc -p tsconfig.json --noEmit"
