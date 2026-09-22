@@ -11,6 +11,7 @@ import { useStore } from '@/context/StoreContext';
 import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
 import { BrandIcon, BrandIconName, ThreeDNavIcon } from '@/components/BrandIcon';
+import { BottomMenu } from '@/components/BottomMenu';
 
 const homeWeekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 const homeMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -37,6 +38,16 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [pathname]);
+  if (Platform.OS === 'web') {
+    return (
+      <View style={[styles.webScreenShell, { backgroundColor: background }]}>
+        <View style={[styles.screen, styles.webScreen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: 28 }, style]}>
+          {children}
+        </View>
+        {bottomMenu && <BottomMenu />}
+      </View>
+    );
+  }
   return scroll ? <ScrollView ref={scrollRef} onScroll={notifyScroll} scrollEventThrottle={16} style={[{ backgroundColor: background }, style]} contentContainerStyle={[styles.screen, { paddingTop: topInset + 18, paddingBottom: contentBottomPadding }]} showsVerticalScrollIndicator={false}>{children}</ScrollView> : <View style={[styles.screen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: contentBottomPadding }, style]}>{children}</View>;
 }
 
@@ -139,6 +150,8 @@ export function LoadingState() { const colors = useColors(); return <View style=
 
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
+  webScreen: { flexGrow: 1 },
+  webScreenShell: { width: '100%', minHeight: '100%', overflow: 'visible' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },

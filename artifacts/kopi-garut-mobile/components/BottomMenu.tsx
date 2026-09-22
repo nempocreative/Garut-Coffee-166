@@ -119,10 +119,11 @@ export function BottomMenu() {
   if (isFarmerRoute) return null;
 
   return (
-    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+    <View pointerEvents="box-none" style={Platform.OS === 'web' ? styles.webMenuHost : StyleSheet.absoluteFill}>
       <View
         style={[
           styles.menu,
+          Platform.OS === 'web' && styles.webMenu,
           {
             height: 90 + bottomInset,
             paddingBottom: bottomInset + 4,
@@ -179,6 +180,17 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -5 },
     shadowRadius: 18,
     zIndex: 20,
+  },
+  webMenuHost: {
+    width: '100%',
+  },
+  webMenu: {
+    position: 'relative',
+    left: undefined,
+    right: undefined,
+    bottom: undefined,
+    width: '100%',
+    zIndex: 1,
   },
   topBorder: {
     position: 'absolute',

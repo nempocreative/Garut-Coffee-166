@@ -55,7 +55,7 @@ function RootLayoutNav() {
       <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-      <BottomMenu />
+      {Platform.OS !== 'web' && <BottomMenu />}
       <FloatingCoffeeGameButton />
       <FloatingSupportButton />
     </View>
@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   webViewport: {
+    flex: 0,
+    minHeight: '100%',
     maxWidth: '100%',
     alignSelf: 'stretch',
     overflow: 'visible',
