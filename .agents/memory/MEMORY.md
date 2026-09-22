@@ -10,3 +10,4 @@
 - [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
 - [Mobile-to-web parity](mobile-to-web-parity.md) — web must launch the Expo Router build directly so mobile and browser share the same screens, routes, and state.
 - [Expo web artifact base paths](expo-web-basepath.md) — use Expo static export with experiments.baseUrl; development Metro does not strip artifact prefixes during route matching.
+- [Shared content vs user state](shared-content-vs-user-state.md) — shared mobile/web screens do not synchronize AsyncStorage-backed roles, commerce, or operational records across devices.
