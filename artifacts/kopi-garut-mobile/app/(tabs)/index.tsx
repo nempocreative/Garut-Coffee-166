@@ -1154,7 +1154,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </View>
-    <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
+    <View style={styles.homeFooter}>
       <ExpoImage
         source={require('../../assets/images/garut-mountains.webp')}
         contentFit="contain"
@@ -1408,7 +1408,7 @@ const styles = StyleSheet.create({
   tourType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1, textTransform: 'uppercase' },
   tourTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
   tourMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 14, paddingTop: 18, paddingBottom: 24, borderTopWidth: 1 },
+  homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 4, paddingTop: 4, paddingBottom: 24 },
   footerMountain: { width: '94%', height: 62, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
   storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
