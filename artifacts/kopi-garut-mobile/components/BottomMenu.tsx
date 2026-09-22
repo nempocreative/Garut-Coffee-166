@@ -56,7 +56,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/orders-coffee-checklist.png')}
           contentFit="contain"
-          style={[styles.ordersImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+          style={[styles.ordersImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
         />
       </View>
     );
@@ -68,7 +68,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/account-coffee-settings.png')}
           contentFit="contain"
-          style={[styles.accountImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+          style={[styles.accountImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
         />
       </View>
     );
