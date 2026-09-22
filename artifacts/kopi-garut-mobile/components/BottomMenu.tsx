@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,6 +25,18 @@ const menuItems: BottomMenuItem[] = [
 
 function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean }) {
   const colors = useColors();
+
+  if (item.icon === 'home') {
+    return (
+      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+        <Image
+          source={require('../assets/images/home-coffee-house.png')}
+          contentFit="contain"
+          style={[styles.homeImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+        />
+      </View>
+    );
+  }
 
   if (item.icon !== 'scan') {
     return (
@@ -164,6 +177,9 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  homeImage: {
+    flexShrink: 0,
   },
   centerCircle: {
     width: 60,

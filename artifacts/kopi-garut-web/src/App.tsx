@@ -157,7 +157,7 @@ function Header({ home = false, title = 'Kopi Garut' }: { home?: boolean; title?
      {home ? <div className="header-top">
        <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.png')} alt="Logo Kopi Garut" /></div><div className="brand-lines"><div className="brand-name"><span>Kopi</span><strong>Garut</strong></div><div className="brand-meta">KOPI SPESIALTI · GARUT</div></div></div>
       <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><Bell size={19} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><ShoppingBag size={19} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
-     </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><h1 className="page-title">{title}</h1><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><Home size={18} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><ShoppingBag size={18} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
+     </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><h1 className="page-title">{title}</h1><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><ShoppingBag size={18} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
     {home && <div className="header-copy"><div><div className="greeting">Mau <em>menikmati</em><br />kopi apa hari ini?</div><div className="date-line">{homeDate()}</div></div></div>}
   </header>;
 }
@@ -165,14 +165,14 @@ function Header({ home = false, title = 'Kopi Garut' }: { home?: boolean; title?
 function BottomNav() {
   const [location, setLocation] = useLocation();
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : 'profile';
-  const items: { id: string; label: string; icon: LucideIcon; path: string }[] = [
-    { id: 'home', label: 'Beranda', icon: Home, path: '/' },
+  const items: { id: string; label: string; icon: LucideIcon | null; path: string }[] = [
+    { id: 'home', label: 'Beranda', icon: null, path: '/' },
     { id: 'explore', label: 'Jelajah', icon: Sparkles, path: '/catalog' },
     { id: 'trace', label: 'Jejak', icon: ScanLine, path: '/traceability' },
     { id: 'orders', label: 'Pesanan', icon: Package, path: '/orders' },
     { id: 'profile', label: 'Akun', icon: CircleUserRound, path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon"><Icon size={id === 'trace' ? 22 : 20} /></span><span>{label}</span></button>)}</nav>;
+  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon">{id === 'home' ? <img className="home-nav-image" src={asset('home-coffee-house.png')} alt="" /> : Icon && <Icon size={id === 'trace' ? 22 : 20} />}</span><span>{label}</span></button>)}</nav>;
 }
 
 function FloatingBadges() {
