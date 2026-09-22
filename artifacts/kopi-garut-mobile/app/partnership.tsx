@@ -31,7 +31,7 @@ const activePartners = [
     type: 'HOTEL',
     location: 'Samarang',
     detail: 'Menghadirkan kopi asal Garut sebagai sambutan hangat untuk setiap tamu.',
-    image: require('../assets/images/mountain-banner.webp'),
+    image: require('../assets/images/farmer-story-3.webp'),
     icon: 'briefcase' as const,
   },
   {
@@ -39,7 +39,7 @@ const activePartners = [
     type: 'CAFE',
     location: 'Tarogong',
     detail: 'Menjadikan kopi petani Garut bagian dari ritual pagi warga kota.',
-    image: require('../assets/images/kopi-garut-promo-banner.webp'),
+    image: require('../assets/images/coffee-cookies.webp'),
     icon: 'coffee' as const,
   },
 ];

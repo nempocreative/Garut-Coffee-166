@@ -227,7 +227,7 @@ export default function ProgramScreen() {
     <Screen>
       <Header back title="Program Kopi Garut" subtitle="PROGRAM · GARUT" />
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.hero, { backgroundColor: colors.foreground }]}>
-        <Image source={require('../assets/images/mountain-banner.webp')} contentFit="cover" style={styles.heroImage} />
+        <Image source={require('../assets/images/program-menu-ai.webp')} contentFit="cover" style={styles.heroImage} />
         <View style={[styles.heroShade, { backgroundColor: colors.foreground }]} />
         <View style={styles.heroContent}>
           <View style={styles.heroTopline}>

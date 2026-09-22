@@ -933,7 +933,7 @@ export default function HomeScreen() {
         >
           <ExpoImage
             source={[
-              require('../../assets/images/coffee-beans-natural.webp'),
+               require('../../assets/images/coffee-bean-menu-original.webp'),
               require('../../assets/images/coffee-palm-sugar-concentrate.webp'),
               require('../../assets/images/garut-mug.webp'),
             ][index]}
@@ -974,11 +974,7 @@ export default function HomeScreen() {
               <ExpoImage source={farmer.image} contentFit="cover" style={styles.farmerImage} />
             <LinearGradient colors={['transparent', colors.foreground]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
             <View style={[styles.farmerPortraitBadge, { backgroundColor: colors.card, borderColor: colors.accent }]}>
-              <ExpoImage
-                source={require('../../assets/images/coffee-bean-menu.webp')}
-                contentFit="contain"
-                style={styles.farmerBadgeImage}
-              />
+              <BrandIcon name="coffee" size={18} color={colors.primary} />
             </View>
           </View>
           <View style={styles.farmerFeatureCopy}>
@@ -1198,11 +1194,7 @@ export default function HomeScreen() {
       ))}
     </View>
     <View style={[styles.homeFooter, { borderTopColor: colors.border }]}>
-      <ExpoImage
-        source={require('../../assets/images/garut-mountains.webp')}
-        contentFit="contain"
-        style={[styles.footerMountain, { tintColor: colors.foreground }]}
-      />
+      <BrandIcon name="map" size={22} color={colors.primary} />
       <Text style={[styles.footerCaption, { color: colors.mutedForeground }]}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
     </View>
   </Screen>;
