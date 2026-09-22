@@ -440,7 +440,11 @@ export default function HomeScreen() {
   const colors = useColors();
   const router = useRouter();
   const { addToCart } = useStore();
-  const { width } = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
+  // The browser can be much wider than the shared app frame. Use the frame
+  // width for responsive calculations so web export and the native app keep
+  // the same grid geometry instead of clipping a desktop-sized layout.
+  const width = Math.min(windowWidth, 430);
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const diversifiedCardWidth = Math.max(166, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
