@@ -291,6 +291,29 @@
 .info-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 18px; padding: 14px; margin-bottom: 10px; }
 .info-card h3 { margin: 0 0 5px; font-size: 14px; }
 .info-card p { margin: 0; font-size: 11px; color: hsl(var(--muted-foreground)); line-height: 1.5; }
+.auth-screen { min-height: 100vh; padding: 28px 20px 110px; display: grid; align-content: start; gap: 16px; background: hsl(var(--background)); }
+.auth-hero { padding: 22px; border-radius: 24px; color: hsl(var(--primary-foreground)); background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--secondary-foreground))); }
+.auth-hero .eyebrow { color: hsl(var(--accent)); margin-bottom: 14px; }
+.auth-hero h1 { max-width: 280px; margin: 0 0 9px; font-size: 26px; line-height: 1.08; letter-spacing: -.7px; }
+.auth-hero p { max-width: 290px; margin: 0; color: hsl(var(--background)); font-size: 12px; line-height: 1.55; opacity: .84; }
+.auth-copy { display: grid; gap: 5px; padding-top: 5px; }
+.auth-copy h2 { margin: 0; font-size: 24px; line-height: 1.1; letter-spacing: -.5px; }
+.auth-copy p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 12px; line-height: 1.5; }
+.role-list { display: grid; gap: 9px; }
+.role-card { width: 100%; padding: 12px; display: flex; gap: 11px; align-items: center; text-align: left; border: 1px solid hsl(var(--border)); border-radius: 18px; color: hsl(var(--foreground)); background: hsl(var(--card)); }
+.role-card.selected { border-color: hsl(var(--primary)); background: hsl(var(--secondary)); }
+.role-card .avatar { flex: 0 0 auto; display: grid; place-items: center; width: 46px; height: 46px; margin: 0; border-radius: 16px; color: hsl(var(--primary)); background: hsl(var(--muted)); font-size: 12px; font-weight: 800; }
+.role-card.selected .avatar { color: hsl(var(--primary-foreground)); background: hsl(var(--primary)); }
+.role-card-copy { min-width: 0; flex: 1; display: grid; gap: 2px; }
+.role-card-copy strong { font-size: 13px; }
+.role-card-copy b { color: hsl(var(--primary)); font-size: 10px; }
+.role-card-copy small { color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.35; }
+.role-check { color: hsl(var(--primary)); font-size: 20px; }
+.selected-access { display: grid; gap: 3px; padding: 12px 14px; border-radius: 16px; background: hsl(var(--secondary)); }
+.selected-access b { color: hsl(var(--muted-foreground)); font-size: 8px; letter-spacing: 1.2px; }
+.selected-access span { font-size: 12px; font-weight: 800; }
+.auth-submit { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.auth-note { margin: 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.5; text-align: center; }
 .order-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 17px; padding: 14px; margin-bottom: 10px; }
 .order-head { display: flex; justify-content: space-between; align-items: center; }
 .order-id { font-size: 11px; font-weight: 800; }

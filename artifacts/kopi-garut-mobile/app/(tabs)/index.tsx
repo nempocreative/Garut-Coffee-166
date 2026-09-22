@@ -8,119 +8,57 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
 import { coffees } from '@/data/coffees';
-import { diversifiedProducts } from '@/data/diversified-products';
-import { coffeeTours, farmers, hubEvents, hubStats, regions } from '@/data/hub';
+import { coffeeTours, farmers, hubStats, regions } from '@/data/hub';
 import { extensionTeam } from '@/data/extension-team';
 import { useColors } from '@/hooks/useColors';
 import { useStore } from '@/context/StoreContext';
+import { homeContent } from '@workspace/kopi-garut-shared';
 
-const promoSlides = [
-  {
-    id: 'garut-promo',
-    route: '/catalog' as const,
-    image: require('../../assets/images/kopi-garut-panen-rasa-banner.webp'),
-    eyebrow: 'KOPI GARUT',
-    title: 'Panen rasa dari Garut',
-    description: 'Temukan kopi spesialti dari lereng pilihan.',
-    cta: 'Lihat koleksi',
-  },
-  {
-    id: 'traceability',
-    route: '/farmers' as const,
-    image: require('../../assets/images/kopi-garut-kenali-kebun-pilihan-banner.webp'),
-    eyebrow: 'ASAL YANG TERJAGA',
-    title: 'Kenali kebun pilihan',
-    description: 'Ikuti cerita kopi dari kebun sampai cangkir.',
-    cta: 'Jelajahi asal',
-  },
-  {
-    id: 'coffee-tour',
-    route: '/tourism' as const,
-    image: require('../../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.webp'),
-    eyebrow: 'PENGALAMAN KOPI',
-    title: 'Seduh sambil menjelajah',
-    description: 'Nikmati perjalanan rasa di dataran tinggi Garut.',
-    cta: 'Lihat wisata',
-  },
-  {
-    id: 'coffee-regions',
-    route: '/regions' as const,
-    image: require('../../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.webp'),
-    eyebrow: 'WILAYAH KOPI',
-    title: 'Dari lereng ke cangkir',
-    description: 'Temukan karakter unik dari setiap wilayah.',
-    cta: 'Buka wilayah',
-  },
-  {
-    id: 'coffee-collective',
-    route: '/collective' as const,
-    image: require('../../assets/images/kopi-garut-banyak-orang-banner.webp'),
-    eyebrow: 'TUMBUH BERSAMA',
-    title: 'Kopi Garut untuk banyak orang',
-    description: 'Satu ekosistem untuk petani dan penikmat kopi.',
-    cta: 'Jelajah ekosistem',
-  },
-  {
-    id: 'coffee-partnership',
-    route: '/partnership' as const,
-    image: require('../../assets/images/kopi-garut-bangun-rantai-kopi-banner.webp'),
-    eyebrow: 'JADI MITRA',
-    title: 'Bangun rantai kopi bersama',
-    description: 'Temukan peluang kolaborasi dengan ekosistem Garut.',
-    cta: 'Lihat kemitraan',
-  },
-];
+const mobileAsset = (filename: string) => {
+  const images: Record<string, number> = {
+    'kopi-garut-panen-rasa-banner.webp': require('../../assets/images/kopi-garut-panen-rasa-banner.webp'),
+    'kopi-garut-kenali-kebun-pilihan-banner.webp': require('../../assets/images/kopi-garut-kenali-kebun-pilihan-banner.webp'),
+    'kopi-garut-seduh-sambil-menjelajah-banner.webp': require('../../assets/images/kopi-garut-seduh-sambil-menjelajah-banner.webp'),
+    'kopi-garut-dari-lereng-ke-cangkir-banner.webp': require('../../assets/images/kopi-garut-dari-lereng-ke-cangkir-banner.webp'),
+    'kopi-garut-banyak-orang-banner.webp': require('../../assets/images/kopi-garut-banyak-orang-banner.webp'),
+    'kopi-garut-bangun-rantai-kopi-banner.webp': require('../../assets/images/kopi-garut-bangun-rantai-kopi-banner.webp'),
+    'event-coffee-tasting.webp': require('../../assets/images/event-coffee-tasting.webp'),
+    'event-coffee-festival.webp': require('../../assets/images/event-coffee-festival.webp'),
+    'event-postharvest-class.webp': require('../../assets/images/event-postharvest-class.webp'),
+    'event-coffee-workshop.webp': require('../../assets/images/event-coffee-workshop.webp'),
+    'event-cafe-partners.webp': require('../../assets/images/event-cafe-partners.webp'),
+    'event-cupping-papandayan.webp': require('../../assets/images/event-cupping-papandayan.webp'),
+    'event-coffee-market.webp': require('../../assets/images/event-coffee-market.webp'),
+    'event-home-brew.webp': require('../../assets/images/event-home-brew.webp'),
+    'coffee-essential-oil.webp': require('../../assets/images/coffee-essential-oil.webp'),
+    'coffee-shoe-deodorizer.webp': require('../../assets/images/coffee-shoe-deodorizer.webp'),
+    'coffee-aroma-oil.webp': require('../../assets/images/coffee-aroma-oil.webp'),
+    'coffee-palm-sugar-concentrate.webp': require('../../assets/images/coffee-palm-sugar-concentrate.webp'),
+    'coffee-cookies.webp': require('../../assets/images/coffee-cookies.webp'),
+  };
+  return images[filename];
+};
 
-const categoryItems = [
-  { icon: 'coffee' as const, label: 'Kopi', route: '/catalog' as const },
-  { icon: 'users' as const, label: 'Petani', route: '/farmers' as const },
-  { icon: 'map' as const, label: 'Wilayah', route: '/regions' as const },
-  { icon: 'compass' as const, label: 'Wisata', route: '/tourism' as const },
-  { icon: 'calendar' as const, label: 'Event', route: '/events' as const },
-  { icon: 'briefcase' as const, label: 'Mitra', route: '/partnership' as const },
-  { icon: 'grid' as const, label: 'Ekosistem', route: '/collective' as const },
-  { icon: 'shield' as const, label: 'Program', route: '/program' as const },
-  { icon: 'alert-circle' as const, label: 'Keluhan', route: '/complaints' as const },
-  { icon: 'package' as const, label: 'Produk turunan', route: '/diversification' as const },
-];
+const promoSlides = homeContent.promoSlides.map((slide) => ({
+  ...slide,
+  image: mobileAsset(slide.image),
+}));
+
+const categoryItems = homeContent.categories;
 
 const categoryPages = Array.from({ length: Math.ceil(categoryItems.length / 8) }, (_, pageIndex) =>
   categoryItems.slice(pageIndex * 8, pageIndex * 8 + 8),
 );
 
-const voucherSlides = [
-  [
-    { discount: '15%', title: 'Kopi pilihan', code: 'GARUT15', note: 'Min 150K', variant: 'primary' },
-    { discount: '20%', title: 'Panen baru', code: 'PANEN20', note: 'Koleksi natural', variant: 'dark' },
-  ],
-  [
-    { discount: '25K', title: 'Ongkir hemat', code: 'KIRIM25', note: 'Min 200K', variant: 'dark' },
-    { discount: '10%', title: 'Teman ngopi', code: 'NGOPI10', note: 'Ajak teman', variant: 'primary' },
-  ],
-  [
-    { discount: '30K', title: 'Kopi pertama', code: 'AWAL30', note: 'Pengguna baru', variant: 'primary' },
-    { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Kopi Garut', variant: 'dark' },
-  ],
-  [
-    { discount: '10%', title: 'Langganan', code: 'RUTIN10', note: 'Pesanan rutin', variant: 'dark' },
-    { discount: '20%', title: 'Akhir pekan', code: 'WEEK20', note: 'Sabtu–Minggu', variant: 'primary' },
-  ],
-] as const;
-
-const storyReelImages = [
-  require('../../assets/images/event-coffee-tasting.webp'),
-  require('../../assets/images/event-coffee-festival.webp'),
-  require('../../assets/images/event-postharvest-class.webp'),
-  require('../../assets/images/event-coffee-workshop.webp'),
-  require('../../assets/images/event-cafe-partners.webp'),
-  require('../../assets/images/event-cupping-papandayan.webp'),
-  require('../../assets/images/event-coffee-market.webp'),
-  require('../../assets/images/event-home-brew.webp'),
-];
-
-const storyReels = hubEvents.map((event, index) => ({
-  ...event,
-  image: storyReelImages[index],
+const voucherSlides = homeContent.vouchers;
+const storyReels = homeContent.stories.map((story) => ({
+  ...story,
+  image: mobileAsset(story.image),
+}));
+const homeDiversifiedProducts = homeContent.diversifiedProducts.map((product) => ({
+  ...product,
+  icon: 'package' as const,
+  image: mobileAsset(product.image),
 }));
 
 function CoffeeBeanAnimation() {
@@ -812,7 +750,7 @@ export default function HomeScreen() {
       <Link href="/diversification" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.diversifiedRail}>
-      {diversifiedProducts.slice(0, 5).map((product) => (
+      {homeDiversifiedProducts.slice(0, 5).map((product) => (
         <View
           key={product.id}
           style={[

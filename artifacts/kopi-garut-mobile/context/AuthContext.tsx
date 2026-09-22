@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { AuthRole, getRoleProfile, RoleProfile } from '@/data/auth';
+import { AuthRole, getRoleProfile, RoleProfile, authSessionStorageKey } from '@/data/auth';
 
 type AuthSession = RoleProfile;
 
@@ -12,7 +12,7 @@ type AuthValue = {
 };
 
 const AuthContext = createContext<AuthValue | null>(null);
-const sessionKey = '@kopi/auth-session';
+const sessionKey = authSessionStorageKey;
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);

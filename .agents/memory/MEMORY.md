@@ -7,3 +7,4 @@
 - [Presentation layout QA](presentation-layout-qa.md) — protect footer safe areas and reflow dense card grids instead of relying on clipping.
 - [Presentation demo routes](presentation-demo-routes.md) — use public mobile routes for deck screenshots; role-gated dashboards redirect to login until a role is selected.
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.
+- [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
