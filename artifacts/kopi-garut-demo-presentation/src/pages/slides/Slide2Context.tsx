@@ -57,32 +57,27 @@ export default function Slide2Context() {
       </div>
 
       <div className="absolute right-[9vw] top-[33vh] h-[27vw] w-[23vw]">
-        <div className="absolute left-[5vw] top-[6.6vw] h-[0.12vw] w-[12vw] rotate-[25deg] bg-[#F6D9B6]/45" />
-        <div className="absolute left-[5.7vw] top-[10.4vw] h-[0.12vw] w-[11vw] -rotate-[18deg] bg-[#F6D9B6]/45" />
-        <div className="absolute left-[8.4vw] top-[13vw] h-[0.12vw] w-[8.5vw] rotate-[22deg] bg-[#F6D9B6]/45" />
-        <div className="absolute left-[8.4vw] top-[5vw] h-[0.12vw] w-[8.5vw] -rotate-[18deg] bg-[#F6D9B6]/45" />
-
         <div className="absolute left-[5.2vw] top-[5.8vw] flex h-[12vw] w-[12vw] flex-col items-center justify-center rounded-full border-[0.2vw] border-[#F6D9B6] bg-[#2A201D] text-center shadow-[0.6vw_0.7vw_0_rgba(42,32,29,0.18)]">
           <span className="text-[1vw] font-bold uppercase tracking-[0.2em] text-[#D3A15F]">Pusat cerita</span>
           <span className="mt-[0.8vh] text-[2.25vw] font-extrabold leading-[0.95] tracking-[-0.06em]">Kopi<br />Garut</span>
         </div>
 
-        <div className="absolute left-0 top-0 flex w-[7vw] flex-col border-t-[0.18vw] border-[#F6D9B6] pt-[0.7vh]">
+        <div className="absolute left-0 top-0 flex w-[7vw] flex-col">
           <span className="text-[1vw] font-bold uppercase tracking-[0.18em] text-[#F6D9B6]">01</span>
           <span className="mt-[0.35vh] text-[1.25vw] font-extrabold">Asal</span>
           <span className="text-[1vw] text-[#FFF9F1]/70">wilayah</span>
         </div>
-        <div className="absolute right-0 top-[3vw] flex w-[7vw] flex-col border-t-[0.18vw] border-[#F6D9B6] pt-[0.7vh] text-right">
+        <div className="absolute right-0 top-[3vw] flex w-[7vw] flex-col text-right">
           <span className="text-[1vw] font-bold uppercase tracking-[0.18em] text-[#F6D9B6]">02</span>
           <span className="mt-[0.35vh] text-[1.25vw] font-extrabold">Pelaku</span>
           <span className="text-[1vw] text-[#FFF9F1]/70">petani & mitra</span>
         </div>
-        <div className="absolute bottom-[1vw] left-[0.5vw] flex w-[7vw] flex-col border-t-[0.18vw] border-[#F6D9B6] pt-[0.7vh]">
+        <div className="absolute bottom-[1vw] left-[0.5vw] flex w-[7vw] flex-col">
           <span className="text-[1vw] font-bold uppercase tracking-[0.18em] text-[#F6D9B6]">03</span>
           <span className="mt-[0.35vh] text-[1.25vw] font-extrabold">Produk</span>
           <span className="text-[1vw] text-[#FFF9F1]/70">rasa & mutu</span>
         </div>
-        <div className="absolute bottom-0 right-0 flex w-[7vw] flex-col border-t-[0.18vw] border-[#F6D9B6] pt-[0.7vh] text-right">
+        <div className="absolute bottom-0 right-0 flex w-[7vw] flex-col text-right">
           <span className="text-[1vw] font-bold uppercase tracking-[0.18em] text-[#F6D9B6]">04</span>
           <span className="mt-[0.35vh] text-[1.25vw] font-extrabold">Pengalaman</span>
           <span className="text-[1vw] text-[#FFF9F1]/70">wisata & cerita</span>
