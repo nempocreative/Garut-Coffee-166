@@ -1,5 +1,6 @@
-import coffeeImage from '@assets/kopi-garut-live-diversification.jpg';
 import logo from '@assets/kopi-garut-logo-presentation.png';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide5() {
   return (
@@ -18,7 +19,7 @@ export default function Slide5() {
       </div>
       <div className="absolute right-[7vw] top-[15vh] flex w-[51vw] items-end gap-[1.4vw]">
         <div className="h-[57vh] w-[16vw] rotate-[-4deg] overflow-hidden rounded-[0.95vw] border-[0.4vw] border-[#E7D9C8] bg-[#D3A15F] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.13)]">
-          <img src={coffeeImage} crossOrigin="anonymous" alt="Katalog produk turunan Kopi Garut" className="h-full w-full object-cover" />
+           <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Kopi Garut" className="h-full w-full object-cover" />
         </div>
         <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[2.1vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>

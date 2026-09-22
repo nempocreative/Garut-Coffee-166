@@ -5,4 +5,5 @@
 - [Offline calendar sync](offline-calendar-sync.md) — use device-local queueing with reachability polling when adding native connectivity dependencies is unnecessary.
 - [Floating action visibility](floating-action-visibility.md) — hide Mini Games and Live Chat while scrolling, then restore them after scrolling settles.
 - [Presentation layout QA](presentation-layout-qa.md) — protect footer safe areas and reflow dense card grids instead of relying on clipping.
+- [Presentation demo routes](presentation-demo-routes.md) — use public mobile routes for deck screenshots; role-gated dashboards redirect to login until a role is selected.
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.

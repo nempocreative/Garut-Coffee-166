@@ -1,5 +1,6 @@
-import dashboardScreen from '@assets/kopi-garut-live-dashboard.jpg';
 import logo from '@assets/kopi-garut-logo-presentation.png';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide6() {
   return (
@@ -22,7 +23,7 @@ export default function Slide6() {
         <div className="flex items-center gap-[1.3vw]"><span className="text-[2.2vw] font-extrabold text-[#A8543B]">04</span><p className="text-[1.7vw] font-semibold">Jadikan data sebagai dasar kolaborasi</p></div>
       </div>
       <div className="absolute right-[7vw] top-[17vh] h-[58vh] w-[29vw] rotate-[2deg] rounded-[1vw] border-[0.32vw] border-[#2A201D] bg-[#E7D9C8] p-[0.55vw] shadow-[0.8vw_0.9vw_0_rgba(42,32,29,0.14)]">
-         <img src={dashboardScreen} crossOrigin="anonymous" alt="Dashboard data ekosistem Kopi Garut" className="h-full w-full rounded-[0.58vw] object-cover" />
+          <img src={`${base}demo-regions.jpg`} crossOrigin="anonymous" alt="Cuplikan data wilayah Kopi Garut" className="h-full w-full rounded-[0.58vw] object-cover" />
       </div>
         <div className="absolute bottom-[5vh] right-[6vw] rounded-full bg-[#FFF9F1] px-[1.2vw] py-[0.9vh] text-[1.6vw] font-bold text-[#A8543B] shadow-[0.25vw_0.3vw_0_rgba(42,32,29,0.08)]">Wilayah · Program · Traceability</div>
     </div>

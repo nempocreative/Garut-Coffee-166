@@ -1,6 +1,7 @@
 import logo from '@assets/kopi-garut-logo-presentation.png';
-import traceabilityScreen from '@assets/kopi-garut-live-traceability.jpg';
 import cartScreen from '@assets/kopi-garut-live-cart.jpg';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide16QualityReporting() {
   return (
@@ -26,7 +27,7 @@ export default function Slide16QualityReporting() {
 
       <div className="absolute right-[18vw] top-[14vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-          <img src={traceabilityScreen} alt="Cuplikan traceability Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+           <img src={`${base}demo-diversification.jpg`} alt="Cuplikan produk turunan Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />

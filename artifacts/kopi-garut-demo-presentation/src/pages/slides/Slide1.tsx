@@ -1,6 +1,7 @@
 import heroImage from '@assets/image_1789732998935.png';
 import logo from '@assets/kopi-garut-logo-presentation.png';
-import homeScreen from '@assets/kopi-garut-live-home.jpg';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide1() {
   return (
@@ -41,7 +42,7 @@ export default function Slide1() {
 
       <div className="absolute right-[11vw] top-[14vh] z-10 w-[18vw] rounded-[2.35vw] border-[0.5vw] border-[#2A201D] bg-[#2A201D] p-[0.48vw] shadow-[0.8vw_0.95vw_0_rgba(42,32,29,0.3)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.78vw] bg-[#F6F0E8]">
-          <img src={homeScreen} alt="Cuplikan live beranda aplikasi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+          <img src={`${base}demo-home.jpg`} alt="Cuplikan live beranda aplikasi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.2vw] w-[5.8vw] -translate-x-1/2 rounded-b-[0.85vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.65vw] top-[8vw] h-[2.9vw] w-[0.22vw] rounded-l-full bg-[#2A201D]" />
