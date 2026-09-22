@@ -24,7 +24,7 @@ export default function Slide14FarmOperations() {
         <div className="mt-[4vh] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
           Beranda → Jejak produk
         </div>
-        <p className="mt-[1.5vh] max-w-[31vw] text-[1.55vw] leading-[1.2] text-[#806E63]">Cuplikan langsung dari aplikasi mobile Kopi Garut.</p>
+        <p className="mt-[1.5vh] max-w-[31vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Cuplikan langsung dari aplikasi mobile Kopi Garut.</p>
       </div>
 
       <div className="absolute right-[18vw] top-[14vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
@@ -45,8 +45,8 @@ export default function Slide14FarmOperations() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Beranda</div>
-      <div className="absolute right-[6.5vw] bottom-[3vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Jejak produk</div>
+      <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Beranda</div>
+      <div className="absolute right-[6.5vw] bottom-[4vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Jejak produk</div>
     </div>
   );
 }

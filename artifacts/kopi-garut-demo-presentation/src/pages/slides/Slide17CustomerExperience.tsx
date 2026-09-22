@@ -9,7 +9,7 @@ export default function Slide17CustomerExperience() {
       <div className="absolute left-[-12vw] bottom-[-16vw] h-[39vw] w-[39vw] rounded-full border-[0.12vw] border-[#FFF9F1]/20" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Kopi Garut" crossOrigin="anonymous" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.15vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">17 / 23</span>
       </div>
 
@@ -43,8 +43,8 @@ export default function Slide17CustomerExperience() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Produk turunan</div>
-      <div className="absolute right-[6.5vw] bottom-[3vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Wisata kopi</div>
+       <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.6vw] font-bold text-[#D3A15F]">Produk turunan</div>
+       <div className="absolute right-[6.5vw] bottom-[4vh] text-center text-[1.6vw] font-bold text-[#D3A15F]">Wisata kopi</div>
     </div>
   );
 }

@@ -23,13 +23,13 @@ export default function Slide15Advantages() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[20vh] w-[43vw] space-y-[1.35vh]">
-        <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[2vw] font-extrabold">Terhubung dari hulu ke hilir</p><p className="mt-[0.55vh] text-[1.55vw] text-[#F6F0E8]">Wilayah, petani, produk, pesanan, dan pelanggan berada dalam satu cerita.</p></div></div>
-        <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[2vw] font-extrabold">Informasi lebih transparan</p><p className="mt-[0.55vh] text-[1.55vw] text-[#F6F0E8]">Traceability dan verifikasi membantu pengguna memahami kualitas sebelum memilih.</p></div></div>
-        <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[2vw] font-extrabold">Berbasis peran dan kebutuhan</p><p className="mt-[0.55vh] text-[1.55vw] text-[#F6F0E8]">Pengguna, petani, dan penyuluh melihat ruang kerja yang relevan bagi mereka.</p></div></div>
-        <div className="flex gap-[1.2vw]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[2vw] font-extrabold">Mendorong nilai lokal</p><p className="mt-[0.55vh] text-[1.55vw] text-[#F6F0E8]">Kopi, wisata, produk turunan, dan kemitraan memperluas manfaat bagi Garut.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[2vw] font-extrabold">Terhubung dari hulu ke hilir</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#F6F0E8]">Wilayah, petani, produk, pesanan, dan pelanggan berada dalam satu cerita.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[2vw] font-extrabold">Informasi lebih transparan</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#F6F0E8]">Traceability dan verifikasi membantu pengguna memahami kualitas sebelum memilih.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#D3A15F]/60 pb-[1.5vh]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[2vw] font-extrabold">Berbasis peran dan kebutuhan</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#F6F0E8]">Pengguna, petani, dan penyuluh melihat ruang kerja yang relevan bagi mereka.</p></div></div>
+         <div className="flex gap-[1.2vw]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[2vw] font-extrabold">Mendorong nilai lokal</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#F6F0E8]">Kopi, wisata, produk turunan, dan kemitraan memperluas manfaat bagi Garut.</p></div></div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Asal yang jelas · pilihan yang percaya diri</div>
+       <div className="absolute bottom-[8vh] left-[6.5vw] text-[1.7vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Asal yang jelas · pilihan yang percaya diri</div>
     </div>
   );
 }

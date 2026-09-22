@@ -10,7 +10,7 @@ export default function Slide4() {
       <div className="absolute right-0 top-0 h-full w-[29vw] bg-[#E7D9C8]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.15vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">08 / 23</span>
       </div>
       <div className="absolute left-[6.5vw] top-[19vh] w-[39vw]">
@@ -26,23 +26,23 @@ export default function Slide4() {
       </div>
       <div className="absolute right-[5.5vw] top-[17vh] grid w-[39vw] grid-cols-2 gap-[1vw]">
         <div className="rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerAsep} crossOrigin="anonymous" alt="Petani kopi Asep Rahmat" className="h-[27vh] w-full rounded-[0.55vw] object-cover" />
-          <p className="px-[0.45vw] py-[0.7vh] text-[1.5vw] font-bold text-[#806E63]">Petani · Garut</p>
+          <img src={farmerAsep} crossOrigin="anonymous" alt="Petani kopi Asep Rahmat" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Petani · Garut</p>
         </div>
         <div className="mt-[5vh] rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerDeni} crossOrigin="anonymous" alt="Petani kopi Deni Suhendar" className="h-[27vh] w-full rounded-[0.55vw] object-cover" />
-          <p className="px-[0.45vw] py-[0.7vh] text-[1.5vw] font-bold text-[#806E63]">Kebun · Cikajang</p>
+          <img src={farmerDeni} crossOrigin="anonymous" alt="Petani kopi Deni Suhendar" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Kebun · Cikajang</p>
         </div>
         <div className="rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerIis} crossOrigin="anonymous" alt="Petani kopi Iis Nurhayati" className="h-[27vh] w-full rounded-[0.55vw] object-cover" />
-          <p className="px-[0.45vw] py-[0.7vh] text-[1.5vw] font-bold text-[#806E63]">Cerita · Petani</p>
+          <img src={farmerIis} crossOrigin="anonymous" alt="Petani kopi Iis Nurhayati" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Cerita · Petani</p>
         </div>
         <div className="mt-[5vh] rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerUjang} crossOrigin="anonymous" alt="Petani kopi Ujang Kusnadi" className="h-[27vh] w-full rounded-[0.55vw] object-cover" />
-          <p className="px-[0.45vw] py-[0.7vh] text-[1.5vw] font-bold text-[#806E63]">Wilayah · Garut</p>
+          <img src={farmerUjang} crossOrigin="anonymous" alt="Petani kopi Ujang Kusnadi" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Wilayah · Garut</p>
         </div>
       </div>
-      <p className="absolute bottom-[7vh] right-[6.5vw] text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Wilayah · Petani · Kualitas</p>
+      <p className="absolute bottom-[3vh] right-[6.5vw] text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Wilayah · Petani · Kualitas</p>
     </div>
   );
 }

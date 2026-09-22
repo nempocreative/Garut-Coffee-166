@@ -23,13 +23,13 @@ export default function Slide17Branding() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[20vh] w-[43vw] space-y-[1.35vh]">
-        <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[2vw] font-extrabold">Nama outlet tetap kuat</p><p className="mt-[0.5vh] text-[1.55vw] text-[#E7D9C8]">Bukan mengganti brand coffee shop. Kopi Garut hadir sebagai pilihan origin atau menu khas.</p></div></div>
-        <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[2vw] font-extrabold">Format nama yang konsisten</p><p className="mt-[0.5vh] text-[1.55vw] text-[#E7D9C8]">Contoh: “Kopi Garut · Cikuray · Honey” atau “Kopi Garut · House Pour Over”.</p></div></div>
-        <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[2vw] font-extrabold">Tanda asal yang mudah dikenali</p><p className="mt-[0.5vh] text-[1.55vw] text-[#E7D9C8]">Badge partner, kartu cerita di meja, materi barista, dan QR menuju profil asal.</p></div></div>
-        <div className="flex gap-[1.2vw]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[2vw] font-extrabold">Standar menjaga kepercayaan</p><p className="mt-[0.5vh] text-[1.55vw] text-[#E7D9C8]">Identitas bersama harus didukung data lot, mutu, dan pasokan yang dapat ditelusuri.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[2vw] font-extrabold">Nama outlet tetap kuat</p><p className="mt-[0.5vh] text-[1.75vw] leading-[1.15] text-[#E7D9C8]">Bukan mengganti brand coffee shop. Kopi Garut hadir sebagai pilihan origin atau menu khas.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[2vw] font-extrabold">Format nama yang konsisten</p><p className="mt-[0.5vh] text-[1.75vw] leading-[1.15] text-[#E7D9C8]">Contoh: “Kopi Garut · Cikuray · Honey” atau “Kopi Garut · House Pour Over”.</p></div></div>
+         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.4vh]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[2vw] font-extrabold">Tanda asal yang mudah dikenali</p><p className="mt-[0.5vh] text-[1.75vw] leading-[1.15] text-[#E7D9C8]">Badge partner, kartu cerita di meja, materi barista, dan QR menuju profil asal.</p></div></div>
+         <div className="flex gap-[1.2vw]"><span className="text-[2.6vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[2vw] font-extrabold">Standar menjaga kepercayaan</p><p className="mt-[0.5vh] text-[1.75vw] leading-[1.15] text-[#E7D9C8]">Identitas bersama harus didukung data lot, mutu, dan pasokan yang dapat ditelusuri.</p></div></div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Satu asal · banyak interpretasi · identitas yang sama</div>
+       <div className="absolute bottom-[8vh] left-[6.5vw] text-[1.7vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Satu asal · banyak interpretasi · identitas yang sama</div>
     </div>
   );
 }

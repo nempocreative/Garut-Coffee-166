@@ -7,7 +7,7 @@ export default function Slide3Ecosystem() {
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
-        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">03 / 12</span>
+        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">03 / 23</span>
       </div>
 
       <div className="absolute left-[6.5vw] top-[17vh] w-[49vw]">
@@ -24,23 +24,23 @@ export default function Slide3Ecosystem() {
       <div className="absolute right-[6.5vw] top-[17vh] w-[48vw] space-y-[1.25vh]">
         <div className="flex items-center gap-[1.3vw] border-b border-[#D8C7B5] pb-[1.3vh]">
           <span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">01</span>
-          <div><p className="text-[2vw] font-extrabold">Petani dan kelompok tani</p><p className="mt-[0.5vh] text-[1.55vw] text-[#806E63]">Menyampaikan profil, wilayah, produk, dan perkembangan kebun.</p></div>
+          <div><p className="text-[2vw] font-extrabold">Petani dan kelompok tani</p><p className="mt-[0.5vh] text-[1.8vw] leading-[1.15] text-[#806E63]">Menyampaikan profil, wilayah, produk, dan perkembangan kebun.</p></div>
         </div>
         <div className="flex items-center gap-[1.3vw] border-b border-[#D8C7B5] pb-[1.3vh]">
           <span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">02</span>
-          <div><p className="text-[2vw] font-extrabold">Pembeli dan penikmat kopi</p><p className="mt-[0.5vh] text-[1.55vw] text-[#806E63]">Menemukan pilihan yang sesuai sambil memahami asal dan prosesnya.</p></div>
+          <div><p className="text-[2vw] font-extrabold">Pembeli dan penikmat kopi</p><p className="mt-[0.5vh] text-[1.8vw] leading-[1.15] text-[#806E63]">Menemukan pilihan yang sesuai sambil memahami asal dan prosesnya.</p></div>
         </div>
         <div className="flex items-center gap-[1.3vw] border-b border-[#D8C7B5] pb-[1.3vh]">
           <span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">03</span>
-          <div><p className="text-[2vw] font-extrabold">Mitra dan pelaku usaha</p><p className="mt-[0.5vh] text-[1.55vw] text-[#806E63]">Membaca peluang kolaborasi, kemitraan, dan pengembangan produk.</p></div>
+          <div><p className="text-[2vw] font-extrabold">Mitra dan pelaku usaha</p><p className="mt-[0.5vh] text-[1.8vw] leading-[1.15] text-[#806E63]">Membaca peluang kolaborasi, kemitraan, dan pengembangan produk.</p></div>
         </div>
         <div className="flex items-center gap-[1.3vw] pb-[1.3vh]">
           <span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">04</span>
-          <div><p className="text-[2vw] font-extrabold">Pengelola ekosistem</p><p className="mt-[0.5vh] text-[1.55vw] text-[#806E63]">Menggunakan data, program, laporan, dan umpan balik untuk bertindak.</p></div>
+          <div><p className="text-[2vw] font-extrabold">Pengelola ekosistem</p><p className="mt-[0.5vh] text-[1.8vw] leading-[1.15] text-[#806E63]">Menggunakan data, program, laporan, dan umpan balik untuk bertindak.</p></div>
         </div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.5vw] font-bold text-[#A8543B]">
+      <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
         <span className="h-[0.6vw] w-[0.6vw] rounded-full bg-[#D3A15F]" />
         Informasi yang sama · keputusan yang lebih dekat
       </div>

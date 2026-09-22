@@ -25,7 +25,7 @@ export default function Slide3() {
           <img src={promoImage} crossOrigin="anonymous" alt="Beranda Kopi Garut" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,32,29,0.04)_30%,rgba(42,32,29,0.78)_100%)]" />
           <div className="absolute bottom-[3vh] left-[2.2vw] right-[2.2vw]">
-            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">KOPI GARUT</p>
+            <p className="text-[1.7vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">KOPI GARUT</p>
             <p className="mt-[0.8vh] text-[2vw] font-extrabold leading-tight">Temukan cerita di setiap pilihan.</p>
           </div>
         </div>

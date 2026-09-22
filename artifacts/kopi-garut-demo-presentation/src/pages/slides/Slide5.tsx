@@ -7,7 +7,7 @@ export default function Slide5() {
       <div className="absolute left-0 top-0 h-full w-[35vw] bg-[#A8543B]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.15vw] font-extrabold tracking-[-0.04em] text-[#FFF9F1]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em] text-[#FFF9F1]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">09 / 23</span>
       </div>
       <div className="absolute left-[6.5vw] top-[22vh] w-[26vw] text-[#FFF9F1]">
@@ -23,13 +23,13 @@ export default function Slide5() {
         <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[2.1vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>
           <p className="mt-[1.5vh] text-[2.45vw] font-extrabold leading-[1.03] tracking-[-0.05em]"><span className="block">Dari kebun,</span><span>untuk pilihanmu.</span></p>
-          <div className="mt-[2.5vh] space-y-[1.55vh] border-t border-[#DFD1C1] pt-[2.3vh] text-[1.5vw] font-semibold leading-[1.15] text-[#806E63]">
+           <div className="mt-[2.5vh] space-y-[1.55vh] border-t border-[#DFD1C1] pt-[2.3vh] text-[1.7vw] font-semibold leading-[1.15] text-[#806E63]">
             <p><span className="mr-[0.6vw] text-[#A8543B]">01</span> Lihat kopi dan produk turunan</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">02</span> Baca karakter, asal, dan detail</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">03</span> Simpan pilihan favorit</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">04</span> Lanjutkan ke pesanan</p>
           </div>
-          <div className="mt-[2.7vh] inline-flex rounded-full bg-[#A8543B] px-[1.1vw] py-[0.8vh] text-[1.5vw] font-bold text-[#FFF9F1]">Kopi · Produk turunan</div>
+           <div className="mt-[2.7vh] inline-flex rounded-full bg-[#A8543B] px-[1.1vw] py-[0.8vh] text-[1.5vw] font-bold text-[#FFF9F1]">Kopi · Produk turunan</div>
         </div>
       </div>
     </div>

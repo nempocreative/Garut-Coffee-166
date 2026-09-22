@@ -21,15 +21,15 @@ export default function Slide4MainMenu() {
         </p>
       </div>
 
-      <div className="absolute right-[6.5vw] top-[19vh] w-[43vw] space-y-[1.15vh]">
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">01</span><div><p className="text-[2vw] font-extrabold">Beranda</p><p className="text-[1.5vw] text-[#806E63]">Ringkasan cerita, promo, kategori, petani, wilayah, dan agenda.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">02</span><div><p className="text-[2vw] font-extrabold">Jelajah</p><p className="text-[1.5vw] text-[#806E63]">Cari kopi, baca detail produk, simpan favorit, dan lanjutkan ke keranjang.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">03</span><div><p className="text-[2vw] font-extrabold">Jejak</p><p className="text-[1.5vw] text-[#806E63]">Membaca asal kopi melalui wilayah, petani, proses, lot, dan produk.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">04</span><div><p className="text-[2vw] font-extrabold">Pesanan</p><p className="text-[1.5vw] text-[#806E63]">Keranjang, riwayat belanja, status proses, pengiriman, dan belanja lagi.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">05</span><div><p className="text-[2vw] font-extrabold">Akun</p><p className="text-[1.5vw] text-[#806E63]">Ruang personal untuk pengguna, petani, dan penyuluh sesuai perannya.</p></div></div>
+      <div className="absolute right-[6.5vw] top-[16vh] w-[43vw] space-y-[0.9vh]">
+        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">01</span><div><p className="text-[2vw] font-extrabold">Beranda</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Ringkasan cerita, promo, kategori, petani, wilayah, dan agenda.</p></div></div>
+        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">02</span><div><p className="text-[2vw] font-extrabold">Jelajah</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Cari kopi, baca detail produk, simpan favorit, dan lanjutkan ke keranjang.</p></div></div>
+        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">03</span><div><p className="text-[2vw] font-extrabold">Jejak</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Membaca asal kopi melalui wilayah, petani, proses, lot, dan produk.</p></div></div>
+        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">04</span><div><p className="text-[2vw] font-extrabold">Pesanan</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Keranjang, riwayat belanja, status proses, pengiriman, dan belanja lagi.</p></div></div>
+        <div className="flex items-center gap-[1.1vw] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">05</span><div><p className="text-[2vw] font-extrabold">Akun</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Ruang personal untuk pengguna, petani, dan penyuluh sesuai perannya.</p></div></div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.5vw] font-bold text-[#A8543B]">
+      <div className="absolute bottom-[3vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[1.5vh] text-[1.7vw] font-bold text-[#A8543B]">
         <span className="h-[0.6vw] w-[0.6vw] rounded-full bg-[#D3A15F]" />
         Sederhana untuk mulai · lengkap saat dibutuhkan
       </div>

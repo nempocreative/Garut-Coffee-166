@@ -21,7 +21,7 @@ export default function Slide8Traceability() {
         </p>
       </div>
 
-      <div className="absolute left-[6.5vw] bottom-[11vh] w-[47vw]">
+       <div className="absolute left-[6.5vw] bottom-[8vh] w-[43vw]">
         <div className="flex items-center gap-[0.7vw]">
           <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">01</div>
           <div className="h-[0.18vw] w-[4vw] bg-[#D3A15F]" />
@@ -31,12 +31,12 @@ export default function Slide8Traceability() {
           <div className="h-[0.18vw] w-[4vw] bg-[#D3A15F]" />
           <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">04</div>
         </div>
-        <div className="mt-[1.3vh] grid grid-cols-4 gap-[0.8vw] text-[1.4vw] font-bold leading-[1.1] text-[#E7D9C8]">
+        <div className="mt-[1.3vh] grid grid-cols-4 gap-[0.8vw] text-[1.6vw] font-bold leading-[1.1] text-[#E7D9C8]">
           <p>Wilayah</p><p>Petani</p><p>Proses</p><p>Produk</p>
         </div>
       </div>
 
-      <div className="absolute right-[7vw] top-[16vh] h-[66vh] w-[30vw] rotate-[3deg] rounded-[1vw] border-[0.32vw] border-[#D3A15F] bg-[#E7D9C8] p-[0.55vw] shadow-[0.8vw_0.9vw_0_rgba(0,0,0,0.2)]">
+      <div className="absolute right-[5.5vw] top-[14vh] h-[62vh] w-[29vw] rotate-[2deg] rounded-[1vw] border-[0.32vw] border-[#D3A15F] bg-[#E7D9C8] p-[0.55vw] shadow-[0.8vw_0.9vw_0_rgba(0,0,0,0.2)]">
         <img src={traceabilityImage} crossOrigin="anonymous" alt="Tampilan traceability Kopi Garut" className="h-full w-full rounded-[0.58vw] object-cover" />
       </div>
     </div>

@@ -31,19 +31,19 @@ export default function Slide18PartnerProgram() {
           <div className="mt-[2.1vw] h-[0.2vw] w-[3vw] bg-[#D3A15F]" />
           <div className="h-[4.4vw] w-[4.4vw] rounded-full bg-[#A8543B] text-center text-[1.8vw] font-extrabold leading-[4.4vw] text-[#FFF9F1]">04</div>
         </div>
-        <div className="mt-[1.6vh] grid grid-cols-4 gap-[0.7vw] text-[1.5vw] font-bold leading-[1.1] text-[#2A201D]">
+        <div className="mt-[1.6vh] grid grid-cols-4 gap-[0.7vw] text-[1.7vw] font-bold leading-[1.1] text-[#2A201D]">
           <p><span className="block">Daftar</span><span className="block">partner</span></p>
           <p><span className="block">Verifikasi</span><span className="block">asal & mutu</span></p>
           <p><span className="block">Dapatkan</span><span className="block">toolkit menu</span></p>
           <p><span className="block">Aktifkan</span><span className="block">cerita</span></p>
         </div>
-        <div className="mt-[5vh] grid grid-cols-2 gap-[1vw]">
-          <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.55vw] font-bold text-[#A8543B]">Untuk outlet</p><p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p></div>
-          <div className="border-t-[0.25vw] border-[#D3A15F] bg-[#A8543B] p-[1.25vw] text-[#FFF9F1]"><p className="text-[1.55vw] font-bold text-[#D3A15F]">Untuk Garut</p><p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p></div>
+        <div className="mt-[3vh] grid grid-cols-2 gap-[1vw]">
+          <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.15vw]"><p className="text-[1.6vw] font-bold text-[#A8543B]">Untuk outlet</p><p className="mt-[1vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p></div>
+          <div className="border-t-[0.25vw] border-[#D3A15F] bg-[#A8543B] p-[1.15vw] text-[#FFF9F1]"><p className="text-[1.6vw] font-bold text-[#D3A15F]">Untuk Garut</p><p className="mt-[1vh] text-[1.7vw] leading-[1.15] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p></div>
         </div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.5vw] font-bold text-[#A8543B]">
+       <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
         <span className="h-[0.6vw] w-[0.6vw] rounded-full bg-[#D3A15F]" />
         Target akhirnya: ketika orang memesan kopi di Garut, mereka mengenali satu asal yang kuat
       </div>

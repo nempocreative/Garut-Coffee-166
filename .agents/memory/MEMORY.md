@@ -4,3 +4,4 @@
 - [Expo font loading](expo-font-loading.md) — never let web preview remain on the branded splash indefinitely when font loading stalls.
 - [Offline calendar sync](offline-calendar-sync.md) — use device-local queueing with reachability polling when adding native connectivity dependencies is unnecessary.
 - [Floating action visibility](floating-action-visibility.md) — hide Mini Games and Live Chat while scrolling, then restore them after scrolling settles.
+- [Presentation layout QA](presentation-layout-qa.md) — protect footer safe areas and reflow dense card grids instead of relying on clipping.
