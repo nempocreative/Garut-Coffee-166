@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 
 const outputDir = fileURLToPath(new URL('./dist/public/', import.meta.url));
 const mobileDir = fileURLToPath(new URL('../kopi-garut-mobile/', import.meta.url));
+const basePath = (process.env.BASE_PATH || '/kopi-garut-web').replace(/\/+$/, '') || '/';
 
 await rm(outputDir, { recursive: true, force: true });
 
@@ -15,7 +16,7 @@ const exportProcess = spawn(
     stdio: 'inherit',
     env: {
       ...process.env,
-      EXPO_WEB_BASE_PATH: '/kopi-garut-web',
+      EXPO_WEB_BASE_PATH: basePath,
     },
   },
 );
