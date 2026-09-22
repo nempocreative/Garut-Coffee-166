@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
@@ -63,13 +63,25 @@ const homeDiversifiedProducts = homeContent.diversifiedProducts.map((product) =>
 
 function CoffeeBeanAnimation() {
   const beans = useSharedValue(0);
+  const [webBeansMotion, setWebBeansMotion] = useState(0);
 
   useEffect(() => {
     beans.value = withRepeat(
       withTiming(1, { duration: 2600, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
-      );
+    );
+
+    if (Platform.OS !== 'web') return;
+
+    const startedAt = Date.now();
+    const timer = setInterval(() => {
+      const cycle = ((Date.now() - startedAt) % 2600) / 2600;
+      const progress = cycle <= 0.5 ? cycle * 2 : 2 - cycle * 2;
+      setWebBeansMotion(progress);
+    }, 120);
+
+    return () => clearInterval(timer);
   }, [beans]);
 
   const beansStyle = useAnimatedStyle(() => ({
@@ -78,9 +90,17 @@ function CoffeeBeanAnimation() {
       { rotate: `${interpolate(beans.value, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
     ],
   }));
+  const webBeansStyle = Platform.OS === 'web'
+    ? {
+        transform: [
+          { translateY: interpolate(webBeansMotion, [0, 0.5, 1], [0, -4, 0]) },
+          { rotate: `${interpolate(webBeansMotion, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
+        ],
+      }
+    : undefined;
 
   return (
-    <Animated.View style={[styles.coffeeBeanAnimation, beansStyle]}>
+    <Animated.View style={[styles.coffeeBeanAnimation, beansStyle, webBeansStyle]}>
       <ExpoImage
         source={require('../../assets/images/coffee-beans-natural.webp')}
         contentFit="contain"
