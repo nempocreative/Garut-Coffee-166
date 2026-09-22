@@ -32,7 +32,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   const pathname = usePathname();
   const scrollRef = useRef<ScrollView>(null);
   const { notifyScroll } = useScrollVisibility();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 34 : insets.bottom);
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
