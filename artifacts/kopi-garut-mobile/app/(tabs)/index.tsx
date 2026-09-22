@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } fr
 import { Link, useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
-import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
@@ -69,7 +69,7 @@ function CoffeeBeanAnimation() {
       withTiming(1, { duration: 2600, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
-    );
+      );
   }, [beans]);
 
   const beansStyle = useAnimatedStyle(() => ({
@@ -646,7 +646,7 @@ export default function HomeScreen() {
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
-        accessibilityLabel="Buka cerita ekosistem Kopi Garut"
+        accessibilityLabel="Buka cerita kolektif Kopi Garut"
         onPress={() => router.push('/collective')}
         style={({ pressed }) => [
           styles.storyLead,
@@ -654,11 +654,10 @@ export default function HomeScreen() {
         ]}
       >
         <ExpoImage
-          source={require('../../assets/images/collective-banner.webp')}
+          source={require('../../assets/images/story-background.webp')}
           contentFit="cover"
           style={StyleSheet.absoluteFill}
         />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.card, opacity: 0.12 }]} />
         <View style={styles.storyLeadBody}>
           <View style={styles.storyLeadCopy}>
             <Text style={[styles.storyLeadTitle, { color: colors.foreground }]}>Kopi dari tanah pegunungan.</Text>
@@ -1211,11 +1210,19 @@ const styles = StyleSheet.create({
   categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden', zIndex: 1 },
-  storyLeadBody: { flex: 1, flexDirection: 'row', alignItems: 'stretch', gap: 12 },
-  storyLeadCopy: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 4, paddingVertical: 4 },
-  storyLeadKicker: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.35, textAlign: 'center' },
+  storyLeadBody: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  storyLeadCopy: { width: '70%', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 4 },
+  storyLeadArt: { width: 108, minHeight: 130, borderRadius: 16, overflow: 'hidden', position: 'relative' },
+  storyLeadSun: { position: 'absolute', top: 15, right: 14, width: 20, height: 20, borderRadius: 10, opacity: 0.82 },
+  storyLeadMountainBack: { position: 'absolute', right: -27, bottom: 22, width: 0, height: 0, borderLeftWidth: 68, borderRightWidth: 68, borderBottomWidth: 86, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadMountainFront: { position: 'absolute', left: -42, bottom: 15, width: 0, height: 0, borderLeftWidth: 67, borderRightWidth: 67, borderBottomWidth: 76, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadMountainPeak: { position: 'absolute', left: 19, bottom: 69, width: 0, height: 0, borderLeftWidth: 18, borderRightWidth: 18, borderBottomWidth: 25, borderLeftColor: 'transparent', borderRightColor: 'transparent' },
+  storyLeadGround: { position: 'absolute', left: -8, right: -8, bottom: -15, height: 45, borderRadius: 30 },
+  storyLeadBean: { position: 'absolute', right: 17, bottom: 12, width: 27, height: 40, borderRadius: 22, transform: [{ rotate: '28deg' }] },
+  storyLeadBeanLine: { position: 'absolute', left: 12, top: 4, width: 3, height: 31, borderRadius: 3, transform: [{ rotate: '-16deg' }] },
+  storyLeadBeanSmall: { position: 'absolute', right: 52, bottom: 11, width: 14, height: 22, borderRadius: 12, transform: [{ rotate: '-24deg' }] },
   storyLeadTitle: { fontFamily: 'Manrope_700Bold', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center' },
-  storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 13, marginTop: 1, textAlign: 'center' },
+  storyLeadText: { fontFamily: 'Manrope_400Regular', fontSize: 10.5, lineHeight: 14, marginTop: 1, textAlign: 'center' },
   coffeeBeanAnimation: { width: 64, height: 22, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
   coffeeBeanImage: { width: '100%', height: '100%' },
   roadTraffic: { width: 96, height: 62, alignItems: 'center', justifyContent: 'center', gap: 5, overflow: 'hidden' },
@@ -1379,5 +1386,5 @@ const styles = StyleSheet.create({
   homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 14, paddingTop: 18, paddingBottom: 24, borderTopWidth: 1 },
   footerMountain: { width: '94%', height: 62, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
+  storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
 });

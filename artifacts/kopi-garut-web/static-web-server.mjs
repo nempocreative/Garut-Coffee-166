@@ -1,10 +1,11 @@
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, watch } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { join, normalize, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const artifactDir = fileURLToPath(new URL('./', import.meta.url));
+const mobileDir = resolve(artifactDir, '../kopi-garut-mobile');
 const publicDir = resolve(artifactDir, 'dist/public');
 const basePath = (process.env.BASE_PATH || '/kopi-garut-web/').replace(/\/+$/, '');
 const port = Number(process.env.PORT || 21729);
@@ -48,6 +49,52 @@ function runBuild() {
       }
     });
   });
+}
+
+function startSourceWatcher() {
+  let rebuildTimer;
+  let buildInProgress = false;
+  let rebuildQueued = false;
+
+  const requestRebuild = () => {
+    clearTimeout(rebuildTimer);
+    rebuildTimer = setTimeout(async () => {
+      if (buildInProgress) {
+        rebuildQueued = true;
+        return;
+      }
+
+      buildInProgress = true;
+      console.log('Mobile source changed; rebuilding the web export...');
+      try {
+        await runBuild();
+        console.log('Web export updated from the mobile source.');
+      } catch (error) {
+        console.error('Web export rebuild failed:', error);
+      } finally {
+        buildInProgress = false;
+        if (rebuildQueued) {
+          rebuildQueued = false;
+          requestRebuild();
+        }
+      }
+    }, 250);
+  };
+
+  watch(mobileDir, { recursive: true }, (_eventType, filename) => {
+    const changedPath = String(filename || '');
+    if (
+      changedPath.includes('node_modules')
+      || changedPath.includes('.expo')
+      || changedPath.includes('.git')
+      || changedPath.endsWith('.tsbuildinfo')
+    ) {
+      return;
+    }
+    requestRebuild();
+  });
+
+  console.log(`Watching ${mobileDir} for web parity updates.`);
 }
 
 function routeToFile(pathname) {
@@ -121,6 +168,9 @@ async function start() {
   const server = createServer(serve);
   server.listen(port, '0.0.0.0', () => {
     console.log(`Serving Kopi Garut Expo Web export on port ${port} under ${basePath}/`);
+    if (process.argv.includes('--build')) {
+      startSourceWatcher();
+    }
   });
 }
 
