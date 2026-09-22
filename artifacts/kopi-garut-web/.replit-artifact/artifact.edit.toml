@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Kopi Garut Web"
+description = "Website Kopi Garut dengan pengalaman mobile-first yang menampilkan katalog kopi, keranjang, pesanan, cerita ekosistem, dan navigasi utama dalam bingkai ukuran layar ponsel."
+version = "1.0.0"
+id = "artifacts/kopi-garut-web"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21729
+
+[services.development]
+run = "pnpm --filter @workspace/kopi-garut-web run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kopi-garut-web", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kopi-garut-web/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21729"
+BASE_PATH = "/"
