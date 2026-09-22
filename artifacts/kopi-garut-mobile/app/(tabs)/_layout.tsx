@@ -10,7 +10,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="catalog"
-        options={{ title: 'Jelajah' }}
+        options={{ title: 'Produk' }}
       />
       <Tabs.Screen
         name="favorites"

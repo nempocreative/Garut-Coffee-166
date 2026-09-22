@@ -215,7 +215,7 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
   );
 }
 
-export type ThreeDNavIconName = 'home' | 'grid' | 'coffee' | 'package' | 'user' | 'farmer' | 'scan' | 'bell' | 'shopping-cart';
+export type ThreeDNavIconName = 'home' | 'grid' | 'coffee' | 'product' | 'orders' | 'account' | 'package' | 'user' | 'farmer' | 'scan' | 'bell' | 'shopping-cart';
 
 type ThreeDNavIconProps = {
   name: ThreeDNavIconName;

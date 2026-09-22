@@ -17,10 +17,10 @@ type BottomMenuItem = {
 
 const menuItems: BottomMenuItem[] = [
   { label: 'Beranda', icon: 'home', route: '/', matches: (pathname) => pathname === '/' || pathname === '/index' || pathname.startsWith('/(tabs)') && pathname.endsWith('/index') },
-  { label: 'Jelajah', icon: 'coffee', route: '/catalog', matches: (pathname) => pathname === '/catalog' || pathname.startsWith('/product') || pathname === '/favorites' },
+  { label: 'Produk', icon: 'product', route: '/catalog', matches: (pathname) => pathname === '/catalog' || pathname.startsWith('/product') || pathname === '/favorites' },
   { label: 'Jejak', icon: 'scan', route: '/traceability', matches: (pathname) => pathname === '/traceability' },
-  { label: 'Pesanan', icon: 'package', route: '/orders', matches: (pathname) => pathname === '/orders' || pathname === '/cart' },
-  { label: 'Akun', icon: 'farmer', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
+  { label: 'Pesanan', icon: 'orders', route: '/orders', matches: (pathname) => pathname === '/orders' || pathname === '/cart' },
+  { label: 'Akun', icon: 'account', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
 ];
 
 function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean }) {
@@ -33,6 +33,42 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
           source={require('../assets/images/home-coffee-house.png')}
           contentFit="contain"
           style={[styles.homeImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+        />
+      </View>
+    );
+  }
+
+  if (item.icon === 'product') {
+    return (
+      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+        <Image
+          source={require('../assets/images/product-coffee-basket.png')}
+          contentFit="contain"
+          style={[styles.productImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+        />
+      </View>
+    );
+  }
+
+  if (item.icon === 'orders') {
+    return (
+      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+        <Image
+          source={require('../assets/images/orders-coffee-checklist.png')}
+          contentFit="contain"
+          style={[styles.ordersImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+        />
+      </View>
+    );
+  }
+
+  if (item.icon === 'account') {
+    return (
+      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+        <Image
+          source={require('../assets/images/account-coffee-settings.png')}
+          contentFit="contain"
+          style={[styles.accountImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
         />
       </View>
     );
@@ -61,13 +97,10 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
       style={[styles.centerCircle, { borderColor: colors.card, shadowColor: colors.foreground }]}
     >
       <View style={[styles.centerHighlight, { backgroundColor: colors.primaryForeground }]} />
-      <ThreeDNavIcon
-        name="scan"
-        size={32}
-        mainColor={colors.card}
-        lightColor={colors.primaryForeground}
-        shadowColor={colors.foreground}
-        accentColor={colors.accent}
+      <Image
+        source={require('../assets/images/traceability-coffee-qr.png')}
+        contentFit="contain"
+        style={styles.traceImage}
       />
     </LinearGradient>
   );
@@ -181,6 +214,15 @@ const styles = StyleSheet.create({
   homeImage: {
     flexShrink: 0,
   },
+  productImage: {
+    flexShrink: 0,
+  },
+  ordersImage: {
+    flexShrink: 0,
+  },
+  accountImage: {
+    flexShrink: 0,
+  },
   centerCircle: {
     width: 60,
     height: 60,
@@ -192,6 +234,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 8,
     elevation: 8,
+  },
+  traceImage: {
+    width: 52,
+    height: 52,
+    flexShrink: 0,
   },
   centerHighlight: {
     position: 'absolute',
