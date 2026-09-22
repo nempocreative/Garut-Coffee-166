@@ -1226,8 +1226,8 @@ const styles = StyleSheet.create({
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
-  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 12, transform: [{ translateY: -8 }] },
-  categoryPaginationHit: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 2, height: 12 },
+  categoryPaginationHit: { width: 24, height: 12, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
   storyLead: { minHeight: 154, borderRadius: 20, borderWidth: 1, padding: 12, overflow: 'hidden', zIndex: 1 },
   storyLeadBody: { flex: 1, alignItems: 'center', justifyContent: 'center' },
@@ -1406,5 +1406,5 @@ const styles = StyleSheet.create({
   homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 14, paddingTop: 18, paddingBottom: 24, borderTopWidth: 1 },
   footerMountain: { width: '94%', height: 62, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  storyLeadWrap: { position: 'relative', marginTop: 10, zIndex: 1, overflow: 'visible' },
+  storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
 });
