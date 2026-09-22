@@ -104,8 +104,40 @@
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a14",
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a21",
     "position": 14,
+    "filepath": "src/pages/slides/Slide14FarmOperations.tsx",
+    "title": "Operasional kebun, tercatat dari hari ke hari",
+    "description": "Kalender kebun, biaya usaha tani, log panen, serta isu dan tindak lanjut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a22",
+    "position": 15,
+    "filepath": "src/pages/slides/Slide15Extension.tsx",
+    "title": "Pendampingan yang terhubung",
+    "description": "Dashboard penyuluh, kunjungan, peta petani, pelatihan, dan laporan lapangan.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a23",
+    "position": 16,
+    "filepath": "src/pages/slides/Slide16QualityReporting.tsx",
+    "title": "Mutu dan pelaporan dalam satu alur",
+    "description": "Quality check, verifikasi, pembayaran, dan pengajuan penjualan.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a24",
+    "position": 17,
+    "filepath": "src/pages/slides/Slide17CustomerExperience.tsx",
+    "title": "Pengalaman pelanggan lebih lengkap",
+    "description": "Favorit, pesanan, games kopi, notifikasi, dukungan, wisata, dan produk turunan.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a14",
+    "position": 18,
     "filepath": "src/pages/slides/Slide11Impact.tsx",
     "title": "Platform yang tumbuh bersama data",
     "description": "Dampak dan arah pengembangan platform Kopi Garut.",
@@ -113,7 +145,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a15",
-    "position": 15,
+    "position": 19,
     "filepath": "src/pages/slides/Slide15Advantages.tsx",
     "title": "Satu aplikasi, banyak nilai",
     "description": "Keunggulan aplikasi Kopi Garut bagi ekosistem daerah.",
@@ -121,7 +153,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a17",
-    "position": 16,
+    "position": 20,
     "filepath": "src/pages/slides/Slide16Market.tsx",
     "title": "Pasar awalnya ada di Garut",
     "description": "Segmen pasar yang dapat menjadi sasaran awal pengembangan Kopi Garut.",
@@ -129,7 +161,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a18",
-    "position": 17,
+    "position": 21,
     "filepath": "src/pages/slides/Slide17Branding.tsx",
     "title": "Kopi Garut sebagai origin signature",
     "description": "Model branding bersama untuk coffee shop tanpa menghilangkan merek masing-masing.",
@@ -137,7 +169,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a19",
-    "position": 18,
+    "position": 22,
     "filepath": "src/pages/slides/Slide18PartnerProgram.tsx",
     "title": "Dari satu outlet menjadi jaringan kota",
     "description": "Program partner coffee shop untuk memperluas identitas Kopi Garut.",
@@ -145,7 +177,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a20",
-    "position": 19,
+    "position": 23,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Kopi Garut.",
