@@ -8,3 +8,4 @@
 - [Presentation demo routes](presentation-demo-routes.md) — use public mobile routes for deck screenshots; role-gated dashboards redirect to login until a role is selected.
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.
 - [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
+- [Mobile-to-web parity](mobile-to-web-parity.md) — port mobile screens by preserving route semantics and shared data, then adapt only the React Native presentation layer.

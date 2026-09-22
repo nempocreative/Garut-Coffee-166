@@ -106,6 +106,59 @@ export type SharedCoffee = {
   badge?: string;
 };
 
+export type SharedFarmer = {
+  id: string;
+  name: string;
+  group: string;
+  location: string;
+  landArea: string;
+  annualProduction: string;
+  coffeeType: string;
+  joinedAt: string;
+  membershipId: string;
+  products: string[];
+  image: string;
+  story: string;
+};
+
+export type SharedRegion = {
+  id: string;
+  name: string;
+  village: string;
+  elevation: string;
+  farmerCount: number;
+  specialty: string;
+  image: string;
+};
+
+export type SharedCoffeeTour = {
+  id: string;
+  title: string;
+  type: string;
+  duration: string;
+  price: number;
+  location: string;
+  description: string;
+  image: string;
+};
+
+export type SharedDiversificationCategory = 'Semua' | 'Olahan kopi' | 'Aroma & perawatan' | 'Merchandise';
+
+export type SharedDiversifiedProduct = {
+  id: string;
+  category: Exclude<SharedDiversificationCategory, 'Semua'>;
+  icon: HomeIconName;
+  title: string;
+  price: string;
+  status: string;
+  image: string;
+  badge: string;
+  description?: string;
+  maker?: string;
+  impact?: string;
+  size?: string;
+};
+
 export const homeContent = {
   promoSlides: [
     {
@@ -296,6 +349,97 @@ export const coffeeCatalog = [
     stock: 31,
   },
 ] satisfies SharedCoffee[];
+
+export const hubStats = [
+  { label: 'Petani terdaftar', value: '125' },
+  { label: 'Luas lahan', value: '486 ha' },
+  { label: 'Produksi tahunan', value: '312 ton' },
+  { label: 'Wilayah aktif', value: '12' },
+] as const;
+
+export const farmers = [
+  {
+    id: 'asep-rahmat',
+    name: 'H. Asep Rahmat',
+    group: 'KTH Papandayan Lestari',
+    location: 'Cisurupan, Garut',
+    landArea: '1,8 hektare',
+    annualProduction: '4,2 ton cherry',
+    coffeeType: 'Arabika Typica',
+    joinedAt: '12 Maret 2021',
+    membershipId: 'KGR-CIS-001',
+    products: ['Papandayan Series'],
+    image: 'farmer-asep-rahmat.webp',
+    story: 'Menjaga kualitas dari pemetikan hingga pengeringan bersama anggota kelompok tani.',
+  },
+  {
+    id: 'iis-nurhayati',
+    name: 'Iis Nurhayati',
+    group: 'KTH Cikuray Mandiri',
+    location: 'Cikajang, Garut',
+    landArea: '1,2 hektare',
+    annualProduction: '2,8 ton cherry',
+    coffeeType: 'Arabika Sigarar Utang',
+    joinedAt: '8 Juli 2022',
+    membershipId: 'KGR-CIK-014',
+    products: ['Cikuray Series'],
+    image: 'farmer-iis-nurhayati.webp',
+    story: 'Mengolah kopi natural dengan sabar untuk menjaga rasa buah yang menjadi ciri kebunnya.',
+  },
+  {
+    id: 'deni-suhendar',
+    name: 'Deni Suhendar',
+    group: 'Kelompok Tani Talaga',
+    location: 'Pakenjeng, Garut',
+    landArea: '2,4 hektare',
+    annualProduction: '5,1 ton cherry',
+    coffeeType: 'Arabika Lini S',
+    joinedAt: '19 Januari 2020',
+    membershipId: 'KGR-PAK-008',
+    products: ['Kamojang Series'],
+    image: 'farmer-deni-suhendar.webp',
+    story: 'Membangun kebun yang produktif sambil mempertahankan naungan alami di lereng pegunungan.',
+  },
+  {
+    id: 'ujang-kusnadi',
+    name: 'Ujang Kusnadi',
+    group: 'KTH Darajat Sejahtera',
+    location: 'Samarang, Garut',
+    landArea: '0,9 hektare',
+    annualProduction: '1,9 ton cherry',
+    coffeeType: 'Arabika Ateng',
+    joinedAt: '27 September 2023',
+    membershipId: 'KGR-SAM-021',
+    products: ['Darajat Series'],
+    image: 'farmer-ujang-kusnadi.webp',
+    story: 'Mengembangkan kopi sangrai yang nyaman untuk dinikmati di rumah maupun di kedai mitra.',
+  },
+] satisfies SharedFarmer[];
+
+export const regions = [
+  { id: 'papandayan', name: 'Papandayan', village: 'Cisurupan', elevation: '1.650 mdpl', farmerCount: 42, specialty: 'Rasa cerah dan manis', image: 'regions-banner.webp' },
+  { id: 'cikuray', name: 'Cikuray', village: 'Cikajang', elevation: '1.450 mdpl', farmerCount: 36, specialty: 'Buah tropis dan kakao', image: 'cikuray-series.webp' },
+  { id: 'kamojang', name: 'Kamojang', village: 'Pakenjeng', elevation: '1.300 mdpl', farmerCount: 28, specialty: 'Bersih dan seimbang', image: 'kopi-garut-dari-lereng-ke-cangkir-banner.webp' },
+  { id: 'darajat', name: 'Darajat', village: 'Samarang', elevation: '1.180 mdpl', farmerCount: 19, specialty: 'Karamel dan cokelat', image: 'farmer-story-2.webp' },
+] satisfies SharedRegion[];
+
+export const coffeeTours = [
+  { id: 'coffee-tour', title: 'Coffee Tour Lereng Papandayan', type: 'Kunjungan kebun', duration: '3 jam', price: 185000, location: 'Cisurupan', description: 'Berjalan di antara pohon kopi, belajar memetik cherry, lalu menikmati seduhan dari kebun yang dikunjungi.', image: 'kopi-garut-seduh-sambil-menjelajah-banner.webp' },
+  { id: 'roasting-class', title: 'Kelas Roasting Garut', type: 'Edukasi roasting', duration: '2,5 jam', price: 275000, location: 'Kota Garut', description: 'Kenali proses sangrai dan bawa pulang kopi hasil racikanmu sendiri.', image: 'farmer-story-1.webp' },
+  { id: 'camping-coffee', title: 'Camping & Coffee Experience', type: 'Paket wisata kopi', duration: '2 hari 1 malam', price: 850000, location: 'Darajat', description: 'Menginap di dataran tinggi, menikmati kopi saat matahari terbit, dan mendengar cerita petani.', image: 'farmer-story-3.webp' },
+] satisfies SharedCoffeeTour[];
+
+export const diversifiedProducts = [
+  { id: 'essential-oil-kopi', category: 'Aroma & perawatan', icon: 'package', title: 'Essential oil kopi', price: 'Rp 55.000', status: 'Aroma kopi premium', image: 'coffee-essential-oil.webp', badge: 'Produk baru' },
+  { id: 'pewangi-sepatu-kopi', category: 'Aroma & perawatan', icon: 'package', title: 'Pewangi sepatu kopi', price: 'Rp 32.000', status: 'Aroma tahan lama', image: 'coffee-shoe-deodorizer.webp', badge: 'Upcycle ampas' },
+  { id: 'minyak-aroma-kopi', category: 'Aroma & perawatan', icon: 'package', title: 'Minyak aroma kopi', price: 'Rp 42.000', status: 'Blend lokal Garut', image: 'coffee-aroma-oil.webp', badge: 'Produk UMKM' },
+  { id: 'coffee-concentrate', category: 'Olahan kopi', icon: 'coffee', title: 'Konsentrat kopi gula aren', price: 'Rp 28.000', status: 'Siap minum', image: 'coffee-palm-sugar-concentrate.webp', badge: 'Favorit baru' },
+  { id: 'coffee-cookies', category: 'Olahan kopi', icon: 'package', title: 'Cookies ampas kopi', price: 'Rp 35.000', status: 'Batch mingguan', image: 'coffee-cookies.webp', badge: 'Batch kecil' },
+  { id: 'coffee-soap', category: 'Olahan kopi', icon: 'package', title: 'Sabun scrub kopi', price: 'Rp 32.000', status: 'Produk UMKM', image: 'coffee-scrub.webp', badge: 'Terbuat dari ampas' },
+  { id: 'garut-tote-bag', category: 'Merchandise', icon: 'package', title: 'Totebag lereng Garut', price: 'Rp 79.000', status: 'Edisi petani', image: 'garut-totebag.webp', badge: 'Edisi terbatas' },
+  { id: 'garut-mug', category: 'Merchandise', icon: 'coffee', title: 'Mug Kopi Garut', price: 'Rp 65.000', status: 'Stok terbatas', image: 'garut-mug.webp', badge: 'Koleksi rumah' },
+  { id: 'lilin-aroma-kopi', category: 'Aroma & perawatan', icon: 'package', title: 'Lilin aroma kopi', price: 'Rp 68.000', status: 'Waktu nyala 24 jam', image: 'coffee-candle.webp', badge: 'Ruang lebih hangat', description: 'Lilin soy wax dengan aroma kopi panggang untuk ruang istirahat.', maker: 'Rumah Aroma Cikuray', impact: 'Wadah dapat dipakai ulang sebagai pot kecil', size: '100 g' },
+] satisfies SharedDiversifiedProduct[];
 
 export type AuthRole = 'pengguna' | 'petani' | 'penyuluh';
 

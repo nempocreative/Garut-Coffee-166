@@ -1,9 +1,10 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   ArrowLeft, ArrowRight, Bell, BriefcaseBusiness, CalendarDays, ChevronRight,
   CircleUserRound, Coffee, Compass, Heart, Home, Map, MapPin, Minus, Package, Plus,
   ScanLine, Search, Settings, ShieldCheck, ShoppingBag, SlidersHorizontal, Sparkles,
-  Trash2, Users,
+  Trash2, Users, BarChart3, Check, CheckCircle2, ClipboardList, Clock3, FileText,
+  Factory, Leaf, LocateFixed, MessageSquare, Send, TrendingUp, Wallet, Wheat, X,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
@@ -14,6 +15,12 @@ import {
   getRoleProfile,
   homeContent,
   roleProfiles,
+  farmers,
+  regions,
+  coffeeTours,
+  diversifiedProducts,
+  hubStats,
+  homeContent as sharedHomeContent,
   type AuthRole,
   type HomeIconName,
   type RoleProfile,
@@ -306,6 +313,202 @@ function NotificationsPage() {
   return <Page><main className="subpage"><Header /><div className="subcopy">Kabar kecil dari ekosistem Kopi Garut.</div><div className="info-card"><h3>Panen baru sudah tiba</h3><p>Papandayan Series dari Cisurupan baru saja masuk ke katalog. Rasa lemon Meyer dan gula merahnya sedang paling dicari.</p></div><div className="info-card"><h3>Selamat datang di Kopi Garut</h3><p>Kenali kopi dari kebun, petani, dan wilayah yang membuat setiap cangkir punya cerita.</p></div></main></Page>;
 }
 
+const programOffers = [
+  { id: 'beasiswa-anak-petani-kopi', category: 'Keluarga petani', title: 'Beasiswa anak petani kopi', description: 'Dukungan pendidikan untuk anak keluarga petani kopi agar bisa melanjutkan sekolah.', target: 'Keluarga petani kopi', support: 'Beasiswa 1 semester', deadline: '30 Nov 2026' },
+  { id: 'klinik-kesehatan-petani', category: 'CSR petani kopi', title: 'Klinik kesehatan petani kopi', description: 'Layanan pemeriksaan dasar dan edukasi kesehatan untuk petani kopi serta keluarganya.', target: 'Petani kopi & keluarga', support: 'Hari layanan kesehatan', deadline: 'Pendaftaran dibuka' },
+  { id: 'pohon-penaung-kebun', category: 'Lingkungan kebun', title: 'Pohon penaung kebun kopi', description: 'Penanaman pohon penaung dan tanaman pendamping untuk menjaga kelembapan serta mutu kebun kopi.', target: 'Petani kopi aktif', support: 'Bibit & pendampingan tanam', deadline: 'Musim hujan 2026' },
+  { id: 'konservasi-mata-air-kebun', category: 'Lingkungan kebun', title: 'Konservasi mata air kebun', description: 'Menjaga sumber air di sekitar kebun kopi melalui aksi resapan dan perawatan bersama.', target: 'Kelompok tani kopi', support: 'Sarana konservasi', deadline: 'Seleksi desa' },
+  { id: 'paket-panen-keluarga', category: 'Keluarga petani', title: 'Paket panen keluarga', description: 'Dukungan kebutuhan dasar bagi keluarga petani kopi selama masa panen dan perawatan kebun.', target: 'Keluarga petani kopi', support: 'Paket kebutuhan dasar', deadline: 'Pendaftaran dibuka' },
+  { id: 'pemberdayaan-produk-turunan', category: 'Komunitas kopi', title: 'Pemberdayaan produk turunan kopi', description: 'Pendampingan desa untuk merancang, menguji, dan memasarkan produk baru berbasis kopi.', target: 'Desa & kelompok tani', support: 'Pendampingan 3 bulan', deadline: 'Pendaftaran dibuka' },
+];
+
+const standards = [
+  ['Grade', 'Grade 1 · Specialty', 'Biji seragam, bersih, dan dapat ditelusuri sampai lot panen.'],
+  ['Proses pascapanen', 'Tercatat per lot', 'Natural, washed, honey, atau proses lain wajib memiliki catatan waktu dan metode.'],
+  ['Kadar air', '10–12%', 'Diukur sebelum penyimpanan dan dicatat pada lembar mutu.'],
+  ['Defect', 'Maks. 5 defect / 300 g', 'Sortasi fisik dilakukan sebelum cupping dan pengemasan.'],
+  ['Cupping', 'Min. 80 poin', 'Cupping memakai lembar penilaian Kopi Garut dan panel terlatih.'],
+  ['Kemasan', 'Food grade + lot code', 'Sertakan asal, proses, berat bersih, tanggal sangrai, dan kode lot.'],
+];
+
+const curationProducts = [
+  { name: 'Arabika Honey Cikuray', producer: 'KTH Cikuray Mandiri', stage: 4, note: 'Siap tampil di katalog resmi.' },
+  { name: 'Papandayan Natural Lot 06', producer: 'KTH Papandayan Lestari', stage: 2, note: 'Menunggu sesi cupping kurator.' },
+  { name: 'Kamojang Washed 2026', producer: 'Kelompok Tani Talaga', stage: 1, note: 'Foto kebun dan dokumen sedang ditinjau.' },
+];
+const curationStages = ['Daftar', 'Verifikasi', 'Kurasi', 'Diterima', 'Masuk Katalog Kopi Garut'];
+const iconFor = (kind: string): LucideIcon => ({
+  users: Users, map: Map, mapPin: MapPin, coffee: Coffee, package: Package, shield: ShieldCheck,
+  calendar: CalendarDays, briefcase: BriefcaseBusiness, chart: BarChart3, file: FileText,
+  leaf: Leaf, wallet: Wallet, wheat: Wheat, check: CheckCircle2, message: MessageSquare,
+}[kind] ?? Package);
+
+function useLocalJson<T>(key: string, initial: T) {
+  const [value, setValue] = useState<T>(() => {
+    try { const stored = localStorage.getItem(key); return stored ? JSON.parse(stored) as T : initial; } catch { return initial; }
+  });
+  const update = (next: T | ((current: T) => T)) => {
+    setValue((current) => {
+      const result = typeof next === 'function' ? (next as (current: T) => T)(current) : next;
+      localStorage.setItem(key, JSON.stringify(result));
+      return result;
+    });
+  };
+  return [value, update] as const;
+}
+
+function MetricStrip({ metrics }: { metrics: Array<{ label: string; value: string; icon?: string }> }) {
+  return <div className="metric-strip">{metrics.map((metric) => { const Icon = iconFor(metric.icon || 'chart'); return <div className="metric-card" key={metric.label}><div className="metric-icon"><Icon size={17} /></div><strong>{metric.value}</strong><span>{metric.label}</span></div>; })}</div>;
+}
+
+function HeroPanel({ image, eyebrow, title, copy, action, onAction }: { image: string; eyebrow: string; title: string; copy: string; action?: string; onAction?: () => void }) {
+  return <div className="hub-hero"><img src={asset(image)} alt="" /><div className="hub-hero-shade" /><div className="hub-hero-copy"><div className="eyebrow">{eyebrow}</div><h1>{title}</h1><p>{copy}</p>{action && onAction && <button className="hero-link" onClick={onAction} data-testid="button-hero-action">{action}<ArrowRight size={14} /></button>}</div></div>;
+}
+
+function ActionRow({ icon, title, detail, action, onAction, status }: { icon: string; title: string; detail: string; action?: string; onAction?: () => void; status?: string }) {
+  const Icon = iconFor(icon);
+  return <div className="action-row"><div className="row-icon"><Icon size={17} /></div><div className="row-copy"><strong>{title}</strong><span>{detail}</span></div>{status && <span className="status-chip">{status}</span>}{action && onAction && <button className="row-action" onClick={onAction} data-testid={`button-row-${title.toLowerCase().replaceAll(' ', '-')}`}>{action}<ChevronRight size={14} /></button>}</div>;
+}
+
+function HubPage({ kind }: { kind: string }) {
+  const [, setLocation] = useLocation();
+  const { notify } = useStore();
+  const [query, setQuery] = useState('');
+  const [saved, setSaved] = useLocalJson<string[]>(`kopi-garut-${kind}-saved`, []);
+  const cfg: Record<string, { title: string; eyebrow: string; copy: string; image: string }> = {
+    collective: { eyebrow: 'TUMBUH BERSAMA', title: 'Ekosistem yang merawat rasa.', copy: 'Satu ruang untuk produksi, pascapanen, bisnis, edukasi, dan cerita kopi Garut.', image: 'kopi-garut-banyak-orang-banner.webp' },
+    farmers: { eyebrow: 'ORANG DI BALIK RASA', title: 'Kenali petani Garut.', copy: 'Profil keluarga tani, kelompok, dan kebun yang menjaga kualitas dari musim ke musim.', image: 'farmer-asep-rahmat.webp' },
+    regions: { eyebrow: 'WILAYAH KOPI', title: 'Dari lereng ke cangkir.', copy: 'Setiap ketinggian punya karakter rasa, proses, dan cerita yang berbeda.', image: 'regions-banner.webp' },
+    tourism: { eyebrow: 'PENGALAMAN KOPI', title: 'Seduh sambil menjelajah.', copy: 'Datang ke kebun, belajar prosesnya, lalu nikmati seduhan dari asalnya.', image: 'kopi-garut-seduh-sambil-menjelajah-banner.webp' },
+    events: { eyebrow: 'AGENDA KOPI', title: 'Temu, belajar, dan mencicipi.', copy: 'Kalender pertemuan petani, roastery, barista, dan pecinta kopi Garut.', image: 'event-coffee-festival.webp' },
+    partnership: { eyebrow: 'JADI MITRA', title: 'Bangun rantai kopi bersama.', copy: 'Temukan cara berkolaborasi dengan kedai, hotel, UMKM, dan pelaku usaha.', image: 'kopi-garut-bangun-rantai-kopi-banner.webp' },
+    diversification: { eyebrow: 'LEBIH DARI SECANGKIR', title: 'Dari kopi, lahir lebih banyak karya.', copy: 'Produk olahan, aroma, perawatan, dan merchandise dari ekosistem Garut.', image: 'coffee-essential-oil.webp' },
+  };
+  const content = cfg[kind];
+  const filteredFarmers = farmers.filter((farmer) => `${farmer.name} ${farmer.group} ${farmer.location}`.toLowerCase().includes(query.toLowerCase()));
+  const filteredRegions = regions.filter((region) => `${region.name} ${region.village} ${region.specialty}`.toLowerCase().includes(query.toLowerCase()));
+  const filteredProducts = diversifiedProducts.filter((product) => `${product.title} ${product.category}`.toLowerCase().includes(query.toLowerCase()));
+  if (kind === 'events') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="filter-pills"><span className="filter-pill active">Semua agenda</span><span className="filter-pill">Pelatihan</span><span className="filter-pill">Festival</span><span className="filter-pill">Kemitraan</span></div><div className="hub-list">{sharedHomeContent.stories.map((event) => <article className="event-card" key={event.id}><img src={asset(event.image)} alt={event.title} /><div className="event-copy"><span className="section-kicker">{event.type}</span><h3>{event.title}</h3><p>{event.description}</p><div className="event-meta"><span><CalendarDays size={13} />{event.date}</span><span><MapPin size={13} />{event.location}</span></div><button className="secondary-button" onClick={() => { setSaved((items) => items.includes(event.id) ? items : [...items, event.id]); notify(saved.includes(event.id) ? 'Agenda sudah tersimpan' : 'Agenda disimpan di perangkat'); }} data-testid={`button-save-event-${event.id}`}>{saved.includes(event.id) ? 'Tersimpan' : 'Simpan agenda'}</button></div></article>)}</div></main></Page>;
+  if (kind === 'farmers') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><SearchEntry catalog value={query} onChange={setQuery} /><MetricStrip metrics={[{ label: 'Petani terdaftar', value: '125', icon: 'users' }, { label: 'Kelompok tani', value: '18', icon: 'coffee' }, { label: 'Produksi tahunan', value: '312 ton', icon: 'chart' }]} /><div className="section-heading"><h2>Petani pilihan</h2><span className="section-kicker">4 profil</span></div><div className="farmer-grid">{filteredFarmers.map((farmer) => <article className="farmer-card" key={farmer.id}><img src={asset(farmer.image)} alt={farmer.name} /><div className="farmer-copy"><span className="section-kicker">{farmer.location}</span><h3>{farmer.name}</h3><p>{farmer.group}</p><div className="farmer-stats"><span>{farmer.landArea}</span><span>{farmer.coffeeType}</span></div><button className="secondary-button" onClick={() => setLocation(`/farmer/${farmer.id}`)} data-testid={`button-farmer-${farmer.id}`}>Lihat cerita <ArrowRight size={13} /></button></div></article>)}</div></main></Page>;
+  if (kind === 'regions') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><SearchEntry catalog value={query} onChange={setQuery} /><MetricStrip metrics={hubStats.map((item) => ({ label: item.label, value: item.value, icon: 'map' }))} /><div className="region-list">{filteredRegions.map((region) => <article className="region-card" key={region.id}><img src={asset(region.image)} alt={region.name} /><div className="region-copy"><span className="section-kicker">{region.village} · {region.elevation}</span><h3>{region.name}</h3><p>{region.specialty}</p><div className="region-foot"><span>{region.farmerCount} petani aktif</span><button className="text-button" onClick={() => setLocation(`/region/${region.id}`)} data-testid={`button-region-${region.id}`}>Buka wilayah <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
+  if (kind === 'tourism') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="tour-grid">{coffeeTours.map((tour) => <article className="tour-card" key={tour.id}><img src={asset(tour.image)} alt={tour.title} /><div className="tour-copy"><span className="section-kicker">{tour.type} · {tour.duration}</span><h3>{tour.title}</h3><p>{tour.description}</p><div className="tour-foot"><strong>{formatPrice(tour.price)}</strong><button className="primary-button compact" onClick={() => { setSaved((items) => items.includes(tour.id) ? items : [...items, tour.id]); notify('Permintaan kunjungan dicatat di perangkat'); }} data-testid={`button-book-tour-${tour.id}`}>{saved.includes(tour.id) ? 'Tersimpan' : 'Ajukan kunjungan'}</button></div></div></article>)}</div></main></Page>;
+  if (kind === 'diversification') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="filter-pills"><span className="filter-pill active">Semua</span><span className="filter-pill">Olahan kopi</span><span className="filter-pill">Aroma & perawatan</span><span className="filter-pill">Merchandise</span></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="product-grid diversified-grid">{filteredProducts.map((product) => <article className="diversified-card" key={product.id}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><p>{product.status}</p><div><b>{product.price}</b><button className="text-button" onClick={() => { setSaved((items) => items.includes(product.id) ? items : [...items, product.id]); notify('Produk turunan disimpan untuk ditinjau'); }} data-testid={`button-save-product-${product.id}`}>{saved.includes(product.id) ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
+  if (kind === 'partnership') return <PartnershipPage content={content} />;
+  return <Page><main className="subpage"><Header /><HeroPanel {...content} /><MetricStrip metrics={hubStats.map((item) => ({ label: item.label, value: item.value, icon: item.label.includes('Petani') ? 'users' : item.label.includes('Wilayah') ? 'map' : 'chart' }))} /><div className="section-heading"><div><span className="section-kicker">PINTU EKOSISTEM</span><h2>Ruang yang saling terhubung.</h2></div></div><div className="module-grid">{[['coffee', 'Produksi & budidaya', 'Data kebun, luas lahan, produksi per musim, dan jadwal panen.'], ['package', 'Pascapanen', 'Catatan rumah produksi, stok, dan standar kualitas per lot.'], ['briefcase', 'Marketplace B2B', 'Temu hasil panen dengan cafe dan roastery yang mencari kopi Garut.'], ['shield', 'Sertifikasi & legalitas', 'Profil kesiapan usaha dan dokumen untuk memperluas akses pasar.'], ['calendar', 'Akademi Kopi Garut', 'Materi budidaya, pascapanen, brewing, dan kewirausahaan kopi.'], ['compass', 'Wisata kopi', 'Pengalaman langsung dari kebun, proses, budaya, dan orang-orangnya.']].map(([icon, title, detail], index) => <ActionRow key={title} icon={icon} title={title} detail={detail} action="Jelajahi" onAction={() => { if (index === 5) setLocation('/tourism'); else if (index === 2) setLocation('/partnership'); else if (index === 4) setLocation('/program'); else notify(`${title} akan dibuka dari ruang kerja terkait`); }} />)}</div><div className="dark-callout"><span className="section-kicker">ROADMAP 2026</span><h2>Dari data kebun menuju keputusan yang lebih adil.</h2><p>Lot kopi, pre-order panen, kontrak kemitraan, pusat logistik, hingga QR Code Kopi Garut dirancang dalam satu perjalanan.</p><button className="secondary-button" onClick={() => setLocation('/traceability')} data-testid="button-collective-trace">Lihat jejak kopi <ArrowRight size={14} /></button></div></main></Page>;
+}
+
+function PartnershipPage({ content }: { content: { image: string; eyebrow: string; title: string; copy: string } }) {
+  const { notify } = useStore();
+  const [form, setForm] = useState({ name: '', type: 'Cafe / Roastery', need: '' });
+  const [sent, setSent] = useLocalJson<boolean>('kopi-garut-partnership-sent', false);
+  return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="partner-points"><ActionRow icon="coffee" title="Pasokan terkurasi" detail="Profil lot, asal, proses, dan standar mutu lebih mudah dibaca." /><ActionRow icon="users" title="Pendampingan ekosistem" detail="Temu petani, kelompok tani, penyuluh, dan pelaku usaha." /><ActionRow icon="briefcase" title="Kolaborasi yang jelas" detail="Mulai dari kebutuhan, volume, sampai bentuk kerja sama." /></div><div className="form-card"><span className="section-kicker">MULAI PERCAKAPAN</span><h2>Jadi bagian dari rantai ini.</h2><p className="form-hint">Ceritakan kebutuhan usaha atau bentuk kolaborasi yang sedang kamu cari.</p><label>Nama usaha<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Contoh: Ruang Seduh Roastery" data-testid="input-partner-name" /></label><label>Jenis mitra<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })} data-testid="select-partner-type"><option>Cafe / Roastery</option><option>Hotel / Restoran</option><option>UMKM produk turunan</option><option>Program CSR</option></select></label><label>Kebutuhan atau ide kolaborasi<textarea value={form.need} onChange={(event) => setForm({ ...form, need: event.target.value })} placeholder="Contoh: kebutuhan 300 kg Arabika Grade 1 proses honey" data-testid="input-partner-need" /></label><button className="primary-button wide" onClick={() => { if (!form.name.trim() || !form.need.trim()) { notify('Lengkapi nama usaha dan kebutuhan terlebih dahulu'); return; } setSent(true); notify('Profil mitra tersimpan di perangkat'); }} data-testid="button-submit-partnership">{sent ? 'Tersimpan di perangkat' : 'Kirim kebutuhan mitra'} <Send size={15} /></button></div></main></Page>;
+}
+
+function FarmerDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
+  const farmer = farmers.find((item) => item.id === id) ?? farmers[0];
+  const coffee = coffees.find((item) => item.farmerName === farmer.name);
+  return <Page><main className="subpage"><Header /><div className="detail-image"><img src={asset(farmer.image)} alt={farmer.name} /><button className="back-button" onClick={() => setLocation('/farmers')} aria-label="Kembali ke petani" data-testid="button-farmer-detail-back"><ArrowLeft size={18} /></button></div><div className="detail-copy"><span className="detail-series">{farmer.location} · {farmer.membershipId}</span><h1 className="detail-name">{farmer.name}</h1><p className="detail-tagline">{farmer.group}</p><div className="stat-row"><div className="stat"><b>{farmer.landArea}</b><span>Luas lahan</span></div><div className="stat"><b>{farmer.annualProduction}</b><span>Produksi</span></div><div className="stat"><b>{farmer.coffeeType}</b><span>Varietas</span></div></div><div className="info-card"><span className="section-kicker">CERITA KEBUN</span><p>{farmer.story}</p><p className="detail-description">Bergabung sejak {farmer.joinedAt}. Produk yang tercatat: {farmer.products.join(', ')}.</p></div>{coffee && <div className="info-card"><span className="section-kicker">LOT YANG DAPAT DICICIPI</span><h3>{coffee.name}</h3><p>{coffee.tagline} · {coffee.process} · {coffee.altitude}</p><button className="primary-button wide" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-farmer-coffee">Lihat kopi dari kebun ini <ArrowRight size={14} /></button></div>}</div></main></Page>;
+}
+
+function RegionDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
+  const region = regions.find((item) => item.id === id) ?? regions[0];
+  const regionalFarmers = farmers.filter((item) => item.location.toLowerCase().includes(region.village.toLowerCase()));
+  return <Page><main className="subpage"><Header /><HeroPanel image={region.image} eyebrow={`${region.village} · ${region.elevation}`} title={`Karakter ${region.name}.`} copy={`${region.specialty}. ${region.farmerCount} petani aktif menjaga lanskap kopi di wilayah ini.`} /><MetricStrip metrics={[{ label: 'Petani aktif', value: String(region.farmerCount), icon: 'users' }, { label: 'Ketinggian', value: region.elevation, icon: 'map' }, { label: 'Karakter', value: region.specialty, icon: 'coffee' }]} /><div className="section-heading"><h2>Orang di wilayah ini</h2></div>{regionalFarmers.length ? regionalFarmers.map((farmer) => <ActionRow key={farmer.id} icon="users" title={farmer.name} detail={`${farmer.group} · ${farmer.coffeeType}`} action="Profil" onAction={() => setLocation(`/farmer/${farmer.id}`)} />) : <div className="info-card"><p>Profil petani wilayah sedang dikurasi. Data wilayah tetap dapat dibaca melalui katalog.</p></div>}<div className="dark-callout"><span className="section-kicker">RASA WILAYAH</span><h2>{region.specialty}</h2><p>Kenali asalnya sebelum memilih cangkir. Setiap lot membawa ketinggian, tanah, dan cara kerja kelompok tani.</p><button className="secondary-button" onClick={() => setLocation('/catalog')} data-testid="button-region-catalog">Lihat katalog kopi <ArrowRight size={14} /></button></div></main></Page>;
+}
+
+function TraceabilityPage() {
+  const [, setLocation] = useLocation();
+  const [scanned, setScanned] = useState(false);
+  const coffee = coffees[0];
+  const farmer = farmers[0];
+  return <Page><main className="subpage"><Header /><div className="trace-hero"><div className="qr-mark"><ScanLine size={44} /></div><span className="section-kicker">SCAN QR KEMASAN</span><h1>Satu scan, satu cerita utuh.</h1><p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p><button className="primary-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">{scanned ? 'Cerita terbuka' : 'Buka cerita kopi'} <ScanLine size={15} /></button></div>{scanned && <div className="trace-result"><div className="success-banner"><CheckCircle2 size={20} /><div><span className="section-kicker">SCAN BERHASIL</span><strong>Kemasan ini punya cerita.</strong></div><code>LOT-PAP-06</code></div><div className="trace-photo"><img src={asset(farmer.image)} alt={farmer.name} /><div><span className="section-kicker">PETANI PRODUSEN</span><h2>{farmer.name}</h2></div><span className="status-chip">TERVERIFIKASI</span></div><div className="info-card"><span className="section-kicker">ASAL & PRODUSEN</span><h2>{coffee.name}</h2><ActionRow icon="mapPin" title="Asal kebun" detail={`${farmer.location} · ${coffee.altitude}`} /><ActionRow icon="users" title="Petani produsen" detail={`${farmer.name} · ${farmer.group}`} /><ActionRow icon="coffee" title="Jenis dan proses" detail={`${farmer.coffeeType} · proses ${coffee.process}`} /><ActionRow icon="calendar" title="Tanggal panen" detail="29 September 2026 · buah dipetik saat matang" /></div><div className="timeline-card"><span className="section-kicker">PERJALANAN LOT</span><h2>Dari kebun sampai cangkir</h2>{[['01', 'Kebun', 'Cherry merah dipetik dari blok utara Papandayan.'], ['02', 'Pascapanen', 'Proses madu dan pengeringan matahari dicatat per lot.'], ['03', 'Katalog', 'Disangrai dan dikirim sebagai Papandayan Series.']].map(([number, title, detail]) => <div className="timeline-row" key={number}><b>{number}</b><div><strong>{title}</strong><span>{detail}</span></div></div>)}</div><div className="trace-taste"><span className="section-kicker">YANG TERASA DI CANGKIR</span><h2>Lemon Meyer, gula merah, melati.</h2><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><button className="secondary-button" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-trace-product">Lihat kopi <ArrowRight size={14} /></button></div></div>}</main></Page>;
+}
+
+const programCategories = ['Semua', 'CSR petani kopi', 'Lingkungan kebun', 'Keluarga petani', 'Komunitas kopi'];
+const programServices = [
+  { title: 'Verifikasi petani & produk', route: '/verification', icon: 'shield' },
+  { title: 'Standar Kopi Garut', route: '/standards', icon: 'check' },
+  { title: 'Kurasi produk', route: '/curation', icon: 'repeat' },
+  { title: 'Dashboard kelompok tani', route: '/group-dashboard', icon: 'users' },
+  { title: 'Dashboard penyuluh', route: '/extension-dashboard', icon: 'mapPin' },
+  { title: 'Laporan digital', route: '/reports', icon: 'chart' },
+  { title: 'Notifikasi program', route: '/notifications', icon: 'message' },
+  { title: 'Pusat dokumen', route: '/documents', icon: 'file' },
+  { title: 'Usulan & kebutuhan dukungan', route: '/complaints', icon: 'send' },
+];
+
+function ProgramPage() {
+  const [, setLocation] = useLocation();
+  const { session } = useAuth();
+  const { notify } = useStore();
+  const [category, setCategory] = useState('Semua');
+  const [applications, setApplications] = useLocalJson<string[]>('kopi-garut-program-applications', []);
+  const visibleOffers = category === 'Semua' ? programOffers : programOffers.filter((offer) => offer.category === category);
+  const roleCards = session?.id === 'petani'
+    ? [{ title: 'Petani', detail: 'Verifikasi kebun, mutu lot, dan akses pasar.', route: '/verification', icon: 'coffee' }]
+    : session?.id === 'penyuluh'
+      ? [{ title: 'Penyuluh', detail: 'Catat kunjungan dan tindak lanjut kebun.', route: '/extension-dashboard', icon: 'mapPin' }]
+      : [];
+  return <Page><main className="subpage"><Header /><HeroPanel image="program-menu-ai.webp" eyebrow="PROGRAM KOPI GARUT" title="Belajar, berbagi, tumbuh bersama." copy="Ruang untuk pelatihan, dukungan, dan program yang menjaga masa depan kopi Garut." /><MetricStrip metrics={[{ label: 'Program rutin', value: '04', icon: 'calendar' }, { label: 'Agenda kopi', value: '08', icon: 'coffee' }, { label: 'Ekosistem', value: '01', icon: 'users' }]} /><SectionTitle kicker="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." /><p className="program-intro">Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan kopi Garut bersama-sama.</p><div className="program-rail">{sharedHomeContent.stories.slice(0, 4).map((item) => <article className="program-card" key={item.id}><img src={asset(item.image)} alt={item.title} /><div className="program-card-body"><span className="section-kicker">{item.type}</span><h3>{item.title}</h3><p>{item.description}</p><div className="event-meta"><span><CalendarDays size={13} />{item.date}</span><span><MapPin size={13} />{item.location}</span></div><button className="secondary-button" onClick={() => setLocation('/events')}>Lihat jadwal <ArrowRight size={13} /></button></div></article>)}</div><SectionTitle kicker="PEMBERDAYAAN DESA" title="Dari kopi, lahir lebih banyak karya." /><div className="dark-callout"><span className="section-kicker">PROGRAM DESA</span><h2>Produk turunan kopi</h2><p>Mengubah potensi kopi dan hasil sampingnya menjadi produk bernilai tambah yang bisa dibuat, dikelola, dan dipasarkan bersama oleh warga desa.</p><div className="mini-grid">{['Essential oil kopi', 'Pewangi sepatu', 'Merchandise desa', 'Oleh-oleh aroma'].map((item) => <div className="mini-card" key={item}><Package size={16} /><strong>{item}</strong></div>)}</div><button className="secondary-button" onClick={() => setLocation('/diversification')}>Lihat produk turunan <ArrowRight size={13} /></button></div><SectionTitle kicker="CSR KOPI GARUT" title="Kontribusi untuk petani & kebun kopi" /><p className="program-intro">Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat kopi Garut tumbuh.</p><div className="filter-pills">{programCategories.map((item) => <button key={item} className={`filter-pill ${category === item ? 'active' : ''}`} onClick={() => setCategory(item)}>{item}</button>)}</div><div className="offer-list">{visibleOffers.map((offer) => { const applied = applications.includes(offer.id); return <article className="offer-card" key={offer.id}><div className="offer-head"><div className="row-icon"><Sparkles size={17} /></div><div><span className="section-kicker">{offer.category}</span><h3>{offer.title}</h3></div><span className="status-chip">Dibuka</span></div><p>{offer.description}</p><div className="offer-meta"><span><small>UNTUK</small><b>{offer.target}</b></span><span><small>DUKUNGAN</small><b>{offer.support}</b></span><span><small>BATAS</small><b>{offer.deadline}</b></span></div><button className={`primary-button wide ${applied ? 'is-secondary' : ''}`} onClick={() => { if (!session) { setLocation('/login?returnTo=/program'); return; } if (!applied) { setApplications((items) => [...items, offer.id]); notify(`Pengajuan ${offer.title} sudah dikirim.`); } }}><Check size={15} />{applied ? 'Sudah diajukan' : session ? 'Ajukan program' : 'Masuk untuk mengajukan'}</button></article>; })}</div><SectionTitle kicker="MULAI DARI PERANMU" title="Pilih ruang kerja" />{session && roleCards.length ? <div className="role-work-grid">{roleCards.map((role) => <button className="role-work-card" key={role.route} onClick={() => setLocation(role.route)}><div className="row-icon"><Coffee size={18} /></div><span><small>RUANG KERJA</small><strong>{role.title}</strong><em>{role.detail}</em></span><ArrowRight size={16} /></button>)}</div> : <div className="access-card"><div className="row-icon"><ShieldCheck size={18} /></div><div><h3>Buka akses program</h3><p>Masuk untuk melihat ruang kerja yang sesuai dengan peranmu.</p></div><button className="secondary-button" onClick={() => setLocation('/login?returnTo=/program')}>Masuk</button></div>}<SectionTitle kicker="SEMUA LAYANAN" title="Jelajahi program" /><div className="service-grid">{programServices.filter((item) => canAccessRoute(item.route, session?.id)).map((item) => <button className="service-card" key={item.route} onClick={() => setLocation(item.route)}><div className="row-icon">{createElement(iconFor(item.icon), { size: 17 })}</div><strong>{item.title}</strong><ArrowRight size={15} /></button>)}</div></main></Page>;
+}
+
+const operationConfigs: Record<string, { eyebrow: string; title: string; copy: string; image: string; rows: Array<[string, string, string, string?]>; metrics?: Array<{ label: string; value: string; icon?: string }>; form?: { label: string; placeholder: string; action: string } }> = {
+  verification: { eyebrow: 'VERIFIKASI · PETANI', title: 'Status yang jelas untuk setiap kebun.', copy: 'Pastikan identitas, kelompok, lokasi kebun, dan lot kopi tercatat dengan rapi.', image: 'verification-menu-ai.webp', rows: [['Terverifikasi', 'Profil petani dan identitas usaha sudah cocok.', 'Lengkap', 'check'], ['Kelompok tani terverifikasi', 'Keanggotaan tercatat di kelompok aktif.', 'Lengkap', 'users'], ['Lokasi kebun terverifikasi', 'Titik kebun dan luas lahan sudah dipetakan.', 'Lengkap', 'mapPin'], ['Produk terverifikasi', 'Lot Arabika Honey 2026 menunggu foto kemasan.', 'Dalam tinjauan', 'package']] },
+  standards: { eyebrow: 'RUJUKAN MUTU', title: 'Standar Kopi Garut.', copy: 'Rujukan mutu internal untuk setiap lot, dari kebun hingga kemasan.', image: 'standards-menu-ai.webp', rows: standards.map(([title, value, detail]) => [title, `${value} · ${detail}`, 'Standar', 'check']) },
+  quality: { eyebrow: 'CEK MUTU LOT', title: 'Ukur kesiapan mutu lot.', copy: 'Pastikan lot siap dicatat, dicicipi, dan ditawarkan ke pembeli.', image: 'standards-menu-ai.webp', rows: [['Kadar air', '10–12% sebelum penyimpanan', 'Siap dicek', 'coffee'], ['Defect', 'Maks. 5 defect / 300 g', 'Siap dicek', 'check'], ['Cupping', 'Minimum 80 poin', 'Belum diisi', 'chart'], ['Kemasan', 'Food grade + kode lot', 'Siap dicek', 'package']], form: { label: 'Catatan pemeriksaan', placeholder: 'Contoh: kadar air 11,2%, lot siap untuk cupping', action: 'Simpan hasil cek' } },
+  curation: { eyebrow: 'KURASI PRODUK', title: 'Dari kebun menuju katalog.', copy: 'Ikuti setiap tahap agar produk yang tampil membawa cerita dan mutu yang jelas.', image: 'reports-menu-ai.webp', rows: curationProducts.map((item) => [item.name, `${item.producer} · ${item.note}`, `${curationStages[item.stage]}`, 'package']) },
+  extensionDashboard: { eyebrow: 'PENYULUH · DASHBOARD', title: 'Bawa data kebun ke lapangan.', copy: 'Ringkasan kunjungan, kondisi kebun, dan tindak lanjut dalam satu ruang kerja.', image: 'regions-banner.webp', metrics: [{ label: 'Kunjungan bulan ini', value: '18', icon: 'mapPin' }, { label: 'Kondisi kebun baik', value: '14', icon: 'check' }, { label: 'Masalah terbuka', value: '06', icon: 'message' }, { label: 'Jatuh tempo', value: '03', icon: 'calendar' }], rows: [['Iis Nurhayati', 'Daun menguning di blok 2 setelah hujan panjang.', 'Menunggu arahan', 'leaf'], ['H. Asep Rahmat', 'Pemetaan blok panen dan foto lot.', 'Dijadwalkan', 'calendar'], ['Deni Suhendar', 'Pengecekan naungan kebun.', 'Selesai', 'check']] },
+  extensionVisits: { eyebrow: 'PENYULUH · KUNJUNGAN', title: 'Catatan kunjungan lapangan.', copy: 'Simpan hasil observasi dan rekomendasi yang bisa ditindaklanjuti.', image: 'farmer-story-1.webp', rows: [['Iis Nurhayati', 'Mekarsari, Cikajang · 12 Juni 2026', 'Kunjungan terakhir', 'mapPin'], ['Kunjungan berikutnya', '19 Juni 2026 · Blok utara', 'Dijadwalkan', 'calendar']], form: { label: 'Catatan kunjungan baru', placeholder: 'Tulis kondisi kebun, masalah, dan rekomendasi', action: 'Simpan kunjungan' } },
+  extensionTraining: { eyebrow: 'PENYULUH · PELATIHAN', title: 'Pelatihan yang bergerak bersama kebun.', copy: 'Atur materi dan agenda pendampingan untuk kelompok tani.', image: 'event-postharvest-class.webp', rows: [['Pelatihan sortasi & defect', 'Besok, 09.00 · Rumah produksi Cikuray', 'Terjadwal', 'calendar'], ['Kelas pascapanen', '17 Oktober 2026 · Cikajang', 'Pendaftaran', 'coffee'], ['Cupping & Kenal Asal', '14 November 2026 · Cisurupan', 'Terjadwal', 'chart']] },
+  extensionReports: { eyebrow: 'PENYULUH · LAPORAN', title: 'Ringkas pendampingan dengan jelas.', copy: 'Lihat perkembangan kunjungan, kondisi kebun, dan tindak lanjut.', image: 'reports-menu-ai.webp', metrics: [{ label: 'Laporan tersimpan', value: '24', icon: 'file' }, { label: 'Selesai bulan ini', value: '18', icon: 'check' }, { label: 'Perlu respons', value: '06', icon: 'message' }], rows: [['Rekap Cikajang', '14 kunjungan · 6 rekomendasi aktif', 'Terbaru', 'chart'], ['Rekap Cisurupan', '9 kunjungan · 2 tindak lanjut', 'Ditinjau', 'chart']] },
+  extensionFarmers: { eyebrow: 'PENYULUH · PETANI BINAAN', title: 'Kenali kebun yang kamu dampingi.', copy: 'Buka profil petani, catatan kunjungan, dan kebutuhan dukungan.', image: 'farmer-asep-rahmat.webp', rows: farmers.map((farmer) => [farmer.name, `${farmer.group} · ${farmer.location}`, farmer.annualProduction, 'users']) },
+  extensionIssues: { eyebrow: 'PENYULUH · MASALAH KEBUN', title: 'Tindak lanjut yang tidak tercecer.', copy: 'Prioritaskan kendala kebun dan hubungkan dengan rekomendasi penyuluh.', image: 'farmer-story-2.webp', rows: [['Daun menguning di blok 2', 'Iis Nurhayati · hujan panjang', 'Menunggu arahan', 'leaf'], ['Drainase blok utara', 'H. Asep Rahmat · puncak panen', 'Dijadwalkan', 'mapPin'], ['Foto lot belum lengkap', 'KTH Cikuray Mandiri', 'Sudah ditinjau', 'check']], form: { label: 'Catatan tindak lanjut', placeholder: 'Tambahkan arahan untuk petani', action: 'Simpan arahan' } },
+  groupDashboard: { eyebrow: 'KELOMPOK TANI', title: 'Satu meja untuk gerak kelompok.', copy: 'Pantau anggota, produksi, permintaan pembeli, dan jadwal kelompok.', image: 'collective-banner.webp', metrics: [{ label: 'Anggota aktif', value: '42', icon: 'users' }, { label: 'Produksi musim ini', value: '8,4 ton', icon: 'coffee' }, { label: 'Panen berjalan', value: '1,8 ton', icon: 'calendar' }, { label: 'Penjualan tercatat', value: 'Rp 186 jt', icon: 'wallet' }], rows: [['Permintaan Arabika Grade 1', 'Ruang Seduh Roastery · 300 kg · proses honey', 'Menunggu respons', 'briefcase'], ['Program dryer bersama', 'Dinas Pertanian Garut · 1 unit', 'Verifikasi dokumen', 'package'], ['Pelatihan sortasi & defect', 'Besok, 09.00 · Rumah produksi Cikuray', 'Agenda', 'calendar']] },
+  reports: { eyebrow: 'LAPORAN DIGITAL', title: 'Baca pertumbuhan dengan jelas.', copy: 'Bandingkan produksi, penjualan, dan pendampingan di wilayah Kopi Garut.', image: 'reports-menu-ai.webp', metrics: hubStats.map((item) => ({ label: item.label, value: item.value, icon: 'chart' })), rows: [['Produksi Arabika Cikajang', 'KTH Cikuray Mandiri · kenaikan 12,4%', 'Di atas target', 'trending'], ['Panen Papandayan', 'KTH Papandayan Lestari · dryer bersama dijadwalkan', 'Perlu pendampingan', 'calendar'], ['Penjualan lot Kamojang', 'Kelompok Tani Talaga · dua pembeli baru', 'Naik bulan ini', 'wallet']] },
+  documents: { eyebrow: 'PUSAT DOKUMEN', title: 'Panduan yang siap dibawa ke kebun.', copy: 'Simpan SOP, modul, regulasi, dan formulir program di satu tempat.', image: 'documents-menu-ai.webp', rows: [['Panduan budidaya Arabika Garut', 'PDF · 24 halaman · naungan, pemupukan, pemangkasan', 'Budidaya', 'coffee'], ['SOP panen dan pascapanen', 'PDF · 18 halaman · sortasi, fermentasi, pengeringan', 'Pascapanen', 'package'], ['Modul pelatihan cupping dasar', 'Modul · 12 halaman · aroma, rasa, body, acidity', 'Pelatihan', 'check'], ['Regulasi label dan ketertelusuran', 'Panduan · 9 halaman · kode lot dan kemasan', 'Regulasi', 'shield']] },
+  farmCalendar: { eyebrow: 'PETANI · KALENDER', title: 'Rencanakan musim kebun.', copy: 'Atur panen, pemupukan, pemangkasan, dan kunjungan dari satu kalender.', image: 'event-postharvest-class.webp', rows: [['Panen Papandayan Series', '29 September 2026 · Blok utara', '7 hari lagi', 'calendar'], ['Pelatihan sortasi & defect', '29 September 2026 · 09.00', 'Agenda', 'users'], ['Pengumpulan data panen', '30 September 2026 · hasil dan biaya', 'Besok', 'chart']], form: { label: 'Agenda kebun baru', placeholder: 'Contoh: pemupukan blok selatan, 2 Oktober 2026', action: 'Tambah agenda' } },
+  harvestLog: { eyebrow: 'PETANI · CATATAN PANEN', title: 'Catat hasil dari setiap blok.', copy: 'Simpan hasil, biaya, dan asal panen agar nilai kebun terbaca.', image: 'farmer-asep-rahmat.webp', rows: [['Panen Papandayan Series', 'Blok utara · cherry merah · 420 kg', 'Tersimpan', 'coffee'], ['Musim sebelumnya', 'Blok timur · cherry merah · 380 kg', 'Arsip', 'file']], form: { label: 'Catatan panen baru', placeholder: 'Contoh: Blok utara, 420 kg cherry, 29 September 2026', action: 'Simpan catatan panen' } },
+  farmCosts: { eyebrow: 'PETANI · BIAYA KEBUN', title: 'Hitung biaya sebelum menghitung laba.', copy: 'Catat kebutuhan kebun, tenaga, dan pascapanen dengan lebih tertib.', image: 'coffee-palm-sugar-concentrate.webp', rows: [['Pemupukan blok utara', 'Rp 1.850.000 · September 2026', 'Tercatat', 'wallet'], ['Tenaga petik', 'Rp 3.200.000 · musim berjalan', 'Tercatat', 'users'], ['Pengeringan lot', 'Rp 780.000 · proses madu', 'Perlu rincian', 'package']], form: { label: 'Biaya kebun baru', placeholder: 'Contoh: pupuk kompos · Rp 850.000 · blok selatan', action: 'Simpan biaya' } },
+  paymentRecords: { eyebrow: 'PETANI · PEMBAYARAN', title: 'Transaksi yang mudah dilacak.', copy: 'Catat uang muka, pelunasan, dan sisa transaksi per lot.', image: 'reports-menu-ai.webp', rows: [['Papandayan Series', 'Uang muka · Ruang Seduh Roastery · Rp 12.000.000', 'Diterima', 'wallet'], ['Cikuray Natural', 'Pelunasan · Kedai Lereng · Rp 8.400.000', 'Menunggu', 'clock']], form: { label: 'Catatan pembayaran', placeholder: 'Contoh: pelunasan lot 06 · Rp 8.400.000 · 30 September', action: 'Simpan pembayaran' } },
+  salesSubmissions: { eyebrow: 'PETANI · AKSES PASAR', title: 'Tawarkan lot dengan cerita lengkap.', copy: 'Bawa detail asal, proses, stok, dan harga ke pembeli yang tepat.', image: 'kopi-garut-bangun-rantai-kopi-banner.webp', rows: [['Papandayan Series', '86 kg · madu · 1.650 mdpl', 'Tayang', 'coffee'], ['Cikuray Natural', '52 kg · natural · 1.450 mdpl', 'Menunggu foto', 'package']], form: { label: 'Ajukan lot baru', placeholder: 'Contoh: Kamojang Washed 2026 · 40 kg · proses cuci', action: 'Kirim pengajuan' } },
+};
+
+function OperationPage({ kind }: { kind: string }) {
+  const [, setLocation] = useLocation();
+  const { notify } = useStore();
+  const config = operationConfigs[kind] ?? operationConfigs.reports;
+  const [saved, setSaved] = useLocalJson<string[]>(`kopi-garut-${kind}-records`, []);
+  const [note, setNote] = useState('');
+  return <Page><main className="subpage"><Header /><HeroPanel image={config.image} eyebrow={config.eyebrow} title={config.title} copy={config.copy} />{config.metrics && <MetricStrip metrics={config.metrics} />}<div className="section-heading"><div><span className="section-kicker">RUANG KERJA</span><h2>Ringkasan terbaru</h2></div><span className="section-kicker">{config.rows.length} catatan</span></div><div className="operation-list">{config.rows.map(([title, detail, status, icon]) => <ActionRow icon={icon ?? 'package'} title={title} detail={detail} status={status} key={`${title}-${detail}`} action={kind === 'extensionFarmers' ? 'Buka' : undefined} onAction={kind === 'extensionFarmers' ? () => setLocation(`/farmer/${farmers.find((farmer) => farmer.name === title)?.id ?? farmers[0].id}`) : undefined} />)}</div>{config.form && <div className="form-card"><span className="section-kicker">CATATAN PERANGKAT</span><h2>{config.form.label}</h2><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder={config.form.placeholder} data-testid={`input-${kind}-note`} /><button className="primary-button wide" onClick={() => { if (!note.trim()) { notify('Tulis catatan terlebih dahulu'); return; } setSaved((items) => [...items, note]); setNote(''); notify(`${config.form?.action} berhasil disimpan di perangkat`); }} data-testid={`button-${kind}-save`}>{config.form.action} <Check size={15} /></button>{saved.length > 0 && <div className="saved-note"><CheckCircle2 size={16} /><span>{saved.length} catatan tersimpan di perangkat ini.</span></div>}</div>}<div className="dark-callout"><span className="section-kicker">LANJUTKAN</span><h2>Data yang rapi membantu keputusan yang lebih baik.</h2><p>Hubungkan catatan ini dengan katalog, petani, wilayah, dan program Kopi Garut lainnya.</p><button className="secondary-button" onClick={() => setLocation(kind.startsWith('extension') ? '/extension-dashboard' : '/program')}>{kind.startsWith('extension') ? 'Kembali ke dashboard penyuluh' : 'Buka semua program'} <ArrowRight size={14} /></button></div></main></Page>;
+}
+
+function ComplaintsPage() {
+  const [, setLocation] = useLocation();
+  const { session } = useAuth();
+  const { notify } = useStore();
+  const [category, setCategory] = useState('Petani belum terdata');
+  const [location, setFieldLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [sent, setSent] = useLocalJson<boolean>('kopi-garut-complaint-sent', false);
+  return <Page><main className="subpage"><Header /><HeroPanel image="complaints-menu-ai.webp" eyebrow="USULAN & DUKUNGAN" title="Sampaikan kebutuhan dari lapangan." copy="Bantu tim Kopi Garut mengetahui petani, lahan, atau kebutuhan dukungan yang belum terhubung." /><div className="form-card"><span className="section-kicker">FORMULIR DUKUNGAN</span><h2>Apa yang perlu kami tahu?</h2><label>Kategori<select value={category} onChange={(event) => setCategory(event.target.value)}><option>Petani belum terdata</option><option>Bantuan bibit</option><option>Lahan siap dikembangkan</option><option>Pendampingan</option><option>Lainnya</option></select></label><label>Lokasi<input value={location} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Cikajang" /></label><label>Ceritakan kebutuhannya<textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Tulis detail petani, kebun, atau dukungan yang dibutuhkan" /></label><button className="primary-button wide" onClick={() => { if (!session) { setLocation('/login?returnTo=/complaints'); return; } if (!location.trim() || !description.trim()) { notify('Lengkapi lokasi dan cerita dukungan terlebih dahulu'); return; } setSent(true); notify('Usulan sudah diterima dan disimpan di perangkat'); }}>{sent ? 'Usulan diterima' : 'Kirim usulan'} <Send size={15} /></button></div><div className="info-card"><span className="section-kicker">STATUS</span><h3>{sent ? 'Usulan sedang ditinjau' : 'Belum ada usulan tersimpan'}</h3><p>{sent ? `${category} · ${location}` : 'Setelah dikirim, usulan akan muncul di sini untuk kamu pantau.'}</p></div></main></Page>;
+}
+
+function PricesPage() {
+  const [, setLocation] = useLocation();
+  const prices = [['Cherry kopi', 'Rp 8.500', 'per kg', '+4,2% bulan ini'], ['Gabah kopi', 'Rp 22.000', 'per kg', '+2,1% bulan ini'], ['Green bean', 'Rp 68.000', 'per kg', 'Harga rata-rata'], ['Roasted bean', 'Rp 125.000', 'per 200 g', 'Harga rata-rata']];
+  return <Page><main className="subpage"><Header /><HeroPanel image="price-menu-ai.webp" eyebrow="HARGA ACUAN" title="Baca harga, rencanakan langkah." copy="Harga referensi membantu petani, kelompok, dan pembeli berbicara dengan dasar yang sama." /><div className="price-list">{prices.map(([label, price, unit, change]) => <article className="price-card" key={label}><div><span className="section-kicker">{label}</span><h2>{price}</h2><p>{unit} · {change}</p></div><TrendingUp size={20} /></article>)}</div><div className="dark-callout"><span className="section-kicker">LIHAT PRODUK</span><h2>Bandingkan dengan lot yang tersedia.</h2><button className="secondary-button" onClick={() => setLocation('/catalog')}>Buka katalog <ArrowRight size={14} /></button></div></main></Page>;
+}
+
+function CoffeeGamePage() {
+  const { notify } = useStore();
+  const [score, setScore] = useState(0);
+  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Kopi Garut." /><div className="game-board"><div className="game-score"><span>SKOR</span><strong>{score}</strong></div><img src={asset(score % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi.</p><button className="primary-button wide" onClick={() => { setScore((value) => value + 10); notify('Biji kopi terkumpul'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
+}
+
 function SimpleHubPage({ title, copy, icon: Icon }: { title: string; copy: string; icon: LucideIcon }) {
   return <Page><main className="subpage"><Header /><div className="info-card" style={{ padding: 22, marginTop: 8 }}><div className="empty-icon" style={{ margin: '0 0 14px' }}><Icon size={25} /></div><h3 style={{ fontSize: 20 }}>{title}</h3><p>{copy}</p></div></main></Page>;
 }
@@ -317,7 +520,55 @@ function AppRouter() {
   if (!canAccessRoute(route, session?.id)) {
     return <LoginRedirect route={route} onRedirect={() => setLocation(`/login?returnTo=${encodeURIComponent(route)}`)} />;
   }
-  return <Switch><Route path="/" component={HomePage} /><Route path="/login"><LoginPage /></Route><Route path="/catalog" component={CatalogPage} /><Route path="/product/:id" component={ProductDetailPage} /><Route path="/cart" component={CartPage} /><Route path="/favorites" component={FavoritesPage} /><Route path="/orders" component={OrdersPage} /><Route path="/profile" component={ProfilePage} /><Route path="/notifications" component={NotificationsPage} /><Route path="/traceability"><SimpleHubPage title="Jejak produk" copy="Telusuri perjalanan kopi Garut dari kebun, proses, hingga cangkir." icon={Search} /></Route><Route path="/farmers"><SimpleHubPage title="Petani Garut" copy="Kenali keluarga tani dan kelompok yang merawat kopi dari musim ke musim." icon={Users} /></Route><Route path="/regions"><SimpleHubPage title="Wilayah kopi" copy="Temukan karakter unik Papandayan, Cikuray, Kamojang, dan Darajat." icon={MapPin} /></Route><Route path="/tourism"><SimpleHubPage title="Wisata kopi" copy="Berjalan di kebun, belajar prosesnya, lalu menikmati seduhan dari asalnya." icon={Compass} /></Route><Route path="/events"><SimpleHubPage title="Event Kopi Garut" copy="Temu petani, roastery, barista, dan pecinta kopi dalam satu kalender." icon={CalendarDays} /></Route><Route path="/partnership"><SimpleHubPage title="Jadi mitra" copy="Bangun rantai kopi bersama kedai, hotel, UMKM, dan pelaku usaha." icon={BriefcaseBusiness} /></Route><Route path="/collective"><SimpleHubPage title="Ekosistem Kopi Garut" copy="Satu ruang untuk produksi, pascapanen, bisnis, edukasi, dan cerita kopi." icon={Package} /></Route><Route path="/program"><SimpleHubPage title="Program kopi" copy="Dukungan, pelatihan, dan program yang menjaga kualitas kopi Garut." icon={Sparkles} /></Route><Route path="/diversification"><SimpleHubPage title="Produk turunan" copy="Temukan olahan kopi, aroma, perawatan, dan merchandise dari ekosistem Garut." icon={Package} /></Route><Route path="/complaints"><SimpleHubPage title="Keluhan" copy="Sampaikan kendala dan bantu kami menjaga pengalaman Kopi Garut." icon={Bell} /></Route><Route path="/profile/settings"><SimpleHubPage title="Pengaturan akun" copy="Preferensi akun dan pengalaman belanja Kopi Garut." icon={Settings} /></Route><Route><SimpleHubPage title="Halaman belum ditemukan" copy="Coba kembali ke beranda Kopi Garut." icon={Home} /></Route></Switch>;
+  return <Switch>
+    <Route path="/" component={HomePage} />
+    <Route path="/login"><LoginPage /></Route>
+    <Route path="/catalog" component={CatalogPage} />
+    <Route path="/product/:id" component={ProductDetailPage} />
+    <Route path="/cart" component={CartPage} />
+    <Route path="/favorites" component={FavoritesPage} />
+    <Route path="/orders" component={OrdersPage} />
+    <Route path="/profile" component={ProfilePage} />
+    <Route path="/profile/settings"><SimpleHubPage title="Pengaturan akun" copy="Preferensi akun dan pengalaman Kopi Garut tersimpan di perangkat ini." icon={Settings} /></Route>
+    <Route path="/notifications" component={NotificationsPage} />
+    <Route path="/traceability" component={TraceabilityPage} />
+    <Route path="/farmers"><HubPage kind="farmers" /></Route>
+    <Route path="/farmer/:id" component={FarmerDetailPage} />
+    <Route path="/regions"><HubPage kind="regions" /></Route>
+    <Route path="/region/:id" component={RegionDetailPage} />
+    <Route path="/tourism"><HubPage kind="tourism" /></Route>
+    <Route path="/events"><HubPage kind="events" /></Route>
+    <Route path="/partnership"><HubPage kind="partnership" /></Route>
+    <Route path="/collective"><HubPage kind="collective" /></Route>
+    <Route path="/program" component={ProgramPage} />
+    <Route path="/diversification"><HubPage kind="diversification" /></Route>
+    <Route path="/dashboard"><OperationPage kind="groupDashboard" /></Route>
+    <Route path="/prices" component={PricesPage} />
+    <Route path="/standards"><OperationPage kind="standards" /></Route>
+    <Route path="/verification"><OperationPage kind="verification" /></Route>
+    <Route path="/quality-check"><OperationPage kind="quality" /></Route>
+    <Route path="/harvest-log"><OperationPage kind="harvestLog" /></Route>
+    <Route path="/sales-submissions"><OperationPage kind="salesSubmissions" /></Route>
+    <Route path="/farm-costs"><OperationPage kind="farmCosts" /></Route>
+    <Route path="/payment-records"><OperationPage kind="paymentRecords" /></Route>
+    <Route path="/farm-issues"><OperationPage kind="extensionIssues" /></Route>
+    <Route path="/farm-calendar"><OperationPage kind="farmCalendar" /></Route>
+    <Route path="/curation"><OperationPage kind="curation" /></Route>
+    <Route path="/group-dashboard"><OperationPage kind="groupDashboard" /></Route>
+    <Route path="/extension-dashboard"><OperationPage kind="extensionDashboard" /></Route>
+    <Route path="/extension-visits"><OperationPage kind="extensionVisits" /></Route>
+    <Route path="/extension-training"><OperationPage kind="extensionTraining" /></Route>
+    <Route path="/extension-reports"><OperationPage kind="extensionReports" /></Route>
+    <Route path="/extension-map"><OperationPage kind="extensionDashboard" /></Route>
+    <Route path="/extension-farmers"><OperationPage kind="extensionFarmers" /></Route>
+    <Route path="/extension-issues"><OperationPage kind="extensionIssues" /></Route>
+    <Route path="/reports"><OperationPage kind="reports" /></Route>
+    <Route path="/documents"><OperationPage kind="documents" /></Route>
+    <Route path="/complaints" component={ComplaintsPage} />
+    <Route path="/support"><OperationPage kind="documents" /></Route>
+    <Route path="/coffee-game" component={CoffeeGamePage} />
+    <Route><SimpleHubPage title="Halaman belum ditemukan" copy="Coba kembali ke beranda Kopi Garut." icon={Home} /></Route>
+  </Switch>;
 }
 
 function LoginRedirect({ route, onRedirect }: { route: string; onRedirect: () => void }) {
