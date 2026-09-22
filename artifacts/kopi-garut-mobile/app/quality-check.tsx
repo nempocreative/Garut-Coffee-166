@@ -43,7 +43,7 @@ export default function QualityCheckScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [lotName, setLotName] = useState('');
   const [moisture, setMoisture] = useState('');
   const [defects, setDefects] = useState('');

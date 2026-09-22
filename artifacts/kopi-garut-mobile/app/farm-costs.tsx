@@ -53,7 +53,7 @@ export default function FarmCostsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [costs, setCosts] = useState<FarmCost[]>(initialCosts);
   const [revenue, setRevenue] = useState(defaultRevenue);
   const [category, setCategory] = useState<CostCategory>('Pupuk');

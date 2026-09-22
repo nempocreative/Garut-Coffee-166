@@ -116,7 +116,7 @@ export default function ExtensionVisitsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [visits, setVisits] = useState<FieldVisit[]>(initialVisits);
   const [filter, setFilter] = useState<VisitFilter>('Semua');
   const [farmer, setFarmer] = useState('');

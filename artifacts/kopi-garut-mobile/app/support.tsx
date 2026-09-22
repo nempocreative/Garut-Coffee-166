@@ -42,7 +42,7 @@ export default function SupportScreen() {
     },
   ]);
 
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const title = mode === 'live' ? 'Chat Live CS' : 'FAQ Chat AI';
   const subtitle = mode === 'live' ? 'BANTUAN · TIM KOPI GARUT' : 'BANTUAN · JAWABAN CEPAT';
 

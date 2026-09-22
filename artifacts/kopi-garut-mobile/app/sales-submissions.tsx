@@ -111,7 +111,7 @@ export default function SalesSubmissionsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [lots, setLots] = useState<SaleLot[]>(initialLots);
   const [requests, setRequests] = useState<BuyerRequest[]>(initialRequests);
   const [filter, setFilter] = useState<(typeof statuses)[number]>('Semua');

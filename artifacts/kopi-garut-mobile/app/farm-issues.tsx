@@ -23,7 +23,7 @@ export default function FarmIssuesScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const { session } = useAuth();
   const [cameraPermission, requestCameraPermission] = ImagePicker.useCameraPermissions();
   const [mediaPermission, requestMediaPermission] = ImagePicker.useMediaLibraryPermissions();

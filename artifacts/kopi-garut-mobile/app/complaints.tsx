@@ -52,7 +52,7 @@ export default function ComplaintsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const router = useRouter();
   const { session } = useAuth();
   const [category, setCategory] = useState<ComplaintCategory>('Petani belum terdata');

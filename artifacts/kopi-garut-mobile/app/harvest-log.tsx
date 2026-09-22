@@ -40,7 +40,7 @@ export default function HarvestLogScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [date, setDate] = useState(today());
   const [quantity, setQuantity] = useState('');
   const [block, setBlock] = useState('');

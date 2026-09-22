@@ -48,7 +48,7 @@ export function FloatingCoffeeGameButton() {
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
   if (isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
 
-  const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
+  const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
   const pointLabel = points > 999 ? '999+' : String(points);
 

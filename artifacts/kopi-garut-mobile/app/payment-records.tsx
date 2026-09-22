@@ -95,7 +95,7 @@ export default function PaymentRecordsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const bottomMenuPadding = useBottomMenuPadding();
-  const topInset = Platform.OS === 'web' ? 67 : insets.top;
+  const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const [records, setRecords] = useState<PaymentRecord[]>(initialRecords);
   const [filter, setFilter] = useState<(typeof paymentFilters)[number]>('Semua');
   const [counterpartyType, setCounterpartyType] = useState<CounterpartyType>('Koperasi');

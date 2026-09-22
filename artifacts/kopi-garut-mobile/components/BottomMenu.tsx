@@ -113,7 +113,7 @@ export function BottomMenu() {
   const pathname = usePathname();
   const router = useRouter();
   const isDark = colorScheme === 'dark';
-  const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
+  const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const isFarmerRoute = pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
 
   if (isFarmerRoute) return null;

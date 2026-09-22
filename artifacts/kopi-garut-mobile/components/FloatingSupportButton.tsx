@@ -83,7 +83,7 @@ export function FloatingSupportButton() {
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
   if (isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
 
-  const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
+  const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
 
   const handleAction = (key: SupportAction['key']) => {

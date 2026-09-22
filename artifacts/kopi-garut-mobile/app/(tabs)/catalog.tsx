@@ -29,7 +29,7 @@ export default function CatalogScreen() {
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
   }, [pathname]);
-  return <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: Platform.OS === 'web' ? 67 : insets.top }}>
+  return <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: Platform.OS === 'web' ? 0 : insets.top }}>
     <FlatList
       ref={listRef}
       data={visible}

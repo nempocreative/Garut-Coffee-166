@@ -22,7 +22,7 @@ function getHomeDateLabel() {
 
 export function useBottomMenuPadding(gap = 32) {
   const insets = useSafeAreaInsets();
-  const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
+  const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   return 90 + bottomInset + gap;
 }
 
@@ -33,7 +33,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   const scrollRef = useRef<ScrollView>(null);
   const { notifyScroll } = useScrollVisibility();
   const topInset = Platform.OS === 'web' ? 0 : insets.top;
-  const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 34 : insets.bottom);
+  const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 0 : insets.bottom);
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [pathname]);
