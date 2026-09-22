@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -24,6 +24,7 @@ import { FloatingCoffeeGameButton } from '@/components/FloatingCoffeeGameButton'
 import { FloatingSupportButton } from '@/components/FloatingSupportButton';
 import { CoffeeGameProvider } from '@/context/CoffeeGameContext';
 import { ScrollVisibilityProvider } from '@/context/ScrollVisibilityContext';
+import { useColors } from '@/hooks/useColors';
 
 // Expo Go runs on the phone, outside Replit's local proxy. Give generated API
 // requests the public development host instead of leaving them as relative URLs.
@@ -40,6 +41,7 @@ function RootLayoutNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { session, ready } = useAuth();
+  const colors = useColors();
 
   useEffect(() => {
     if (!ready || pathname === '/login') return;
@@ -49,7 +51,7 @@ function RootLayoutNav() {
   }, [pathname, ready, router, session?.id]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[styles.viewport, { backgroundColor: colors.background }]}>
       <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
@@ -59,6 +61,16 @@ function RootLayoutNav() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  viewport: {
+    flex: 1,
+    width: '100%',
+    maxWidth: 430,
+    alignSelf: 'center',
+    overflow: 'hidden',
+  },
+});
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
