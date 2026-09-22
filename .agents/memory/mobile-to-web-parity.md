@@ -1,10 +1,10 @@
 ---
 name: Mobile-to-web parity
-description: Durable guidance for keeping the Kopi Garut web experience duplicated from the Expo mobile system.
+description: Durable guidance for keeping the Kopi Garut browser experience identical to the Expo mobile system.
 ---
 
-When duplicating an Expo flow into the web app, treat the mobile routes, role rules, copy, and local state behavior as the source of truth. Reuse shared package data where possible; adapt only navigation, layout primitives, and platform-specific controls to the 430px web canvas.
+The Kopi Garut web entry point must launch the Expo Router web build, not maintain a second React/Vite implementation. The mobile app is the single source of truth for screens, routes, role rules, copy, assets, state, and behavior.
 
-**Why:** The product requirement is parity across navigation, roles, data, screens, and behavior, not just matching colors or a landing page. A generic web hub quickly drifts from the mobile system.
+**Why:** The product requirement is exact parity in structure and behavior, not an approximate visual recreation. A second web router inevitably drifts.
 
-**How to apply:** Add every mobile route to the web router, keep protected routes behind the shared `canAccessRoute` rules, and use persistent local state for web equivalents of mobile form and action flows until a shared backend is introduced.
+**How to apply:** Keep the web artifact as a prefix-stripping launcher to the Expo development/production host. When mobile routes or UI change, verify them through the web launcher; do not rebuild the same screen in the old web source.
