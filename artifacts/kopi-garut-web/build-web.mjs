@@ -15,7 +15,7 @@ const exportProcess = spawn(
     stdio: 'inherit',
     env: {
       ...process.env,
-      EXPO_BASE_URL: 'kopi-garut-web',
+      EXPO_WEB_BASE_PATH: '/kopi-garut-web',
     },
   },
 );

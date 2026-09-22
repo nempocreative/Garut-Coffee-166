@@ -9,3 +9,4 @@
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.
 - [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
 - [Mobile-to-web parity](mobile-to-web-parity.md) — web must launch the Expo Router build directly so mobile and browser share the same screens, routes, and state.
+- [Expo web artifact base paths](expo-web-basepath.md) — use Expo static export with experiments.baseUrl; development Metro does not strip artifact prefixes during route matching.
