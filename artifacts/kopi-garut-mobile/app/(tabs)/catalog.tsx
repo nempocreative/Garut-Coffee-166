@@ -82,7 +82,6 @@ export default function CatalogScreen() {
           <SearchBar value={query} onChangeText={setQuery} />
           <View style={styles.filterHeading}>
             <Text style={[styles.filterTitle, { color: colors.foreground }]}>Pilih suasana</Text>
-            <Text style={[styles.filterHint, { color: colors.mutedForeground }]}>Geser untuk melihat semua</Text>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
             {filters.map((item) => <Pressable testID={`filter-${item}`} key={item} onPress={() => setFilter(item)} style={({ pressed }) => [styles.filter, { backgroundColor: filter === item ? colors.primary : colors.secondary, borderColor: filter === item ? colors.primary : colors.border, opacity: pressed ? 0.72 : 1 }]}>
