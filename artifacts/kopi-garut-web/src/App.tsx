@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   ArrowLeft, ArrowRight, Bell, BriefcaseBusiness, CalendarDays, ChevronRight,
-  CircleUserRound, Compass, Heart, Home, Map, MapPin, Minus, Package, Plus,
-  Search, Settings, ShoppingBag, SlidersHorizontal, Sparkles, Trash2, Users,
+  CircleUserRound, Coffee, Compass, Heart, Home, Map, MapPin, Minus, Package, Plus,
+  ScanLine, Search, Settings, ShieldCheck, ShoppingBag, SlidersHorizontal, Sparkles,
+  Trash2, Users,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
@@ -23,23 +24,25 @@ const coffees: Coffee[] = [
 ];
 
 const promos = [
-  { image: asset('kopi-garut-panen-rasa-banner.webp'), eyebrow: 'KOPI GARUT', title: 'Panen rasa dari Garut', description: 'Temukan kopi spesialti dari lereng pilihan.', cta: 'Lihat koleksi' },
-  { image: asset('kopi-garut-kenali-kebun-pilihan-banner.webp'), eyebrow: 'ASAL YANG TERJAGA', title: 'Kenali kebun pilihan', description: 'Ikuti cerita kopi dari kebun sampai cangkir.', cta: 'Jelajahi asal' },
-  { image: asset('kopi-garut-seduh-sambil-menjelajah-banner.webp'), eyebrow: 'PENGALAMAN KOPI', title: 'Seduh sambil menjelajah', description: 'Nikmati perjalanan rasa di dataran tinggi Garut.', cta: 'Lihat wisata' },
-  { image: asset('kopi-garut-dari-lereng-ke-cangkir-banner.webp'), eyebrow: 'WILAYAH KOPI', title: 'Dari lereng ke cangkir', description: 'Temukan karakter unik dari setiap wilayah.', cta: 'Buka wilayah' },
-  { image: asset('kopi-garut-banyak-orang-banner.webp'), eyebrow: 'TUMBUH BERSAMA', title: 'Kopi Garut untuk banyak orang', description: 'Satu ekosistem untuk petani dan penikmat kopi.', cta: 'Jelajah ekosistem' },
-  { image: asset('kopi-garut-bangun-rantai-kopi-banner.webp'), eyebrow: 'JADI MITRA', title: 'Bangun rantai kopi bersama', description: 'Temukan peluang kolaborasi dengan ekosistem Garut.', cta: 'Lihat kemitraan' },
+  { image: asset('kopi-garut-panen-rasa-banner.webp'), eyebrow: 'KOPI GARUT', title: 'Panen rasa dari Garut', description: 'Temukan kopi spesialti dari lereng pilihan.', cta: 'Lihat koleksi', route: '/catalog' },
+  { image: asset('kopi-garut-kenali-kebun-pilihan-banner.webp'), eyebrow: 'ASAL YANG TERJAGA', title: 'Kenali kebun pilihan', description: 'Ikuti cerita kopi dari kebun sampai cangkir.', cta: 'Jelajahi asal', route: '/farmers' },
+  { image: asset('kopi-garut-seduh-sambil-menjelajah-banner.webp'), eyebrow: 'PENGALAMAN KOPI', title: 'Seduh sambil menjelajah', description: 'Nikmati perjalanan rasa di dataran tinggi Garut.', cta: 'Lihat wisata', route: '/tourism' },
+  { image: asset('kopi-garut-dari-lereng-ke-cangkir-banner.webp'), eyebrow: 'WILAYAH KOPI', title: 'Dari lereng ke cangkir', description: 'Temukan karakter unik dari setiap wilayah.', cta: 'Buka wilayah', route: '/regions' },
+  { image: asset('kopi-garut-banyak-orang-banner.webp'), eyebrow: 'TUMBUH BERSAMA', title: 'Kopi Garut untuk banyak orang', description: 'Satu ekosistem untuk petani dan penikmat kopi.', cta: 'Jelajah ekosistem', route: '/collective' },
+  { image: asset('kopi-garut-bangun-rantai-kopi-banner.webp'), eyebrow: 'JADI MITRA', title: 'Bangun rantai kopi bersama', description: 'Temukan peluang kolaborasi dengan ekosistem Garut.', cta: 'Lihat kemitraan', route: '/partnership' },
 ];
 
 const categories: { label: string; icon: LucideIcon; route: string }[] = [
-  { label: 'Kopi', icon: Sparkles, route: '/catalog' },
+  { label: 'Kopi', icon: Coffee, route: '/catalog' },
   { label: 'Petani', icon: Users, route: '/farmers' },
   { label: 'Wilayah', icon: Map, route: '/regions' },
   { label: 'Wisata', icon: Compass, route: '/tourism' },
   { label: 'Event', icon: CalendarDays, route: '/events' },
   { label: 'Mitra', icon: BriefcaseBusiness, route: '/partnership' },
   { label: 'Ekosistem', icon: Package, route: '/collective' },
-  { label: 'Program', icon: Sparkles, route: '/program' },
+  { label: 'Program', icon: ShieldCheck, route: '/program' },
+  { label: 'Keluhan', icon: Bell, route: '/complaints' },
+  { label: 'Produk turunan', icon: Package, route: '/diversification' },
 ];
 
 const stories = [
@@ -114,15 +117,15 @@ function Header({ home = false }: { home?: boolean }) {
 
 function BottomNav() {
   const [location, setLocation] = useLocation();
-  const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') ? 'catalog' : location.startsWith('/favorites') ? 'favorites' : location.startsWith('/orders') ? 'orders' : 'profile';
+  const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : 'profile';
   const items: { id: string; label: string; icon: LucideIcon; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: Home, path: '/' },
-    { id: 'catalog', label: 'Katalog', icon: Package, path: '/catalog' },
-    { id: 'favorites', label: 'Favorit', icon: Heart, path: '/favorites' },
-    { id: 'orders', label: 'Pesanan', icon: ShoppingBag, path: '/orders' },
-    { id: 'profile', label: 'Profil', icon: CircleUserRound, path: '/profile' },
+    { id: 'explore', label: 'Jelajah', icon: Sparkles, path: '/catalog' },
+    { id: 'trace', label: 'Jejak', icon: ScanLine, path: '/traceability' },
+    { id: 'orders', label: 'Pesanan', icon: Package, path: '/orders' },
+    { id: 'profile', label: 'Akun', icon: CircleUserRound, path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={active === id ? 'active' : ''} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon"><Icon size={20} /></span><span>{label}</span></button>)}</nav>;
+  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon"><Icon size={id === 'trace' ? 22 : 20} /></span><span>{label}</span></button>)}</nav>;
 }
 
 function FloatingBadges() {
@@ -134,7 +137,7 @@ function SearchEntry({ catalog = false, value: controlledValue, onChange }: { ca
   const [localValue, setLocalValue] = useState('');
   const value = controlledValue ?? localValue;
   const handleChange = (nextValue: string) => { onChange ? onChange(nextValue) : setLocalValue(nextValue); };
-  return <div className={`search-entry ${catalog ? 'catalog-search' : ''}`}><Search size={18} color="hsl(var(--muted-foreground))" /><input value={value} onChange={(event) => handleChange(event.target.value)} onFocus={() => !catalog && setLocation('/catalog')} placeholder="Cari nama, asal, atau rasa" aria-label="Cari kopi" data-testid={catalog ? 'input-catalog-search' : 'input-home-search'} /><div className="filter-orb"><SlidersHorizontal size={15} /></div></div>;
+  return <div className={`search-entry ${catalog ? 'catalog-search' : ''}`}><img className="search-bean" src={asset('coffee-bean-menu.webp')} alt="" /><input value={value} onChange={(event) => handleChange(event.target.value)} onFocus={() => !catalog && setLocation('/catalog')} placeholder={catalog ? 'Cari nama, asal, atau rasa' : 'Cari kopi, petani, atau wilayah'} aria-label="Cari kopi" data-testid={catalog ? 'input-catalog-search' : 'input-home-search'} /><div className="filter-orb"><SlidersHorizontal size={15} /></div></div>;
 }
 
 function PromoCarousel() {
@@ -142,12 +145,32 @@ function PromoCarousel() {
   const [index, setIndex] = useState(0);
   useEffect(() => { const timer = window.setInterval(() => setIndex((value) => (value + 1) % promos.length), 4200); return () => window.clearInterval(timer); }, []);
   const promo = promos[index];
-  return <div className="hero" data-testid="promo-carousel"><img src={promo.image} alt={promo.title} /><div className="hero-copy"><div className="eyebrow">{promo.eyebrow}</div><div className="hero-title">{promo.title}</div><div className="hero-desc">{promo.description}</div><button className="hero-link" onClick={() => setLocation('/catalog')} data-testid="button-promo">{promo.cta}<ArrowRight size={14} /></button></div><div className="hero-dots">{promos.map((item, itemIndex) => <button key={item.title} className={`hero-dot ${itemIndex === index ? 'active' : ''}`} onClick={() => setIndex(itemIndex)} aria-label={`Promo ${itemIndex + 1}`} data-testid={`promo-dot-${itemIndex}`} />)}</div></div>;
+  return <div className="hero" data-testid="promo-carousel"><img src={promo.image} alt={promo.title} /><div className="hero-copy"><div className="eyebrow">{promo.eyebrow}</div><div className="hero-title">{promo.title}</div><div className="hero-desc">{promo.description}</div><button className="hero-link" onClick={() => setLocation(promo.route)} data-testid="button-promo">{promo.cta}<ArrowRight size={14} /></button></div><div className="hero-dots">{promos.map((item, itemIndex) => <button key={item.title} className={`hero-dot ${itemIndex === index ? 'active' : ''}`} onClick={() => setIndex(itemIndex)} aria-label={`Promo ${itemIndex + 1}`} data-testid={`promo-dot-${itemIndex}`} />)}</div></div>;
 }
 
 function CategoryTiles() {
   const [, setLocation] = useLocation();
-  return <div className="categories">{categories.map(({ label, icon: Icon, route }) => <button key={label} className="category-tile" onClick={() => setLocation(route)} data-testid={`category-${label.toLowerCase()}`}><span className="category-glyph"><Icon size={21} /></span><span className="category-label">{label}</span></button>)}</div>;
+  const [page, setPage] = useState(0);
+  const pageItems = categories.slice(page * 8, page * 8 + 8);
+  return <div className="category-pager"><div className="categories">{pageItems.map(({ label, icon: Icon, route }, index) => <button key={label} className="category-tile" onClick={() => setLocation(route)} data-testid={`category-${label.toLowerCase()}`}><span className="category-glyph"><Icon size={24} /></span><span className="category-label">{label}</span></button>)}</div><div className="category-pagination">{[0, 1].map((item) => <button key={item} className={`category-pagination-dot ${page === item ? 'active' : ''}`} onClick={() => setPage(item)} aria-label={`Tampilkan menu halaman ${item + 1}`} />)}</div></div>;
+}
+
+function StoryLead() {
+  const [, setLocation] = useLocation();
+  return <button className="story-lead" onClick={() => setLocation('/collective')} data-testid="collective-story"><img src={asset('collective-banner.webp')} alt="" /><div className="story-lead-shade" /><div className="story-lead-copy"><h3>Kopi dari tanah pegunungan.</h3><p>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</p><img className="story-beans" src={asset('coffee-beans-natural.webp')} alt="" /></div></button>;
+}
+
+function VoucherCarousel() {
+  const [, setLocation] = useLocation();
+  const [slide, setSlide] = useState(0);
+  const vouchers = [
+    [{ discount: '15%', title: 'Kopi pilihan', code: 'GARUT15', note: 'Min 150K' }, { discount: '20%', title: 'Panen baru', code: 'PANEN20', note: 'Koleksi natural' }],
+    [{ discount: '25K', title: 'Ongkir hemat', code: 'KIRIM25', note: 'Min 200K' }, { discount: '10%', title: 'Teman ngopi', code: 'NGOPI10', note: 'Ajak teman' }],
+    [{ discount: '30K', title: 'Kopi pertama', code: 'AWAL30', note: 'Pengguna baru' }, { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Kopi Garut' }],
+    [{ discount: '10%', title: 'Langganan', code: 'RUTIN10', note: 'Pesanan rutin' }, { discount: '20%', title: 'Akhir pekan', code: 'WEEK20', note: 'Sabtu–Minggu' }],
+  ];
+  useEffect(() => { const timer = window.setInterval(() => setSlide((value) => (value + 1) % vouchers.length), 4500); return () => window.clearInterval(timer); }, [vouchers.length]);
+  return <div className="voucher-carousel"><div className="voucher-row">{vouchers[slide].map((item, index) => <button className={`voucher ${index ? 'dark' : ''}`} key={item.code} onClick={() => setLocation('/catalog')}><span className="voucher-kicker">VOUCHER</span><div className="voucher-discount">{item.discount}</div><div className="voucher-title">{item.title}</div><div className="voucher-note">{item.note}</div><div className="voucher-code">{item.code} <span>↗</span></div></button>)}</div><div className="voucher-dots">{vouchers.map((_, index) => <button key={index} className={`voucher-dot ${index === slide ? 'active' : ''}`} onClick={() => setSlide(index)} aria-label={`Tampilkan voucher halaman ${index + 1}`} />)}</div></div>;
 }
 
 function ProductCard({ coffee }: { coffee: Coffee }) {
@@ -163,8 +186,12 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
 
 function HomePage() {
   const [, setLocation] = useLocation();
-  const voucher = [{ discount: '15%', title: 'Kopi pilihan', code: 'GARUT15' }, { discount: '20%', title: 'Panen baru', code: 'PANEN20' }];
-  return <Page><Header home /><main className="screen-section"><SearchEntry /><PromoCarousel /><SectionTitle kicker="PILIHAN UNTUKMU" title="Koleksi rasa" action="Lihat semua" onAction={() => setLocation('/catalog')} /><CategoryTiles /><SectionTitle kicker="VOUCHER KOPI" title="Lebih hemat hari ini" /><div className="voucher-row">{voucher.map((item, index) => <div className={`voucher ${index ? 'dark' : ''}`} key={item.code}><div className="voucher-discount">{item.discount}</div><div className="voucher-title">{item.title}</div><div className="voucher-code">{item.code} · salin kode</div></div>)}</div><SectionTitle kicker="KOPI PILIHAN" title="Seduh yang dekat" action="Lihat semua" onAction={() => setLocation('/catalog')} /><div className="horizontal-scroll hide-scrollbar">{coffees.slice(0, 3).map((coffee) => <ProductCard coffee={coffee} key={coffee.id} />)}</div><SectionTitle kicker="CERITA HARI INI" title="Dari ekosistem Garut" /><div className="horizontal-scroll hide-scrollbar">{stories.map(([image, title]) => <div className="story-card" key={title}><img src={image} alt={title} /><div className="story-title">{title}</div></div>)}</div></main><FloatingBadges /></Page>;
+  const diversified = [
+    { image: 'coffee-essential-oil.webp', category: 'Aroma & perawatan', title: 'Essential oil kopi', price: 'Rp 55.000', badge: 'Produk baru' },
+    { image: 'coffee-shoe-deodorizer.webp', category: 'Aroma & perawatan', title: 'Pewangi sepatu kopi', price: 'Rp 32.000', badge: 'Upcycle ampas' },
+    { image: 'coffee-aroma-oil.webp', category: 'Aroma & perawatan', title: 'Minyak aroma kopi', price: 'Rp 42.000', badge: 'Produk UMKM' },
+  ];
+  return <Page><Header home /><main className="screen-section"><SearchEntry /><PromoCarousel /><CategoryTiles /><StoryLead /><VoucherCarousel /><SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => setLocation('/catalog')} /><div className="horizontal-scroll hide-scrollbar">{coffees.slice(0, 2).map((coffee) => <ProductCard coffee={coffee} key={coffee.id} />)}</div><SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => setLocation('/diversification')} /><div className="horizontal-scroll hide-scrollbar">{diversified.map((product) => <article className="diversified-card" key={product.title} onClick={() => setLocation('/diversification')}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><div>{product.price} <ArrowRight size={13} /></div></div></article>)}</div><SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => setLocation('/catalog')} /><div className="taste-grid">{[['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'], ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'], ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark']].map(([title, detail, image, route], index) => <button key={title} className={`taste-card ${index === 1 ? 'featured' : ''}`} onClick={() => setLocation(route)}><img src={asset(image)} alt="" /><div className="taste-shade" /><strong>{title}</strong><span>{detail}</span><ArrowRight size={14} /></button>)}</div><SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => setLocation('/farmers')} /><div className="horizontal-scroll hide-scrollbar story-rail">{stories.map(([image, title]) => <div className="story-card" key={title}><img src={image} alt={title} /><div className="story-title">{title}</div></div>)}</div></main><FloatingBadges /></Page>;
 }
 
 function Page({ children }: { children: ReactNode }) {
@@ -228,7 +255,7 @@ function SimpleHubPage({ title, copy, icon: Icon }: { title: string; copy: strin
 }
 
 function AppRouter() {
-  return <Switch><Route path="/" component={HomePage} /><Route path="/catalog" component={CatalogPage} /><Route path="/product/:id" component={ProductDetailPage} /><Route path="/cart" component={CartPage} /><Route path="/favorites" component={FavoritesPage} /><Route path="/orders" component={OrdersPage} /><Route path="/profile" component={ProfilePage} /><Route path="/notifications" component={NotificationsPage} /><Route path="/farmers"><SimpleHubPage title="Petani Garut" copy="Kenali keluarga tani dan kelompok yang merawat kopi dari musim ke musim." icon={Users} /></Route><Route path="/regions"><SimpleHubPage title="Wilayah kopi" copy="Temukan karakter unik Papandayan, Cikuray, Kamojang, dan Darajat." icon={MapPin} /></Route><Route path="/tourism"><SimpleHubPage title="Wisata kopi" copy="Berjalan di kebun, belajar prosesnya, lalu menikmati seduhan dari asalnya." icon={Compass} /></Route><Route path="/events"><SimpleHubPage title="Event Kopi Garut" copy="Temu petani, roastery, barista, dan pecinta kopi dalam satu kalender." icon={CalendarDays} /></Route><Route path="/partnership"><SimpleHubPage title="Jadi mitra" copy="Bangun rantai kopi bersama kedai, hotel, UMKM, dan pelaku usaha." icon={BriefcaseBusiness} /></Route><Route path="/collective"><SimpleHubPage title="Ekosistem Kopi Garut" copy="Satu ruang untuk produksi, pascapanen, bisnis, edukasi, dan cerita kopi." icon={Package} /></Route><Route path="/program"><SimpleHubPage title="Program kopi" copy="Dukungan, pelatihan, dan program yang menjaga kualitas kopi Garut." icon={Sparkles} /></Route><Route path="/profile/settings"><SimpleHubPage title="Pengaturan akun" copy="Preferensi akun dan pengalaman belanja Kopi Garut." icon={Settings} /></Route><Route><SimpleHubPage title="Halaman belum ditemukan" copy="Coba kembali ke beranda Kopi Garut." icon={Home} /></Route></Switch>;
+  return <Switch><Route path="/" component={HomePage} /><Route path="/catalog" component={CatalogPage} /><Route path="/product/:id" component={ProductDetailPage} /><Route path="/cart" component={CartPage} /><Route path="/favorites" component={FavoritesPage} /><Route path="/orders" component={OrdersPage} /><Route path="/profile" component={ProfilePage} /><Route path="/notifications" component={NotificationsPage} /><Route path="/traceability"><SimpleHubPage title="Jejak produk" copy="Telusuri perjalanan kopi Garut dari kebun, proses, hingga cangkir." icon={Search} /></Route><Route path="/farmers"><SimpleHubPage title="Petani Garut" copy="Kenali keluarga tani dan kelompok yang merawat kopi dari musim ke musim." icon={Users} /></Route><Route path="/regions"><SimpleHubPage title="Wilayah kopi" copy="Temukan karakter unik Papandayan, Cikuray, Kamojang, dan Darajat." icon={MapPin} /></Route><Route path="/tourism"><SimpleHubPage title="Wisata kopi" copy="Berjalan di kebun, belajar prosesnya, lalu menikmati seduhan dari asalnya." icon={Compass} /></Route><Route path="/events"><SimpleHubPage title="Event Kopi Garut" copy="Temu petani, roastery, barista, dan pecinta kopi dalam satu kalender." icon={CalendarDays} /></Route><Route path="/partnership"><SimpleHubPage title="Jadi mitra" copy="Bangun rantai kopi bersama kedai, hotel, UMKM, dan pelaku usaha." icon={BriefcaseBusiness} /></Route><Route path="/collective"><SimpleHubPage title="Ekosistem Kopi Garut" copy="Satu ruang untuk produksi, pascapanen, bisnis, edukasi, dan cerita kopi." icon={Package} /></Route><Route path="/program"><SimpleHubPage title="Program kopi" copy="Dukungan, pelatihan, dan program yang menjaga kualitas kopi Garut." icon={Sparkles} /></Route><Route path="/diversification"><SimpleHubPage title="Produk turunan" copy="Temukan olahan kopi, aroma, perawatan, dan merchandise dari ekosistem Garut." icon={Package} /></Route><Route path="/complaints"><SimpleHubPage title="Keluhan" copy="Sampaikan kendala dan bantu kami menjaga pengalaman Kopi Garut." icon={Bell} /></Route><Route path="/profile/settings"><SimpleHubPage title="Pengaturan akun" copy="Preferensi akun dan pengalaman belanja Kopi Garut." icon={Settings} /></Route><Route><SimpleHubPage title="Halaman belum ditemukan" copy="Coba kembali ke beranda Kopi Garut." icon={Home} /></Route></Switch>;
 }
 
 function App() {
