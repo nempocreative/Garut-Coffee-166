@@ -27,15 +27,23 @@ export default function Slide14FarmOperations() {
         <p className="mt-[1.5vh] max-w-[31vw] text-[1.55vw] leading-[1.2] text-[#806E63]">Cuplikan langsung dari aplikasi mobile Kopi Garut.</p>
       </div>
 
-      <div className="absolute right-[18vw] top-[14vh] h-[72vh] w-[16vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
-        <div className="h-full w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
+      <div className="absolute right-[18vw] top-[14vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
+        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
           <img src={homeScreen} alt="Cuplikan beranda aplikasi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+          <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
+        <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[6.5vw] top-[20vh] h-[72vh] w-[16vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
-        <div className="h-full w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
+      <div className="absolute right-[6.5vw] top-[20vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
+        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
           <img src={traceabilityScreen} alt="Cuplikan jejak produk aplikasi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+          <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
+        <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
       <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Beranda</div>
       <div className="absolute right-[6.5vw] bottom-[3vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Jejak produk</div>
