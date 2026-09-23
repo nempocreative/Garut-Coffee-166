@@ -17,21 +17,21 @@ export default function Slide2() {
       </div>
 
       <div className="absolute bottom-[10vh] left-[6.5vw] right-[8vw] grid grid-cols-4 gap-[1vw]">
-        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.25vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
           <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">01</p>
-          <p className="mt-[3vh] text-[1.7vw] font-bold leading-[1.18]">Mengenalkan kopi berdasarkan asal dan ceritanya</p>
+          <p className="mt-[2.3vh] text-[1.6vw] font-bold leading-[1.15]">Mengenalkan kopi berdasarkan asal dan ceritanya</p>
         </div>
-        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.25vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
           <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">02</p>
-          <p className="mt-[3vh] text-[1.7vw] font-bold leading-[1.18]">Membuka akses informasi bagi petani dan mitra</p>
+          <p className="mt-[2.3vh] text-[1.6vw] font-bold leading-[1.15]">Membuka akses informasi bagi petani dan mitra</p>
         </div>
-        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.5vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
+        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[1.25vw] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.08)]">
           <p className="text-[2.6vw] font-extrabold leading-none text-[#A8543B]">03</p>
-          <p className="mt-[3vh] text-[1.7vw] font-bold leading-[1.18]">Menyatukan Kopi, Petani, Wilayah, dan Wisata</p>
+          <p className="mt-[2.3vh] text-[1.6vw] font-bold leading-[1.15]">Menyatukan Kopi, Petani, Wilayah, dan Wisata</p>
         </div>
-        <div className="min-h-[22vh] rounded-[0.8vw] border border-[#DFD1C1] bg-[#A8543B] p-[1.5vw] text-[#FFF9F1] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.14)]">
+        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border border-[#DFD1C1] bg-[#A8543B] p-[1.25vw] text-[#FFF9F1] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.14)]">
           <p className="text-[2.6vw] font-extrabold leading-none text-[#D3A15F]">04</p>
-          <p className="mt-[3vh] text-[1.7vw] font-bold leading-[1.18]">Membuat setiap cerita lebih mudah ditelusuri</p>
+          <p className="mt-[2.3vh] text-[1.6vw] font-bold leading-[1.15]">Membuat setiap cerita lebih mudah ditelusuri</p>
         </div>
       </div>
     </div>

@@ -21,26 +21,26 @@ export default function Slide11Impact() {
         </p>
       </div>
 
-      <div className="absolute right-[6.5vw] top-[20vh] w-[41vw] space-y-[1.8vh]">
-        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.8vh]">
-          <span className="text-[2.5vw] font-extrabold text-[#A8543B]">01</span>
-          <div><p className="text-[2vw] font-extrabold">Data semakin lengkap</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#806E63]">Profil wilayah, petani, lot, produk, dan program berada dalam satu sumber.</p></div>
+      <div className="absolute right-[6.5vw] top-[19vh] w-[41vw] space-y-[1.25vh]">
+        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.35vh]">
+          <span className="text-[2.35vw] font-extrabold text-[#A8543B]">01</span>
+          <div><p className="text-[1.9vw] font-extrabold">Data semakin lengkap</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#806E63]">Profil wilayah, petani, lot, produk, dan program berada dalam satu sumber.</p></div>
         </div>
-        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.8vh]">
-          <span className="text-[2.5vw] font-extrabold text-[#A8543B]">02</span>
-          <div><p className="text-[2vw] font-extrabold">Kepercayaan semakin kuat</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#806E63]">Cerita asal dan proses dapat dipahami sebelum keputusan dibuat.</p></div>
+        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.35vh]">
+          <span className="text-[2.35vw] font-extrabold text-[#A8543B]">02</span>
+          <div><p className="text-[1.9vw] font-extrabold">Kepercayaan semakin kuat</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#806E63]">Cerita asal dan proses dapat dipahami sebelum keputusan dibuat.</p></div>
         </div>
-        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.8vh]">
-          <span className="text-[2.5vw] font-extrabold text-[#A8543B]">03</span>
-          <div><p className="text-[2vw] font-extrabold">Kolaborasi semakin terarah</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#806E63]">Mitra menemukan konteks yang dibutuhkan untuk masuk dan berkontribusi.</p></div>
+        <div className="flex gap-[1.2vw] border-b border-[#D8C7B5] pb-[1.35vh]">
+          <span className="text-[2.35vw] font-extrabold text-[#A8543B]">03</span>
+          <div><p className="text-[1.9vw] font-extrabold">Kolaborasi semakin terarah</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#806E63]">Mitra menemukan konteks yang dibutuhkan untuk masuk dan berkontribusi.</p></div>
         </div>
         <div className="flex gap-[1.2vw]">
-          <span className="text-[2.5vw] font-extrabold text-[#A8543B]">04</span>
-          <div><p className="text-[2vw] font-extrabold">Nilai kembali ke daerah</p><p className="mt-[0.55vh] text-[1.75vw] leading-[1.15] text-[#806E63]">Kopi, manusia, dan pengalaman Garut punya ruang lebih besar untuk ditemukan.</p></div>
+          <span className="text-[2.35vw] font-extrabold text-[#A8543B]">04</span>
+          <div><p className="text-[1.9vw] font-extrabold">Nilai kembali ke daerah</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#806E63]">Kopi, manusia, dan pengalaman Garut punya ruang lebih besar untuk ditemukan.</p></div>
         </div>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] text-[1.7vw] font-bold uppercase tracking-[0.16em] text-[#A8543B]">Terukur · Terhubung · Berkelanjutan</div>
+      <div className="absolute bottom-[5vh] left-[6.5vw] text-[1.6vw] font-bold uppercase tracking-[0.16em] text-[#A8543B]">Terukur · Terhubung · Berkelanjutan</div>
     </div>
   );
 }

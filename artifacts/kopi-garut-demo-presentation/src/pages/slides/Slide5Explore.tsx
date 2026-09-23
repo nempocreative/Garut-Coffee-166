@@ -32,46 +32,46 @@ export default function Slide5Explore() {
         </div>
 
         <div className="grid grid-cols-2 gap-[0.8vw]">
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">01</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">01 · PRODUK</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Kopi</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Katalog kopi dan produk turunan untuk kebutuhan sehari-hari.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">01 · PRODUK</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Kopi</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Katalog kopi dan produk turunan untuk kebutuhan sehari-hari.</p>
           </div>
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">02</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">02 · ASAL</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Petani · Wilayah</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Profil petani dan karakter wilayah penghasil kopi.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">02 · ASAL</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Petani · Wilayah</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Profil petani dan karakter wilayah penghasil kopi.</p>
           </div>
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">03</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">03 · PENGALAMAN</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Wisata · Event</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Agenda, festival, dan perjalanan rasa di Garut.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">03 · PENGALAMAN</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Wisata · Event</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Agenda, festival, dan perjalanan rasa di Garut.</p>
           </div>
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">04</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">04 · KOLABORASI</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Mitra · Ekosistem</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Peluang kemitraan dan hubungan antar pelaku.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">04 · KOLABORASI</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Mitra · Ekosistem</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Peluang kemitraan dan hubungan antar pelaku.</p>
           </div>
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">05</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">05 · DUKUNGAN</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Program · Keluhan</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Program, bantuan, dan kanal kebutuhan lapangan.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">05 · DUKUNGAN</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Program · Keluhan</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Program, bantuan, dan kanal kebutuhan lapangan.</p>
           </div>
-          <div className="relative min-h-[16vh] border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
+          <div className="relative h-[18vh] min-h-0 border-t-[0.22vw] border-[#D3A15F] bg-[#3A2B27] p-[0.9vw]">
             <span className="absolute right-[0.9vw] top-[0.45vh] text-[3.6vw] font-extrabold leading-none text-[#493630]">06</span>
-            <p className="relative text-[1.4vw] font-bold text-[#D3A15F]">06 · NILAI TAMBAH</p>
-            <p className="relative mt-[0.7vh] text-[2vw] font-extrabold">Produk turunan</p>
-            <p className="relative mt-[0.55vh] text-[1.7vw] leading-[1.12] text-[#E7D9C8]">Olahan yang memperluas nilai dari kopi.</p>
+            <p className="relative text-[1.5vw] font-bold text-[#D3A15F]">06 · NILAI TAMBAH</p>
+            <p className="relative mt-[0.7vh] text-[1.9vw] font-extrabold">Produk turunan</p>
+            <p className="relative mt-[0.55vh] text-[1.55vw] leading-[1.1] text-[#E7D9C8]">Olahan yang memperluas nilai dari kopi.</p>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-[4vh] left-[6.5vw] right-[6.5vw] flex items-center justify-between border-t border-[#59443B] pt-[1.5vh]">
+      <div className="absolute bottom-[5vh] left-[6.5vw] right-[6.5vw] flex items-center justify-between border-t border-[#59443B] pt-[1.5vh]">
         <p className="text-[1.45vw] font-bold uppercase tracking-[0.15em] text-[#D3A15F]">Rasa · manusia · tempat · peluang</p>
         <p className="text-[1.45vw] font-bold text-[#E7D9C8]">Satu beranda, lebih banyak alasan untuk kembali</p>
       </div>

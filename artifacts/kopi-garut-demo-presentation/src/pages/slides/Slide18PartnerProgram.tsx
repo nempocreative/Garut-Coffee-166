@@ -22,39 +22,39 @@ export default function Slide18PartnerProgram() {
 
       <div className="absolute right-[6.5vw] top-[19vh] w-[43vw]">
         <div className="grid grid-cols-4 gap-[0.7vw]">
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">01</div>
-            <div className="absolute left-[4.35vw] top-[1.8vw] h-[0.18vw] w-[5.8vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] text-[1.5vw] font-bold leading-[1.08]">Daftar<br />partner</p>
+            <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
+            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Daftar partner</p>
           </div>
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">02</div>
-            <div className="absolute left-[4.35vw] top-[1.8vw] h-[0.18vw] w-[5.8vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] text-[1.5vw] font-bold leading-[1.08]">Verifikasi<br />asal &amp; mutu</p>
+            <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
+            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Verifikasi asal &amp; mutu</p>
           </div>
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">03</div>
-            <div className="absolute left-[4.35vw] top-[1.8vw] h-[0.18vw] w-[5.8vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] text-[1.5vw] font-bold leading-[1.08]">Dapatkan<br />toolkit menu</p>
+            <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
+            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Dapatkan toolkit menu</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">04</div>
-            <p className="mt-[1.2vh] text-[1.5vw] font-bold leading-[1.08]">Aktifkan<br />cerita</p>
+            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Aktifkan cerita</p>
           </div>
         </div>
-        <div className="mt-[3vh] grid grid-cols-2 gap-[1vw]">
-          <div className="min-h-[15vh] border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.1vw]">
+        <div className="mt-[2.5vh] grid grid-cols-2 gap-[1vw]">
+          <div className="min-h-[15vh] border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1vw]">
             <p className="text-[1.45vw] font-bold text-[#A8543B]">Untuk outlet</p>
-            <p className="mt-[1vh] text-[1.5vw] leading-[1.16] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p>
+            <p className="mt-[0.8vh] text-[1.45vw] leading-[1.14] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p>
           </div>
-          <div className="min-h-[15vh] border-t-[0.25vw] border-[#D3A15F] bg-[#A8543B] p-[1.1vw] text-[#FFF9F1]">
+          <div className="min-h-[15vh] border-t-[0.25vw] border-[#D3A15F] bg-[#A8543B] p-[1vw] text-[#FFF9F1]">
             <p className="text-[1.45vw] font-bold text-[#D3A15F]">Untuk Garut</p>
-            <p className="mt-[1vh] text-[1.5vw] leading-[1.16] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p>
+            <p className="mt-[0.8vh] text-[1.45vw] leading-[1.14] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p>
           </div>
         </div>
       </div>
 
-       <div className="absolute bottom-[8vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
+       <div className="absolute bottom-[5vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[1.5vh] text-[1.6vw] font-bold text-[#A8543B]">
         <span className="h-[0.6vw] w-[0.6vw] rounded-full bg-[#D3A15F]" />
         Target akhirnya: ketika orang memesan kopi di Garut, mereka mengenali satu asal yang kuat
       </div>

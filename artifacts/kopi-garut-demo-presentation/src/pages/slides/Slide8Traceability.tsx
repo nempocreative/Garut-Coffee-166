@@ -21,16 +21,16 @@ export default function Slide8Traceability() {
       </div>
 
        <div className="absolute left-[6.5vw] bottom-[8vh] w-[43vw]">
-        <div className="flex items-center gap-[0.7vw]">
-          <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">01</div>
-          <div className="h-[0.18vw] w-[4vw] bg-[#D3A15F]" />
-          <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">02</div>
-          <div className="h-[0.18vw] w-[4vw] bg-[#D3A15F]" />
-          <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">03</div>
-          <div className="h-[0.18vw] w-[4vw] bg-[#D3A15F]" />
-          <div className="h-[4.6vw] w-[4.6vw] rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-center text-[1.75vw] font-extrabold leading-[4.2vw]">04</div>
+        <div className="flex items-center justify-between gap-[0.55vw]">
+          <div className="flex h-[4.2vw] w-[4.2vw] shrink-0 items-center justify-center rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-[1.7vw] font-extrabold">01</div>
+          <div className="h-[0.18vw] min-w-0 flex-1 bg-[#D3A15F]" />
+          <div className="flex h-[4.2vw] w-[4.2vw] shrink-0 items-center justify-center rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-[1.7vw] font-extrabold">02</div>
+          <div className="h-[0.18vw] min-w-0 flex-1 bg-[#D3A15F]" />
+          <div className="flex h-[4.2vw] w-[4.2vw] shrink-0 items-center justify-center rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-[1.7vw] font-extrabold">03</div>
+          <div className="h-[0.18vw] min-w-0 flex-1 bg-[#D3A15F]" />
+          <div className="flex h-[4.2vw] w-[4.2vw] shrink-0 items-center justify-center rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-[1.7vw] font-extrabold">04</div>
         </div>
-        <div className="mt-[1.3vh] grid grid-cols-4 gap-[0.8vw] text-[1.6vw] font-bold leading-[1.1] text-[#E7D9C8]">
+        <div className="mt-[1.3vh] grid grid-cols-4 gap-[0.8vw] text-[1.5vw] font-bold leading-[1.1] text-[#E7D9C8]">
           <p>Wilayah</p><p>Petani</p><p>Proses</p><p>Produk</p>
         </div>
       </div>

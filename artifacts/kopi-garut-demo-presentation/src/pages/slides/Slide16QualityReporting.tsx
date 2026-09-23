@@ -24,7 +24,7 @@ export default function Slide16QualityReporting() {
         <div className="mt-[4vh] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">Jejak produk → Pesanan</div>
       </div>
 
-      <div className="absolute right-[18vw] top-[14vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
+      <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
            <img src={`${base}demo-diversification.jpg`} alt="Cuplikan produk turunan Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
@@ -33,7 +33,7 @@ export default function Slide16QualityReporting() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[6.5vw] top-[20vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
+      <div className="absolute right-[6.5vw] top-[20vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
            <img src={cartScreen} alt="Cuplikan keranjang kopi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
@@ -45,7 +45,7 @@ export default function Slide16QualityReporting() {
        <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Jejak produk</div>
        <div className="absolute right-[6.5vw] bottom-[4vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Keranjang kopi</div>
 
-       <div className="absolute bottom-[8vh] left-[6.5vw] max-w-[55vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
+       <div className="absolute bottom-[8vh] left-[6.5vw] max-w-[55vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.6vw] font-bold text-[#A8543B]">
         Data bukan hanya disimpan — data dipakai untuk menjaga kepercayaan
       </div>
     </div>

@@ -17,19 +17,19 @@ export default function Slide5() {
         <p className="mt-[3.8vh] max-w-[23vw] text-[1.7vw] font-medium leading-[1.2] text-[#F6F0E8]">Pilihan produk yang tetap dekat dengan asal, karakter, dan detailnya.</p>
       </div>
       <div className="absolute right-[7vw] top-[15vh] flex w-[51vw] items-end gap-[1.4vw]">
-        <div className="h-[57vh] w-[16vw] rotate-[-4deg] overflow-hidden rounded-[0.95vw] border-[0.4vw] border-[#E7D9C8] bg-[#D3A15F] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.13)]">
+        <div className="h-[56vh] w-[16vw] rotate-[-4deg] overflow-hidden rounded-[0.95vw] border-[0.4vw] border-[#E7D9C8] bg-[#D3A15F] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.13)]">
            <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-cover" />
         </div>
-        <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[2.1vw]">
+        <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[1.65vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>
-          <p className="mt-[1.5vh] text-[2.45vw] font-extrabold leading-[1.03] tracking-[-0.05em]"><span className="block">Dari kebun,</span><span>untuk pilihanmu.</span></p>
-           <div className="mt-[2.5vh] space-y-[1.55vh] border-t border-[#DFD1C1] pt-[2.3vh] text-[1.7vw] font-semibold leading-[1.15] text-[#806E63]">
+          <p className="mt-[1.2vh] text-[2.25vw] font-extrabold leading-[1.03] tracking-[-0.05em]"><span className="block">Dari kebun,</span><span>untuk pilihanmu.</span></p>
+            <div className="mt-[2vh] space-y-[1.05vh] border-t border-[#DFD1C1] pt-[1.8vh] text-[1.6vw] font-semibold leading-[1.12] text-[#806E63]">
             <p><span className="mr-[0.6vw] text-[#A8543B]">01</span> Lihat kopi dan produk turunan</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">02</span> Baca karakter, asal, dan detail</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">03</span> Simpan pilihan favorit</p>
             <p><span className="mr-[0.6vw] text-[#A8543B]">04</span> Lanjutkan ke pesanan</p>
           </div>
-           <div className="mt-[2.7vh] inline-flex rounded-full bg-[#A8543B] px-[1.1vw] py-[0.8vh] text-[1.5vw] font-bold text-[#FFF9F1]">Kopi · Produk turunan</div>
+            <div className="mt-[2vh] inline-flex rounded-full bg-[#A8543B] px-[1.1vw] py-[0.7vh] text-[1.4vw] font-bold text-[#FFF9F1]">Kopi · Produk turunan</div>
         </div>
       </div>
     </div>

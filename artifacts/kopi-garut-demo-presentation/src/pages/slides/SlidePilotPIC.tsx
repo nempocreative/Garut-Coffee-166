@@ -32,36 +32,36 @@ export default function SlidePilotPIC() {
         </p>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] grid w-[48vw] grid-cols-2 gap-[0.9vw]">
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.2vw] py-[1.15vw]">
+      <div className="absolute bottom-[9vh] left-[6.5vw] grid w-[48vw] grid-cols-2 gap-[0.9vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             Dinas
           </p>
-          <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
+          <p className="mt-[1.1vh] text-[1.55vw] font-extrabold leading-[1.05]">
             Membuka akses dan menjaga koordinasi lintas program.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.2vw] py-[1.15vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             Kelompok tani
           </p>
-          <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
+          <p className="mt-[1.1vh] text-[1.55vw] font-extrabold leading-[1.05]">
             Mengawal data anggota, kebun, dan lot yang masuk.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.2vw] py-[1.15vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             Penyuluh
           </p>
-          <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
+          <p className="mt-[1.1vh] text-[1.55vw] font-extrabold leading-[1.05]">
             Menghubungkan catatan lapangan dengan tindak lanjut.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.2vw] py-[1.15vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             Tim platform
           </p>
-          <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
+          <p className="mt-[1.1vh] text-[1.55vw] font-extrabold leading-[1.05]">
             Menjaga produk digital, integrasi, dan laporan.
           </p>
         </div>
@@ -74,8 +74,8 @@ export default function SlidePilotPIC() {
         <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#E7D9C8]">
           PIC ditetapkan saat kick-off agar setiap keputusan punya jalur yang jelas.
         </p>
-        <div className="mt-[3.2vh] border-t border-[#806E63]">
-          <div className="border-b border-[#806E63] py-[2.25vh]">
+        <div className="mt-[2.5vh] border-t border-[#806E63]">
+          <div className="border-b border-[#806E63] py-[1.6vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Mandat
             </p>
@@ -83,7 +83,7 @@ export default function SlidePilotPIC() {
               Satu tanggung jawab utama per pihak.
             </p>
           </div>
-          <div className="border-b border-[#806E63] py-[2.25vh]">
+          <div className="border-b border-[#806E63] py-[1.6vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Ritme kerja
             </p>
@@ -91,7 +91,7 @@ export default function SlidePilotPIC() {
               Kanal komunikasi dan jadwal review disepakati.
             </p>
           </div>
-          <div className="py-[2.25vh]">
+          <div className="py-[1.6vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Output
             </p>
@@ -102,7 +102,7 @@ export default function SlidePilotPIC() {
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
         Jelas siapa · jelas tindak lanjut
       </div>
     </div>

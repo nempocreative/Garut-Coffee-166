@@ -15,11 +15,11 @@ export default function Slide6() {
         <h2 className="mt-[1.6vh] text-[4.25vw] font-extrabold leading-[1.03] tracking-[-0.07em]"><span className="block">Data yang membantu</span><span className="text-[#A8543B]">mengambil keputusan.</span></h2>
         <div className="mt-[3vh] h-[0.4vh] w-[6.5vw] rounded-full bg-[#D3A15F]" />
       </div>
-      <div className="absolute bottom-[10vh] left-[6.5vw] flex w-[51vw] flex-col gap-[1.25vh]">
-        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.4vh]"><span className="text-[2.2vw] font-extrabold text-[#A8543B]">01</span><p className="text-[1.7vw] font-semibold">Pantau informasi harga dan perkembangan wilayah</p></div>
-        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.4vh]"><span className="text-[2.2vw] font-extrabold text-[#A8543B]">02</span><p className="text-[1.7vw] font-semibold">Akses laporan, dokumen, dan program pendukung</p></div>
-        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.4vh]"><span className="text-[2.2vw] font-extrabold text-[#A8543B]">03</span><p className="text-[1.7vw] font-semibold">Gunakan traceability untuk memahami perjalanan produk</p></div>
-        <div className="flex items-center gap-[1.3vw]"><span className="text-[2.2vw] font-extrabold text-[#A8543B]">04</span><p className="text-[1.7vw] font-semibold">Jadikan data sebagai dasar kolaborasi</p></div>
+      <div className="absolute bottom-[11vh] left-[6.5vw] flex w-[51vw] flex-col gap-[1vh]">
+        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.1vh]"><span className="text-[2.15vw] font-extrabold text-[#A8543B]">01</span><p className="text-[1.6vw] font-semibold">Pantau informasi harga dan perkembangan wilayah</p></div>
+        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.1vh]"><span className="text-[2.15vw] font-extrabold text-[#A8543B]">02</span><p className="text-[1.6vw] font-semibold">Akses laporan, dokumen, dan program pendukung</p></div>
+        <div className="flex items-center gap-[1.3vw] border-b border-[#DFD1C1] pb-[1.1vh]"><span className="text-[2.15vw] font-extrabold text-[#A8543B]">03</span><p className="text-[1.6vw] font-semibold">Gunakan traceability untuk memahami perjalanan produk</p></div>
+        <div className="flex items-center gap-[1.3vw]"><span className="text-[2.15vw] font-extrabold text-[#A8543B]">04</span><p className="text-[1.6vw] font-semibold">Jadikan data sebagai dasar kolaborasi</p></div>
       </div>
       <div className="absolute right-[7vw] top-[17vh] h-[58vh] w-[29vw] rotate-[2deg] rounded-[1vw] border-[0.32vw] border-[#2A201D] bg-[#E7D9C8] p-[0.55vw] shadow-[0.8vw_0.9vw_0_rgba(42,32,29,0.14)]">
           <img src={`${base}demo-regions.jpg`} crossOrigin="anonymous" alt="Cuplikan data wilayah Garut Beans G-Beans" className="h-full w-full rounded-[0.58vw] object-cover" />

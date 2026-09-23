@@ -32,36 +32,36 @@ export default function SlidePilotData() {
         </p>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] grid w-[49vw] grid-cols-2 gap-[0.9vw]">
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.15vw] py-[1.1vw]">
+      <div className="absolute bottom-[9vh] left-[6.5vw] grid w-[49vw] grid-cols-2 gap-[0.9vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             01 · Profil & lokasi
           </p>
-          <p className="mt-[1.15vh] text-[1.55vw] font-extrabold leading-[1.08]">
+          <p className="mt-[1vh] text-[1.5vw] font-extrabold leading-[1.08]">
             Identitas kelompok, petani, kebun, dan wilayah.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.15vw] py-[1.1vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             02 · Budidaya
           </p>
-          <p className="mt-[1.15vh] text-[1.55vw] font-extrabold leading-[1.08]">
+          <p className="mt-[1vh] text-[1.5vw] font-extrabold leading-[1.08]">
             Aktivitas kebun, proses, dan catatan pendampingan.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.15vw] py-[1.1vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             03 · Panen & lot
           </p>
-          <p className="mt-[1.15vh] text-[1.55vw] font-extrabold leading-[1.08]">
+          <p className="mt-[1vh] text-[1.5vw] font-extrabold leading-[1.08]">
             Waktu panen, volume, lot, proses, dan mutu.
           </p>
         </div>
-        <div className="border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.15vw] py-[1.1vw]">
+        <div className="min-h-0 border-t-[0.25vw] border-[#A8543B] bg-[#E7D9C8] px-[1.1vw] py-[1vw]">
           <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
             04 · Program & hasil
           </p>
-          <p className="mt-[1.15vh] text-[1.55vw] font-extrabold leading-[1.08]">
+          <p className="mt-[1vh] text-[1.5vw] font-extrabold leading-[1.08]">
             Kunjungan, pelatihan, isu, dan tindak lanjut.
           </p>
         </div>
@@ -74,8 +74,8 @@ export default function SlidePilotData() {
         <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#E7D9C8]">
           Data dikumpulkan seperlunya, dipahami pemiliknya, dan dipakai untuk perbaikan nyata.
         </p>
-        <div className="mt-[3.2vh] border-t border-[#806E63]">
-          <div className="border-b border-[#806E63] py-[2.2vh]">
+        <div className="mt-[2.5vh] border-t border-[#806E63]">
+          <div className="border-b border-[#806E63] py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Tujuan
             </p>
@@ -83,7 +83,7 @@ export default function SlidePilotData() {
               Menetapkan baseline dan membaca progres pilot.
             </p>
           </div>
-          <div className="border-b border-[#806E63] py-[2.2vh]">
+          <div className="border-b border-[#806E63] py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Akses
             </p>
@@ -91,7 +91,7 @@ export default function SlidePilotData() {
               Dilihat sesuai peran dan kebutuhan kerja.
             </p>
           </div>
-          <div className="py-[2.2vh]">
+          <div className="py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Output
             </p>
@@ -102,7 +102,7 @@ export default function SlidePilotData() {
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
         Data cukup · akses jelas · keputusan lebih cepat
       </div>
     </div>

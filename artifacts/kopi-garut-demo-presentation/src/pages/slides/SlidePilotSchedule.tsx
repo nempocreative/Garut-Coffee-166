@@ -32,43 +32,43 @@ export default function SlidePilotSchedule() {
         </p>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] w-[49vw]">
+      <div className="absolute bottom-[9vh] left-[6.5vw] w-[49vw]">
         <div className="grid grid-cols-3 border-t-[0.25vw] border-[#D3A15F]">
-          <div className="border-r border-[#806E63] px-[1.1vw] py-[1.15vw]">
+          <div className="border-r border-[#806E63] px-[1.05vw] py-[1vw]">
             <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               01 · Minggu 1
             </p>
-            <p className="mt-[1.5vh] text-[1.65vw] font-extrabold leading-[1.05]">
+            <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
               Kick-off
             </p>
-            <p className="mt-[1vh] text-[1.35vw] leading-[1.18] text-[#E7D9C8]">
+            <p className="mt-[0.85vh] text-[1.3vw] leading-[1.15] text-[#E7D9C8]">
               Tetapkan wilayah, PIC, data, dan agenda kerja.
             </p>
           </div>
-          <div className="border-r border-[#806E63] px-[1.1vw] py-[1.15vw]">
+          <div className="border-r border-[#806E63] px-[1.05vw] py-[1vw]">
             <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               02 · Minggu 1–2
             </p>
-            <p className="mt-[1.5vh] text-[1.65vw] font-extrabold leading-[1.05]">
+            <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
               Mulai baseline
             </p>
-            <p className="mt-[1vh] text-[1.35vw] leading-[1.18] text-[#E7D9C8]">
+            <p className="mt-[0.85vh] text-[1.3vw] leading-[1.15] text-[#E7D9C8]">
               Verifikasi daftar, kunjungan awal, dan input data.
             </p>
           </div>
-          <div className="px-[1.1vw] py-[1.15vw]">
+          <div className="px-[1.05vw] py-[1vw]">
             <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               03 · Akhir bulan 1
             </p>
-            <p className="mt-[1.5vh] text-[1.65vw] font-extrabold leading-[1.05]">
+            <p className="mt-[1.25vh] text-[1.6vw] font-extrabold leading-[1.05]">
               Review pertama
             </p>
-            <p className="mt-[1vh] text-[1.35vw] leading-[1.18] text-[#E7D9C8]">
+            <p className="mt-[0.85vh] text-[1.3vw] leading-[1.15] text-[#E7D9C8]">
               Baca kelengkapan, isu, dan keputusan berikutnya.
             </p>
           </div>
         </div>
-        <div className="mt-[2.2vh] bg-[#3A2B27] px-[1.15vw] py-[1vw]">
+        <div className="mt-[1.7vh] bg-[#3A2B27] px-[1.1vw] py-[0.85vw]">
           <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
             Prinsip jadwal
           </p>
@@ -85,8 +85,8 @@ export default function SlidePilotSchedule() {
         <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#806E63]">
           Setiap pertemuan menghasilkan keputusan yang bisa langsung ditindaklanjuti.
         </p>
-        <div className="mt-[3.2vh] border-t border-[#D8C7B5]">
-          <div className="border-b border-[#D8C7B5] py-[2.2vh]">
+        <div className="mt-[2.5vh] border-t border-[#D8C7B5]">
+          <div className="border-b border-[#D8C7B5] py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Kick-off
             </p>
@@ -94,7 +94,7 @@ export default function SlidePilotSchedule() {
               Agenda, PIC, wilayah, dan data minimum.
             </p>
           </div>
-          <div className="border-b border-[#D8C7B5] py-[2.2vh]">
+          <div className="border-b border-[#D8C7B5] py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Review pertama
             </p>
@@ -102,7 +102,7 @@ export default function SlidePilotSchedule() {
               Temuan awal, isu, dan penyesuaian alur.
             </p>
           </div>
-          <div className="py-[2.2vh]">
+          <div className="py-[1.55vh]">
             <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Setelah review
             </p>
@@ -113,7 +113,7 @@ export default function SlidePilotSchedule() {
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">
         Mulai jelas · review teratur · bergerak bersama
       </div>
     </div>
