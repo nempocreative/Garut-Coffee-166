@@ -41,6 +41,16 @@ body {
   overflow: hidden;
 }
 
+.slide h1,
+.slide h2,
+.slide h3 {
+  text-wrap: balance;
+}
+
+.slide p {
+  text-wrap: pretty;
+}
+
 .slide-viewer {
   touch-action: none;
   user-select: none;

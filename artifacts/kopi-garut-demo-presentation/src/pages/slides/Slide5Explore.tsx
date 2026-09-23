@@ -17,7 +17,7 @@ export default function Slide5Explore() {
           <span className="text-[#D3A15F]">sekadar katalog.</span>
         </h2>
         <p className="mt-[3vh] max-w-[36vw] text-[1.9vw] leading-[1.2] text-[#E7D9C8]">
-          Beranda menghubungkan pengguna ke sepuluh pintu masuk yang memperlihatkan rasa, manusia, tempat, dan peluang di balik Garut Beans G-Beans.
+          Beranda menghubungkan pengguna ke enam pintu masuk yang memperlihatkan rasa, manusia, tempat, dan peluang di balik Garut Beans G-Beans.
         </p>
       </div>
 
