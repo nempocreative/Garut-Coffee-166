@@ -7,7 +7,7 @@ export default function Slide18PartnerProgram() {
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
-        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">23 / 24</span>
+        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">24 / 25</span>
       </div>
 
       <div className="absolute left-[6.5vw] top-[17vh] w-[39vw]">
