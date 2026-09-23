@@ -43,6 +43,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
       <View style={[styles.webScreenShell, { backgroundColor: background }]}>
         <ScrollView
           ref={scrollRef}
+          nativeID="kopi-garut-web-scroll"
           onScroll={notifyScroll}
           scrollEventThrottle={16}
           style={[styles.webScroll, { backgroundColor: background }]}

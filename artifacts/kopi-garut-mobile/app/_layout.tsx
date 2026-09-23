@@ -153,6 +153,43 @@ export default function RootLayout() {
     };
   }, []);
 
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const handleWebScrollKeys = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const tagName = target?.tagName.toLowerCase();
+      if (
+        tagName === 'input'
+        || tagName === 'textarea'
+        || tagName === 'select'
+        || target?.isContentEditable
+        || target?.closest('button, a, [role="button"]')
+      ) {
+        return;
+      }
+
+      const scrollTarget = document.getElementById('kopi-garut-web-scroll');
+      if (!scrollTarget) return;
+
+      const viewportStep = Math.max(window.innerHeight * 0.82, 320);
+      let amount = 0;
+      if (event.key === 'ArrowDown') amount = 72;
+      if (event.key === 'ArrowUp') amount = -72;
+      if (event.key === 'PageDown' || event.key === ' ') amount = viewportStep;
+      if (event.key === 'PageUp') amount = -viewportStep;
+      if (event.key === 'Home') amount = -scrollTarget.scrollTop;
+      if (event.key === 'End') amount = scrollTarget.scrollHeight - scrollTarget.clientHeight - scrollTarget.scrollTop;
+      if (!amount) return;
+
+      event.preventDefault();
+      scrollTarget.scrollBy({ top: amount, behavior: 'smooth' });
+    };
+
+    window.addEventListener('keydown', handleWebScrollKeys);
+    return () => window.removeEventListener('keydown', handleWebScrollKeys);
+  }, []);
+
   if (!loadingFinished) return <AppLoading />;
 
   return (
