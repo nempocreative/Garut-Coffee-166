@@ -103,6 +103,55 @@ export default function RootLayout() {
     return () => clearTimeout(timeout);
   }, [fontsLoaded, fontError]);
 
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const root = document.getElementById('root');
+    const bodyStyle = body.style as CSSStyleDeclaration & { webkitOverflowScrolling?: string };
+    const previous = {
+      htmlHeight: html.style.height,
+      htmlMinHeight: html.style.minHeight,
+      htmlOverflowY: html.style.overflowY,
+      bodyHeight: body.style.height,
+      bodyMinHeight: body.style.minHeight,
+      bodyOverflowX: body.style.overflowX,
+      bodyOverflowY: body.style.overflowY,
+      bodyWebkitOverflowScrolling: bodyStyle.webkitOverflowScrolling,
+      rootHeight: root?.style.height ?? '',
+      rootMinHeight: root?.style.minHeight ?? '',
+    };
+
+    html.style.height = '100%';
+    html.style.minHeight = '100%';
+    html.style.overflowY = 'auto';
+    body.style.height = 'auto';
+    body.style.minHeight = '100%';
+    body.style.overflowX = 'clip';
+    body.style.overflowY = 'visible';
+    bodyStyle.webkitOverflowScrolling = 'touch';
+    if (root) {
+      root.style.height = 'auto';
+      root.style.minHeight = '100dvh';
+    }
+
+    return () => {
+      html.style.height = previous.htmlHeight;
+      html.style.minHeight = previous.htmlMinHeight;
+      html.style.overflowY = previous.htmlOverflowY;
+      body.style.height = previous.bodyHeight;
+      body.style.minHeight = previous.bodyMinHeight;
+      body.style.overflowX = previous.bodyOverflowX;
+      body.style.overflowY = previous.bodyOverflowY;
+      bodyStyle.webkitOverflowScrolling = previous.bodyWebkitOverflowScrolling ?? '';
+      if (root) {
+        root.style.height = previous.rootHeight;
+        root.style.minHeight = previous.rootMinHeight;
+      }
+    };
+  }, []);
+
   if (!loadingFinished) return <AppLoading />;
 
   return (
