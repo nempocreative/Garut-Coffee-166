@@ -29,21 +29,21 @@ export default function Slide2Context() {
         </div>
 
         <div className="flex items-start gap-[1.2vw] py-[1.2vh]">
-          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">01</span>
-          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Asal</p>
-          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Kualitas dan cerita belum selalu terlihat oleh pembeli.</p>
+          <span className="w-[2.5vw] shrink-0 text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">01</span>
+          <p className="w-[8vw] shrink-0 text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Asal</p>
+          <p className="min-w-0 flex-1 text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Kualitas dan cerita belum selalu terlihat oleh pembeli.</p>
         </div>
 
         <div className="flex items-start gap-[1.2vw] py-[1.2vh]">
-          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">02</span>
-          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Akses</p>
-          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Petani dan mitra belum membaca informasi dari sumber yang sama.</p>
+          <span className="w-[2.5vw] shrink-0 text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">02</span>
+          <p className="w-[8vw] shrink-0 text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Akses</p>
+          <p className="min-w-0 flex-1 text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Petani dan mitra belum membaca informasi dari sumber yang sama.</p>
         </div>
 
         <div className="flex items-start gap-[1.2vw] py-[1.2vh]">
-          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">03</span>
-          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Data</p>
-          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Data yang rapi membuat keputusan lebih terarah.</p>
+          <span className="w-[2.5vw] shrink-0 text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">03</span>
+          <p className="w-[8vw] shrink-0 text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Data</p>
+          <p className="min-w-0 flex-1 text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Data yang rapi membuat keputusan lebih terarah.</p>
         </div>
       </div>
 
@@ -58,8 +58,7 @@ export default function Slide2Context() {
       <div className="absolute right-[6.5vw] top-[30vh] w-[22vw]">
         <div className="flex justify-center">
           <div className="flex h-[11.5vw] w-[11.5vw] flex-col items-center justify-center rounded-full border-[0.2vw] border-[#F6D9B6] bg-[#2A201D] text-center shadow-[0.6vw_0.7vw_0_rgba(42,32,29,0.18)]">
-            <span className="text-[1vw] font-bold uppercase tracking-[0.2em] text-[#D3A15F]">Pusat cerita</span>
-            <span className="mt-[0.8vh] text-[2.2vw] font-extrabold leading-[0.95] tracking-[-0.06em]">Kopi<br />Garut</span>
+            <span className="text-[2.2vw] font-extrabold leading-[0.95] tracking-[-0.06em]">Kopi<br />Garut</span>
           </div>
         </div>
 
