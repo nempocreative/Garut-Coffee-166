@@ -3,30 +3,87 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 export default function Slide4MainMenu() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
-      <div className="absolute right-0 top-0 h-full w-[24vw] bg-[#E7D9C8]" />
+      <div className="absolute right-0 top-0 h-full w-[27vw] bg-[#E7D9C8]" />
+      <div className="absolute right-[4.8vw] top-[10vh] h-[80vh] w-[0.12vw] bg-[#D3A15F]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
-        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">09 / 34</span>
       </div>
 
-      <div className="absolute left-[6.5vw] top-[17vh] w-[45vw]">
+      <div className="absolute left-[6.5vw] top-[17vh] w-[39vw]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Navigasi utama</p>
         <h2 className="mt-[1.6vh] text-[5vw] font-extrabold leading-[0.98] tracking-[-0.075em]">
           <span className="block">Lima menu inti</span>
           <span className="text-[#A8543B]">untuk satu perjalanan.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[37vw] text-[1.9vw] leading-[1.2] text-[#806E63]">
-          Navigasi dibuat singkat agar pengguna dapat berpindah dari inspirasi, informasi asal, sampai pembelian tanpa kehilangan konteks.
+        <p className="mt-[3vh] max-w-[35vw] text-[1.9vw] leading-[1.2] text-[#806E63]">
+          Dari menemukan cerita sampai kembali membeli, setiap menu menjaga konteks perjalanan kopi Garut.
         </p>
+
+        <div className="absolute top-[46vh] left-0 w-[36vw] border-t border-[#D8C7B5] pt-[2.2vh]">
+          <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.18em] text-[#806E63]">Satu alur, lima pintu</p>
+          <div className="mt-[2vh] flex items-center gap-[0.7vw] text-[1.55vw] font-extrabold text-[#2A201D]">
+            <span>Temukan</span>
+            <span className="text-[1.7vw] text-[#A8543B]">→</span>
+            <span>Kenali</span>
+            <span className="text-[1.7vw] text-[#A8543B]">→</span>
+            <span>Pilih</span>
+            <span className="text-[1.7vw] text-[#A8543B]">→</span>
+            <span>Tumbuh</span>
+          </div>
+          <div className="mt-[1.4vh] h-[0.42vh] w-[24vw] rounded-full bg-[#D3A15F]" />
+        </div>
       </div>
 
-      <div className="absolute right-[6.5vw] top-[16vh] w-[43vw] space-y-[0.9vh]">
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">01</span><div><p className="text-[2vw] font-extrabold">Beranda</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Ringkasan cerita, promo, kategori, petani, wilayah, dan agenda.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">02</span><div><p className="text-[2vw] font-extrabold">Jelajah</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Cari kopi, baca detail produk, simpan favorit, dan lanjutkan ke keranjang.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">03</span><div><p className="text-[2vw] font-extrabold">Jejak</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Membaca asal kopi melalui wilayah, petani, proses, lot, dan produk.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] border-b border-[#D8C7B5] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">04</span><div><p className="text-[2vw] font-extrabold">Pesanan</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Keranjang, riwayat belanja, status proses, pengiriman, dan belanja lagi.</p></div></div>
-        <div className="flex items-center gap-[1.1vw] pb-[1.2vh]"><span className="w-[4vw] text-[2.6vw] font-extrabold text-[#A8543B]">05</span><div><p className="text-[2vw] font-extrabold">Akun</p><p className="text-[1.7vw] leading-[1.15] text-[#806E63]">Ruang personal untuk pengguna, petani, dan penyuluh sesuai perannya.</p></div></div>
+      <div className="absolute right-[7vw] top-[13vh] w-[42vw]">
+        <div className="mb-[2.4vh] flex items-center justify-between border-b border-[#D8C7B5] pb-[1.5vh]">
+          <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.18em] text-[#806E63]">Peta perjalanan pengguna</p>
+          <span className="text-[1.35vw] font-bold text-[#A8543B]">G-BEANS / 01—05</span>
+        </div>
+
+        <div className="relative">
+          <div className="absolute left-[1.55vw] top-[1.5vh] bottom-[2.2vh] w-[0.12vw] bg-[#D3A15F]" />
+
+          <div className="relative flex gap-[1.35vw] border-b border-[#D8C7B5] py-[1.3vh]">
+            <span className="z-10 flex h-[3.1vw] w-[3.1vw] shrink-0 items-center justify-center rounded-full bg-[#A8543B] text-[1.35vw] font-extrabold text-[#FFF9F1]">01</span>
+            <div className="pt-[0.1vh]">
+              <p className="text-[2.05vw] font-extrabold leading-none">Beranda</p>
+              <p className="mt-[0.8vh] text-[1.75vw] leading-[1.12] text-[#806E63]">Cerita, promo, kategori, petani, wilayah, dan agenda dalam satu pintu.</p>
+            </div>
+          </div>
+
+          <div className="relative flex gap-[1.35vw] border-b border-[#D8C7B5] py-[1.3vh]">
+            <span className="z-10 flex h-[3.1vw] w-[3.1vw] shrink-0 items-center justify-center rounded-full bg-[#F6F0E8] text-[1.35vw] font-extrabold text-[#A8543B] ring-[0.12vw] ring-[#A8543B]">02</span>
+            <div className="pt-[0.1vh]">
+              <p className="text-[2.05vw] font-extrabold leading-none">Jelajah</p>
+              <p className="mt-[0.8vh] text-[1.75vw] leading-[1.12] text-[#806E63]">Cari kopi, baca detail produk, simpan favorit, lalu lanjutkan ke keranjang.</p>
+            </div>
+          </div>
+
+          <div className="relative flex gap-[1.35vw] border-b border-[#D8C7B5] py-[1.3vh]">
+            <span className="z-10 flex h-[3.1vw] w-[3.1vw] shrink-0 items-center justify-center rounded-full bg-[#F6F0E8] text-[1.35vw] font-extrabold text-[#A8543B] ring-[0.12vw] ring-[#A8543B]">03</span>
+            <div className="pt-[0.1vh]">
+              <p className="text-[2.05vw] font-extrabold leading-none">Jejak</p>
+              <p className="mt-[0.8vh] text-[1.75vw] leading-[1.12] text-[#806E63]">Telusuri asal kopi melalui wilayah, petani, proses, lot, dan produk.</p>
+            </div>
+          </div>
+
+          <div className="relative flex gap-[1.35vw] border-b border-[#D8C7B5] py-[1.3vh]">
+            <span className="z-10 flex h-[3.1vw] w-[3.1vw] shrink-0 items-center justify-center rounded-full bg-[#F6F0E8] text-[1.35vw] font-extrabold text-[#A8543B] ring-[0.12vw] ring-[#A8543B]">04</span>
+            <div className="pt-[0.1vh]">
+              <p className="text-[2.05vw] font-extrabold leading-none">Pesanan</p>
+              <p className="mt-[0.8vh] text-[1.75vw] leading-[1.12] text-[#806E63]">Pantau keranjang, proses, pengiriman, riwayat belanja, dan belanja lagi.</p>
+            </div>
+          </div>
+
+          <div className="relative flex gap-[1.35vw] py-[1.3vh]">
+            <span className="z-10 flex h-[3.1vw] w-[3.1vw] shrink-0 items-center justify-center rounded-full bg-[#D3A15F] text-[1.35vw] font-extrabold text-[#2A201D]">05</span>
+            <div className="pt-[0.1vh]">
+              <p className="text-[2.05vw] font-extrabold leading-none">Akun</p>
+              <p className="mt-[0.8vh] text-[1.75vw] leading-[1.12] text-[#806E63]">Ruang personal untuk pengguna, petani, dan penyuluh sesuai perannya.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="absolute bottom-[3vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[1.5vh] text-[1.7vw] font-bold text-[#A8543B]">

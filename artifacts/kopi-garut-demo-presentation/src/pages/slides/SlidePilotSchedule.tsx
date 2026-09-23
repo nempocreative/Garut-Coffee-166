@@ -17,9 +17,6 @@ export default function SlidePilotSchedule() {
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">
           Garut <span className="text-[#D3A15F]">Beans</span>
         </span>
-        <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">
-          33 / 34
-        </span>
       </div>
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[45vw]">

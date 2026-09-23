@@ -23,7 +23,6 @@ export default function SlideVisionMission() {
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.8vw] w-[2.8vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
       </div>
-      <div className="absolute right-[6.5vw] top-[6vh] text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]/80">02 / 34</div>
 
       <div className="absolute left-[6.5vw] top-[24vh] z-10 w-[42vw]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Arah platform</p>

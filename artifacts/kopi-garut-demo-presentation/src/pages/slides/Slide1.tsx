@@ -51,7 +51,6 @@ export default function Slide1() {
         <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#806E63]">Dinas Pertanian Kab. Garut</p>
         <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#A8543B]">Nempo.id x Kala Muda</p>
       </div>
-      <div className="absolute bottom-[6vh] right-[6.5vw] z-20 text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 34</div>
 
       <div className="absolute right-[10vw] top-[13vh] z-10 w-[20vw] rounded-[2.5vw] border-[0.52vw] border-[#2A201D] bg-[#2A201D] p-[0.5vw] shadow-[0.85vw_1vw_0_rgba(42,32,29,0.3)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.9vw] bg-[#F6F0E8]">
