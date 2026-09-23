@@ -40,13 +40,17 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   }, [pathname]);
   if (Platform.OS === 'web') {
     return (
-      <View style={[styles.webScreenShell, { backgroundColor: background }]}>
+      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? 90 : 0 }]}>
         <ScrollView
           ref={scrollRef}
           nativeID="kopi-garut-web-scroll"
           onScroll={notifyScroll}
           scrollEventThrottle={16}
-          style={[styles.webScroll, { backgroundColor: background }]}
+          style={[
+            styles.webScroll,
+            bottomMenu ? styles.webScrollWithMenu : styles.webScrollFull,
+            { backgroundColor: background },
+          ]}
           contentContainerStyle={[
             styles.screen,
             styles.webScreen,
@@ -165,7 +169,9 @@ const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   webScreen: { flexGrow: 1 },
   webScreenShell: { width: '100%', flex: 1, height: '100%', overflow: 'visible' },
-  webScroll: { flex: 1, width: '100%' },
+  webScroll: { width: '100%' },
+  webScrollWithMenu: { flex: 0, height: 'calc(100dvh - 90px)' as any },
+  webScrollFull: { flex: 1, height: '100%' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },

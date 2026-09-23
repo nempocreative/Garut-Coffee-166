@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +15,7 @@ export function FloatingCoffeeGameButton() {
   const pathname = usePathname();
   const { points } = useCoffeeGame();
   const { isScrolling } = useScrollVisibility();
+  const { width } = useWindowDimensions();
   const basketLift = useSharedValue(0);
   const basketTilt = useSharedValue(0);
 
@@ -46,7 +47,8 @@ export function FloatingCoffeeGameButton() {
   }));
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  if (isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
+  const compactWeb = Platform.OS === 'web' && width < 768;
+  if (compactWeb || isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
 
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;

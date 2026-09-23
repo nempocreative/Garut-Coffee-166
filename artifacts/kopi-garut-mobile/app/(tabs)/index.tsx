@@ -465,6 +465,7 @@ export default function HomeScreen() {
   // width for responsive calculations so web export and the native app keep
   // the same grid geometry instead of clipping a desktop-sized layout.
   const width = Math.min(windowWidth, 430);
+  const compactWeb = Platform.OS === 'web' && width < 768;
   const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
   const diversifiedCardWidth = Math.max(166, Math.floor((width - 40 - 12) / 2));
   const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
@@ -604,7 +605,7 @@ export default function HomeScreen() {
       </View>
       </Animated.View>
     </Animated.View>
-    <View>
+    <View style={compactWeb ? styles.compactWebCategorySection : undefined}>
       <ScrollView
         ref={categoryRef}
         horizontal
@@ -1173,6 +1174,7 @@ const styles = StyleSheet.create({
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   heroSection: { marginTop: 0 },
+  compactWebCategorySection: { marginTop: 16 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
   promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Modal, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -45,6 +45,7 @@ export function FloatingSupportButton() {
   const router = useRouter();
   const pathname = usePathname();
   const { isScrolling } = useScrollVisibility();
+  const { width } = useWindowDimensions();
   const [open, setOpen] = useState(false);
   const beanLift = useSharedValue(0);
   const beanTilt = useSharedValue(0);
@@ -81,7 +82,8 @@ export function FloatingSupportButton() {
   }));
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  if (isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
+  const compactWeb = Platform.OS === 'web' && width < 768;
+  if (compactWeb || isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
 
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;

@@ -15,11 +15,11 @@ For web-only layout changes, branch at the mobile root layout using `Platform.OS
 
 **How to apply:** Keep the native viewport constrained for the phone UI and let only the web viewport stretch to 100% width. Validate through the web launcher after its watched rebuild completes.
 
-On web, the bottom navigation remains persistent at the viewport bottom while page content scrolls behind its reserved bottom space; native keeps the same persistent navigation.
+On web, the bottom navigation remains persistent at the viewport bottom while page content scrolls in a viewport reduced by the menu height; compact web hides floating actions that would cover content, while native keeps them.
 
 **Why:** The product's web experience needs the Kopi Garut menu visible for navigation, while the page itself must remain a normal scrollable document so Safari can collapse its browser toolbar.
 
-**How to apply:** Render the web menu from the shared `Screen` flow as a fixed bottom host, reserve its height in the web content, and keep the native menu in the root layout. Verify both the iPhone web route and native typecheck after changes.
+**How to apply:** Render the web menu from the shared `Screen` flow as a fixed bottom host, size the web scroll viewport above it, hide decorative floating actions below tablet width, and keep the native menu/actions in the root layout. Verify both the iPhone web route and native typecheck after changes.
 
 For small looping motion, keep a browser-safe fallback when a Reanimated worklet is not visibly advancing in the static Expo web export; the mobile implementation can continue using Reanimated.
 
