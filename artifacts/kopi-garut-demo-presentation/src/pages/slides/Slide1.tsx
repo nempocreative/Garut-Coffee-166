@@ -35,6 +35,9 @@ export default function Slide1() {
         </p>
       </div>
 
+      <div className="absolute bottom-[10vh] left-[6.5vw] text-[1.5vw] font-bold tracking-[0.08em] text-[#A8543B]">
+        Dibangun oleh Nempo.id x Kala Muda
+      </div>
       <div className="absolute bottom-[6vh] left-[6.5vw] text-[1.5vw] font-bold tracking-[0.08em] text-[#806E63]">
         Dinas Pertanian Kab. Garut
       </div>
