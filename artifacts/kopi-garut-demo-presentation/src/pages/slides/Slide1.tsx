@@ -35,11 +35,9 @@ export default function Slide1() {
         </p>
       </div>
 
-      <div className="absolute bottom-[10vh] left-[6.5vw] text-[1.5vw] font-bold tracking-[0.08em] text-[#806E63]">
-        Dinas Pertanian Kab. Garut
-      </div>
-      <div className="absolute bottom-[6vh] left-[6.5vw] text-[1.5vw] font-bold tracking-[0.08em] text-[#806E63]">
-        Nempo.id x Kala Muda
+      <div className="absolute bottom-[5.8vh] left-[6.5vw] flex flex-col gap-[1.2vh]">
+        <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#806E63]">Dinas Pertanian Kab. Garut</p>
+        <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#A8543B]">Nempo.id x Kala Muda</p>
       </div>
       <div className="absolute bottom-[6vh] right-[6.5vw] z-20 text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 34</div>
 
