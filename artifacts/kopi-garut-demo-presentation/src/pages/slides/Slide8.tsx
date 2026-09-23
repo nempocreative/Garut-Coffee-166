@@ -11,7 +11,7 @@ export default function Slide8() {
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[3vw] w-[3vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.14vw]" />
          <div><p className="text-[1.5vw] font-extrabold tracking-[-0.05em]">Garut <span className="text-[#A8543B]">Beans</span></p><p className="mt-[0.25vw] text-[1.5vw] font-bold uppercase tracking-[0.2em] text-[#806E63]">G-BEANS · SPECIALTY COFFEE</p></div>
-        <span className="ml-[0.6vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">26 / 26</span>
+        <span className="ml-[0.6vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">27 / 27</span>
       </div>
       <div className="absolute left-[6.5vw] top-[27vh] w-[51vw]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Penutup demo</p>

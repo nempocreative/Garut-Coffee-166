@@ -38,7 +38,7 @@ export default function Slide1() {
         <span className="h-[0.45vw] w-[0.45vw] rounded-full bg-[#A8543B]" />
         Karya Nempo.id x Kala Muda
       </div>
-      <div className="absolute bottom-[6vh] right-[6.5vw] z-20 text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 26</div>
+      <div className="absolute bottom-[6vh] right-[6.5vw] z-20 text-[1.5vw] font-bold tracking-[0.16em] text-[#FFF9F1]">01 / 27</div>
 
       <div className="absolute right-[11vw] top-[14vh] z-10 w-[18vw] rounded-[2.35vw] border-[0.5vw] border-[#2A201D] bg-[#2A201D] p-[0.48vw] shadow-[0.8vw_0.95vw_0_rgba(42,32,29,0.3)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.78vw] bg-[#F6F0E8]">
