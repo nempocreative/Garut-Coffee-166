@@ -35,7 +35,7 @@ export default function Slide1() {
         </p>
       </div>
 
-      <div className="absolute bottom-[5.8vh] left-[6.5vw] flex flex-col gap-[1.2vh]">
+      <div className="absolute bottom-[5.8vh] left-[6.5vw] flex flex-col gap-[2.6vh]">
         <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#806E63]">Dinas Pertanian Kab. Garut</p>
         <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#A8543B]">Nempo.id x Kala Muda</p>
       </div>
