@@ -4,7 +4,6 @@ export default function Slide2() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
       <div className="absolute right-0 top-0 h-full w-[25vw] bg-[#E7D9C8]" />
-      <div className="absolute right-[7vw] top-[13vh] h-[30vw] w-[30vw] rounded-full border-[0.12vw] border-[#D3A15F]/60" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>

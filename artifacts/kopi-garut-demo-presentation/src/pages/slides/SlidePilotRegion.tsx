@@ -5,7 +5,6 @@ export default function SlidePilotRegion() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute right-0 top-0 h-full w-[37vw] bg-[#F6F0E8]" />
       <div className="absolute right-[37vw] top-0 h-full w-[0.2vw] bg-[#D3A15F]" />
-      <div className="absolute -right-[12vw] -bottom-[16vw] h-[40vw] w-[40vw] rounded-full border-[0.12vw] border-[#A8543B]/45" />
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img
