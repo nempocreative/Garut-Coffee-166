@@ -14,6 +14,18 @@ export default function Slide1() {
       <div className="absolute inset-y-0 left-0 w-[50vw] bg-[#F6F0E8]" />
       <div className="absolute inset-y-0 left-[50vw] w-[0.12vw] bg-[#A8543B]/70" />
 
+      <div className="absolute bottom-[15vh] right-[28vw] z-[1] flex items-end gap-[0.9vw] opacity-75">
+        <div className="relative h-[5.7vw] w-[3.9vw] rotate-[-22deg] rounded-[52%_48%_55%_45%/44%_58%_42%_56%] bg-[#6D3828]/75 shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.18)]">
+          <span className="absolute left-1/2 top-[0.55vw] h-[4.7vw] w-[0.18vw] -translate-x-1/2 rotate-[18deg] rounded-full bg-[#E9C58E]/60" />
+        </div>
+        <div className="relative h-[7.2vw] w-[4.9vw] rotate-[12deg] rounded-[50%_50%_58%_42%/45%_58%_42%_55%] bg-[#A8543B]/80 shadow-[0.4vw_0.5vw_0_rgba(42,32,29,0.2)]">
+          <span className="absolute left-1/2 top-[0.75vw] h-[5.9vw] w-[0.2vw] -translate-x-1/2 rotate-[-15deg] rounded-full bg-[#F4D5A1]/65" />
+        </div>
+        <div className="relative mb-[0.7vw] h-[4.5vw] w-[3.1vw] rotate-[28deg] rounded-[55%_45%_48%_52%/42%_56%_44%_58%] bg-[#D3A15F]/80 shadow-[0.3vw_0.35vw_0_rgba(42,32,29,0.15)]">
+          <span className="absolute left-1/2 top-[0.5vw] h-[3.6vw] w-[0.16vw] -translate-x-1/2 rotate-[-12deg] rounded-full bg-[#FFF1CF]/70" />
+        </div>
+      </div>
+
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.9vw]">
         <div className="flex h-[3.8vw] w-[3.8vw] items-center justify-center overflow-hidden rounded-[0.9vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[0.18vw] shadow-[0.25vw_0.3vw_0_rgba(42,32,29,0.12)]">
           <img src={logo} alt="Logo Garut Beans G-Beans" className="h-full w-full object-contain" />
