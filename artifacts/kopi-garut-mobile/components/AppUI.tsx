@@ -41,9 +41,21 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   if (Platform.OS === 'web') {
     return (
       <View style={[styles.webScreenShell, { backgroundColor: background }]}>
-        <View style={[styles.screen, styles.webScreen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu ? contentBottomPadding : 28 }, style]}>
+        <ScrollView
+          ref={scrollRef}
+          onScroll={notifyScroll}
+          scrollEventThrottle={16}
+          style={[styles.webScroll, { backgroundColor: background }]}
+          contentContainerStyle={[
+            styles.screen,
+            styles.webScreen,
+            { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu ? contentBottomPadding : 28 },
+            style,
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
           {children}
-        </View>
+        </ScrollView>
         {bottomMenu && <BottomMenu />}
       </View>
     );
@@ -151,7 +163,8 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   webScreen: { flexGrow: 1 },
-  webScreenShell: { width: '100%', minHeight: '100%', overflow: 'visible' },
+  webScreenShell: { width: '100%', flex: 1, height: '100%', overflow: 'visible' },
+  webScroll: { flex: 1, width: '100%' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },

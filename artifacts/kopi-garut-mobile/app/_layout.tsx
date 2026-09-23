@@ -71,8 +71,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   webViewport: {
-    flex: 0,
-    minHeight: '100%',
+    flex: 1,
+    height: '100vh' as any,
+    minHeight: '100vh' as any,
     maxWidth: '100%',
     alignSelf: 'stretch',
     overflow: 'visible',
@@ -132,7 +133,7 @@ export default function RootLayout() {
     body.style.overflowY = 'auto';
     bodyStyle.webkitOverflowScrolling = 'touch';
     if (root) {
-      root.style.height = 'auto';
+      root.style.height = '100dvh';
       root.style.minHeight = '100dvh';
     }
 
