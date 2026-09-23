@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   },
   webViewport: {
     flex: 1,
-    height: '100vh' as any,
-    minHeight: '100vh' as any,
+    height: 'var(--kg-viewport-height, 100dvh)' as any,
+    minHeight: 'var(--kg-viewport-height, 100dvh)' as any,
     maxWidth: '100%',
     alignSelf: 'stretch',
     overflow: 'visible',
@@ -114,7 +114,9 @@ export default function RootLayout() {
     const previous = {
       htmlHeight: html.style.height,
       htmlMinHeight: html.style.minHeight,
+      htmlWidth: html.style.width,
       htmlOverflowY: html.style.overflowY,
+      htmlOverflowX: html.style.overflowX,
       bodyHeight: body.style.height,
       bodyMinHeight: body.style.minHeight,
       bodyOverflowX: body.style.overflowX,
@@ -122,25 +124,51 @@ export default function RootLayout() {
       bodyWebkitOverflowScrolling: bodyStyle.webkitOverflowScrolling,
       rootHeight: root?.style.height ?? '',
       rootMinHeight: root?.style.minHeight ?? '',
+      rootWidth: root?.style.width ?? '',
+      rootOverflow: root?.style.overflow ?? '',
     };
 
-    html.style.height = 'auto';
+    const visualViewport = window.visualViewport;
+    const updateWebViewport = () => {
+      const viewportHeight = Math.max(
+        1,
+        Math.round(visualViewport?.height || window.innerHeight),
+      );
+      html.style.setProperty('--kg-viewport-height', `${viewportHeight}px`);
+      html.style.setProperty('--kg-menu-height', 'calc(90px + env(safe-area-inset-bottom, 0px))');
+    };
+
+    updateWebViewport();
+    window.addEventListener('resize', updateWebViewport, { passive: true });
+    window.addEventListener('orientationchange', updateWebViewport, { passive: true });
+    visualViewport?.addEventListener('resize', updateWebViewport, { passive: true });
+
+    html.style.height = '100%';
     html.style.minHeight = '100%';
+    html.style.width = '100%';
+    html.style.overflowX = 'hidden';
     html.style.overflowY = 'auto';
     body.style.height = 'auto';
-    body.style.minHeight = '100dvh';
-    body.style.overflowX = 'clip';
+    body.style.minHeight = 'var(--kg-viewport-height, 100dvh)';
+    body.style.overflowX = 'hidden';
     body.style.overflowY = 'auto';
     bodyStyle.webkitOverflowScrolling = 'touch';
     if (root) {
-      root.style.height = '100dvh';
-      root.style.minHeight = '100dvh';
+      root.style.height = 'var(--kg-viewport-height, 100dvh)';
+      root.style.minHeight = 'var(--kg-viewport-height, 100dvh)';
+      root.style.width = '100%';
+      root.style.overflow = 'visible';
     }
 
     return () => {
+      window.removeEventListener('resize', updateWebViewport);
+      window.removeEventListener('orientationchange', updateWebViewport);
+      visualViewport?.removeEventListener('resize', updateWebViewport);
       html.style.height = previous.htmlHeight;
       html.style.minHeight = previous.htmlMinHeight;
+      html.style.width = previous.htmlWidth;
       html.style.overflowY = previous.htmlOverflowY;
+      html.style.overflowX = previous.htmlOverflowX;
       body.style.height = previous.bodyHeight;
       body.style.minHeight = previous.bodyMinHeight;
       body.style.overflowX = previous.bodyOverflowX;
@@ -149,6 +177,8 @@ export default function RootLayout() {
       if (root) {
         root.style.height = previous.rootHeight;
         root.style.minHeight = previous.rootMinHeight;
+        root.style.width = previous.rootWidth;
+        root.style.overflow = previous.rootOverflow;
       }
     };
   }, []);

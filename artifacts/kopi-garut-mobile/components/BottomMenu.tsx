@@ -115,6 +115,12 @@ export function BottomMenu() {
   const isDark = colorScheme === 'dark';
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const isFarmerRoute = pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
+  const menuHeight = Platform.OS === 'web'
+    ? ('calc(90px + env(safe-area-inset-bottom, 0px))' as any)
+    : 90 + bottomInset;
+  const menuPaddingBottom = Platform.OS === 'web'
+    ? ('calc(4px + env(safe-area-inset-bottom, 0px))' as any)
+    : bottomInset + 4;
 
   if (isFarmerRoute) return null;
 
@@ -125,8 +131,8 @@ export function BottomMenu() {
           styles.menu,
           Platform.OS === 'web' && styles.webMenu,
           {
-            height: 90 + bottomInset,
-            paddingBottom: bottomInset + 4,
+            height: menuHeight,
+            paddingBottom: menuPaddingBottom,
             shadowColor: colors.foreground,
             shadowOpacity: isDark ? 0.22 : 0.08,
           },

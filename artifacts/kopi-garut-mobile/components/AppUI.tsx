@@ -23,8 +23,10 @@ function getHomeDateLabel() {
 
 export function useBottomMenuPadding(gap = 32) {
   const insets = useSafeAreaInsets();
-  const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
-  return 90 + bottomInset + gap;
+  if (Platform.OS === 'web') {
+    return `calc(var(--kg-menu-height, 90px) + ${gap}px)` as any;
+  }
+  return 90 + insets.bottom + gap;
 }
 
 export function Screen({ children, scroll = true, style, bottomGap = 32, bottomMenu = true }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number; bottomMenu?: boolean }) {
@@ -40,7 +42,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   }, [pathname]);
   if (Platform.OS === 'web') {
     return (
-      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? 90 : 0 }]}>
+      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? ('var(--kg-menu-height, 90px)' as any) : 0 }]}>
         <ScrollView
           ref={scrollRef}
           nativeID="kopi-garut-web-scroll"
@@ -168,10 +170,10 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   webScreen: { flexGrow: 1 },
-  webScreenShell: { width: '100%', flex: 1, height: '100%', overflow: 'visible' },
+  webScreenShell: { width: '100%', flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any, minHeight: 'var(--kg-viewport-height, 100dvh)' as any, overflow: 'visible' },
   webScroll: { width: '100%' },
-  webScrollWithMenu: { flex: 0, height: 'calc(100dvh - 90px)' as any },
-  webScrollFull: { flex: 1, height: '100%' },
+  webScrollWithMenu: { flex: 0, height: 'calc(var(--kg-viewport-height, 100dvh) - var(--kg-menu-height, 90px))' as any },
+  webScrollFull: { flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },

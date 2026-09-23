@@ -23,7 +23,7 @@ async function patchExportedHtml(directory) {
     if (!entry.name.endsWith('.html')) return;
 
     const html = await readFile(entryPath, 'utf8');
-    const scrollableExpoReset = '<style id="expo-reset">html{height:100%;min-height:100%;overflow:hidden}body{margin:0;min-height:100%;height:100%;overflow:hidden;-webkit-overflow-scrolling:touch}#root{display:flex;min-height:100dvh;height:100dvh}</style>';
+    const scrollableExpoReset = '<style id="expo-reset">html{height:100%;min-height:100%;width:100%;overflow-x:hidden;overflow-y:auto}body{margin:0;min-height:100svh;min-height:100dvh;height:auto;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}#root{display:flex;width:100%;min-height:100svh;min-height:100dvh;height:100dvh;overflow:visible}</style>';
     const patchedReset = html.replace(
       /<style id="expo-reset">#root,body,html\{height:100%\}body\{overflow:hidden\}#root\{display:flex\}<\/style>/,
       scrollableExpoReset,
@@ -34,9 +34,14 @@ async function patchExportedHtml(directory) {
       '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>',
       '<meta name="theme-color" content="#f6f0e8"/>',
     ].join('');
-    const patchedHtml = patchedReset.includes('apple-mobile-web-app-capable')
-      ? patchedReset
-      : patchedReset.replace('</head>', `${standaloneMeta}</head>`);
+    const viewportMeta = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>';
+    const withViewportMeta = patchedReset.replace(
+      /<meta name="viewport"[^>]*\/>/,
+      viewportMeta,
+    );
+    const patchedHtml = withViewportMeta.includes('apple-mobile-web-app-capable')
+      ? withViewportMeta
+      : withViewportMeta.replace('</head>', `${standaloneMeta}</head>`);
 
     if (patchedHtml !== html) {
       await writeFile(entryPath, patchedHtml);
