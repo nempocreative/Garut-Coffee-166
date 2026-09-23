@@ -18,7 +18,7 @@ export default function SlidePilotPlan() {
           Garut <span className="text-[#A8543B]">Beans</span>
         </span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">
-          28 / 29
+          28 / 34
         </span>
       </div>
 

@@ -18,7 +18,7 @@ export default function SlidePilotRegion() {
           Garut <span className="text-[#D3A15F]">Beans</span>
         </span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">
-          29 / 30
+          29 / 34
         </span>
       </div>
 

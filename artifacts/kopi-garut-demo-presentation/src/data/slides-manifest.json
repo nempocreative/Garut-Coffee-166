@@ -35,8 +35,8 @@
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a28",
     "position": 5,
     "filepath": "src/pages/slides/SlideImplementationRoadmap.tsx",
-    "title": "Roadmap implementasi",
-    "description": "Urutan pilot, penguatan operasional, dan perluasan ekosistem yang perlu disepakati bersama.",
+    "title": "Roadmap menuju pasar internasional",
+    "description": "Tahapan pertumbuhan dari pilot Garut, perluasan nasional, hingga kesiapan pasar internasional.",
     "speakerNotes": ""
   },
   {
@@ -232,8 +232,40 @@
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a20",
+    "id": "cbb7ef71-e8f4-4d6e-9c4c-44d0c1b2a8b7",
     "position": 30,
+    "filepath": "src/pages/slides/SlidePilotPIC.tsx",
+    "title": "Penunjukan PIC dari tiap pihak",
+    "description": "Pembagian PIC pilot untuk menjaga mandat, koordinasi, ritme kerja, dan tindak lanjut.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a2b6a9e7-1c0f-4d3b-9a6f-7c4e2f1d8b52",
+    "position": 31,
+    "filepath": "src/pages/slides/SlidePilotFarmers.tsx",
+    "title": "Daftar kelompok tani dan petani awal",
+    "description": "Format daftar awal kelompok tani dan petani pilot untuk verifikasi serta pengumpulan baseline.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "d7a4b1e9-2f6c-4b8d-9e3a-5c1f7a2b6d84",
+    "position": 32,
+    "filepath": "src/pages/slides/SlidePilotData.tsx",
+    "title": "Kesepakatan data yang dikumpulkan",
+    "description": "Jenis data minimum, tujuan penggunaan, akses sesuai peran, dan output baseline pilot.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b4e8c1a6-3d7f-4f2b-9a5c-1e6d8b3f7c90",
+    "position": 33,
+    "filepath": "src/pages/slides/SlidePilotSchedule.tsx",
+    "title": "Jadwal kick-off dan review pertama",
+    "description": "Urutan waktu kick-off, pengumpulan baseline, review pertama, dan output setiap pertemuan.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a20",
+    "position": 34,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Garut Beans G-Beans.",
