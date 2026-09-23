@@ -7,6 +7,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, Image as SvgImage, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
 import { Coffee, formatPrice } from '@/data/coffees';
+import { findCartProduct } from '@/data/cart-products';
 import { useStore } from '@/context/StoreContext';
 import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
@@ -138,6 +139,45 @@ export function Button({ label, onPress, icon, disabled = false, secondary = fal
   return <Pressable testID={testID} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.button, { backgroundColor: secondary ? colors.secondary : colors.primary, opacity: disabled ? 0.45 : pressed ? 0.78 : 1 }]}>{icon && <BrandIcon name={icon} size={16} color={secondary ? colors.foreground : colors.primaryForeground} />}<Text style={[styles.buttonText, { color: secondary ? colors.foreground : colors.primaryForeground }]}>{label}</Text></Pressable>;
 }
 
+export function CartPreview() {
+  const colors = useColors();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { cart, cartNotice, dismissCartNotice } = useStore();
+  if (!cartNotice) return null;
+  const product = findCartProduct(cartNotice.id);
+  if (!product) return null;
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const openCart = () => {
+    dismissCartNotice();
+    router.push('/cart');
+  };
+  return (
+    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+      <Animated.View entering={FadeInDown.duration(260)} style={[styles.cartPreviewHost, { bottom: (Platform.OS === 'web' ? 98 : 102) + insets.bottom }]}>
+        <Pressable
+          testID="cart-preview"
+          accessibilityRole="button"
+          accessibilityLabel={`Buka keranjang, ${count} item`}
+          onPress={openCart}
+          style={({ pressed }) => [styles.cartPreview, { backgroundColor: colors.foreground, borderColor: colors.primaryForeground, shadowColor: colors.foreground, opacity: pressed ? 0.9 : 1 }]}
+        >
+          <Image source={product.image} contentFit="cover" style={styles.cartPreviewImage} />
+          <View style={styles.cartPreviewCopy}>
+            <Text style={[styles.cartPreviewEyebrow, { color: colors.accent }]}>{cartNotice.quantity} item ditambahkan</Text>
+            <Text numberOfLines={1} style={[styles.cartPreviewName, { color: colors.primaryForeground }]}>{product.name}</Text>
+            <Text style={[styles.cartPreviewHint, { color: colors.primaryForeground }]}>{count} item di keranjang</Text>
+          </View>
+          <View style={[styles.cartPreviewAction, { backgroundColor: colors.primary }]}>
+            <BrandIcon name="shopping-bag" size={17} color={colors.primaryForeground} />
+            <Text style={[styles.cartPreviewActionText, { color: colors.primaryForeground }]}>Lihat</Text>
+          </View>
+        </Pressable>
+      </Animated.View>
+    </View>
+  );
+}
+
 export function CoffeeCard({ coffee, index = 0, grid = false, cardWidth }: { coffee: Coffee; index?: number; grid?: boolean; cardWidth?: number }) {
   const colors = useColors();
   const router = useRouter();
@@ -209,6 +249,15 @@ const styles = StyleSheet.create({
   countText: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '700' },
   button: { height: 52, borderRadius: 17, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 20 },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 14, fontWeight: '700', letterSpacing: 0.1 },
+  cartPreviewHost: { position: 'absolute', left: 14, right: 14, zIndex: 40 },
+  cartPreview: { minHeight: 70, borderRadius: 19, borderWidth: 1, padding: 8, flexDirection: 'row', alignItems: 'center', gap: 10, shadowOffset: { width: 0, height: 7 }, shadowOpacity: 0.24, shadowRadius: 14, elevation: 9 },
+  cartPreviewImage: { width: 52, height: 52, borderRadius: 14 },
+  cartPreviewCopy: { flex: 1, minWidth: 0, gap: 2 },
+  cartPreviewEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 0.6, textTransform: 'uppercase' },
+  cartPreviewName: { fontFamily: 'Manrope_700Bold', fontSize: 13, fontWeight: '700' },
+  cartPreviewHint: { fontFamily: 'Manrope_400Regular', fontSize: 10, opacity: 0.72 },
+  cartPreviewAction: { minHeight: 45, borderRadius: 14, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', gap: 3 },
+  cartPreviewActionText: { fontFamily: 'Manrope_700Bold', fontSize: 10, fontWeight: '800' },
   card: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', width: 254 },
   gridCard: { width: '100%', flex: 1, borderRadius: 17 },
   cardImageWrap: { aspectRatio: 1, position: 'relative' },

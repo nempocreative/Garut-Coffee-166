@@ -71,8 +71,9 @@ type CartItem = { id: string; quantity: number };
 type Order = { id: string; items: CartItem[]; total: number; createdAt: string; status: string };
 type StoreValue = {
   cart: CartItem[]; favorites: string[]; orders: Order[];
+  cartNotice: { id: string; quantity: number } | null;
   addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
-  toggleFavorite: (id: string) => void; placeOrder: () => void; notify: (message: string) => void;
+  toggleFavorite: (id: string) => void; placeOrder: () => void; notify: (message: string) => void; dismissCartNotice: () => void;
 };
 const StoreContext = createContext<StoreValue | null>(null);
 const useStore = () => {
@@ -86,18 +87,21 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('kopi-garut-favorites') || '[]'));
   const [orders, setOrders] = useState<Order[]>(() => JSON.parse(localStorage.getItem('kopi-garut-orders') || '[]'));
   const [notice, setNotice] = useState('');
+  const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
   useEffect(() => localStorage.setItem('kopi-garut-cart', JSON.stringify(cart)), [cart]);
   useEffect(() => localStorage.setItem('kopi-garut-favorites', JSON.stringify(favorites)), [favorites]);
   useEffect(() => localStorage.setItem('kopi-garut-orders', JSON.stringify(orders)), [orders]);
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
+  useEffect(() => { if (!cartNotice) return; const timer = window.setTimeout(() => setCartNotice(null), 4800); return () => window.clearTimeout(timer); }, [cartNotice]);
   const notify = (message: string) => setNotice(message);
   const addToCart = (id: string, quantity = 1) => {
+    setCartNotice({ id, quantity });
     setCart((current) => {
       const found = current.find((item) => item.id === id);
       return found ? current.map((item) => item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : [...current, { id, quantity }];
     });
-    notify('Kopi ditambahkan ke keranjang');
   };
+  const dismissCartNotice = () => setCartNotice(null);
   const updateQuantity = (id: string, quantity: number) => setCart((current) => quantity <= 0 ? current.filter((item) => item.id !== id) : current.map((item) => item.id === id ? { ...item, quantity } : item));
   const toggleFavorite = (id: string) => {
     setFavorites((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
@@ -110,7 +114,7 @@ function StoreProvider({ children }: { children: ReactNode }) {
     setCart([]);
     notify('Pesanan berhasil dibuat');
   };
-  return <StoreContext.Provider value={{ cart, favorites, orders, addToCart, updateQuantity, toggleFavorite, placeOrder, notify }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
+  return <StoreContext.Provider value={{ cart, favorites, orders, cartNotice, addToCart, updateQuantity, toggleFavorite, placeOrder, notify, dismissCartNotice }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
 }
 
 type WebAuthValue = {
@@ -175,6 +179,16 @@ function BottomNav() {
   return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon">{id === 'home' ? <img className="home-nav-image" src={asset('home-coffee-house.png')} alt="" /> : Icon && <Icon size={id === 'trace' ? 22 : 20} />}</span><span>{label}</span></button>)}</nav>;
 }
 
+function CartPreview() {
+  const [, setLocation] = useLocation();
+  const { cart, cartNotice, dismissCartNotice } = useStore();
+  if (!cartNotice) return null;
+  const coffee = coffees.find((item) => item.id === cartNotice.id);
+  if (!coffee) return null;
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  return <button className="cart-preview" onClick={() => { dismissCartNotice(); setLocation('/cart'); }} aria-label={`Buka keranjang, ${count} item`} data-testid="cart-preview"><img src={coffee.image} alt="" /><span className="cart-preview-copy"><small>{cartNotice.quantity} item ditambahkan</small><strong>{coffee.name}</strong><em>{count} item di keranjang</em></span><span className="cart-preview-action"><ShoppingBag size={15} /> Lihat</span></button>;
+}
+
 function FloatingBadges() {
   return <div className="floating-badges"><button className="floating-badge" aria-label="Buka mini games" data-testid="button-games"><img src={asset('mini-games-icon.webp')} alt="Mini games" /></button><button className="floating-badge" aria-label="Buka bantuan chat" data-testid="button-chat"><img src={asset('faq-live-chat.webp')} alt="Bantuan" /></button></div>;
 }
@@ -233,7 +247,7 @@ function HomePage() {
 }
 
 function Page({ children }: { children: ReactNode }) {
-  return <div className="app-viewport"><div className="app-page">{children}</div><BottomNav /></div>;
+  return <div className="app-viewport"><div className="app-page">{children}</div><BottomNav /><CartPreview /></div>;
 }
 
 function CatalogPage() {

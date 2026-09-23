@@ -19,6 +19,7 @@ import { StoreProvider } from '@/context/StoreContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { canAccessRoute } from '@/data/auth';
 import { AppLoading } from '@/components/AppLoading';
+import { CartPreview } from '@/components/AppUI';
 import { BottomMenu } from '@/components/BottomMenu';
 import { FloatingCoffeeGameButton } from '@/components/FloatingCoffeeGameButton';
 import { FloatingSupportButton } from '@/components/FloatingSupportButton';
@@ -56,6 +57,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       {Platform.OS !== 'web' && <BottomMenu />}
+      <CartPreview />
       <FloatingCoffeeGameButton />
       <FloatingSupportButton />
     </View>

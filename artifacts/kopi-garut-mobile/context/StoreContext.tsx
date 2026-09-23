@@ -9,8 +9,10 @@ type StoreValue = {
   cart: CartItem[];
   orders: Order[];
   ready: boolean;
+  cartNotice: { id: string; quantity: number } | null;
   toggleFavorite: (id: string) => void;
   addToCart: (id: string, quantity?: number) => void;
+  dismissCartNotice: () => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
   placeOrder: (delivery: 'Standard' | 'Express', discount?: number) => Promise<void>;
@@ -25,6 +27,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [ready, setReady] = useState(false);
+  const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -45,6 +48,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => { if (ready) void AsyncStorage.setItem(keys.favorites, JSON.stringify(favorites)); }, [favorites, ready]);
   useEffect(() => { if (ready) void AsyncStorage.setItem(keys.cart, JSON.stringify(cart)); }, [cart, ready]);
   useEffect(() => { if (ready) void AsyncStorage.setItem(keys.orders, JSON.stringify(orders)); }, [orders, ready]);
+  useEffect(() => {
+    if (!cartNotice) return;
+    const timer = setTimeout(() => setCartNotice(null), 4800);
+    return () => clearTimeout(timer);
+  }, [cartNotice]);
 
   const toggleFavorite = useCallback((id: string) => {
     tap();
@@ -52,6 +60,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const addToCart = useCallback((id: string, quantity = 1) => {
     tap();
+    setCartNotice({ id, quantity });
     setCart((current) => {
       const existing = current.find((item) => item.coffeeId === id);
       return existing
@@ -59,6 +68,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         : [...current, { coffeeId: id, quantity }];
     });
   }, []);
+  const dismissCartNotice = useCallback(() => setCartNotice(null), []);
   const updateQuantity = useCallback((id: string, quantity: number) => {
     setCart((current) => quantity <= 0 ? current.filter((item) => item.coffeeId !== id) : current.map((item) => item.coffeeId === id ? { ...item, quantity } : item));
   }, []);
@@ -73,7 +83,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   }, [cart]);
 
-  const value = useMemo(() => ({ favorites, cart, orders, ready, toggleFavorite, addToCart, updateQuantity, removeFromCart, placeOrder }), [favorites, cart, orders, ready, toggleFavorite, addToCart, updateQuantity, removeFromCart, placeOrder]);
+  const value = useMemo(() => ({ favorites, cart, orders, ready, cartNotice, toggleFavorite, addToCart, dismissCartNotice, updateQuantity, removeFromCart, placeOrder }), [favorites, cart, orders, ready, cartNotice, toggleFavorite, addToCart, dismissCartNotice, updateQuantity, removeFromCart, placeOrder]);
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
