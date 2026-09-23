@@ -202,14 +202,14 @@ export const collectiveModules: CollectiveModule[] = [
     id: 'post-harvest',
     icon: 'package',
     title: 'Pascapanen',
-    description: 'Catatan rumah produksi, pengolahan, stok, dan standar kualitas kopi Garut.',
+    description: 'Catatan rumah produksi, pengolahan, stok, dan standar kualitas Garut Beans.',
     items: ['Rumah produksi dan mesin', 'Jadwal pengeringan', 'Stok green bean dan roasted bean', 'Standar kualitas kopi'],
   },
   {
     id: 'b2b',
     icon: 'briefcase',
     title: 'Marketplace B2B',
-    description: 'Ruang temu hasil panen dengan usaha yang ingin membeli kopi Garut secara berkelanjutan.',
+    description: 'Ruang temu hasil panen dengan usaha yang ingin membeli Garut Beans secara berkelanjutan.',
     items: ['Permintaan pembelian', 'Penawaran hasil panen', 'Negosiasi harga', 'Kontrak pembelian'],
   },
   {
@@ -222,7 +222,7 @@ export const collectiveModules: CollectiveModule[] = [
   {
     id: 'academy',
     icon: 'calendar',
-    title: 'Akademi Kopi Garut',
+    title: 'Akademi Garut Beans',
     description: 'Materi belajar untuk petani, pelaku usaha, dan pecinta kopi dari hulu ke hilir.',
     items: ['Video budidaya dan teknik panen', 'Pascapanen dan roasting dasar', 'Brewing dasar', 'Kewirausahaan kopi'],
   },
@@ -237,15 +237,15 @@ export const collectiveModules: CollectiveModule[] = [
     id: 'partnership',
     icon: 'users',
     title: 'Program kemitraan',
-    description: 'Hubungkan kopi Garut dengan cafe, hotel, UMKM, investor, dan eksportir.',
+    description: 'Hubungkan Garut Beans dengan cafe, hotel, UMKM, investor, dan eksportir.',
     items: ['Pendaftaran mitra langsung', 'Riwayat pendampingan', 'Pelatihan yang pernah diikuti', 'Kerja sama penyuluh pertanian'],
   },
   {
     id: 'membership',
     icon: 'heart',
     title: 'Voucher & membership',
-    description: 'Benefit untuk anggota yang ingin menikmati ekosistem Kopi Garut lebih dekat.',
-    items: ['Diskon di cafe mitra', 'Diskon wisata kopi', 'Event khusus anggota', 'Merchandise Kopi Garut'],
+    description: 'Benefit untuk anggota yang ingin menikmati ekosistem Garut Beans lebih dekat.',
+    items: ['Diskon di cafe mitra', 'Diskon wisata kopi', 'Event khusus anggota', 'Merchandise Garut Beans'],
   },
   {
     id: 'tourism',
@@ -258,7 +258,7 @@ export const collectiveModules: CollectiveModule[] = [
     id: 'government-dashboard',
     icon: 'bar-chart-2',
     title: 'Dashboard dinas',
-    description: 'Ringkasan data untuk melihat pertumbuhan kopi Garut dari satu pintu.',
+    description: 'Ringkasan data untuk melihat pertumbuhan Garut Beans dari satu pintu.',
     items: ['Jumlah petani aktif', 'Produksi per kecamatan', 'Tren harga dan persebaran lahan', 'Data pelatihan dan kemitraan'],
   },
 ];
@@ -309,14 +309,14 @@ export const collectiveRoadmap = [
   {
     id: 'qr-coffee',
     icon: 'maximize' as const,
-    title: 'QR Code Kopi Garut',
+    title: 'QR Code Garut Beans',
     description: 'Scan kemasan untuk membuka perjalanan kopi dari kebun hingga cangkir, termasuk lot dan kelompok tani.',
   },
   {
     id: 'cafe-directory',
     icon: 'coffee' as const,
     title: 'Direktori cafe & roastery',
-    description: 'Cari cafe di Garut yang menggunakan Kopi Garut atau roastery yang menjualnya.',
+    description: 'Cari cafe di Garut yang menggunakan Garut Beans atau roastery yang menjualnya.',
   },
   {
     id: 'coffee-map',
@@ -327,13 +327,13 @@ export const collectiveRoadmap = [
   {
     id: 'business',
     icon: 'users' as const,
-    title: 'Kopi Garut untuk bisnis',
+    title: 'Garut Beans untuk bisnis',
     description: 'Ruang kebutuhan B2B untuk cafe, hotel, restoran, roastery, distributor, dan kantor atau perusahaan.',
   },
   {
     id: 'official-catalog',
     icon: 'grid' as const,
-    title: 'Katalog Kopi Garut',
+    title: 'Katalog Garut Beans',
     description: 'Katalog kurasi dengan lima pintu: Explore, Shop, Farm, Business, dan Experience.',
   },
   {
@@ -369,7 +369,7 @@ export const collectiveRoadmap = [
   {
     id: 'gallery',
     icon: 'maximize' as const,
-    title: 'Galeri Kopi Garut',
+    title: 'Galeri Garut Beans',
     description: 'Kumpulan foto dan video kebun, petani, panen, pengolahan, dan cafe mitra untuk memperkuat promosi.',
   },
   {
@@ -393,7 +393,7 @@ export const collectiveRoadmap = [
   {
     id: 'export',
     icon: 'arrow-up-right' as const,
-    title: 'Ekspor kopi Garut',
+    title: 'Ekspor Garut Beans',
     description: 'Halaman bisnis untuk kopi siap ekspor, profil eksportir, standar mutu, dan kontak kerja sama.',
   },
 ];

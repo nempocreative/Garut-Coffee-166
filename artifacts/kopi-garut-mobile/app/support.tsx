@@ -13,7 +13,7 @@ type SupportMode = 'live' | 'faq';
 type Message = { id: string; text: string; sender: 'user' | 'assistant' };
 
 const faqItems = [
-  { question: 'Bagaimana cara memilih kopi Garut?', answer: 'Mulai dari rasa yang kamu suka: floral dan ringan cocok dengan Arabika; body lebih tebal dan bold bisa memilih Robusta. Kamu juga bisa melihat profil rasa di halaman Jelajah.' },
+  { question: 'Bagaimana cara memilih Garut Beans?', answer: 'Mulai dari rasa yang kamu suka: floral dan ringan cocok dengan Arabika; body lebih tebal dan bold bisa memilih Robusta. Kamu juga bisa melihat profil rasa di halaman Jelajah.' },
   { question: 'Berapa lama pesanan diproses?', answer: 'Pesanan biasanya diproses dalam 1–2 hari kerja setelah pembayaran terkonfirmasi. Tim akan memberi kabar jika ada perubahan pada status pesanan.' },
   { question: 'Apa arti kode lot pada kopi?', answer: 'Kode lot membantu melacak asal kebun, proses pascapanen, dan waktu panen. Buka menu Jejak untuk melihat detail lot yang tersedia.' },
   { question: 'Apakah bisa berdiskusi soal program petani?', answer: 'Bisa. Gunakan Chat Live CS untuk pertanyaan yang membutuhkan bantuan tim, atau sampaikan usulan melalui Ruang Keluhan.' },
@@ -37,14 +37,14 @@ export default function SupportScreen() {
       id: 'welcome',
       sender: 'assistant',
       text: initialMode === 'live'
-        ? 'Halo, saya Dira dari tim Kopi Garut. Ceritakan yang ingin kamu tanyakan, ya.'
-        : 'Halo, saya asisten Kopi Garut. Pilih pertanyaan yang sering ditanyakan atau tulis pertanyaanmu.',
+        ? 'Halo, saya Dira dari tim Garut Beans. Ceritakan yang ingin kamu tanyakan, ya.'
+        : 'Halo, saya asisten Garut Beans. Pilih pertanyaan yang sering ditanyakan atau tulis pertanyaanmu.',
     },
   ]);
 
   const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const title = mode === 'live' ? 'Chat Live CS' : 'FAQ Chat AI';
-  const subtitle = mode === 'live' ? 'BANTUAN · TIM KOPI GARUT' : 'BANTUAN · JAWABAN CEPAT';
+  const subtitle = mode === 'live' ? 'BANTUAN · TIM G-BEANS' : 'BANTUAN · JAWABAN CEPAT';
 
   const visibleFaqs = useMemo(() => faqItems.slice(0, 4), []);
 
@@ -104,7 +104,7 @@ export default function SupportScreen() {
         </View>
         <View style={styles.introCopy}>
           <Text style={[styles.introKicker, { color: colors.accent }]}>{mode === 'faq' ? 'JAWABAN DALAM HITUNGAN DETIK' : 'TIM SIAP MEMBANTU'}</Text>
-          <Text style={[styles.introTitle, { color: colors.card }]}>{mode === 'faq' ? 'Tanya apa saja soal Kopi Garut' : 'Mari cari solusi bersama'}</Text>
+          <Text style={[styles.introTitle, { color: colors.card }]}>{mode === 'faq' ? 'Tanya apa saja soal Garut Beans' : 'Mari cari solusi bersama'}</Text>
           <Text style={[styles.introText, { color: colors.card }]}>
             {mode === 'faq' ? 'Pilih FAQ atau tulis pertanyaan dengan bahasamu sendiri.' : 'Sampaikan nomor pesanan atau kebutuhanmu secara singkat. Hindari mengirim data sensitif.'}
           </Text>
@@ -176,7 +176,7 @@ export default function SupportScreen() {
       <Pressable
         testID="support-instagram"
         accessibilityRole="button"
-        accessibilityLabel="Buka Instagram Kopi Garut"
+        accessibilityLabel="Buka Instagram Garut Beans"
         onPress={() => void Linking.openURL(INSTAGRAM_URL)}
         style={({ pressed }) => [styles.instagramLink, { backgroundColor: colors.secondary, borderColor: colors.border, opacity: pressed ? 0.76 : 1 }]}
       >

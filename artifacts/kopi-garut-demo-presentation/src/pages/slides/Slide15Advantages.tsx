@@ -6,8 +6,8 @@ export default function Slide15Advantages() {
       <div className="absolute -right-[11vw] -top-[16vw] h-[43vw] w-[43vw] rounded-full border-[0.12vw] border-[#D3A15F]/55" />
       <div className="absolute bottom-[-14vw] left-[-8vw] h-[35vw] w-[35vw] rounded-full border-[0.12vw] border-[#FFF9F1]/20" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#D3A15F]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">19 / 23</span>
       </div>
 
@@ -18,7 +18,7 @@ export default function Slide15Advantages() {
           <span className="text-[#D3A15F]">banyak nilai.</span>
         </h2>
         <p className="mt-[3vh] max-w-[38vw] text-[1.9vw] leading-[1.2] text-[#E7D9C8]">
-          Kopi Garut tidak hanya menjual produk. Aplikasi ini membuat asal, manusia, proses, dan peluang kolaborasi ikut terlihat.
+          Garut Beans G-Beans tidak hanya menjual produk. Aplikasi ini membuat asal, manusia, proses, dan peluang kolaborasi ikut terlihat.
         </p>
       </div>
 

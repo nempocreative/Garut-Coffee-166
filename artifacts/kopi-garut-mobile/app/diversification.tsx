@@ -37,7 +37,7 @@ export default function DiversificationScreen() {
         <View style={styles.heroCopy}>
           <Text style={[styles.heroEyebrow, { color: colors.accent }]}>DIVERSIFIKASI PRODUK</Text>
           <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>Cerita kopi dalam banyak bentuk.</Text>
-          <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>Temukan olahan, aroma, hadiah, dan karya lokal yang tumbuh dari ekosistem kopi Garut.</Text>
+          <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>Temukan olahan, aroma, hadiah, dan karya lokal yang tumbuh dari ekosistem Garut Beans.</Text>
         </View>
         <View style={styles.heroStats}>
           <View style={styles.heroStat}>
@@ -145,7 +145,7 @@ export default function DiversificationScreen() {
           <View style={styles.detailMeta}>
             <View style={styles.detailMetaItem}>
               <Text style={[styles.detailMetaLabel, { color: colors.mutedForeground }]}>DIBUAT OLEH</Text>
-              <Text style={[styles.detailMetaValue, { color: colors.foreground }]}>{selected.maker ?? 'Pelaku usaha kopi Garut'}</Text>
+              <Text style={[styles.detailMetaValue, { color: colors.foreground }]}>{selected.maker ?? 'Pelaku usaha Garut Beans'}</Text>
             </View>
             <View style={styles.detailMetaItem}>
               <Text style={[styles.detailMetaLabel, { color: colors.mutedForeground }]}>UKURAN</Text>

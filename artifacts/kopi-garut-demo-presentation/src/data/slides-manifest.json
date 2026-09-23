@@ -3,7 +3,7 @@
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a01",
     "position": 1,
     "filepath": "src/pages/slides/Slide1.tsx",
-    "title": "Kopi Garut",
+    "title": "Garut Beans G-Beans",
     "description": "Platform digital untuk menghubungkan asal kopi, petani, mitra, dan pengalaman Garut.",
     "speakerNotes": ""
   },
@@ -12,7 +12,7 @@
     "position": 2,
     "filepath": "src/pages/slides/Slide2Context.tsx",
     "title": "Potensi besar, cerita yang tersebar",
-    "description": "Konteks kebutuhan untuk menyatukan informasi dan pelaku ekosistem kopi Garut.",
+    "description": "Konteks kebutuhan untuk menyatukan informasi dan pelaku ekosistem kopi dari Garut.",
     "speakerNotes": ""
   },
   {
@@ -28,7 +28,7 @@
     "position": 4,
     "filepath": "src/pages/slides/Slide4MainMenu.tsx",
     "title": "Lima menu inti untuk satu perjalanan",
-    "description": "Penjelasan menu navigasi utama aplikasi Kopi Garut.",
+    "description": "Penjelasan menu navigasi utama aplikasi Garut Beans G-Beans.",
     "speakerNotes": ""
   },
   {
@@ -43,8 +43,8 @@
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
     "position": 6,
     "filepath": "src/pages/slides/Slide2.tsx",
-    "title": "Satu platform untuk ekosistem kopi Garut",
-    "description": "Empat cara platform menyatukan ekosistem kopi Garut.",
+    "title": "Satu platform untuk ekosistem kopi dari Garut",
+    "description": "Empat cara platform menyatukan ekosistem kopi dari Garut.",
     "speakerNotes": ""
   },
   {
@@ -140,7 +140,7 @@
     "position": 18,
     "filepath": "src/pages/slides/Slide11Impact.tsx",
     "title": "Platform yang tumbuh bersama data",
-    "description": "Dampak dan arah pengembangan platform Kopi Garut.",
+    "description": "Dampak dan arah pengembangan platform Garut Beans G-Beans.",
     "speakerNotes": ""
   },
   {
@@ -148,7 +148,7 @@
     "position": 19,
     "filepath": "src/pages/slides/Slide15Advantages.tsx",
     "title": "Satu aplikasi, banyak nilai",
-    "description": "Keunggulan aplikasi Kopi Garut bagi ekosistem daerah.",
+    "description": "Keunggulan aplikasi Garut Beans G-Beans bagi ekosistem daerah.",
     "speakerNotes": ""
   },
   {
@@ -156,14 +156,14 @@
     "position": 20,
     "filepath": "src/pages/slides/Slide16Market.tsx",
     "title": "Pasar awalnya ada di Garut",
-    "description": "Segmen pasar yang dapat menjadi sasaran awal pengembangan Kopi Garut.",
+    "description": "Segmen pasar yang dapat menjadi sasaran awal pengembangan Garut Beans G-Beans.",
     "speakerNotes": ""
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a18",
     "position": 21,
     "filepath": "src/pages/slides/Slide17Branding.tsx",
-    "title": "Kopi Garut sebagai origin signature",
+    "title": "Garut Beans G-Beans sebagai origin signature",
     "description": "Model branding bersama untuk coffee shop tanpa menghilangkan merek masing-masing.",
     "speakerNotes": ""
   },
@@ -172,7 +172,7 @@
     "position": 22,
     "filepath": "src/pages/slides/Slide18PartnerProgram.tsx",
     "title": "Dari satu outlet menjadi jaringan kota",
-    "description": "Program partner coffee shop untuk memperluas identitas Kopi Garut.",
+    "description": "Program partner coffee shop untuk memperluas identitas Garut Beans G-Beans.",
     "speakerNotes": ""
   },
   {
@@ -180,7 +180,7 @@
     "position": 23,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
-    "description": "Penutup demo platform Kopi Garut.",
+    "description": "Penutup demo platform Garut Beans G-Beans.",
     "speakerNotes": ""
   }
 ]

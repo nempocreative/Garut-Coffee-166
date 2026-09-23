@@ -310,7 +310,7 @@ export default function SalesSubmissionsScreen() {
             <View style={[styles.emptyIcon, { backgroundColor: colors.card }]}><BrandIcon name="bell" size={19} color={colors.primary} /></View>
             <View style={styles.emptyCopy}>
               <Text style={[styles.emptyTitle, { color: colors.foreground }]}>Belum ada permintaan baru</Text>
-              <Text style={[styles.helper, { color: colors.mutedForeground }]}>Lot yang aktif akan terlihat oleh pembeli dan koperasi yang mencari kopi Garut.</Text>
+              <Text style={[styles.helper, { color: colors.mutedForeground }]}>Lot yang aktif akan terlihat oleh pembeli dan koperasi yang mencari Garut Beans.</Text>
             </View>
           </View>
         </ProgramCard>

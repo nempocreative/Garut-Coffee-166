@@ -24,7 +24,7 @@ export default function ProfileScreen() {
   if (!session) {
     return (
       <Screen>
-        <Header title="Ritualmu" subtitle="KOPI GARUT" />
+        <Header title="Ritualmu" subtitle="G-BEANS" />
         <LinearGradient
           colors={[colors.foreground, colors.secondaryForeground]}
           start={{ x: 0, y: 0 }}
@@ -46,7 +46,7 @@ export default function ProfileScreen() {
           </View>
           <View style={[styles.loginStatus, { backgroundColor: colors.primary }]}>
             <View style={[styles.loginStatusDot, { backgroundColor: colors.accent }]} />
-            <Text style={[styles.loginStatusText, { color: colors.primaryForeground }]}>AKUN KOPI GARUT</Text>
+            <Text style={[styles.loginStatusText, { color: colors.primaryForeground }]}>AKUN G-BEANS</Text>
           </View>
           <Text style={[styles.loginTitle, { color: colors.card }]}>Simpan ritual kopi pilihanmu.</Text>
           <Text style={[styles.loginText, { color: colors.background }]}>
@@ -114,7 +114,7 @@ export default function ProfileScreen() {
 
   return (
     <Screen>
-      <Header title="Ritualmu" subtitle="KOPI GARUT" />
+      <Header title="Ritualmu" subtitle="G-BEANS" />
       <LinearGradient
         colors={[colors.foreground, colors.secondaryForeground]}
         start={{ x: 0, y: 0 }}
@@ -137,7 +137,7 @@ export default function ProfileScreen() {
         <View style={styles.profileFoot}>
           <View>
             <Text style={[styles.profileFootLabel, { color: colors.background }]}>RUANG PERSONAL</Text>
-            <Text style={[styles.profileFootValue, { color: colors.card }]}>Kopi Garut</Text>
+            <Text style={[styles.profileFootValue, { color: colors.card }]}>Garut Beans</Text>
           </View>
           <BrandIcon name="coffee" size={26} color={colors.accent} />
         </View>
@@ -285,7 +285,7 @@ function FarmerProfileScreen() {
         <View style={farmerStyles.identityCopy}>
           <Text style={[farmerStyles.identityKicker, { color: colors.primary }]}>ID KEANGGOTAAN</Text>
           <Text style={[farmerStyles.identityValue, { color: colors.foreground }]}>{farmer.membershipId}</Text>
-          <Text style={[farmerStyles.identityDescription, { color: colors.mutedForeground }]}>Profil aktif di ekosistem Kopi Garut</Text>
+          <Text style={[farmerStyles.identityDescription, { color: colors.mutedForeground }]}>Profil aktif di ekosistem Garut Beans</Text>
         </View>
         <Pressable
           testID="farmer-verification"
@@ -430,7 +430,7 @@ function EducatorProfileScreen() {
           <View style={educatorStyles.heroCopy}>
             <Text style={[educatorStyles.heroKicker, { color: colors.accent }]}>RUANG BELAJAR KEBUN</Text>
             <Text style={[educatorStyles.heroTitle, { color: colors.card }]}>{session.name}</Text>
-            <Text style={[educatorStyles.heroDescription, { color: colors.background }]}>Penyuluh Kopi Garut · Dinas Pertanian & tim pendamping</Text>
+            <Text style={[educatorStyles.heroDescription, { color: colors.background }]}>Penyuluh Garut Beans · Dinas Pertanian & tim pendamping</Text>
           </View>
           <View style={[educatorStyles.heroFoot, { borderTopColor: colors.primaryForeground }]}>
             <View>
@@ -562,7 +562,7 @@ function EducatorProfileScreen() {
       <Text style={[educatorStyles.sectionKicker, { color: colors.primary }]}>RUANG DINAS & TIM</Text>
       <View style={[educatorStyles.menuGroup, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <FarmerMenuRow icon="package" title="Pusat dokumen" description="SOP, modul, formulir, dan regulasi" onPress={() => router.push('/documents')} colors={colors} />
-        <FarmerMenuRow icon="check" title="Standar Kopi Garut" description="Rujukan mutu untuk edukasi petani" onPress={() => router.push('/standards')} colors={colors} />
+        <FarmerMenuRow icon="check" title="Standar Garut Beans" description="Rujukan mutu untuk edukasi petani" onPress={() => router.push('/standards')} colors={colors} />
         <FarmerMenuRow icon="bell" title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onPress={() => router.push('/notifications')} colors={colors} />
         <FarmerMenuRow icon="repeat" title="Ganti akun" description="Beralih ke ruang pengguna lain" onPress={() => router.push('/login')} colors={colors} />
         <FarmerMenuRow icon="arrow-left" title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onPress={() => void signOut()} colors={colors} destructive />
@@ -700,7 +700,7 @@ function BuyerProfileScreen() {
           </View>
           <View style={[buyerStyles.memberBadge, { backgroundColor: colors.card }]}>
             <View style={[buyerStyles.memberDot, { backgroundColor: colors.accent }]} />
-            <Text style={[buyerStyles.memberText, { color: colors.foreground }]}>MEMBER KOPI GARUT</Text>
+            <Text style={[buyerStyles.memberText, { color: colors.foreground }]}>MEMBER G-BEANS</Text>
           </View>
         </View>
         <Text style={[buyerStyles.heroKicker, { color: colors.accent }]}>RUANG BELANJAMU</Text>
@@ -834,7 +834,7 @@ function BuyerProfileScreen() {
           icon="info"
           title="Pusat bantuan"
           description="Butuh bantuan dengan pesanan?"
-          onPress={() => Alert.alert('Pusat bantuan', 'Tim Kopi Garut siap membantu melalui kanal dukungan yang tersedia.')}
+          onPress={() => Alert.alert('Pusat bantuan', 'Tim Garut Beans siap membantu melalui kanal dukungan yang tersedia.')}
           colors={colors}
         />
         <BuyerMenuRow
@@ -901,7 +901,7 @@ function BuyerActiveOrder({
         <View style={buyerStyles.activeOrderCopy}>
           <Text style={[buyerStyles.activeOrderKicker, { color: colors.primary }]}>PESANAN AKTIF · #{order.id.slice(-6)}</Text>
           <Text numberOfLines={1} style={[buyerStyles.activeOrderTitle, { color: colors.foreground }]}>
-            {itemNames || 'Pesanan Kopi Garut'}
+            {itemNames || 'Pesanan Garut Beans'}
           </Text>
           <Text style={[buyerStyles.activeOrderDate, { color: colors.mutedForeground }]}>
             {new Date(order.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
@@ -951,7 +951,7 @@ function BuyerActiveOrder({
           </View>
         )}
         <View style={buyerStyles.productCopy}>
-          <Text numberOfLines={1} style={[buyerStyles.productName, { color: colors.foreground }]}>{itemNames || 'Kopi Garut pilihan'}</Text>
+            <Text numberOfLines={1} style={[buyerStyles.productName, { color: colors.foreground }]}>{itemNames || 'Garut Beans pilihan'}</Text>
           <Text style={[buyerStyles.productMeta, { color: colors.mutedForeground }]}>{itemCount} item · Total pesanan</Text>
         </View>
         <Text style={[buyerStyles.productTotal, { color: colors.primary }]}>{formatPrice(order.total)}</Text>

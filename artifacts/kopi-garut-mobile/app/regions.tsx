@@ -13,7 +13,7 @@ export default function RegionsScreen() {
   const router = useRouter();
   return (
     <Screen>
-      <Header title="Peta Kopi Garut" subtitle="WILAYAH DAN KEBUN" cart={false} back />
+      <Header title="Peta Garut Beans" subtitle="WILAYAH DAN KEBUN" cart={false} back />
       <LinearGradient
         colors={[colors.foreground, colors.secondaryForeground]}
         start={{ x: 0, y: 0 }}

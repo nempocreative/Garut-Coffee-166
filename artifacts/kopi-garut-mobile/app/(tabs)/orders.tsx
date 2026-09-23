@@ -51,7 +51,7 @@ export default function OrdersScreen() {
           </View>
           <Text style={[styles.emptyTitle, { color: colors.foreground }]}>Belum ada pesanan</Text>
           <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
-            Jelajahi kopi Garut dan temukan cangkir yang ingin kamu bawa pulang.
+            Jelajahi Garut Beans dan temukan cangkir yang ingin kamu bawa pulang.
           </Text>
           <Pressable
             testID="orders-browse-coffee"
@@ -125,7 +125,7 @@ export default function OrdersScreen() {
                       {statusDescription}
                     </Text>
                     <Text style={[styles.statusSummaryMeta, { color: colors.mutedForeground }]}>
-                      {order.status === 'Delivered' ? 'Terima kasih sudah memilih kopi Garut.' : 'Kami akan memberi kabar di setiap tahap.'}
+                      {order.status === 'Delivered' ? 'Terima kasih sudah memilih Garut Beans.' : 'Kami akan memberi kabar di setiap tahap.'}
                     </Text>
                   </View>
                 </View>

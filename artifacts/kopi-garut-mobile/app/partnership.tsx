@@ -22,7 +22,7 @@ const activePartners = [
     name: 'Dapur Lereng',
     type: 'RESTORAN',
     location: 'Cisurupan',
-    detail: 'Memasangkan kopi Garut dengan menu rumahan dan hasil kebun lokal.',
+    detail: 'Memasangkan Garut Beans dengan menu rumahan dan hasil kebun lokal.',
     image: require('../assets/images/event-festival-garut.webp'),
     icon: 'users' as const,
   },
@@ -47,7 +47,7 @@ const activePartners = [
 const benefits = [
   { icon: 'coffee' as const, title: 'Sumber yang jelas', text: 'Kopi pilihan dengan cerita kebun yang bisa kamu bagikan.' },
   { icon: 'users' as const, title: 'Tumbuh bersama', text: 'Terhubung langsung dengan petani dan ekosistem Garut.' },
-  { icon: 'shield' as const, title: 'Mitra resmi', text: 'Bangun kepercayaan pelanggan bersama identitas Kopi Garut.' },
+  { icon: 'shield' as const, title: 'Mitra resmi', text: 'Bangun kepercayaan pelanggan bersama identitas Garut Beans.' },
 ];
 
 export default function PartnershipScreen() {
@@ -61,7 +61,7 @@ export default function PartnershipScreen() {
       Alert.alert('Lengkapi data', 'Isi nama usaha dan kota terlebih dahulu.');
       return;
     }
-    Alert.alert('Pengajuan terkirim', `Terima kasih, ${cafeName}. Tim Kopi Garut akan menghubungi kamu di ${city}.`);
+    Alert.alert('Pengajuan terkirim', `Terima kasih, ${cafeName}. Tim Garut Beans akan menghubungi kamu di ${city}.`);
     setCafeName('');
     setCity('');
   };
@@ -85,7 +85,7 @@ export default function PartnershipScreen() {
           <View style={styles.heroCopy}>
             <Text style={[styles.heroKicker, { color: colors.accent }]}>DARI KEBUN GARUT</Text>
             <Text style={[styles.heroTitle, { color: colors.card }]}>Bawa cerita kopi ke lebih banyak meja.</Text>
-            <Text style={[styles.heroText, { color: colors.background }]}>Jadikan usahamu bagian dari perjalanan Kopi Garut.</Text>
+            <Text style={[styles.heroText, { color: colors.background }]}>Jadikan usahamu bagian dari perjalanan Garut Beans.</Text>
           </View>
         </View>
       </Animated.View>
@@ -240,7 +240,7 @@ export default function PartnershipScreen() {
           style={[styles.input, { backgroundColor: colors.background, borderColor: colors.border, color: colors.foreground }]}
         />
         <Button label="Kirim pengajuan" onPress={submit} icon="send" />
-        <Text style={[styles.formNote, { color: colors.mutedForeground }]}>Tim Kopi Garut akan menghubungi kamu untuk percakapan berikutnya.</Text>
+        <Text style={[styles.formNote, { color: colors.mutedForeground }]}>Tim Garut Beans akan menghubungi kamu untuk percakapan berikutnya.</Text>
       </View>
     </Screen>
   );

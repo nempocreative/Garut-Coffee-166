@@ -91,7 +91,7 @@ export default function FarmerDetailScreen() {
           <Text style={[styles.heroGroup, { color: colors.background }]}>{farmer.group}</Text>
         </View>
       </View>
-      <View style={styles.storyHeader}><Text style={[styles.kicker, { color: colors.primary }]}>CERITA KOPI GARUT</Text><Text style={[styles.storyTitle, { color: colors.foreground }]}>Menjaga rasa dari sumbernya.</Text><Text style={[styles.story, { color: colors.mutedForeground }]}>{farmer.story}</Text></View>
+      <View style={styles.storyHeader}><Text style={[styles.kicker, { color: colors.primary }]}>CERITA G-BEANS</Text><Text style={[styles.storyTitle, { color: colors.foreground }]}>Menjaga rasa dari sumbernya.</Text><Text style={[styles.story, { color: colors.mutedForeground }]}>{farmer.story}</Text></View>
       <View style={[styles.facts, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="map" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>LOKASI</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.location}</Text></View>
         <View style={styles.fact}><View style={[styles.factIcon, { backgroundColor: colors.secondary }]}><BrandIcon name="grid" size={16} color={colors.primary} /></View><Text style={[styles.label, { color: colors.mutedForeground }]}>LUAS LAHAN</Text><Text style={[styles.value, { color: colors.foreground }]}>{farmer.landArea}</Text></View>

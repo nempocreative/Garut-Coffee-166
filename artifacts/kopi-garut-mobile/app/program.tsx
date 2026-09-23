@@ -33,7 +33,7 @@ const regularPrograms = [
   {
     id: 'sekolah-barista',
     icon: 'coffee' as const,
-    title: 'Sekolah Barista Kopi Garut',
+    title: 'Sekolah Barista Garut Beans',
     category: 'KELAS KETERAMPILAN',
     cycle: 'Batch per kuartal',
     next: 'Batch 01 · 24 Okt 2026',
@@ -225,13 +225,13 @@ export default function ProgramScreen() {
 
   return (
     <Screen>
-      <Header back title="Program Kopi Garut" subtitle="PROGRAM · GARUT" />
+      <Header back title="Program Garut Beans" subtitle="PROGRAM · GARUT" />
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.hero, { backgroundColor: colors.foreground }]}>
         <Image source={require('../assets/images/program-menu-ai.webp')} contentFit="cover" style={styles.heroImage} />
         <View style={[styles.heroShade, { backgroundColor: colors.foreground }]} />
         <View style={styles.heroContent}>
           <View style={styles.heroTopline}>
-            <Text style={[styles.heroKicker, { color: colors.accent }]}>PROGRAM KOPI GARUT</Text>
+            <Text style={[styles.heroKicker, { color: colors.accent }]}>PROGRAM G-BEANS</Text>
             <View style={[styles.heroMark, { backgroundColor: colors.primary }]}>
               <BrandIcon name="shield" size={21} color={colors.primaryForeground} />
             </View>
@@ -254,7 +254,7 @@ export default function ProgramScreen() {
 
       <ProgramSectionTitle eyebrow="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." />
       <Text style={[styles.programIntro, { color: colors.mutedForeground }]}>
-        Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan kopi Garut bersama-sama.
+        Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan Garut Beans bersama-sama.
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.regularProgramRail}>
         {regularPrograms.map((program, index) => (
@@ -328,9 +328,9 @@ export default function ProgramScreen() {
         </Pressable>
       </Animated.View>
 
-      <ProgramSectionTitle eyebrow="CSR KOPI GARUT" title="Kontribusi untuk petani & kebun kopi" />
+      <ProgramSectionTitle eyebrow="CSR G-BEANS" title="Kontribusi untuk petani & kebun kopi" />
       <Text style={[styles.programIntro, { color: colors.mutedForeground }]}>
-        Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat kopi Garut tumbuh.
+        Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat Garut Beans tumbuh.
       </Text>
       <View style={styles.categoryList}>
         {programCategories.map((category) => {

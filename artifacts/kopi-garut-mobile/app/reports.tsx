@@ -28,7 +28,7 @@ export default function ReportsScreen() {
   return (
     <Screen>
       <Header back title="Laporan digital" subtitle="PROGRAM · DATA" />
-      <ProgramIntro eyebrow="DATA YANG BISA DIBACA" title="Lihat gerak kopi Garut." description="Pilih dimensi laporan, lalu sempitkan sampai menemukan cerita yang ingin ditindaklanjuti." />
+      <ProgramIntro eyebrow="DATA YANG BISA DIBACA" title="Lihat gerak Garut Beans." description="Pilih dimensi laporan, lalu sempitkan sampai menemukan cerita yang ingin ditindaklanjuti." />
       <ProgramSectionTitle eyebrow="FILTER LAPORAN" title="Pilih dimensi" action="Reset" onAction={() => setSelected(Object.fromEntries(filterKeys.map((key) => [key, reportFilterOptions[key][0]])) as Record<ReportFilterKey, string>)} />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
         {filterKeys.map((key) => <FilterChip key={key} label={key} selected={activeKey === key} onPress={() => setActiveKey(key)} testID={`report-filter-${key}`} />)}

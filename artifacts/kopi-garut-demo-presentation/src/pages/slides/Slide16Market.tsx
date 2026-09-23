@@ -5,8 +5,8 @@ export default function Slide16Market() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
       <div className="absolute right-0 top-0 h-full w-[22vw] bg-[#E7D9C8]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">20 / 23</span>
       </div>
 
@@ -22,7 +22,7 @@ export default function Slide16Market() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[19vh] grid w-[49vw] grid-cols-2 gap-[1vw]">
-         <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.6vw] font-bold uppercase tracking-[0.08em] text-[#A8543B]">01 · Kanal utama</p><p className="mt-[1.3vh] text-[2vw] font-extrabold">Coffee shop & roastery</p><p className="mt-[0.7vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Menjadikan Kopi Garut sebagai origin signature di menu dan rak produk.</p></div>
+         <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.6vw] font-bold uppercase tracking-[0.08em] text-[#A8543B]">01 · Kanal utama</p><p className="mt-[1.3vh] text-[2vw] font-extrabold">Coffee shop & roastery</p><p className="mt-[0.7vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Menjadikan Garut Beans G-Beans sebagai origin signature di menu dan rak produk.</p></div>
          <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.6vw] font-bold uppercase tracking-[0.08em] text-[#A8543B]">02 · Kanal pengalaman</p><p className="mt-[1.3vh] text-[2vw] font-extrabold">Hotel, resto & wisata</p><p className="mt-[0.7vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Membawa cerita asal Garut ke tamu, paket perjalanan, dan pengalaman seduh.</p></div>
          <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.6vw] font-bold uppercase tracking-[0.08em] text-[#A8543B]">03 · Kanal komunitas</p><p className="mt-[1.3vh] text-[2vw] font-extrabold">Event & komunitas kopi</p><p className="mt-[0.7vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Cupping, festival, pelatihan, dan aktivasi yang mempertemukan pelaku.</p></div>
          <div className="border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1.25vw]"><p className="text-[1.6vw] font-bold uppercase tracking-[0.08em] text-[#A8543B]">04 · Kanal perluasan</p><p className="mt-[1.3vh] text-[2vw] font-extrabold">Kantor, hadiah & rumah tangga</p><p className="mt-[0.7vh] text-[1.7vw] leading-[1.15] text-[#806E63]">Produk kemasan, hampers, konsumsi kantor, dan pembelian berulang.</p></div>

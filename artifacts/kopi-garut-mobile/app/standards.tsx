@@ -10,8 +10,8 @@ export default function StandardsScreen() {
   const colors = useColors();
   return (
     <Screen>
-      <Header back title="Standar Kopi Garut" subtitle="PROGRAM · MUTU" />
-      <ProgramIntro eyebrow="RUJUKAN MUTU INTERNAL" title="Satu bahasa untuk kualitas." description="Standar ini menjadi acuan bersama sebelum sebuah lot diberi label Kopi Garut dan masuk ke katalog." />
+      <Header back title="Standar Garut Beans" subtitle="PROGRAM · MUTU" />
+      <ProgramIntro eyebrow="RUJUKAN MUTU INTERNAL" title="Satu bahasa untuk kualitas." description="Standar ini menjadi acuan bersama sebelum sebuah lot diberi label Garut Beans dan masuk ke katalog." />
       <View style={[styles.notice, { backgroundColor: colors.foreground }]}><BrandIcon name="info" size={19} color={colors.accent} /><Text style={[styles.noticeText, { color: colors.card }]}>Standar dibaca bersama catatan lot, hasil cupping, dan kondisi panen. Bukan sekadar angka.</Text></View>
       <ProgramSectionTitle eyebrow="ENAM PINTU PENILAIAN" title="Checklist mutu" />
       <View style={styles.grid}>

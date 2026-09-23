@@ -42,7 +42,7 @@ const stages: EcosystemStage[] = [
     label: 'PROSES & MUTU',
     title: 'Jaga kualitasnya',
     links: [
-      { label: 'Standar Kopi Garut', route: '/standards' },
+      { label: 'Standar Garut Beans', route: '/standards' },
       { label: 'Lacak lot lewat QR', route: '/traceability' },
     ],
   },
@@ -95,7 +95,7 @@ export default function CollectiveScreen() {
               <Text style={[styles.heroBadgeText, { color: colors.primary }]}>01—04</Text>
             </View>
           </View>
-          <Text style={[styles.heroKicker, { color: colors.accent }]}>RANTAI KOPI GARUT</Text>
+          <Text style={[styles.heroKicker, { color: colors.accent }]}>RANTAI G-BEANS</Text>
           <Text style={[styles.heroTitle, { color: colors.card }]}>Satu alur,{'\n'}banyak peran.</Text>
           <View style={styles.heroRoute}>
             <View style={[styles.heroRouteLine, { backgroundColor: colors.accent }]} />
@@ -106,7 +106,7 @@ export default function CollectiveScreen() {
 
       <View style={styles.intro}>
         <Text style={[styles.introKicker, { color: colors.primary }]}>BAGAIMANA KOPI BERJALAN</Text>
-        <Text style={[styles.introTitle, { color: colors.foreground }]}>Kopi Garut bukan hanya katalog.</Text>
+        <Text style={[styles.introTitle, { color: colors.foreground }]}>Garut Beans bukan hanya katalog.</Text>
         <Text style={[styles.introText, { color: colors.mutedForeground }]}>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</Text>
       </View>
 

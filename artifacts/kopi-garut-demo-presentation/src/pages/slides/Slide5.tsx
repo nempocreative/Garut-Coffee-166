@@ -7,8 +7,8 @@ export default function Slide5() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#FFF9F1] text-[#2A201D]">
       <div className="absolute left-0 top-0 h-full w-[35vw] bg-[#A8543B]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em] text-[#FFF9F1]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em] text-[#FFF9F1]">Garut <span className="text-[#D3A15F]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">09 / 23</span>
       </div>
       <div className="absolute left-[6.5vw] top-[22vh] w-[26vw] text-[#FFF9F1]">
@@ -19,7 +19,7 @@ export default function Slide5() {
       </div>
       <div className="absolute right-[7vw] top-[15vh] flex w-[51vw] items-end gap-[1.4vw]">
         <div className="h-[57vh] w-[16vw] rotate-[-4deg] overflow-hidden rounded-[0.95vw] border-[0.4vw] border-[#E7D9C8] bg-[#D3A15F] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.13)]">
-           <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Kopi Garut" className="h-full w-full object-cover" />
+           <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-cover" />
         </div>
         <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[2.1vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>

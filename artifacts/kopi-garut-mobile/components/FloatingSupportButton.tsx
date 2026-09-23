@@ -23,7 +23,7 @@ const supportActions: SupportAction[] = [
     key: 'live',
     icon: 'users',
     title: 'Chat Live CS',
-    description: 'Tanya langsung ke tim Kopi Garut',
+    description: 'Tanya langsung ke tim Garut Beans',
   },
   {
     key: 'faq',
@@ -156,7 +156,7 @@ export function FloatingSupportButton() {
                 <Text style={[styles.menuEyebrow, { color: colors.primary }]}>PUSAT BANTUAN</Text>
                 <Text style={[styles.menuTitle, { color: colors.foreground }]}>Butuh bantuan?</Text>
                 <Text style={[styles.menuDescription, { color: colors.mutedForeground }]}>
-                  Pilih cara yang paling nyaman untuk terhubung dengan Kopi Garut.
+                  Pilih cara yang paling nyaman untuk terhubung dengan Garut Beans.
                 </Text>
               </View>
               <LinearGradient

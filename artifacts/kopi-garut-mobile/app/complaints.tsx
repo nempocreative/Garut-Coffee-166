@@ -158,7 +158,7 @@ export default function ComplaintsScreen() {
         <ProgramIntro
           eyebrow="RUANG KELUHAN"
           title="Ada yang perlu dibenahi?"
-          description="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Kopi Garut menentukan dukungan yang lebih tepat."
+          description="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Garut Beans menentukan dukungan yang lebih tepat."
         />
 
         <LinearGradient

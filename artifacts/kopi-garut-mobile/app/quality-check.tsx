@@ -130,7 +130,7 @@ export default function QualityCheckScreen() {
       <ProgramIntro
         eyebrow="PEMERIKSAAN AWAL"
         title="Tahu kondisi lot sebelum dijual."
-        description="Masukkan hasil pengukuran sederhana dari kebun. Aplikasi akan membantu membaca apakah lot sudah mendekati standar Kopi Garut."
+        description="Masukkan hasil pengukuran sederhana dari kebun. Aplikasi akan membantu membaca apakah lot sudah mendekati standar Garut Beans."
       />
 
       <LinearGradient colors={[colors.foreground, colors.secondaryForeground]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.hero}>

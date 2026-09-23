@@ -165,7 +165,7 @@ export const homeContent = {
       id: 'garut-promo',
       route: '/catalog',
       image: 'kopi-garut-panen-rasa-banner.webp',
-      eyebrow: 'KOPI GARUT',
+      eyebrow: 'GARUT BEANS · G-BEANS',
       title: 'Panen rasa dari Garut',
       description: 'Temukan kopi spesialti dari lereng pilihan.',
       cta: 'Lihat koleksi',
@@ -202,7 +202,7 @@ export const homeContent = {
       route: '/collective',
       image: 'kopi-garut-banyak-orang-banner.webp',
       eyebrow: 'TUMBUH BERSAMA',
-      title: 'Kopi Garut untuk banyak orang',
+      title: 'Garut Beans G-Beans untuk banyak orang',
       description: 'Satu ekosistem untuk petani dan penikmat kopi.',
       cta: 'Jelajah ekosistem',
     },
@@ -241,7 +241,7 @@ export const homeContent = {
     ],
     [
       { discount: '30K', title: 'Kopi pertama', code: 'AWAL30', note: 'Pengguna baru', variant: 'primary' },
-      { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Kopi Garut', variant: 'dark' },
+      { discount: '15%', title: 'Petani pilihan', code: 'PETANI15', note: 'Garut Beans G-Beans', variant: 'dark' },
     ],
     [
       { discount: '10%', title: 'Langganan', code: 'RUTIN10', note: 'Pesanan rutin', variant: 'dark' },
@@ -251,12 +251,12 @@ export const homeContent = {
 
   stories: [
     { id: 'coffee-talk-garut', title: 'Coffee Talk Garut: Dari Kebun ke Cangkir', image: 'event-coffee-tasting.webp', date: '10 Oktober 2026', location: 'Kota Garut', type: 'Coffee Talk', description: 'Obrolan rutin bersama petani, roaster, barista, dan pelaku usaha tentang masa depan kopi Garut.' },
-    { id: 'festival-kopi', title: 'Festival Kopi Garut 2026', image: 'event-coffee-festival.webp', date: '3–4 Oktober 2026', location: 'Alun-alun Garut', type: 'Festival', description: 'Temu petani, roastery, cafe, dan pecinta kopi dalam satu perayaan.' },
+    { id: 'festival-kopi', title: 'Festival Garut Beans G-Beans 2026', image: 'event-coffee-festival.webp', date: '3–4 Oktober 2026', location: 'Alun-alun Garut', type: 'Festival', description: 'Temu petani, roastery, cafe, dan pecinta kopi dalam satu perayaan.' },
     { id: 'kelas-pascapanen', title: 'Kelas Pascapanen untuk Kelompok Tani', image: 'event-postharvest-class.webp', date: '17 Oktober 2026', location: 'Cikajang', type: 'Pelatihan', description: 'Praktik sortasi, fermentasi, dan pengeringan untuk menjaga nilai jual kopi.' },
-    { id: 'sekolah-barista', title: 'Sekolah Barista Kopi Garut — Batch 01', image: 'event-coffee-workshop.webp', date: '24 Oktober 2026', location: 'Kota Garut', type: 'Sekolah Barista', description: 'Kelas dasar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.' },
+    { id: 'sekolah-barista', title: 'Sekolah Barista Garut Beans G-Beans — Batch 01', image: 'event-coffee-workshop.webp', date: '24 Oktober 2026', location: 'Kota Garut', type: 'Sekolah Barista', description: 'Kelas dasar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.' },
     { id: 'temu-cafe', title: 'Temu Mitra Cafe', image: 'event-cafe-partners.webp', date: '7 November 2026', location: 'Kota Garut', type: 'Kemitraan', description: 'Sesi temu usaha untuk memperluas akses kopi Garut ke kedai-kedai Indonesia.' },
     { id: 'cupping-papandayan', title: 'Cupping Session Papandayan', image: 'event-cupping-papandayan.webp', date: '14 November 2026', location: 'Cisurupan', type: 'Cupping', description: 'Mencicipi profil rasa dari kebun Papandayan bersama petani dan roaster lokal.' },
-    { id: 'pasar-kopi-garut', title: 'Pasar Kopi Garut', image: 'event-coffee-market.webp', date: '28 November 2026', location: 'Pendopo Garut', type: 'Pasar kopi', description: 'Temukan biji kopi, produk olahan, dan cerita dari pelaku ekosistem kopi Garut.' },
+    { id: 'pasar-kopi-garut', title: 'Pasar Garut Beans G-Beans', image: 'event-coffee-market.webp', date: '28 November 2026', location: 'Pendopo Garut', type: 'Pasar kopi', description: 'Temukan biji kopi, produk olahan, dan cerita dari pelaku ekosistem kopi Garut.' },
     { id: 'kelas-brew-di-rumah', title: 'Kelas Seduh di Rumah', image: 'event-home-brew.webp', date: '5 Desember 2026', location: 'Kota Garut', type: 'Kelas', description: 'Belajar menyeduh kopi Garut dengan alat sederhana dan resep yang mudah diikuti.' },
   ] satisfies SharedStory[],
 
@@ -437,7 +437,7 @@ export const diversifiedProducts = [
   { id: 'coffee-cookies', category: 'Olahan kopi', icon: 'package', title: 'Cookies ampas kopi', price: 'Rp 35.000', status: 'Batch mingguan', image: 'coffee-cookies.webp', badge: 'Batch kecil' },
   { id: 'coffee-soap', category: 'Olahan kopi', icon: 'package', title: 'Sabun scrub kopi', price: 'Rp 32.000', status: 'Produk UMKM', image: 'coffee-scrub.webp', badge: 'Terbuat dari ampas' },
   { id: 'garut-tote-bag', category: 'Merchandise', icon: 'package', title: 'Totebag lereng Garut', price: 'Rp 79.000', status: 'Edisi petani', image: 'garut-totebag.webp', badge: 'Edisi terbatas' },
-  { id: 'garut-mug', category: 'Merchandise', icon: 'coffee', title: 'Mug Kopi Garut', price: 'Rp 65.000', status: 'Stok terbatas', image: 'garut-mug.webp', badge: 'Koleksi rumah' },
+  { id: 'garut-mug', category: 'Merchandise', icon: 'coffee', title: 'Mug Garut Beans G-Beans', price: 'Rp 65.000', status: 'Stok terbatas', image: 'garut-mug.webp', badge: 'Koleksi rumah' },
   { id: 'lilin-aroma-kopi', category: 'Aroma & perawatan', icon: 'package', title: 'Lilin aroma kopi', price: 'Rp 68.000', status: 'Waktu nyala 24 jam', image: 'coffee-candle.webp', badge: 'Ruang lebih hangat', description: 'Lilin soy wax dengan aroma kopi panggang untuk ruang istirahat.', maker: 'Rumah Aroma Cikuray', impact: 'Wadah dapat dipakai ulang sebagai pot kecil', size: '100 g' },
 ] satisfies SharedDiversifiedProduct[];
 

@@ -667,7 +667,7 @@ export default function HomeScreen() {
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
-        accessibilityLabel="Buka cerita kolektif Kopi Garut"
+        accessibilityLabel="Buka cerita kolektif Garut Beans"
         onPress={() => router.push('/collective')}
         style={({ pressed }) => [
           styles.storyLead,
@@ -833,7 +833,7 @@ export default function HomeScreen() {
     <Pressable
       testID="home-growth-stats"
       accessibilityRole="button"
-      accessibilityLabel="Buka data pertumbuhan Kopi Garut"
+        accessibilityLabel="Buka data pertumbuhan Garut Beans"
       onPress={() => router.push('/dashboard')}
       style={({ pressed }) => [
         styles.statsGrid,

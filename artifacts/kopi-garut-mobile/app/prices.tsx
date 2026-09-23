@@ -99,7 +99,7 @@ export default function PricesScreen() {
         </View>
       )}
 
-      <Text style={[styles.section, { color: colors.foreground }]}>Harga acuan Kopi Garut</Text>
+      <Text style={[styles.section, { color: colors.foreground }]}>Harga acuan Garut Beans</Text>
       <Text style={[styles.updated, { color: colors.mutedForeground }]}>Pembaruan terakhir: data acuan platform</Text>
 
       <View style={styles.gradeFilters}>

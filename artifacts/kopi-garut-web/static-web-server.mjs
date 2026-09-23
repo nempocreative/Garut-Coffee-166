@@ -167,7 +167,7 @@ async function start() {
 
   const server = createServer(serve);
   server.listen(port, '0.0.0.0', () => {
-    console.log(`Serving Kopi Garut Expo Web export on port ${port} under ${basePath}/`);
+    console.log(`Serving Garut Beans G-Beans Expo Web export on port ${port} under ${basePath}/`);
     if (process.argv.includes('--build')) {
       startSourceWatcher();
     }

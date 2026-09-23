@@ -12,7 +12,7 @@ export default function VerificationScreen() {
   return (
     <Screen>
       <Header back title="Verifikasi" subtitle="PROGRAM · MUTU" />
-      <ProgramIntro eyebrow="KEPERCAYAAN DIMULAI DARI DATA" title="Profil yang siap dipercaya." description="Empat lapis verifikasi membantu pembeli mengenali petani, kebun, dan produk Kopi Garut dengan lebih yakin." />
+      <ProgramIntro eyebrow="KEPERCAYAAN DIMULAI DARI DATA" title="Profil yang siap dipercaya." description="Empat lapis verifikasi membantu pembeli mengenali petani, kebun, dan produk Garut Beans dengan lebih yakin." />
       <ProgramCard muted>
         <View style={styles.summaryTop}><View><Text style={[styles.summaryEyebrow, { color: colors.primary }]}>KELENGKAPAN PROFIL</Text><Text style={[styles.summaryValue, { color: colors.foreground }]}>{verified} dari {verificationItems.length} status</Text></View><View style={[styles.summaryMark, { backgroundColor: colors.primary }]}><BrandIcon name="shield" size={21} color={colors.primaryForeground} /></View></View>
         <View style={[styles.progressTrack, { backgroundColor: colors.card }]}><View style={[styles.progressFill, { backgroundColor: colors.primary, width: `${(verified / verificationItems.length) * 100}%` }]} /></View>

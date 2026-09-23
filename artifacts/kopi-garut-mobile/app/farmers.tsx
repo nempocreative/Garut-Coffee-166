@@ -28,7 +28,7 @@ export default function FarmersScreen() {
       <Header title="Petani kopi" subtitle="ORANG DI BALIK RASA" cart={false} back />
       <Text style={[styles.intro, { color: colors.mutedForeground }]}>Kenali petani dan kelompok tani yang menjaga setiap proses dari kebun sampai ke cangkir.</Text>
       <Animated.View entering={FadeInDown.duration(500)} style={[styles.statsPanel, { backgroundColor: colors.foreground }]}>
-        <View style={styles.statsIntro}><Text style={[styles.statsKicker, { color: colors.accent }]}>EKOSISTEM KOPI GARUT</Text><Text style={[styles.statsTitle, { color: colors.card }]}>Tumbuh dari banyak tangan.</Text></View>
+        <View style={styles.statsIntro}><Text style={[styles.statsKicker, { color: colors.accent }]}>EKOSISTEM G-BEANS</Text><Text style={[styles.statsTitle, { color: colors.card }]}>Tumbuh dari banyak tangan.</Text></View>
         <View style={styles.statsRow}>
           {[hubStats[0], hubStats[3], hubStats[2]].map((stat) => <View key={stat.label} style={styles.stat}><Text style={[styles.statValue, { color: colors.card }]}>{stat.value}</Text><Text style={[styles.statLabel, { color: colors.background }]}>{stat.label}</Text></View>)}
         </View>

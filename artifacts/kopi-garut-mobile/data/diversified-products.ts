@@ -99,7 +99,7 @@ export const diversifiedProducts: DiversifiedProduct[] = [
     id: 'garut-mug',
     category: 'Merchandise',
     icon: 'coffee',
-    title: 'Mug Kopi Garut',
+    title: 'Mug Garut Beans',
     price: 'Rp 65.000',
     status: 'Stok terbatas',
     image: require('../assets/images/garut-mug.webp'),

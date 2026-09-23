@@ -5,8 +5,8 @@ export default function Slide5Explore() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute left-0 top-0 h-full w-[23vw] bg-[#A8543B]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#D3A15F]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">05 / 23</span>
       </div>
 
@@ -17,7 +17,7 @@ export default function Slide5Explore() {
           <span className="text-[#D3A15F]">sekadar katalog.</span>
         </h2>
         <p className="mt-[3vh] max-w-[36vw] text-[1.9vw] leading-[1.2] text-[#E7D9C8]">
-          Beranda menghubungkan pengguna ke sepuluh pintu masuk yang memperlihatkan rasa, manusia, tempat, dan peluang di balik Kopi Garut.
+          Beranda menghubungkan pengguna ke sepuluh pintu masuk yang memperlihatkan rasa, manusia, tempat, dan peluang di balik Garut Beans G-Beans.
         </p>
       </div>
 

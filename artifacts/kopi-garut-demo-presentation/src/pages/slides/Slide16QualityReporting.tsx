@@ -8,8 +8,8 @@ export default function Slide16QualityReporting() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
       <div className="absolute right-0 top-0 h-full w-[25vw] bg-[#E7D9C8]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" crossOrigin="anonymous" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" crossOrigin="anonymous" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#806E63]">16 / 23</span>
       </div>
 
@@ -27,7 +27,7 @@ export default function Slide16QualityReporting() {
 
       <div className="absolute right-[18vw] top-[14vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-           <img src={`${base}demo-diversification.jpg`} alt="Cuplikan produk turunan Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+           <img src={`${base}demo-diversification.jpg`} alt="Cuplikan produk turunan Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
@@ -36,7 +36,7 @@ export default function Slide16QualityReporting() {
       </div>
       <div className="absolute right-[6.5vw] top-[20vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-          <img src={cartScreen} alt="Cuplikan keranjang kopi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+           <img src={cartScreen} alt="Cuplikan keranjang kopi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />

@@ -25,11 +25,11 @@ export type ProgramLink = {
 
 export const programLinks: ProgramLink[] = [
   { id: 'verification', icon: 'shield', title: 'Verifikasi petani & produk', description: 'Pantau identitas, kelompok, kebun, dan produk yang tervalidasi.', route: '/verification' },
-  { id: 'standards', icon: 'check', title: 'Standar Kopi Garut', description: 'Rujukan mutu internal untuk setiap lot kopi.', route: '/standards' },
+  { id: 'standards', icon: 'check', title: 'Standar Garut Beans', description: 'Rujukan mutu internal untuk setiap lot kopi.', route: '/standards' },
   { id: 'curation', icon: 'repeat', title: 'Kurasi produk', description: 'Ikuti perjalanan produk sampai masuk katalog.', route: '/curation' },
   { id: 'group', icon: 'users', title: 'Dashboard kelompok tani', description: 'Kelola anggota, panen, penjualan, dan dukungan.', route: '/group-dashboard' },
   { id: 'extension', icon: 'map-pin', title: 'Dashboard penyuluh', description: 'Catat kunjungan, kondisi kebun, dan tindak lanjut.', route: '/extension-dashboard' },
-  { id: 'reports', icon: 'bar-chart-2', title: 'Laporan digital', description: 'Baca perkembangan kopi Garut dengan filter yang jelas.', route: '/reports' },
+  { id: 'reports', icon: 'bar-chart-2', title: 'Laporan digital', description: 'Baca perkembangan Garut Beans dengan filter yang jelas.', route: '/reports' },
   { id: 'notifications', icon: 'alert-circle', title: 'Notifikasi program', description: 'Pengingat pelatihan, permintaan pembeli, dan musim panen.', route: '/notifications' },
   { id: 'documents', icon: 'package', title: 'Pusat dokumen', description: 'Panduan, SOP, modul, regulasi, dan formulir program.', route: '/documents' },
   { id: 'complaints', icon: 'send', title: 'Usulan & kebutuhan dukungan', description: 'Sampaikan petani yang belum terdata, kebutuhan bibit, atau lahan siap dibantu.', route: '/complaints' },
@@ -61,11 +61,11 @@ export const standards: StandardItem[] = [
   { title: 'Proses pascapanen', value: 'Tercatat per lot', detail: 'Natural, washed, honey, atau proses lain wajib memiliki catatan waktu dan metode.', icon: 'repeat' },
   { title: 'Kadar air', value: '10–12%', detail: 'Diukur sebelum penyimpanan dan dicatat pada lembar mutu.', icon: 'info' },
   { title: 'Defect', value: 'Maks. 5 defect / 300 g', detail: 'Sortasi fisik dilakukan sebelum cupping dan pengemasan.', icon: 'check' },
-  { title: 'Cupping', value: 'Min. 80 poin', detail: 'Cupping memakai lembar penilaian Kopi Garut dan panel terlatih.', icon: 'coffee' },
+  { title: 'Cupping', value: 'Min. 80 poin', detail: 'Cupping memakai lembar penilaian Garut Beans dan panel terlatih.', icon: 'coffee' },
   { title: 'Kemasan', value: 'Food grade + lot code', detail: 'Sertakan asal, proses, berat bersih, tanggal sangrai, dan kode lot.', icon: 'package' },
 ];
 
-export const curationStages = ['Daftar', 'Verifikasi', 'Kurasi', 'Diterima', 'Masuk Katalog Kopi Garut'] as const;
+export const curationStages = ['Daftar', 'Verifikasi', 'Kurasi', 'Diterima', 'Masuk Katalog Garut Beans'] as const;
 
 export type CurationProduct = {
   id: string;
@@ -219,7 +219,7 @@ export const documents = [
   { id: 'guide', title: 'Panduan budidaya Arabika Garut', category: 'Budidaya' as const, meta: 'PDF · 24 halaman', detail: 'Panduan pemeliharaan naungan, pemupukan, pemangkasan, dan pengendalian hama terpadu.', icon: 'coffee' as const },
   { id: 'sop', title: 'SOP panen dan pascapanen', category: 'Pascapanen' as const, meta: 'PDF · 18 halaman', detail: 'Langkah kerja sortasi, fermentasi, pencucian, pengeringan, dan penyimpanan.', icon: 'package' as const },
   { id: 'module', title: 'Modul pelatihan cupping dasar', category: 'Pelatihan' as const, meta: 'Modul · 12 halaman', detail: 'Lembar latihan aroma, rasa, body, acidity, dan penilaian akhir.', icon: 'check' as const },
-  { id: 'regulation', title: 'Regulasi label dan ketertelusuran', category: 'Regulasi' as const, meta: 'Panduan · 9 halaman', detail: 'Ketentuan kode lot, informasi kemasan, dan klaim Kopi Garut.', icon: 'shield' as const },
+  { id: 'regulation', title: 'Regulasi label dan ketertelusuran', category: 'Regulasi' as const, meta: 'Panduan · 9 halaman', detail: 'Ketentuan kode lot, informasi kemasan, dan klaim Garut Beans.', icon: 'shield' as const },
   { id: 'form', title: 'Formulir pengajuan program bantuan', category: 'Program' as const, meta: 'Formulir · dapat diisi', detail: 'Data kelompok, kebutuhan alat, rencana pemanfaatan, dan lampiran pendukung.', icon: 'briefcase' as const },
   { id: 'extension', title: 'Lembar kunjungan penyuluh', category: 'Program' as const, meta: 'Template · 1 lembar', detail: 'Template untuk mencatat kondisi kebun, masalah, rekomendasi, dan tindak lanjut.', icon: 'map-pin' as const },
 ];

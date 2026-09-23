@@ -5,8 +5,8 @@ export default function Slide8Traceability() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#D3A15F]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">10 / 23</span>
       </div>
 
@@ -37,7 +37,7 @@ export default function Slide8Traceability() {
       </div>
 
       <div className="absolute right-[5.5vw] top-[14vh] h-[62vh] w-[29vw] rotate-[2deg] rounded-[1vw] border-[0.32vw] border-[#D3A15F] bg-[#E7D9C8] p-[0.55vw] shadow-[0.8vw_0.9vw_0_rgba(0,0,0,0.2)]">
-        <img src={traceabilityImage} crossOrigin="anonymous" alt="Tampilan traceability Kopi Garut" className="h-full w-full rounded-[0.58vw] object-cover" />
+        <img src={traceabilityImage} crossOrigin="anonymous" alt="Tampilan traceability Garut Beans G-Beans" className="h-full w-full rounded-[0.58vw] object-cover" />
       </div>
     </div>
   );

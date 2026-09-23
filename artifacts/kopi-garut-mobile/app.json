@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Kopi Garut",
+    "name": "Garut Beans",
     "slug": "kopi-garut-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,8 +29,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Kopi Garut membutuhkan akses foto untuk menyimpan bukti pemeriksaan mutu.",
-          "cameraPermission": "Kopi Garut membutuhkan akses kamera untuk memotret kondisi biji kopi."
+          "photosPermission": "Garut Beans membutuhkan akses foto untuk menyimpan bukti pemeriksaan mutu.",
+          "cameraPermission": "Garut Beans membutuhkan akses kamera untuk memotret kondisi biji kopi."
         }
       ]
     ],

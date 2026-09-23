@@ -32,7 +32,7 @@ export default function LoginScreen() {
   return (
     <Screen>
       <Header
-        title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : isAccountLogin ? 'Masuk ke akun' : session ? 'Ganti akun' : 'Masuk ke Kopi Garut'}
+        title={isSubmittingUsulan ? 'Masuk untuk kirim usulan' : isAccountLogin ? 'Masuk ke akun' : session ? 'Ganti akun' : 'Masuk ke Garut Beans'}
         subtitle={isAccountLogin ? 'AKUN PETANI' : 'AKSES PROGRAM'}
         cart={false}
         back
@@ -47,7 +47,7 @@ export default function LoginScreen() {
         <View style={styles.heroCopy}>
           <View style={styles.heroKicker}>
             <BrandIcon name="coffee" size={13} color={colors.accent} />
-            <Text style={[styles.heroKickerText, { color: colors.accent }]}>EKOSISTEM KOPI GARUT</Text>
+            <Text style={[styles.heroKickerText, { color: colors.accent }]}>EKOSISTEM G-BEANS</Text>
           </View>
           <Text style={[styles.heroTitle, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Satu langkah untuk mengirim usulan.' : 'Satu ruang untuk cerita kopi.'}</Text>
           <Text style={[styles.heroDescription, { color: colors.primaryForeground }]}>{isSubmittingUsulan ? 'Pilih peran agar tim bisa menindaklanjuti petani, lahan, atau kebutuhan dukungan yang kamu sampaikan.' : 'Masuk untuk menemukan asal, rasa, dan orang-orang di balik setiap cangkir.'}</Text>

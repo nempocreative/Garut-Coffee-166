@@ -17,11 +17,11 @@ export default function Slide1() {
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.9vw]">
         <div className="flex h-[3.4vw] w-[3.4vw] items-center justify-center overflow-hidden rounded-[0.9vw] border border-[#DFD1C1] bg-[#FFF9F1] p-[0.18vw] shadow-[0.25vw_0.3vw_0_rgba(42,32,29,0.12)]">
-          <img src={logo} alt="Logo Kopi Garut" className="h-full w-full object-contain" />
+          <img src={logo} alt="Logo Garut Beans G-Beans" className="h-full w-full object-contain" />
         </div>
         <div>
-          <p className="text-[1.35vw] font-extrabold leading-none tracking-[-0.04em]">Kopi <span className="text-[#A8543B]">Garut</span></p>
-          <p className="mt-[0.35vw] text-[1.5vw] font-bold uppercase tracking-[0.22em] text-[#806E63]">KOPI SPESIALTI · GARUT</p>
+          <p className="text-[1.35vw] font-extrabold leading-none tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></p>
+          <p className="mt-[0.35vw] text-[1.5vw] font-bold uppercase tracking-[0.22em] text-[#806E63]">G-BEANS · SPECIALTY COFFEE</p>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export default function Slide1() {
 
       <div className="absolute right-[11vw] top-[14vh] z-10 w-[18vw] rounded-[2.35vw] border-[0.5vw] border-[#2A201D] bg-[#2A201D] p-[0.48vw] shadow-[0.8vw_0.95vw_0_rgba(42,32,29,0.3)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.78vw] bg-[#F6F0E8]">
-          <img src={`${base}demo-home.jpg`} alt="Cuplikan live beranda aplikasi Kopi Garut" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+          <img src={`${base}demo-home.jpg`} alt="Cuplikan live beranda aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.2vw] w-[5.8vw] -translate-x-1/2 rounded-b-[0.85vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.65vw] top-[8vw] h-[2.9vw] w-[0.22vw] rounded-l-full bg-[#2A201D]" />
@@ -54,7 +54,7 @@ export default function Slide1() {
         <span className="mt-[0.45vh] block text-[1.05vw] font-medium tracking-[0.02em] text-[#FFF9F1]">Beranda aplikasi</span>
       </div>
       <div className="absolute bottom-[10vh] right-[31vw] z-20 rounded-full border border-[#FFF9F1]/60 bg-[#2A201D]/35 px-[1.1vw] py-[0.65vh] text-[1.15vw] font-bold uppercase tracking-[0.14em] text-[#FFF9F1] backdrop-blur-[0.25vw]">
-        Kopi Garut App
+        Garut Beans G-Beans App
       </div>
     </div>
   );

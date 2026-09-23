@@ -67,7 +67,7 @@ export function AppLoading() {
           </Animated.View>
         </View>
         <View style={styles.copy}>
-          <Text style={styles.brand}>Kopi <Text style={styles.brandAccent}>Garut</Text></Text>
+          <Text style={styles.brand}>Garut <Text style={styles.brandAccent}>Beans</Text></Text>
           <Text style={styles.caption}>MENYIAPKAN RITUAL KOPIMU</Text>
         </View>
         <View style={styles.progressTrack}>

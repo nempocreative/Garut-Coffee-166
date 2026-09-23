@@ -7,8 +7,8 @@ export default function Slide2Context() {
       <div className="absolute right-[31.5vw] top-0 h-full w-[0.18vw] bg-[#D3A15F]/50" />
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <img src={logo} alt="Logo Kopi Garut" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
-        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Kopi <span className="text-[#D3A15F]">Garut</span></span>
+        <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
+        <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#D3A15F]">Beans</span></span>
         <span className="ml-[0.5vw] text-[1.5vw] font-bold tracking-[0.18em] text-[#E7D9C8]">02 / 12</span>
       </div>
 
@@ -19,7 +19,7 @@ export default function Slide2Context() {
           <span className="text-[#D3A15F]">cerita yang tersebar.</span>
         </h2>
         <p className="mt-[3vh] max-w-[42vw] text-[2vw] leading-[1.2] text-[#E7D9C8]">
-          Kopi Garut memiliki asal, pelaku, produk, dan pengalaman yang beragam. Informasi itu perlu hadir dalam satu alur yang mudah dipahami.
+          Garut Beans G-Beans memiliki asal, pelaku, produk, dan pengalaman yang beragam. Informasi itu perlu hadir dalam satu alur yang mudah dipahami.
         </p>
         <div className="mt-[3.6vh] h-[0.42vh] w-[7vw] rounded-full bg-[#D3A15F]" />
       </div>
