@@ -40,8 +40,16 @@
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a02",
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a29",
     "position": 6,
+    "filepath": "src/pages/slides/SlideGovernmentSynergy.tsx",
+    "title": "Sinergi Dinas dan anak muda",
+    "description": "Permohonan kolaborasi untuk menyatukan potensi kopi Garut menjadi brand origin yang berdampak.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a02",
+    "position": 7,
     "filepath": "src/pages/slides/Slide2Context.tsx",
     "title": "Potensi besar, cerita yang tersebar",
     "description": "Konteks kebutuhan untuk menyatukan informasi dan pelaku ekosistem kopi dari Garut.",
@@ -49,7 +57,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a03",
-    "position": 7,
+    "position": 8,
     "filepath": "src/pages/slides/Slide3Ecosystem.tsx",
     "title": "Satu ekosistem, empat kebutuhan",
     "description": "Pengguna utama dan kebutuhan yang dilayani oleh platform.",
@@ -57,7 +65,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a04",
-    "position": 8,
+    "position": 9,
     "filepath": "src/pages/slides/Slide4MainMenu.tsx",
     "title": "Lima menu inti untuk satu perjalanan",
     "description": "Penjelasan menu navigasi utama aplikasi Garut Beans G-Beans.",
@@ -65,7 +73,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a05",
-    "position": 9,
+    "position": 10,
     "filepath": "src/pages/slides/Slide5Explore.tsx",
     "title": "Lebih dari sekadar katalog",
     "description": "Kategori jelajah yang menghubungkan produk, asal, pengalaman, kolaborasi, dan dukungan.",
@@ -73,7 +81,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a06",
-    "position": 10,
+    "position": 11,
     "filepath": "src/pages/slides/Slide2.tsx",
     "title": "Satu platform untuk ekosistem kopi dari Garut",
     "description": "Empat cara platform menyatukan ekosistem kopi dari Garut.",
@@ -81,7 +89,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a07",
-    "position": 11,
+    "position": 12,
     "filepath": "src/pages/slides/Slide3.tsx",
     "title": "Mulai dari beranda yang informatif",
     "description": "Beranda sebagai pintu masuk untuk menemukan produk, cerita, dan agenda.",
@@ -89,7 +97,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a08",
-    "position": 12,
+    "position": 13,
     "filepath": "src/pages/slides/Slide4.tsx",
     "title": "Kenali kopi dari sumbernya",
     "description": "Informasi wilayah, petani, proses, dan standar yang mendukung kualitas.",
@@ -97,7 +105,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a09",
-    "position": 13,
+    "position": 14,
     "filepath": "src/pages/slides/Slide5.tsx",
     "title": "Katalog yang membawa cerita",
     "description": "Katalog produk yang tetap dekat dengan asal dan karakter kopi.",
@@ -105,7 +113,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a10",
-    "position": 14,
+    "position": 15,
     "filepath": "src/pages/slides/Slide8Traceability.tsx",
     "title": "Dari lot panen ke pilihan pelanggan",
     "description": "Alur traceability yang menghubungkan wilayah, petani, proses, dan produk.",
@@ -113,7 +121,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a11",
-    "position": 15,
+    "position": 16,
     "filepath": "src/pages/slides/Slide6.tsx",
     "title": "Data yang membantu mengambil keputusan",
     "description": "Data, laporan, dokumen, program, harga, dan traceability dalam satu alur.",
@@ -121,7 +129,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a12",
-    "position": 16,
+    "position": 17,
     "filepath": "src/pages/slides/Slide12Programs.tsx",
     "title": "Fitur berbeda sesuai peran",
     "description": "Ruang kerja program untuk petani, kelompok tani, penyuluh, dan pengelola.",
@@ -129,7 +137,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a13",
-    "position": 17,
+    "position": 18,
     "filepath": "src/pages/slides/Slide7.tsx",
     "title": "Dari koneksi menjadi kolaborasi",
     "description": "Kemitraan, program, agenda, dan kanal umpan balik untuk pertumbuhan bersama.",
@@ -137,7 +145,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a21",
-    "position": 18,
+    "position": 19,
     "filepath": "src/pages/slides/Slide14FarmOperations.tsx",
     "title": "Operasional kebun, tercatat dari hari ke hari",
     "description": "Kalender kebun, biaya usaha tani, log panen, serta isu dan tindak lanjut.",
@@ -145,7 +153,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a22",
-    "position": 19,
+    "position": 20,
     "filepath": "src/pages/slides/Slide15Extension.tsx",
     "title": "Pendampingan yang terhubung",
     "description": "Dashboard penyuluh, kunjungan, peta petani, pelatihan, dan laporan lapangan.",
@@ -153,7 +161,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a23",
-    "position": 20,
+    "position": 21,
     "filepath": "src/pages/slides/Slide16QualityReporting.tsx",
     "title": "Mutu dan pelaporan dalam satu alur",
     "description": "Quality check, verifikasi, pembayaran, dan pengajuan penjualan.",
@@ -161,7 +169,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a24",
-    "position": 21,
+    "position": 22,
     "filepath": "src/pages/slides/Slide17CustomerExperience.tsx",
     "title": "Pengalaman pelanggan lebih lengkap",
     "description": "Favorit, pesanan, games kopi, notifikasi, dukungan, wisata, dan produk turunan.",
@@ -169,7 +177,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a14",
-    "position": 22,
+    "position": 23,
     "filepath": "src/pages/slides/Slide11Impact.tsx",
     "title": "Platform yang tumbuh bersama data",
     "description": "Dampak dan arah pengembangan platform Garut Beans G-Beans.",
@@ -177,7 +185,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a15",
-    "position": 23,
+    "position": 24,
     "filepath": "src/pages/slides/Slide15Advantages.tsx",
     "title": "Satu aplikasi, banyak nilai",
     "description": "Keunggulan aplikasi Garut Beans G-Beans bagi ekosistem daerah.",
@@ -185,7 +193,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a17",
-    "position": 24,
+    "position": 25,
     "filepath": "src/pages/slides/Slide16Market.tsx",
     "title": "Pasar awalnya ada di Garut",
     "description": "Segmen pasar yang dapat menjadi sasaran awal pengembangan Garut Beans G-Beans.",
@@ -193,7 +201,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a18",
-    "position": 25,
+    "position": 26,
     "filepath": "src/pages/slides/Slide17Branding.tsx",
     "title": "Garut Beans G-Beans sebagai origin signature",
     "description": "Model branding bersama untuk coffee shop tanpa menghilangkan merek masing-masing.",
@@ -201,7 +209,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a19",
-    "position": 26,
+    "position": 27,
     "filepath": "src/pages/slides/Slide18PartnerProgram.tsx",
     "title": "Dari satu outlet menjadi jaringan kota",
     "description": "Program partner coffee shop untuk memperluas identitas Garut Beans G-Beans.",
@@ -209,7 +217,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a20",
-    "position": 27,
+    "position": 28,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Garut Beans G-Beans.",
