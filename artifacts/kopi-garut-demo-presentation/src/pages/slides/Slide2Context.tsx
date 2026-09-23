@@ -23,27 +23,28 @@ export default function Slide2Context() {
         <div className="mt-[3.6vh] h-[0.42vh] w-[7vw] rounded-full bg-[#D3A15F]" />
       </div>
 
-      <div className="absolute bottom-[9vh] left-[6.5vw] grid w-[55vw] grid-cols-3 gap-[1vw]">
-        <div className="min-h-[18vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.35vw] py-[1.15vw]">
-          <div className="flex items-end justify-between">
-            <p className="text-[2.5vw] font-extrabold leading-none text-[#D3A15F]">01</p>
-            <span className="text-[1.05vw] font-bold uppercase tracking-[0.16em] text-[#B99C8E]">Asal</span>
-          </div>
-          <p className="mt-[2.2vh] text-[1.62vw] font-bold leading-[1.12]">Asal dan kualitas belum selalu terlihat oleh pembeli.</p>
+      <div className="absolute bottom-[8vh] left-[6.5vw] w-[55vw] border-t-[0.25vw] border-[#D3A15F]">
+        <div className="flex items-center justify-between border-b border-[#59443B] py-[1.2vh]">
+          <p className="text-[1.25vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">Yang perlu disatukan</p>
+          <p className="text-[1.25vw] font-bold uppercase tracking-[0.12em] text-[#B99C8E]">Tiga sinyal utama</p>
         </div>
-        <div className="min-h-[18vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.35vw] py-[1.15vw]">
-          <div className="flex items-end justify-between">
-            <p className="text-[2.5vw] font-extrabold leading-none text-[#D3A15F]">02</p>
-            <span className="text-[1.05vw] font-bold uppercase tracking-[0.16em] text-[#B99C8E]">Akses</span>
-          </div>
-          <p className="mt-[2.2vh] text-[1.62vw] font-bold leading-[1.12]">Petani dan mitra membutuhkan akses informasi yang sama.</p>
+
+        <div className="flex items-start gap-[1.2vw] border-b border-[#59443B] py-[1.2vh]">
+          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">01</span>
+          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Asal</p>
+          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Kualitas dan cerita belum selalu terlihat oleh pembeli.</p>
         </div>
-        <div className="min-h-[18vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.35vw] py-[1.15vw]">
-          <div className="flex items-end justify-between">
-            <p className="text-[2.5vw] font-extrabold leading-none text-[#D3A15F]">03</p>
-            <span className="text-[1.05vw] font-bold uppercase tracking-[0.16em] text-[#B99C8E]">Data</span>
-          </div>
-          <p className="mt-[2.2vh] text-[1.62vw] font-bold leading-[1.12]">Data yang rapi membuat keputusan lebih terarah.</p>
+
+        <div className="flex items-start gap-[1.2vw] border-b border-[#59443B] py-[1.2vh]">
+          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">02</span>
+          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Akses</p>
+          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Petani dan mitra belum membaca informasi dari sumber yang sama.</p>
+        </div>
+
+        <div className="flex items-start gap-[1.2vw] py-[1.2vh]">
+          <span className="w-[2.5vw] text-[1.8vw] font-extrabold leading-none text-[#D3A15F]">03</span>
+          <p className="w-[8vw] text-[1.4vw] font-extrabold uppercase tracking-[0.12em] text-[#F6D9B6]">Data</p>
+          <p className="text-[1.55vw] font-semibold leading-[1.12] text-[#E7D9C8]">Data yang rapi membuat keputusan lebih terarah.</p>
         </div>
       </div>
 
@@ -56,6 +57,10 @@ export default function Slide2Context() {
       </div>
 
       <div className="absolute right-[9vw] top-[33vh] h-[27vw] w-[23vw]">
+        <div className="absolute left-[4vw] top-[7.2vw] h-[0.12vw] w-[6.2vw] rotate-[27deg] bg-[#F6D9B6]/60" />
+        <div className="absolute right-[4.1vw] top-[8.2vw] h-[0.12vw] w-[6.1vw] -rotate-[21deg] bg-[#F6D9B6]/60" />
+        <div className="absolute bottom-[6.7vw] left-[4.3vw] h-[0.12vw] w-[6.3vw] -rotate-[27deg] bg-[#F6D9B6]/60" />
+        <div className="absolute bottom-[5.7vw] right-[4.1vw] h-[0.12vw] w-[6.1vw] rotate-[21deg] bg-[#F6D9B6]/60" />
         <div className="absolute left-[5.2vw] top-[5.8vw] flex h-[12vw] w-[12vw] flex-col items-center justify-center rounded-full border-[0.2vw] border-[#F6D9B6] bg-[#2A201D] text-center shadow-[0.6vw_0.7vw_0_rgba(42,32,29,0.18)]">
           <span className="text-[1vw] font-bold uppercase tracking-[0.2em] text-[#D3A15F]">Pusat cerita</span>
           <span className="mt-[0.8vh] text-[2.25vw] font-extrabold leading-[0.95] tracking-[-0.06em]">Kopi<br />Garut</span>

@@ -5,7 +5,6 @@ export default function SlideImplementationRoadmap() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute right-0 top-0 h-full w-[35vw] bg-[#F6F0E8]" />
       <div className="absolute right-[35vw] top-0 h-full w-[0.2vw] bg-[#D3A15F]" />
-      <div className="absolute -right-[12vw] -bottom-[15vw] h-[39vw] w-[39vw] rounded-full border-[0.12vw] border-[#A8543B]/45" />
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
@@ -23,31 +22,49 @@ export default function SlideImplementationRoadmap() {
         </p>
       </div>
 
-      <div className="absolute bottom-[7vh] left-[6.5vw] grid w-[51vw] grid-cols-5 gap-[0.55vw]">
-        <div className="min-h-[25vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[0.8vw] py-[1vw]">
-          <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">01 · 0–3 bulan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.08]">Pilot & baseline</p>
-          <p className="mt-[1vh] text-[1.15vw] leading-[1.18] text-[#E7D9C8]">Wilayah, petani, lot, dan data minimum.</p>
+      <div className="absolute bottom-[8vh] left-[6.5vw] w-[53vw] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.25vw] pb-[2vh] pt-[1.1vw]">
+        <div className="flex items-center justify-between border-b border-[#59443B] pb-[1.2vh]">
+          <p className="text-[1.3vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">Lima fase</p>
+          <p className="text-[1.3vw] font-bold uppercase tracking-[0.12em] text-[#E7D9C8]">Satu arah pertumbuhan</p>
         </div>
-        <div className="min-h-[25vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[0.8vw] py-[1vw]">
-          <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">02 · 3–6 bulan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.08]">Buktikan alur</p>
-          <p className="mt-[1vh] text-[1.15vw] leading-[1.18] text-[#E7D9C8]">Kebun, pendampingan, mutu, dan traceability.</p>
-        </div>
-        <div className="min-h-[25vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[0.8vw] py-[1vw]">
-          <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">03 · 6–12 bulan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.08]">Skala Garut</p>
-          <p className="mt-[1vh] text-[1.15vw] leading-[1.18] text-[#E7D9C8]">Tambah kelompok, mitra, dan origin signature.</p>
-        </div>
-        <div className="min-h-[25vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[0.8vw] py-[1vw]">
-          <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">04 · 12–24 bulan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.08]">Pasar nasional</p>
-          <p className="mt-[1vh] text-[1.15vw] leading-[1.18] text-[#E7D9C8]">Perluas roaster, coffee shop, distribusi, dan promosi.</p>
-        </div>
-        <div className="min-h-[25vh] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[0.8vw] py-[1vw]">
-          <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">05 · 24+ bulan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.08]">Pasar internasional</p>
-          <p className="mt-[1vh] text-[1.15vw] leading-[1.18] text-[#E7D9C8]">Kesiapan ekspor, buyer, kepatuhan, dan pasokan.</p>
+
+        <div className="relative mt-[2.3vh] grid grid-cols-5 gap-[0.8vw]">
+          <div className="absolute left-[1.1vw] right-[1.1vw] top-[1.55vw] h-[0.16vw] bg-[#D3A15F]" />
+
+          <div className="relative">
+            <div className="relative z-10 flex h-[3.1vw] w-[3.1vw] items-center justify-center rounded-full bg-[#D3A15F] text-[1.45vw] font-extrabold text-[#2A201D]">01</div>
+            <p className="mt-[1.5vh] text-[1.35vw] font-extrabold uppercase tracking-[0.1em] text-[#D3A15F]">0—3 bln</p>
+            <p className="mt-[0.7vh] text-[1.7vw] font-extrabold leading-[1.05]">Pilot</p>
+            <p className="mt-[0.6vh] text-[1.5vw] text-[#E7D9C8]">Data minimum</p>
+          </div>
+
+          <div className="relative">
+            <div className="relative z-10 flex h-[3.1vw] w-[3.1vw] items-center justify-center rounded-full border-[0.12vw] border-[#D3A15F] bg-[#3A2B27] text-[1.45vw] font-extrabold text-[#D3A15F]">02</div>
+            <p className="mt-[1.5vh] text-[1.35vw] font-extrabold uppercase tracking-[0.1em] text-[#D3A15F]">3—6 bln</p>
+            <p className="mt-[0.7vh] text-[1.7vw] font-extrabold leading-[1.05]">Buktikan</p>
+            <p className="mt-[0.6vh] text-[1.5vw] text-[#E7D9C8]">Mutu & jejak</p>
+          </div>
+
+          <div className="relative">
+            <div className="relative z-10 flex h-[3.1vw] w-[3.1vw] items-center justify-center rounded-full border-[0.12vw] border-[#D3A15F] bg-[#3A2B27] text-[1.45vw] font-extrabold text-[#D3A15F]">03</div>
+            <p className="mt-[1.5vh] text-[1.35vw] font-extrabold uppercase tracking-[0.1em] text-[#D3A15F]">6—12 bln</p>
+            <p className="mt-[0.7vh] text-[1.7vw] font-extrabold leading-[1.05]">Skala Garut</p>
+            <p className="mt-[0.6vh] text-[1.5vw] text-[#E7D9C8]">Kelompok & mitra</p>
+          </div>
+
+          <div className="relative">
+            <div className="relative z-10 flex h-[3.1vw] w-[3.1vw] items-center justify-center rounded-full border-[0.12vw] border-[#D3A15F] bg-[#3A2B27] text-[1.45vw] font-extrabold text-[#D3A15F]">04</div>
+            <p className="mt-[1.5vh] text-[1.35vw] font-extrabold uppercase tracking-[0.1em] text-[#D3A15F]">12—24 bln</p>
+            <p className="mt-[0.7vh] text-[1.7vw] font-extrabold leading-[1.05]">Nasional</p>
+            <p className="mt-[0.6vh] text-[1.5vw] text-[#E7D9C8]">Distribusi</p>
+          </div>
+
+          <div className="relative">
+            <div className="relative z-10 flex h-[3.1vw] w-[3.1vw] items-center justify-center rounded-full bg-[#A8543B] text-[1.45vw] font-extrabold text-[#FFF9F1]">05</div>
+            <p className="mt-[1.5vh] text-[1.35vw] font-extrabold uppercase tracking-[0.1em] text-[#D3A15F]">24+ bln</p>
+            <p className="mt-[0.7vh] text-[1.7vw] font-extrabold leading-[1.05]">Dunia</p>
+            <p className="mt-[0.6vh] text-[1.5vw] text-[#E7D9C8]">Buyer & ekspor</p>
+          </div>
         </div>
       </div>
 
@@ -74,7 +91,7 @@ export default function SlideImplementationRoadmap() {
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">Pilot · Garut · Nasional · Internasional</div>
+      <div className="absolute bottom-[7vh] right-[6.5vw] border-t border-[#D8C7B5] pt-[1.2vh] text-[1.35vw] font-bold uppercase tracking-[0.12em] text-[#A8543B]">Fondasi dulu · skala kemudian</div>
     </div>
   );
 }
