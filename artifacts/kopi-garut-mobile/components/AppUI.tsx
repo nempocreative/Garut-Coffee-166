@@ -41,7 +41,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   if (Platform.OS === 'web') {
     return (
       <View style={[styles.webScreenShell, { backgroundColor: background }]}>
-        <View style={[styles.screen, styles.webScreen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: 28 }, style]}>
+        <View style={[styles.screen, styles.webScreen, { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu ? contentBottomPadding : 28 }, style]}>
           {children}
         </View>
         {bottomMenu && <BottomMenu />}

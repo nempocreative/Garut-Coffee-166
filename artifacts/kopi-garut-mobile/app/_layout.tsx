@@ -123,13 +123,13 @@ export default function RootLayout() {
       rootMinHeight: root?.style.minHeight ?? '',
     };
 
-    html.style.height = '100%';
+    html.style.height = 'auto';
     html.style.minHeight = '100%';
     html.style.overflowY = 'auto';
     body.style.height = 'auto';
-    body.style.minHeight = '100%';
+    body.style.minHeight = '100dvh';
     body.style.overflowX = 'clip';
-    body.style.overflowY = 'visible';
+    body.style.overflowY = 'auto';
     bodyStyle.webkitOverflowScrolling = 'touch';
     if (root) {
       root.style.height = 'auto';

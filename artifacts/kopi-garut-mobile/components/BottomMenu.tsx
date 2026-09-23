@@ -183,6 +183,11 @@ const styles = StyleSheet.create({
   },
   webMenuHost: {
     width: '100%',
+    position: 'fixed' as any,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 20,
   },
   webMenu: {
     position: 'relative',

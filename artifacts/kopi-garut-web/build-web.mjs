@@ -23,7 +23,7 @@ async function patchExportedHtml(directory) {
     if (!entry.name.endsWith('.html')) return;
 
     const html = await readFile(entryPath, 'utf8');
-    const scrollableExpoReset = '<style id="expo-reset">html{height:100%;min-height:100%;overflow-y:auto}body{margin:0;min-height:100%;height:auto;overflow-x:clip;overflow-y:visible;-webkit-overflow-scrolling:touch}#root{display:flex;min-height:100dvh;height:auto}</style>';
+    const scrollableExpoReset = '<style id="expo-reset">html{height:auto;min-height:100%;overflow-y:auto}body{margin:0;min-height:100dvh;height:auto;overflow-x:clip;overflow-y:auto;-webkit-overflow-scrolling:touch}#root{display:flex;min-height:100dvh;height:auto}</style>';
     const patchedReset = html.replace(
       /<style id="expo-reset">#root,body,html\{height:100%\}body\{overflow:hidden\}#root\{display:flex\}<\/style>/,
       scrollableExpoReset,
