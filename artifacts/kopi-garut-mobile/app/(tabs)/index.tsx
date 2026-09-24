@@ -461,6 +461,14 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
               style={styles.coffeeMenuImage}
             />
           </View>
+        ) : icon === 'calendar' ? (
+          <View style={styles.eventMenuImageFrame}>
+            <ExpoImage
+              source={require('../../assets/images/event-menu-ai-transparent.webp')}
+              contentFit="contain"
+              style={styles.eventMenuImage}
+            />
+          </View>
         ) : (
           <>
             <View style={styles.menuGlyphExtrusion}>
@@ -1254,6 +1262,8 @@ const styles = StyleSheet.create({
   farmerMenuImage: { width: 48, height: 48 },
   coffeeMenuImageFrame: { width: 50, height: 50, alignItems: 'center', justifyContent: 'center' },
   coffeeMenuImage: { width: 50, height: 50 },
+  eventMenuImageFrame: { width: 50, height: 50, alignItems: 'center', justifyContent: 'center' },
+  eventMenuImage: { width: 50, height: 50 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
