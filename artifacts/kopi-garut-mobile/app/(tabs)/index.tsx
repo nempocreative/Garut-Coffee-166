@@ -446,11 +446,13 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
       <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
       <Animated.View pointerEvents="none" style={[styles.menuIconVisualOverlay, iconMotionStyle]}>
         {icon === 'users' ? (
-          <ExpoImage
-            source={require('../../assets/images/farmer-home-ai.png')}
-            contentFit="contain"
-            style={styles.farmerMenuImage}
-          />
+          <View style={styles.farmerMenuImageFrame}>
+            <ExpoImage
+              source={require('../../assets/images/farmer-home-ai.png')}
+              contentFit="contain"
+              style={styles.farmerMenuImage}
+            />
+          </View>
         ) : (
           <>
             <View style={styles.menuGlyphExtrusion}>
@@ -1240,7 +1242,8 @@ const styles = StyleSheet.create({
   },
   menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  farmerMenuImage: { width: 56, height: 56 },
+  farmerMenuImageFrame: { width: 48, height: 48, borderRadius: 15, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  farmerMenuImage: { width: 48, height: 48 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
