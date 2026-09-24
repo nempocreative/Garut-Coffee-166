@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node static-web-server.mjs --build",
-    "build": "node build-web.mjs",
-    "serve": "node -e \"require('http').createServer((req,res)=>res.end('Use the configured static artifact server')).listen(process.env.PORT||3000)\"",
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "serve": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {

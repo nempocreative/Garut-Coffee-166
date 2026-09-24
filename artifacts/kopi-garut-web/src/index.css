@@ -376,7 +376,7 @@
 /* Keep the web surface visually aligned with the Expo app. The web preview
    uses the same 430px canvas and safe-area rhythm as the mobile preview. */
 .app-viewport {
-  padding-top: 67px;
+  padding-top: 0;
 }
 .app-page {
   padding-bottom: 150px;
@@ -767,7 +767,7 @@
 }
 @media (max-width: 430px) {
   .app-viewport {
-    padding-top: 67px;
+    padding-top: 0;
   }
   .bottom-nav {
     width: 100%;
@@ -948,3 +948,549 @@
 .game-score strong { color: hsl(var(--primary)); font-size: 22px; }
 .game-board img { height: 150px; width: 100%; object-fit: contain; margin: 10px 0; }
 .game-board p { color: hsl(var(--muted-foreground)); font-size: 11px; }
+
+/*
+ * Standalone website layout
+ *
+ * The mobile app keeps its phone-sized composition in the Expo artifact.
+ * This artifact is a real responsive website: the same content is allowed
+ * to breathe on tablet and desktop, and the primary navigation moves to the
+ * top of the page instead of behaving like a phone tab bar.
+ */
+@media (min-width: 700px) {
+  body {
+    background:
+      radial-gradient(circle at 8% 0%, rgba(203, 153, 102, .14), transparent 30rem),
+      hsl(var(--background));
+  }
+
+  .app-viewport {
+    width: 100%;
+    max-width: 1440px;
+    min-height: 100dvh;
+    padding-top: 0;
+    box-shadow: none;
+  }
+
+  .app-page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px 72px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    inset: 0 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100%, 1440px);
+    height: 72px;
+    grid-template-columns: repeat(5, minmax(110px, 1fr));
+    padding: 10px max(32px, calc((100% - 1176px) / 2)) 10px;
+    background: rgba(255, 249, 241, .9);
+    border-top: 0;
+    border-bottom: 1px solid hsl(var(--border));
+    box-shadow: 0 8px 24px rgba(58, 37, 25, .06);
+  }
+
+  .bottom-nav button {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  .bottom-nav button:hover {
+    background: hsl(var(--secondary));
+  }
+
+  .bottom-nav button.center,
+  .bottom-nav button.center.active {
+    margin-top: 0;
+  }
+
+  .bottom-nav button.center .nav-icon,
+  .bottom-nav button.center.active .nav-icon {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 10px;
+    color: hsl(var(--primary));
+    background: hsl(var(--secondary));
+    box-shadow: none;
+  }
+
+  .bottom-nav button.active .nav-icon {
+    background: hsl(var(--secondary));
+  }
+
+  .app-page {
+    padding-top: 72px;
+  }
+
+  .header {
+    min-height: 284px;
+    margin: 0 -32px;
+    padding: 24px 32px 0;
+  }
+
+  .header::before {
+    height: 252px;
+    clip-path: none;
+    border-radius: 0 0 42px 42px;
+    background:
+      linear-gradient(110deg, rgba(43, 26, 17, .94), rgba(81, 37, 21, .58)),
+      url('/kopi-garut-web/assets/header-garut-pattern.webp') center 45% / cover;
+  }
+
+  .header::after {
+    height: 220px;
+    border-radius: 0 0 42px 42px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-meta {
+    font-size: 9px;
+  }
+
+  .header-copy {
+    justify-content: flex-start;
+    text-align: left;
+    margin-top: 72px;
+    padding-left: 4px;
+  }
+
+  .greeting {
+    font-size: clamp(26px, 4vw, 42px);
+    max-width: 560px;
+  }
+
+  .date-line {
+    font-size: 11px;
+    margin-top: 9px;
+  }
+
+  .screen-section {
+    margin-top: -24px;
+  }
+
+  .search-entry {
+    max-width: 760px;
+    height: 58px;
+    border-radius: 18px;
+    padding-left: 18px;
+  }
+
+  .search-entry input {
+    font-size: 14px;
+  }
+
+  .filter-orb {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero {
+    height: clamp(260px, 32vw, 380px);
+    margin-top: 24px;
+    border-radius: 28px;
+  }
+
+  .hero-copy {
+    left: 32px;
+    bottom: 28px;
+    max-width: 560px;
+  }
+
+  .hero-title {
+    font-size: clamp(30px, 4vw, 52px);
+    max-width: 560px;
+  }
+
+  .hero-desc {
+    max-width: 430px;
+    font-size: 14px;
+  }
+
+  .hero-link {
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .hero-dots {
+    right: 28px;
+    left: auto;
+    bottom: 31px;
+  }
+
+  .section-heading {
+    margin-top: 34px;
+  }
+
+  .section-heading h2 {
+    font-size: 25px;
+  }
+
+  .section-kicker {
+    font-size: 10px;
+  }
+
+  .category-pager {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .categories {
+    grid-template-columns: repeat(8, minmax(82px, 1fr));
+    gap: 14px;
+    padding: 0;
+  }
+
+  .category-glyph {
+    width: 64px;
+    height: 64px;
+  }
+
+  .category-label {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .story-lead {
+    min-height: 220px;
+    margin-top: 28px;
+    border-radius: 24px;
+  }
+
+  .story-lead-copy {
+    min-height: 190px;
+    max-width: 410px;
+  }
+
+  .story-lead-copy h3 {
+    font-size: 24px;
+  }
+
+  .story-lead-copy p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .voucher-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .voucher {
+    min-height: 172px;
+    padding: 20px;
+  }
+
+  .voucher-discount {
+    font-size: 30px;
+  }
+
+  .horizontal-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: visible;
+    gap: 14px;
+  }
+
+  .product-card,
+  .diversified-card,
+  .story-card {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .product-card {
+    border-radius: 20px;
+  }
+
+  .product-image-wrap {
+    height: 220px;
+  }
+
+  .product-title {
+    font-size: 15px;
+  }
+
+  .product-tagline {
+    font-size: 11px;
+  }
+
+  .product-price {
+    font-size: 13px;
+  }
+
+  .diversified-card {
+    flex-basis: auto;
+  }
+
+  .story-rail .story-card {
+    flex-basis: auto;
+    height: 250px;
+  }
+
+  .taste-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .taste-card {
+    height: 210px;
+    padding: 18px;
+  }
+
+  .taste-card strong {
+    font-size: 15px;
+  }
+
+  .taste-card span {
+    font-size: 11px;
+  }
+
+  .subpage {
+    padding-top: 28px;
+  }
+
+  .subpage-head {
+    margin-bottom: 26px;
+  }
+
+  .page-title,
+  .catalog-title {
+    font-size: 36px;
+  }
+
+  .subcopy {
+    font-size: 14px;
+  }
+
+  .catalog-featured {
+    height: 300px;
+    border-radius: 28px;
+  }
+
+  .catalog-featured-copy {
+    inset: auto 30px 28px;
+  }
+
+  .catalog-featured-copy strong {
+    font-size: 34px;
+    max-width: 620px;
+  }
+
+  .catalog-featured-copy > span:not(.catalog-eyebrow) {
+    font-size: 13px;
+  }
+
+  .catalog-search-heading {
+    margin-top: 30px;
+  }
+
+  .catalog-search-heading h2 {
+    font-size: 22px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .product-grid .product-image-wrap {
+    height: 220px;
+  }
+
+  .product-grid .product-title {
+    font-size: 14px;
+  }
+
+  .hub-hero {
+    min-height: 340px;
+    border-radius: 28px;
+  }
+
+  .hub-hero > img {
+    min-height: 340px;
+  }
+
+  .hub-hero-copy {
+    inset: auto 30px 30px;
+  }
+
+  .hub-hero-copy h1 {
+    font-size: 42px;
+    max-width: 620px;
+  }
+
+  .hub-hero-copy p {
+    max-width: 480px;
+    font-size: 14px;
+  }
+
+  .metric-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .metric-card {
+    min-height: 112px;
+    padding: 16px;
+  }
+
+  .metric-card strong {
+    font-size: 22px;
+  }
+
+  .metric-card span {
+    font-size: 11px;
+  }
+
+  .farmer-grid,
+  .tour-grid,
+  .hub-list,
+  .offer-list,
+  .module-grid,
+  .operation-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .event-card > img,
+  .farmer-card > img,
+  .region-card > img,
+  .tour-card > img {
+    height: 190px;
+  }
+
+  .region-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .region-card {
+    grid-template-columns: 150px 1fr;
+  }
+
+  .region-card > img {
+    width: 150px;
+  }
+
+  .program-rail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    overflow: visible;
+  }
+
+  .program-card {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .program-card > img {
+    height: 180px;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .collective-hero {
+    min-height: 390px;
+  }
+
+  .collective-hero-copy {
+    min-height: 390px;
+    padding: 30px;
+  }
+
+  .collective-hero-copy h1 {
+    font-size: 52px;
+  }
+
+  .collective-roles,
+  .collective-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .collective-intro {
+    max-width: 700px;
+    margin-top: 34px;
+  }
+
+  .collective-intro h2 {
+    font-size: 30px;
+  }
+
+  .collective-intro p {
+    font-size: 14px;
+  }
+
+  .dark-callout {
+    padding: 26px;
+    border-radius: 24px;
+  }
+
+  .dark-callout h2 {
+    font-size: 28px;
+  }
+
+  .form-card,
+  .access-card,
+  .offer-card,
+  .price-card,
+  .game-board {
+    padding: 22px;
+    border-radius: 22px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .app-page {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .header {
+    margin-left: -40px;
+    margin-right: -40px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .screen-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+    column-gap: 28px;
+  }
+
+  .screen-section > .search-entry,
+  .screen-section > .hero,
+  .screen-section > .story-lead {
+    grid-column: 1 / -1;
+  }
+
+  .screen-section > .category-pager,
+  .screen-section > .voucher-carousel {
+    align-self: start;
+  }
+
+  .screen-section > .section-heading,
+  .screen-section > .horizontal-scroll,
+  .screen-section > .taste-grid {
+    grid-column: 1 / -1;
+  }
+
+  .screen-section > .category-pager {
+    grid-column: 1;
+  }
+
+  .screen-section > .voucher-carousel {
+    grid-column: 2;
+  }
+}
