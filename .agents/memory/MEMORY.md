@@ -12,3 +12,4 @@
 - [Expo web artifact base paths](expo-web-basepath.md) — use Expo static export with experiments.baseUrl; development Metro does not strip artifact prefixes during route matching.
 - [Safari document scrolling](safari-document-scroll.md) — patch Expo's static HTML reset so web scrolls as a document and can collapse Safari's toolbar.
 - [Shared content vs user state](shared-content-vs-user-state.md) — shared mobile/web screens do not synchronize AsyncStorage-backed roles, commerce, or operational records across devices.
+- [Header artwork crop safety](header-art-crops.md) — keep key figures and landmarks inside the center crop when using AI artwork in wide headers.

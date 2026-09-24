@@ -97,12 +97,12 @@ export function Header({ title, cart = true, notifications = false, back = false
           </SvgLinearGradient>
         </Defs>
         <SvgImage
-           href={require('../assets/images/garut-beans-profile-sketch-colored.png')}
+           href={require('../assets/images/garut-beans-mountain-header-refined.png')}
           x="0"
           y="0"
           width="400"
           height="170"
-           preserveAspectRatio="xMidYMin slice"
+            preserveAspectRatio="xMidYMid slice"
           clipPath="url(#headerImageClip)"
         />
         <Path d={extendOrnament ? "M0 0h400v151c-43-12-77-12-116 1-46 16-77 20-124 12-57-10-107-4-160 13V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" opacity={0.2} />
