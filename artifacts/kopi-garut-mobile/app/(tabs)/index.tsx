@@ -63,25 +63,14 @@ const homeDiversifiedProducts = homeContent.diversifiedProducts.map((product) =>
 
 function CoffeeBeanAnimation() {
   const beans = useSharedValue(0);
-  const [webBeansMotion, setWebBeansMotion] = useState(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     beans.value = withRepeat(
       withTiming(1, { duration: 2600, easing: Easing.inOut(Easing.ease) }),
       -1,
       true,
     );
-
-    if (Platform.OS !== 'web') return;
-
-    const startedAt = Date.now();
-    const timer = setInterval(() => {
-      const cycle = ((Date.now() - startedAt) % 2600) / 2600;
-      const progress = cycle <= 0.5 ? cycle * 2 : 2 - cycle * 2;
-      setWebBeansMotion(progress);
-    }, 120);
-
-    return () => clearInterval(timer);
   }, [beans]);
 
   const beansStyle = useAnimatedStyle(() => ({
@@ -90,17 +79,8 @@ function CoffeeBeanAnimation() {
       { rotate: `${interpolate(beans.value, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
     ],
   }));
-  const webBeansStyle = Platform.OS === 'web'
-    ? {
-        transform: [
-          { translateY: interpolate(webBeansMotion, [0, 0.5, 1], [0, -4, 0]) },
-          { rotate: `${interpolate(webBeansMotion, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
-        ],
-      }
-    : undefined;
-
   return (
-    <Animated.View style={[styles.coffeeBeanAnimation, beansStyle, webBeansStyle]}>
+    <Animated.View style={[styles.coffeeBeanAnimation, Platform.OS === 'web' ? undefined : beansStyle]}>
       <ExpoImage
         source={require('../../assets/images/coffee-beans-natural.webp')}
         contentFit="contain"
@@ -114,6 +94,7 @@ function SearchBeanAnimation() {
   const motion = useSharedValue(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     motion.value = withRepeat(
       withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
       -1,
@@ -148,6 +129,7 @@ function CoffeeCupAnimation() {
   const cup = useSharedValue(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     steam.value = withRepeat(
       withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.ease) }),
       -1,
@@ -197,6 +179,7 @@ function RoadTrafficAnimation() {
   const traffic = useSharedValue(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     traffic.value = withRepeat(
       withTiming(1, { duration: 3200, easing: Easing.linear }),
       -1,
@@ -404,6 +387,7 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const iconMotion = useSharedValue(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     iconMotion.value = withRepeat(
       withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
       -1,
@@ -524,6 +508,7 @@ export default function HomeScreen() {
   const pendingSlide = promoSlides[activeSlide];
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const timer = setInterval(() => {
       setActiveSlide((current) => (current + 1) % promoSlides.length);
     }, 4200);
@@ -532,6 +517,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const timer = setInterval(() => {
       setActiveVoucherSlide((current) => (current + 1) % voucherSlides.length);
     }, 4500);
@@ -540,6 +526,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const timer = setInterval(() => {
       setActiveStoryIndex((current) => {
         const lastStartIndex = Math.max(0, storyReels.length - 2);
@@ -572,11 +559,11 @@ export default function HomeScreen() {
         <BrandIcon name="sliders" size={15} color={colors.primary} />
       </View>
     </Pressable>
-    <Animated.View entering={FadeInDown.duration(550)} style={[styles.heroSection, { height: promoHeight }]}>
+    <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.duration(550)} style={[styles.heroSection, { height: promoHeight }]}>
       <Animated.View
         key={`promo-scene-${displayedSlide}`}
-        entering={SlideInRight.duration(680)}
-        exiting={SlideOutLeft.duration(680)}
+        entering={Platform.OS === 'web' ? undefined : SlideInRight.duration(680)}
+        exiting={Platform.OS === 'web' ? undefined : SlideOutLeft.duration(680)}
         style={[styles.promoScene, { height: promoHeight }]}
       >
         <View style={[styles.promoGallery, { height: promoHeight }]}>
@@ -710,7 +697,7 @@ export default function HomeScreen() {
       )}
       </View>
       <View style={desktopWeb && styles.desktopNarrativeColumn}>
-    <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
+    <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
@@ -738,8 +725,8 @@ export default function HomeScreen() {
     <View style={styles.voucherCarousel}>
       <Animated.View
         key={`voucher-slide-${activeVoucherSlide}`}
-        entering={SlideInRight.duration(500)}
-        exiting={SlideOutLeft.duration(500)}
+          entering={Platform.OS === 'web' ? undefined : SlideInRight.duration(500)}
+          exiting={Platform.OS === 'web' ? undefined : SlideOutLeft.duration(500)}
         style={styles.voucherSlide}
       >
         {voucherSlides[activeVoucherSlide].map((voucher) => (

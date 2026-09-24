@@ -81,9 +81,10 @@ function WebDocumentScreen({
   notifyScroll: () => void;
 }) {
   useEffect(() => {
+    if (desktopWeb) return;
     window.addEventListener('scroll', notifyScroll, { passive: true });
     return () => window.removeEventListener('scroll', notifyScroll);
-  }, [notifyScroll]);
+  }, [desktopWeb, notifyScroll]);
 
   return (
     <View style={[styles.webDocumentShell, { backgroundColor: background }]}>
@@ -197,7 +198,7 @@ export function CartPreview() {
   };
   return (
     <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
-      <Animated.View entering={FadeInDown.duration(260)} style={[styles.cartPreviewHost, { bottom: (Platform.OS === 'web' ? 98 : 102) + insets.bottom }]}>
+      <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.duration(260)} style={[styles.cartPreviewHost, { bottom: (Platform.OS === 'web' ? 98 : 102) + insets.bottom }]}>
         <Pressable
           testID="cart-preview"
           accessibilityRole="button"
@@ -226,7 +227,7 @@ export function CoffeeCard({ coffee, index = 0, grid = false, cardWidth }: { cof
   const router = useRouter();
   const { favorites, toggleFavorite, addToCart } = useStore();
   const saved = favorites.includes(coffee.id);
-  return <Animated.View entering={FadeInDown.delay(index * 50).duration(450)} style={[styles.card, grid && styles.gridCard, cardWidth ? { width: cardWidth } : null, { backgroundColor: colors.card, borderColor: colors.border }]}>
+  return <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(index * 50).duration(450)} style={[styles.card, grid && styles.gridCard, cardWidth ? { width: cardWidth } : null, { backgroundColor: colors.card, borderColor: colors.border }]}>
     <Pressable testID={`coffee-card-${coffee.id}`} onPress={() => router.push(`/product/${coffee.id}`)} style={[styles.cardImageWrap, grid && styles.gridCardImageWrap]}><Image source={coffee.image} contentFit="cover" style={styles.cardImage} />{coffee.badge && <View style={[styles.badge, { backgroundColor: colors.accent }]}><Text style={[styles.badgeText, { color: colors.accentForeground }]}>{coffee.badge}</Text></View>}</Pressable>
     <View style={[styles.cardBody, grid && styles.gridCardBody]}><View style={styles.cardInfo}><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTitle, grid && styles.gridCardTitle, { color: colors.foreground }]}>{coffee.name}</Text><Text numberOfLines={grid ? 2 : 1} style={[styles.cardTagline, grid && styles.gridCardTagline, { color: colors.mutedForeground }]}>{coffee.tagline}</Text><Text style={[styles.price, grid && styles.gridPrice, { color: colors.primary }]}>{formatPrice(coffee.price)} <Text style={[styles.smallUnit, { color: colors.mutedForeground }]}>/ 200g</Text></Text></View><Pressable testID={`favorite-${coffee.id}`} onPress={() => toggleFavorite(coffee.id)} style={({ pressed }) => [styles.favorite, { opacity: pressed ? 0.55 : 1 }]}><BrandIcon name="heart" size={21} color={saved ? colors.primary : colors.mutedForeground} /></Pressable></View>
     <Pressable testID={`add-${coffee.id}`} accessibilityRole="button" accessibilityLabel={`Tambah ${coffee.name} ke keranjang`} onPress={() => addToCart(coffee.id)} style={({ pressed }) => [styles.addButton, { backgroundColor: colors.primary, borderColor: colors.primary, opacity: pressed ? 0.78 : 1 }]}><BrandIcon name="plus" size={16} color={colors.primaryForeground} /><Text style={[styles.addText, { color: colors.primaryForeground }]}>{grid ? 'Tambah' : 'Tambah ke keranjang'}</Text></Pressable>

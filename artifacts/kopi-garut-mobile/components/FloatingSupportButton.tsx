@@ -51,6 +51,7 @@ export function FloatingSupportButton() {
   const beanTilt = useSharedValue(0);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     beanLift.value = withRepeat(
       withSequence(
         withTiming(-3, { duration: 1050, easing: Easing.inOut(Easing.sin) }),
@@ -83,7 +84,8 @@ export function FloatingSupportButton() {
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
   const compactWeb = Platform.OS === 'web' && width < 768;
-  if (compactWeb || isScrolling || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
+  const hideWhileScrolling = Platform.OS !== 'web' || width < 1024;
+  if (compactWeb || (hideWhileScrolling && isScrolling) || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
 
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;

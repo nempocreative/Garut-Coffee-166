@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   webViewport: {
     flex: 1,
-    height: 'var(--kg-viewport-height, 100dvh)' as any,
+    height: 'auto' as any,
     minHeight: 'var(--kg-viewport-height, 100dvh)' as any,
     maxWidth: '100%',
     alignSelf: 'stretch',
@@ -170,7 +170,7 @@ export default function RootLayout() {
     body.style.overflowY = 'auto';
     bodyStyle.webkitOverflowScrolling = 'touch';
     if (root) {
-      root.style.height = 'var(--kg-viewport-height, 100dvh)';
+      root.style.height = 'auto';
       root.style.minHeight = 'var(--kg-viewport-height, 100dvh)';
       root.style.width = '100%';
       root.style.overflow = 'visible';
