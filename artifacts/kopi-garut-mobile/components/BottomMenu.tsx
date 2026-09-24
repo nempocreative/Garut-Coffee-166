@@ -66,8 +66,8 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
     return (
       <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
         <Image
-          source={require('../assets/images/garut-beans-profile-sketch-colored.png')}
-          contentFit="cover"
+          source={require('../assets/images/account-coffee-settings.png')}
+          contentFit="contain"
           style={[styles.accountImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
         />
       </View>
