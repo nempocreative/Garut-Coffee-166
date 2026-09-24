@@ -23,7 +23,7 @@ const menuItems: BottomMenuItem[] = [
   { label: 'Akun', icon: 'account', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
 ];
 
-function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean }) {
+function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; focused: boolean; desktop?: boolean }) {
   const colors = useColors();
 
   if (item.icon === 'home') {
@@ -32,7 +32,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/home-coffee-house.png')}
           contentFit="contain"
-          style={[styles.homeImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+          style={[styles.homeImage, { width: desktop ? (focused ? 31 : 28) : (focused ? 36 : 33), height: desktop ? (focused ? 31 : 28) : (focused ? 36 : 33) }]}
         />
       </View>
     );
@@ -44,7 +44,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/product-coffee-basket.png')}
           contentFit="contain"
-          style={[styles.productImage, { width: focused ? 36 : 33, height: focused ? 36 : 33 }]}
+          style={[styles.productImage, { width: desktop ? (focused ? 31 : 28) : (focused ? 36 : 33), height: desktop ? (focused ? 31 : 28) : (focused ? 36 : 33) }]}
         />
       </View>
     );
@@ -56,7 +56,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/orders-coffee-checklist.png')}
           contentFit="contain"
-          style={[styles.ordersImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
+          style={[styles.ordersImage, { width: desktop ? (focused ? 34 : 31) : (focused ? 40 : 37), height: desktop ? (focused ? 34 : 31) : (focused ? 40 : 37) }]}
         />
       </View>
     );
@@ -68,7 +68,7 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
         <Image
           source={require('../assets/images/account-coffee-settings.png')}
           contentFit="contain"
-          style={[styles.accountImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
+          style={[styles.accountImage, { width: desktop ? (focused ? 34 : 31) : (focused ? 40 : 37), height: desktop ? (focused ? 34 : 31) : (focused ? 40 : 37) }]}
         />
       </View>
     );
@@ -94,13 +94,13 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
       colors={[colors.accent, colors.primary]}
       start={{ x: 0.15, y: 0 }}
       end={{ x: 0.85, y: 1 }}
-      style={[styles.centerCircle, { borderColor: colors.card, shadowColor: colors.foreground }]}
+      style={[styles.centerCircle, desktop && styles.desktopCenterCircle, { borderColor: colors.card, shadowColor: colors.foreground }]}
     >
       <View style={[styles.centerHighlight, { backgroundColor: colors.primaryForeground }]} />
       <Image
         source={require('../assets/images/traceability-coffee-qr.png')}
         contentFit="contain"
-        style={styles.traceImage}
+        style={[styles.traceImage, desktop && styles.desktopTraceImage]}
       />
     </LinearGradient>
   );
@@ -120,10 +120,10 @@ export function BottomMenu() {
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const isFarmerRoute = pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
   const menuHeight = isWeb
-    ? (isDesktopWeb ? 82 : isTabletWeb ? 86 : 'calc(90px + env(safe-area-inset-bottom, 0px))' as any)
+    ? (isDesktopWeb ? 68 : isTabletWeb ? 86 : 'calc(90px + env(safe-area-inset-bottom, 0px))' as any)
     : 90 + bottomInset;
   const menuPaddingBottom = isWeb
-    ? (isDesktopWeb ? 8 : isTabletWeb ? 8 : 'calc(4px + env(safe-area-inset-bottom, 0px))' as any)
+    ? (isDesktopWeb ? 4 : isTabletWeb ? 8 : 'calc(4px + env(safe-area-inset-bottom, 0px))' as any)
     : bottomInset + 4;
 
   if (isFarmerRoute) return null;
@@ -171,11 +171,12 @@ export function BottomMenu() {
                 style={({ pressed }) => [
                   styles.item,
                    isDesktopWeb && styles.webMenuDesktopItem,
-                  item.icon === 'scan' && styles.centerItem,
+                   item.icon === 'scan' && styles.centerItem,
+                   isDesktopWeb && item.icon === 'scan' && styles.webMenuDesktopCenterItem,
                   { opacity: pressed ? 0.72 : 1 },
                 ]}
               >
-                <MenuIcon item={item} focused={focused} />
+                <MenuIcon item={item} focused={focused} desktop={isDesktopWeb} />
                 <Text style={[styles.label, { color: focused ? colors.primary : colors.mutedForeground }]}>
                   {item.label}
                 </Text>
@@ -218,10 +219,10 @@ const styles = StyleSheet.create({
     right: undefined,
     bottom: undefined,
     width: '100%',
-    maxWidth: 980,
+    maxWidth: 1240,
     alignSelf: 'center',
-    marginTop: 14,
-    marginBottom: 14,
+    marginTop: 12,
+    marginBottom: 12,
     borderRadius: 22,
     overflow: 'hidden',
   },
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
   },
   webMenuDesktop: {
     borderRadius: 22,
-    paddingTop: 8,
+    paddingTop: 5,
   },
   topBorder: {
     position: 'absolute',
@@ -262,7 +263,10 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   webMenuDesktopItem: {
-    height: 68,
+    height: 56,
+  },
+  webMenuDesktopCenterItem: {
+    marginTop: -8,
   },
   centerItem: {
     marginTop: -25,
@@ -300,10 +304,20 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
+  desktopCenterCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 3,
+  },
   traceImage: {
     width: 52,
     height: 52,
     flexShrink: 0,
+  },
+  desktopTraceImage: {
+    width: 41,
+    height: 41,
   },
   centerHighlight: {
     position: 'absolute',

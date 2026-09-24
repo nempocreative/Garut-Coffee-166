@@ -639,7 +639,18 @@ export default function HomeScreen() {
       </Animated.View>
     </Animated.View>
     <View style={[compactWeb ? styles.compactWebCategorySection : undefined, desktopWeb && styles.desktopDiscoveryRow]}>
-      <View style={desktopWeb && styles.desktopCategoryColumn}>
+      <View
+        style={[
+          desktopWeb && styles.desktopCategoryColumn,
+          desktopWeb && { backgroundColor: colors.card, borderColor: colors.border },
+        ]}
+      >
+        {desktopWeb && (
+          <View style={styles.desktopDiscoveryHeading}>
+            <Text style={[styles.desktopDiscoveryEyebrow, { color: colors.primary }]}>JELAJAHI GARUT BEANS</Text>
+            <Text style={[styles.desktopDiscoveryTitle, { color: colors.foreground }]}>Pilih pengalaman kopimu</Text>
+          </View>
+        )}
       <ScrollView
         ref={categoryRef}
         horizontal
@@ -1213,8 +1224,11 @@ const styles = StyleSheet.create({
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   heroSection: { marginTop: 0 },
   compactWebCategorySection: { marginTop: 16 },
-  desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
-  desktopCategoryColumn: { flex: 1, minWidth: 0 },
+  desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'stretch', gap: 24 },
+  desktopCategoryColumn: { flex: 1, minWidth: 0, borderWidth: 1, borderRadius: 24, paddingTop: 18, overflow: 'hidden' },
+  desktopDiscoveryHeading: { paddingHorizontal: 20, gap: 3, marginBottom: 8 },
+  desktopDiscoveryEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.45 },
+  desktopDiscoveryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 23, fontWeight: '700', letterSpacing: -0.3 },
   desktopNarrativeColumn: { width: 360, flexShrink: 0, gap: 20 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
