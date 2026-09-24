@@ -57,7 +57,7 @@ const storyReels = homeContent.stories.map((story) => ({
 }));
 const homeDiversifiedProducts = homeContent.diversifiedProducts.map((product) => ({
   ...product,
-  icon: 'package' as const,
+  icon: 'sparkles' as const,
   image: mobileAsset(product.image),
 }));
 
@@ -338,6 +338,16 @@ function ThreeDMenuGlyph({ name, colors }: { name: BrandIconName; colors: MenuGl
           <Path d="m10.5 13 3 3 6-6" fill="none" stroke={colors.light} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
         </>
       )}
+      {name === 'graduation-cap' && (
+        <>
+          <Path d="m3 10.5 12-6 12 6-12 6-12-6Z" fill={colors.dark} />
+          <Path d="m3 9 12-6 12 6-12 6-12-6Z" fill={colors.main} />
+          <Path d="M8.5 12v5c3.5 3 9.5 3 13 0v-5L15 15.5 8.5 12Z" fill={colors.light} />
+          <Path d="M26.5 10v7" fill="none" stroke={colors.accent} strokeWidth="2" strokeLinecap="round" />
+          <Circle cx="26.5" cy="18" r="1.6" fill={colors.accent} />
+          <Path d="m5.5 8.8 9.5-4.7 9.5 4.7" fill="none" stroke={colors.accent} strokeWidth="1" strokeLinecap="round" opacity={0.8} />
+        </>
+      )}
       {name === 'package' && (
         <>
           <Path d="m4 9 11-5 11 5v13l-11 5-11-5V9Z" fill={colors.dark} />
@@ -438,6 +448,7 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
     users: require('../../assets/images/farmer-home-ai.png'),
     coffee: require('../../assets/images/coffee-home-ai.png'),
     calendar: require('../../assets/images/event-menu-ai-transparent.webp'),
+    'graduation-cap': require('../../assets/images/program-menu-ai.webp'),
     briefcase: require('../../assets/images/partnership-menu-ai-new.png'),
     map: require('../../assets/images/region-home-ai.png'),
     compass: require('../../assets/images/tourism-menu-ai-new.png'),

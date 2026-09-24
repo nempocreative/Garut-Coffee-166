@@ -15,10 +15,13 @@ export type BrandIconName =
   | 'minus'
   | 'chevron-right'
   | 'coffee'
+  | 'network'
+  | 'sparkles'
   | 'users'
   | 'map'
   | 'map-pin'
   | 'compass'
+  | 'graduation-cap'
   | 'trending-up'
   | 'calendar'
   | 'briefcase'
@@ -117,6 +120,22 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
           <Path d="M8 5.5c-1-1 .5-1.5 0-3M11 5.5c-1-1 .5-1.5 0-3" {...props} />
         </>
       )}
+      {name === 'network' && (
+        <>
+          <Path d="m8.2 8.2 2.5 2.5m5.1-2.5-2.5 2.5m-3.2 2.6-2.5 2.5m5.1-2.5 2.5 2.5" {...props} />
+          <Circle cx="6.5" cy="6.5" r="2.2" {...props} />
+          <Circle cx="17.5" cy="6.5" r="2.2" {...props} />
+          <Circle cx="12" cy="12" r="2.2" {...props} />
+          <Circle cx="6.5" cy="17.5" r="2.2" {...props} />
+          <Circle cx="17.5" cy="17.5" r="2.2" {...props} />
+        </>
+      )}
+      {name === 'sparkles' && (
+        <>
+          <Path d="m9 3 1.6 5.4L16 10l-5.4 1.6L9 17l-1.6-5.4L2 10l5.4-1.6L9 3Z" {...props} />
+          <Path d="m18 14 .9 2.6 2.6.9-2.6.9L18 21l-.9-2.6-2.6-.9 2.6-.9L18 14Z" {...props} />
+        </>
+      )}
       {name === 'users' && (
         <>
           <Circle cx="9" cy="8" r="3" {...props} />
@@ -140,6 +159,13 @@ export function BrandIcon({ name, size = 20, color, strokeWidth = 1.8 }: BrandIc
         <>
           <Circle cx="12" cy="12" r="8.5" {...props} />
           <Path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z" {...props} />
+        </>
+      )}
+      {name === 'graduation-cap' && (
+        <>
+          <Path d="m3 9 9-5 9 5-9 5-9-5Z" {...props} />
+          <Path d="M6 11v4.5c3.4 2.5 8.6 2.5 12 0V11M21 10v5" {...props} />
+          <Circle cx="21" cy="16.5" r="0.8" fill={color} stroke={color} strokeWidth="1" />
         </>
       )}
       {name === 'trending-up' && <Path d="m4 16 5-5 3.5 3.5L20 7M15 7h5v5" {...props} />}

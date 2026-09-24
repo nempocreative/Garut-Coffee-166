@@ -89,7 +89,7 @@ export default function CollectiveScreen() {
         <View style={styles.heroContent}>
           <View style={styles.heroTopline}>
             <View style={[styles.heroIcon, { backgroundColor: colors.primary }]}>
-              <BrandIcon name="coffee" size={24} color={colors.primaryForeground} />
+              <BrandIcon name="network" size={24} color={colors.primaryForeground} />
             </View>
             <View style={[styles.heroBadge, { backgroundColor: colors.card }]}>
               <Text style={[styles.heroBadgeText, { color: colors.primary }]}>01—04</Text>

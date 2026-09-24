@@ -50,7 +50,7 @@ export default function DiversificationScreen() {
             <Text style={[styles.heroLabel, { color: colors.primaryForeground }]}>produk pilihan</Text>
           </View>
           <View style={[styles.heroMark, { backgroundColor: colors.primary }]}>
-            <BrandIcon name="package" size={22} color={colors.primaryForeground} />
+            <BrandIcon name="sparkles" size={22} color={colors.primaryForeground} />
           </View>
         </View>
       </LinearGradient>

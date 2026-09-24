@@ -36,6 +36,7 @@ export type HomeIconName =
   | 'map'
   | 'compass'
   | 'calendar'
+  | 'graduation-cap'
   | 'briefcase'
   | 'grid'
   | 'shield'
@@ -225,7 +226,7 @@ export const homeContent = {
     { icon: 'calendar', label: 'Event', route: '/events' },
     { icon: 'briefcase', label: 'Mitra', route: '/partnership' },
     { icon: 'grid', label: 'Ekosistem', route: '/collective' },
-    { icon: 'shield', label: 'Program', route: '/program' },
+    { icon: 'graduation-cap', label: 'Program', route: '/program' },
     { icon: 'alert-circle', label: 'Keluhan', route: '/complaints' },
     { icon: 'package', label: 'Produk turunan', route: '/diversification' },
   ] satisfies SharedCategoryItem[],
