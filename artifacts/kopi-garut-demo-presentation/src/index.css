@@ -46,9 +46,8 @@ body {
   content: "nempo.id × kala muda";
   position: absolute;
   z-index: 1000;
-  left: 50%;
-  bottom: 0.35vh;
-  transform: translateX(-50%);
+  left: 2.5vw;
+  bottom: 1.8vh;
   padding: 0.08em 0.55em;
   border: 1px solid rgb(211 161 95 / 70%);
   border-radius: 999px;
@@ -62,6 +61,28 @@ body {
   letter-spacing: 0.03em;
   white-space: nowrap;
   pointer-events: none;
+}
+
+.slide[data-slide-id="9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a01"]::after,
+.select-none > div:first-child::after {
+  display: none;
+}
+
+.cover-footer-watermark {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.02em 0.55em;
+  border: 1px solid rgb(211 161 95 / 70%);
+  border-radius: 999px;
+  background: rgb(246 240 232 / 94%);
+  box-shadow: 0 1px 8px rgb(42 32 29 / 18%);
+  color: #806e63;
+  font-family: var(--font-body-family);
+  font-size: 1.5vw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 .select-none > div {
