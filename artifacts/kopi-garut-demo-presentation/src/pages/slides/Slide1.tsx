@@ -47,7 +47,7 @@ export default function Slide1() {
         </p>
       </div>
 
-      <div className="absolute bottom-[5.8vh] left-[6.5vw] flex items-center gap-[1.15vw]">
+      <div className="absolute bottom-[3.5vh] left-[6.5vw] flex flex-col items-start gap-[0.55vh]">
         <p className="text-[1.5vw] font-bold leading-none tracking-[0.08em] text-[#806E63]">Dinas Pertanian Kab. Garut</p>
         <span className="cover-footer-watermark">nempo.id × kala muda</span>
       </div>
