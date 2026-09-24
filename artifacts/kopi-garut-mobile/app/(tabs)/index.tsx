@@ -434,6 +434,16 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
     dark: colors.secondaryForeground,
     accent: colors.secondaryForeground,
   };
+  const menuImageSources: Partial<Record<BrandIconName, number>> = {
+    users: require('../../assets/images/farmer-home-ai.png'),
+    coffee: require('../../assets/images/coffee-home-ai.png'),
+    calendar: require('../../assets/images/event-menu-ai-transparent.webp'),
+    briefcase: require('../../assets/images/partnership-menu-ai-transparent.webp'),
+    map: require('../../assets/images/region-home-ai.png'),
+    compass: require('../../assets/images/tourism-menu-ai-clean-transparent.webp'),
+    'alert-circle': require('../../assets/images/complaints-menu-ai-transparent.webp'),
+  };
+  const menuImageSource = menuImageSources[icon];
 
   return (
     <View style={styles.menuIconStage}>
@@ -445,29 +455,9 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
       />
       <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
       <Animated.View pointerEvents="none" style={[styles.menuIconVisualOverlay, iconMotionStyle]}>
-        {icon === 'users' ? (
-          <View style={styles.farmerMenuImageFrame}>
-            <ExpoImage
-              source={require('../../assets/images/farmer-home-ai.png')}
-              contentFit="contain"
-              style={styles.farmerMenuImage}
-            />
-          </View>
-        ) : icon === 'coffee' ? (
-          <View style={styles.coffeeMenuImageFrame}>
-            <ExpoImage
-              source={require('../../assets/images/coffee-home-ai.png')}
-              contentFit="contain"
-              style={styles.coffeeMenuImage}
-            />
-          </View>
-        ) : icon === 'calendar' ? (
-          <View style={styles.eventMenuImageFrame}>
-            <ExpoImage
-              source={require('../../assets/images/event-menu-ai-transparent.webp')}
-              contentFit="contain"
-              style={styles.eventMenuImage}
-            />
+        {menuImageSource ? (
+          <View style={styles.menuAssetImageFrame}>
+            <ExpoImage source={menuImageSource} contentFit="contain" style={styles.menuAssetImage} />
           </View>
         ) : (
           <>
@@ -1258,12 +1248,8 @@ const styles = StyleSheet.create({
   },
   menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
-  farmerMenuImageFrame: { width: 48, height: 48, borderRadius: 15, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
-  farmerMenuImage: { width: 48, height: 48 },
-  coffeeMenuImageFrame: { width: 50, height: 50, alignItems: 'center', justifyContent: 'center' },
-  coffeeMenuImage: { width: 50, height: 50 },
-  eventMenuImageFrame: { width: 50, height: 50, alignItems: 'center', justifyContent: 'center' },
-  eventMenuImage: { width: 50, height: 50 },
+  menuAssetImageFrame: { width: 50, height: 50, borderRadius: 15, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  menuAssetImage: { width: 50, height: 50 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
