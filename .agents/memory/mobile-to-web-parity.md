@@ -1,16 +1,16 @@
 ---
-name: Mobile-to-web split
-description: Durable guidance for keeping the Kopi Garut website responsive without coupling it to the native Expo app.
+name: Mobile-to-web parity
+description: Durable guidance for keeping the Kopi Garut browser experience identical to the Expo mobile system.
 ---
 
-The Kopi Garut web and mobile experiences are separate frontends. The website owns its responsive browser layout, navigation, and route presentation; the Expo app owns the native mobile experience. Shared catalog and brand data may still come from the shared package.
+The Kopi Garut web entry point uses the Expo Router web export from the mobile artifact, served under its own website path. The mobile app is the single source of truth for screens, routes, role rules, copy, assets, state, and behavior.
 
-**Why:** The browser needs a flexible desktop/tablet layout, while native needs a phone-first interaction model. Keeping the runtimes separate prevents responsive website work from destabilizing the mobile app.
+**Why:** The user requires the website and app to look and behave the same. A separate web router or duplicate screen implementation will drift from the mobile source.
 
-**How to apply:** Build browser-facing screens in the web artifact and native screens in the mobile artifact. Reuse shared content and role rules where practical, but do not use Expo export as the web runtime or assume visual parity means shared layout code.
+**How to apply:** Keep the web artifact as a prefix-aware Expo export launcher. Watch the mobile source in development and rebuild the website export after relevant mobile changes. Make visual or route changes in the mobile artifact first.
 
-The web app should use normal document flow and responsive CSS, with a wide content container on desktop and the existing compact composition on small screens.
+Web-only behavior may branch at the mobile root layout with `Platform.OS === 'web'`, but native phone sizing and component structure should remain unchanged.
 
-**Why:** A separate web runtime makes browser behavior observable and editable without adding web-specific branches to every native screen.
+**Why:** The browser needs document scrolling and its own safe-area handling, while the native app must keep device-safe insets and phone interaction behavior.
 
-**How to apply:** Keep the web artifact's Vite entry point active for development and production. Treat mobile/web state as device-local unless a real server-side sync path exists.
+**How to apply:** Keep web scroll handling, bottom menu behavior, and browser-safe animation fallbacks in the shared mobile components. Treat mobile/web state as device-local unless a real server-side sync path exists.
