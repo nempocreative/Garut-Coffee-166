@@ -9,12 +9,17 @@ const ScrollVisibilityContext = createContext<ScrollVisibilityValue | null>(null
 
 export function ScrollVisibilityProvider({ children }: { children: React.ReactNode }) {
   const [isScrolling, setIsScrolling] = useState(false);
+  const scrollingRef = useRef(false);
   const stopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const notifyScroll = useCallback(() => {
-    setIsScrolling(true);
+    if (!scrollingRef.current) {
+      scrollingRef.current = true;
+      setIsScrolling(true);
+    }
     if (stopTimer.current) clearTimeout(stopTimer.current);
     stopTimer.current = setTimeout(() => {
+      scrollingRef.current = false;
       setIsScrolling(false);
       stopTimer.current = null;
     }, 180);
@@ -22,6 +27,7 @@ export function ScrollVisibilityProvider({ children }: { children: React.ReactNo
 
   useEffect(() => () => {
     if (stopTimer.current) clearTimeout(stopTimer.current);
+    scrollingRef.current = false;
   }, []);
 
   const value = useMemo(() => ({ isScrolling, notifyScroll }), [isScrolling, notifyScroll]);

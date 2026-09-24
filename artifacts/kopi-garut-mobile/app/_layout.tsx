@@ -215,8 +215,7 @@ export default function RootLayout() {
         return;
       }
 
-      const scrollTarget = document.getElementById('kopi-garut-web-scroll');
-      if (!scrollTarget) return;
+      const scrollTarget = document.scrollingElement || document.documentElement;
 
       const viewportStep = Math.max(window.innerHeight * 0.82, 320);
       let amount = 0;
@@ -229,7 +228,7 @@ export default function RootLayout() {
       if (!amount) return;
 
       event.preventDefault();
-      scrollTarget.scrollBy({ top: amount, behavior: 'smooth' });
+      window.scrollBy({ top: amount, behavior: 'smooth' });
     };
 
     window.addEventListener('keydown', handleWebScrollKeys);
