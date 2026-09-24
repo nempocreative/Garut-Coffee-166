@@ -441,7 +441,7 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
     briefcase: require('../../assets/images/partnership-menu-ai-transparent.webp'),
     map: require('../../assets/images/region-home-ai.png'),
     compass: require('../../assets/images/tourism-menu-ai-new.png'),
-    'alert-circle': require('../../assets/images/complaints-menu-ai-transparent.webp'),
+    'alert-circle': require('../../assets/images/complaints-menu-ai-v2.png'),
   };
   const menuImageSource = menuImageSources[icon];
 
