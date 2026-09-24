@@ -447,6 +447,8 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const menuImageSources: Partial<Record<BrandIconName, number>> = {
     users: require('../../assets/images/farmer-home-ai.png'),
     coffee: require('../../assets/images/coffee-home-ai.png'),
+    grid: require('../../assets/images/collective-menu-ai-new.png'),
+    package: require('../../assets/images/product-coffee-basket.png'),
     calendar: require('../../assets/images/event-menu-ai-transparent.webp'),
     'graduation-cap': require('../../assets/images/program-menu-ai.webp'),
     briefcase: require('../../assets/images/partnership-menu-ai-new.png'),
