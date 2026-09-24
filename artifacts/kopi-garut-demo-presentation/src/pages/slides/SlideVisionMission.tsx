@@ -25,34 +25,34 @@ export default function SlideVisionMission() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[24vh] z-10 w-[42vw]">
-        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Arah platform</p>
+        <p className="text-[1.6vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Arah platform</p>
         <h2 className="mt-[1.5vh] text-[5.7vw] font-extrabold leading-[0.92] tracking-[-0.08em]">
           Visi dan <span className="text-[#A8543B]">misi.</span>
         </h2>
         <p className="mt-[3.5vh] max-w-[37vw] text-[2.05vw] font-semibold leading-[1.16] text-[#806E63]">
           Menjadikan kopi Garut sebagai origin yang dikenal, dipercaya, dan memberi nilai bagi seluruh ekosistem.
         </p>
-        <p className="mt-[4.5vh] text-[1.5vw] font-bold uppercase tracking-[0.18em] text-[#806E63]">Asal · Mutu · Kolaborasi</p>
+        <p className="mt-[4.5vh] text-[1.6vw] font-bold uppercase tracking-[0.18em] text-[#806E63]">Asal · Mutu · Kolaborasi</p>
       </div>
 
-      <div className="absolute right-[6.5vw] top-[20vh] w-[29vw] text-[#FFF9F1]">
-        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">Misi kami</p>
-        <div className="mt-[4vh] flex flex-col gap-[3.2vh]">
+      <div className="absolute right-[6.5vw] top-[20vh] w-[31vw] text-[#FFF9F1]">
+        <p className="border-b border-[#D3A15F]/50 pb-[1.2vh] text-[1.8vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">Misi kami</p>
+        <div className="mt-[2.8vh] flex flex-col gap-[2.4vh]">
           <div className="flex items-start gap-[1vw]">
-            <span className="mt-[0.8vh] h-[0.55vw] w-[0.55vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[1.7vw] font-semibold leading-[1.16]">Menyatukan data asal, pelaku, produk, dan pengalaman Garut.</p>
+            <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
+            <p className="text-[2vw] font-semibold leading-[1.16]">Menyatukan data asal, pelaku, produk, dan pengalaman Garut.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
-            <span className="mt-[0.8vh] h-[0.55vw] w-[0.55vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[1.7vw] font-semibold leading-[1.16]">Membuka akses petani dan mitra pada informasi, program, dan pasar.</p>
+            <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
+            <p className="text-[2vw] font-semibold leading-[1.16]">Membuka akses petani dan mitra pada informasi, program, dan pasar.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
-            <span className="mt-[0.8vh] h-[0.55vw] w-[0.55vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[1.7vw] font-semibold leading-[1.16]">Menguatkan mutu, traceability, dan keputusan usaha.</p>
+            <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
+            <p className="text-[2vw] font-semibold leading-[1.16]">Menguatkan mutu, traceability, dan keputusan usaha.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
-            <span className="mt-[0.8vh] h-[0.55vw] w-[0.55vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[1.7vw] font-semibold leading-[1.16]">Menumbuhkan nilai kopi melalui kolaborasi daerah.</p>
+            <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
+            <p className="text-[2vw] font-semibold leading-[1.16]">Menumbuhkan nilai kopi melalui kolaborasi daerah.</p>
           </div>
         </div>
       </div>
