@@ -1494,3 +1494,117 @@
     grid-column: 2;
   }
 }
+
+/*
+ * Desktop precision pass
+ *
+ * Keep the phone composition untouched below 700px. On larger screens the
+ * website gets a proper top navigation, a clear header-to-content transition,
+ * and an intentional two-column rhythm for the supporting home content.
+ */
+@media (min-width: 700px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .bottom-nav {
+    top: 0 !important;
+    bottom: auto !important;
+    z-index: 40;
+  }
+
+  .app-page {
+    padding-top: 88px;
+  }
+
+  .header {
+    min-height: 306px;
+    margin-left: -32px;
+    margin-right: -32px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .header::before {
+    height: 278px;
+    border-radius: 0 0 46px 46px;
+  }
+
+  .header::after {
+    height: 246px;
+    border-radius: 0 0 46px 46px;
+  }
+
+  .header-copy {
+    margin-top: 78px;
+  }
+
+  .screen-section {
+    margin-top: -34px;
+    row-gap: 0;
+  }
+
+  .screen-section > .search-entry {
+    width: min(100%, 960px);
+    max-width: none;
+    margin: 0 auto;
+  }
+
+  .screen-section > .hero {
+    margin-top: 26px;
+  }
+
+  .story-lead {
+    margin-top: 30px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .screen-section {
+    grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
+    column-gap: 32px;
+  }
+
+  .screen-section > .category-pager {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: center;
+  }
+
+  .screen-section > .voucher-carousel {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .screen-section > .story-lead {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+
+  .screen-section > .section-heading,
+  .screen-section > .horizontal-scroll,
+  .screen-section > .taste-grid {
+    grid-column: 1 / -1;
+  }
+
+  .screen-section > .section-heading {
+    margin-top: 38px;
+  }
+
+  .categories {
+    grid-template-columns: repeat(4, minmax(90px, 1fr));
+    gap: 20px 18px;
+  }
+
+  .category-pager .category-pagination {
+    margin-top: 12px;
+  }
+
+  .voucher-row {
+    gap: 12px;
+  }
+
+  .voucher {
+    min-height: 188px;
+  }
+}

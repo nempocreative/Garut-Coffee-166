@@ -45,7 +45,8 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   }, [pathname]);
   if (Platform.OS === 'web') {
     return (
-      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? ('var(--kg-menu-height, 90px)' as any) : 0 }]}>
+      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu && !desktopWeb ? ('var(--kg-menu-height, 90px)' as any) : 0 }]}>
+        {bottomMenu && desktopWeb && <BottomMenu />}
         <ScrollView
           ref={scrollRef}
           nativeID="kopi-garut-web-scroll"
@@ -54,20 +55,21 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
           style={[
             styles.webScroll,
             bottomMenu ? styles.webScrollWithMenu : styles.webScrollFull,
+             bottomMenu && desktopWeb && styles.webScrollDesktopWithMenu,
             { backgroundColor: background },
           ]}
           contentContainerStyle={[
             styles.screen,
             styles.webScreen,
             desktopWeb && styles.webDesktopScreen,
-            { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu ? contentBottomPadding : 28 },
+            { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu && !desktopWeb ? contentBottomPadding : 28 },
             style,
           ]}
           showsVerticalScrollIndicator={false}
         >
           {children}
         </ScrollView>
-        {bottomMenu && <BottomMenu />}
+        {bottomMenu && !desktopWeb && <BottomMenu />}
       </View>
     );
   }
@@ -226,6 +228,7 @@ const styles = StyleSheet.create({
   webScreenShell: { width: '100%', flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any, minHeight: 'var(--kg-viewport-height, 100dvh)' as any, overflow: 'visible' },
   webScroll: { width: '100%' },
   webScrollWithMenu: { flex: 0, height: 'calc(var(--kg-viewport-height, 100dvh) - var(--kg-menu-height, 90px))' as any },
+  webScrollDesktopWithMenu: { flex: 1, minHeight: 0 },
   webScrollFull: { flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },

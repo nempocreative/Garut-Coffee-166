@@ -505,7 +505,7 @@ export default function HomeScreen() {
   const regionCardWidth = desktopWeb ? 220 : Math.max(150, Math.floor((width - 40 - 10) / 2));
   const storyCardWidth = desktopWeb ? 210 : Math.max(140, Math.floor((width - 40 - 8) / 2));
   const storyCardHeight = Math.round(storyCardWidth * 1.42);
-  const categoryPageWidth = Math.max(300, desktopWeb ? Math.min(windowWidth, 1240) : width);
+  const categoryPageWidth = Math.max(300, desktopWeb ? Math.min(800, windowWidth - 500) : width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   // Keep the carousel closer to the source images' square crop so people, cups,
   // and product packs stay visible instead of being cut off on narrow screens.
@@ -638,7 +638,8 @@ export default function HomeScreen() {
       </View>
       </Animated.View>
     </Animated.View>
-    <View style={compactWeb ? styles.compactWebCategorySection : undefined}>
+    <View style={[compactWeb ? styles.compactWebCategorySection : undefined, desktopWeb && styles.desktopDiscoveryRow]}>
+      <View style={desktopWeb && styles.desktopCategoryColumn}>
       <ScrollView
         ref={categoryRef}
         horizontal
@@ -696,7 +697,8 @@ export default function HomeScreen() {
           ))}
         </View>
       )}
-    </View>
+      </View>
+      <View style={desktopWeb && styles.desktopNarrativeColumn}>
     <Animated.View entering={FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
       <Pressable
         testID="collective-story"
@@ -794,6 +796,8 @@ export default function HomeScreen() {
             />
           </Pressable>
         ))}
+      </View>
+    </View>
       </View>
     </View>
     <View style={styles.sectionHeading}>
@@ -1209,6 +1213,9 @@ const styles = StyleSheet.create({
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   heroSection: { marginTop: 0 },
   compactWebCategorySection: { marginTop: 16 },
+  desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
+  desktopCategoryColumn: { flex: 1, minWidth: 0 },
+  desktopNarrativeColumn: { width: 360, flexShrink: 0, gap: 20 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
   promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
