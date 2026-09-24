@@ -68,41 +68,41 @@ export default function SlidePilotFarmers() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[18vh] w-[25vw] text-[#2A201D]">
-        <p className="text-[1.3vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">
           Format daftar awal
         </p>
-        <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#806E63]">
+        <p className="mt-[1.2vh] text-[1.9vw] font-semibold leading-[1.14] text-[#806E63]">
           Daftar ini menjadi dasar kunjungan pertama dan pengumpulan baseline.
         </p>
         <div className="mt-[2.5vh] border-t border-[#D8C7B5]">
-          <div className="border-b border-[#D8C7B5] py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
+          <div className="border-b border-[#D8C7B5] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Disusun oleh
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Dinas, penyuluh, dan kelompok tani.
             </p>
           </div>
-          <div className="border-b border-[#D8C7B5] py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
+          <div className="border-b border-[#D8C7B5] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Disepakati bersama
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Kriteria peserta dan data minimum pilot.
             </p>
           </div>
-          <div className="py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
+          <div className="py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">
               Output
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Daftar terverifikasi untuk kunjungan awal.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">
         Dari daftar awal · menuju baseline lapangan
       </div>
     </div>

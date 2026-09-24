@@ -41,6 +41,34 @@ body {
   overflow: hidden;
 }
 
+.slide::after,
+.select-none > div::after {
+  content: "nempo.id × kala muda";
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  bottom: 0.35vh;
+  transform: translateX(-50%);
+  padding: 0.08em 0.55em;
+  border: 1px solid rgb(211 161 95 / 70%);
+  border-radius: 999px;
+  background: rgb(246 240 232 / 94%);
+  box-shadow: 0 1px 8px rgb(42 32 29 / 18%);
+  color: #806e63;
+  font-family: var(--font-body-family);
+  font-size: 1.5vw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.select-none > div {
+  position: relative;
+  isolation: isolate;
+}
+
 .slide h1,
 .slide h2,
 .slide h3 {

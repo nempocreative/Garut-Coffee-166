@@ -18,10 +18,10 @@ export default function Slide15Extension() {
           <span className="block">Pendampingan</span>
           <span className="text-[#D3A15F]">yang terhubung.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[33vw] text-[1.9vw] leading-[1.2] text-[#F6E9DD]">
+        <p className="mt-[3vh] max-w-[33vw] text-[2vw] leading-[1.2] text-[#F6E9DD]">
           Dashboard, program, dan ringkasan wilayah hadir dalam pengalaman mobile yang sama.
         </p>
-        <div className="mt-[4vh] border-t border-[#D3A15F]/60 pt-[2vh] text-[1.7vw] font-bold text-[#D3A15F]">Dashboard → Program</div>
+        <div className="mt-[4vh] border-t border-[#D3A15F]/60 pt-[2vh] text-[2vw] font-bold text-[#D3A15F]">Dashboard → Program</div>
       </div>
 
       <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">

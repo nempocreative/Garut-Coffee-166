@@ -19,50 +19,50 @@ export default function SlideFieldReality() {
           <span className="block">Potensi besar,</span>
           <span className="text-[#D3A15F]">data belum satu.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[43vw] text-[1.9vw] leading-[1.18] text-[#E7D9C8]">
+        <p className="mt-[3vh] max-w-[43vw] text-[2vw] leading-[1.18] text-[#E7D9C8]">
           Informasi asal, pelaku, produksi, dan pasar masih perlu disatukan agar keputusan dan cerita kopi Garut lebih mudah dipercaya.
         </p>
       </div>
 
       <div className="absolute bottom-[13vh] left-[6.5vw] z-10 grid w-[49vw] grid-cols-3 gap-[1vw]">
         <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-          <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">Asal</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.12]">Profil petani, kebun, dan lot tersimpan di banyak tempat.</p>
+           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Asal</p>
+           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Profil petani, kebun, dan lot tersimpan di banyak tempat.</p>
         </div>
         <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-          <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">Keputusan</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.12]">Produksi, harga, dan pendampingan sulit dibaca bersama.</p>
+           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Keputusan</p>
+           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Produksi, harga, dan pendampingan sulit dibaca bersama.</p>
         </div>
         <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-          <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">Cerita</p>
-          <p className="mt-[1.7vh] text-[1.45vw] font-bold leading-[1.12]">Asal dan kualitas belum selalu terlihat oleh pembeli.</p>
+           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Cerita</p>
+           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Asal dan kualitas belum selalu terlihat oleh pembeli.</p>
         </div>
       </div>
 
-      <div className="absolute bottom-[6vh] left-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Data sebagai titik mulai</div>
+      <div className="absolute bottom-[6vh] left-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">Data sebagai titik mulai</div>
 
       <div className="absolute right-[6.5vw] top-[18vh] w-[25vw] text-[#2A201D]">
-        <p className="text-[1.25vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Snapshot data awal · demo</p>
-        <p className="mt-[1.1vh] max-w-[22vw] text-[1.35vw] font-semibold leading-[1.15] text-[#806E63]">Contoh ringkasan yang perlu divalidasi bersama Dinas dan kelompok tani.</p>
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.14em] text-[#A8543B]">Snapshot data awal · demo</p>
+        <p className="mt-[1.1vh] max-w-[22vw] text-[1.8vw] font-semibold leading-[1.15] text-[#806E63]">Contoh ringkasan yang perlu divalidasi bersama Dinas dan kelompok tani.</p>
 
         <div className="mt-[3.5vh] grid grid-cols-2 gap-[1.25vw] border-y border-[#D8C7B5] py-[2.5vh]">
           <div>
             <p className="text-[3.8vw] font-extrabold leading-none tracking-[-0.08em] text-[#A8543B]">125</p>
-            <p className="mt-[0.8vh] text-[1.1vw] font-extrabold uppercase tracking-[0.11em] text-[#806E63]">Petani terdaftar</p>
+            <p className="mt-[0.8vh] text-[1.5vw] font-extrabold uppercase tracking-[0.09em] text-[#806E63]">Petani terdaftar</p>
           </div>
           <div>
             <p className="text-[3.8vw] font-extrabold leading-none tracking-[-0.08em] text-[#A8543B]">12</p>
-            <p className="mt-[0.8vh] text-[1.1vw] font-extrabold uppercase tracking-[0.11em] text-[#806E63]">Wilayah aktif</p>
+            <p className="mt-[0.8vh] text-[1.5vw] font-extrabold uppercase tracking-[0.09em] text-[#806E63]">Wilayah aktif</p>
           </div>
         </div>
 
         <div className="mt-[3.2vh] border-l-[0.35vw] border-[#D3A15F] pl-[1.2vw]">
           <p className="text-[5vw] font-extrabold leading-none tracking-[-0.09em] text-[#A8543B]">312 <span className="text-[2.2vw] tracking-[-0.03em]">ton</span></p>
-          <p className="mt-[0.8vh] text-[1.15vw] font-extrabold uppercase tracking-[0.13em] text-[#806E63]">Produksi tahunan</p>
+          <p className="mt-[0.8vh] text-[1.5vw] font-extrabold uppercase tracking-[0.1em] text-[#806E63]">Produksi tahunan</p>
         </div>
       </div>
 
-      <div className="absolute bottom-[6vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">Validasi bersama</div>
+      <div className="absolute bottom-[6vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.1em] text-[#806E63]">Validasi bersama</div>
     </div>
   );
 }

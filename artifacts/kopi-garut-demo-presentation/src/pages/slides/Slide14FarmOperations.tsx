@@ -12,23 +12,23 @@ export default function Slide14FarmOperations() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[19vh] w-[38vw]">
-        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Ruang kerja petani</p>
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Operasional kebun</p>
         <h2 className="mt-[1.6vh] text-[4.35vw] font-extrabold leading-[0.99] tracking-[-0.075em]">
-          <span className="block">Operasional kebun,</span>
-          <span className="text-[#A8543B]">tercatat dari hari ke hari.</span>
+          <span className="block">Kebun tercatat,</span>
+          <span className="text-[#A8543B]">dari rencana ke tindak lanjut.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[34vw] text-[1.9vw] leading-[1.2] text-[#806E63]">
-          Aplikasi menyatukan penemuan kopi dan cerita asalnya dalam satu perjalanan pengguna.
+        <p className="mt-[3vh] max-w-[34vw] text-[2vw] leading-[1.2] text-[#806E63]">
+          Kalender kebun, biaya, panen, dan isu lapangan tercatat dalam satu ruang kerja.
         </p>
-        <div className="mt-[4vh] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
-          Beranda → Jejak produk
+        <div className="mt-[4vh] border-t border-[#D8C7B5] pt-[2vh] text-[2vw] font-bold text-[#A8543B]">
+          Kalender kebun → Laporan panen
         </div>
-        <p className="mt-[1.5vh] max-w-[31vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Cuplikan langsung dari aplikasi mobile Garut Beans G-Beans.</p>
+        <p className="mt-[1.5vh] max-w-[31vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Cuplikan ruang kerja operasional Garut Beans G-Beans.</p>
       </div>
 
       <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-          <img src={`${base}demo-program.jpg`} alt="Cuplikan program aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+           <img src={`${base}demo-farm-calendar.jpg`} alt="Cuplikan kalender kebun aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
@@ -37,15 +37,15 @@ export default function Slide14FarmOperations() {
       </div>
       <div className="absolute right-[6.5vw] top-[20vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-          <img src={`${base}demo-traceability.jpg`} alt="Cuplikan jejak produk aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+           <img src={`${base}demo-reports.jpg`} alt="Cuplikan laporan operasional kebun aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
         </div>
         <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[18vw] bottom-[6vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Beranda</div>
-      <div className="absolute right-[6.5vw] bottom-[5vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Jejak produk</div>
+      <div className="absolute right-[18vw] bottom-[6vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Kalender kebun</div>
+      <div className="absolute right-[6.5vw] bottom-[5vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Laporan panen</div>
     </div>
   );
 }

@@ -67,41 +67,41 @@ export default function SlidePilotData() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[18vh] w-[25vw] text-[#FFF9F1]">
-        <p className="text-[1.3vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">
           Aturan kesepakatan
         </p>
-        <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#E7D9C8]">
+        <p className="mt-[1.2vh] text-[1.9vw] font-semibold leading-[1.14] text-[#E7D9C8]">
           Data dikumpulkan seperlunya, dipahami pemiliknya, dan dipakai untuk perbaikan nyata.
         </p>
         <div className="mt-[2.5vh] border-t border-[#806E63]">
-          <div className="border-b border-[#806E63] py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="border-b border-[#806E63] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Tujuan
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Menetapkan baseline dan membaca progres pilot.
             </p>
           </div>
-          <div className="border-b border-[#806E63] py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="border-b border-[#806E63] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Akses
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Dilihat sesuai peran dan kebutuhan kerja.
             </p>
           </div>
-          <div className="py-[1.55vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Output
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Kamus data dan format baseline yang disepakati.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
         Data cukup · akses jelas · keputusan lebih cepat
       </div>
     </div>

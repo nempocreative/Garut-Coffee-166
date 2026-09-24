@@ -15,16 +15,16 @@ export default function Slide17Branding() {
           <span className="block">Garut Beans G-Beans</span>
           <span className="text-[#D3A15F]">sebagai origin signature.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[37vw] text-[1.9vw] leading-[1.2] text-[#E7D9C8]">
+        <p className="mt-[3vh] max-w-[37vw] text-[2vw] leading-[1.2] text-[#E7D9C8]">
           Logikanya seperti nama kopi berbasis asal: daerah menjadi penanda cerita dan kualitas. Setiap coffee shop tetap memakai mereknya sendiri, dengan Garut Beans G-Beans sebagai identitas asal yang tampil di menu.
         </p>
       </div>
 
       <div className="absolute right-[6.5vw] top-[19vh] w-[43vw] space-y-[1.1vh]">
-         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[1.9vw] font-extrabold">Nama outlet tetap kuat</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#E7D9C8]">Bukan mengganti brand coffee shop. Garut Beans G-Beans hadir sebagai pilihan origin atau menu khas.</p></div></div>
-         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[1.9vw] font-extrabold">Format nama yang konsisten</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#E7D9C8]">Contoh: “Garut Beans G-Beans · Cikuray · Honey” atau “Garut Beans G-Beans · House Pour Over”.</p></div></div>
-         <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[1.9vw] font-extrabold">Tanda asal yang mudah dikenali</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#E7D9C8]">Badge partner, kartu cerita di meja, materi barista, dan QR menuju profil asal.</p></div></div>
-         <div className="flex gap-[1.2vw]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[1.9vw] font-extrabold">Standar menjaga kepercayaan</p><p className="mt-[0.45vh] text-[1.6vw] leading-[1.12] text-[#E7D9C8]">Identitas bersama harus didukung data lot, mutu, dan pasokan yang dapat ditelusuri.</p></div></div>
+          <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">01</span><div><p className="text-[1.9vw] font-extrabold">Nama outlet tetap kuat</p><p className="mt-[0.45vh] text-[2vw] leading-[1.12] text-[#E7D9C8]">Bukan mengganti brand coffee shop. Garut Beans G-Beans hadir sebagai pilihan origin atau menu khas.</p></div></div>
+          <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">02</span><div><p className="text-[1.9vw] font-extrabold">Format nama yang konsisten</p><p className="mt-[0.45vh] text-[2vw] leading-[1.12] text-[#E7D9C8]">Contoh: “Garut Beans G-Beans · Cikuray · Honey” atau “Garut Beans G-Beans · House Pour Over”.</p></div></div>
+          <div className="flex gap-[1.2vw] border-b border-[#806E63] pb-[1.2vh]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">03</span><div><p className="text-[1.9vw] font-extrabold">Tanda asal yang mudah dikenali</p><p className="mt-[0.45vh] text-[2vw] leading-[1.12] text-[#E7D9C8]">Badge partner, kartu cerita di meja, materi barista, dan QR menuju profil asal.</p></div></div>
+          <div className="flex gap-[1.2vw]"><span className="text-[2.5vw] font-extrabold text-[#D3A15F]">04</span><div><p className="text-[1.9vw] font-extrabold">Standar menjaga kepercayaan</p><p className="mt-[0.45vh] text-[2vw] leading-[1.12] text-[#E7D9C8]">Identitas bersama harus didukung data lot, mutu, dan pasokan yang dapat ditelusuri.</p></div></div>
       </div>
 
        <div className="absolute bottom-[5vh] left-[6.5vw] text-[1.6vw] font-bold uppercase tracking-[0.16em] text-[#D3A15F]">Satu asal · banyak interpretasi · identitas yang sama</div>

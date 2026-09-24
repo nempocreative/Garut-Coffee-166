@@ -15,7 +15,7 @@ export default function Slide18PartnerProgram() {
           <span className="block">Dari satu outlet</span>
           <span className="text-[#A8543B]">menjadi jaringan kota.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[34vw] text-[1.8vw] leading-[1.2] text-[#806E63]">
+        <p className="mt-[3vh] max-w-[34vw] text-[2vw] leading-[1.2] text-[#806E63]">
           Aplikasi menjadi pusat pendaftaran, standar, materi branding, dan hubungan antara coffee shop dengan sumber kopi.
         </p>
       </div>
@@ -25,31 +25,31 @@ export default function Slide18PartnerProgram() {
           <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">01</div>
             <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Daftar partner</p>
+             <p className="mt-[1.2vh] max-w-[8vw] text-[1.7vw] font-bold leading-[1.08]">Daftar partner</p>
           </div>
           <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">02</div>
             <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Verifikasi asal &amp; mutu</p>
+             <p className="mt-[1.2vh] max-w-[8vw] text-[1.7vw] font-bold leading-[1.08]">Verifikasi asal &amp; mutu</p>
           </div>
           <div className="relative min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">03</div>
             <div className="absolute left-[4.05vw] top-[1.8vw] h-[0.18vw] w-[4.25vw] bg-[#D3A15F]" />
-            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Dapatkan toolkit menu</p>
+             <p className="mt-[1.2vh] max-w-[8vw] text-[1.7vw] font-bold leading-[1.08]">Dapatkan toolkit menu</p>
           </div>
           <div className="min-w-0">
             <div className="h-[3.8vw] w-[3.8vw] rounded-full bg-[#A8543B] text-center text-[1.55vw] font-extrabold leading-[3.8vw] text-[#FFF9F1]">04</div>
-            <p className="mt-[1.2vh] max-w-[7vw] text-[1.45vw] font-bold leading-[1.08]">Aktifkan cerita</p>
+             <p className="mt-[1.2vh] max-w-[8vw] text-[1.7vw] font-bold leading-[1.08]">Aktifkan cerita</p>
           </div>
         </div>
         <div className="mt-[2.5vh] grid grid-cols-2 gap-[1vw]">
           <div className="min-h-[15vh] border-t-[0.25vw] border-[#A8543B] bg-[#FFF9F1] p-[1vw]">
-            <p className="text-[1.45vw] font-bold text-[#A8543B]">Untuk outlet</p>
-            <p className="mt-[0.8vh] text-[1.45vw] leading-[1.14] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p>
+             <p className="text-[1.7vw] font-bold text-[#A8543B]">Untuk outlet</p>
+             <p className="mt-[0.8vh] text-[2vw] leading-[1.14] text-[#806E63]">Pembeda menu, cerita yang siap dipakai, akses pasokan, dan status partner yang mudah dipercaya.</p>
           </div>
           <div className="min-h-[15vh] border-t-[0.25vw] border-[#D3A15F] bg-[#A8543B] p-[1vw] text-[#FFF9F1]">
-            <p className="text-[1.45vw] font-bold text-[#D3A15F]">Untuk Garut</p>
-            <p className="mt-[0.8vh] text-[1.45vw] leading-[1.14] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p>
+             <p className="text-[1.7vw] font-bold text-[#D3A15F]">Untuk Garut</p>
+             <p className="mt-[0.8vh] text-[2vw] leading-[1.14] text-[#F6F0E8]">Satu identitas origin yang hadir di banyak titik temu dengan pengunjung dan pembeli.</p>
           </div>
         </div>
       </div>

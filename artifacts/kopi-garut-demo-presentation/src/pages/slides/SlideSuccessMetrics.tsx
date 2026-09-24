@@ -18,7 +18,7 @@ export default function SlideSuccessMetrics() {
           <span className="block">Kinerja platform</span>
           <span className="text-[#A8543B]">dibaca dari hasil.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[39vw] text-[1.9vw] leading-[1.18] text-[#806E63]">
+        <p className="mt-[3vh] max-w-[39vw] text-[2vw] leading-[1.18] text-[#806E63]">
           Ukur data yang terhubung, digunakan, dan membantu keputusan di lapangan.
         </p>
       </div>
@@ -27,53 +27,53 @@ export default function SlideSuccessMetrics() {
         <div className="flex items-start gap-[1.1vw] border-t border-[#D8C7B5] pt-[1.4vh]">
           <span className="text-[2.2vw] font-extrabold leading-none text-[#A8543B]">01</span>
           <div>
-            <p className="text-[1.85vw] font-extrabold leading-none">Adopsi data</p>
-            <p className="mt-[0.7vh] text-[1.45vw] leading-[1.15] text-[#806E63]">Profil petani, kebun, dan kelompok yang terverifikasi.</p>
+            <p className="text-[2vw] font-extrabold leading-none">Adopsi data</p>
+            <p className="mt-[0.7vh] text-[1.9vw] leading-[1.15] text-[#806E63]">Profil petani, kebun, dan kelompok yang terverifikasi.</p>
           </div>
         </div>
         <div className="flex items-start gap-[1.1vw] border-t border-[#D8C7B5] pt-[1.4vh]">
           <span className="text-[2.2vw] font-extrabold leading-none text-[#A8543B]">02</span>
           <div>
-            <p className="text-[1.85vw] font-extrabold leading-none">Keterlacakan</p>
-            <p className="mt-[0.7vh] text-[1.45vw] leading-[1.15] text-[#806E63]">Lot panen dapat ditelusuri dari asal hingga produk.</p>
+            <p className="text-[2vw] font-extrabold leading-none">Keterlacakan</p>
+            <p className="mt-[0.7vh] text-[1.9vw] leading-[1.15] text-[#806E63]">Lot panen dapat ditelusuri dari asal hingga produk.</p>
           </div>
         </div>
         <div className="flex items-start gap-[1.1vw] border-t border-[#D8C7B5] pt-[1.4vh]">
           <span className="text-[2.2vw] font-extrabold leading-none text-[#A8543B]">03</span>
           <div>
-            <p className="text-[1.85vw] font-extrabold leading-none">Aktivasi mitra</p>
-            <p className="mt-[0.7vh] text-[1.45vw] leading-[1.15] text-[#806E63]">Mitra dan coffee shop aktif menggunakan data origin.</p>
+            <p className="text-[2vw] font-extrabold leading-none">Aktivasi mitra</p>
+            <p className="mt-[0.7vh] text-[1.9vw] leading-[1.15] text-[#806E63]">Mitra dan coffee shop aktif menggunakan data origin.</p>
           </div>
         </div>
         <div className="flex items-start gap-[1.1vw] border-t border-[#D8C7B5] pt-[1.4vh]">
           <span className="text-[2.2vw] font-extrabold leading-none text-[#A8543B]">04</span>
           <div>
-            <p className="text-[1.85vw] font-extrabold leading-none">Dampak program</p>
-            <p className="mt-[0.7vh] text-[1.45vw] leading-[1.15] text-[#806E63]">Pendampingan, pelatihan, dan dukungan tercatat serta ditindaklanjuti.</p>
+            <p className="text-[2vw] font-extrabold leading-none">Dampak program</p>
+            <p className="mt-[0.7vh] text-[1.9vw] leading-[1.15] text-[#806E63]">Pendampingan, pelatihan, dan dukungan tercatat serta ditindaklanjuti.</p>
           </div>
         </div>
       </div>
 
       <div className="absolute right-[6.5vw] top-[19vh] w-[24vw] text-[#FFF9F1]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">Kerangka pengukuran</p>
-        <p className="mt-[1.4vh] text-[1.65vw] font-semibold leading-[1.15] text-[#E7D9C8]">Target pilot ditetapkan setelah baseline lapangan disepakati.</p>
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">Kerangka pengukuran</p>
+        <p className="mt-[1.4vh] text-[1.9vw] font-semibold leading-[1.15] text-[#E7D9C8]">Target pilot ditetapkan setelah baseline lapangan disepakati.</p>
         <div className="mt-[3vh] border-t border-[#806E63]">
           <div className="border-b border-[#806E63] py-[2.2vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.17em] text-[#D3A15F]">Baseline demo</p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.1]">125 petani · 12 wilayah · 312 ton</p>
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Baseline demo</p>
+            <p className="mt-[0.65vh] text-[1.9vw] font-extrabold leading-[1.1]">125 petani · 12 wilayah · 312 ton</p>
           </div>
           <div className="border-b border-[#806E63] py-[2.2vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.17em] text-[#D3A15F]">Target pilot</p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.1]">Ditetapkan bersama Dinas dan kelompok tani.</p>
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Target pilot</p>
+            <p className="mt-[0.65vh] text-[1.9vw] font-extrabold leading-[1.1]">Ditetapkan bersama Dinas dan kelompok tani.</p>
           </div>
           <div className="py-[2.2vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.17em] text-[#D3A15F]">Review</p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.1]">Bulanan · per wilayah · per program</p>
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Review</p>
+            <p className="mt-[0.65vh] text-[1.9vw] font-extrabold leading-[1.1]">Bulanan · per wilayah · per program</p>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.15vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">Target ditetapkan bersama</div>
+      <div className="absolute bottom-[7vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.1em] text-[#D3A15F]">Target ditetapkan bersama</div>
     </div>
   );
 }

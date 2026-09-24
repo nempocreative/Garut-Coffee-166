@@ -67,41 +67,41 @@ export default function SlidePilotPIC() {
       </div>
 
       <div className="absolute right-[6.5vw] top-[18vh] w-[25vw] text-[#FFF9F1]">
-        <p className="text-[1.3vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">
+        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">
           Format penetapan
         </p>
-        <p className="mt-[1.2vh] text-[1.65vw] font-semibold leading-[1.15] text-[#E7D9C8]">
+        <p className="mt-[1.2vh] text-[1.9vw] font-semibold leading-[1.14] text-[#E7D9C8]">
           PIC ditetapkan saat kick-off agar setiap keputusan punya jalur yang jelas.
         </p>
         <div className="mt-[2.5vh] border-t border-[#806E63]">
-          <div className="border-b border-[#806E63] py-[1.6vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="border-b border-[#806E63] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Mandat
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Satu tanggung jawab utama per pihak.
             </p>
           </div>
-          <div className="border-b border-[#806E63] py-[1.6vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="border-b border-[#806E63] py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Ritme kerja
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Kanal komunikasi dan jadwal review disepakati.
             </p>
           </div>
-          <div className="py-[1.6vh]">
-            <p className="text-[1.05vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
+          <div className="py-[1.2vh]">
+            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#D3A15F]">
               Output
             </p>
-            <p className="mt-[0.65vh] text-[1.65vw] font-extrabold leading-[1.08]">
+            <p className="mt-[0.65vh] text-[1.85vw] font-extrabold leading-[1.08]">
               Daftar PIC, mandat, dan jalur eskalasi.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.1vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
+      <div className="absolute bottom-[5vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">
         Jelas siapa · jelas tindak lanjut
       </div>
     </div>
