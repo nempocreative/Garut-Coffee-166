@@ -440,7 +440,7 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
     calendar: require('../../assets/images/event-menu-ai-transparent.webp'),
     briefcase: require('../../assets/images/partnership-menu-ai-transparent.webp'),
     map: require('../../assets/images/region-home-ai.png'),
-    compass: require('../../assets/images/tourism-menu-ai-clean-transparent.webp'),
+    compass: require('../../assets/images/tourism-menu-ai-new.png'),
     'alert-circle': require('../../assets/images/complaints-menu-ai-transparent.webp'),
   };
   const menuImageSource = menuImageSources[icon];
