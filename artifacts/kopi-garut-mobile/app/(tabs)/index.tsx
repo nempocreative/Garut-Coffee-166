@@ -453,6 +453,14 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
               style={styles.farmerMenuImage}
             />
           </View>
+        ) : icon === 'coffee' ? (
+          <View style={styles.coffeeMenuImageFrame}>
+            <ExpoImage
+              source={require('../../assets/images/coffee-home-ai.png')}
+              contentFit="contain"
+              style={styles.coffeeMenuImage}
+            />
+          </View>
         ) : (
           <>
             <View style={styles.menuGlyphExtrusion}>
@@ -1244,6 +1252,8 @@ const styles = StyleSheet.create({
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
   farmerMenuImageFrame: { width: 48, height: 48, borderRadius: 15, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   farmerMenuImage: { width: 48, height: 48 },
+  coffeeMenuImageFrame: { width: 50, height: 50, alignItems: 'center', justifyContent: 'center' },
+  coffeeMenuImage: { width: 50, height: 50 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
