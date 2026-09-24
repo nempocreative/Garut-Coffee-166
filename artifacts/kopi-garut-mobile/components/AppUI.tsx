@@ -97,7 +97,7 @@ export function Header({ title, cart = true, notifications = false, back = false
           </SvgLinearGradient>
         </Defs>
         <SvgImage
-           href={require('../assets/images/garut-beans-mountain-header-refined.png')}
+           href={require('../assets/images/garut-beans-mountain-header-clean-ai.png')}
           x="0"
           y="0"
           width="400"
@@ -108,6 +108,15 @@ export function Header({ title, cart = true, notifications = false, back = false
         <Path d={extendOrnament ? "M0 0h400v151c-43-12-77-12-116 1-46 16-77 20-124 12-57-10-107-4-160 13V0Z" : "M0 0h400v116c-40-10-76-8-112 6-47 18-80 25-127 17-58-10-103-2-161 20V0Z"} fill="url(#headerGradient)" opacity={0.2} />
         <Path d={extendOrnament ? "M0 0h400v66c-48-9-86-4-123 9-44 16-75 18-119 9C100 74 51 77 0 93V0Z" : "M0 0h400v38c-44-7-83-1-119 12-48 17-79 20-126 11C98 51 52 53 0 70V0Z"} fill={colors.primary} opacity={0.18} />
         <Path d={extendOrnament ? "M0 0h400v108c-45-10-81-8-119 5-45 15-78 17-123 9-56-10-106-5-158 13V0Z" : "M0 0h400v78c-42-9-77-7-114 6-45 16-77 19-123 12C99 86 51 88 0 103V0Z"} fill={colors.accent} opacity={0.1} />
+        {extendOrnament && <SvgImage
+          href={require('../assets/images/garut-beans-mascot-transparent.png')}
+          x="12"
+          y="55"
+          width="72"
+          height="102"
+          preserveAspectRatio="xMidYMid meet"
+          clipPath="url(#headerImageClip)"
+        />}
       </Svg>
     </View>
     <View style={styles.headerContent}>
