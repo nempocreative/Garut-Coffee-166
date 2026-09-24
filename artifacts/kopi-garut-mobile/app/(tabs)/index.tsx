@@ -492,24 +492,26 @@ export default function HomeScreen() {
   const router = useRouter();
   const { addToCart } = useStore();
   const { width: windowWidth } = useWindowDimensions();
-  // The browser can be much wider than the shared app frame. Use the frame
-  // width for responsive calculations so web export and the native app keep
-  // the same grid geometry instead of clipping a desktop-sized layout.
+  const desktopWeb = Platform.OS === 'web' && windowWidth >= 1024;
+  // Preserve the compact card sizing on phones while giving desktop web its
+  // own centered content frame and wider category grid.
   const width = Math.min(windowWidth, 430);
-  const compactWeb = Platform.OS === 'web' && width < 768;
-  const featuredCardWidth = Math.max(120, Math.floor((width - 40 - 12) / 2));
-  const diversifiedCardWidth = Math.max(166, Math.floor((width - 40 - 12) / 2));
-  const farmerCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
+  const compactWeb = Platform.OS === 'web' && windowWidth < 768;
+  const featuredCardWidth = desktopWeb ? 420 : Math.max(120, Math.floor((width - 40 - 12) / 2));
+  const diversifiedCardWidth = desktopWeb ? 220 : Math.max(166, Math.floor((width - 40 - 12) / 2));
+  const farmerCardWidth = desktopWeb ? 220 : Math.max(160, Math.floor((width - 40 - 8) / 2));
   const farmerCardHeight = farmerCardWidth + 164;
-  const extensionCardWidth = Math.max(160, Math.floor((width - 40 - 8) / 2));
-  const regionCardWidth = Math.max(150, Math.floor((width - 40 - 10) / 2));
-  const storyCardWidth = Math.max(140, Math.floor((width - 40 - 8) / 2));
+  const extensionCardWidth = desktopWeb ? 220 : Math.max(160, Math.floor((width - 40 - 8) / 2));
+  const regionCardWidth = desktopWeb ? 220 : Math.max(150, Math.floor((width - 40 - 10) / 2));
+  const storyCardWidth = desktopWeb ? 210 : Math.max(140, Math.floor((width - 40 - 8) / 2));
   const storyCardHeight = Math.round(storyCardWidth * 1.42);
-  const categoryPageWidth = Math.max(300, width);
+  const categoryPageWidth = Math.max(300, desktopWeb ? Math.min(windowWidth, 1240) : width);
   const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   // Keep the carousel closer to the source images' square crop so people, cups,
   // and product packs stay visible instead of being cut off on narrow screens.
-  const promoHeight = Math.round(Math.min(208, Math.max(174, (width - 40) * 0.64)));
+  const promoHeight = desktopWeb
+    ? Math.round(Math.min(290, Math.max(228, (categoryPageWidth - 40) * 0.22)))
+    : Math.round(Math.min(208, Math.max(174, (width - 40) * 0.64)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [displayedSlide, setDisplayedSlide] = useState(0);
@@ -611,11 +613,11 @@ export default function HomeScreen() {
               end={{ x: 1, y: 0 }}
               style={styles.promoShade}
             />
-            <View style={styles.promoCopy}>
-              <Text style={[styles.promoEyebrow, { color: colors.brandHighlight }]}>{currentSlide.eyebrow}</Text>
-              <Text numberOfLines={2} style={[styles.promoTitle, { color: colors.card }]}>{currentSlide.title}</Text>
-              <Text numberOfLines={1} style={[styles.promoDescription, { color: colors.card }]}>{currentSlide.description}</Text>
-              <Text style={[styles.promoCta, { color: colors.card }]}>{currentSlide.cta} <Text style={{ color: colors.accent }}>›</Text></Text>
+            <View style={[styles.promoCopy, desktopWeb && styles.desktopPromoCopy]}>
+              <Text style={[styles.promoEyebrow, desktopWeb && styles.desktopPromoEyebrow, { color: colors.brandHighlight }]}>{currentSlide.eyebrow}</Text>
+              <Text numberOfLines={2} style={[styles.promoTitle, desktopWeb && styles.desktopPromoTitle, { color: colors.card }]}>{currentSlide.title}</Text>
+              <Text numberOfLines={1} style={[styles.promoDescription, desktopWeb && styles.desktopPromoDescription, { color: colors.card }]}>{currentSlide.description}</Text>
+              <Text style={[styles.promoCta, desktopWeb && styles.desktopPromoCta, { color: colors.card }]}>{currentSlide.cta} <Text style={{ color: colors.accent }}>›</Text></Text>
             </View>
           </Pressable>
         </View>
@@ -655,6 +657,7 @@ export default function HomeScreen() {
                 style={[
                   styles.categoryRow,
                   page.length < 4 && styles.categoryRowCompact,
+                  desktopWeb && page.length < 4 && styles.desktopCategoryRowCompact,
                 ]}
               >
                 {page.slice(rowIndex * 4, rowIndex * 4 + 4).map((item) => (
@@ -797,7 +800,7 @@ export default function HomeScreen() {
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.featured}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.featured, desktopWeb && styles.desktopFeatured]}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
     <View style={styles.sectionHeading}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Lebih dari secangkir</Text>
@@ -1213,10 +1216,15 @@ const styles = StyleSheet.create({
   promoPreloadImage: { opacity: 0 },
   promoShade: { ...StyleSheet.absoluteFill },
   promoCopy: { ...StyleSheet.absoluteFill, justifyContent: 'flex-end', alignItems: 'flex-start', padding: 18, paddingBottom: 28, gap: 4 },
+  desktopPromoCopy: { padding: 32, paddingBottom: 38, gap: 7 },
   promoEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.35 },
+  desktopPromoEyebrow: { fontSize: 11, letterSpacing: 1.7 },
   promoTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '800', letterSpacing: -0.35, maxWidth: 265 },
+  desktopPromoTitle: { fontSize: 30, lineHeight: 36, letterSpacing: -0.65, maxWidth: 440 },
   promoDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 250 },
+  desktopPromoDescription: { fontSize: 14, lineHeight: 20, maxWidth: 440 },
   promoCta: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800', marginTop: 3 },
+  desktopPromoCta: { fontSize: 14, marginTop: 5 },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
   promoDot: { height: 5, borderRadius: 3 },
@@ -1244,6 +1252,7 @@ const styles = StyleSheet.create({
   categoryPage: { paddingHorizontal: 20, gap: 12 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryRowCompact: { justifyContent: 'flex-start', columnGap: 14 },
+  desktopCategoryRowCompact: { justifyContent: 'center', columnGap: 44 },
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   menuIconSurface: {
@@ -1355,6 +1364,7 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 21, fontWeight: '800' },
   statLabel: { fontFamily: 'Manrope_400Regular', fontSize: 9, lineHeight: 12 },
   featured: { flexDirection: 'row', gap: 12, marginHorizontal: -20, paddingHorizontal: 20 },
+  desktopFeatured: { flexGrow: 1, justifyContent: 'center' },
   tasteGrid: { flexDirection: 'row', gap: 8 },
   tasteCard: { flex: 1, minHeight: 151, borderRadius: 17, borderWidth: 1, padding: 11, gap: 7, overflow: 'hidden' },
   tasteImage: { opacity: 0.38 },

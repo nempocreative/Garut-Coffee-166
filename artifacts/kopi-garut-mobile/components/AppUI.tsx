@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
-import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, Image as SvgImage, LinearGradient as SvgLinearGradient, Path, Stop } from 'react-native-svg';
@@ -32,11 +32,13 @@ export function useBottomMenuPadding(gap = 32) {
 
 export function Screen({ children, scroll = true, style, bottomGap = 32, bottomMenu = true }: { children: React.ReactNode; scroll?: boolean; style?: object; bottomGap?: number; bottomMenu?: boolean }) {
   const { background } = useColors();
+  const { width: viewportWidth } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const scrollRef = useRef<ScrollView>(null);
   const { notifyScroll } = useScrollVisibility();
   const topInset = Platform.OS === 'web' ? 0 : insets.top;
+  const desktopWeb = Platform.OS === 'web' && viewportWidth >= 1024;
   const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 0 : insets.bottom);
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
@@ -57,6 +59,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
           contentContainerStyle={[
             styles.screen,
             styles.webScreen,
+            desktopWeb && styles.webDesktopScreen,
             { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomMenu ? contentBottomPadding : 28 },
             style,
           ]}
@@ -219,6 +222,7 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   webScreen: { flexGrow: 1 },
+  webDesktopScreen: { width: '100%', maxWidth: 1240, alignSelf: 'center' },
   webScreenShell: { width: '100%', flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any, minHeight: 'var(--kg-viewport-height, 100dvh)' as any, overflow: 'visible' },
   webScroll: { width: '100%' },
   webScrollWithMenu: { flex: 0, height: 'calc(var(--kg-viewport-height, 100dvh) - var(--kg-menu-height, 90px))' as any },
