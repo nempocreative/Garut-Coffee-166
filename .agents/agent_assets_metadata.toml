@@ -14,3 +14,17 @@ mtime_ms = 1789709550825
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:6e4e3a36-ec4b-435d-8a36-d90fde81fc0d/20e17cd2-e801-4e45-863d-3a25f2e29664/060e0cb4-53bf-4100-bd8c-2e8647586af7"
 storage_version_token = "1789709638535207"
 content_type = "image/png"
+
+[[outputs]]
+id = "aXsEsW6tqPePr8nk3TbjU"
+uri = "file://artifacts/kopi-garut-mobile/assets/images/garut-beans-profile-sketch-colored.png"
+type = "image"
+title = "Garut Beans — Ilustrasi Profil Berwarna"
+description = "Versi profesional berwarna dari sketsa asli, dengan palet hangat kopi Garut dan siap digunakan sebagai ikon profil website."
+logical_id = "a6468f0a-b63c-441c-b8b4-12c4ad9019ee"
+content_hash = "sha256:2c8facc7814ce04fbf8b5fe7156513f001b7122c490c71658b7e38e3b78c880a"
+size = 1966362
+mtime_ms = 1790276319445
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:04622aa2-c045-45c0-bbc4-5183562d59a6/a6468f0a-b63c-441c-b8b4-12c4ad9019ee/c39aa390-7f99-4226-9cef-a82345d8cf89"
+storage_version_token = "1790276466246016"
+content_type = "image/png"

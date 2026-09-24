@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, useColorScheme, useWindowDimensions } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -66,8 +66,8 @@ function MenuIcon({ item, focused }: { item: BottomMenuItem; focused: boolean })
     return (
       <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
         <Image
-          source={require('../assets/images/account-coffee-settings.png')}
-          contentFit="contain"
+          source={require('../assets/images/garut-beans-profile-sketch-colored.png')}
+          contentFit="cover"
           style={[styles.accountImage, { width: focused ? 40 : 37, height: focused ? 40 : 37 }]}
         />
       </View>
@@ -110,26 +110,39 @@ export function BottomMenu() {
   const colors = useColors();
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
   const pathname = usePathname();
   const router = useRouter();
   const isDark = colorScheme === 'dark';
+  const isWeb = Platform.OS === 'web';
+  const isDesktopWeb = isWeb && width >= 1024;
+  const isTabletWeb = isWeb && width >= 640 && width < 1024;
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const isFarmerRoute = pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  const menuHeight = Platform.OS === 'web'
-    ? ('calc(90px + env(safe-area-inset-bottom, 0px))' as any)
+  const menuHeight = isWeb
+    ? (isDesktopWeb ? 82 : isTabletWeb ? 86 : 'calc(90px + env(safe-area-inset-bottom, 0px))' as any)
     : 90 + bottomInset;
-  const menuPaddingBottom = Platform.OS === 'web'
-    ? ('calc(4px + env(safe-area-inset-bottom, 0px))' as any)
+  const menuPaddingBottom = isWeb
+    ? (isDesktopWeb ? 8 : isTabletWeb ? 8 : 'calc(4px + env(safe-area-inset-bottom, 0px))' as any)
     : bottomInset + 4;
 
   if (isFarmerRoute) return null;
 
   return (
-    <View pointerEvents="box-none" style={Platform.OS === 'web' ? styles.webMenuHost : StyleSheet.absoluteFill}>
+    <View
+      pointerEvents="box-none"
+      style={[
+        Platform.OS === 'web' ? styles.webMenuHost : StyleSheet.absoluteFill,
+        isDesktopWeb && styles.webMenuHostDesktop,
+        isTabletWeb && styles.webMenuHostTablet,
+      ]}
+    >
       <View
         style={[
           styles.menu,
           Platform.OS === 'web' && styles.webMenu,
+          isDesktopWeb && styles.webMenuDesktop,
+          isTabletWeb && styles.webMenuTablet,
           {
             height: menuHeight,
             paddingBottom: menuPaddingBottom,
@@ -157,6 +170,7 @@ export function BottomMenu() {
                 onPress={() => router.replace(item.route)}
                 style={({ pressed }) => [
                   styles.item,
+                   isDesktopWeb && styles.webMenuDesktopItem,
                   item.icon === 'scan' && styles.centerItem,
                   { opacity: pressed ? 0.72 : 1 },
                 ]}
@@ -195,6 +209,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 20,
   },
+  webMenuHostTablet: {
+    paddingHorizontal: 14,
+  },
+  webMenuHostDesktop: {
+    left: 24,
+    right: 24,
+    width: 'auto',
+    maxWidth: 980,
+    marginLeft: 'auto' as any,
+    marginRight: 'auto' as any,
+    bottom: 18,
+    borderRadius: 22,
+    overflow: 'hidden',
+  },
   webMenu: {
     position: 'relative',
     left: undefined,
@@ -202,6 +230,14 @@ const styles = StyleSheet.create({
     bottom: undefined,
     width: '100%',
     zIndex: 1,
+  },
+  webMenuTablet: {
+    borderRadius: 18,
+    overflow: 'hidden',
+  },
+  webMenuDesktop: {
+    borderRadius: 22,
+    paddingTop: 8,
   },
   topBorder: {
     position: 'absolute',
@@ -222,6 +258,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     borderRadius: 18,
+  },
+  webMenuDesktopItem: {
+    height: 68,
   },
   centerItem: {
     marginTop: -25,
@@ -245,6 +284,7 @@ const styles = StyleSheet.create({
   },
   accountImage: {
     flexShrink: 0,
+    borderRadius: 14,
   },
   centerCircle: {
     width: 60,

@@ -43,7 +43,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   }, [pathname]);
   if (Platform.OS === 'web') {
     return (
-      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? 90 : 0 }]}>
+      <View style={[styles.webScreenShell, { backgroundColor: background, paddingBottom: bottomMenu ? ('var(--kg-menu-height, 90px)' as any) : 0 }]}>
         <ScrollView
           ref={scrollRef}
           nativeID="kopi-garut-web-scroll"
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   webScreen: { flexGrow: 1 },
   webScreenShell: { width: '100%', flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any, minHeight: 'var(--kg-viewport-height, 100dvh)' as any, overflow: 'visible' },
   webScroll: { width: '100%' },
-  webScrollWithMenu: { flex: 0, height: 'calc(var(--kg-viewport-height, 100dvh) - 90px)' as any },
+  webScrollWithMenu: { flex: 0, height: 'calc(var(--kg-viewport-height, 100dvh) - var(--kg-menu-height, 90px))' as any },
   webScrollFull: { flex: 1, height: 'var(--kg-viewport-height, 100dvh)' as any },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },

@@ -136,8 +136,10 @@ export default function RootLayout() {
         1,
         Math.round(visualViewport?.height || window.innerHeight),
       );
+      const viewportWidth = Math.max(1, Math.round(window.innerWidth));
+      const menuHeight = viewportWidth >= 1024 ? 102 : viewportWidth >= 640 ? 86 : 90;
       html.style.setProperty('--kg-viewport-height', `${viewportHeight}px`);
-      html.style.setProperty('--kg-menu-height', 'calc(90px + env(safe-area-inset-bottom, 0px))');
+      html.style.setProperty('--kg-menu-height', `${menuHeight}px`);
     };
 
     updateWebViewport();
