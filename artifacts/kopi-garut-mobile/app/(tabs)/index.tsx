@@ -445,12 +445,22 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
       />
       <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
       <Animated.View pointerEvents="none" style={[styles.menuIconVisualOverlay, iconMotionStyle]}>
-        <View style={styles.menuGlyphExtrusion}>
-          <ThreeDMenuGlyph name={icon} colors={extrusion} />
-        </View>
-        <View style={styles.menuGlyphFront}>
-          <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
-        </View>
+        {icon === 'users' ? (
+          <ExpoImage
+            source={require('../../assets/images/farmer-home-ai.png')}
+            contentFit="contain"
+            style={styles.farmerMenuImage}
+          />
+        ) : (
+          <>
+            <View style={styles.menuGlyphExtrusion}>
+              <ThreeDMenuGlyph name={icon} colors={extrusion} />
+            </View>
+            <View style={styles.menuGlyphFront}>
+              <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
+            </View>
+          </>
+        )}
       </Animated.View>
     </View>
   );
@@ -1230,6 +1240,7 @@ const styles = StyleSheet.create({
   },
   menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
+  farmerMenuImage: { width: 56, height: 56 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
   categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
