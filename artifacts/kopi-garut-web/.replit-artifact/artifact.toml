@@ -1,7 +1,7 @@
 kind = "web"
 previewPath = "/kopi-garut-web/"
 title = "Garut Beans G-Beans Web"
-description = "Situs Garut Beans G-Beans yang berdiri mandiri dari aplikasi mobile, dengan katalog kopi, keranjang, pesanan, dan cerita ekosistem dalam tampilan responsif untuk ponsel hingga desktop."
+description = "Versi web responsif Garut Beans G-Beans yang memakai rute, konten, dan alur aplikasi yang sama di ponsel maupun desktop."
 version = "1.0.0"
 id = "artifacts/kopi-garut-web"
 router = "path"
