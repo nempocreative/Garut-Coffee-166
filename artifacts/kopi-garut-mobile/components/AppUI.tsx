@@ -28,7 +28,7 @@ export function useBottomMenuPadding(gap = 32) {
   if (Platform.OS === 'web') {
     if (width >= 1024) return gap;
     const menuHeight = width >= 640 ? 86 : 90;
-    const webSafeArea = width < 640 ? 34 : 0;
+    const webSafeArea = width < 640 ? insets.bottom : 0;
     return menuHeight + webSafeArea + gap;
   }
   return 90 + insets.bottom + gap;
@@ -44,6 +44,9 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
   const topInset = Platform.OS === 'web' ? 0 : insets.top;
   const desktopWeb = Platform.OS === 'web' && viewportWidth >= 1024;
   const contentBottomPadding = bottomMenu ? useBottomMenuPadding(bottomGap) : 20 + (Platform.OS === 'web' ? 0 : insets.bottom);
+  const webContentBottomPadding = viewportWidth < 640
+    ? `calc(90px + env(safe-area-inset-bottom, 0px) + ${bottomGap}px)`
+    : 86 + bottomGap;
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [pathname]);
@@ -53,7 +56,7 @@ export function Screen({ children, scroll = true, style, bottomGap = 32, bottomM
         background={background}
         bottomMenu={bottomMenu}
         desktopWeb={desktopWeb}
-        bottomPadding={bottomMenu && !desktopWeb ? contentBottomPadding : 28}
+        bottomPadding={bottomMenu && !desktopWeb ? webContentBottomPadding : 28}
         topInset={topInset}
         style={style}
         notifyScroll={notifyScroll}
@@ -79,7 +82,7 @@ function WebDocumentScreen({
   background: string;
   bottomMenu: boolean;
   desktopWeb: boolean;
-  bottomPadding: number;
+  bottomPadding: number | string;
   topInset: number;
   style?: object;
   notifyScroll: () => void;
@@ -99,7 +102,7 @@ function WebDocumentScreen({
             styles.screen,
             styles.webScreen,
             desktopWeb && styles.webDesktopScreen,
-            { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomPadding },
+            { backgroundColor: background, paddingTop: topInset + 18, paddingBottom: bottomPadding as any },
             style,
           ]}
         >

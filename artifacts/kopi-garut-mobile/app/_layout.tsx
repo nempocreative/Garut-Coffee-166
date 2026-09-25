@@ -137,6 +137,24 @@ export default function RootLayout() {
     const body = document.body;
     const root = document.getElementById('root');
     const bodyStyle = body.style as CSSStyleDeclaration & { webkitOverflowScrolling?: string };
+    const mobileScrollbarStyles = document.createElement('style');
+    mobileScrollbarStyles.textContent = `
+      @media (max-width: 767px) {
+        html, body, #root, #root * {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        #root::-webkit-scrollbar,
+        #root *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+      }
+    `;
+    document.head.appendChild(mobileScrollbarStyles);
     const previous = {
       htmlHeight: html.style.height,
       htmlMinHeight: html.style.minHeight,
@@ -192,6 +210,7 @@ export default function RootLayout() {
       window.removeEventListener('resize', updateWebViewport);
       window.removeEventListener('orientationchange', updateWebViewport);
       visualViewport?.removeEventListener('resize', updateWebViewport);
+      mobileScrollbarStyles.remove();
       html.style.height = previous.htmlHeight;
       html.style.minHeight = previous.htmlMinHeight;
       html.style.width = previous.htmlWidth;

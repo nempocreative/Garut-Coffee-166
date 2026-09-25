@@ -542,7 +542,7 @@ export default function HomeScreen() {
     return () => clearInterval(timer);
   }, [storyCardWidth]);
 
-  return <Screen>
+  return <Screen bottomGap={8}>
     <Header title="Mau menikmati kopi apa hari ini?" notifications extendOrnament />
     <Pressable
       testID="home-search"
@@ -737,8 +737,11 @@ export default function HomeScreen() {
         </>
       )}
       </View>
-      <View style={desktopWeb && styles.desktopNarrativeColumn}>
-    <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(180).duration(600)} style={styles.storyLeadWrap}>
+      <View style={[styles.mobileNarrativeColumn, desktopWeb && styles.desktopNarrativeColumn]}>
+    <Animated.View
+      entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(180).duration(600)}
+      style={[styles.storyLeadWrap, desktopWeb && styles.desktopStoryLeadWrap]}
+    >
       <Pressable
         testID="collective-story"
         accessibilityRole="button"
@@ -839,12 +842,12 @@ export default function HomeScreen() {
     </View>
       </View>
     </View>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Untuk cangkir pertama</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.featured, desktopWeb && styles.desktopFeatured]}><CoffeeCard coffee={coffees[0]} index={0} grid cardWidth={featuredCardWidth} /><CoffeeCard coffee={coffees[1]} index={1} grid cardWidth={featuredCardWidth} /></ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Lebih dari secangkir</Text>
       </View>
@@ -901,7 +904,7 @@ export default function HomeScreen() {
         </View>
       ))}
     </ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Tumbuh bersama</Text>
       </View>
@@ -953,7 +956,7 @@ export default function HomeScreen() {
         </View>
       </LinearGradient>
     </Pressable>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Mulai dari selera</Text></View>
       <Link href="/catalog" style={[styles.seeAll, { color: colors.primary }]}>Jelajahi</Link>
     </View>
@@ -987,7 +990,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </View>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Orang di balik rasa</Text></View>
       <Link href="/farmers" style={[styles.seeAll, { color: colors.primary }]}>Semua petani</Link>
     </View>
@@ -1050,7 +1053,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Penyuluh di lapangan</Text>
       </View>
@@ -1106,7 +1109,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Baca peta rasa Garut</Text></View>
       <Link href="/regions" style={[styles.seeAll, { color: colors.primary }]}>Lihat semua</Link>
     </View>
@@ -1156,7 +1159,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Selalu ada cerita baru</Text></View>
       <Link href="/events" style={[styles.seeAll, { color: colors.primary }]}>Lihat agenda</Link>
     </View>
@@ -1217,7 +1220,7 @@ export default function HomeScreen() {
         </Pressable>
       ))}
     </ScrollView>
-    <View style={styles.sectionHeading}>
+    <View style={[styles.sectionHeading, !desktopWeb && styles.mobileSectionHeading]}>
       <View style={styles.headingCopy}><Text style={[styles.sectionTitle, { color: colors.foreground }]}>Datang ke kebunnya</Text></View>
       <Link href="/tourism" style={[styles.seeAll, { color: colors.primary }]}>Lihat wisata</Link>
     </View>
@@ -1262,6 +1265,7 @@ const styles = StyleSheet.create({
   desktopCategoryGridItem: { height: 92, borderWidth: 1, borderRadius: 18, justifyContent: 'center', gap: 4 },
   desktopDiscoveryEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.45 },
   desktopDiscoveryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 26, fontWeight: '700', letterSpacing: -0.4 },
+  mobileNarrativeColumn: { gap: 16 },
   desktopNarrativeColumn: { width: 384, flexShrink: 0, gap: 20 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
@@ -1283,6 +1287,7 @@ const styles = StyleSheet.create({
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
   promoDot: { height: 5, borderRadius: 3 },
   sectionHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 18, gap: 14 },
+  mobileSectionHeading: { marginTop: 0 },
   headingCopy: { flexShrink: 1 },
   headingRule: { width: 42, height: 1, marginBottom: 7 },
   categoryHint: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, paddingBottom: 4, textAlign: 'right', maxWidth: 92 },
@@ -1506,8 +1511,9 @@ const styles = StyleSheet.create({
   tourType: { fontFamily: 'Manrope_700Bold', fontSize: 8, letterSpacing: 1, textTransform: 'uppercase' },
   tourTitle: { fontFamily: 'Manrope_700Bold', fontSize: 16, lineHeight: 20, fontWeight: '700' },
   tourMeta: { fontFamily: 'Manrope_400Regular', fontSize: 10 },
-  homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 4, paddingTop: 4, paddingBottom: 24 },
+  homeFooter: { width: '100%', alignItems: 'center', gap: 1, marginTop: 4, paddingTop: 4, paddingBottom: 6 },
   footerMountain: { width: '94%', height: 62, opacity: 0.42 },
   footerCaption: { fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.15, textAlign: 'center' },
-  storyLeadWrap: { position: 'relative', marginTop: 2, zIndex: 1, overflow: 'visible' },
+  storyLeadWrap: { position: 'relative', marginTop: 22, zIndex: 1, overflow: 'visible' },
+  desktopStoryLeadWrap: { marginTop: 0 },
 });
