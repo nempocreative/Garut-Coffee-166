@@ -490,7 +490,10 @@ export default function HomeScreen() {
   const storyCardWidth = desktopWeb ? 210 : Math.max(140, Math.floor((width - 40 - 8) / 2));
   const storyCardHeight = Math.round(storyCardWidth * 1.42);
   const categoryPageWidth = Math.max(300, desktopWeb ? Math.min(800, windowWidth - 500) : width);
-  const categoryItemWidth = Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
+  const desktopCategoryGridWidth = Math.min(windowWidth, 1280) - 40 - 384 - 28 - 44;
+  const categoryItemWidth = desktopWeb
+    ? Math.max(58, Math.floor((desktopCategoryGridWidth - 36) / 4))
+    : Math.max(58, Math.floor((categoryPageWidth - 40 - 24) / 4));
   // Keep the carousel closer to the source images' square crop so people, cups,
   // and product packs stay visible instead of being cut off on narrow screens.
   const promoHeight = desktopWeb
@@ -639,62 +642,89 @@ export default function HomeScreen() {
             <Text style={[styles.desktopDiscoveryTitle, { color: colors.foreground }]}>Pilih pengalaman kopimu</Text>
           </View>
         )}
-      <ScrollView
-        ref={categoryRef}
-        horizontal
-        pagingEnabled
-        decelerationRate="normal"
-        bounces={false}
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) => setActiveCategoryPage(Math.round(event.nativeEvent.contentOffset.x / categoryPageWidth))}
-        style={styles.categoryPager}
-      >
-        {categoryPages.map((page, pageIndex) => (
-          <View key={`category-page-${pageIndex}`} style={[styles.categoryPage, { width: categoryPageWidth }]}>
-            {Array.from({ length: Math.ceil(page.length / 4) }, (_, rowIndex) => (
-              <View
-                key={`category-row-${rowIndex}`}
-                style={[
-                  styles.categoryRow,
-                  page.length < 4 && styles.categoryRowCompact,
-                  desktopWeb && page.length < 4 && styles.desktopCategoryRowCompact,
-                ]}
-              >
-                {page.slice(rowIndex * 4, rowIndex * 4 + 4).map((item) => (
-                  <Pressable
-                    key={item.label}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Buka ${item.label}`}
-                    onPress={() => router.push(item.route)}
-                    style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
-                  >
-                    <HomeMenuIcon icon={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
-                    <Text numberOfLines={2} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
-                  </Pressable>
-                ))}
-              </View>
-            ))}
-          </View>
-        ))}
-      </ScrollView>
-      {categoryPages.length > 1 && (
-        <View style={styles.categoryPagination}>
-          {categoryPages.map((_, index) => (
+      {desktopWeb ? (
+        <View style={styles.desktopCategoryGrid}>
+          {categoryItems.map((item, index) => (
             <Pressable
-              key={`category-dot-${index}`}
-              testID={`category-dot-${index}`}
+              key={item.label}
               accessibilityRole="button"
-              accessibilityLabel={`Tampilkan menu halaman ${index + 1}`}
-              onPress={() => {
-                setActiveCategoryPage(index);
-                categoryRef.current?.scrollTo({ x: index * categoryPageWidth, animated: true });
-              }}
-              style={styles.categoryPaginationHit}
+              accessibilityLabel={`Buka ${item.label}`}
+              onPress={() => router.push(item.route)}
+              style={({ pressed }) => [
+                styles.categoryItem,
+                styles.desktopCategoryGridItem,
+                {
+                  width: categoryItemWidth,
+                  backgroundColor: colors.background,
+                  borderColor: colors.border,
+                  opacity: pressed ? 0.7 : 1,
+                },
+              ]}
             >
-              <View style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+              <HomeMenuIcon icon={item.icon} index={index} />
+              <Text numberOfLines={2} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
             </Pressable>
           ))}
         </View>
+      ) : (
+        <>
+          <ScrollView
+            ref={categoryRef}
+            horizontal
+            pagingEnabled
+            decelerationRate="normal"
+            bounces={false}
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={(event) => setActiveCategoryPage(Math.round(event.nativeEvent.contentOffset.x / categoryPageWidth))}
+            style={styles.categoryPager}
+          >
+            {categoryPages.map((page, pageIndex) => (
+              <View key={`category-page-${pageIndex}`} style={[styles.categoryPage, { width: categoryPageWidth }]}>
+                {Array.from({ length: Math.ceil(page.length / 4) }, (_, rowIndex) => (
+                  <View
+                    key={`category-row-${rowIndex}`}
+                    style={[
+                      styles.categoryRow,
+                      page.length < 4 && styles.categoryRowCompact,
+                    ]}
+                  >
+                    {page.slice(rowIndex * 4, rowIndex * 4 + 4).map((item) => (
+                      <Pressable
+                        key={item.label}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Buka ${item.label}`}
+                        onPress={() => router.push(item.route)}
+                        style={({ pressed }) => [styles.categoryItem, { width: categoryItemWidth, opacity: pressed ? 0.7 : 1 }]}
+                      >
+                        <HomeMenuIcon icon={item.icon} index={pageIndex * 8 + rowIndex * 4 + page.slice(rowIndex * 4, rowIndex * 4 + 4).indexOf(item)} />
+                        <Text numberOfLines={2} style={[styles.categoryLabel, { color: colors.foreground }]}>{item.label}</Text>
+                      </Pressable>
+                    ))}
+                  </View>
+                ))}
+              </View>
+            ))}
+          </ScrollView>
+          {categoryPages.length > 1 && (
+            <View style={styles.categoryPagination}>
+              {categoryPages.map((_, index) => (
+                <Pressable
+                  key={`category-dot-${index}`}
+                  testID={`category-dot-${index}`}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Tampilkan menu halaman ${index + 1}`}
+                  onPress={() => {
+                    setActiveCategoryPage(index);
+                    categoryRef.current?.scrollTo({ x: index * categoryPageWidth, animated: true });
+                  }}
+                  style={styles.categoryPaginationHit}
+                >
+                  <View style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+                </Pressable>
+              ))}
+            </View>
+          )}
+        </>
       )}
       </View>
       <View style={desktopWeb && styles.desktopNarrativeColumn}>
@@ -1218,6 +1248,8 @@ const styles = StyleSheet.create({
   desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'stretch', gap: 28, marginTop: 6 },
   desktopCategoryColumn: { flex: 1, minWidth: 0, borderWidth: 1, borderRadius: 26, paddingTop: 22, overflow: 'hidden' },
   desktopDiscoveryHeading: { paddingHorizontal: 22, gap: 5, marginBottom: 10 },
+  desktopCategoryGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 12, rowGap: 12, paddingHorizontal: 22, paddingBottom: 22 },
+  desktopCategoryGridItem: { height: 92, borderWidth: 1, borderRadius: 18, justifyContent: 'center', gap: 4 },
   desktopDiscoveryEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.45 },
   desktopDiscoveryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 26, fontWeight: '700', letterSpacing: -0.4 },
   desktopNarrativeColumn: { width: 384, flexShrink: 0, gap: 20 },
@@ -1264,7 +1296,6 @@ const styles = StyleSheet.create({
   categoryPage: { paddingHorizontal: 20, gap: 12 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryRowCompact: { justifyContent: 'flex-start', columnGap: 14 },
-  desktopCategoryRowCompact: { justifyContent: 'center', columnGap: 44 },
   categoryItem: { alignItems: 'center', gap: 8 },
   menuIconStage: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   menuIconSurface: {
