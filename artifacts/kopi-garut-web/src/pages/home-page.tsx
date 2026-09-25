@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   coffeeCatalog,
   homeContent,
@@ -119,6 +119,19 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const categoryPages = Array.from({ length: Math.ceil(homeContent.categories.length / 8) }, (_, pageIndex) =>
+    homeContent.categories.slice(pageIndex * 8, pageIndex * 8 + 8),
+  );
+  const categoryRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+
+  const scrollToPage = (pageIndex: number) => {
+    const container = categoryRef.current;
+    if (!container) return;
+    container.scrollTo({ left: pageIndex * container.clientWidth, behavior: 'smooth' });
+    setActivePage(pageIndex);
+  };
+
   return (
     <section className="gb-category-pager" data-testid="category-navigation">
       <div className="gb-category-heading">
@@ -134,18 +147,37 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
         aria-label="Menu kategori, geser ke samping untuk melihat semua pilihan"
         tabIndex={0}
         data-testid="category-scroll"
+        ref={categoryRef}
+        onScroll={(event) => {
+          const container = event.currentTarget;
+          if (container.clientWidth) setActivePage(Math.round(container.scrollLeft / container.clientWidth));
+        }}
       >
-        {homeContent.categories.map((category) => {
-          const iconArt = categoryArt[category.icon];
-          return (
-            <button className="gb-category-tile" key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
-              <span className="gb-category-glyph">
-                {iconArt ? <img src={asset(iconArt)} alt="" /> : <AppIcon name="package" size={26} />}
-              </span>
-              <span>{category.label}</span>
-            </button>
-          );
-        })}
+        {categoryPages.map((page, pageIndex) => (
+          <div className="gb-category-page" key={`category-page-${pageIndex}`}>
+            {page.map((category) => {
+              const iconArt = categoryArt[category.icon];
+              return (
+                <button className="gb-category-tile" key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
+                  <span className="gb-category-glyph">
+                    {iconArt ? <img src={asset(iconArt)} alt="" /> : <AppIcon name="package" size={26} />}
+                  </span>
+                  <span>{category.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <div className="gb-category-pagination" aria-label="Halaman menu kategori">
+        {categoryPages.map((_, pageIndex) => (
+          <button
+            key={`category-page-dot-${pageIndex}`}
+            className={`gb-page-dot ${activePage === pageIndex ? 'active' : ''}`}
+            onClick={() => scrollToPage(pageIndex)}
+            aria-label={`Tampilkan menu halaman ${pageIndex + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
@@ -154,7 +186,8 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
 function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <button className="gb-story-lead" onClick={() => onNavigate('/collective')} data-testid="button-collective-story">
-      <img src={asset('collective-banner.webp')} alt="" data-testid="img-collective-story" />
+      <img className="gb-story-lead-desktop-image" src={asset('collective-banner.webp')} alt="" data-testid="img-collective-story" />
+      <img className="gb-story-lead-mobile-image" src={asset('story-background.webp')} alt="" aria-hidden="true" />
       <span className="gb-story-lead-shade" />
       <span className="gb-story-lead-copy">
         <strong>Kopi dari tanah pegunungan.</strong>
@@ -162,6 +195,47 @@ function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
         <img src={asset('coffee-beans-natural.webp')} alt="" data-testid="img-story-beans" />
       </span>
     </button>
+  );
+}
+
+function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <footer className="gb-footer" data-testid="site-footer">
+      <div className="gb-footer-inner">
+        <div className="gb-footer-brand">
+          <button className="gb-footer-logo" onClick={() => onNavigate('/')} aria-label="Kembali ke Beranda">
+            <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" />
+          </button>
+          <div>
+            <div className="gb-footer-name"><span>Garut</span> <strong>Beans</strong></div>
+            <p>Kopi spesialti dari lereng Garut, dirawat bersama dari kebun sampai cangkir.</p>
+          </div>
+        </div>
+        <div className="gb-footer-columns">
+          <div>
+            <span className="gb-footer-label">JELAJAHI</span>
+            <button onClick={() => onNavigate('/catalog')}>Kopi pilihan</button>
+            <button onClick={() => onNavigate('/farmers')}>Cerita petani</button>
+            <button onClick={() => onNavigate('/regions')}>Wilayah Garut</button>
+          </div>
+          <div>
+            <span className="gb-footer-label">TUMBUH BERSAMA</span>
+            <button onClick={() => onNavigate('/program')}>Program G-Beans</button>
+            <button onClick={() => onNavigate('/events')}>Agenda kopi</button>
+            <button onClick={() => onNavigate('/partnership')}>Kemitraan</button>
+          </div>
+        </div>
+        <div className="gb-footer-contact">
+          <span className="gb-footer-label">TEMUI KAMI</span>
+          <p>Garut, Jawa Barat<br />Senin—Sabtu · 08.00—17.00</p>
+          <button onClick={() => onNavigate('/complaints')}>Hubungi tim Garut Beans <AppIcon name="arrow-up-right" size={13} /></button>
+        </div>
+      </div>
+      <div className="gb-footer-bottom">
+        <span>© 2026 Garut Beans. Tumbuh bersama.</span>
+        <button onClick={() => onNavigate('/traceability')}>Lihat jejak kopi <AppIcon name="arrow-up-right" size={12} /></button>
+      </div>
+    </footer>
   );
 }
 
@@ -318,9 +392,10 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             </div>
           </section>
         </main>
+        <SiteFooter onNavigate={onNavigate} />
         <nav className="gb-bottom-nav" aria-label="Navigasi utama">
           <button className="active" onClick={() => onNavigate('/')} data-testid="nav-home"><span className="gb-home-nav-mark"><img src={asset('home-coffee-house.png')} alt="" /></span><span>Beranda</span></button>
-          <button onClick={() => onNavigate('/catalog')} data-testid="nav-explore"><span className="gb-nav-app-icon"><img src={asset('app-menu-product.png')} alt="" /></span><span>Jelajah</span></button>
+          <button onClick={() => onNavigate('/catalog')} data-testid="nav-explore"><span className="gb-nav-app-icon"><img src={asset('app-menu-product.png')} alt="" /></span><span>Produk</span></button>
           <button className="gb-nav-center" onClick={() => onNavigate('/traceability')} data-testid="nav-traceability"><span><img src={asset('app-nav-traceability.png')} alt="" /></span><span>Jejak</span></button>
           <button onClick={() => onNavigate('/orders')} data-testid="nav-orders"><span className="gb-nav-app-icon"><img src={asset('app-nav-orders.png')} alt="" /></span><span>Pesanan</span></button>
           <button onClick={() => onNavigate('/profile')} data-testid="nav-profile"><span className="gb-nav-app-icon"><img src={asset('app-nav-account.png')} alt="" /></span><span>Akun</span></button>
