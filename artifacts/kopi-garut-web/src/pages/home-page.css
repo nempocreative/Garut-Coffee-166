@@ -3194,3 +3194,12 @@
     height: 46px;
   }
 }
+
+/* Give the search field its own breathing room below the illustrated masthead. */
+.gb-home-content {
+  margin-top: 18px;
+}
+
+.gb-search-entry {
+  transform: none;
+}
