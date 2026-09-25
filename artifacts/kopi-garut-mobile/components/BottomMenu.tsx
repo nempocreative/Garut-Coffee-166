@@ -28,7 +28,7 @@ function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; fo
 
   if (item.icon === 'home') {
     return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/home-coffee-house.png')}
           contentFit="contain"
@@ -40,7 +40,7 @@ function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; fo
 
   if (item.icon === 'product') {
     return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/product-coffee-basket.png')}
           contentFit="contain"
@@ -52,7 +52,7 @@ function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; fo
 
   if (item.icon === 'orders') {
     return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/orders-coffee-checklist.png')}
           contentFit="contain"
@@ -64,7 +64,7 @@ function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; fo
 
   if (item.icon === 'account') {
     return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/account-coffee-settings.png')}
           contentFit="contain"
@@ -157,7 +157,7 @@ export function BottomMenu() {
           <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.card }]} />
         )}
         <View style={[styles.topBorder, { backgroundColor: colors.border }]} />
-        <View style={styles.items}>
+        <View style={[styles.items, isDesktopWeb && styles.webDesktopNavItems]}>
           {menuItems.map((item) => {
             const focused = item.matches(pathname);
             return (
@@ -177,7 +177,7 @@ export function BottomMenu() {
                 ]}
               >
                 <MenuIcon item={item} focused={focused} desktop={isDesktopWeb} />
-                <Text style={[styles.label, { color: focused ? colors.primary : colors.mutedForeground }]}>
+                <Text style={[styles.label, isDesktopWeb && styles.webDesktopNavLabel, { color: focused ? colors.primary : colors.mutedForeground }]}>
                   {item.label}
                 </Text>
               </Pressable>
@@ -219,11 +219,11 @@ const styles = StyleSheet.create({
     right: undefined,
     bottom: undefined,
     width: '100%',
-    maxWidth: 1240,
+    maxWidth: 720,
     alignSelf: 'center',
     marginTop: 12,
-    marginBottom: 12,
-    borderRadius: 22,
+    marginBottom: 16,
+    borderRadius: 18,
     overflow: 'hidden',
   },
   webMenu: {
@@ -240,7 +240,18 @@ const styles = StyleSheet.create({
   },
   webMenuDesktop: {
     borderRadius: 22,
-    paddingTop: 5,
+    paddingTop: 0,
+  },
+  webDesktopNavItems: {
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  webDesktopNavIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
   },
   topBorder: {
     position: 'absolute',
@@ -263,10 +274,20 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   webMenuDesktopItem: {
-    height: 56,
+    minWidth: 84,
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    borderRadius: 14,
   },
   webMenuDesktopCenterItem: {
-    marginTop: -8,
+    marginTop: 0,
+  },
+  webDesktopNavLabel: {
+    fontSize: 11,
+    marginTop: 0,
   },
   centerItem: {
     marginTop: -25,
@@ -305,10 +326,10 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   desktopCenterCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 3,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 2,
   },
   traceImage: {
     width: 52,
@@ -316,8 +337,8 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   desktopTraceImage: {
-    width: 41,
-    height: 41,
+    width: 28,
+    height: 28,
   },
   centerHighlight: {
     position: 'absolute',
