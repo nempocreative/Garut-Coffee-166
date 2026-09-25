@@ -329,6 +329,7 @@ function CoffeeCard({ coffee, favorites, onAddToCart, onToggleFavorite, onNaviga
       </button>
       <div className="gb-coffee-body">
         <div>
+          <span className="gb-coffee-meta">{coffee.category} · {coffee.process}</span>
           <h3 data-testid={`text-coffee-name-${coffee.id}`}>{coffee.name}</h3>
           <p>{coffee.tagline}</p>
           <strong>{formatPrice(coffee.price)} <small>/ 200g</small></strong>
@@ -338,7 +339,7 @@ function CoffeeCard({ coffee, favorites, onAddToCart, onToggleFavorite, onNaviga
         </button>
       </div>
       <button className="gb-add-button" onClick={() => onAddToCart(coffee.id)} data-testid={`button-add-to-cart-${coffee.id}`}>
-        <AppIcon name="plus" size={15} /> Tambah ke keranjang
+        Tambah
       </button>
     </article>
   );
@@ -373,30 +374,45 @@ function CoffeeCarousel({ coffees, favorites, onAddToCart, onToggleFavorite, onN
   onNavigate: (path: string) => void;
 }) {
   const [frameStart, setFrameStart] = useState(0);
+  const [isLoopResetting, setIsLoopResetting] = useState(false);
   const activeIndex = (frameStart + 1) % coffees.length;
-  const visibleCoffees = coffees.map((coffee, index) => {
-    const distance = (index - frameStart + coffees.length) % coffees.length;
+  const carouselCoffees = [...coffees, ...coffees];
+  const visibleCoffees = carouselCoffees.map((coffee, index) => {
+    const distance = index - frameStart;
     return {
       coffee,
-      position: distance === 1 ? 'is-active' : distance === 0 ? 'is-prev' : distance === 2 ? 'is-next' : distance <= 4 ? 'is-visible' : 'is-hidden',
+      position: distance === 1 ? 'is-active' : distance === 0 ? 'is-prev' : distance === 2 ? 'is-next' : distance >= 3 && distance <= 4 ? 'is-visible' : 'is-hidden',
+      key: `${coffee.id}-${index}`,
     };
   });
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => setFrameStart((current) => (current + 1) % coffees.length), 3600);
+    const timer = window.setInterval(() => setFrameStart((current) => current + 1), 3600);
     return () => window.clearInterval(timer);
   }, [coffees.length]);
+
+  useEffect(() => {
+    if (frameStart !== coffees.length) return;
+    const resetTimer = window.setTimeout(() => {
+      setIsLoopResetting(true);
+      setFrameStart(0);
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setIsLoopResetting(false));
+      });
+    }, 960);
+    return () => window.clearTimeout(resetTimer);
+  }, [frameStart, coffees.length]);
 
   return (
     <div className="gb-coffee-carousel" data-testid="coffee-carousel">
       <div className="gb-coffee-carousel-stage">
         <div
-          className="gb-coffee-carousel-track"
+          className={`gb-coffee-carousel-track ${isLoopResetting ? 'is-loop-resetting' : ''}`}
           style={{ '--coffee-frame-start': frameStart } as CSSProperties}
         >
-          {visibleCoffees.map(({ coffee, position }) => (
-            <div className={`gb-coffee-slide ${position}`} key={coffee.id}>
+          {visibleCoffees.map(({ coffee, position, key }) => (
+            <div className={`gb-coffee-slide ${position}`} key={key}>
               <CoffeeCard coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
             </div>
           ))}

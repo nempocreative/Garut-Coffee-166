@@ -11,7 +11,7 @@
   --gb-border: #dfd1c1;
   min-height: 100dvh;
   color: var(--gb-foreground);
-  background: #332720;
+  background: var(--gb-background);
   font-family: var(--app-font-sans, Manrope, sans-serif);
 }
 
@@ -36,7 +36,7 @@
   overflow-x: clip;
   overflow-y: visible;
   background: var(--gb-background);
-  box-shadow: 0 0 0 1px rgba(255, 250, 240, .08), 0 28px 90px rgba(26, 15, 10, .34);
+  box-shadow: none;
 }
 
 .gb-header {
@@ -792,11 +792,15 @@
 
 .gb-coffee-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 0 0 176px;
   overflow: hidden;
-  border: 1px solid var(--gb-border);
-  border-radius: 18px;
-  background: var(--gb-card);
+  border: 1px solid rgba(168, 84, 59, .16);
+  border-radius: 20px;
+  background: linear-gradient(165deg, #fffaf2 0%, var(--gb-card) 72%);
+  box-shadow: 0 12px 24px rgba(76, 48, 31, .12);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
 .gb-coffee-image-button {
@@ -804,7 +808,9 @@
   display: block;
   width: 100%;
   height: 170px;
+  overflow: hidden;
   padding: 0;
+  border-radius: 19px 19px 0 0;
   background: var(--gb-secondary);
 }
 
@@ -812,24 +818,41 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .5s cubic-bezier(.2, .75, .2, 1), filter .35s ease;
+}
+
+.gb-coffee-image-button::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 46%;
+  background: linear-gradient(180deg, transparent, rgba(38, 23, 15, .32));
+  content: '';
+  pointer-events: none;
 }
 
 .gb-badge {
   position: absolute;
-  top: 9px;
-  left: 9px;
-  padding: 4px 7px;
-  border-radius: 7px;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 249, 241, .35);
+  border-radius: 999px;
   color: #573023;
-  background: var(--gb-accent);
+  background: rgba(255, 225, 157, .9);
+  box-shadow: 0 5px 12px rgba(51, 31, 21, .16);
   font-size: 8px;
   font-weight: 800;
+  letter-spacing: .15px;
 }
 
 .gb-coffee-body {
   display: flex;
   gap: 7px;
-  padding: 11px 11px 10px;
+  min-height: 122px;
+  padding: 13px 12px 10px;
 }
 
 .gb-coffee-body > div {
@@ -839,8 +862,19 @@
 
 .gb-coffee-body h3 {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.15;
+  color: #3a251d;
+  font-size: 14px;
+  line-height: 1.12;
+}
+
+.gb-coffee-meta {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--gb-primary);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .65px;
+  text-transform: uppercase;
 }
 
 .gb-coffee-body p {
@@ -855,7 +889,7 @@
   display: block;
   margin-top: 8px;
   color: var(--gb-primary);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .gb-coffee-body small {
@@ -870,13 +904,16 @@
   height: 30px;
   flex: 0 0 auto;
   place-items: center;
+  border: 1px solid rgba(168, 84, 59, .16);
   border-radius: 15px;
   color: var(--gb-muted);
   background: rgba(255, 249, 241, .86);
+  transition: color .2s ease, background-color .2s ease, transform .2s ease;
 }
 
 .gb-favorite.saved {
   color: var(--gb-primary);
+  background: rgba(211, 161, 95, .2);
 }
 
 .gb-add-button {
@@ -885,14 +922,16 @@
   min-height: 34px;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   margin: 0 11px 11px;
-  border: 1px solid var(--gb-primary);
-  border-radius: 11px;
+  border: 1px solid rgba(168, 84, 59, .72);
+  border-radius: 999px;
   color: var(--gb-card);
   background: var(--gb-primary);
-  font-size: 10px;
+  box-shadow: 0 7px 13px rgba(168, 84, 59, .2);
+  font-size: 11px;
   font-weight: 800;
+  letter-spacing: .15px;
+  transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
 }
 
 .gb-diversified-card {
@@ -2615,6 +2654,11 @@
   border-color: rgba(168, 84, 59, .42);
 }
 
+.gb-coffee-card:hover {
+  box-shadow: 0 16px 28px rgba(76, 48, 31, .16);
+  transform: translateY(-3px);
+}
+
 .gb-favorite,
 .gb-add-button,
 .gb-diversified-add {
@@ -3613,17 +3657,18 @@
   .gb-coffee-carousel-stage {
     min-height: 350px;
     overflow: hidden;
-    padding: 30px 24px 18px;
+    margin-inline: 24px;
+    padding: 30px 0 18px;
   }
 
   .gb-coffee-carousel-track {
     --coffee-gap: 12px;
-    --coffee-slot: calc((100% - 108px) / 10);
+    --coffee-slot: calc((100% - 228px) / 20);
     display: grid;
-    grid-template-columns: repeat(10, var(--coffee-slot));
+    grid-template-columns: repeat(20, var(--coffee-slot));
     align-items: end;
     gap: var(--coffee-gap);
-    width: calc(200% + var(--coffee-gap));
+    width: calc(400% + 36px);
     min-height: 302px;
     transform: translate3d(
       calc(-1 * var(--coffee-frame-start) * (var(--coffee-slot) + var(--coffee-gap))),
@@ -3632,6 +3677,10 @@
     );
     transition: transform .9s cubic-bezier(.2, .75, .2, 1);
     will-change: transform;
+  }
+
+  .gb-coffee-carousel-track.is-loop-resetting {
+    transition: none;
   }
 
   .gb-coffee-slide {

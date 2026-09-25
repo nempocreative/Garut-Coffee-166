@@ -10,7 +10,7 @@ export const brandTokens = {
   secondary: '#E7D9C8',
   secondaryForeground: '#3D2C26',
   muted: '#EDE3D6',
-  mutedForeground: '#806E63',
+  mutedForeground: '#6F584D',
   accent: '#D3A15F',
   accentForeground: '#3D2C26',
   destructive: '#B84E45',
