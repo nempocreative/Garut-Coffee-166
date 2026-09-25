@@ -24,8 +24,12 @@ function getHomeDateLabel() {
 
 export function useBottomMenuPadding(gap = 32) {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
   if (Platform.OS === 'web') {
-    return gap;
+    if (width >= 1024) return gap;
+    const menuHeight = width >= 640 ? 86 : 90;
+    const webSafeArea = width < 640 ? 34 : 0;
+    return menuHeight + webSafeArea + gap;
   }
   return 90 + insets.bottom + gap;
 }

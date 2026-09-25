@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, useColorScheme, useWindowDimensions } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, { cancelAnimation, Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
 import { ThreeDNavIcon, ThreeDNavIconName } from '@/components/BrandIcon';
 import { useColors } from '@/hooks/useColors';
 
@@ -23,7 +24,7 @@ const menuItems: BottomMenuItem[] = [
   { label: 'Akun', icon: 'account', route: '/profile', matches: (pathname) => pathname === '/profile' || pathname === '/login' || pathname === '/notifications' },
 ];
 
-function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; focused: boolean; desktop?: boolean }) {
+function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuItem; focused: boolean; desktop?: boolean }) {
   const colors = useColors();
 
   if (item.icon === 'home') {
@@ -106,6 +107,45 @@ function MenuIcon({ item, focused, desktop = false }: { item: BottomMenuItem; fo
   );
 }
 
+function MenuIcon({ item, focused, desktop = false, index }: { item: BottomMenuItem; focused: boolean; desktop?: boolean; index: number }) {
+  const { width } = useWindowDimensions();
+  const motion = useSharedValue(0);
+  const animateForMobile = Platform.OS !== 'web' || width < 768;
+
+  useEffect(() => {
+    if (!animateForMobile) {
+      cancelAnimation(motion);
+      motion.value = 0;
+      return;
+    }
+
+    motion.value = withDelay(
+      index * 120,
+      withRepeat(
+        withTiming(1, { duration: 1900, easing: Easing.inOut(Easing.ease) }),
+        -1,
+        true,
+      ),
+    );
+
+    return () => cancelAnimation(motion);
+  }, [animateForMobile, index, motion]);
+
+  const motionStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: interpolate(motion.value, [0, 0.5, 1], [0, -2, 0]) },
+      { rotate: `${interpolate(motion.value, [0, 0.5, 1], [-1.5, 1.5, -1.5])}deg` },
+      { scale: interpolate(motion.value, [0, 0.5, 1], [1, 1.035, 1]) },
+    ],
+  }));
+
+  return (
+    <Animated.View style={[styles.menuIconMotion, motionStyle]}>
+      <MenuIconGraphic item={item} focused={focused} desktop={desktop} />
+    </Animated.View>
+  );
+}
+
 export function BottomMenu() {
   const colors = useColors();
   const colorScheme = useColorScheme();
@@ -158,7 +198,7 @@ export function BottomMenu() {
         )}
         <View style={[styles.topBorder, { backgroundColor: colors.border }]} />
         <View style={[styles.items, isDesktopWeb && styles.webDesktopNavItems]}>
-          {menuItems.map((item) => {
+          {menuItems.map((item, index) => {
             const focused = item.matches(pathname);
             return (
               <Pressable
@@ -176,7 +216,7 @@ export function BottomMenu() {
                   { opacity: pressed ? 0.72 : 1 },
                 ]}
               >
-                <MenuIcon item={item} focused={focused} desktop={isDesktopWeb} />
+                <MenuIcon item={item} focused={focused} desktop={isDesktopWeb} index={index} />
                 <Text style={[styles.label, isDesktopWeb && styles.webDesktopNavLabel, { color: focused ? colors.primary : colors.mutedForeground }]}>
                   {item.label}
                 </Text>
@@ -312,6 +352,10 @@ const styles = StyleSheet.create({
   accountImage: {
     flexShrink: 0,
     borderRadius: 14,
+  },
+  menuIconMotion: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   centerCircle: {
     width: 60,

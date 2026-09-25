@@ -719,7 +719,17 @@ export default function HomeScreen() {
                   }}
                   style={styles.categoryPaginationHit}
                 >
-                  <View style={[styles.categoryPaginationDot, { backgroundColor: index === activeCategoryPage ? colors.primary : colors.border }]} />
+                  <View
+                    style={[
+                      styles.categoryPaginationDot,
+                      {
+                        width: index === activeCategoryPage ? 18 : 6,
+                        height: 5,
+                        borderRadius: 4,
+                        backgroundColor: index === activeCategoryPage ? colors.primary : colors.secondary,
+                      },
+                    ]}
+                  />
                 </Pressable>
               ))}
             </View>

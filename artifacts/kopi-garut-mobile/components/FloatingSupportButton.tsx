@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { BrandIcon } from '@/components/BrandIcon';
 import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
@@ -51,7 +51,11 @@ export function FloatingSupportButton() {
   const beanTilt = useSharedValue(0);
 
   useEffect(() => {
-    if (Platform.OS === 'web') return;
+    if (Platform.OS === 'web' && width >= 768) {
+      cancelAnimation(beanLift);
+      cancelAnimation(beanTilt);
+      return;
+    }
     beanLift.value = withRepeat(
       withSequence(
         withTiming(-3, { duration: 1050, easing: Easing.inOut(Easing.sin) }),
@@ -69,7 +73,11 @@ export function FloatingSupportButton() {
       -1,
       false,
     );
-  }, [beanLift, beanTilt]);
+    return () => {
+      cancelAnimation(beanLift);
+      cancelAnimation(beanTilt);
+    };
+  }, [beanLift, beanTilt, width]);
 
   useEffect(() => {
     if (isScrolling && open) setOpen(false);
@@ -83,12 +91,13 @@ export function FloatingSupportButton() {
   }));
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  const compactWeb = Platform.OS === 'web' && width < 768;
+  const desktopWeb = Platform.OS === 'web' && width >= 768;
   const hideWhileScrolling = Platform.OS !== 'web' || width < 1024;
-  if (compactWeb || (hideWhileScrolling && isScrolling) || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
+  if (desktopWeb || (hideWhileScrolling && isScrolling) || isFarmerRoute || pathname === '/login' || pathname === '/support') return null;
 
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
+  const webFrameInset = Platform.OS === 'web' ? Math.max(0, (width - 430) / 2) : 0;
 
   const handleAction = (key: SupportAction['key']) => {
     setOpen(false);
@@ -101,7 +110,7 @@ export function FloatingSupportButton() {
 
   return (
     <>
-      <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+      <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, Platform.OS === 'web' && styles.webFloatingOverlay]}>
         <Pressable
           testID="floating-support-button"
           accessibilityRole="button"
@@ -112,6 +121,7 @@ export function FloatingSupportButton() {
      styles.floatingButton,
             {
               bottom: bottomOffset,
+              right: webFrameInset + 18,
               backgroundColor: 'transparent',
               borderColor: 'transparent',
               shadowColor: colors.foreground,
@@ -206,6 +216,9 @@ export function FloatingSupportButton() {
 }
 
 const styles = StyleSheet.create({
+  webFloatingOverlay: {
+    position: 'fixed' as any,
+  },
   modalRoot: { flex: 1, justifyContent: 'flex-end' },
   floatingButton: {
     position: 'absolute',

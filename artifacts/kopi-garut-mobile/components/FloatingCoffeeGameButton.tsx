@@ -3,7 +3,7 @@ import { Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from
 import { Image } from 'expo-image';
 import { usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { useCoffeeGame } from '@/context/CoffeeGameContext';
 import { useScrollVisibility } from '@/context/ScrollVisibilityContext';
 import { useColors } from '@/hooks/useColors';
@@ -20,7 +20,11 @@ export function FloatingCoffeeGameButton() {
   const basketTilt = useSharedValue(0);
 
   useEffect(() => {
-    if (Platform.OS === 'web') return;
+    if (Platform.OS === 'web' && width >= 768) {
+      cancelAnimation(basketLift);
+      cancelAnimation(basketTilt);
+      return;
+    }
     basketLift.value = withRepeat(
       withSequence(
         withTiming(-3, { duration: 950, easing: Easing.inOut(Easing.sin) }),
@@ -38,7 +42,11 @@ export function FloatingCoffeeGameButton() {
       -1,
       false,
     );
-  }, [basketLift, basketTilt]);
+    return () => {
+      cancelAnimation(basketLift);
+      cancelAnimation(basketTilt);
+    };
+  }, [basketLift, basketTilt, width]);
 
   const basketAnimation = useAnimatedStyle(() => ({
     transform: [
@@ -48,16 +56,17 @@ export function FloatingCoffeeGameButton() {
   }));
 
   const isFarmerRoute = pathname === '/farmers' || pathname === '/extension-farmers' || pathname.startsWith('/farmer/');
-  const compactWeb = Platform.OS === 'web' && width < 768;
+  const desktopWeb = Platform.OS === 'web' && width >= 768;
   const hideWhileScrolling = Platform.OS !== 'web' || width < 1024;
-  if (compactWeb || (hideWhileScrolling && isScrolling) || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
+  if (desktopWeb || (hideWhileScrolling && isScrolling) || isFarmerRoute || pathname === '/login' || pathname === '/support' || pathname === '/coffee-game') return null;
 
   const bottomInset = Platform.OS === 'web' ? 0 : insets.bottom;
   const bottomOffset = 91 + bottomInset;
+  const webFrameInset = Platform.OS === 'web' ? Math.max(0, (width - 430) / 2) : 0;
   const pointLabel = points > 999 ? '999+' : String(points);
 
   return (
-    <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+    <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, Platform.OS === 'web' && styles.webFloatingOverlay]}>
       <Pressable
         testID="floating-coffee-game-button"
         accessibilityRole="button"
@@ -67,6 +76,7 @@ export function FloatingCoffeeGameButton() {
           styles.floatingButton,
           {
             bottom: bottomOffset,
+            left: webFrameInset + 14,
             opacity: pressed ? 0.78 : 1,
             shadowColor: colors.foreground,
           },
@@ -88,6 +98,9 @@ export function FloatingCoffeeGameButton() {
 }
 
 const styles = StyleSheet.create({
+  webFloatingOverlay: {
+    position: 'fixed' as any,
+  },
   floatingButton: {
     position: 'absolute',
     left: 14,

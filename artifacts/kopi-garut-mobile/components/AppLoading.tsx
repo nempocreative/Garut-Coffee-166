@@ -70,14 +70,6 @@ export function AppLoading() {
           <Text style={styles.brand}>Garut <Text style={styles.brandAccent}>Beans</Text></Text>
           <Text style={styles.caption}>MENYIAPKAN RITUAL KOPIMU</Text>
         </View>
-        <View style={styles.progressTrack}>
-          <View style={styles.progressFill} />
-        </View>
-        <View style={styles.dots}>
-          <View style={[styles.dot, styles.dotActive]} />
-          <View style={styles.dot} />
-          <View style={styles.dot} />
-        </View>
       </View>
       <Text style={styles.footer}>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</Text>
     </View>
@@ -97,10 +89,5 @@ const styles = StyleSheet.create({
   brand: { color: '#2A201D', fontFamily: 'Manrope_700Bold', fontSize: 25, fontWeight: '800', letterSpacing: -0.7 },
   brandAccent: { color: '#A8543B' },
   caption: { color: '#806E63', fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.8 },
-  progressTrack: { width: 136, height: 4, borderRadius: 4, backgroundColor: 'rgba(168, 84, 59, 0.15)', overflow: 'hidden', marginTop: 28 },
-  progressFill: { width: '62%', height: '100%', borderRadius: 4, backgroundColor: '#A8543B' },
-  dots: { flexDirection: 'row', gap: 5, marginTop: 15 },
-  dot: { width: 5, height: 5, borderRadius: 3, backgroundColor: 'rgba(128, 110, 99, 0.35)' },
-  dotActive: { width: 17, backgroundColor: '#D3A15F' },
   footer: { position: 'absolute', bottom: 34, color: '#806E63', fontFamily: 'Manrope_700Bold', fontSize: 8, fontWeight: '800', letterSpacing: 1.25 },
 });
