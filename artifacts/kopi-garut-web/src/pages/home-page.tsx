@@ -21,6 +21,9 @@ type HomePageProps = {
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
+const promoAsset = (promo: (typeof homeContent.promoSlides)[number]) =>
+  promo.id === 'coffee-tour' ? asset('coffee-tour-banner-featured.png') : asset(promo.image);
+
 const categoryArt: Partial<Record<HomeIconName, string>> = {
   coffee: 'app-menu-coffee.png',
   users: 'app-menu-farmer.png',
@@ -70,9 +73,8 @@ function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const [index, setIndex] = useState(0);
   const promos = homeContent.promoSlides;
-  const promo = promos[index];
+  const [index, setIndex] = useState(() => Math.max(0, promos.findIndex((promo) => promo.id === 'coffee-tour')));
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -80,17 +82,45 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
     return () => window.clearInterval(timer);
   }, [promos.length]);
 
+  const visiblePromos = [-1, 0, 1].map((slot) => ({
+    slot,
+    promo: promos[(index + slot + promos.length) % promos.length],
+  }));
+
   return (
     <section className="gb-promo" data-testid="promo-carousel" aria-label="Promosi Garut Beans">
-      <img src={asset(promo.image)} alt={promo.title} data-testid={`img-promo-${promo.id}`} />
-      <div className="gb-promo-shade" />
-      <div className="gb-promo-copy">
-        <span className="gb-eyebrow">{promo.eyebrow}</span>
-        <h1 data-testid="text-promo-title">{promo.title}</h1>
-        <p>{promo.description}</p>
-        <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-promo-action">
-          {promo.cta} <AppIcon name="arrow-up-right" size={15} />
-        </button>
+      <div className="gb-promo-stage">
+        {visiblePromos.map(({ slot, promo }) => {
+          const isActive = slot === 0;
+          const hasEmbeddedCopy = promo.id === 'coffee-tour';
+          return (
+            <article
+              className={`gb-promo-card ${isActive ? 'is-active' : slot < 0 ? 'is-prev' : 'is-next'}`}
+              key={`${promo.id}-${slot}`}
+              aria-hidden={!isActive}
+            >
+              {hasEmbeddedCopy ? (
+                <picture>
+                  <source media="(min-width: 768px)" srcSet={promoAsset(promo)} />
+                  <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
+                </picture>
+              ) : (
+                <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
+              )}
+              <div className="gb-promo-shade" />
+              {isActive && (
+                <div className={`gb-promo-copy ${hasEmbeddedCopy ? 'gb-promo-copy--embedded' : ''}`}>
+                  <span className="gb-eyebrow">{promo.eyebrow}</span>
+                  <h1 data-testid="text-promo-title">{promo.title}</h1>
+                  <p>{promo.description}</p>
+                  <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-promo-action">
+                    {promo.cta} <AppIcon name="arrow-up-right" size={15} />
+                  </button>
+                </div>
+              )}
+            </article>
+          );
+        })}
       </div>
       <div className="gb-promo-dots" aria-label="Pilih promo">
         {promos.map((item, itemIndex) => (
@@ -473,6 +503,63 @@ function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNa
   );
 }
 
+function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const tastes = [
+    ['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
+    ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
+    ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark'],
+  ] as const;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setActiveIndex((current) => (current + 1) % tastes.length), 4200);
+    return () => window.clearInterval(timer);
+  }, [tastes.length]);
+
+  return (
+    <div className="gb-taste-carousel" data-testid="taste-carousel">
+      <div className="gb-taste-stage" aria-label="Pilihan jenis kopi berdasarkan profil rasa">
+        {tastes.map(([title, detail, image, route], itemIndex) => {
+          const relativePosition = (itemIndex - activeIndex + tastes.length) % tastes.length;
+          const position = relativePosition === 0 ? 'is-active' : relativePosition === 1 ? 'is-next' : 'is-prev';
+          const isActive = position === 'is-active';
+          return (
+            <button
+              className={`gb-taste-card gb-taste-slide ${position}`}
+              key={title}
+              onClick={() => isActive && onNavigate(route)}
+              aria-hidden={!isActive}
+              tabIndex={isActive ? 0 : -1}
+              aria-label={`${title}: ${detail}`}
+              data-testid={`button-taste-${itemIndex}`}
+            >
+              <img src={asset(image)} alt="" data-testid={`img-taste-${itemIndex}`} />
+              <span className="gb-taste-shade" />
+              <span className="gb-taste-icon"><AppIcon name="coffee" size={16} /></span>
+              <strong>{title}</strong>
+              <span>{detail}</span>
+              <AppIcon name="arrow-up-right" size={14} />
+            </button>
+          );
+        })}
+      </div>
+      <div className="gb-taste-dots" aria-label="Pilih jenis kopi">
+        {tastes.map(([title], itemIndex) => (
+          <button
+            key={title}
+            className={`gb-page-dot ${activeIndex === itemIndex ? 'active' : ''}`}
+            onClick={() => setActiveIndex(itemIndex)}
+            aria-label={`Tampilkan profil ${title}`}
+            aria-current={activeIndex === itemIndex}
+            data-testid={`button-taste-dot-${itemIndex}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const stories = homeContent.stories;
@@ -509,22 +596,7 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
 
           <section className="gb-home-section">
             <SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => onNavigate('/catalog')} />
-            <div className="gb-taste-grid" data-testid="taste-grid">
-              {[
-                ['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
-                ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
-                ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark'],
-              ].map(([title, detail, image, route], index) => (
-                <button className={`gb-taste-card ${index === 1 ? 'featured' : ''}`} key={title} onClick={() => onNavigate(route)} data-testid={`button-taste-${index}`}>
-                  <img src={asset(image)} alt="" data-testid={`img-taste-${index}`} />
-                  <span className="gb-taste-shade" />
-                  <span className="gb-taste-icon"><AppIcon name="coffee" size={16} /></span>
-                  <strong>{title}</strong>
-                  <span>{detail}</span>
-                  <AppIcon name="arrow-up-right" size={14} />
-                </button>
-              ))}
-            </div>
+            <TasteCarousel onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section gb-mobile-only">
