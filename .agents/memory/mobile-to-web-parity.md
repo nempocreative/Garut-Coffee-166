@@ -1,12 +1,12 @@
 ---
-name: Mobile-to-web parity
-description: Durable guidance for keeping the Kopi Garut browser experience identical to the Expo mobile system.
+name: Web and app content parity
+description: Keep the Garut Beans web artifact standalone while aligning its content and routes with Expo.
 ---
 
-The Kopi Garut web artifact is a prefix-aware redirect into the Expo app served at `/`. Strip the web artifact prefix while preserving the route, query, and hash so both entry points use the same screens, access rules, content, and browser storage.
+Keep the Kopi Garut web artifact as its own React/Vite app with its own web layout and base path. Align its routes, domain copy, shared data, and access rules with the Expo app without redirecting the website to `/`.
 
-**Why:** The former standalone web copy had parallel route implementations and separate storage keys, leaving field-operation screens incomplete and user state inconsistent. The Expo app already has web-responsive layout handling, so forwarding avoids maintaining a second product implementation.
+**Why:** Redirecting the website to the Expo root made the desktop artifact render the app shell instead of the intended standalone web experience. Shared domain data can preserve content parity without replacing the web entry point.
 
-**How to apply:** Make content and behavior changes in the Expo app. Keep the web redirect route-preserving; do not restore duplicate page implementations. Use `Platform.OS` and viewport dimensions for desktop-only refinements while preserving native phone layout and browser scroll behavior.
+**How to apply:** Keep URL prefixes and navigation local to each artifact. Extract domain-level copy/data into the shared package where practical; use web-specific presentation on desktop while keeping mobile behavior in Expo. Check web and native route access separately.
 
 Browser storage is shared only on the same browser origin; it does not sync with native-device storage unless a real server-side sync path exists.

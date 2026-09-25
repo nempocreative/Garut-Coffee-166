@@ -8,7 +8,7 @@
 - [Presentation demo routes](presentation-demo-routes.md) — use public mobile routes for deck screenshots; role-gated dashboards redirect to login until a role is selected.
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.
 - [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
-- [Mobile-to-web parity](mobile-to-web-parity.md) — share routes and behavior, but allow desktop-specific responsive presentation without changing native phone layout.
+- [Web and app content parity](mobile-to-web-parity.md) — keep a real standalone web UI while sharing domain content and route behavior with Expo.
 - [Expo web artifact base paths](expo-web-basepath.md) — use Expo static export with experiments.baseUrl; development Metro does not strip artifact prefixes during route matching.
 - [Safari document scrolling](safari-document-scroll.md) — patch Expo's static HTML reset so web scrolls as a document and can collapse Safari's toolbar.
 - [Shared content vs user state](shared-content-vs-user-state.md) — shared mobile/web screens do not synchronize AsyncStorage-backed roles, commerce, or operational records across devices.
