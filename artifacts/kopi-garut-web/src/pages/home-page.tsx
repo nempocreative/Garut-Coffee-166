@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   coffeeCatalog,
+  coffeeTours,
+  farmers,
   homeContent,
+  hubStats,
+  regions,
   type HomeIconName,
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
@@ -39,6 +43,12 @@ const dateLabel = () => {
 };
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
+
+const extensionTeam = [
+  { id: 'rani-permata', name: 'Rani Permata', role: 'Penyuluh utama', regions: ['Cikajang', 'Cisurupan'], focus: 'Mutu lot & tindak lanjut kebun', image: 'penyuluh-rani-permata.webp' },
+  { id: 'dimas-suryana', name: 'Dimas Suryana', role: 'Penyuluh lapangan', regions: ['Pakenjeng', 'Cisurupan'], focus: 'Perawatan tanaman & panen', image: 'penyuluh-dimas-suryana.webp' },
+  { id: 'nia-kurniasih', name: 'Nia Kurniasih', role: 'Penyuluh lapangan', regions: ['Samarang', 'Cikajang'], focus: 'Pascapanen & pengeringan', image: 'penyuluh-nia-kurniasih.webp' },
+] as const;
 
 function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
@@ -253,11 +263,18 @@ function VoucherCarousel({ onNavigate }: { onNavigate: (path: string) => void })
       <div className="gb-voucher-row">
         {vouchers[slide].map((voucher, index) => (
           <button className={`gb-voucher ${voucher.variant === 'dark' ? 'dark' : ''}`} key={voucher.code} onClick={() => onNavigate('/catalog')} data-testid={`button-voucher-${voucher.code}`}>
-            <span className="gb-voucher-kicker">VOUCHER</span>
-            <strong>{voucher.discount}</strong>
-            <span className="gb-voucher-title">{voucher.title}</span>
-            <span className="gb-voucher-note">{voucher.note}</span>
-          <span className="gb-voucher-code">{voucher.code} <AppIcon name="arrow-up-right" size={11} /></span>
+            <span className="gb-voucher-main">
+              <span className="gb-voucher-kicker"><AppIcon name="shopping-bag" size={12} /> VOUCHER</span>
+              <strong>{voucher.discount}</strong>
+              <span className="gb-voucher-title">{voucher.title}</span>
+              <span className="gb-voucher-note">{voucher.note}</span>
+            </span>
+            <span className="gb-voucher-divider" />
+            <span className="gb-voucher-action">
+              <small>KODE</small>
+              <span className="gb-voucher-code">{voucher.code}</span>
+              <span className="gb-voucher-apply">Pakai <AppIcon name="arrow-up-right" size={11} /></span>
+            </span>
             <span className="gb-voucher-index">{index + 1}</span>
           </button>
         ))}
@@ -313,17 +330,163 @@ function CoffeeCard({ coffee, favorites, onAddToCart, onToggleFavorite, onNaviga
   );
 }
 
-function DiversifiedCard({ product, onNavigate }: { product: typeof homeContent.diversifiedProducts[number]; onNavigate: (path: string) => void }) {
+function DiversifiedCard({ product, onNavigate, onAddToCart }: { product: typeof homeContent.diversifiedProducts[number]; onNavigate: (path: string) => void; onAddToCart: (id: string) => void }) {
   return (
-    <button className="gb-diversified-card" onClick={() => onNavigate('/diversification')} data-testid={`button-diversified-${product.id}`}>
-      <span className="gb-diversified-image">
-        <img src={asset(product.image)} alt={product.title} data-testid={`img-diversified-${product.id}`} />
-        <span>{product.badge}</span>
+    <article className="gb-diversified-card" data-testid={`card-diversified-${product.id}`}>
+      <button className="gb-diversified-main" onClick={() => onNavigate('/diversification')} data-testid={`button-diversified-${product.id}`}>
+        <span className="gb-diversified-image">
+          <img src={asset(product.image)} alt={product.title} data-testid={`img-diversified-${product.id}`} />
+          <span>{product.badge}</span>
+        </span>
+        <span className="gb-diversified-body">
+          <small>{product.category}</small>
+          <strong>{product.title}</strong>
+          <span>{product.price} <AppIcon name="arrow-up-right" size={13} /></span>
+        </span>
+      </button>
+      <button className="gb-diversified-add" onClick={() => onAddToCart(product.id)} data-testid={`button-diversified-add-${product.id}`}>
+        <AppIcon name="plus" size={13} /> Tambah
+      </button>
+    </article>
+  );
+}
+
+function GrowthStats({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <section className="gb-home-section gb-mobile-only gb-growth-section">
+      <SectionTitle title="Tumbuh bersama" action="Lihat data" onAction={() => onNavigate('/dashboard')} />
+      <button className="gb-growth-card" onClick={() => onNavigate('/dashboard')} data-testid="button-growth-stats">
+        <div className="gb-growth-glow" />
+        <div className="gb-growth-copy">
+          <span className="gb-growth-kicker">G-BEANS HUB</span>
+          <strong>Tumbuh dari kebun, terasa di setiap cangkir.</strong>
+        </div>
+        <div className="gb-growth-route">
+          <span className="gb-growth-route-line" />
+          {hubStats.map((stat, index) => (
+            <span className="gb-growth-stop" key={stat.label}>
+              <b className={index === 0 ? 'highlight' : ''}>{stat.value}</b>
+              <small>{stat.label}</small>
+            </span>
+          ))}
+        </div>
+        <span className="gb-growth-footer">DARI KEBUN <b>→</b> KE CANGKIR <AppIcon name="arrow-up-right" size={14} /></span>
+      </button>
+    </section>
+  );
+}
+
+function FarmerFeatureCard({ farmer, index, onNavigate }: { farmer: typeof farmers[number]; index: number; onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-farmer-feature" onClick={() => onNavigate(`/farmer/${farmer.id}`)} data-testid={`button-home-farmer-${farmer.id}`}>
+      <span className={`gb-farmer-accent ${index === 0 ? 'gold' : ''}`} />
+      <span className="gb-farmer-portrait">
+        <img src={asset(farmer.image)} alt={farmer.name} />
+        <span className="gb-farmer-portrait-shade" />
+        <span className="gb-farmer-badge"><AppIcon name="coffee" size={16} /></span>
       </span>
-      <span className="gb-diversified-body">
-        <small>{product.category}</small>
-        <strong>{product.title}</strong>
-        <span>{product.price} <AppIcon name="arrow-up-right" size={13} /></span>
+      <span className="gb-farmer-copy">
+        <span className="gb-farmer-topline"><small>● PETANI PILIHAN</small><em>{farmer.membershipId}</em></span>
+        <strong>{farmer.name}</strong>
+        <span className="gb-farmer-location"><AppIcon name="map-pin" size={12} /> {farmer.location}</span>
+        <span className="gb-farmer-meta"><span>{farmer.coffeeType}</span><span>{farmer.landArea}</span></span>
+        <span className="gb-farmer-story">{farmer.story}</span>
+        <span className="gb-farmer-rule" />
+        <span className="gb-farmer-verified"><b><AppIcon name="check" size={10} /></b> Diverifikasi</span>
+      </span>
+    </button>
+  );
+}
+
+function ExtensionCard({ worker, onNavigate }: { worker: typeof extensionTeam[number]; onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-extension-card" onClick={() => onNavigate('/extension-dashboard')} data-testid={`button-home-extension-${worker.id}`}>
+      <span className="gb-extension-image">
+        <img src={asset(worker.image)} alt={worker.name} />
+        <span className="gb-extension-image-shade" />
+        <span className="gb-extension-status"><b /> AKTIF</span>
+        <strong>{worker.role}</strong>
+      </span>
+      <span className="gb-extension-copy">
+        <strong>{worker.name}</strong>
+        <span className="gb-extension-region"><AppIcon name="map-pin" size={12} /> Wilayah: {worker.regions.join(' · ')}</span>
+        <span className="gb-extension-focus">{worker.focus}</span>
+        <span className="gb-extension-footer">PENDAMPINGAN KEBUN <AppIcon name="arrow-up-right" size={13} /></span>
+      </span>
+    </button>
+  );
+}
+
+function RegionCard({ region, index, onNavigate }: { region: typeof regions[number]; index: number; onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-region-card" onClick={() => onNavigate(`/region/${region.id}`)} data-testid={`button-home-region-${region.id}`}>
+      <span className="gb-region-image">
+        <img src={asset(region.image)} alt={region.name} />
+        <span className="gb-region-image-shade" />
+        <b>0{index + 1}</b>
+        <span><AppIcon name="arrow-up-right" size={14} /></span>
+      </span>
+      <span className="gb-region-copy">
+        <strong>{region.name}</strong>
+        <small><AppIcon name="map-pin" size={12} /> {region.village} <i /> {region.elevation}</small>
+        <em><AppIcon name="coffee" size={12} /> {region.specialty}</em>
+      </span>
+    </button>
+  );
+}
+
+function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [activeStory, setActiveStory] = useState(0);
+  const stories = homeContent.stories;
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveStory((current) => {
+        const next = current >= Math.max(0, stories.length - 2) ? 0 : current + 1;
+        const card = railRef.current?.querySelector<HTMLElement>('[data-story-reel-card]');
+        railRef.current?.scrollTo({ left: next * ((card?.offsetWidth ?? 156) + 8), behavior: 'smooth' });
+        return next;
+      });
+    }, 3800);
+    return () => window.clearInterval(timer);
+  }, [stories.length]);
+
+  return (
+    <div
+      className="gb-horizontal-scroll gb-event-rail"
+      ref={railRef}
+      data-testid="rail-event-stories"
+      onScroll={(event) => {
+        const card = event.currentTarget.querySelector<HTMLElement>('[data-story-reel-card]');
+        if (card) setActiveStory(Math.round(event.currentTarget.scrollLeft / (card.offsetWidth + 8)));
+      }}
+    >
+      {stories.map((story, index) => (
+        <button className="gb-event-card" data-story-reel-card key={story.id} onClick={() => onNavigate('/events')} data-testid={`button-home-event-${story.id}`}>
+          <img src={asset(story.image)} alt={story.title} />
+          <span className="gb-event-shade" />
+          <span className="gb-event-top"><b>◷ CERITA BARU</b><em>0{index + 1}</em></span>
+          <span className="gb-event-copy">
+            <small>{story.date} <i /> {story.location}</small>
+            <strong>{story.title}</strong>
+            <span>{story.type} <b><AppIcon name="arrow-up-right" size={13} /></b></span>
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-tour-card" onClick={() => onNavigate('/tourism')} data-testid={`button-home-tour-${tour.id}`}>
+      <img src={asset(tour.image)} alt={tour.title} />
+      <span className="gb-tour-shade" />
+      <span className="gb-tour-copy">
+        <small>{tour.type}</small>
+        <strong>{tour.title}</strong>
+        <span>{tour.duration} · {tour.location}</span>
       </span>
     </button>
   );
@@ -357,9 +520,11 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
           <section className="gb-home-section">
             <SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => onNavigate('/diversification')} />
             <div className="gb-horizontal-scroll" data-testid="rail-diversified">
-              {diversified.map((product) => <DiversifiedCard key={product.id} product={product} onNavigate={onNavigate} />)}
+              {diversified.map((product) => <DiversifiedCard key={product.id} product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />)}
             </div>
           </section>
+
+          <GrowthStats onNavigate={onNavigate} />
 
           <section className="gb-home-section">
             <SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => onNavigate('/catalog')} />
@@ -372,6 +537,7 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
                 <button className={`gb-taste-card ${index === 1 ? 'featured' : ''}`} key={title} onClick={() => onNavigate(route)} data-testid={`button-taste-${index}`}>
                   <img src={asset(image)} alt="" data-testid={`img-taste-${index}`} />
                   <span className="gb-taste-shade" />
+                  <span className="gb-taste-icon"><AppIcon name="coffee" size={16} /></span>
                   <strong>{title}</strong>
                   <span>{detail}</span>
                   <AppIcon name="arrow-up-right" size={14} />
@@ -380,7 +546,45 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             </div>
           </section>
 
-          <section className="gb-home-section">
+          <section className="gb-home-section gb-mobile-only">
+            <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
+            <div className="gb-horizontal-scroll gb-farmer-rail" data-testid="rail-farmers">
+              {farmers.slice(0, 4).map((farmer, index) => <FarmerFeatureCard key={farmer.id} farmer={farmer} index={index} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <section className="gb-home-section gb-mobile-only">
+            <SectionTitle title="Penyuluh di lapangan" action="Ruang kerja" onAction={() => onNavigate('/extension-dashboard')} />
+            <div className="gb-horizontal-scroll gb-extension-rail" data-testid="rail-extension">
+              {extensionTeam.map((worker) => <ExtensionCard key={worker.id} worker={worker} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <section className="gb-home-section gb-mobile-only">
+            <SectionTitle title="Baca peta rasa Garut" action="Lihat semua" onAction={() => onNavigate('/regions')} />
+            <div className="gb-horizontal-scroll gb-region-rail" data-testid="rail-regions">
+              {regions.slice(0, 3).map((region, index) => <RegionCard key={region.id} region={region} index={index} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <section className="gb-home-section gb-mobile-only">
+            <SectionTitle title="Selalu ada cerita baru" action="Lihat agenda" onAction={() => onNavigate('/events')} />
+            <EventStoryRail onNavigate={onNavigate} />
+          </section>
+
+          <section className="gb-home-section gb-mobile-only">
+            <SectionTitle title="Datang ke kebunnya" action="Lihat wisata" onAction={() => onNavigate('/tourism')} />
+            <div className="gb-tour-grid" data-testid="tour-grid">
+              {coffeeTours.slice(0, 2).map((tour) => <TourCard key={tour.id} tour={tour} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <div className="gb-mobile-home-footer gb-mobile-only">
+            <img src={asset('garut-mountains.webp')} alt="Ilustrasi pegunungan Garut" />
+            <span>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</span>
+          </div>
+
+          <section className="gb-home-section gb-desktop-story-section">
             <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
             <div className="gb-horizontal-scroll gb-story-rail" data-testid="rail-stories">
               {stories.map((story) => (

@@ -11,8 +11,8 @@ Keep the Kopi Garut web artifact as its own React/Vite app with its own web layo
 
 Browser storage is shared only on the same browser origin; it does not sync with native-device storage unless a real server-side sync path exists.
 
-For visual parity work, compare the web and Expo previews at the same phone viewport. Treat the Expo home screen as the mobile spacing and ordering reference, while preserving the web-specific desktop layout.
+For exact mobile-web parity, route narrow web viewports to the Expo app's web route on the same origin instead of maintaining a second set of mobile screens. Keep the standalone web implementation for desktop.
 
-**Why:** The two artifacts share content but not rendering primitives, so screenshots at matched dimensions catch spacing and hierarchy drift that shared data cannot.
+**Why:** The standalone web and Expo apps have independent screen implementations; their content and layout drift structurally. Reusing the Expo route is the reliable way to keep mobile web identical without replacing the desktop website.
 
-**How to apply:** Keep mobile-only parity overrides inside the web mobile breakpoint; do not copy those overrides into the desktop rules.
+**How to apply:** Use the Expo app's desktop breakpoint as the redirect threshold, preserve route paths and query strings when leaving the web artifact prefix, and keep desktop web routing unchanged.
