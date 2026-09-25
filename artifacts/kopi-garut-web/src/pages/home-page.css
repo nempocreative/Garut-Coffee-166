@@ -3490,6 +3490,11 @@
   overflow: hidden;
 }
 
+.gb-coffee-carousel-track {
+  position: relative;
+  min-height: 300px;
+}
+
 .gb-coffee-slide {
   position: absolute;
   top: 16px;
@@ -3607,12 +3612,26 @@
 
   .gb-coffee-carousel-stage {
     min-height: 350px;
-    overflow: visible;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    align-items: end;
-    gap: 12px;
+    overflow: hidden;
     padding: 30px 24px 18px;
+  }
+
+  .gb-coffee-carousel-track {
+    --coffee-gap: 12px;
+    --coffee-slot: calc((100% - 108px) / 10);
+    display: grid;
+    grid-template-columns: repeat(10, var(--coffee-slot));
+    align-items: end;
+    gap: var(--coffee-gap);
+    width: calc(200% + var(--coffee-gap));
+    min-height: 302px;
+    transform: translate3d(
+      calc(-1 * var(--coffee-frame-start) * (var(--coffee-slot) + var(--coffee-gap))),
+      0,
+      0
+    );
+    transition: transform .9s cubic-bezier(.2, .75, .2, 1);
+    will-change: transform;
   }
 
   .gb-coffee-slide {
@@ -3626,6 +3645,7 @@
     filter: none;
     transform: none;
     transition: transform .35s cubic-bezier(.2, .75, .2, 1), filter .35s ease;
+    display: block;
   }
 
   .gb-coffee-slide.is-active {
@@ -3635,16 +3655,13 @@
 
   .gb-coffee-slide.is-prev,
   .gb-coffee-slide.is-next,
-  .gb-coffee-slide.is-visible {
+  .gb-coffee-slide.is-visible,
+  .gb-coffee-slide.is-hidden {
     opacity: 1;
     filter: none;
     transform: none;
     pointer-events: auto;
     display: block;
-  }
-
-  .gb-coffee-slide.is-hidden {
-    display: none;
   }
 
   .gb-coffee-slide .gb-coffee-card {

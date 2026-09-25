@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   coffeeCatalog,
   coffeeTours,
@@ -391,11 +391,16 @@ function CoffeeCarousel({ coffees, favorites, onAddToCart, onToggleFavorite, onN
   return (
     <div className="gb-coffee-carousel" data-testid="coffee-carousel">
       <div className="gb-coffee-carousel-stage">
-        {visibleCoffees.map(({ coffee, position }) => (
-          <div className={`gb-coffee-slide ${position}`} key={coffee.id}>
-            <CoffeeCard coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
-          </div>
-        ))}
+        <div
+          className="gb-coffee-carousel-track"
+          style={{ '--coffee-frame-start': frameStart } as CSSProperties}
+        >
+          {visibleCoffees.map(({ coffee, position }) => (
+            <div className={`gb-coffee-slide ${position}`} key={coffee.id}>
+              <CoffeeCard coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="gb-coffee-dots" aria-label="Pilih kopi">
         {coffees.map((coffee, index) => (
