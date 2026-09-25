@@ -97,6 +97,7 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   const promo = promos[index];
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => setIndex((current) => (current + 1) % promos.length), 4200);
     return () => window.clearInterval(timer);
   }, [promos.length]);
@@ -254,6 +255,7 @@ function VoucherCarousel({ onNavigate }: { onNavigate: (path: string) => void })
   const vouchers = homeContent.vouchers;
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => setSlide((current) => (current + 1) % vouchers.length), 4500);
     return () => window.clearInterval(timer);
   }, [vouchers.length]);
@@ -441,6 +443,7 @@ function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) 
   const stories = homeContent.stories;
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
       setActiveStory((current) => {
         const next = current >= Math.max(0, stories.length - 2) ? 0 : current + 1;
