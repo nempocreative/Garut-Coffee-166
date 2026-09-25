@@ -258,7 +258,7 @@ function DiversifiedCard({ product, onNavigate }: { product: typeof homeContent.
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const stories = homeContent.stories;
-  const firstCoffees = coffeeCatalog.slice(0, 2);
+  const firstCoffees = coffeeCatalog.slice(0, 4);
 
   return (
     <div className="gb-home">
@@ -268,8 +268,10 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
           <SearchEntry onNavigate={onNavigate} />
           <PromoCarousel onNavigate={onNavigate} />
           <CategoryTiles onNavigate={onNavigate} />
-          <StoryLead onNavigate={onNavigate} />
-          <VoucherCarousel onNavigate={onNavigate} />
+          <div className="gb-home-feature-grid">
+            <StoryLead onNavigate={onNavigate} />
+            <VoucherCarousel onNavigate={onNavigate} />
+          </div>
 
           <section className="gb-home-section">
             <SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => onNavigate('/catalog')} />

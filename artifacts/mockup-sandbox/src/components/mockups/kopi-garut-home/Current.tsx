@@ -1,0 +1,342 @@
+import { useEffect, useState } from 'react';
+import {
+  coffeeCatalog,
+  homeContent,
+  type HomeIconName,
+  type SharedCoffee,
+} from '@workspace/kopi-garut-shared';
+import { AppIcon, AppNavGlyph } from './_app-icon';
+import './_group.css';
+
+type HomePageProps = {
+  onNavigate: (path: string) => void;
+  onAddToCart: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
+  favorites: string[];
+};
+
+const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
+
+const categoryArt: Partial<Record<HomeIconName, string>> = {
+  coffee: 'app-menu-coffee.png',
+  users: 'app-menu-farmer.png',
+  map: 'app-menu-region.png',
+  compass: 'app-menu-tourism.png',
+  calendar: 'app-menu-event.webp',
+  'graduation-cap': 'app-menu-program.webp',
+  briefcase: 'app-menu-partnership.png',
+  grid: 'app-menu-collective.png',
+  'alert-circle': 'app-menu-complaints.png',
+  package: 'app-menu-product.png',
+};
+
+const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+const dateLabel = () => {
+  const date = new Date();
+  return `${weekdays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+};
+
+const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
+
+function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <header className="gb-header" data-testid="home-header">
+      <div className="gb-header-top">
+        <button className="gb-brand" onClick={() => onNavigate('/')} data-testid="button-brand-home" aria-label="Kembali ke Beranda">
+          <span className="gb-logo-frame">
+            <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" data-testid="img-brand-logo" />
+          </span>
+          <span className="gb-brand-copy">
+            <span className="gb-brand-name"><span>Garut</span><strong>Beans</strong></span>
+            <span className="gb-brand-meta">G-BEANS · SPECIALTY COFFEE</span>
+          </span>
+        </button>
+        <div className="gb-header-actions">
+          <button className="gb-icon-orb" onClick={() => onNavigate('/notifications')} aria-label="Buka notifikasi" data-testid="button-home-notifications">
+            <AppNavGlyph name="bell" size={24} />
+          </button>
+          <button className="gb-icon-orb" onClick={() => onNavigate('/cart')} aria-label="Buka keranjang" data-testid="button-home-cart">
+            <AppNavGlyph name="shopping-cart" size={24} />
+          </button>
+        </div>
+      </div>
+      <div className="gb-greeting" data-testid="text-home-greeting">
+        <div>Mau <em>menikmati</em></div>
+        <div>kopi apa hari ini?</div>
+        <span>{dateLabel()}</span>
+      </div>
+    </header>
+  );
+}
+
+function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-search-entry" onClick={() => onNavigate('/catalog')} data-testid="button-home-search" aria-label="Cari kopi, petani, atau wilayah">
+      <img src={asset('coffee-bean-menu.webp')} alt="" data-testid="img-search-bean" />
+      <span>Cari kopi, petani, atau wilayah</span>
+      <span className="gb-filter-orb"><AppIcon name="sliders" size={16} /></span>
+    </button>
+  );
+}
+
+function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const [index, setIndex] = useState(0);
+  const promos = homeContent.promoSlides;
+  const promo = promos[index];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % promos.length), 4200);
+    return () => window.clearInterval(timer);
+  }, [promos.length]);
+
+  return (
+    <section className="gb-promo" data-testid="promo-carousel" aria-label="Promosi Garut Beans">
+      <img src={asset(promo.image)} alt={promo.title} data-testid={`img-promo-${promo.id}`} />
+      <div className="gb-promo-shade" />
+      <div className="gb-promo-copy">
+        <span className="gb-eyebrow">{promo.eyebrow}</span>
+        <h1 data-testid="text-promo-title">{promo.title}</h1>
+        <p>{promo.description}</p>
+        <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-promo-action">
+          {promo.cta} <AppIcon name="arrow-up-right" size={15} />
+        </button>
+      </div>
+      <div className="gb-promo-dots" aria-label="Pilih promo">
+        {promos.map((item, itemIndex) => (
+          <button
+            key={item.id}
+            className={`gb-promo-dot ${index === itemIndex ? 'active' : ''}`}
+            onClick={() => setIndex(itemIndex)}
+            aria-label={`Promo ${itemIndex + 1}: ${item.title}`}
+            data-testid={`button-promo-dot-${itemIndex}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <section className="gb-category-pager" data-testid="category-navigation">
+      <div className="gb-category-heading">
+        <div>
+          <span className="gb-category-eyebrow">JELAJAHI GARUT BEANS</span>
+          <h2>Menu utama</h2>
+        </div>
+        <span className="gb-category-scroll-hint">Geser ke samping untuk melihat semua menu →</span>
+      </div>
+      <div
+        className="gb-category-grid"
+        role="group"
+        aria-label="Menu kategori, geser ke samping untuk melihat semua pilihan"
+        tabIndex={0}
+        data-testid="category-scroll"
+      >
+        {homeContent.categories.map((category) => {
+          const iconArt = categoryArt[category.icon];
+          return (
+            <button className="gb-category-tile" key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
+              <span className="gb-category-glyph">
+                {iconArt ? <img src={asset(iconArt)} alt="" /> : <AppIcon name="package" size={26} />}
+              </span>
+              <span>{category.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-story-lead" onClick={() => onNavigate('/collective')} data-testid="button-collective-story">
+      <img src={asset('collective-banner.webp')} alt="" data-testid="img-collective-story" />
+      <span className="gb-story-lead-shade" />
+      <span className="gb-story-lead-copy">
+        <strong>Kopi dari tanah pegunungan.</strong>
+        <span>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</span>
+        <img src={asset('coffee-beans-natural.webp')} alt="" data-testid="img-story-beans" />
+      </span>
+    </button>
+  );
+}
+
+function VoucherCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const [slide, setSlide] = useState(0);
+  const vouchers = homeContent.vouchers;
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setSlide((current) => (current + 1) % vouchers.length), 4500);
+    return () => window.clearInterval(timer);
+  }, [vouchers.length]);
+
+  return (
+    <section className="gb-vouchers" data-testid="voucher-carousel">
+      <div className="gb-voucher-row">
+        {vouchers[slide].map((voucher, index) => (
+          <button className={`gb-voucher ${voucher.variant === 'dark' ? 'dark' : ''}`} key={voucher.code} onClick={() => onNavigate('/catalog')} data-testid={`button-voucher-${voucher.code}`}>
+            <span className="gb-voucher-kicker">VOUCHER</span>
+            <strong>{voucher.discount}</strong>
+            <span className="gb-voucher-title">{voucher.title}</span>
+            <span className="gb-voucher-note">{voucher.note}</span>
+          <span className="gb-voucher-code">{voucher.code} <AppIcon name="arrow-up-right" size={11} /></span>
+            <span className="gb-voucher-index">{index + 1}</span>
+          </button>
+        ))}
+      </div>
+      <div className="gb-voucher-dots">
+        {vouchers.map((_, item) => (
+          <button key={item} className={`gb-page-dot ${slide === item ? 'active' : ''}`} onClick={() => setSlide(item)} aria-label={`Tampilkan voucher halaman ${item + 1}`} data-testid={`button-voucher-page-${item}`} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SectionTitle({ title, action, onAction }: { title: string; action: string; onAction: () => void }) {
+  return (
+    <div className="gb-section-heading">
+      <h2 data-testid={`text-section-${title.toLowerCase().replaceAll(' ', '-')}`}>{title}</h2>
+      <button onClick={onAction} data-testid={`button-section-${title.toLowerCase().replaceAll(' ', '-')}`}>
+        {action} <AppIcon name="arrow-up-right" size={13} />
+      </button>
+    </div>
+  );
+}
+
+function CoffeeCard({ coffee, favorites, onAddToCart, onToggleFavorite, onNavigate }: {
+  coffee: SharedCoffee;
+  favorites: string[];
+  onAddToCart: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
+  onNavigate: (path: string) => void;
+}) {
+  const saved = favorites.includes(coffee.id);
+  return (
+    <article className="gb-coffee-card" data-testid={`card-coffee-${coffee.id}`}>
+      <button className="gb-coffee-image-button" onClick={() => onNavigate(`/product/${coffee.id}`)} data-testid={`button-coffee-${coffee.id}`} aria-label={`Lihat ${coffee.name}`}>
+        <img src={asset(coffee.image)} alt={coffee.name} data-testid={`img-coffee-${coffee.id}`} />
+        {coffee.badge && <span className="gb-badge">{coffee.badge}</span>}
+      </button>
+      <div className="gb-coffee-body">
+        <div>
+          <h3 data-testid={`text-coffee-name-${coffee.id}`}>{coffee.name}</h3>
+          <p>{coffee.tagline}</p>
+          <strong>{formatPrice(coffee.price)} <small>/ 200g</small></strong>
+        </div>
+        <button className={`gb-favorite ${saved ? 'saved' : ''}`} onClick={() => onToggleFavorite(coffee.id)} aria-label={saved ? `Hapus ${coffee.name} dari favorit` : `Simpan ${coffee.name} ke favorit`} data-testid={`button-favorite-${coffee.id}`}>
+          <AppIcon name="heart" size={18} />
+        </button>
+      </div>
+      <button className="gb-add-button" onClick={() => onAddToCart(coffee.id)} data-testid={`button-add-to-cart-${coffee.id}`}>
+        <AppIcon name="plus" size={15} /> Tambah ke keranjang
+      </button>
+    </article>
+  );
+}
+
+function DiversifiedCard({ product, onNavigate }: { product: typeof homeContent.diversifiedProducts[number]; onNavigate: (path: string) => void }) {
+  return (
+    <button className="gb-diversified-card" onClick={() => onNavigate('/diversification')} data-testid={`button-diversified-${product.id}`}>
+      <span className="gb-diversified-image">
+        <img src={asset(product.image)} alt={product.title} data-testid={`img-diversified-${product.id}`} />
+        <span>{product.badge}</span>
+      </span>
+      <span className="gb-diversified-body">
+        <small>{product.category}</small>
+        <strong>{product.title}</strong>
+        <span>{product.price} <AppIcon name="arrow-up-right" size={13} /></span>
+      </span>
+    </button>
+  );
+}
+
+function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
+  const diversified = homeContent.diversifiedProducts;
+  const stories = homeContent.stories;
+  const firstCoffees = coffeeCatalog.slice(0, 2);
+
+  return (
+    <div className="gb-home">
+      <div className="gb-home-shell">
+        <Header onNavigate={onNavigate} />
+        <main className="gb-home-content">
+          <SearchEntry onNavigate={onNavigate} />
+          <PromoCarousel onNavigate={onNavigate} />
+          <CategoryTiles onNavigate={onNavigate} />
+          <StoryLead onNavigate={onNavigate} />
+          <VoucherCarousel onNavigate={onNavigate} />
+
+          <section className="gb-home-section">
+            <SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => onNavigate('/catalog')} />
+            <div className="gb-horizontal-scroll" data-testid="rail-coffee">
+              {firstCoffees.map((coffee) => <CoffeeCard key={coffee.id} coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <section className="gb-home-section">
+            <SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => onNavigate('/diversification')} />
+            <div className="gb-horizontal-scroll" data-testid="rail-diversified">
+              {diversified.map((product) => <DiversifiedCard key={product.id} product={product} onNavigate={onNavigate} />)}
+            </div>
+          </section>
+
+          <section className="gb-home-section">
+            <SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => onNavigate('/catalog')} />
+            <div className="gb-taste-grid" data-testid="taste-grid">
+              {[
+                ['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
+                ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
+                ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark'],
+              ].map(([title, detail, image, route], index) => (
+                <button className={`gb-taste-card ${index === 1 ? 'featured' : ''}`} key={title} onClick={() => onNavigate(route)} data-testid={`button-taste-${index}`}>
+                  <img src={asset(image)} alt="" data-testid={`img-taste-${index}`} />
+                  <span className="gb-taste-shade" />
+                  <strong>{title}</strong>
+                  <span>{detail}</span>
+                  <AppIcon name="arrow-up-right" size={14} />
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="gb-home-section">
+            <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
+            <div className="gb-horizontal-scroll gb-story-rail" data-testid="rail-stories">
+              {stories.map((story) => (
+                <button className="gb-story-card" key={story.id} onClick={() => onNavigate('/events')} data-testid={`button-story-${story.id}`}>
+                  <img src={asset(story.image)} alt={story.title} data-testid={`img-story-${story.id}`} />
+                  <span>{story.title}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </main>
+        <nav className="gb-bottom-nav" aria-label="Navigasi utama">
+          <button className="active" onClick={() => onNavigate('/')} data-testid="nav-home"><span className="gb-home-nav-mark"><img src={asset('home-coffee-house.png')} alt="" /></span><span>Beranda</span></button>
+          <button onClick={() => onNavigate('/catalog')} data-testid="nav-explore"><span className="gb-nav-app-icon"><img src={asset('app-menu-product.png')} alt="" /></span><span>Jelajah</span></button>
+          <button className="gb-nav-center" onClick={() => onNavigate('/traceability')} data-testid="nav-traceability"><span><img src={asset('app-nav-traceability.png')} alt="" /></span><span>Jejak</span></button>
+          <button onClick={() => onNavigate('/orders')} data-testid="nav-orders"><span className="gb-nav-app-icon"><img src={asset('app-nav-orders.png')} alt="" /></span><span>Pesanan</span></button>
+          <button onClick={() => onNavigate('/profile')} data-testid="nav-profile"><span className="gb-nav-app-icon"><img src={asset('app-nav-account.png')} alt="" /></span><span>Akun</span></button>
+        </nav>
+      </div>
+    </div>
+  );
+}
+/** Static isolation wrapper used by the mockup sandbox. */
+export function Current() {
+  return (
+    <HomePage
+      onNavigate={() => undefined}
+      onAddToCart={() => undefined}
+      onToggleFavorite={() => undefined}
+      favorites={[]}
+    />
+  );
+}
+
+export default Current;
