@@ -210,6 +210,19 @@
   height: 32px;
   flex: 0 0 auto;
   object-fit: contain;
+  transform-origin: 50% 58%;
+  animation: gb-search-bean-float 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes gb-search-bean-float {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(5deg);
+  }
 }
 
 .gb-search-entry > span:nth-child(2) {
