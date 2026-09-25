@@ -615,8 +615,67 @@ function LoginRedirect({ route, onRedirect }: { route: string; onRedirect: () =>
   return <LoginPage returnTo={route} />;
 }
 
+function DesktopTopNav() {
+  const [location, setLocation] = useLocation();
+  const active = location === '/'
+    ? 'home'
+    : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites')
+      ? 'explore'
+      : location.startsWith('/traceability')
+        ? 'trace'
+        : location.startsWith('/orders') || location.startsWith('/cart')
+          ? 'orders'
+          : location.startsWith('/profile')
+            ? 'account'
+            : '';
+  const items: { id: string; label: string; path: string; icon: LucideIcon }[] = [
+    { id: 'home', label: 'Beranda', path: '/', icon: Home },
+    { id: 'explore', label: 'Jelajah', path: '/catalog', icon: Coffee },
+    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Map },
+    { id: 'orders', label: 'Pesanan', path: '/orders', icon: ClipboardList },
+    { id: 'account', label: 'Akun', path: '/profile', icon: CircleUserRound },
+  ];
+
+  return (
+    <nav className="desktop-top-nav" aria-label="Navigasi utama">
+      <div className="desktop-top-nav-inner">
+        <button className="desktop-top-brand" onClick={() => setLocation('/')} aria-label="Garut Beans, kembali ke beranda">
+          <img src={asset('kopi-garut-logo.png')} alt="" />
+          <span>
+            <strong>Garut Beans</strong>
+            <small>G-BEANS · SPECIALTY COFFEE</small>
+          </span>
+        </button>
+        <div className="desktop-top-links">
+          {items.map(({ id, label, path, icon }) => (
+            <button
+              key={id}
+              className={`desktop-top-link ${active === id ? 'active' : ''}`}
+              onClick={() => setLocation(path)}
+              aria-current={active === id ? 'page' : undefined}
+              data-testid={`desktop-nav-${id}`}
+            >
+              {createElement(icon, { size: 17, strokeWidth: 1.8 })}
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 function App() {
-  return <WebAuthProvider><StoreProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><AppRouter /></WouterRouter></StoreProvider></WebAuthProvider>;
+  return (
+    <WebAuthProvider>
+      <StoreProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <DesktopTopNav />
+          <AppRouter />
+        </WouterRouter>
+      </StoreProvider>
+    </WebAuthProvider>
+  );
 }
 
 export default App;

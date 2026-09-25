@@ -119,14 +119,23 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const [page, setPage] = useState(0);
-  const pages = Math.ceil(homeContent.categories.length / 8);
-  const items = homeContent.categories.slice(page * 8, page * 8 + 8);
-
   return (
     <section className="gb-category-pager" data-testid="category-navigation">
-      <div className="gb-category-grid">
-        {items.map((category) => {
+      <div className="gb-category-heading">
+        <div>
+          <span className="gb-category-eyebrow">JELAJAHI GARUT BEANS</span>
+          <h2>Menu utama</h2>
+        </div>
+        <span className="gb-category-scroll-hint">Geser ke samping untuk melihat semua menu →</span>
+      </div>
+      <div
+        className="gb-category-grid"
+        role="group"
+        aria-label="Menu kategori, geser ke samping untuk melihat semua pilihan"
+        tabIndex={0}
+        data-testid="category-scroll"
+      >
+        {homeContent.categories.map((category) => {
           const iconArt = categoryArt[category.icon];
           return (
             <button className="gb-category-tile" key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
@@ -137,17 +146,6 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
             </button>
           );
         })}
-      </div>
-      <div className="gb-page-dots" aria-label="Halaman kategori">
-        {Array.from({ length: pages }, (_, item) => (
-          <button
-            key={item}
-            className={`gb-page-dot ${page === item ? 'active' : ''}`}
-            onClick={() => setPage(item)}
-            aria-label={`Tampilkan kategori halaman ${item + 1}`}
-            data-testid={`button-category-page-${item}`}
-          />
-        ))}
       </div>
     </section>
   );

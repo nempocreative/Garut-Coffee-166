@@ -77,10 +77,13 @@
 @layer base {
   * { box-sizing: border-box; border-color: hsl(var(--border)); }
   html, body, #root { min-height: 100%; margin: 0; }
+  html, body { overflow-x: clip; overflow-y: auto; }
   body {
     background: #332720;
     color: hsl(var(--foreground));
     font-family: var(--app-font-sans);
+    min-height: 100vh;
+    min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
   }
   button, input { font: inherit; }
@@ -98,7 +101,8 @@
   margin: 0 auto;
   background: hsl(var(--background));
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   box-shadow: 0 0 0 1px rgba(255, 250, 240, .08), 0 28px 90px rgba(26, 15, 10, .34);
 }
 
@@ -885,6 +889,110 @@
 .access-card p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.4; }
 .saved-note { display: flex; align-items: center; gap: 7px; color: hsl(var(--primary)); font-size: 10px; margin-top: 12px; }
 .collective-hero { min-height: 246px; border-radius: 22px; overflow: hidden; position: relative; background: hsl(var(--foreground)); }
+
+.desktop-top-nav { display: none; }
+
+@media (min-width: 768px) {
+  .desktop-top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: block;
+    border-bottom: 1px solid hsl(var(--border));
+    background: rgba(255, 249, 241, .96);
+    box-shadow: 0 5px 18px rgba(42, 31, 26, .07);
+    backdrop-filter: blur(14px);
+  }
+
+  .desktop-top-nav-inner {
+    display: flex;
+    width: min(calc(100% - 48px), 1180px);
+    min-height: 72px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 0 auto;
+  }
+
+  .desktop-top-brand {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    color: hsl(var(--foreground));
+    background: transparent;
+    text-align: left;
+  }
+
+  .desktop-top-brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+  }
+
+  .desktop-top-brand span {
+    display: grid;
+    gap: 3px;
+  }
+
+  .desktop-top-brand strong {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .desktop-top-brand small {
+    color: hsl(var(--muted-foreground));
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .9px;
+  }
+
+  .desktop-top-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .desktop-top-link {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 12px;
+    color: hsl(var(--muted-foreground));
+    background: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease;
+  }
+
+  .desktop-top-link:hover,
+  .desktop-top-link.active {
+    color: hsl(var(--primary));
+    background: hsl(var(--secondary));
+  }
+
+  .desktop-top-link:focus-visible,
+  .desktop-top-brand:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  .bottom-nav,
+  .gb-bottom-nav {
+    display: none !important;
+  }
+
+  .app-page {
+    padding-top: 22px;
+  }
+}
 .collective-hero > img, .collective-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
 .collective-hero > img { object-fit: cover; opacity: .42; }
 .collective-hero-shade { background: rgba(37,22,15,.8); }
