@@ -72,6 +72,10 @@ function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
           </button>
         </div>
       </div>
+      <div className="gb-header-meta" aria-label="Identitas Garut Beans">
+        <span><i /> GARUT / INDONESIA</span>
+        <span>FIELD JOURNAL · 2026</span>
+      </div>
       <div className="gb-greeting" data-testid="text-home-greeting">
         <div>Mau <em>menikmati</em></div>
         <div>kopi apa hari ini?</div>
@@ -106,6 +110,10 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
     <section className="gb-promo" data-testid="promo-carousel" aria-label="Promosi Garut Beans">
       <img src={asset(promo.image)} alt={promo.title} data-testid={`img-promo-${promo.id}`} />
       <div className="gb-promo-shade" />
+      <div className="gb-promo-rail" aria-hidden="true">
+        <span>{String(index + 1).padStart(2, '0')}—{String(promos.length).padStart(2, '0')}</span>
+        <span>ORIGIN SELECTED</span>
+      </div>
       <div className="gb-promo-copy">
         <span className="gb-eyebrow">{promo.eyebrow}</span>
         <h1 data-testid="text-promo-title">{promo.title}</h1>

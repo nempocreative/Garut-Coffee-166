@@ -2779,3 +2779,122 @@
     font-size: 19px;
   }
 }
+
+/* Stronger web masthead: the website has its own editorial signature,
+   separate from the compact native app composition. */
+.gb-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  color: rgba(255, 249, 241, .72);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.35px;
+}
+
+.gb-header-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gb-header-meta span:last-child {
+  color: rgba(255, 249, 241, .5);
+}
+
+.gb-header-meta i {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--gb-highlight);
+}
+
+.gb-promo-rail {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 20px;
+  display: grid;
+  gap: 5px;
+  color: rgba(255, 249, 241, .72);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-align: right;
+}
+
+.gb-promo-rail span:first-child {
+  color: var(--gb-highlight);
+  font-size: 11px;
+  letter-spacing: .9px;
+}
+
+@media (max-width: 540px) {
+  .gb-header-meta {
+    margin-top: 12px;
+    font-size: 7px;
+  }
+
+  .gb-promo-rail {
+    top: 14px;
+    right: 15px;
+    font-size: 7px;
+  }
+}
+
+@media (min-width: 768px) {
+  .gb-header {
+    min-height: 386px;
+  }
+
+  .gb-header::before {
+    height: 362px;
+    background:
+      linear-gradient(108deg, rgba(29, 18, 14, .9) 0%, rgba(47, 25, 17, .7) 36%, rgba(81, 37, 21, .22) 72%, rgba(81, 37, 21, .4)),
+      url('/kopi-garut-web/assets/header-garut-pattern.webp') center 48% / cover;
+  }
+
+  .gb-header-meta {
+    position: absolute;
+    right: clamp(40px, 6vw, 88px);
+    bottom: 38px;
+    margin: 0;
+  }
+
+  .gb-greeting {
+    max-width: 760px;
+    margin-top: 68px;
+    font-size: clamp(46px, 4.8vw, 70px);
+    letter-spacing: -2.8px;
+  }
+
+  .gb-greeting::after {
+    width: 118px;
+    height: 3px;
+    margin-top: 28px;
+  }
+
+  .gb-promo {
+    height: clamp(360px, 31vw, 450px);
+    margin-top: 34px;
+    border-radius: 32px;
+  }
+
+  .gb-promo-rail {
+    top: 28px;
+    right: 30px;
+    gap: 8px;
+    font-size: 9px;
+  }
+
+  .gb-promo-rail span:first-child {
+    font-size: 14px;
+  }
+
+  .gb-promo-copy {
+    right: 100px;
+    bottom: 62px;
+    left: 64px;
+  }
+}
