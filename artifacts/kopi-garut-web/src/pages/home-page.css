@@ -3012,3 +3012,185 @@
     left: 42px;
   }
 }
+
+/* Header detail: a human, local cue instead of extra campaign-like UI. */
+.gb-greeting-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: rgba(255, 249, 241, .82);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.gb-greeting-kicker::before {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: var(--gb-highlight);
+  content: '';
+}
+
+.gb-greeting .gb-greeting-date {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255, 249, 241, .86);
+  font-size: 9px;
+  letter-spacing: .15px;
+}
+
+.gb-greeting-note {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 249, 241, .68);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .05px;
+}
+
+.gb-header-top,
+.gb-greeting {
+  position: relative;
+  z-index: 1;
+}
+
+.gb-header::after {
+  background:
+    linear-gradient(90deg, rgba(19, 13, 10, .18), transparent 62%),
+    linear-gradient(180deg, rgba(16, 12, 10, .04), rgba(16, 12, 10, .24));
+}
+
+@media (max-width: 540px) {
+  .gb-greeting {
+    margin-top: 20px;
+  }
+
+  .gb-greeting-kicker {
+    margin-bottom: 8px;
+    font-size: 9px;
+  }
+
+  .gb-greeting-note {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 768px) {
+  .gb-greeting-kicker {
+    margin-bottom: 9px;
+    font-size: 11px;
+  }
+
+  .gb-greeting {
+    max-width: 640px;
+    margin-top: 27px;
+    font-size: clamp(40px, 3.7vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -1.9px;
+  }
+
+  .gb-greeting .gb-greeting-date {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+
+  .gb-greeting-note {
+    margin-top: 7px;
+    color: rgba(255, 249, 241, .84);
+    font-size: 10px;
+  }
+}
+
+/* Keep the two utility actions legible over the dark farm photo. */
+.gb-header-actions {
+  gap: 9px;
+}
+
+.gb-icon-orb {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 249, 241, .92);
+  border-radius: 50%;
+  background: #fff9f1;
+  box-shadow: 0 5px 14px rgba(34, 20, 13, .24), 0 0 0 3px rgba(255, 249, 241, .12);
+}
+
+.gb-icon-orb svg {
+  display: block;
+  width: 27px;
+  height: 27px;
+}
+
+.gb-icon-orb:hover,
+.gb-icon-orb:focus-visible {
+  background: var(--gb-highlight);
+  box-shadow: 0 7px 16px rgba(34, 20, 13, .28), 0 0 0 3px rgba(255, 216, 77, .2);
+}
+
+/* The supplied artwork already carries the Garut Beans wordmark and story.
+   Keep the masthead quiet so the image remains the composition's focal point. */
+.gb-header {
+  min-height: 252px;
+  padding: 16px 16px 0;
+}
+
+.gb-header::before {
+  inset: 0;
+  height: 100%;
+  border-radius: 0 0 24px 24px;
+  background:
+    linear-gradient(180deg, rgba(30, 20, 15, .14), rgba(30, 20, 15, .02) 42%, rgba(30, 20, 15, .2)),
+    url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
+  clip-path: none;
+}
+
+.gb-header::after {
+  inset: 0;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(28, 18, 13, .08), transparent 48%, rgba(28, 18, 13, .18));
+}
+
+.gb-header-top {
+  position: relative;
+  z-index: 2;
+  justify-content: flex-end;
+}
+
+.gb-header .gb-brand,
+.gb-header .gb-greeting {
+  display: none;
+}
+
+.gb-header-actions {
+  gap: 8px;
+}
+
+.gb-icon-orb {
+  width: 42px;
+  height: 42px;
+  border-color: rgba(255, 249, 241, .82);
+  background: rgba(48, 30, 20, .38);
+  color: #fff9f1;
+  box-shadow: 0 5px 14px rgba(34, 20, 13, .2), 0 0 0 3px rgba(255, 249, 241, .1);
+  backdrop-filter: blur(5px);
+}
+
+@media (min-width: 768px) {
+  .gb-header {
+    min-height: 360px;
+    padding: 24px clamp(40px, 6vw, 88px) 0;
+  }
+
+  .gb-header::before {
+    border-radius: 0 0 34px 34px;
+    background-position: center 24%;
+  }
+
+  .gb-icon-orb {
+    width: 46px;
+    height: 46px;
+  }
+}

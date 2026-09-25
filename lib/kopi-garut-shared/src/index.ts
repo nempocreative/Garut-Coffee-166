@@ -228,7 +228,7 @@ export const homeContent = {
     { icon: 'grid', label: 'Ekosistem', route: '/collective' },
     { icon: 'graduation-cap', label: 'Program', route: '/program' },
     { icon: 'alert-circle', label: 'Keluhan', route: '/complaints' },
-    { icon: 'package', label: 'Produk turunan', route: '/diversification' },
+    { icon: 'package', label: 'Karya kopi', route: '/diversification' },
   ] satisfies SharedCategoryItem[],
 
   vouchers: [

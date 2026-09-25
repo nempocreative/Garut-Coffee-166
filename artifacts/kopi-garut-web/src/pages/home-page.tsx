@@ -34,14 +34,6 @@ const categoryArt: Partial<Record<HomeIconName, string>> = {
   package: 'app-menu-product.png',
 };
 
-const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-const dateLabel = () => {
-  const date = new Date();
-  return `${weekdays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-};
-
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
 const extensionTeam = [
@@ -54,15 +46,6 @@ function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <header className="gb-header" data-testid="home-header">
       <div className="gb-header-top">
-        <button className="gb-brand" onClick={() => onNavigate('/')} data-testid="button-brand-home" aria-label="Kembali ke Beranda">
-          <span className="gb-logo-frame">
-            <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" data-testid="img-brand-logo" />
-          </span>
-          <span className="gb-brand-copy">
-            <span className="gb-brand-name"><span>Garut</span><strong>Beans</strong></span>
-            <span className="gb-brand-meta">G-BEANS · SPECIALTY COFFEE</span>
-          </span>
-        </button>
         <div className="gb-header-actions">
           <button className="gb-icon-orb" onClick={() => onNavigate('/notifications')} aria-label="Buka notifikasi" data-testid="button-home-notifications">
             <AppNavGlyph name="bell" size={24} />
@@ -71,11 +54,6 @@ function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
             <AppNavGlyph name="shopping-cart" size={24} />
           </button>
         </div>
-      </div>
-      <div className="gb-greeting" data-testid="text-home-greeting">
-        <div>Mau <em>menikmati</em></div>
-        <div>kopi apa hari ini?</div>
-        <span>{dateLabel()}</span>
       </div>
     </header>
   );
