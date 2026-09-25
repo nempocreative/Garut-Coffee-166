@@ -665,63 +665,7 @@ function DesktopTopNav() {
   );
 }
 
-function useMobileWebAppRedirect() {
-  const [isMobileLayout, setIsMobileLayout] = useState(
-    () => window.matchMedia('(max-width: 1023px)').matches,
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 1023px)');
-    const redirectToMobileApp = () => {
-      setIsMobileLayout(mediaQuery.matches);
-      if (!mediaQuery.matches) return;
-
-      const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-      const currentPath = window.location.pathname;
-      const appPath = currentPath === basePath || currentPath === `${basePath}/`
-        ? '/'
-        : currentPath.startsWith(`${basePath}/`)
-          ? currentPath.slice(basePath.length)
-          : '/';
-      const destination = `${appPath}${window.location.search}${window.location.hash}`;
-
-      if (`${currentPath}${window.location.search}${window.location.hash}` !== destination) {
-        window.location.replace(destination);
-      }
-    };
-
-    redirectToMobileApp();
-    mediaQuery.addEventListener('change', redirectToMobileApp);
-    return () => mediaQuery.removeEventListener('change', redirectToMobileApp);
-  }, []);
-
-  return isMobileLayout;
-}
-
 function App() {
-  const isMobileLayout = useMobileWebAppRedirect();
-
-  if (isMobileLayout) {
-    return (
-      <main
-        role="status"
-        style={{
-          alignItems: 'center',
-          background: '#f8f4ec',
-          color: '#40352c',
-          display: 'flex',
-          fontFamily: 'inherit',
-          justifyContent: 'center',
-          minHeight: '100dvh',
-          padding: 24,
-          textAlign: 'center',
-        }}
-      >
-        Membuka tampilan aplikasi Garut Beans…
-      </main>
-    );
-  }
-
   return (
     <WebAuthProvider>
       <StoreProvider>
