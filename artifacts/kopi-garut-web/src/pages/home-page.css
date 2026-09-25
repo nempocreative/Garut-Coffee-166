@@ -798,7 +798,7 @@
   overflow: hidden;
   border: 1px solid rgba(168, 84, 59, .16);
   border-radius: 20px;
-  background: linear-gradient(165deg, #fffaf2 0%, var(--gb-card) 72%);
+  background: var(--gb-card);
   box-shadow: 0 12px 24px rgba(76, 48, 31, .12);
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
@@ -862,7 +862,7 @@
 
 .gb-coffee-body h3 {
   margin: 0;
-  color: #3a251d;
+  color: var(--gb-foreground);
   font-size: 14px;
   line-height: 1.12;
 }
@@ -880,8 +880,9 @@
 .gb-coffee-body p {
   min-height: 26px;
   margin: 5px 0 0;
-  color: var(--gb-muted);
+  color: #6f584d;
   font-size: 10px;
+  font-weight: 500;
   line-height: 1.3;
 }
 
@@ -893,9 +894,9 @@
 }
 
 .gb-coffee-body small {
-  color: var(--gb-muted);
+  color: #6f584d;
   font-size: 9px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .gb-favorite {
@@ -3532,6 +3533,7 @@
   position: relative;
   min-height: 300px;
   overflow: hidden;
+  background: transparent;
 }
 
 .gb-coffee-carousel-track {
