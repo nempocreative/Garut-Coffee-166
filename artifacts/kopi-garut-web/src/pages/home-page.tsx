@@ -99,25 +99,29 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
               key={`${promo.id}-${slot}`}
               aria-hidden={!isActive}
             >
-              {hasEmbeddedCopy ? (
-                <picture>
-                  <source media="(min-width: 768px)" srcSet={promoAsset(promo)} />
-                  <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
-                </picture>
-              ) : (
-                <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
-              )}
-              <div className="gb-promo-shade" />
-              {isActive && (
-                <div className={`gb-promo-copy ${hasEmbeddedCopy ? 'gb-promo-copy--embedded' : ''}`}>
-                  <span className="gb-eyebrow">{promo.eyebrow}</span>
-                  <h1 data-testid="text-promo-title">{promo.title}</h1>
-                  <p>{promo.description}</p>
-                  <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-promo-action">
-                    {promo.cta} <AppIcon name="arrow-up-right" size={15} />
-                  </button>
+              <div className="gb-promo-slide">
+                {isActive && (
+                  <div className={`gb-promo-copy ${hasEmbeddedCopy ? 'gb-promo-copy--embedded' : ''}`}>
+                    <span className="gb-eyebrow">{promo.eyebrow}</span>
+                    <h1 data-testid="text-promo-title">{promo.title}</h1>
+                    <p>{promo.description}</p>
+                    <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-promo-action">
+                      {promo.cta} <AppIcon name="arrow-up-right" size={15} />
+                    </button>
+                  </div>
+                )}
+                <div className="gb-promo-media">
+                  {hasEmbeddedCopy ? (
+                    <picture>
+                      <source media="(min-width: 768px)" srcSet={promoAsset(promo)} />
+                      <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
+                    </picture>
+                  ) : (
+                    <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
+                  )}
+                  <div className="gb-promo-shade" />
                 </div>
-              )}
+              </div>
             </article>
           );
         })}
