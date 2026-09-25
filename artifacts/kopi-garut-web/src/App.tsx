@@ -1,19 +1,16 @@
 import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
-  ArrowLeft, ArrowRight, Bell, BriefcaseBusiness, CalendarDays, ChevronRight,
-  CircleUserRound, Coffee, Compass, Heart, Home, Map, MapPin, Minus, Package, Plus,
-  ScanLine, Search, Settings, ShieldCheck, ShoppingBag, SlidersHorizontal, Sparkles,
-  Trash2, Users, BarChart3, Check, CheckCircle2, ClipboardList, Clock3, FileText,
-  Factory, GraduationCap, Leaf, LocateFixed, MessageSquare, Network, Send, TrendingUp, Wallet, Wheat, X,
+  Trash2, ClipboardList, Clock3, FileText, Factory, Leaf, LocateFixed, MessageSquare,
+  Wallet, Wheat,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import type { LucideIcon, LucideProps } from 'lucide-react';
 import { Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
 import {
   authSessionStorageKey,
+  brandTokens,
   canAccessRoute,
   coffeeCatalog,
   getRoleProfile,
-  homeContent,
   roleProfiles,
   farmers,
   regions,
@@ -22,10 +19,58 @@ import {
   hubStats,
   homeContent as sharedHomeContent,
   type AuthRole,
-  type HomeIconName,
   type RoleProfile,
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
+import HomePage from '@/pages/home-page';
+import { useWebStorageJson } from '@/lib/web-storage';
+import { AppIcon, AppNavGlyph, type AppIconName } from '@/components/app-icon';
+
+const mobileIcon = (name: AppIconName): LucideIcon => {
+  const Icon = ({ size = 24, color = 'currentColor', strokeWidth = 1.8, className, style }: LucideProps) => (
+    <AppIcon
+      name={name}
+      size={size}
+      color={color}
+      strokeWidth={Number(strokeWidth) || 1.8}
+      className={className}
+      style={style}
+    />
+  );
+  return Icon as LucideIcon;
+};
+
+const ArrowLeft = mobileIcon('arrow-left');
+const ArrowRight = mobileIcon('arrow-up-right');
+const Bell = mobileIcon('bell');
+const BriefcaseBusiness = mobileIcon('briefcase');
+const CalendarDays = mobileIcon('calendar');
+const ChevronRight = mobileIcon('chevron-right');
+const CircleUserRound = mobileIcon('user');
+const Coffee = mobileIcon('coffee');
+const Compass = mobileIcon('compass');
+const Heart = mobileIcon('heart');
+const Home = mobileIcon('home');
+const Map = mobileIcon('map');
+const MapPin = mobileIcon('map-pin');
+const Minus = mobileIcon('minus');
+const Package = mobileIcon('package');
+const Plus = mobileIcon('plus');
+const Search = mobileIcon('search');
+const Settings = mobileIcon('settings');
+const ShieldCheck = mobileIcon('shield');
+const ShoppingBag = mobileIcon('shopping-bag');
+const SlidersHorizontal = mobileIcon('sliders');
+const Sparkles = mobileIcon('sparkles');
+const Users = mobileIcon('users');
+const BarChart3 = mobileIcon('bar-chart-2');
+const Check = mobileIcon('check');
+const CheckCircle2 = mobileIcon('check');
+const GraduationCap = mobileIcon('graduation-cap');
+const Network = mobileIcon('network');
+const Send = mobileIcon('send');
+const TrendingUp = mobileIcon('trending-up');
+const X = mobileIcon('x');
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
@@ -36,32 +81,6 @@ const coffees: Coffee[] = coffeeCatalog.map(({ tastingNotes, image, ...coffee })
   notes: tastingNotes,
   image: asset(image),
 }));
-
-const promos = homeContent.promoSlides.map((promo) => ({
-  ...promo,
-  image: asset(promo.image),
-}));
-
-const categoryIcons: Record<HomeIconName, LucideIcon> = {
-  coffee: Coffee,
-  users: Users,
-  map: Map,
-  compass: Compass,
-  calendar: CalendarDays,
-  'graduation-cap': GraduationCap,
-  briefcase: BriefcaseBusiness,
-  grid: Package,
-  shield: ShieldCheck,
-  'alert-circle': Bell,
-  package: Package,
-};
-
-const categories = homeContent.categories.map((category) => ({
-  ...category,
-  icon: categoryIcons[category.icon],
-}));
-
-const stories = homeContent.stories.map((story) => [asset(story.image), story.title] as const);
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -84,14 +103,11 @@ const useStore = () => {
 };
 
 function StoreProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(() => JSON.parse(localStorage.getItem('kopi-garut-cart') || '[]'));
-  const [favorites, setFavorites] = useState<string[]>(() => JSON.parse(localStorage.getItem('kopi-garut-favorites') || '[]'));
-  const [orders, setOrders] = useState<Order[]>(() => JSON.parse(localStorage.getItem('kopi-garut-orders') || '[]'));
+  const [cart, setCart] = useWebStorageJson<CartItem[]>('kopi-garut-cart', []);
+  const [favorites, setFavorites] = useWebStorageJson<string[]>('kopi-garut-favorites', []);
+  const [orders, setOrders] = useWebStorageJson<Order[]>('kopi-garut-orders', []);
   const [notice, setNotice] = useState('');
   const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
-  useEffect(() => localStorage.setItem('kopi-garut-cart', JSON.stringify(cart)), [cart]);
-  useEffect(() => localStorage.setItem('kopi-garut-favorites', JSON.stringify(favorites)), [favorites]);
-  useEffect(() => localStorage.setItem('kopi-garut-orders', JSON.stringify(orders)), [orders]);
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
   useEffect(() => { if (!cartNotice) return; const timer = window.setTimeout(() => setCartNotice(null), 4800); return () => window.clearTimeout(timer); }, [cartNotice]);
   const notify = (message: string) => setNotice(message);
@@ -161,8 +177,8 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
   return <header className={home ? 'header' : 'subpage-head'}>
      {home ? <div className="header-top">
        <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" /></div><div className="brand-lines"><div className="brand-name"><span>Garut</span><strong>Beans</strong></div><div className="brand-meta">G-BEANS · SPECIALTY COFFEE</div></div></div>
-      <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><Bell size={19} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><ShoppingBag size={19} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
-     </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><h1 className="page-title">{title}</h1><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><ShoppingBag size={18} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
+      <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><AppNavGlyph name="bell" size={24} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
+      </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><h1 className="page-title">{title}</h1><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
     {home && <div className="header-copy"><div><div className="greeting">Mau <em>menikmati</em><br />kopi apa hari ini?</div><div className="date-line">{homeDate()}</div></div></div>}
   </header>;
 }
@@ -170,14 +186,14 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
 function BottomNav() {
   const [location, setLocation] = useLocation();
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : 'profile';
-  const items: { id: string; label: string; icon: LucideIcon | null; path: string }[] = [
-    { id: 'home', label: 'Beranda', icon: null, path: '/' },
-    { id: 'explore', label: 'Jelajah', icon: Sparkles, path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: ScanLine, path: '/traceability' },
-    { id: 'orders', label: 'Pesanan', icon: Package, path: '/orders' },
-    { id: 'profile', label: 'Akun', icon: CircleUserRound, path: '/profile' },
+  const items: { id: string; label: string; icon: string; path: string }[] = [
+    { id: 'home', label: 'Beranda', icon: 'home-coffee-house.png', path: '/' },
+    { id: 'explore', label: 'Jelajah', icon: 'app-menu-product.png', path: '/catalog' },
+    { id: 'trace', label: 'Jejak', icon: 'app-nav-traceability.png', path: '/traceability' },
+    { id: 'orders', label: 'Pesanan', icon: 'app-nav-orders.png', path: '/orders' },
+    { id: 'profile', label: 'Akun', icon: 'app-nav-account.png', path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon: Icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon">{id === 'home' ? <img className="home-nav-image" src={asset('home-coffee-house.png')} alt="" /> : Icon && <Icon size={id === 'trace' ? 22 : 20} />}</span><span>{label}</span></button>)}</nav>;
+  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon"><img className={`app-nav-image ${id === 'home' ? 'home-nav-image' : ''}`} src={asset(icon)} alt="" /></span><span>{label}</span></button>)}</nav>;
 }
 
 function CartPreview() {
@@ -190,44 +206,12 @@ function CartPreview() {
   return <button className="cart-preview" onClick={() => { dismissCartNotice(); setLocation('/cart'); }} aria-label={`Buka keranjang, ${count} item`} data-testid="cart-preview"><img src={coffee.image} alt="" /><span className="cart-preview-copy"><small>{cartNotice.quantity} item ditambahkan</small><strong>{coffee.name}</strong><em>{count} item di keranjang</em></span><span className="cart-preview-action"><ShoppingBag size={15} /> Lihat</span></button>;
 }
 
-function FloatingBadges() {
-  return <div className="floating-badges"><button className="floating-badge" aria-label="Buka mini games" data-testid="button-games"><img src={asset('mini-games-icon.webp')} alt="Mini games" /></button><button className="floating-badge" aria-label="Buka bantuan chat" data-testid="button-chat"><img src={asset('faq-live-chat.webp')} alt="Bantuan" /></button></div>;
-}
-
 function SearchEntry({ catalog = false, value: controlledValue, onChange }: { catalog?: boolean; value?: string; onChange?: (value: string) => void }) {
   const [, setLocation] = useLocation();
   const [localValue, setLocalValue] = useState('');
   const value = controlledValue ?? localValue;
   const handleChange = (nextValue: string) => { onChange ? onChange(nextValue) : setLocalValue(nextValue); };
   return <div className={`search-entry ${catalog ? 'catalog-search' : ''}`}><img className="search-bean" src={asset('coffee-bean-menu.webp')} alt="" /><input value={value} onChange={(event) => handleChange(event.target.value)} onFocus={() => !catalog && setLocation('/catalog')} placeholder={catalog ? 'Cari nama, asal, atau rasa' : 'Cari kopi, petani, atau wilayah'} aria-label="Cari kopi" data-testid={catalog ? 'input-catalog-search' : 'input-home-search'} /><div className="filter-orb"><SlidersHorizontal size={15} /></div></div>;
-}
-
-function PromoCarousel() {
-  const [, setLocation] = useLocation();
-  const [index, setIndex] = useState(0);
-  useEffect(() => { const timer = window.setInterval(() => setIndex((value) => (value + 1) % promos.length), 4200); return () => window.clearInterval(timer); }, []);
-  const promo = promos[index];
-  return <div className="hero" data-testid="promo-carousel"><img src={promo.image} alt={promo.title} /><div className="hero-copy"><div className="eyebrow">{promo.eyebrow}</div><div className="hero-title">{promo.title}</div><div className="hero-desc">{promo.description}</div><button className="hero-link" onClick={() => setLocation(promo.route)} data-testid="button-promo">{promo.cta}<ArrowRight size={14} /></button></div><div className="hero-dots">{promos.map((item, itemIndex) => <button key={item.title} className={`hero-dot ${itemIndex === index ? 'active' : ''}`} onClick={() => setIndex(itemIndex)} aria-label={`Promo ${itemIndex + 1}`} data-testid={`promo-dot-${itemIndex}`} />)}</div></div>;
-}
-
-function CategoryTiles() {
-  const [, setLocation] = useLocation();
-  const [page, setPage] = useState(0);
-  const pageItems = categories.slice(page * 8, page * 8 + 8);
-  return <div className="category-pager"><div className="categories">{pageItems.map(({ label, icon: Icon, route }, index) => <button key={label} className="category-tile" onClick={() => setLocation(route)} data-testid={`category-${label.toLowerCase()}`}><span className="category-glyph"><Icon size={24} /></span><span className="category-label">{label}</span></button>)}</div><div className="category-pagination">{[0, 1].map((item) => <button key={item} className={`category-pagination-dot ${page === item ? 'active' : ''}`} onClick={() => setPage(item)} aria-label={`Tampilkan menu halaman ${item + 1}`} />)}</div></div>;
-}
-
-function StoryLead() {
-  const [, setLocation] = useLocation();
-  return <button className="story-lead" onClick={() => setLocation('/collective')} data-testid="collective-story"><img src={asset('collective-banner.webp')} alt="" /><div className="story-lead-shade" /><div className="story-lead-copy"><h3>Kopi dari tanah pegunungan.</h3><p>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</p><img className="story-beans" src={asset('coffee-beans-natural.webp')} alt="" /></div></button>;
-}
-
-function VoucherCarousel() {
-  const [, setLocation] = useLocation();
-  const [slide, setSlide] = useState(0);
-  const vouchers = homeContent.vouchers;
-  useEffect(() => { const timer = window.setInterval(() => setSlide((value) => (value + 1) % vouchers.length), 4500); return () => window.clearInterval(timer); }, [vouchers.length]);
-  return <div className="voucher-carousel"><div className="voucher-row">{vouchers[slide].map((item, index) => <button className={`voucher ${index ? 'dark' : ''}`} key={item.code} onClick={() => setLocation('/catalog')}><span className="voucher-kicker">VOUCHER</span><div className="voucher-discount">{item.discount}</div><div className="voucher-title">{item.title}</div><div className="voucher-note">{item.note}</div><div className="voucher-code">{item.code} <span>↗</span></div></button>)}</div><div className="voucher-dots">{vouchers.map((_, index) => <button key={index} className={`voucher-dot ${index === slide ? 'active' : ''}`} onClick={() => setSlide(index)} aria-label={`Tampilkan voucher halaman ${index + 1}`} />)}</div></div>;
 }
 
 function ProductCard({ coffee }: { coffee: Coffee }) {
@@ -241,10 +225,18 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
   return <div className="section-heading"><div>{kicker && <div className="section-kicker">{kicker}</div>}<h2>{title}</h2></div>{action && <button className="see-all" onClick={onAction} data-testid={`button-see-${title.toLowerCase().replaceAll(' ', '-')}`}>{action}</button>}</div>;
 }
 
-function HomePage() {
+function WebHomeRoute() {
   const [, setLocation] = useLocation();
-  const diversified = homeContent.diversifiedProducts;
-  return <Page><Header home /><main className="screen-section"><SearchEntry /><PromoCarousel /><CategoryTiles /><StoryLead /><VoucherCarousel /><SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => setLocation('/catalog')} /><div className="horizontal-scroll hide-scrollbar">{coffees.slice(0, 2).map((coffee) => <ProductCard coffee={coffee} key={coffee.id} />)}</div><SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => setLocation('/diversification')} /><div className="horizontal-scroll hide-scrollbar">{diversified.map((product) => <article className="diversified-card" key={product.title} onClick={() => setLocation('/diversification')}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><div>{product.price} <ArrowRight size={13} /></div></div></article>)}</div><SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => setLocation('/catalog')} /><div className="taste-grid">{[['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'], ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'], ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark']].map(([title, detail, image, route], index) => <button key={title} className={`taste-card ${index === 1 ? 'featured' : ''}`} onClick={() => setLocation(route)}><img src={asset(image)} alt="" /><div className="taste-shade" /><strong>{title}</strong><span>{detail}</span><ArrowRight size={14} /></button>)}</div><SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => setLocation('/farmers')} /><div className="horizontal-scroll hide-scrollbar story-rail">{stories.map(([image, title]) => <div className="story-card" key={title}><img src={image} alt={title} /><div className="story-title">{title}</div></div>)}</div></main><FloatingBadges /></Page>;
+  const { favorites, addToCart, toggleFavorite } = useStore();
+  return <>
+    <HomePage
+      onNavigate={setLocation}
+      onAddToCart={(id) => addToCart(id)}
+      onToggleFavorite={toggleFavorite}
+      favorites={favorites}
+    />
+    <CartPreview />
+  </>;
 }
 
 function Page({ children }: { children: ReactNode }) {
@@ -374,20 +366,6 @@ const iconFor = (kind: string): LucideIcon => ({
   leaf: Leaf, wallet: Wallet, wheat: Wheat, check: CheckCircle2, message: MessageSquare,
 }[kind] ?? Package);
 
-function useLocalJson<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(() => {
-    try { const stored = localStorage.getItem(key); return stored ? JSON.parse(stored) as T : initial; } catch { return initial; }
-  });
-  const update = (next: T | ((current: T) => T)) => {
-    setValue((current) => {
-      const result = typeof next === 'function' ? (next as (current: T) => T)(current) : next;
-      localStorage.setItem(key, JSON.stringify(result));
-      return result;
-    });
-  };
-  return [value, update] as const;
-}
-
 function MetricStrip({ metrics }: { metrics: ReadonlyArray<{ label: string; value: string; icon?: string }> }) {
   return <div className="metric-strip">{metrics.map((metric) => { const Icon = iconFor(metric.icon || 'chart'); return <div className="metric-card" key={metric.label}><div className="metric-icon"><Icon size={17} /></div><strong>{metric.value}</strong><span>{metric.label}</span></div>; })}</div>;
 }
@@ -405,7 +383,7 @@ function HubPage({ kind }: { kind: string }) {
   const [, setLocation] = useLocation();
   const { notify } = useStore();
   const [query, setQuery] = useState('');
-  const [saved, setSaved] = useLocalJson<string[]>(`kopi-garut-${kind}-saved`, []);
+  const [saved, setSaved] = useWebStorageJson<string[]>(`kopi-garut-${kind}-saved`, []);
   const cfg: Record<string, { title: string; eyebrow: string; copy: string; image: string }> = {
     collective: { eyebrow: 'TUMBUH BERSAMA', title: 'Ekosistem yang merawat rasa.', copy: 'Satu ruang untuk produksi, pascapanen, bisnis, edukasi, dan cerita Garut Beans.', image: 'kopi-garut-banyak-orang-banner.webp' },
     farmers: { eyebrow: 'ORANG DI BALIK RASA', title: 'Kenali petani Garut.', copy: 'Profil keluarga tani, kelompok, dan kebun yang menjaga kualitas dari musim ke musim.', image: 'farmer-asep-rahmat.webp' },
@@ -449,7 +427,7 @@ function CollectivePage() {
 function PartnershipPage({ content }: { content: { image: string; eyebrow: string; title: string; copy: string } }) {
   const { notify } = useStore();
   const [form, setForm] = useState({ name: '', type: 'Cafe / Roastery', need: '' });
-  const [sent, setSent] = useLocalJson<boolean>('kopi-garut-partnership-sent', false);
+  const [sent, setSent] = useWebStorageJson<boolean>('kopi-garut-partnership-sent', false);
   return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="partner-points"><ActionRow icon="coffee" title="Pasokan terkurasi" detail="Profil lot, asal, proses, dan standar mutu lebih mudah dibaca." /><ActionRow icon="users" title="Pendampingan ekosistem" detail="Temu petani, kelompok tani, penyuluh, dan pelaku usaha." /><ActionRow icon="briefcase" title="Kolaborasi yang jelas" detail="Mulai dari kebutuhan, volume, sampai bentuk kerja sama." /></div><div className="form-card"><span className="section-kicker">MULAI PERCAKAPAN</span><h2>Jadi bagian dari rantai ini.</h2><p className="form-hint">Ceritakan kebutuhan usaha atau bentuk kolaborasi yang sedang kamu cari.</p><label>Nama usaha<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Contoh: Ruang Seduh Roastery" data-testid="input-partner-name" /></label><label>Jenis mitra<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })} data-testid="select-partner-type"><option>Cafe / Roastery</option><option>Hotel / Restoran</option><option>UMKM produk turunan</option><option>Program CSR</option></select></label><label>Kebutuhan atau ide kolaborasi<textarea value={form.need} onChange={(event) => setForm({ ...form, need: event.target.value })} placeholder="Contoh: kebutuhan 300 kg Arabika Grade 1 proses honey" data-testid="input-partner-need" /></label><button className="primary-button wide" onClick={() => { if (!form.name.trim() || !form.need.trim()) { notify('Lengkapi nama usaha dan kebutuhan terlebih dahulu'); return; } setSent(true); notify('Profil mitra tersimpan di perangkat'); }} data-testid="button-submit-partnership">{sent ? 'Tersimpan di perangkat' : 'Kirim kebutuhan mitra'} <Send size={15} /></button></div></main></Page>;
 }
 
@@ -474,7 +452,7 @@ function TraceabilityPage() {
   const [scanned, setScanned] = useState(false);
   const coffee = coffees[0];
   const farmer = farmers[0];
-  return <Page><main className="subpage"><Header /><div className="trace-hero"><div className="qr-mark"><ScanLine size={44} /></div><span className="section-kicker">SCAN QR KEMASAN</span><h1>Satu scan, satu cerita utuh.</h1><p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p><button className="primary-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">{scanned ? 'Cerita terbuka' : 'Buka cerita kopi'} <ScanLine size={15} /></button></div>{scanned && <div className="trace-result"><div className="success-banner"><CheckCircle2 size={20} /><div><span className="section-kicker">SCAN BERHASIL</span><strong>Kemasan ini punya cerita.</strong></div><code>LOT-PAP-06</code></div><div className="trace-photo"><img src={asset(farmer.image)} alt={farmer.name} /><div><span className="section-kicker">PETANI PRODUSEN</span><h2>{farmer.name}</h2></div><span className="status-chip">TERVERIFIKASI</span></div><div className="info-card"><span className="section-kicker">ASAL & PRODUSEN</span><h2>{coffee.name}</h2><ActionRow icon="mapPin" title="Asal kebun" detail={`${farmer.location} · ${coffee.altitude}`} /><ActionRow icon="users" title="Petani produsen" detail={`${farmer.name} · ${farmer.group}`} /><ActionRow icon="coffee" title="Jenis dan proses" detail={`${farmer.coffeeType} · proses ${coffee.process}`} /><ActionRow icon="calendar" title="Tanggal panen" detail="29 September 2026 · buah dipetik saat matang" /></div><div className="timeline-card"><span className="section-kicker">PERJALANAN LOT</span><h2>Dari kebun sampai cangkir</h2>{[['01', 'Kebun', 'Cherry merah dipetik dari blok utara Papandayan.'], ['02', 'Pascapanen', 'Proses madu dan pengeringan matahari dicatat per lot.'], ['03', 'Katalog', 'Disangrai dan dikirim sebagai Papandayan Series.']].map(([number, title, detail]) => <div className="timeline-row" key={number}><b>{number}</b><div><strong>{title}</strong><span>{detail}</span></div></div>)}</div><div className="trace-taste"><span className="section-kicker">YANG TERASA DI CANGKIR</span><h2>Lemon Meyer, gula merah, melati.</h2><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><button className="secondary-button" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-trace-product">Lihat kopi <ArrowRight size={14} /></button></div></div>}</main></Page>;
+  return <Page><main className="subpage"><Header /><div className="trace-hero"><div className="qr-mark"><AppIcon name="maximize" size={44} color={brandTokens.primary} /></div><span className="section-kicker">SCAN QR KEMASAN</span><h1>Satu scan, satu cerita utuh.</h1><p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p><button className="primary-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">{scanned ? 'Cerita terbuka' : 'Buka cerita kopi'} <AppIcon name="maximize" size={15} color={brandTokens.primaryForeground} /></button></div>{scanned && <div className="trace-result"><div className="success-banner"><CheckCircle2 size={20} /><div><span className="section-kicker">SCAN BERHASIL</span><strong>Kemasan ini punya cerita.</strong></div><code>LOT-PAP-06</code></div><div className="trace-photo"><img src={asset(farmer.image)} alt={farmer.name} /><div><span className="section-kicker">PETANI PRODUSEN</span><h2>{farmer.name}</h2></div><span className="status-chip">TERVERIFIKASI</span></div><div className="info-card"><span className="section-kicker">ASAL & PRODUSEN</span><h2>{coffee.name}</h2><ActionRow icon="mapPin" title="Asal kebun" detail={`${farmer.location} · ${coffee.altitude}`} /><ActionRow icon="users" title="Petani produsen" detail={`${farmer.name} · ${farmer.group}`} /><ActionRow icon="coffee" title="Jenis dan proses" detail={`${farmer.coffeeType} · proses ${coffee.process}`} /><ActionRow icon="calendar" title="Tanggal panen" detail="29 September 2026 · buah dipetik saat matang" /></div><div className="timeline-card"><span className="section-kicker">PERJALANAN LOT</span><h2>Dari kebun sampai cangkir</h2>{[['01', 'Kebun', 'Cherry merah dipetik dari blok utara Papandayan.'], ['02', 'Pascapanen', 'Proses madu dan pengeringan matahari dicatat per lot.'], ['03', 'Katalog', 'Disangrai dan dikirim sebagai Papandayan Series.']].map(([number, title, detail]) => <div className="timeline-row" key={number}><b>{number}</b><div><strong>{title}</strong><span>{detail}</span></div></div>)}</div><div className="trace-taste"><span className="section-kicker">YANG TERASA DI CANGKIR</span><h2>Lemon Meyer, gula merah, melati.</h2><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><button className="secondary-button" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-trace-product">Lihat kopi <ArrowRight size={14} /></button></div></div>}</main></Page>;
 }
 
 function DashboardPage() {
@@ -505,7 +483,7 @@ function ProgramPage() {
   const { session } = useAuth();
   const { notify } = useStore();
   const [category, setCategory] = useState('Semua');
-  const [applications, setApplications] = useLocalJson<string[]>('kopi-garut-program-applications', []);
+  const [applications, setApplications] = useWebStorageJson<string[]>('kopi-garut-program-applications', []);
   const visibleOffers = category === 'Semua' ? programOffers : programOffers.filter((offer) => offer.category === category);
   const roleCards = session?.id === 'petani'
     ? [{ title: 'Petani', detail: 'Verifikasi kebun, mutu lot, dan akses pasar.', route: '/verification', icon: 'coffee' }]
@@ -540,7 +518,7 @@ function OperationPage({ kind }: { kind: string }) {
   const [, setLocation] = useLocation();
   const { notify } = useStore();
   const config = operationConfigs[kind] ?? operationConfigs.reports;
-  const [saved, setSaved] = useLocalJson<string[]>(`kopi-garut-${kind}-records`, []);
+  const [saved, setSaved] = useWebStorageJson<string[]>(`kopi-garut-${kind}-records`, []);
   const [note, setNote] = useState('');
   return <Page><main className="subpage"><Header /><HeroPanel image={config.image} eyebrow={config.eyebrow} title={config.title} copy={config.copy} />{config.metrics && <MetricStrip metrics={config.metrics} />}<div className="section-heading"><div><span className="section-kicker">RUANG KERJA</span><h2>Ringkasan terbaru</h2></div><span className="section-kicker">{config.rows.length} catatan</span></div><div className="operation-list">{config.rows.map(([title, detail, status, icon]) => <ActionRow icon={icon ?? 'package'} title={title} detail={detail} status={status} key={`${title}-${detail}`} action={kind === 'extensionFarmers' ? 'Buka' : undefined} onAction={kind === 'extensionFarmers' ? () => setLocation(`/farmer/${farmers.find((farmer) => farmer.name === title)?.id ?? farmers[0].id}`) : undefined} />)}</div>{config.form && <div className="form-card"><span className="section-kicker">CATATAN PERANGKAT</span><h2>{config.form.label}</h2><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder={config.form.placeholder} data-testid={`input-${kind}-note`} /><button className="primary-button wide" onClick={() => { if (!note.trim()) { notify('Tulis catatan terlebih dahulu'); return; } setSaved((items) => [...items, note]); setNote(''); notify(`${config.form?.action} berhasil disimpan di perangkat`); }} data-testid={`button-${kind}-save`}>{config.form.action} <Check size={15} /></button>{saved.length > 0 && <div className="saved-note"><CheckCircle2 size={16} /><span>{saved.length} catatan tersimpan di perangkat ini.</span></div>}</div>}<div className="dark-callout"><span className="section-kicker">LANJUTKAN</span><h2>Data yang rapi membantu keputusan yang lebih baik.</h2><p>Hubungkan catatan ini dengan katalog, petani, wilayah, dan program Garut Beans lainnya.</p><button className="secondary-button" onClick={() => setLocation(kind.startsWith('extension') ? '/extension-dashboard' : '/program')}>{kind.startsWith('extension') ? 'Kembali ke dashboard penyuluh' : 'Buka semua program'} <ArrowRight size={14} /></button></div></main></Page>;
 }
@@ -552,7 +530,7 @@ function ComplaintsPage() {
   const [category, setCategory] = useState('Petani belum terdata');
   const [location, setFieldLocation] = useState('');
   const [description, setDescription] = useState('');
-  const [sent, setSent] = useLocalJson<boolean>('kopi-garut-complaint-sent', false);
+  const [sent, setSent] = useWebStorageJson<boolean>('kopi-garut-complaint-sent', false);
   return <Page><main className="subpage"><Header /><HeroPanel image="complaints-menu-ai.webp" eyebrow="USULAN & DUKUNGAN" title="Sampaikan kebutuhan dari lapangan." copy="Bantu tim Garut Beans mengetahui petani, lahan, atau kebutuhan dukungan yang belum terhubung." /><div className="form-card"><span className="section-kicker">FORMULIR DUKUNGAN</span><h2>Apa yang perlu kami tahu?</h2><label>Kategori<select value={category} onChange={(event) => setCategory(event.target.value)}><option>Petani belum terdata</option><option>Bantuan bibit</option><option>Lahan siap dikembangkan</option><option>Pendampingan</option><option>Lainnya</option></select></label><label>Lokasi<input value={location} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Cikajang" /></label><label>Ceritakan kebutuhannya<textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Tulis detail petani, kebun, atau dukungan yang dibutuhkan" /></label><button className="primary-button wide" onClick={() => { if (!session) { setLocation('/login?returnTo=/complaints'); return; } if (!location.trim() || !description.trim()) { notify('Lengkapi lokasi dan cerita dukungan terlebih dahulu'); return; } setSent(true); notify('Usulan sudah diterima dan disimpan di perangkat'); }}>{sent ? 'Usulan diterima' : 'Kirim usulan'} <Send size={15} /></button></div><div className="info-card"><span className="section-kicker">STATUS</span><h3>{sent ? 'Usulan sedang ditinjau' : 'Belum ada usulan tersimpan'}</h3><p>{sent ? `${category} · ${location}` : 'Setelah dikirim, usulan akan muncul di sini untuk kamu pantau.'}</p></div></main></Page>;
 }
 
@@ -580,7 +558,7 @@ function AppRouter() {
     return <LoginRedirect route={route} onRedirect={() => setLocation(`/login?returnTo=${encodeURIComponent(route)}`)} />;
   }
   return <Switch>
-    <Route path="/" component={HomePage} />
+    <Route path="/" component={WebHomeRoute} />
     <Route path="/login"><LoginPage /></Route>
     <Route path="/catalog" component={CatalogPage} />
     <Route path="/product/:id" component={ProductDetailPage} />

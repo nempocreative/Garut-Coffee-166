@@ -230,8 +230,18 @@
 .bottom-nav button { border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #867168; font-size: 9px; }
 .bottom-nav button.active { color: hsl(var(--primary)); font-weight: 800; }
 .nav-icon { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 9px; }
-.home-nav-image { width: 29px; height: 29px; object-fit: contain; display: block; }
+.app-nav-image { width: 35px; height: 35px; object-fit: contain; display: block; }
+.home-nav-image { width: 35px; height: 35px; }
 .bottom-nav button.active .nav-icon { background: hsl(var(--secondary)); }
+.bottom-nav button.center { margin-top: -25px; }
+.bottom-nav button.center .nav-icon {
+  width: 60px;
+  height: 60px;
+  border: 4px solid hsl(var(--card));
+  border-radius: 50%;
+  background: linear-gradient(145deg, hsl(var(--accent)), hsl(var(--primary)));
+  box-shadow: 0 5px 13px rgba(42, 32, 29, .22);
+}
 
 .subpage { padding-top: 20px; }
 .subpage-head { display: flex; align-items: center; gap: 11px; margin: 5px 0 19px; }
@@ -762,6 +772,7 @@
   background: linear-gradient(145deg, hsl(var(--accent)), hsl(var(--primary)));
   box-shadow: 0 5px 13px rgba(42, 32, 29, .22);
 }
+.bottom-nav button.center .app-nav-image { width: 52px; height: 52px; }
 .bottom-nav button.center.active .nav-icon {
   background: linear-gradient(145deg, hsl(var(--accent)), hsl(var(--primary)));
 }
