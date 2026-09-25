@@ -365,6 +365,53 @@ function DiversifiedCard({ product, onNavigate, onAddToCart }: { product: typeof
   );
 }
 
+function CoffeeCarousel({ coffees, favorites, onAddToCart, onToggleFavorite, onNavigate }: {
+  coffees: SharedCoffee[];
+  favorites: string[];
+  onAddToCart: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
+  onNavigate: (path: string) => void;
+}) {
+  const [frameStart, setFrameStart] = useState(0);
+  const activeIndex = (frameStart + 1) % coffees.length;
+  const visibleCoffees = coffees.map((coffee, index) => {
+    const distance = (index - frameStart + coffees.length) % coffees.length;
+    return {
+      coffee,
+      position: distance === 1 ? 'is-active' : distance === 0 ? 'is-prev' : distance === 2 ? 'is-next' : distance <= 4 ? 'is-visible' : 'is-hidden',
+    };
+  });
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setFrameStart((current) => (current + 1) % coffees.length), 3600);
+    return () => window.clearInterval(timer);
+  }, [coffees.length]);
+
+  return (
+    <div className="gb-coffee-carousel" data-testid="coffee-carousel">
+      <div className="gb-coffee-carousel-stage">
+        {visibleCoffees.map(({ coffee, position }) => (
+          <div className={`gb-coffee-slide ${position}`} key={coffee.id}>
+            <CoffeeCard coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
+          </div>
+        ))}
+      </div>
+      <div className="gb-coffee-dots" aria-label="Pilih kopi">
+        {coffees.map((coffee, index) => (
+          <button
+            key={coffee.id}
+            className={`gb-coffee-dot ${index === activeIndex ? 'active' : ''}`}
+            onClick={() => setFrameStart((index - 1 + coffees.length) % coffees.length)}
+            aria-label={`Pilih ${coffee.name}`}
+            data-testid={`button-coffee-dot-${index}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function GrowthStats({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <section className="gb-home-section gb-mobile-only gb-growth-section">
@@ -567,7 +614,7 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const stories = homeContent.stories;
-  const firstCoffees = coffeeCatalog.slice(0, 4);
+  const firstCoffees = coffeeCatalog.slice(0, 10);
 
   return (
     <div className="gb-home">
@@ -584,9 +631,7 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
 
           <section className="gb-home-section">
             <SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => onNavigate('/catalog')} />
-            <div className="gb-horizontal-scroll" data-testid="rail-coffee">
-              {firstCoffees.map((coffee) => <CoffeeCard key={coffee.id} coffee={coffee} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />)}
-            </div>
+            <CoffeeCarousel coffees={firstCoffees} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section">

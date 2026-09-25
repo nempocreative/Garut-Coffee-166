@@ -3475,6 +3475,206 @@
   }
 }
 
+/* The first-cup rail uses a focused product card, with the second item
+   selected initially to create the raised center-card composition. */
+.gb-coffee-carousel {
+  position: relative;
+  min-height: 348px;
+  margin: 0 -4px;
+  padding: 18px 0 30px;
+}
+
+.gb-coffee-carousel-stage {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.gb-coffee-slide {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: min(76%, 254px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(14px) scale(.78);
+  transition: transform .45s cubic-bezier(.2, .75, .2, 1), opacity .35s ease, filter .35s ease;
+}
+
+.gb-coffee-slide.is-active {
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-4px) scale(1);
+}
+
+.gb-coffee-slide.is-prev,
+.gb-coffee-slide.is-next {
+  z-index: 1;
+  opacity: .48;
+  filter: saturate(.72) brightness(.9);
+}
+
+.gb-coffee-slide.is-prev {
+  transform: translateX(-112%) translateY(19px) scale(.78);
+}
+
+.gb-coffee-slide.is-next {
+  transform: translateX(12%) translateY(19px) scale(.78);
+}
+
+.gb-coffee-slide.is-hidden {
+  display: none;
+}
+
+.gb-coffee-slide .gb-coffee-card {
+  width: 100%;
+  flex: none;
+  box-shadow: 0 12px 24px rgba(76, 48, 31, .12);
+}
+
+.gb-coffee-slide.is-active .gb-coffee-card {
+  border-color: rgba(168, 84, 59, .42);
+  box-shadow: 0 22px 36px rgba(76, 48, 31, .24), 0 0 0 5px rgba(211, 161, 95, .12);
+}
+
+.gb-coffee-slide.is-active .gb-coffee-image-button {
+  height: 188px;
+}
+
+.gb-coffee-arrow {
+  position: absolute;
+  z-index: 5;
+  top: 43%;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(168, 84, 59, .2);
+  border-radius: 50%;
+  color: var(--gb-primary);
+  background: rgba(255, 249, 241, .92);
+  box-shadow: 0 8px 16px rgba(76, 48, 31, .15);
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.gb-coffee-arrow.is-prev {
+  left: 4px;
+}
+
+.gb-coffee-arrow.is-next {
+  right: 4px;
+}
+
+.gb-coffee-arrow:hover,
+.gb-coffee-arrow:focus-visible {
+  background: var(--gb-highlight);
+  transform: translateY(-2px);
+}
+
+.gb-coffee-dots {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.gb-coffee-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 50%;
+  background: #c8b4a2;
+  transition: width .2s ease, background-color .2s ease;
+}
+
+.gb-coffee-dot.active {
+  width: 19px;
+  border-radius: 7px;
+  background: var(--gb-primary);
+}
+
+@media (min-width: 768px) {
+  .gb-coffee-carousel {
+    min-height: 408px;
+    margin: 0 -24px;
+    padding: 30px 0 34px;
+  }
+
+  .gb-coffee-carousel-stage {
+    min-height: 350px;
+    overflow: visible;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: end;
+    gap: 12px;
+    padding: 30px 24px 18px;
+  }
+
+  .gb-coffee-slide {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    min-width: 0;
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
+    transform: none;
+    transition: transform .35s cubic-bezier(.2, .75, .2, 1), filter .35s ease;
+  }
+
+  .gb-coffee-slide.is-active {
+    z-index: 3;
+    transform: translateY(-24px) scale(1.08);
+  }
+
+  .gb-coffee-slide.is-prev,
+  .gb-coffee-slide.is-next,
+  .gb-coffee-slide.is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    pointer-events: auto;
+    display: block;
+  }
+
+  .gb-coffee-slide.is-hidden {
+    display: none;
+  }
+
+  .gb-coffee-slide .gb-coffee-card {
+    border-radius: 18px;
+    box-shadow: 0 10px 22px rgba(76, 48, 31, .1);
+  }
+
+  .gb-coffee-slide.is-active .gb-coffee-image-button {
+    height: clamp(205px, 19vw, 252px);
+  }
+
+  .gb-coffee-arrow {
+    top: 47%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .gb-coffee-arrow.is-prev {
+    left: 12px;
+  }
+
+  .gb-coffee-arrow.is-next {
+    right: 12px;
+  }
+
+  .gb-coffee-dots {
+    bottom: 8px;
+  }
+}
+
 /* Promo carousel: one focused image card with its story beside it. */
 .gb-promo-slide {
   position: relative;
