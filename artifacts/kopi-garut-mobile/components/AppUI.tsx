@@ -111,6 +111,8 @@ export function Header({ title, cart = true, notifications = false, back = false
   const router = useRouter();
   const pathname = usePathname();
   const { cart: items } = useStore();
+  const { width: viewportWidth } = useWindowDimensions();
+  const desktopWeb = Platform.OS === 'web' && viewportWidth >= 1024;
   const titleParts = title.split(', ');
   const isHomeGreeting = title === 'Mau menikmati kopi apa hari ini?';
   const isHomeRoute = pathname === '/' || pathname === '/(tabs)';
@@ -119,8 +121,8 @@ export function Header({ title, cart = true, notifications = false, back = false
   const titleTextColor = extendOrnament ? colors.primaryForeground : colors.foreground;
   const homeTitleShadow = isHomeGreeting ? { textShadowColor: colors.foreground, textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 } : null;
   const homeDateLabel = isHomeGreeting ? getHomeDateLabel() : null;
-  return <View style={styles.header}>
-    <View pointerEvents="none" style={[styles.headerOrnament, extendOrnament && styles.headerOrnamentExtended]}>
+  return <View style={[styles.header, desktopWeb && styles.webDesktopHeader]}>
+    <View pointerEvents="none" style={[styles.headerOrnament, desktopWeb && styles.webDesktopOrnament, extendOrnament && styles.headerOrnamentExtended, desktopWeb && extendOrnament && styles.webDesktopOrnamentExtended]}>
       <Svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style={StyleSheet.absoluteFill}>
         <Defs>
           <ClipPath id="headerImageClip">
@@ -154,22 +156,22 @@ export function Header({ title, cart = true, notifications = false, back = false
         />}
       </Svg>
     </View>
-    <View style={styles.headerContent}>
-      <View style={styles.headerTop}>
+    <View style={[styles.headerContent, desktopWeb && styles.webDesktopHeaderContent]}>
+      <View style={[styles.headerTop, desktopWeb && styles.webDesktopHeaderTop]}>
         {showBack ? <Pressable testID="header-back" accessibilityRole="button" accessibilityLabel="Kembali ke halaman sebelumnya" onPress={() => router.canGoBack() ? router.back() : router.replace('/')} style={({ pressed }) => [styles.iconButton, { backgroundColor: colors.secondary, opacity: pressed ? 0.65 : 1 }]}><BrandIcon name="arrow-left" size={20} color={colors.foreground} /></Pressable> : <View style={styles.wordmark}><View style={[styles.logoFrame, { backgroundColor: colors.card, borderColor: colors.primaryForeground }]}><Image source={require('../assets/images/kopi-garut-logo.png')} contentFit="contain" style={styles.logo} /></View><View><View style={styles.brandNameRow}><Text style={[styles.brandName, { color: ornamentTextColor }]}>Garut</Text><Text style={[styles.brandName, { color: colors.brandHighlight }]}>Beans</Text></View><Text style={[styles.brandMeta, { color: ornamentTextColor, opacity: 0.72 }]}>G-BEANS · SPECIALTY COFFEE</Text></View></View>}
-        <View style={styles.headerActions}>
+        <View style={[styles.headerActions, desktopWeb && styles.webDesktopHeaderActions]}>
           {showBack && <Pressable testID="header-home" accessibilityRole="button" accessibilityLabel="Kembali ke Beranda" onPress={() => router.replace('/')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><Image source={require('../assets/images/home-coffee-house.png')} contentFit="contain" style={styles.headerHomeImage} /></LinearGradient></Pressable>}
           {notifications && <Pressable testID="header-notifications" accessibilityRole="button" accessibilityLabel="Buka notifikasi" onPress={() => router.push('/notifications')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="bell" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient></Pressable>}
           {cart ? <Pressable testID="header-cart" accessibilityRole="button" accessibilityLabel="Buka keranjang" onPress={() => router.push('/cart')} style={({ pressed }) => [styles.headerActionButton, { opacity: pressed ? 0.72 : 1 }]}><LinearGradient colors={[colors.card, colors.secondary]} start={{ x: 0.15, y: 0 }} end={{ x: 0.9, y: 1 }} style={[styles.headerActionSurface, { borderColor: colors.border, shadowColor: colors.foreground }]}><View style={[styles.headerActionShine, { backgroundColor: colors.primaryForeground }]} /><ThreeDNavIcon name="shopping-cart" size={24} mainColor={colors.primary} lightColor={colors.accent} shadowColor={colors.foreground} accentColor={colors.primaryForeground} /></LinearGradient>{items.length > 0 && <View style={[styles.count, { backgroundColor: colors.primary }]}><Text style={[styles.countText, { color: colors.primaryForeground }]}>{items.reduce((sum, item) => sum + item.quantity, 0)}</Text></View>}</Pressable> : <View style={styles.headerActionSpacer} />}
         </View>
       </View>
-      <View style={[styles.headerBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
+      <View style={[styles.headerBottomSurface, desktopWeb && styles.webDesktopHeaderBottomSurface, { backgroundColor: extendOrnament ? 'transparent' : colors.background }]}>
         <View style={styles.headerBottom}>
-          <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy]}>
+          <View style={[styles.headerCopy, isHomeGreeting && styles.homeHeaderCopy, desktopWeb && isHomeGreeting && styles.webDesktopHomeHeaderCopy]}>
             {isHomeGreeting ? <View style={styles.homeGreetingLines}>
-              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati{'\u00A0'}</Text></Text>
-              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, { color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text>
-              <Text numberOfLines={1} style={[styles.homeDate, { color: colors.primaryForeground }, homeTitleShadow]}>{homeDateLabel}</Text>
+              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, desktopWeb && styles.webDesktopHomeHeaderTitle, { color: titleTextColor }, homeTitleShadow]}>Mau <Text style={[styles.homeGreetingHighlight, { color: colors.brandHighlight }, homeTitleShadow]}>menikmati{'\u00A0'}</Text></Text>
+              <Text numberOfLines={1} style={[styles.headerTitle, styles.homeHeaderTitle, desktopWeb && styles.webDesktopHomeHeaderTitle, { color: colors.primaryForeground }, homeTitleShadow]}>kopi apa hari ini?</Text>
+              <Text numberOfLines={1} style={[styles.homeDate, desktopWeb && styles.webDesktopHomeDate, { color: colors.primaryForeground }, homeTitleShadow]}>{homeDateLabel}</Text>
             </View> : <Text numberOfLines={2} style={[styles.headerTitle, { color: titleTextColor }, homeTitleShadow]}>{titleParts.length === 2 ? <>{titleParts[0]}, <Text style={{ color: colors.primary }}>{titleParts[1]}</Text></> : title}</Text>}
           </View>
         </View>
@@ -254,14 +256,20 @@ export function LoadingState() { const colors = useColors(); return <View style=
 const styles = StyleSheet.create({
   screen: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 120, gap: 20, minHeight: '100%' },
   webScreen: { flexGrow: 1 },
-  webDesktopScreen: { width: '100%', maxWidth: 1240, alignSelf: 'center' },
+  webDesktopScreen: { width: '100%', maxWidth: 1280, alignSelf: 'center' },
   webDocumentShell: { width: '100%', minHeight: '100vh' as any, overflow: 'visible' },
   header: { marginBottom: 0, position: 'relative', zIndex: 1 },
+  webDesktopHeader: { marginBottom: 4 },
   headerOrnament: { position: 'absolute', left: -20, right: -20, top: -18, height: 92, overflow: 'hidden' },
   headerOrnamentExtended: { height: 225 },
+  webDesktopOrnament: { height: 104 },
+  webDesktopOrnamentExtended: { height: 244 },
   headerContent: { position: 'relative', zIndex: 3, gap: 14 },
+  webDesktopHeaderContent: { gap: 18 },
   headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 46, position: 'relative', zIndex: 4 },
+  webDesktopHeaderTop: { minHeight: 58 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  webDesktopHeaderActions: { gap: 10 },
   wordmark: { flexDirection: 'row', alignItems: 'center', gap: 10, flexShrink: 1 },
   logoFrame: { width: 36, height: 36, borderRadius: 12, borderWidth: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   logo: { width: 31, height: 31, borderRadius: 10 },
@@ -269,14 +277,18 @@ const styles = StyleSheet.create({
   brandName: { fontFamily: 'Manrope_700Bold', fontSize: 17, lineHeight: 20, fontWeight: '800', letterSpacing: -0.45 },
   brandMeta: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '700', letterSpacing: 1.1, marginTop: 3 },
   headerBottomSurface: { marginHorizontal: -20, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 12 },
+  webDesktopHeaderBottomSurface: { paddingTop: 8, paddingBottom: 18 },
   headerBottom: { flexDirection: 'row', alignItems: 'flex-end', gap: 12, position: 'relative', zIndex: 3 },
   headerCopy: { flex: 1, minWidth: 0, gap: 5, paddingRight: 6 },
   homeHeaderCopy: { paddingLeft: 56, paddingRight: 28 },
+  webDesktopHomeHeaderCopy: { paddingLeft: 220, paddingRight: 42 },
   homeGreetingLines: { alignItems: 'flex-end', gap: 0, paddingRight: 12 },
   eyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' },
   headerTitle: { fontFamily: 'Manrope_700Bold', fontSize: 27, fontWeight: '700', letterSpacing: -0.8 },
   homeHeaderTitle: { fontSize: 18, lineHeight: 22, letterSpacing: -0.45, textAlign: 'right' },
+  webDesktopHomeHeaderTitle: { fontSize: 29, lineHeight: 34, letterSpacing: -0.8 },
   homeDate: { fontFamily: 'Manrope_700Bold', fontSize: 8.5, lineHeight: 12, fontWeight: '700', letterSpacing: 0.15, textAlign: 'right', opacity: 0.9, marginTop: 1 },
+  webDesktopHomeDate: { fontSize: 10, lineHeight: 14, letterSpacing: 0.25, marginTop: 4 },
   homeGreetingHighlight: { fontStyle: 'italic', fontWeight: '800' },
   contextRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   contextDivider: { width: 18, height: 1 },

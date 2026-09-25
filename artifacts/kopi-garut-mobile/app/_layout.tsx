@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   webDesktopFrame: {
-    maxWidth: 1240,
+    maxWidth: 1280,
     alignSelf: 'center',
   },
 });

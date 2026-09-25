@@ -494,7 +494,7 @@ export default function HomeScreen() {
   // Keep the carousel closer to the source images' square crop so people, cups,
   // and product packs stay visible instead of being cut off on narrow screens.
   const promoHeight = desktopWeb
-    ? Math.round(Math.min(290, Math.max(228, (categoryPageWidth - 40) * 0.22)))
+    ? Math.round(Math.min(340, Math.max(300, (categoryPageWidth - 40) * 0.3)))
     : Math.round(Math.min(208, Math.max(174, (width - 40) * 0.64)));
   const categoryRef = useRef<ScrollView>(null);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -548,14 +548,15 @@ export default function HomeScreen() {
       onPress={() => router.push('/catalog')}
       style={({ pressed }) => [
         styles.searchEntry,
+        desktopWeb && styles.desktopSearchEntry,
         { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.75 : 1 },
       ]}
     >
       <SearchBeanAnimation />
-      <Text style={[styles.searchPlaceholder, { color: colors.mutedForeground }]}>
+      <Text style={[styles.searchPlaceholder, desktopWeb && styles.desktopSearchPlaceholder, { color: colors.mutedForeground }]}>
         Cari kopi, petani, atau wilayah
       </Text>
-      <View style={[styles.searchFilter, { backgroundColor: colors.secondary }]}>
+      <View style={[styles.searchFilter, desktopWeb && styles.desktopSearchFilter, { backgroundColor: colors.secondary }]}>
         <BrandIcon name="sliders" size={15} color={colors.primary} />
       </View>
     </Pressable>
@@ -1205,18 +1206,21 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   searchEntry: { height: 52, marginTop: 18, borderRadius: 17, borderWidth: 1, paddingLeft: 15, paddingRight: 7, flexDirection: 'row', alignItems: 'center', gap: 10, position: 'relative', zIndex: 5 },
+  desktopSearchEntry: { height: 60, marginTop: 22, marginBottom: 4, borderRadius: 19, paddingLeft: 20, paddingRight: 9, gap: 13 },
   searchBeanAnimation: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
   searchBeanImage: { width: 32, height: 32 },
   searchPlaceholder: { flex: 1, fontFamily: 'Manrope_400Regular', fontSize: 13 },
+  desktopSearchPlaceholder: { fontSize: 15 },
   searchFilter: { width: 38, height: 38, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  desktopSearchFilter: { width: 44, height: 44, borderRadius: 15 },
   heroSection: { marginTop: 0 },
   compactWebCategorySection: { marginTop: 16 },
-  desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'stretch', gap: 24 },
-  desktopCategoryColumn: { flex: 1, minWidth: 0, borderWidth: 1, borderRadius: 24, paddingTop: 18, overflow: 'hidden' },
-  desktopDiscoveryHeading: { paddingHorizontal: 20, gap: 3, marginBottom: 8 },
+  desktopDiscoveryRow: { flexDirection: 'row', alignItems: 'stretch', gap: 28, marginTop: 6 },
+  desktopCategoryColumn: { flex: 1, minWidth: 0, borderWidth: 1, borderRadius: 26, paddingTop: 22, overflow: 'hidden' },
+  desktopDiscoveryHeading: { paddingHorizontal: 22, gap: 5, marginBottom: 10 },
   desktopDiscoveryEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.45 },
-  desktopDiscoveryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 18, lineHeight: 23, fontWeight: '700', letterSpacing: -0.3 },
-  desktopNarrativeColumn: { width: 360, flexShrink: 0, gap: 20 },
+  desktopDiscoveryTitle: { fontFamily: 'Manrope_700Bold', fontSize: 20, lineHeight: 26, fontWeight: '700', letterSpacing: -0.4 },
+  desktopNarrativeColumn: { width: 384, flexShrink: 0, gap: 20 },
   promoScene: { position: 'absolute', left: 0, right: 0, top: 0 },
   promoGallery: { position: 'relative', overflow: 'hidden' },
   promoActive: { position: 'absolute', left: 0, top: 0, width: '100%', borderRadius: 22, overflow: 'hidden', zIndex: 3, shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 7 },
@@ -1224,15 +1228,15 @@ const styles = StyleSheet.create({
   promoPreloadImage: { opacity: 0 },
   promoShade: { ...StyleSheet.absoluteFill },
   promoCopy: { ...StyleSheet.absoluteFill, justifyContent: 'flex-end', alignItems: 'flex-start', padding: 18, paddingBottom: 28, gap: 4 },
-  desktopPromoCopy: { padding: 32, paddingBottom: 38, gap: 7 },
+  desktopPromoCopy: { padding: 40, paddingBottom: 48, gap: 9 },
   promoEyebrow: { fontFamily: 'Manrope_700Bold', fontSize: 9, fontWeight: '800', letterSpacing: 1.35 },
   desktopPromoEyebrow: { fontSize: 11, letterSpacing: 1.7 },
   promoTitle: { fontFamily: 'Manrope_700Bold', fontSize: 22, lineHeight: 25, fontWeight: '800', letterSpacing: -0.35, maxWidth: 265 },
-  desktopPromoTitle: { fontSize: 30, lineHeight: 36, letterSpacing: -0.65, maxWidth: 440 },
+  desktopPromoTitle: { fontSize: 36, lineHeight: 43, letterSpacing: -0.85, maxWidth: 520 },
   promoDescription: { fontFamily: 'Manrope_400Regular', fontSize: 11, lineHeight: 15, opacity: 0.9, maxWidth: 250 },
-  desktopPromoDescription: { fontSize: 14, lineHeight: 20, maxWidth: 440 },
+  desktopPromoDescription: { fontSize: 15, lineHeight: 22, maxWidth: 520 },
   promoCta: { fontFamily: 'Manrope_700Bold', fontSize: 11, fontWeight: '800', marginTop: 3 },
-  desktopPromoCta: { fontSize: 14, marginTop: 5 },
+  desktopPromoCta: { fontSize: 15, marginTop: 7 },
   promoDots: { position: 'absolute', bottom: 8, left: 0, right: 0, zIndex: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 1 },
   promoDotHit: { height: 20, minWidth: 10, alignItems: 'center', justifyContent: 'center' },
   promoDot: { height: 5, borderRadius: 3 },
