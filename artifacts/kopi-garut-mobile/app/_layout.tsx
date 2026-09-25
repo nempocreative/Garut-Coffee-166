@@ -13,7 +13,7 @@ import {
   Manrope_700Bold,
   useFonts,
 } from '@expo-google-fonts/manrope';
-import { Stack, usePathname, useRouter } from 'expo-router';
+import { Slot, Stack, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StoreProvider } from '@/context/StoreContext';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
@@ -55,10 +55,14 @@ function RootLayoutNav() {
 
   return (
     <View style={[styles.viewport, Platform.OS === 'web' && styles.webViewport, { backgroundColor: colors.background }]}>
-      <View style={[styles.appContentFrame, desktopWeb && styles.webDesktopFrame]}>
-        <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
+      <View style={[styles.appContentFrame, Platform.OS === 'web' && styles.webAppContentFrame, desktopWeb && styles.webDesktopFrame]}>
+        {Platform.OS === 'web' ? (
+          <Slot />
+        ) : (
+          <Stack screenOptions={{ headerShown: false, headerBackTitle: 'Kembali' }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        )}
       </View>
       {Platform.OS !== 'web' && <BottomMenu />}
       <CartPreview />
@@ -77,7 +81,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   webViewport: {
-    flex: 1,
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: 'auto',
     height: 'auto' as any,
     minHeight: 'var(--kg-viewport-height, 100dvh)' as any,
     maxWidth: '100%',
@@ -87,6 +93,12 @@ const styles = StyleSheet.create({
   appContentFrame: {
     flex: 1,
     width: '100%',
+  },
+  webAppContentFrame: {
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: 'auto',
+    minHeight: 'var(--kg-viewport-height, 100dvh)' as any,
   },
   webDesktopFrame: {
     maxWidth: 1280,
