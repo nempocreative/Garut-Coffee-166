@@ -186,14 +186,14 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
 function BottomNav() {
   const [location, setLocation] = useLocation();
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : 'profile';
-  const items: { id: string; label: string; icon: string; path: string }[] = [
-    { id: 'home', label: 'Beranda', icon: 'home-coffee-house.png', path: '/' },
-    { id: 'explore', label: 'Jelajah', icon: 'app-menu-product.png', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'app-nav-traceability.png', path: '/traceability' },
-    { id: 'orders', label: 'Pesanan', icon: 'app-nav-orders.png', path: '/orders' },
-    { id: 'profile', label: 'Akun', icon: 'app-nav-account.png', path: '/profile' },
+  const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
+    { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
+    { id: 'explore', label: 'Jelajah', icon: 'compass', path: '/catalog' },
+    { id: 'trace', label: 'Jejak', icon: 'map', path: '/traceability' },
+    { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
+    { id: 'profile', label: 'Akun', icon: 'user', path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`}><span className="nav-icon"><img className={`app-nav-image ${id === 'home' ? 'home-nav-image' : ''}`} src={asset(icon)} alt="" /></span><span>{label}</span></button>)}</nav>;
+  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppIcon name={icon} size={24} /></span><span>{label}</span></button>)}</nav>;
 }
 
 function CartPreview() {

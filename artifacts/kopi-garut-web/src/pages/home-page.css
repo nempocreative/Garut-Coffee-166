@@ -3079,6 +3079,113 @@
   transform: translateY(-2px) rotate(-2deg);
 }
 
+/* The home route uses its own shell, so mirror the floating footer navigation
+   here instead of falling back to the older flat phone tab bar. */
+@media (max-width: 767px) {
+  .gb-home {
+    padding-bottom: 100px;
+  }
+
+  .gb-bottom-nav {
+    position: fixed;
+    z-index: 30;
+    right: 16px;
+    bottom: 12px;
+    left: 16px;
+    display: grid;
+    width: auto;
+    transform: none;
+    height: 68px;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 0 8px;
+    border: 0;
+    border-radius: 23px;
+    background: #211d1e;
+    box-shadow:
+      0 8px 0 rgba(42, 25, 17, .12),
+      0 18px 30px rgba(42, 25, 17, .24);
+  }
+
+  .gb-bottom-nav button {
+    position: relative;
+    height: 68px;
+    gap: 0;
+    padding: 0;
+    border-radius: 50%;
+    color: rgba(255, 249, 241, .62);
+    background: transparent;
+    font-size: 0;
+    overflow: visible;
+  }
+
+  .gb-bottom-nav button::before {
+    position: absolute;
+    z-index: 0;
+    top: -16px;
+    left: 50%;
+    width: 76px;
+    height: 48px;
+    border-radius: 0 0 38px 38px;
+    background: transparent;
+    content: '';
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .gb-bottom-nav button.active::before {
+    background: var(--gb-background);
+  }
+
+  .gb-bottom-nav button > span:first-child,
+  .gb-bottom-nav .gb-nav-center > span:first-child {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    color: rgba(255, 249, 241, .72);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .gb-bottom-nav button.active > span:first-child {
+    z-index: 2;
+    width: 54px;
+    height: 54px;
+    color: #211d1e;
+    background: linear-gradient(145deg, #a9f229, #59dc20);
+    box-shadow:
+      0 5px 0 rgba(42, 25, 17, .16),
+      0 10px 20px rgba(42, 25, 17, .28),
+      inset 0 1px 0 rgba(255, 249, 241, .58);
+  }
+
+  .gb-bottom-nav button > span:last-child {
+    display: none;
+  }
+
+  .gb-bottom-nav .gb-nav-glyph,
+  .gb-bottom-nav .gb-nav-center > span:first-child {
+    color: rgba(255, 249, 241, .68);
+  }
+
+  .gb-bottom-nav button.active .gb-nav-glyph {
+    color: #211d1e;
+  }
+
+  .gb-bottom-nav .gb-nav-center {
+    margin: 0;
+  }
+
+  .gb-bottom-nav button:hover {
+    background: transparent;
+  }
+}
+
 @media (min-width: 768px) {
   .gb-header {
     min-height: 350px;
@@ -5606,4 +5713,92 @@
   ) {
     transition: none;
   }
+}
+
+/* The taste cards should sit directly on the page surface.
+   Keep only the cards themselves; never render a wrapper frame behind them. */
+.gb-taste-stage {
+  min-height: 258px;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.gb-taste-stage::before,
+.gb-taste-stage::after {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .gb-taste-stage {
+    min-height: clamp(286px, 28vw, 360px);
+    border-radius: 0 !important;
+  }
+}
+
+/* Taste-card copy: high contrast on every image, without adding a text box. */
+.gb-taste-card .gb-taste-shade {
+  z-index: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(25, 14, 9, .02) 0%,
+      rgba(25, 14, 9, .08) 38%,
+      rgba(25, 14, 9, .78) 76%,
+      rgba(25, 14, 9, .94) 100%
+    ) !important;
+}
+
+.gb-taste-card strong {
+  z-index: 2;
+  max-width: 82%;
+  color: #fffdf8 !important;
+  font-size: clamp(15px, 1.45vw, 20px);
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -.35px;
+  text-shadow: 0 2px 5px rgba(20, 10, 6, .72);
+}
+
+.gb-taste-card > span:not(.gb-taste-shade):not(.gb-taste-kicker):not(.gb-taste-icon) {
+  z-index: 2;
+  max-width: 84%;
+  min-height: 0;
+  margin-top: 6px;
+  color: rgba(255, 253, 248, .96) !important;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+  text-shadow: 0 1px 4px rgba(20, 10, 6, .8);
+}
+
+.gb-taste-card .gb-taste-kicker {
+  z-index: 2;
+  color: #ffe39a !important;
+  font-size: 8px !important;
+  font-weight: 900;
+  letter-spacing: 1.25px;
+  text-shadow: 0 1px 4px rgba(20, 10, 6, .72);
+}
+
+.gb-taste-card .gb-taste-icon {
+  z-index: 2;
+  color: #5a3022 !important;
+  background: #fff4d9 !important;
+  border-color: rgba(255, 255, 255, .82) !important;
+  box-shadow: 0 4px 10px rgba(20, 10, 6, .28);
+}
+
+.gb-taste-card > svg {
+  z-index: 2;
+  color: #fffdf8;
+  filter: drop-shadow(0 1px 3px rgba(20, 10, 6, .72));
+}
+
+.gb-taste-slide.is-prev,
+.gb-taste-slide.is-next {
+  opacity: .86;
+  filter: saturate(.76) brightness(.78);
 }

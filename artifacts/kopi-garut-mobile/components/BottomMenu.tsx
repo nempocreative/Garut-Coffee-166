@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, useColorScheme, useWindowDimensions } from 'react-native';
-import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { usePathname, useRouter } from 'expo-router';
@@ -29,7 +28,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 
   if (item.icon === 'home') {
     return (
-      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && desktop && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/home-coffee-house.png')}
           contentFit="contain"
@@ -41,7 +40,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 
   if (item.icon === 'product') {
     return (
-      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && desktop && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/product-coffee-basket.png')}
           contentFit="contain"
@@ -53,7 +52,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 
   if (item.icon === 'orders') {
     return (
-      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && desktop && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/orders-coffee-checklist.png')}
           contentFit="contain"
@@ -65,7 +64,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 
   if (item.icon === 'account') {
     return (
-      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={[styles.icon, desktop && styles.webDesktopNavIcon, focused && desktop && { backgroundColor: colors.secondary }]}>
         <Image
           source={require('../assets/images/account-coffee-settings.png')}
           contentFit="contain"
@@ -77,7 +76,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 
   if (item.icon !== 'scan') {
     return (
-      <View style={[styles.icon, focused && { backgroundColor: colors.secondary }]}>
+      <View style={styles.icon}>
         <ThreeDNavIcon
           name={item.icon}
           size={focused ? 31 : 29}
@@ -85,6 +84,21 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
           lightColor={focused ? colors.accent : colors.secondary}
           shadowColor={focused ? colors.foreground : colors.border}
           accentColor={focused ? colors.primaryForeground : colors.card}
+        />
+      </View>
+    );
+  }
+
+  if (!focused) {
+    return (
+      <View style={styles.icon}>
+        <ThreeDNavIcon
+          name="scan"
+          size={29}
+          mainColor={colors.mutedForeground}
+          lightColor={colors.secondary}
+          shadowColor={colors.border}
+          accentColor={colors.card}
         />
       </View>
     );
@@ -108,6 +122,7 @@ function MenuIconGraphic({ item, focused, desktop = false }: { item: BottomMenuI
 }
 
 function MenuIcon({ item, focused, desktop = false, index }: { item: BottomMenuItem; focused: boolean; desktop?: boolean; index: number }) {
+  const colors = useColors();
   const { width } = useWindowDimensions();
   const motion = useSharedValue(0);
   const animateForMobile = Platform.OS !== 'web' || width < 768;
@@ -140,7 +155,17 @@ function MenuIcon({ item, focused, desktop = false, index }: { item: BottomMenuI
   }));
 
   return (
-    <Animated.View style={[styles.menuIconMotion, motionStyle]}>
+    <Animated.View
+      style={[
+        styles.menuIconMotion,
+        motionStyle,
+        focused && !desktop && {
+          backgroundColor: colors.accent,
+          shadowColor: colors.foreground,
+        },
+        focused && !desktop && styles.focusedNavOrb,
+      ]}
+    >
       <MenuIconGraphic item={item} focused={focused} desktop={desktop} />
     </Animated.View>
   );
@@ -164,7 +189,8 @@ export function BottomMenu() {
     : 90 + bottomInset;
   const menuPaddingBottom = isWeb
     ? (isDesktopWeb ? 4 : isTabletWeb ? 8 : 'calc(4px + env(safe-area-inset-bottom, 0px))' as any)
-    : bottomInset + 4;
+    : 6;
+  const menuSurfaceColor = isDark ? colors.card : colors.foreground;
 
   if (isFarmerRoute) return null;
 
@@ -184,19 +210,16 @@ export function BottomMenu() {
           isDesktopWeb && styles.webMenuDesktop,
           isTabletWeb && styles.webMenuTablet,
           {
-            height: menuHeight,
+          height: isWeb ? menuHeight : 74,
             paddingBottom: menuPaddingBottom,
+          bottom: isWeb ? undefined : 10 + bottomInset,
+          backgroundColor: menuSurfaceColor,
             shadowColor: colors.foreground,
             shadowOpacity: isDark ? 0.22 : 0.08,
           },
         ]}
       >
-        {Platform.OS === 'ios' ? (
-          <BlurView intensity={92} tint={isDark ? 'dark' : 'light'} style={StyleSheet.absoluteFill} />
-        ) : (
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.card }]} />
-        )}
-        <View style={[styles.topBorder, { backgroundColor: colors.border }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: menuSurfaceColor, borderRadius: 24 }]} />
         <View style={[styles.items, isDesktopWeb && styles.webDesktopNavItems]}>
           {menuItems.map((item, index) => {
             const focused = item.matches(pathname);
@@ -216,8 +239,9 @@ export function BottomMenu() {
                   { opacity: pressed ? 0.72 : 1 },
                 ]}
               >
+                 {focused && !isDesktopWeb && <View pointerEvents="none" style={[styles.activeCutout, { backgroundColor: colors.background }]} />}
                 <MenuIcon item={item} focused={focused} desktop={isDesktopWeb} index={index} />
-                <Text style={[styles.label, isDesktopWeb && styles.webDesktopNavLabel, { color: focused ? colors.primary : colors.mutedForeground }]}>
+                 <Text style={[styles.label, !isDesktopWeb && styles.mobileLabelHidden, isDesktopWeb && styles.webDesktopNavLabel, { color: focused ? colors.primary : colors.mutedForeground }]}>
                   {item.label}
                 </Text>
               </Pressable>
@@ -235,8 +259,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingTop: 10,
+    paddingTop: 0,
     paddingHorizontal: 8,
+    borderRadius: 24,
+    overflow: 'visible',
     elevation: 12,
     shadowOffset: { width: 0, height: -5 },
     shadowRadius: 18,
@@ -308,7 +334,8 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     minWidth: 58,
-    height: 78,
+    height: 70,
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'flex-start',
     borderRadius: 18,
@@ -356,6 +383,29 @@ const styles = StyleSheet.create({
   menuIconMotion: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  focusedNavOrb: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.24,
+    shadowRadius: 9,
+    elevation: 7,
+  },
+  activeCutout: {
+    position: 'absolute',
+    top: -17,
+    left: '50%',
+    width: 76,
+    height: 48,
+    marginLeft: -38,
+    borderBottomLeftRadius: 38,
+    borderBottomRightRadius: 38,
+    zIndex: 0,
+  },
+  mobileLabelHidden: {
+    display: 'none',
   },
   centerCircle: {
     width: 60,

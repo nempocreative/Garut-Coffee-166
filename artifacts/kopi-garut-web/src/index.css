@@ -930,6 +930,211 @@
   }
 }
 
+/* Floating footer navigation on phone-sized web views. */
+@media (max-width: 699px) {
+  .bottom-nav {
+    left: 16px;
+    right: 16px;
+    bottom: 12px;
+    width: auto;
+    height: 68px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: 23px;
+    background: hsl(var(--foreground));
+    box-shadow:
+      0 8px 0 rgba(42, 25, 17, .12),
+      0 18px 30px rgba(42, 25, 17, .24);
+    backdrop-filter: none;
+  }
+
+  .bottom-nav button {
+    position: relative;
+    height: 68px;
+    gap: 0;
+    border-radius: 50%;
+    color: rgba(255, 249, 241, .62);
+    font-size: 0;
+    overflow: visible;
+  }
+
+  .bottom-nav button > span:last-child {
+    display: none;
+  }
+
+  .bottom-nav button::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: -16px;
+    left: 50%;
+    width: 76px;
+    height: 48px;
+    border-radius: 0 0 38px 38px;
+    background: transparent;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .bottom-nav button.active::before {
+    background: hsl(var(--background));
+  }
+
+  .bottom-nav .nav-icon,
+  .bottom-nav button.active .nav-icon,
+  .bottom-nav button.center .nav-icon,
+  .bottom-nav button.center.active .nav-icon {
+    position: relative;
+    z-index: 1;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .bottom-nav button.active .nav-icon {
+    z-index: 2;
+    width: 54px;
+    height: 54px;
+    color: #211d1e;
+    background: linear-gradient(145deg, #a9f229, #59dc20);
+    box-shadow:
+      0 5px 0 rgba(42, 25, 17, .16),
+      0 10px 20px rgba(42, 25, 17, .28),
+      inset 0 1px 0 rgba(255, 249, 241, .58);
+  }
+
+  .bottom-nav button.center,
+  .bottom-nav button.center.active {
+    margin-top: 0;
+  }
+
+  .bottom-nav .app-nav-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bottom-nav button.active .app-nav-image,
+  .bottom-nav button.center.active .app-nav-image {
+    width: 34px;
+    height: 34px;
+  }
+
+  .bottom-nav button.center .app-nav-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bottom-nav button:hover {
+    background: transparent;
+  }
+}
+
+/* Keep the compact floating footer as the final mobile-web override. */
+@media (max-width: 699px) {
+  .bottom-nav {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    transform: none !important;
+    height: 68px !important;
+    padding: 0 8px !important;
+    border: 0 !important;
+    border-radius: 23px !important;
+    background: hsl(var(--foreground)) !important;
+    box-shadow:
+      0 8px 0 rgba(42, 25, 17, .12),
+      0 18px 30px rgba(42, 25, 17, .24) !important;
+    backdrop-filter: none !important;
+  }
+
+  .bottom-nav button {
+    position: relative;
+    height: 68px;
+    gap: 0;
+    border-radius: 50%;
+    color: rgba(255, 249, 241, .62);
+    font-size: 0;
+    overflow: visible;
+  }
+
+  .bottom-nav button > span:last-child {
+    display: none;
+  }
+
+  .bottom-nav button::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: -16px;
+    left: 50%;
+    width: 76px;
+    height: 48px;
+    border-radius: 0 0 38px 38px;
+    background: transparent;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .bottom-nav button.active::before {
+    background: hsl(var(--background));
+  }
+
+  .bottom-nav .nav-icon,
+  .bottom-nav button.active .nav-icon,
+  .bottom-nav button.center .nav-icon,
+  .bottom-nav button.center.active .nav-icon {
+    position: relative;
+    z-index: 1;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .bottom-nav button.active .nav-icon {
+    z-index: 2;
+    width: 54px;
+    height: 54px;
+    color: #211d1e;
+    background: linear-gradient(145deg, #a9f229, #59dc20);
+    box-shadow:
+      0 5px 0 rgba(42, 25, 17, .16),
+      0 10px 20px rgba(42, 25, 17, .28),
+      inset 0 1px 0 rgba(255, 249, 241, .58);
+  }
+
+  .bottom-nav button.center,
+  .bottom-nav button.center.active {
+    margin-top: 0;
+  }
+
+  .bottom-nav .app-nav-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bottom-nav button.active .app-nav-image,
+  .bottom-nav button.center.active .app-nav-image {
+    width: 34px;
+    height: 34px;
+  }
+
+  .bottom-nav button.center .app-nav-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bottom-nav button:hover {
+    background: transparent;
+  }
+}
+
 /* Shared mobile screen language for the duplicated mobile flows. */
 .hub-hero {
   min-height: 236px;
