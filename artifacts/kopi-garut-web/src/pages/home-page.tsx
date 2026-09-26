@@ -21,8 +21,11 @@ type HomePageProps = {
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
-const promoAsset = (promo: (typeof homeContent.promoSlides)[number]) =>
-  promo.id === 'coffee-tour' ? asset('coffee-tour-banner-featured.png') : asset(promo.image);
+const cleanPromoImages = [
+  'kopi-garut-panen-rasa-banner.webp',
+  'origin-coffee.webp',
+  'hero-coffee.webp',
+] as const;
 
 const categoryArt: Partial<Record<HomeIconName, string>> = {
   coffee: 'app-menu-coffee.png',
@@ -73,7 +76,10 @@ function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const promos = homeContent.promoSlides.slice(0, 3);
+  const promos = homeContent.promoSlides.slice(0, 3).map((promo, promoIndex) => ({
+    ...promo,
+    image: cleanPromoImages[promoIndex],
+  }));
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -92,7 +98,6 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
       <div className="gb-promo-stage">
         {visiblePromos.map(({ slot, promo }) => {
           const isActive = slot === 0;
-          const hasEmbeddedCopy = promo.id === 'coffee-tour';
           return (
             <article
               className={`gb-promo-card ${isActive ? 'is-active' : slot < 0 ? 'is-prev' : 'is-next'}`}
@@ -101,7 +106,7 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
             >
               <div className="gb-promo-slide">
                 {isActive && (
-                  <div className={`gb-promo-copy ${hasEmbeddedCopy ? 'gb-promo-copy--embedded' : ''}`}>
+                    <div className="gb-promo-copy">
                     <span className="gb-eyebrow">{promo.eyebrow}</span>
                     <h1 data-testid="text-promo-title">{promo.title}</h1>
                     <p>{promo.description}</p>
@@ -111,14 +116,7 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
                   </div>
                 )}
                 <div className="gb-promo-media">
-                  {hasEmbeddedCopy ? (
-                    <picture>
-                      <source media="(min-width: 768px)" srcSet={promoAsset(promo)} />
-                      <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
-                    </picture>
-                  ) : (
-                    <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
-                  )}
+                  <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
                   <div className="gb-promo-shade" />
                 </div>
               </div>
@@ -142,8 +140,8 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const categoryPages = Array.from({ length: Math.ceil(homeContent.categories.length / 8) }, (_, pageIndex) =>
-    homeContent.categories.slice(pageIndex * 8, pageIndex * 8 + 8),
+  const categoryPages = Array.from({ length: Math.ceil(homeContent.categories.length / 5) }, (_, pageIndex) =>
+    homeContent.categories.slice(pageIndex * 5, pageIndex * 5 + 5),
   );
   const categoryRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
@@ -180,12 +178,15 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
           <div className="gb-category-page" key={`category-page-${pageIndex}`}>
             {page.map((category) => {
               const iconArt = categoryArt[category.icon];
+              const isFeatured = category === page[Math.floor(page.length / 2)];
               return (
-                <button className="gb-category-tile" key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
+                <button className={`gb-category-tile ${isFeatured ? 'is-featured' : ''}`} key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
+                  {isFeatured && <span className="gb-category-tile-kicker">PILIHAN UTAMA</span>}
                   <span className="gb-category-glyph">
                     {iconArt ? <img src={asset(iconArt)} alt="" /> : <AppIcon name="package" size={26} />}
                   </span>
-                  <span>{category.label}</span>
+                  <span className="gb-category-tile-label">{category.label}</span>
+                  <span className="gb-category-tile-action">{isFeatured ? 'Mulai jelajah' : 'Buka menu'} <AppIcon name="arrow-up-right" size={12} /></span>
                 </button>
               );
             })}
