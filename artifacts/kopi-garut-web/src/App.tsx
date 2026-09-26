@@ -235,6 +235,7 @@ function WebHomeRoute() {
       onToggleFavorite={toggleFavorite}
       favorites={favorites}
     />
+    <BottomNav />
     <CartPreview />
   </>;
 }

@@ -792,13 +792,6 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
 
         </main>
         <SiteFooter onNavigate={onNavigate} />
-        <nav className="gb-bottom-nav" aria-label="Navigasi utama">
-          <button className="active" onClick={() => onNavigate('/')} data-testid="nav-home" aria-current="page"><span className="gb-nav-glyph"><AppIcon name="home" size={24} /></span><span>Beranda</span></button>
-          <button onClick={() => onNavigate('/catalog')} data-testid="nav-explore"><span className="gb-nav-glyph"><AppIcon name="compass" size={24} /></span><span>Produk</span></button>
-          <button className="gb-nav-center" onClick={() => onNavigate('/traceability')} data-testid="nav-traceability"><span><AppIcon name="map" size={24} /></span><span>Jejak</span></button>
-          <button onClick={() => onNavigate('/orders')} data-testid="nav-orders"><span className="gb-nav-glyph"><AppIcon name="package" size={24} /></span><span>Pesanan</span></button>
-          <button onClick={() => onNavigate('/profile')} data-testid="nav-profile"><span className="gb-nav-glyph"><AppIcon name="user" size={24} /></span><span>Akun</span></button>
-        </nav>
       </div>
     </div>
   );
