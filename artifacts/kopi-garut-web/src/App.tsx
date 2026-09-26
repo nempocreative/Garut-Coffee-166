@@ -189,7 +189,7 @@ function BottomNav() {
   const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
     { id: 'explore', label: 'Jelajah', icon: 'coffee', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'barcode', path: '/traceability' },
+    { id: 'trace', label: 'Jejak', icon: 'scan', path: '/traceability' },
     { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
     { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
   ];
@@ -218,7 +218,22 @@ function ProductCard({ coffee }: { coffee: Coffee }) {
   const [, setLocation] = useLocation();
   const { favorites, toggleFavorite, addToCart } = useStore();
   const saved = favorites.includes(coffee.id);
-  return <article className="product-card" data-testid={`card-product-${coffee.id}`}><button className="product-image-wrap" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid={`button-product-${coffee.id}`}><img className="product-image" src={coffee.image} alt={coffee.name} />{coffee.badge && <span className="badge">{coffee.badge}</span>}</button><div className="product-card-body"><div className="product-title">{coffee.name}</div><div className="product-tagline">{coffee.tagline}</div><div className="product-price">{formatPrice(coffee.price)} <span>/ 200g</span></div></div><button className={`fav-button ${saved ? 'saved' : ''}`} onClick={() => toggleFavorite(coffee.id)} aria-label={saved ? `Hapus ${coffee.name} dari favorit` : `Simpan ${coffee.name}`} data-testid={`button-favorite-${coffee.id}`}><Heart size={17} fill={saved ? 'currentColor' : 'none'} /></button><button className="product-add" onClick={() => addToCart(coffee.id)} data-testid={`button-add-${coffee.id}`}><Plus size={15} /> Tambah ke keranjang</button></article>;
+  return <article className="product-card" data-testid={`card-product-${coffee.id}`}>
+    <button className="product-image-wrap" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid={`button-product-${coffee.id}`}>
+      <img className="product-image" src={coffee.image} alt={coffee.name} />
+      {coffee.badge && <span className="badge">{coffee.badge}</span>}
+    </button>
+    <div className="product-card-body">
+      <div className="product-title">{coffee.name}</div>
+      <div className="product-origin"><MapPin size={11} /> {coffee.origin}</div>
+      <div className="product-tagline">{coffee.tagline}</div>
+      <div className="product-specs"><span>{coffee.process}</span><span>{coffee.roast}</span><span>{coffee.altitude}</span></div>
+      <div className="product-notes">{coffee.notes.slice(0, 2).map((note) => <span key={note}>{note}</span>)}</div>
+      <div className="product-price">{formatPrice(coffee.price)} <span>/ 200g · {coffee.stock} tersedia</span></div>
+    </div>
+    <button className={`fav-button ${saved ? 'saved' : ''}`} onClick={() => toggleFavorite(coffee.id)} aria-label={saved ? `Hapus ${coffee.name} dari favorit` : `Simpan ${coffee.name}`} data-testid={`button-favorite-${coffee.id}`}><Heart size={17} fill={saved ? 'currentColor' : 'none'} /></button>
+    <button className="product-add" onClick={() => addToCart(coffee.id)} data-testid={`button-add-${coffee.id}`}><Plus size={15} /> Tambah ke keranjang</button>
+  </article>;
 }
 
 function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; title: string; action?: string; onAction?: () => void }) {
@@ -248,17 +263,46 @@ function CatalogPage() {
   const [, setLocation] = useLocation();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
-  const filters = ['Semua', 'Cerah', 'Buah', 'Harian', 'Nyaman'];
+  const filters = ['Semua', ...Array.from(new Set(coffees.map((coffee) => coffee.category)))];
   const filtered = useMemo(() => coffees.filter((coffee) => {
-    const matchesFilter = filter === 'Semua'
-      || (filter === 'Cerah' && coffee.id === 'papandayan-honey')
-      || (filter === 'Buah' && coffee.id === 'cikajang-natural')
-      || (filter === 'Harian' && coffee.id === 'talaga-washed')
-      || (filter === 'Nyaman' && coffee.id === 'samarang-dark');
-    return matchesFilter && `${coffee.name} ${coffee.origin} ${coffee.notes.join(' ')}`.toLowerCase().includes(query.toLowerCase());
+    const matchesFilter = filter === 'Semua' || coffee.category === filter;
+    const searchable = [
+      coffee.name, coffee.series, coffee.tagline, coffee.origin, coffee.process, coffee.roast,
+      coffee.altitude, coffee.category, coffee.recommendedBrew, coffee.farmerName, coffee.farmerGroup,
+      coffee.notes.join(' '),
+    ].join(' ').toLowerCase();
+    return matchesFilter && searchable.includes(query.trim().toLowerCase());
   }), [filter, query]);
   const featuredCoffee = coffees[0];
-  return <Page><main className="subpage catalog-page"><Header /><h1 className="catalog-title">Jelajahi kopi</h1><button className="catalog-featured" onClick={() => setLocation(`/product/${featuredCoffee.id}`)} data-testid="catalog-featured-coffee"><img src={asset('hero-coffee.webp')} alt="" /><div className="catalog-featured-shade" /><div className="catalog-featured-copy"><span className="catalog-eyebrow">KURASI MINGGU INI</span><strong>Temukan rasa yang cocok dengan ritmemu</strong><span>{featuredCoffee.name} · {featuredCoffee.notes.slice(0, 2).join(' dan ')}</span><b>Lihat kurasi <ArrowRight size={14} /></b></div></button><div className="catalog-search-heading"><div><h2>Cari kopi pilihanmu</h2><p>Dari kebun Garut, untuk ritualmu</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="catalog-filter-heading"><strong>Pilih suasana</strong></div><div className="filter-pills">{filters.map((item) => <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase()}`}>{filter === item && <Check size={12} />}{item}</button>)}</div><div className="catalog-result-row"><div><strong>{filtered.length} produk pilihan</strong><span>{filter === 'Semua' ? 'Siap menemani setiap ritual' : `Nuansa ${filter.toLowerCase()} untuk hari ini`}</span></div><small><i /> TERSEDIA</small></div><div className="product-grid">{filtered.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div>{!filtered.length && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba kata kunci lain untuk menemukan kopi favoritmu." action="Bersihkan pencarian" onAction={() => setQuery('')} />}</main></Page>;
+  const activeDescription = filter === 'Semua' ? 'Dari lot harian sampai koleksi spesial.' : `Menampilkan kopi dengan karakter ${filter.toLowerCase()}.`;
+  return <Page><main className="subpage catalog-page">
+    <Header />
+    <div className="catalog-heading-row"><div><span className="section-kicker">KATALOG G-BEANS</span><h1 className="catalog-title">Jelajahi kopi</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
+    <div className="catalog-intro">
+      <p>Temukan profil kopi dari kebun-kebun Garut. Bandingkan asal, proses, rasa, dan cara seduh sebelum memilih.</p>
+      <div className="catalog-facts"><span><strong>{coffees.length}</strong><small>profil kopi</small></span><span><strong>4</strong><small>wilayah asal</small></span><span><strong>1.180–1.700</strong><small>mdpl</small></span></div>
+    </div>
+    <button className="catalog-featured" onClick={() => setLocation(`/product/${featuredCoffee.id}`)} data-testid="catalog-featured-coffee">
+      <img src={asset('hero-coffee.webp')} alt="" /><div className="catalog-featured-shade" />
+      <div className="catalog-featured-copy">
+        <div className="catalog-featured-top"><span className="catalog-eyebrow">KURASI MINGGU INI</span><span className="catalog-stock">{featuredCoffee.stock} bungkus tersedia</span></div>
+        <strong>Temukan rasa yang cocok dengan ritmemu</strong>
+        <span>{featuredCoffee.name} · {featuredCoffee.origin}</span>
+        <div className="catalog-featured-specs"><span>{featuredCoffee.process}</span><span>{featuredCoffee.altitude}</span><span>{featuredCoffee.notes.slice(0, 2).join(' · ')}</span></div>
+        <b>Lihat detail kurasi <ArrowRight size={14} /></b>
+      </div>
+    </button>
+    <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PROFILMU</span><h2>Cari kopi pilihanmu</h2><p>Cari berdasarkan nama, rasa, asal, petani, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
+    <SearchEntry catalog value={query} onChange={setQuery} />
+    <div className="catalog-filter-heading"><div><span className="section-kicker">PILIH KARAKTER</span><strong>Filter rasa kopi</strong></div><span>{filters.length - 1} karakter</span></div>
+    <div className="filter-pills">{filters.map((item) => {
+      const count = item === 'Semua' ? coffees.length : coffees.filter((coffee) => coffee.category === item).length;
+      return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
+    })}</div>
+    <div className="catalog-result-row"><div><strong>{filtered.length} dari {coffees.length} profil</strong><span>{query ? `Hasil pencarian untuk “${query}”` : activeDescription}</span></div><small><i /> STOK TERSEDIA</small></div>
+    <div className="product-grid">{filtered.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div>
+    {!filtered.length && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama rasa, wilayah, atau metode seduh lain untuk menemukan kopi favoritmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); }} />}
+  </main></Page>;
 }
 
 function EmptyState({ icon: Icon, title, text, action, onAction }: { icon: LucideIcon; title: string; text: string; action?: string; onAction?: () => void }) {

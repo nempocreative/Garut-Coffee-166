@@ -21,6 +21,7 @@ export type AppIconName =
   | 'package'
   | 'plus'
   | 'search'
+  | 'scan'
   | 'send'
   | 'settings'
   | 'shield'
@@ -160,6 +161,13 @@ export function AppIcon({
         <>
           <circle cx="10.8" cy="10.8" r="6.3" {...line} />
           <path d="m16 16 4.5 4.5" {...line} />
+        </>
+      )}
+      {name === 'scan' && (
+        <>
+          <path d="M8 3.5H5.5a2 2 0 0 0-2 2V8M16 3.5h2.5a2 2 0 0 1 2 2V8M8 20.5H5.5a2 2 0 0 1-2-2V16M16 20.5h2.5a2 2 0 0 0 2-2V16" {...line} />
+          <path d="M8 9v6M10.2 10.5v3M12.4 9v6M14.6 10.5v3M16.8 9v6" {...line} />
+          <path d="M6.5 12h11" {...line} opacity=".45" strokeWidth={strokeWidth + .35} />
         </>
       )}
       {name === 'send' && <path d="m3.5 11.5 17-8-5 17-4-7-8-2ZM11.5 13.5l9-10" {...line} />}
