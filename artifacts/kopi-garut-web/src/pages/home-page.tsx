@@ -155,13 +155,6 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
 
   return (
     <section className="gb-category-pager" data-testid="category-navigation">
-      <div className="gb-category-heading">
-        <div>
-          <span className="gb-category-eyebrow">JELAJAHI GARUT BEANS</span>
-          <h2>Menu utama</h2>
-        </div>
-        <span className="gb-category-scroll-hint">Geser ke samping untuk melihat semua menu →</span>
-      </div>
       <div
         className="gb-category-grid"
         role="group"

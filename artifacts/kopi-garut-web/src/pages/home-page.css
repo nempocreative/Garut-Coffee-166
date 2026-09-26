@@ -4656,3 +4656,38 @@
     font-size: 6px;
   }
 }
+
+@media (min-width: 768px) {
+  .gb-category-grid {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .gb-category-tile.is-featured {
+    border-color: rgba(255, 216, 77, .8);
+    color: #fff9f1;
+    background: linear-gradient(160deg, #a8543b, #6d3b2d);
+  }
+
+  .gb-category-tile.is-featured .gb-category-tile-label {
+    color: #fff9f1;
+  }
+
+  .gb-category-tile.is-featured .gb-category-tile-action {
+    color: var(--gb-highlight);
+  }
+}
+
+/* Keep each menu item to one silhouette; the artwork should not sit inside a
+   second rounded tile. */
+.gb-category-glyph {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.gb-category-glyph::before,
+.gb-category-glyph::after {
+  display: none;
+}
