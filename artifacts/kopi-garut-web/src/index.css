@@ -1040,10 +1040,10 @@
     bottom: 12px !important;
     width: auto !important;
     transform: none !important;
-    height: 68px !important;
+    height: 64px !important;
     padding: 0 10px !important;
     border: 0 !important;
-    border-radius: 23px !important;
+    border-radius: 20px !important;
     background: hsl(var(--foreground)) !important;
     isolation: isolate;
     box-shadow:
@@ -1054,9 +1054,9 @@
 
   .bottom-nav button {
     position: relative;
-    height: 68px;
+    height: 64px;
     gap: 0;
-    border-radius: 50%;
+    border-radius: 14px;
     color: rgba(255, 249, 241, .62);
     font-size: 0;
     overflow: visible;
@@ -1067,21 +1067,7 @@
   }
 
   .bottom-nav button::before {
-    content: '';
-    position: absolute;
-    z-index: 0;
-    top: -16px;
-    left: 50%;
-    width: 76px;
-    height: 48px;
-    border-radius: 0 0 38px 38px;
-    background: transparent;
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-
-  .bottom-nav button.active::before {
-    background: hsl(var(--background));
+    display: none;
   }
 
   .bottom-nav .nav-icon,
@@ -1090,8 +1076,8 @@
   .bottom-nav button.center.active .nav-icon {
     position: relative;
     z-index: 1;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border: 0;
     border-radius: 50%;
     background: transparent;
@@ -1100,8 +1086,8 @@
 
   .bottom-nav button.active .nav-icon {
     z-index: 2;
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     color: hsl(var(--primary-foreground));
     background: linear-gradient(145deg, hsl(var(--accent)), hsl(var(--primary)));
     box-shadow:
