@@ -1035,20 +1035,18 @@
 /* Keep the compact floating footer as the final mobile-web override. */
 @media (max-width: 699px) {
   .bottom-nav {
-    left: 16px !important;
-    right: 16px !important;
-    bottom: 12px !important;
-    width: auto !important;
-    transform: none !important;
-    height: 64px !important;
-    padding: 0 10px !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 0 !important;
+    width: min(100vw, 430px) !important;
+    transform: translateX(-50%) !important;
+    height: calc(64px + env(safe-area-inset-bottom)) !important;
+    padding: 0 10px env(safe-area-inset-bottom) !important;
     border: 0 !important;
-    border-radius: 20px !important;
+    border-radius: 20px 20px 0 0 !important;
     background: hsl(var(--foreground)) !important;
     isolation: isolate;
-    box-shadow:
-      0 8px 0 rgba(42, 25, 17, .12),
-      0 18px 30px rgba(42, 25, 17, .24) !important;
+    box-shadow: 0 -1px 0 rgba(255, 249, 241, .08) !important;
     backdrop-filter: none !important;
   }
 
@@ -2166,5 +2164,102 @@
   .hub-hero > img {
     height: 100%;
     min-height: 0;
+  }
+}
+
+/* Desktop footer navigation: centered, balanced, and independent from the top nav. */
+@media (min-width: 700px) {
+  .gb-bottom-nav {
+    display: grid !important;
+  }
+
+  .bottom-nav {
+    position: fixed !important;
+    z-index: 40;
+    top: auto !important;
+    right: auto !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    display: grid !important;
+    width: min(720px, calc(100% - 64px)) !important;
+    height: 82px !important;
+    transform: translateX(-50%) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    padding: 6px 10px !important;
+    border: 1px solid rgba(255, 249, 241, .12) !important;
+    border-radius: 26px !important;
+    background: linear-gradient(135deg, #2b211e 0%, #1f1817 100%) !important;
+    backdrop-filter: blur(16px);
+    box-shadow:
+      0 8px 0 rgba(42, 25, 17, .12),
+      0 20px 34px rgba(42, 25, 17, .26),
+      inset 0 1px 0 rgba(255, 249, 241, .08) !important;
+  }
+
+  .bottom-nav button {
+    display: grid !important;
+    width: 100%;
+    height: 68px;
+    grid-template-rows: 34px auto;
+    place-items: center;
+    row-gap: 2px;
+    border-radius: 19px;
+    color: rgba(255, 249, 241, .68);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .1px;
+    transition: transform .18s ease, background .18s ease, color .18s ease;
+  }
+
+  .bottom-nav button::before,
+  .bottom-nav button > span:last-child {
+    display: none;
+  }
+
+  .bottom-nav button > span:last-child {
+    display: block !important;
+  }
+
+  .bottom-nav button:hover {
+    background: rgba(255, 249, 241, .08);
+    color: #fff9f1;
+    transform: translateY(-2px);
+  }
+
+  .bottom-nav button.active {
+    color: #fff9f1;
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+    box-shadow:
+      0 6px 14px rgba(173, 85, 52, .3),
+      inset 0 1px 0 rgba(255, 249, 241, .38);
+  }
+
+  .bottom-nav .nav-icon,
+  .bottom-nav button.center .nav-icon,
+  .bottom-nav button.center.active .nav-icon {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 10px;
+    color: rgba(255, 249, 241, .72);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .bottom-nav button.active .nav-icon {
+    width: 32px;
+    height: 32px;
+    color: #fff9f1;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .bottom-nav button.center,
+  .bottom-nav button.center.active {
+    margin-top: 0;
+  }
+
+  .app-page {
+    padding-bottom: 126px;
   }
 }
