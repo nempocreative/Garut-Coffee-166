@@ -6856,3 +6856,114 @@
     border-radius: 12px;
   }
 }
+
+/* Compact page footer: keep the closing area useful without making it a
+   second content section. */
+.gb-footer {
+  margin-top: 34px;
+  padding-top: 24px;
+  padding-bottom: 20px;
+}
+
+.gb-footer-inner {
+  align-items: center;
+  gap: 22px;
+}
+
+.gb-footer-brand {
+  align-items: center;
+}
+
+.gb-footer-brand p {
+  margin-top: 6px;
+  font-size: 10px;
+}
+
+.gb-footer-simple-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: 7px 18px;
+}
+
+.gb-footer-simple-links .gb-footer-label {
+  grid-column: 1 / -1;
+}
+
+.gb-footer-simple-links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  color: rgba(255, 249, 241, .74);
+  background: transparent;
+  font-size: 10px;
+  text-align: left;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.gb-footer-simple-links button svg {
+  color: #f1cc91;
+}
+
+.gb-footer-simple-links button:hover {
+  color: #fff9f1;
+  transform: translateX(2px);
+}
+
+.gb-footer-contact-card {
+  gap: 8px;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.gb-footer-contact-head {
+  min-height: 10px;
+}
+
+.gb-footer-contact-card > p {
+  font-size: 10px;
+}
+
+.gb-footer-contact-action {
+  padding: 7px 8px 7px 10px;
+  font-size: 10px !important;
+}
+
+.gb-footer-action-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.gb-footer-bottom {
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 12px;
+}
+
+@media (min-width: 768px) {
+  .gb-footer {
+    padding-top: 30px;
+    padding-bottom: 22px;
+  }
+
+  .gb-footer-inner {
+    grid-template-columns: minmax(220px, 1.15fr) minmax(180px, .75fr) minmax(180px, .7fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 699px) {
+  .gb-footer {
+    padding-top: 24px;
+    padding-bottom: 18px;
+  }
+
+  .gb-footer-inner {
+    gap: 18px;
+  }
+
+  .gb-footer-contact-card {
+    width: 100%;
+  }
+}

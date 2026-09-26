@@ -31,7 +31,9 @@ export type AppIconName =
   | 'user'
   | 'users'
   | 'bar-chart-2'
+  | 'barcode'
   | 'check'
+  | 'farmer'
   | 'x';
 
 type AppIconProps = {
@@ -94,6 +96,13 @@ export function AppIcon({
           <path d="M5 8h11v5.5A4.5 4.5 0 0 1 11.5 18h-2A4.5 4.5 0 0 1 5 13.5V8Z" {...line} />
           <path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M3.5 21h14" {...line} />
           <path d="M8 5.5c-1-1 .5-1.5 0-3M11 5.5c-1-1 .5-1.5 0-3" {...line} />
+        </>
+      )}
+      {name === 'barcode' && (
+        <>
+          <path d="M4.5 5.5v13M7.2 5.5v13M10 5.5v13M13.2 5.5v13M16 5.5v13M19 5.5v13" {...line} />
+          <path d="M3.5 5.5h17M3.5 18.5h17" {...line} opacity=".42" />
+          <path d="M4.5 8.2h1.1M13.2 15.8h1.1M19 10.3h1" {...line} strokeWidth={strokeWidth + .35} />
         </>
       )}
       {name === 'compass' && (
@@ -188,6 +197,15 @@ export function AppIcon({
         <>
           <circle cx="12" cy="8" r="3.25" {...line} />
           <path d="M4.5 20c.7-3.8 3.2-6 7.5-6s6.8 2.2 7.5 6" {...line} />
+        </>
+      )}
+      {name === 'farmer' && (
+        <>
+          <path d="M4 8.2c2.4-2.7 5.1-4 8-4s5.6 1.3 8 4c-2.4.8-5.1 1.2-8 1.2S6.4 9 4 8.2Z" {...line} />
+          <path d="M6.4 8.8c.2 3.2 2.2 5.2 5.6 5.2s5.4-2 5.6-5.2" {...line} />
+          <path d="M9.2 11.2c.7.6 1.6.9 2.8.9s2.1-.3 2.8-.9M10 13.8v1.3M14 13.8v1.3" {...line} />
+          <path d="M4.5 20c.8-2.8 3.3-4.4 7.5-4.4s6.7 1.6 7.5 4.4" {...line} />
+          <path d="M8.1 17.1 12 20l3.9-2.9" {...line} opacity=".72" />
         </>
       )}
       {name === 'users' && (

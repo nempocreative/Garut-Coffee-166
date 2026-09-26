@@ -188,10 +188,10 @@ function BottomNav() {
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : 'profile';
   const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
-    { id: 'explore', label: 'Jelajah', icon: 'compass', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'map', path: '/traceability' },
+    { id: 'explore', label: 'Jelajah', icon: 'coffee', path: '/catalog' },
+    { id: 'trace', label: 'Jejak', icon: 'barcode', path: '/traceability' },
     { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
-    { id: 'profile', label: 'Akun', icon: 'user', path: '/profile' },
+    { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
   ];
   return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppIcon name={icon} size={24} /></span><span>{label}</span></button>)}</nav>;
 }

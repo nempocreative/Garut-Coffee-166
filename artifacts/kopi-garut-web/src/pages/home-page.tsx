@@ -206,74 +206,32 @@ function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
             <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" />
           </button>
           <div>
-            <span className="gb-footer-kicker">DARI KEBUN KE CANGKIR</span>
             <div className="gb-footer-name"><span>Garut</span> <strong>Beans</strong></div>
-            <p>Kopi spesialti dari lereng Garut, dirawat bersama dari kebun sampai cangkir.</p>
+            <p>Kopi spesialti dari Garut.</p>
           </div>
         </div>
-        <div className="gb-footer-menu-area">
-          <div className="gb-footer-menu-heading">
-            <span className="gb-footer-label">PILIH JALANMU</span>
-            <span>Temukan rasa, orang, dan cerita di baliknya.</span>
-          </div>
-          <div className="gb-footer-menu-grid">
-            <button className="gb-footer-menu-card gb-footer-menu-card-featured" onClick={() => onNavigate('/catalog')}>
-              <span className="gb-footer-menu-number">01</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="coffee" size={21} /></span>
-              <strong>Kopi pilihan</strong>
-              <span className="gb-footer-menu-card-copy">Pilih biji terbaik dari lereng Garut untuk cangkir berikutnya.</span>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={16} /></span>
-            </button>
-            <button className="gb-footer-menu-card" onClick={() => onNavigate('/farmers')}>
-              <span className="gb-footer-menu-number">02</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="users" size={17} /></span>
-              <strong>Cerita petani</strong>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={14} /></span>
-            </button>
-            <button className="gb-footer-menu-card" onClick={() => onNavigate('/regions')}>
-              <span className="gb-footer-menu-number">03</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="map-pin" size={17} /></span>
-              <strong>Wilayah Garut</strong>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={14} /></span>
-            </button>
-            <button className="gb-footer-menu-card" onClick={() => onNavigate('/program')}>
-              <span className="gb-footer-menu-number">04</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="sparkles" size={17} /></span>
-              <strong>Program G-Beans</strong>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={14} /></span>
-            </button>
-            <button className="gb-footer-menu-card" onClick={() => onNavigate('/events')}>
-              <span className="gb-footer-menu-number">05</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="calendar" size={17} /></span>
-              <strong>Agenda kopi</strong>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={14} /></span>
-            </button>
-            <button className="gb-footer-menu-card" onClick={() => onNavigate('/partnership')}>
-              <span className="gb-footer-menu-number">06</span>
-              <span className="gb-footer-menu-card-icon"><AppIcon name="network" size={17} /></span>
-              <strong>Kemitraan</strong>
-              <span className="gb-footer-menu-arrow"><AppIcon name="arrow-up-right" size={14} /></span>
-            </button>
-          </div>
-        </div>
+        <nav className="gb-footer-simple-links" aria-label="Menu footer">
+          <span className="gb-footer-label">MENU</span>
+          <button onClick={() => onNavigate('/catalog')}><AppIcon name="coffee" size={14} /> Kopi</button>
+          <button onClick={() => onNavigate('/farmers')}><AppIcon name="users" size={14} /> Petani</button>
+          <button onClick={() => onNavigate('/regions')}><AppIcon name="map-pin" size={14} /> Wilayah</button>
+          <button onClick={() => onNavigate('/program')}><AppIcon name="sparkles" size={14} /> Program</button>
+        </nav>
         <div className="gb-footer-contact-card">
           <div className="gb-footer-contact-head">
             <span className="gb-footer-label">TEMUI KAMI</span>
-            <span className="gb-footer-open"><i /> Buka hari ini</span>
           </div>
-          <strong>Selalu ada cerita baru<br />dari lereng Garut.</strong>
-          <p>Garut, Jawa Barat<br />Senin—Sabtu · 08.00—17.00</p>
+          <p>Garut, Jawa Barat · Senin—Sabtu</p>
           <button className="gb-footer-contact-action" onClick={() => onNavigate('/complaints')}>
-            <span>Hubungi tim kami</span>
+            <span>Hubungi kami</span>
             <span className="gb-footer-action-icon"><AppIcon name="arrow-up-right" size={14} /></span>
           </button>
         </div>
       </div>
       <div className="gb-footer-bottom">
-        <span>© 2026 Garut Beans — Tumbuh bersama.</span>
+        <span>© 2026 Garut Beans.</span>
         <div className="gb-footer-bottom-links">
-          <button onClick={() => onNavigate('/traceability')}>Lihat jejak kopi <AppIcon name="arrow-up-right" size={12} /></button>
-          <button onClick={() => onNavigate('/catalog')}>Belanja kopi <AppIcon name="arrow-up-right" size={12} /></button>
+          <button onClick={() => onNavigate('/traceability')}>Jejak kopi <AppIcon name="arrow-up-right" size={12} /></button>
         </div>
       </div>
     </footer>
