@@ -73,8 +73,8 @@ function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const promos = homeContent.promoSlides;
-  const [index, setIndex] = useState(() => Math.max(0, promos.findIndex((promo) => promo.id === 'coffee-tour')));
+  const promos = homeContent.promoSlides.slice(0, 3);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -366,6 +366,71 @@ function DiversifiedCard({ product, onNavigate, onAddToCart }: { product: typeof
   );
 }
 
+function DiversifiedCarousel({ products, onNavigate, onAddToCart }: {
+  products: typeof homeContent.diversifiedProducts;
+  onNavigate: (path: string) => void;
+  onAddToCart: (id: string) => void;
+}) {
+  const [frameStart, setFrameStart] = useState(0);
+  const [isLoopResetting, setIsLoopResetting] = useState(false);
+  const activeIndex = (frameStart + 1) % products.length;
+  const carouselProducts = [...products, ...products];
+  const visibleProducts = carouselProducts.map((product, index) => {
+    const distance = index - frameStart;
+    return {
+      product,
+      position: distance === 1 ? 'is-active' : distance === 0 ? 'is-prev' : distance === 2 ? 'is-next' : distance >= 3 && distance <= 4 ? 'is-visible' : 'is-hidden',
+      key: `${product.id}-${index}`,
+    };
+  });
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setFrameStart((current) => current + 1), 4200);
+    return () => window.clearInterval(timer);
+  }, [products.length]);
+
+  useEffect(() => {
+    if (frameStart !== products.length) return;
+    const resetTimer = window.setTimeout(() => {
+      setIsLoopResetting(true);
+      setFrameStart(0);
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setIsLoopResetting(false));
+      });
+    }, 960);
+    return () => window.clearTimeout(resetTimer);
+  }, [frameStart, products.length]);
+
+  return (
+    <div className="gb-diversified-carousel" data-testid="diversified-carousel">
+      <div className="gb-diversified-carousel-stage">
+        <div
+          className={`gb-diversified-carousel-track ${isLoopResetting ? 'is-loop-resetting' : ''}`}
+          style={{ '--diversified-frame-start': frameStart } as CSSProperties}
+        >
+          {visibleProducts.map(({ product, position, key }) => (
+            <div className={`gb-diversified-slide ${position}`} key={key}>
+              <DiversifiedCard product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="gb-coffee-dots" aria-label="Pilih produk turunan">
+        {products.map((product, index) => (
+          <button
+            key={product.id}
+            className={`gb-coffee-dot ${index === activeIndex ? 'active' : ''}`}
+            onClick={() => setFrameStart((index - 1 + products.length) % products.length)}
+            aria-label={`Pilih ${product.title}`}
+            data-testid={`button-diversified-dot-${index}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CoffeeCarousel({ coffees, favorites, onAddToCart, onToggleFavorite, onNavigate }: {
   coffees: SharedCoffee[];
   favorites: string[];
@@ -474,7 +539,10 @@ function FarmerFeatureCard({ farmer, index, onNavigate }: { farmer: typeof farme
         <span className="gb-farmer-meta"><span>{farmer.coffeeType}</span><span>{farmer.landArea}</span></span>
         <span className="gb-farmer-story">{farmer.story}</span>
         <span className="gb-farmer-rule" />
-        <span className="gb-farmer-verified"><b><AppIcon name="check" size={10} /></b> Diverifikasi</span>
+        <span className="gb-farmer-bottomline">
+          <span className="gb-farmer-verified"><b><AppIcon name="check" size={10} /></b> Diverifikasi</span>
+          <span className="gb-farmer-profile">Lihat cerita <AppIcon name="arrow-up-right" size={12} /></span>
+        </span>
       </span>
     </button>
   );
@@ -609,6 +677,7 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
               <img src={asset(image)} alt="" data-testid={`img-taste-${itemIndex}`} />
               <span className="gb-taste-shade" />
               <span className="gb-taste-icon"><AppIcon name="coffee" size={16} /></span>
+              <span className="gb-taste-kicker">PROFIL RASA</span>
               <strong>{title}</strong>
               <span>{detail}</span>
               <AppIcon name="arrow-up-right" size={14} />
@@ -634,7 +703,6 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
 
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
-  const stories = homeContent.stories;
   const firstCoffees = coffeeCatalog.slice(0, 10);
 
   return (
@@ -650,16 +718,14 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             <VoucherCarousel onNavigate={onNavigate} />
           </div>
 
-          <section className="gb-home-section">
+          <section className="gb-home-section gb-first-cup-section">
             <SectionTitle title="Untuk cangkir pertama" action="Lihat semua" onAction={() => onNavigate('/catalog')} />
             <CoffeeCarousel coffees={firstCoffees} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section">
             <SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => onNavigate('/diversification')} />
-            <div className="gb-horizontal-scroll" data-testid="rail-diversified">
-              {diversified.map((product) => <DiversifiedCard key={product.id} product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />)}
-            </div>
+            <DiversifiedCarousel products={diversified} onNavigate={onNavigate} onAddToCart={onAddToCart} />
           </section>
 
           <GrowthStats onNavigate={onNavigate} />
@@ -669,7 +735,7 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             <TasteCarousel onNavigate={onNavigate} />
           </section>
 
-          <section className="gb-home-section gb-mobile-only">
+          <section className="gb-home-section gb-farmer-section">
             <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
             <div className="gb-horizontal-scroll gb-farmer-rail" data-testid="rail-farmers">
               {farmers.slice(0, 4).map((farmer, index) => <FarmerFeatureCard key={farmer.id} farmer={farmer} index={index} onNavigate={onNavigate} />)}
@@ -707,17 +773,6 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             <span>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</span>
           </div>
 
-          <section className="gb-home-section gb-desktop-story-section">
-            <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
-            <div className="gb-horizontal-scroll gb-story-rail" data-testid="rail-stories">
-              {stories.map((story) => (
-                <button className="gb-story-card" key={story.id} onClick={() => onNavigate('/events')} data-testid={`button-story-${story.id}`}>
-                  <img src={asset(story.image)} alt={story.title} data-testid={`img-story-${story.id}`} />
-                  <span>{story.title}</span>
-                </button>
-              ))}
-            </div>
-          </section>
         </main>
         <SiteFooter onNavigate={onNavigate} />
         <nav className="gb-bottom-nav" aria-label="Navigasi utama">
