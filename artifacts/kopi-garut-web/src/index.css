@@ -273,7 +273,7 @@
 .catalog-intro { display: grid; gap: 13px; margin: 0 0 16px; }
 .catalog-intro p { max-width: 520px; margin: 0; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.5; }
 .catalog-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-.catalog-facts span { display: grid; gap: 3px; padding: 9px 10px; border: 1px solid hsl(var(--border)); border-radius: 13px; background: rgba(255, 249, 241, .56); }
+.catalog-facts span { display: grid; gap: 3px; padding: 10px; border: 1px solid hsl(var(--border)); border-radius: 13px; background: linear-gradient(145deg, rgba(255, 249, 241, .82), rgba(243, 226, 204, .42)); box-shadow: 0 4px 12px rgba(76, 48, 31, .035); }
 .catalog-facts strong { color: hsl(var(--primary)); font-size: 14px; line-height: 1; }
 .catalog-facts small { color: hsl(var(--muted-foreground)); font-size: 8px; font-weight: 800; }
 .catalog-featured { width: 100%; height: 184px; border: 0; border-radius: 22px; overflow: hidden; position: relative; display: block; padding: 0; text-align: left; background: hsl(var(--foreground)); color: #fff9f1; }
@@ -289,12 +289,13 @@
 .catalog-featured-specs { display: flex; flex-wrap: wrap; gap: 5px; }
 .catalog-featured-specs span { padding: 4px 6px; border: 1px solid rgba(255, 249, 241, .28); border-radius: 6px; color: rgba(255, 249, 241, .92); font-size: 8px; line-height: 1; }
 .catalog-featured-copy b { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; }
+.catalog-discovery-panel { margin-top: 18px; padding: 14px; border: 1px solid hsl(var(--border)); border-radius: 22px; background: linear-gradient(155deg, rgba(255, 249, 241, .9), rgba(244, 229, 211, .52)); box-shadow: 0 10px 24px rgba(76, 48, 31, .06); }
 .catalog-search-heading, .catalog-filter-heading, .catalog-result-row { display: flex; align-items: center; justify-content: space-between; }
-.catalog-search-heading { margin: 17px 0 10px; }
+.catalog-search-heading { margin: 0 0 10px; }
 .catalog-search-heading h2 { margin: 3px 0 0; font-size: 17px; letter-spacing: -.25px; }
 .catalog-search-heading p, .catalog-filter-heading span, .catalog-result-row span { margin: 3px 0 0; color: hsl(var(--muted-foreground)); font-size: 10px; }
 .catalog-search-badge { width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center; color: hsl(var(--primary)); background: hsl(var(--secondary)); }
-.catalog-filter-heading { margin: 17px 0 8px; align-items: flex-end; }
+.catalog-filter-heading { margin: 18px 0 8px; align-items: flex-end; }
 .catalog-filter-heading > div { display: grid; gap: 3px; }
 .catalog-filter-heading strong { font-size: 14px; }
 .catalog-filter-heading span { margin: 0; }
@@ -307,12 +308,14 @@
 .catalog-page .filter-pills::-webkit-scrollbar { display: none; }
 .catalog-page .filter-pill { display: inline-flex; align-items: center; gap: 4px; }
 .catalog-page .filter-pill small { opacity: .72; font-size: 8px; font-weight: 800; }
-.catalog-group { margin-top: 19px; }
+.catalog-group { margin-top: 25px; }
 .catalog-products-group { margin-top: 29px; }
-.catalog-group-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+.catalog-group-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 11px; padding: 0 2px; }
 .catalog-group-heading h2 { margin: 3px 0 0; font-size: 18px; letter-spacing: -.35px; }
 .catalog-group-heading small { color: hsl(var(--muted-foreground)); font-size: 9px; font-weight: 800; }
-.catalog-product-grid { margin-top: 0; }
+.catalog-product-grid { margin-top: 0; gap: 13px; }
+.catalog-product-grid .product-card, .catalog-product-grid .diversified-card { box-shadow: 0 8px 18px rgba(76, 48, 31, .065); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.catalog-product-grid .product-card:hover, .catalog-product-grid .diversified-card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, hsl(var(--primary)) 35%, hsl(var(--border))); box-shadow: 0 13px 25px rgba(76, 48, 31, .12); }
 .catalog-product-grid .diversified-card { width: 100%; min-width: 0; }
 .catalog-diversified-card .diversified-image { aspect-ratio: 1 / .88; }
 .catalog-diversified-card .diversified-body p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 9px; line-height: 1.35; }
@@ -1892,6 +1895,32 @@
 
   .catalog-search-heading {
     margin-top: 30px;
+  }
+
+  .catalog-discovery-panel {
+    margin-top: 28px;
+    padding: 22px 24px 24px;
+    border-radius: 28px;
+  }
+
+  .catalog-discovery-panel .catalog-search-heading {
+    margin-top: 0;
+  }
+
+  .catalog-discovery-panel .catalog-search-heading h2 {
+    font-size: 22px;
+  }
+
+  .catalog-discovery-panel .search-entry {
+    height: 58px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .catalog-discovery-panel .filter-pills {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    row-gap: 8px;
   }
 
   .catalog-scope-heading {

@@ -332,17 +332,19 @@ function CatalogPage() {
         <b>Lihat detail kurasi <ArrowRight size={14} /></b>
       </div>
     </button>
-    <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
-    <SearchEntry catalog value={query} onChange={setQuery} />
-    <div className="catalog-scope-heading"><span className="section-kicker">JELAJAHI KATALOG</span><small>{totalCatalogProducts} produk tersedia</small></div>
-    <div className="catalog-scope-pills" role="tablist" aria-label="Jenis produk">
-      {(['Semua', 'Kopi', 'Karya kopi'] as const).map((item) => <button key={item} className={`catalog-scope-pill ${scope === item ? 'active' : ''}`} onClick={() => selectScope(item)} role="tab" aria-selected={scope === item} data-testid={`catalog-scope-${item.toLowerCase().replaceAll(' ', '-')}`}>{item}<small>{item === 'Semua' ? totalCatalogProducts : item === 'Kopi' ? coffees.length : diversifiedProducts.length}</small></button>)}
+    <div className="catalog-discovery-panel">
+      <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
+      <SearchEntry catalog value={query} onChange={setQuery} />
+      <div className="catalog-scope-heading"><span className="section-kicker">JELAJAHI KATALOG</span><small>{totalCatalogProducts} produk tersedia</small></div>
+      <div className="catalog-scope-pills" role="tablist" aria-label="Jenis produk">
+        {(['Semua', 'Kopi', 'Karya kopi'] as const).map((item) => <button key={item} className={`catalog-scope-pill ${scope === item ? 'active' : ''}`} onClick={() => selectScope(item)} role="tab" aria-selected={scope === item} data-testid={`catalog-scope-${item.toLowerCase().replaceAll(' ', '-')}`}>{item}<small>{item === 'Semua' ? totalCatalogProducts : item === 'Kopi' ? coffees.length : diversifiedProducts.length}</small></button>)}
+      </div>
+      <div className="catalog-filter-heading"><div><span className="section-kicker">PILIH KATEGORI</span><strong>{scope === 'Karya kopi' ? 'Kategori produk' : scope === 'Kopi' ? 'Karakter rasa kopi' : 'Semua kategori'}</strong></div><span>{filters.length - 1} kategori aktif</span></div>
+      <div className="filter-pills">{filters.map((item) => {
+        const count = item === 'Semua' ? (scope === 'Kopi' ? coffees.length : scope === 'Karya kopi' ? diversifiedProducts.length : totalCatalogProducts) : coffees.filter((coffee) => coffee.category === item).length + diversifiedProducts.filter((product) => product.category === item).length;
+        return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
+      })}</div>
     </div>
-    <div className="catalog-filter-heading"><div><span className="section-kicker">PILIH KATEGORI</span><strong>{scope === 'Karya kopi' ? 'Kategori produk' : scope === 'Kopi' ? 'Karakter rasa kopi' : 'Semua kategori'}</strong></div><span>{filters.length - 1} kategori aktif</span></div>
-    <div className="filter-pills">{filters.map((item) => {
-      const count = item === 'Semua' ? (scope === 'Kopi' ? coffees.length : scope === 'Karya kopi' ? diversifiedProducts.length : totalCatalogProducts) : coffees.filter((coffee) => coffee.category === item).length + diversifiedProducts.filter((product) => product.category === item).length;
-      return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
-    })}</div>
     {filteredCoffees.length > 0 && <section className="catalog-group"><div className="catalog-group-heading"><div><span className="section-kicker">DARI KEBUN GARUT</span><h2>Kopi pilihan</h2></div><small>{filteredCoffees.length} profil kopi</small></div><div className="product-grid catalog-product-grid">{filteredCoffees.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div></section>}
     {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
     {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}
