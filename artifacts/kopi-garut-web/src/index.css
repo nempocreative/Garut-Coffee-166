@@ -378,6 +378,147 @@
 .cart-preview-copy em { font-size: 10px; font-style: normal; opacity: .72; }
 .cart-preview-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 12px; border-radius: 14px; color: #fff9f1; background: hsl(var(--primary)); font-size: 10px; font-weight: 800; }
 @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* Shared luxury surfaces: restrained depth keeps every page feeling crafted
+   without making dense operational screens feel heavy. */
+:is(
+  .category-tile,
+  .product-card,
+  .story-card,
+  .catalog-featured,
+  .detail-image,
+  .cart-row,
+  .summary,
+  .empty-state,
+  .info-card,
+  .role-card,
+  .order-card,
+  .profile-hero,
+  .profile-menu button,
+  .auth-hero,
+  .access-card,
+  .form-card,
+  .program-card,
+  .metric-card,
+  .mini-card,
+  .module-card,
+  .offer-card,
+  .price-card,
+  .service-card,
+  .timeline-card,
+  .role-work-card,
+  .farmer-card,
+  .region-card,
+  .event-card,
+  .tour-card,
+  .diversified-card,
+  .hub-hero,
+  .story-lead
+) {
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 88%, white 12%);
+  box-shadow:
+    0 3px 0 rgba(76, 48, 31, .08),
+    0 12px 24px rgba(76, 48, 31, .1),
+    inset 0 1px 0 rgba(255, 249, 241, .68);
+  transform: translateZ(0);
+  transition: transform .24s cubic-bezier(.2, .72, .2, 1), box-shadow .24s ease, border-color .24s ease;
+}
+
+:is(
+  .category-tile,
+  .product-card,
+  .catalog-featured,
+  .cart-row,
+  .summary,
+  .info-card,
+  .role-card,
+  .order-card,
+  .profile-menu button,
+  .access-card,
+  .form-card,
+  .program-card,
+  .metric-card,
+  .mini-card,
+  .module-card,
+  .offer-card,
+  .price-card,
+  .service-card,
+  .timeline-card,
+  .role-work-card,
+  .farmer-card,
+  .region-card,
+  .event-card,
+  .tour-card,
+  .diversified-card,
+  .story-lead
+):hover,
+:is(
+  .category-tile,
+  .product-card,
+  .catalog-featured,
+  .cart-row,
+  .role-card,
+  .order-card,
+  .profile-menu button,
+  .access-card,
+  .form-card,
+  .program-card,
+  .metric-card,
+  .mini-card,
+  .module-card,
+  .offer-card,
+  .price-card,
+  .service-card,
+  .timeline-card,
+  .role-work-card,
+  .farmer-card,
+  .region-card,
+  .event-card,
+  .tour-card,
+  .diversified-card,
+  .story-lead
+):focus-visible {
+  border-color: color-mix(in srgb, hsl(var(--primary)) 42%, hsl(var(--border)));
+  box-shadow:
+    0 6px 0 rgba(76, 48, 31, .1),
+    0 18px 32px rgba(76, 48, 31, .15),
+    inset 0 1px 0 rgba(255, 249, 241, .8);
+  transform: translateY(-3px) translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .category-tile,
+    .product-card,
+    .catalog-featured,
+    .cart-row,
+    .summary,
+    .info-card,
+    .role-card,
+    .order-card,
+    .profile-menu button,
+    .access-card,
+    .form-card,
+    .program-card,
+    .metric-card,
+    .mini-card,
+    .module-card,
+    .offer-card,
+    .price-card,
+    .service-card,
+    .timeline-card,
+    .role-work-card,
+    .farmer-card,
+    .region-card,
+    .event-card,
+    .tour-card,
+    .diversified-card,
+    .story-lead
+  ) {
+    transition: none;
+  }
+}
+
 @media (max-width: 430px) {
   body { background: hsl(var(--background)); }
   .app-viewport { box-shadow: none; }
@@ -898,19 +1039,20 @@
     top: 0;
     z-index: 50;
     display: block;
-    border-bottom: 1px solid hsl(var(--border));
-    background: rgba(255, 249, 241, .96);
-    box-shadow: 0 5px 18px rgba(42, 31, 26, .07);
-    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(190, 159, 126, .32);
+    background:
+      linear-gradient(180deg, rgba(255, 252, 247, .98), rgba(255, 249, 241, .94));
+    box-shadow: 0 8px 24px rgba(61, 40, 28, .08);
+    backdrop-filter: blur(18px);
   }
 
   .desktop-top-nav-inner {
     display: flex;
-    width: min(calc(100% - 56px), 1280px);
-    min-height: 76px;
+    width: min(calc(100% - 64px), 1320px);
+    min-height: 80px;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 32px;
     margin: 0 auto;
   }
 
@@ -918,64 +1060,90 @@
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: 10px;
-    padding: 0;
-    border: 0;
+    gap: 12px;
+    padding: 7px 12px 7px 7px;
+    border: 1px solid transparent;
+    border-radius: 16px;
     color: hsl(var(--foreground));
     background: transparent;
     text-align: left;
+    transition: border-color .18s ease, background .18s ease, transform .18s ease;
   }
 
   .desktop-top-brand img {
-    width: 42px;
-    height: 42px;
+    width: 46px;
+    height: 46px;
     object-fit: contain;
   }
 
   .desktop-top-brand span {
     display: grid;
-    gap: 3px;
+    gap: 4px;
   }
 
   .desktop-top-brand strong {
-    font-size: 16px;
-    line-height: 1;
+    color: hsl(var(--foreground));
+    font-size: 18px;
+    letter-spacing: -.5px;
+    line-height: .95;
   }
 
   .desktop-top-brand small {
     color: hsl(var(--muted-foreground));
-    font-size: 8px;
+    font-size: 8.5px;
     font-weight: 800;
-    letter-spacing: .9px;
+    letter-spacing: 1px;
+  }
+
+  .desktop-top-brand:hover {
+    border-color: rgba(168, 84, 59, .16);
+    background: rgba(231, 217, 200, .34);
+    transform: translateY(-1px);
   }
 
   .desktop-top-links {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
   }
 
   .desktop-top-link {
+    position: relative;
     display: inline-flex;
-    min-height: 44px;
+    min-height: 46px;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 0 14px;
-    border: 0;
-    border-radius: 14px;
+    gap: 9px;
+    padding: 0 15px;
+    border: 1px solid transparent;
+    border-radius: 15px;
     color: hsl(var(--muted-foreground));
     background: transparent;
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
-    transition: background .15s ease, color .15s ease;
+    transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
 
   .desktop-top-link:hover,
   .desktop-top-link.active {
     color: hsl(var(--primary));
-    background: hsl(var(--secondary));
+    border-color: rgba(168, 84, 59, .12);
+    background: linear-gradient(145deg, rgba(231, 217, 200, .94), rgba(242, 231, 216, .78));
+    box-shadow: 0 5px 12px rgba(91, 59, 38, .07);
+    transform: translateY(-1px);
+  }
+
+  .desktop-top-link.active::after {
+    position: absolute;
+    right: 50%;
+    bottom: 5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: hsl(var(--accent));
+    content: '';
+    transform: translateX(50%);
   }
 
   .desktop-top-link:focus-visible,
@@ -991,6 +1159,44 @@
 
   .app-page {
     padding-top: 22px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1050px) {
+  .desktop-top-nav-inner {
+    width: min(calc(100% - 32px), 980px);
+    gap: 12px;
+  }
+
+  .desktop-top-brand {
+    gap: 8px;
+    padding-right: 6px;
+  }
+
+  .desktop-top-brand img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .desktop-top-brand strong {
+    font-size: 14px;
+  }
+
+  .desktop-top-brand small {
+    font-size: 6.5px;
+    letter-spacing: .75px;
+  }
+
+  .desktop-top-links {
+    gap: 2px;
+  }
+
+  .desktop-top-link {
+    min-height: 40px;
+    gap: 5px;
+    padding: 0 9px;
+    border-radius: 12px;
+    font-size: 11px;
   }
 }
 .collective-hero > img, .collective-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -1725,5 +1931,48 @@
 
   .voucher {
     min-height: 188px;
+  }
+}
+
+/*
+ * Spacing and image-height audit
+ *
+ * Keep internal pages close to the desktop navigation and prevent image
+ * content from defining the height of a hub hero. Without these constraints,
+ * portrait assets can push the rest of a page far below the first viewport.
+ */
+@media (min-width: 700px) {
+  .app-page {
+    padding-top: 32px;
+  }
+
+  .subpage {
+    padding-top: 0;
+  }
+
+  .subpage-head {
+    margin-bottom: 20px;
+  }
+
+  .hub-hero {
+    height: 340px;
+    min-height: 340px;
+  }
+
+  .hub-hero > img {
+    height: 100%;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 699px) {
+  .hub-hero {
+    height: 236px;
+    min-height: 236px;
+  }
+
+  .hub-hero > img {
+    height: 100%;
+    min-height: 0;
   }
 }

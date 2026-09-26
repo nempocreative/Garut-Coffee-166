@@ -10,6 +10,7 @@ import {
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
 import { AppIcon, AppNavGlyph } from '../components/app-icon';
+import { MenuIllustration } from '../components/menu-illustration';
 import './home-page.css';
 
 type HomePageProps = {
@@ -26,19 +27,6 @@ const cleanPromoImages = [
   'origin-coffee.webp',
   'hero-coffee.webp',
 ] as const;
-
-const categoryArt: Partial<Record<HomeIconName, string>> = {
-  coffee: 'app-menu-coffee.png',
-  users: 'app-menu-farmer.png',
-  map: 'app-menu-region.png',
-  compass: 'app-menu-tourism.png',
-  calendar: 'app-menu-event.webp',
-  'graduation-cap': 'app-menu-program.webp',
-  briefcase: 'app-menu-partnership.png',
-  grid: 'app-menu-collective.png',
-  'alert-circle': 'app-menu-complaints.png',
-  package: 'app-menu-product.png',
-};
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
@@ -124,17 +112,6 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
           );
         })}
       </div>
-      <div className="gb-promo-dots" aria-label="Pilih promo">
-        {promos.map((item, itemIndex) => (
-          <button
-            key={item.id}
-            className={`gb-promo-dot ${index === itemIndex ? 'active' : ''}`}
-            onClick={() => setIndex(itemIndex)}
-            aria-label={`Promo ${itemIndex + 1}: ${item.title}`}
-            data-testid={`button-promo-dot-${itemIndex}`}
-          />
-        ))}
-      </div>
     </section>
   );
 }
@@ -170,16 +147,13 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
         {categoryPages.map((page, pageIndex) => (
           <div className="gb-category-page" key={`category-page-${pageIndex}`}>
             {page.map((category) => {
-              const iconArt = categoryArt[category.icon];
               const isFeatured = category === page[Math.floor(page.length / 2)];
               return (
                 <button className={`gb-category-tile ${isFeatured ? 'is-featured' : ''}`} key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
-                  {isFeatured && <span className="gb-category-tile-kicker">PILIHAN UTAMA</span>}
                   <span className="gb-category-glyph">
-                    {iconArt ? <img src={asset(iconArt)} alt="" /> : <AppIcon name="package" size={26} />}
+                    <MenuIllustration name={category.icon} size={50} />
                   </span>
                   <span className="gb-category-tile-label">{category.label}</span>
-                  <span className="gb-category-tile-action">{isFeatured ? 'Mulai jelajah' : 'Buka menu'} <AppIcon name="arrow-up-right" size={12} /></span>
                 </button>
               );
             })}
@@ -206,9 +180,17 @@ function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
       <img className="gb-story-lead-desktop-image" src={asset('collective-banner.webp')} alt="" data-testid="img-collective-story" />
       <img className="gb-story-lead-mobile-image" src={asset('story-background.webp')} alt="" aria-hidden="true" />
       <span className="gb-story-lead-shade" />
+      <span className="gb-story-lead-topline">
+        <span>ASAL G-BEANS</span>
+      </span>
       <span className="gb-story-lead-copy">
-        <strong>Kopi dari tanah pegunungan.</strong>
-        <span>Dari lereng Garut, setiap biji membawa cerita petani, ketinggian, dan proses yang dirawat dengan penuh perhatian.</span>
+        <span className="gb-story-lead-kicker">CERITA DARI LERENG GARUT</span>
+        <strong>Dari tanah pegunungan, lahir rasa yang punya cerita.</strong>
+        <span>Di antara tanah vulkanik, udara sejuk, dan kebun yang dirawat turun-temurun, Garut Beans tumbuh perlahan bersama para petani.</span>
+        <span className="gb-story-lead-footer">
+          <span className="gb-story-lead-fact"><i /> 1.200 mdpl · Garut, Jawa Barat</span>
+          <span className="gb-story-lead-link">Telusuri asal kopi <b>↗</b></span>
+        </span>
         <img src={asset('coffee-beans-natural.webp')} alt="" data-testid="img-story-beans" />
       </span>
     </button>

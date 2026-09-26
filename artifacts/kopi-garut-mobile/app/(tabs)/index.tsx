@@ -7,6 +7,7 @@ import Animated, { Easing, FadeInDown, SlideInRight, SlideOutLeft, interpolate, 
 import { LinearGradient } from 'expo-linear-gradient';
 import { CoffeeCard, Header, Screen } from '@/components/AppUI';
 import { BrandIcon, type BrandIconName } from '@/components/BrandIcon';
+import { MenuIllustration } from '@/components/MenuIllustration';
 import { coffees } from '@/data/coffees';
 import { coffeeTours, farmers, hubStats, regions } from '@/data/hub';
 import { extensionTeam } from '@/data/extension-team';
@@ -387,13 +388,15 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
   const iconMotion = useSharedValue(0);
 
   useEffect(() => {
-    if (Platform.OS === 'web') return;
-    iconMotion.value = withRepeat(
-      withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
-      -1,
-      true,
+    iconMotion.value = withDelay(
+      index * 140,
+      withRepeat(
+        withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
+        -1,
+        true,
+      ),
     );
-  }, [iconMotion]);
+  }, [iconMotion, index]);
 
   const iconMotionStyle = useAnimatedStyle(() => ({
     transform: [
@@ -428,44 +431,17 @@ function HomeMenuIcon({ index, icon }: { index: number; icon: BrandIconName }) {
     dark: colors.secondaryForeground,
     accent: colors.secondaryForeground,
   };
-  const menuImageSources: Partial<Record<BrandIconName, number>> = {
-    users: require('../../assets/images/farmer-home-ai.png'),
-    coffee: require('../../assets/images/coffee-home-ai.png'),
-    grid: require('../../assets/images/collective-menu-ai-new-transparent.png'),
-    package: require('../../assets/images/product-coffee-basket.png'),
-    calendar: require('../../assets/images/event-menu-ai-transparent.webp'),
-    'graduation-cap': require('../../assets/images/program-menu-ai.webp'),
-    briefcase: require('../../assets/images/partnership-menu-ai-new.png'),
-    map: require('../../assets/images/region-home-ai.png'),
-    compass: require('../../assets/images/tourism-menu-ai-new.png'),
-    'alert-circle': require('../../assets/images/complaints-menu-ai-v2.png'),
-  };
-  const menuImageSource = menuImageSources[icon];
-
   return (
     <View style={styles.menuIconStage}>
       <LinearGradient
-        colors={palette.gradient}
+        colors={['transparent', 'transparent']}
         start={{ x: 0.15, y: 0 }}
         end={{ x: 0.9, y: 1 }}
         style={[styles.menuIconSurface, { borderColor: colors.primary, shadowColor: colors.foreground }]}
       />
       <MenuCoffeeOrnament colors={{ bean: colors.accent, shadow: colors.secondaryForeground, highlight: colors.card }} />
       <Animated.View pointerEvents="none" style={[styles.menuIconVisualOverlay, iconMotionStyle]}>
-        {menuImageSource ? (
-          <View style={styles.menuAssetImageFrame}>
-            <ExpoImage source={menuImageSource} contentFit="contain" style={styles.menuAssetImage} />
-          </View>
-        ) : (
-          <>
-            <View style={styles.menuGlyphExtrusion}>
-              <ThreeDMenuGlyph name={icon} colors={extrusion} />
-            </View>
-            <View style={styles.menuGlyphFront}>
-              <ThreeDMenuGlyph name={icon} colors={palette.glyph} />
-            </View>
-          </>
-        )}
+        <MenuIllustration name={icon as import('@workspace/kopi-garut-shared').HomeIconName} size={46} colors={{ foreground: colors.foreground, primary: colors.primary, accent: colors.accent, card: colors.card }} />
       </Animated.View>
     </View>
   );
@@ -611,20 +587,6 @@ export default function HomeScreen() {
               <Text style={[styles.promoCta, desktopWeb && styles.desktopPromoCta, { color: colors.card }]}>{currentSlide.cta} <Text style={{ color: colors.accent }}>›</Text></Text>
             </View>
           </Pressable>
-        </View>
-        <View style={styles.promoDots}>
-          {promoSlides.map((slide, index) => (
-            <Pressable
-              key={slide.id}
-              testID={`promo-dot-${index}`}
-              accessibilityRole="button"
-              accessibilityLabel={`Tampilkan promo ${index + 1}`}
-              onPress={() => setActiveSlide(index)}
-              style={styles.promoDotHit}
-            >
-              <View style={[styles.promoDot, { backgroundColor: index === activeSlide ? colors.primary : colors.card, width: index === activeSlide ? 18 : 5 }]} />
-            </Pressable>
-          ))}
         </View>
       </View>
       </Animated.View>
@@ -795,6 +757,14 @@ export default function HomeScreen() {
               end={{ x: 1, y: 0.9 }}
               style={StyleSheet.absoluteFill}
             />
+            <LinearGradient
+              pointerEvents="none"
+              colors={['rgba(255,255,255,0.22)', 'rgba(255,255,255,0.04)', 'rgba(0,0,0,0.12)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.voucherGloss}
+            />
+            <View pointerEvents="none" style={[styles.voucherBottomEdge, { backgroundColor: colors.foreground }]} />
             <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.voucherInnerBorder, { borderColor: colors.primaryForeground }]} />
             <View pointerEvents="none" style={[styles.voucherCutout, styles.voucherCutoutLeft, { backgroundColor: colors.background }]} />
             <View pointerEvents="none" style={[styles.voucherCutout, styles.voucherCutoutRight, { backgroundColor: colors.background }]} />
@@ -805,11 +775,11 @@ export default function HomeScreen() {
               </View>
               <Text style={[styles.voucherDiscount, { color: colors.card }]}>{voucher.discount}</Text>
               <Text style={[styles.voucherTitle, { color: colors.card }]}>{voucher.title}</Text>
-              <Text style={[styles.voucherSubtitle, { color: colors.background }]}>{voucher.note}</Text>
+               <Text style={[styles.voucherSubtitle, { color: colors.primaryForeground }]}>{voucher.note}</Text>
             </View>
             <View style={[styles.voucherDivider, { borderColor: colors.primaryForeground }]} />
             <View style={styles.voucherAction}>
-              <Text style={[styles.voucherCodeLabel, { color: colors.background }]}>KODE</Text>
+               <Text style={[styles.voucherCodeLabel, { color: colors.primaryForeground }]}>KODE</Text>
               <Text style={[styles.voucherCode, { color: colors.card }]}>{voucher.code}</Text>
               <View style={[styles.voucherButton, { backgroundColor: colors.card }]}>
                 <Text style={[styles.voucherButtonText, { color: colors.foreground }]}>Pakai</Text>
@@ -1311,28 +1281,23 @@ const styles = StyleSheet.create({
   categoryPage: { paddingHorizontal: 20, gap: 12 },
   categoryRow: { flexDirection: 'row', justifyContent: 'space-between' },
   categoryRowCompact: { justifyContent: 'flex-start', columnGap: 14 },
-  categoryItem: { alignItems: 'center', gap: 8 },
-  menuIconStage: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
+  categoryItem: { alignItems: 'center', gap: 4 },
+  menuIconStage: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   menuIconSurface: {
-    width: 50,
-    height: 50,
-    borderRadius: 16,
-    borderWidth: 1.2,
+    width: 42,
+    height: 42,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-     shadowOpacity: 0.16,
-     shadowRadius: 3,
-     shadowOffset: { width: 0, height: 2 },
-     elevation: 2,
   },
-  menuCoffeeOrnament: { position: 'absolute', zIndex: 1 },
+  menuCoffeeOrnament: { position: 'absolute', width: 46, height: 46, zIndex: 1 },
   menuIconVisualOverlay: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', zIndex: 2, elevation: 2 },
   menuAssetImageFrame: { width: 50, height: 50, borderRadius: 15, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   menuAssetImage: { width: 50, height: 50 },
   menuGlyphExtrusion: { position: 'absolute', transform: [{ translateX: -0.5 }, { translateY: 2 }], opacity: 0.68 },
   menuGlyphFront: { position: 'absolute' },
-  categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 11, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
+  categoryLabel: { fontFamily: 'Manrope_600SemiBold', fontSize: 10, lineHeight: 13, fontWeight: '600', textAlign: 'center' },
   categoryPagination: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0, marginTop: 2, height: 12 },
   categoryPaginationHit: { width: 24, height: 12, alignItems: 'center', justifyContent: 'center' },
   categoryPaginationDot: { width: 6, height: 6, borderRadius: 3 },
@@ -1381,7 +1346,9 @@ const styles = StyleSheet.create({
   statsRoadFooterText: { fontFamily: 'Manrope_700Bold', fontSize: 7.5, fontWeight: '800', letterSpacing: 1.25 },
   voucherCarousel: { height: 124, gap: 8 },
   voucherSlide: { height: 104, flexDirection: 'row', gap: 8 },
-  voucherCard: { flex: 1, height: 104, borderRadius: 17, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative', shadowOpacity: 0.16, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
+  voucherCard: { flex: 1, height: 104, borderRadius: 17, borderWidth: 1, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 10, position: 'relative', shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 5 },
+  voucherGloss: { ...StyleSheet.absoluteFill, opacity: 0.9 },
+  voucherBottomEdge: { position: 'absolute', left: 7, right: 7, bottom: 0, height: 3, borderRadius: 2, opacity: 0.3 },
   voucherInnerBorder: { margin: 4, borderWidth: 1, borderRadius: 13, opacity: 0.28 },
   voucherCutout: { position: 'absolute', top: '50%', width: 19, height: 19, borderRadius: 10, marginTop: -10 },
   voucherCutoutLeft: { left: -10 },
