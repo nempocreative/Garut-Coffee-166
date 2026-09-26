@@ -270,7 +270,7 @@ function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
         </div>
       </div>
       <div className="gb-footer-bottom">
-        <span>© 2026 Garut Beans. Tumbuh bersama.</span>
+        <span>© 2026 Garut Beans — Tumbuh bersama.</span>
         <div className="gb-footer-bottom-links">
           <button onClick={() => onNavigate('/traceability')}>Lihat jejak kopi <AppIcon name="arrow-up-right" size={12} /></button>
           <button onClick={() => onNavigate('/catalog')}>Belanja kopi <AppIcon name="arrow-up-right" size={12} /></button>
