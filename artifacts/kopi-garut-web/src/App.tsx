@@ -306,9 +306,6 @@ function CatalogPage() {
   const resultCount = filteredCoffees.length + filteredProducts.length;
   const totalCatalogProducts = coffees.length + diversifiedProducts.length;
   const featuredCoffee = coffees[0];
-  const activeDescription = filter === 'Semua'
-    ? (scope === 'Semua' ? 'Kopi kebun dan karya turunan Garut Beans.' : scope === 'Kopi' ? 'Dari lot harian sampai koleksi spesial.' : 'Olahan, aroma, perawatan, dan merchandise.')
-    : `Menampilkan kategori ${filter.toLowerCase()}.`;
   const selectScope = (nextScope: 'Semua' | 'Kopi' | 'Karya kopi') => {
     setScope(nextScope);
     setFilter('Semua');
@@ -320,7 +317,7 @@ function CatalogPage() {
   };
   return <Page><main className="subpage catalog-page">
     <Header />
-    <div className="catalog-heading-row"><div><span className="section-kicker">KATALOG G-BEANS</span><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
+    <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
     <div className="catalog-intro">
       <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
       <div className="catalog-facts"><span><strong>{totalCatalogProducts}</strong><small>produk katalog</small></span><span><strong>{coffees.length}</strong><small>profil kopi</small></span><span><strong>{productCategories.length}</strong><small>kategori karya</small></span></div>
@@ -346,7 +343,6 @@ function CatalogPage() {
       const count = item === 'Semua' ? (scope === 'Kopi' ? coffees.length : scope === 'Karya kopi' ? diversifiedProducts.length : totalCatalogProducts) : coffees.filter((coffee) => coffee.category === item).length + diversifiedProducts.filter((product) => product.category === item).length;
       return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
     })}</div>
-    <div className="catalog-result-row"><div><strong>{resultCount} dari {totalCatalogProducts} produk</strong><span>{query ? `Hasil pencarian untuk “${query}”` : activeDescription}</span></div><small><i /> SIAP DIJELAJAHI</small></div>
     {filteredCoffees.length > 0 && <section className="catalog-group"><div className="catalog-group-heading"><div><span className="section-kicker">DARI KEBUN GARUT</span><h2>Kopi pilihan</h2></div><small>{filteredCoffees.length} profil kopi</small></div><div className="product-grid catalog-product-grid">{filteredCoffees.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div></section>}
     {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
     {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}

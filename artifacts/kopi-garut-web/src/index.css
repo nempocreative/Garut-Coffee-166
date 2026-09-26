@@ -303,7 +303,8 @@
 .catalog-result-row > div > strong { font-size: 16px; }
 .catalog-result-row small { display: inline-flex; align-items: center; gap: 5px; color: hsl(var(--muted-foreground)); font-size: 8px; font-weight: 800; letter-spacing: 1px; }
 .catalog-result-row i { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--accent)); }
-.catalog-page .filter-pills { margin-bottom: 0; }
+.catalog-page .filter-pills { margin-bottom: 0; scrollbar-width: none; }
+.catalog-page .filter-pills::-webkit-scrollbar { display: none; }
 .catalog-page .filter-pill { display: inline-flex; align-items: center; gap: 4px; }
 .catalog-page .filter-pill small { opacity: .72; font-size: 8px; font-weight: 800; }
 .catalog-group { margin-top: 19px; }
