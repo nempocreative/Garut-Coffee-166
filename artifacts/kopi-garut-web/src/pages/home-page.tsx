@@ -621,9 +621,9 @@ function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNa
 
 function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   const tastes = [
-    ['Cerah & manis', 'Lemon, melati, gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
-    ['Buah & juicy', 'Stroberi, kakao, molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
-    ['Hangat & nyaman', 'Karamel, cokelat, rempah', 'garut-mug.webp', '/product/samarang-dark'],
+    ['Cerah & manis', 'Lemon dan melati dengan manis gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
+    ['Buah & juicy', 'Rasa stroberi dan kakao dengan akhir molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
+    ['Hangat & nyaman', 'Karamel dan cokelat dengan sentuhan rempah', 'garut-mug.webp', '/product/samarang-dark'],
   ] as const;
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -652,7 +652,6 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
             >
               <img src={asset(image)} alt="" data-testid={`img-taste-${itemIndex}`} />
               <span className="gb-taste-shade" />
-              <span className="gb-taste-icon"><AppIcon name="coffee" size={16} /></span>
               <span className="gb-taste-kicker">PROFIL RASA</span>
               <strong>{title}</strong>
               <span>{detail}</span>
