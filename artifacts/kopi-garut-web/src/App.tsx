@@ -57,6 +57,7 @@ const Minus = mobileIcon('minus');
 const Package = mobileIcon('package');
 const Plus = mobileIcon('plus');
 const Search = mobileIcon('search');
+const Scan = mobileIcon('scan');
 const Settings = mobileIcon('settings');
 const ShieldCheck = mobileIcon('shield');
 const ShoppingBag = mobileIcon('shopping-bag');
@@ -71,6 +72,7 @@ const Network = mobileIcon('network');
 const Send = mobileIcon('send');
 const TrendingUp = mobileIcon('trending-up');
 const X = mobileIcon('x');
+const Farmer = mobileIcon('farmer');
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
@@ -236,6 +238,19 @@ function ProductCard({ coffee }: { coffee: Coffee }) {
   </article>;
 }
 
+function DiversifiedProductCard({ product, saved, onSave }: { product: typeof diversifiedProducts[number]; saved: boolean; onSave: () => void }) {
+  return <article className="diversified-card catalog-diversified-card" data-testid={`card-catalog-product-${product.id}`}>
+    <div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div>
+    <div className="diversified-body">
+      <small>{product.category}</small>
+      <strong>{product.title}</strong>
+      <p>{product.status}</p>
+      {product.size && <em>{product.size}</em>}
+      <div><b>{product.price}</b><button className="text-button" onClick={onSave} data-testid={`button-save-catalog-product-${product.id}`}>{saved ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div>
+    </div>
+  </article>;
+}
+
 function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; title: string; action?: string; onAction?: () => void }) {
   return <div className="section-heading"><div>{kicker && <div className="section-kicker">{kicker}</div>}<h2>{title}</h2></div>{action && <button className="see-all" onClick={onAction} data-testid={`button-see-${title.toLowerCase().replaceAll(' ', '-')}`}>{action}</button>}</div>;
 }
@@ -261,26 +276,54 @@ function Page({ children }: { children: ReactNode }) {
 
 function CatalogPage() {
   const [, setLocation] = useLocation();
+  const { notify } = useStore();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Semua');
-  const filters = ['Semua', ...Array.from(new Set(coffees.map((coffee) => coffee.category)))];
-  const filtered = useMemo(() => coffees.filter((coffee) => {
+  const [scope, setScope] = useState<'Semua' | 'Kopi' | 'Karya kopi'>('Semua');
+  const [savedProducts, setSavedProducts] = useWebStorageJson<string[]>('kopi-garut-catalog-products', []);
+  const coffeeCategories = Array.from(new Set(coffees.map((coffee) => coffee.category)));
+  const productCategories = Array.from(new Set(diversifiedProducts.map((product) => product.category)));
+  const filters = scope === 'Kopi'
+    ? ['Semua', ...coffeeCategories]
+    : scope === 'Karya kopi'
+      ? ['Semua', ...productCategories]
+      : ['Semua', ...coffeeCategories, ...productCategories];
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredCoffees = useMemo(() => coffees.filter((coffee) => {
     const matchesFilter = filter === 'Semua' || coffee.category === filter;
     const searchable = [
       coffee.name, coffee.series, coffee.tagline, coffee.origin, coffee.process, coffee.roast,
       coffee.altitude, coffee.category, coffee.recommendedBrew, coffee.farmerName, coffee.farmerGroup,
       coffee.notes.join(' '),
     ].join(' ').toLowerCase();
-    return matchesFilter && searchable.includes(query.trim().toLowerCase());
-  }), [filter, query]);
+    return scope !== 'Karya kopi' && matchesFilter && searchable.includes(normalizedQuery);
+  }), [filter, normalizedQuery, scope]);
+  const filteredProducts = useMemo(() => diversifiedProducts.filter((product) => {
+    const matchesFilter = filter === 'Semua' || product.category === filter;
+    const searchable = [product.title, product.category, product.status, product.badge, product.description, product.maker, product.impact, product.size].filter(Boolean).join(' ').toLowerCase();
+    return scope !== 'Kopi' && matchesFilter && searchable.includes(normalizedQuery);
+  }), [filter, normalizedQuery, scope]);
+  const resultCount = filteredCoffees.length + filteredProducts.length;
+  const totalCatalogProducts = coffees.length + diversifiedProducts.length;
   const featuredCoffee = coffees[0];
-  const activeDescription = filter === 'Semua' ? 'Dari lot harian sampai koleksi spesial.' : `Menampilkan kopi dengan karakter ${filter.toLowerCase()}.`;
+  const activeDescription = filter === 'Semua'
+    ? (scope === 'Semua' ? 'Kopi kebun dan karya turunan Garut Beans.' : scope === 'Kopi' ? 'Dari lot harian sampai koleksi spesial.' : 'Olahan, aroma, perawatan, dan merchandise.')
+    : `Menampilkan kategori ${filter.toLowerCase()}.`;
+  const selectScope = (nextScope: 'Semua' | 'Kopi' | 'Karya kopi') => {
+    setScope(nextScope);
+    setFilter('Semua');
+  };
+  const saveProduct = (id: string, title: string) => {
+    const alreadySaved = savedProducts.includes(id);
+    setSavedProducts((current) => alreadySaved ? current.filter((item) => item !== id) : [...current, id]);
+    notify(alreadySaved ? `${title} dihapus dari simpanan` : `${title} disimpan di perangkat`);
+  };
   return <Page><main className="subpage catalog-page">
     <Header />
-    <div className="catalog-heading-row"><div><span className="section-kicker">KATALOG G-BEANS</span><h1 className="catalog-title">Jelajahi kopi</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
+    <div className="catalog-heading-row"><div><span className="section-kicker">KATALOG G-BEANS</span><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
     <div className="catalog-intro">
-      <p>Temukan profil kopi dari kebun-kebun Garut. Bandingkan asal, proses, rasa, dan cara seduh sebelum memilih.</p>
-      <div className="catalog-facts"><span><strong>{coffees.length}</strong><small>profil kopi</small></span><span><strong>4</strong><small>wilayah asal</small></span><span><strong>1.180–1.700</strong><small>mdpl</small></span></div>
+      <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
+      <div className="catalog-facts"><span><strong>{totalCatalogProducts}</strong><small>produk katalog</small></span><span><strong>{coffees.length}</strong><small>profil kopi</small></span><span><strong>{productCategories.length}</strong><small>kategori karya</small></span></div>
     </div>
     <button className="catalog-featured" onClick={() => setLocation(`/product/${featuredCoffee.id}`)} data-testid="catalog-featured-coffee">
       <img src={asset('hero-coffee.webp')} alt="" /><div className="catalog-featured-shade" />
@@ -292,16 +335,21 @@ function CatalogPage() {
         <b>Lihat detail kurasi <ArrowRight size={14} /></b>
       </div>
     </button>
-    <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PROFILMU</span><h2>Cari kopi pilihanmu</h2><p>Cari berdasarkan nama, rasa, asal, petani, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
+    <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
     <SearchEntry catalog value={query} onChange={setQuery} />
-    <div className="catalog-filter-heading"><div><span className="section-kicker">PILIH KARAKTER</span><strong>Filter rasa kopi</strong></div><span>{filters.length - 1} karakter</span></div>
+    <div className="catalog-scope-heading"><span className="section-kicker">JELAJAHI KATALOG</span><small>{totalCatalogProducts} produk tersedia</small></div>
+    <div className="catalog-scope-pills" role="tablist" aria-label="Jenis produk">
+      {(['Semua', 'Kopi', 'Karya kopi'] as const).map((item) => <button key={item} className={`catalog-scope-pill ${scope === item ? 'active' : ''}`} onClick={() => selectScope(item)} role="tab" aria-selected={scope === item} data-testid={`catalog-scope-${item.toLowerCase().replaceAll(' ', '-')}`}>{item}<small>{item === 'Semua' ? totalCatalogProducts : item === 'Kopi' ? coffees.length : diversifiedProducts.length}</small></button>)}
+    </div>
+    <div className="catalog-filter-heading"><div><span className="section-kicker">PILIH KATEGORI</span><strong>{scope === 'Karya kopi' ? 'Kategori produk' : scope === 'Kopi' ? 'Karakter rasa kopi' : 'Semua kategori'}</strong></div><span>{filters.length - 1} kategori aktif</span></div>
     <div className="filter-pills">{filters.map((item) => {
-      const count = item === 'Semua' ? coffees.length : coffees.filter((coffee) => coffee.category === item).length;
+      const count = item === 'Semua' ? (scope === 'Kopi' ? coffees.length : scope === 'Karya kopi' ? diversifiedProducts.length : totalCatalogProducts) : coffees.filter((coffee) => coffee.category === item).length + diversifiedProducts.filter((product) => product.category === item).length;
       return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
     })}</div>
-    <div className="catalog-result-row"><div><strong>{filtered.length} dari {coffees.length} profil</strong><span>{query ? `Hasil pencarian untuk “${query}”` : activeDescription}</span></div><small><i /> STOK TERSEDIA</small></div>
-    <div className="product-grid">{filtered.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div>
-    {!filtered.length && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama rasa, wilayah, atau metode seduh lain untuk menemukan kopi favoritmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); }} />}
+    <div className="catalog-result-row"><div><strong>{resultCount} dari {totalCatalogProducts} produk</strong><span>{query ? `Hasil pencarian untuk “${query}”` : activeDescription}</span></div><small><i /> SIAP DIJELAJAHI</small></div>
+    {filteredCoffees.length > 0 && <section className="catalog-group"><div className="catalog-group-heading"><div><span className="section-kicker">DARI KEBUN GARUT</span><h2>Kopi pilihan</h2></div><small>{filteredCoffees.length} profil kopi</small></div><div className="product-grid catalog-product-grid">{filteredCoffees.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div></section>}
+    {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
+    {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}
   </main></Page>;
 }
 
@@ -676,9 +724,9 @@ function DesktopTopNav() {
   const items: { id: string; label: string; path: string; icon: LucideIcon }[] = [
     { id: 'home', label: 'Beranda', path: '/', icon: Home },
     { id: 'explore', label: 'Jelajah', path: '/catalog', icon: Coffee },
-    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Map },
+    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Scan },
     { id: 'orders', label: 'Pesanan', path: '/orders', icon: ClipboardList },
-    { id: 'account', label: 'Akun', path: '/profile', icon: CircleUserRound },
+    { id: 'account', label: 'Akun', path: '/profile', icon: Farmer },
   ];
 
   return (
