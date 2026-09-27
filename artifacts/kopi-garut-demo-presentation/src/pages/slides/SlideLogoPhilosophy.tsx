@@ -28,7 +28,7 @@ export default function SlideLogoPhilosophy() {
         <img src={logo} crossOrigin="anonymous" alt="Logo utama Garut Beans G-Beans" className="h-full w-full object-contain drop-shadow-[0_0.32vw_0.3vw_rgba(42,32,29,0.2)]" />
       </div>
 
-      <div className="absolute bottom-[9vh] left-[6.5vw] right-[6.5vw] grid grid-cols-3 gap-[1.2vw]">
+      <div className="absolute bottom-[14vh] left-[6.5vw] right-[6.5vw] grid grid-cols-3 gap-[1.2vw]">
         <div className="border-t-[0.16vw] border-[#A8543B] bg-[#FFF9F1]/55 px-[1.15vw] py-[1.1vh]">
           <div className="flex items-baseline justify-between">
             <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">01</p>
