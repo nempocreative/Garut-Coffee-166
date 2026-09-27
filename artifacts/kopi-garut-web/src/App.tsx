@@ -317,7 +317,6 @@ function CatalogPage() {
   };
   return <Page><main className="subpage catalog-page">
     <Header title="Jelajahi kopi" />
-    <CatalogFeatured coffee={featuredCoffee} onNavigate={setLocation} />
     <CatalogCarousel onNavigate={setLocation} />
     <div className="catalog-discovery-panel">
       <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
@@ -340,19 +339,6 @@ function CatalogPage() {
     {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
     {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}
   </main></Page>;
-}
-
-function CatalogFeatured({ coffee, onNavigate }: { coffee: Coffee; onNavigate: (path: string) => void }) {
-  return <section className="catalog-featured" aria-label="Kurasi kopi minggu ini">
-    <img className="catalog-featured-image" src={asset('hero-coffee.webp')} alt="" />
-    <div className="catalog-featured-shade" />
-    <div className="catalog-featured-copy">
-      <span className="catalog-eyebrow">KURASI MINGGU INI</span>
-      <strong>Temukan rasa yang cocok dengan ritmemu</strong>
-      <span>{coffee.name} · {coffee.notes.slice(0, 2).join(' dan ')}</span>
-      <button className="catalog-featured-action" onClick={() => onNavigate(`/product/${coffee.id}`)} data-testid="button-catalog-featured-action">Lihat kurasi <ArrowRight size={14} /></button>
-    </div>
-  </section>;
 }
 
 function CatalogCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
