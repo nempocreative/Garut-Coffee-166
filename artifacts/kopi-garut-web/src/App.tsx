@@ -317,7 +317,6 @@ function CatalogPage() {
   };
   return <Page><main className="subpage catalog-page">
     <Header />
-    <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div></div>
     <div className="catalog-intro">
       <div className="catalog-intro-copy">
         <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
@@ -329,16 +328,7 @@ function CatalogPage() {
         <div className="catalog-fact"><div className="catalog-fact-value"><strong>{productCategories.length}</strong><span>kategori</span></div><small>karya turunan</small></div>
       </div>
     </div>
-    <button className="catalog-featured" onClick={() => setLocation(`/product/${featuredCoffee.id}`)} data-testid="catalog-featured-coffee">
-      <img src={asset('hero-coffee.webp')} alt="" /><div className="catalog-featured-shade" />
-      <div className="catalog-featured-copy">
-        <div className="catalog-featured-top"><span className="catalog-eyebrow">KURASI MINGGU INI</span><span className="catalog-stock">{featuredCoffee.stock} bungkus tersedia</span></div>
-        <strong>Temukan rasa yang cocok dengan ritmemu</strong>
-        <span>{featuredCoffee.name} · {featuredCoffee.origin}</span>
-        <div className="catalog-featured-specs"><span>{featuredCoffee.process}</span><span>{featuredCoffee.altitude}</span><span>{featuredCoffee.notes.slice(0, 2).join(' · ')}</span></div>
-        <b>Lihat detail kurasi <ArrowRight size={14} /></b>
-      </div>
-    </button>
+    <CatalogCarousel onNavigate={setLocation} />
     <div className="catalog-discovery-panel">
       <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
       <SearchEntry catalog value={query} onChange={setQuery} />
@@ -356,6 +346,46 @@ function CatalogPage() {
     {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
     {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}
   </main></Page>;
+}
+
+function CatalogCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const slides = sharedHomeContent.promoSlides.slice(0, 4);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const slideCount = slides.length;
+  const activeSlide = slides[activeIndex];
+  const previousIndex = (activeIndex - 1 + slideCount) % slideCount;
+  const nextIndex = (activeIndex + 1) % slideCount;
+  const moveTo = (index: number) => setActiveIndex((index + slideCount) % slideCount);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActiveIndex((current) => (current + 1) % slideCount), 6500);
+    return () => window.clearInterval(timer);
+  }, [slideCount]);
+
+  return <section className="catalog-carousel" aria-label="Inspirasi jelajah Garut Beans">
+    <div className="catalog-carousel-stage">
+      <button className="catalog-carousel-slide catalog-carousel-slide-side catalog-carousel-slide-prev" onClick={() => moveTo(previousIndex)} aria-label={`Buka ${slides[previousIndex].title}`}>
+        <img src={asset(slides[previousIndex].image)} alt="" /><span className="catalog-carousel-shade" />
+      </button>
+      <button className="catalog-carousel-slide catalog-carousel-slide-active" onClick={() => onNavigate(activeSlide.route)} data-testid="catalog-carousel-active">
+        <img src={asset(activeSlide.image)} alt={activeSlide.title} /><span className="catalog-carousel-shade" />
+        <span className="catalog-carousel-copy">
+          <span className="catalog-carousel-eyebrow">{activeSlide.eyebrow}</span>
+          <strong>{activeSlide.title}</strong>
+          <small>{activeSlide.description}</small>
+          <b>{activeSlide.cta} <ArrowRight size={13} /></b>
+        </span>
+      </button>
+      <button className="catalog-carousel-slide catalog-carousel-slide-side catalog-carousel-slide-next" onClick={() => moveTo(nextIndex)} aria-label={`Buka ${slides[nextIndex].title}`}>
+        <img src={asset(slides[nextIndex].image)} alt="" /><span className="catalog-carousel-shade" />
+      </button>
+    </div>
+    <div className="catalog-carousel-controls">
+      <button className="catalog-carousel-arrow" onClick={() => moveTo(previousIndex)} aria-label="Banner sebelumnya"><ArrowLeft size={14} /></button>
+      <div className="catalog-carousel-dots" role="tablist" aria-label="Pilihan banner">{slides.map((slide, index) => <button key={slide.id} className={index === activeIndex ? 'active' : ''} onClick={() => moveTo(index)} aria-label={`Tampilkan ${slide.title}`} aria-selected={index === activeIndex} role="tab" />)}</div>
+      <button className="catalog-carousel-arrow" onClick={() => moveTo(nextIndex)} aria-label="Banner berikutnya"><ArrowRight size={14} /></button>
+    </div>
+  </section>;
 }
 
 function EmptyState({ icon: Icon, title, text, action, onAction }: { icon: LucideIcon; title: string; text: string; action?: string; onAction?: () => void }) {
