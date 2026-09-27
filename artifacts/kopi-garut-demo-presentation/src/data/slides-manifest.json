@@ -216,8 +216,16 @@
     "speakerNotes": ""
   },
   {
-    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a19",
+    "id": "e8a2f5c4-7b19-4d63-9f0a-2c6e8b1d5a47",
     "position": 28,
+    "filepath": "src/pages/slides/SlidePackaging.tsx",
+    "title": "Gambaran kemasan Garut Beans",
+    "description": "Contoh penerapan identitas Garut Beans pada lini kemasan dengan karakter wilayah yang berbeda.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a19",
+    "position": 29,
     "filepath": "src/pages/slides/Slide18PartnerProgram.tsx",
     "title": "Dari satu outlet menjadi jaringan kota",
     "description": "Program partner coffee shop untuk memperluas identitas Garut Beans G-Beans.",
@@ -225,7 +233,7 @@
   },
   {
     "id": "6a6e1d30-8de3-4a36-ae9a-3f95a9d2d7c1",
-    "position": 29,
+    "position": 30,
     "filepath": "src/pages/slides/SlidePilotPlan.tsx",
     "title": "Rencana pilot, peran, dan output",
     "description": "Tahapan pilot, pembagian peran, serta output yang menjadi dasar keputusan perluasan.",
@@ -233,7 +241,7 @@
   },
   {
     "id": "f2c4c8d1-6db2-4ff3-9e45-1e88e1c1c3b6",
-    "position": 30,
+    "position": 31,
     "filepath": "src/pages/slides/SlidePilotRegion.tsx",
     "title": "Penetapan wilayah pilot",
     "description": "Kerangka pemilihan wilayah pilot berdasarkan keterwakilan, kesiapan data, dan kemampuan pendampingan.",
@@ -241,7 +249,7 @@
   },
   {
     "id": "cbb7ef71-e8f4-4d6e-9c4c-44d0c1b2a8b7",
-    "position": 31,
+    "position": 32,
     "filepath": "src/pages/slides/SlidePilotPIC.tsx",
     "title": "Penunjukan PIC dari tiap pihak",
     "description": "Pembagian PIC pilot untuk menjaga mandat, koordinasi, ritme kerja, dan tindak lanjut.",
@@ -249,7 +257,7 @@
   },
   {
     "id": "a2b6a9e7-1c0f-4d3b-9a6f-7c4e2f1d8b52",
-    "position": 32,
+    "position": 33,
     "filepath": "src/pages/slides/SlidePilotFarmers.tsx",
     "title": "Daftar kelompok tani dan petani awal",
     "description": "Format daftar awal kelompok tani dan petani pilot untuk verifikasi serta pengumpulan baseline.",
@@ -257,7 +265,7 @@
   },
   {
     "id": "d7a4b1e9-2f6c-4b8d-9e3a-5c1f7a2b6d84",
-    "position": 33,
+    "position": 34,
     "filepath": "src/pages/slides/SlidePilotData.tsx",
     "title": "Kesepakatan data yang dikumpulkan",
     "description": "Jenis data minimum, tujuan penggunaan, akses sesuai peran, dan output baseline pilot.",
@@ -265,7 +273,7 @@
   },
   {
     "id": "b4e8c1a6-3d7f-4f2b-9a5c-1e6d8b3f7c90",
-    "position": 34,
+    "position": 35,
     "filepath": "src/pages/slides/SlidePilotSchedule.tsx",
     "title": "Jadwal kick-off dan review pertama",
     "description": "Urutan waktu kick-off, pengumpulan baseline, review pertama, dan output setiap pertemuan.",
@@ -273,7 +281,7 @@
   },
   {
     "id": "9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a20",
-    "position": 35,
+    "position": 36,
     "filepath": "src/pages/slides/Slide8.tsx",
     "title": "Dari lereng ke cangkir",
     "description": "Penutup demo platform Garut Beans G-Beans.",
