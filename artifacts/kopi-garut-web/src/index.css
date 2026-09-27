@@ -282,8 +282,6 @@
 .catalog-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; margin: 0 0 16px; padding: 15px; border: 1px solid hsl(var(--border)); border-radius: 22px; background: radial-gradient(circle at 98% 0%, rgba(241, 204, 145, .52), transparent 29%), linear-gradient(135deg, rgba(255, 249, 241, .98), rgba(244, 229, 211, .72)); box-shadow: 0 10px 22px rgba(76, 48, 31, .055); overflow: hidden; position: relative; }
 .catalog-intro::after { content: ''; position: absolute; width: 116px; height: 116px; right: -62px; top: -63px; border: 1px solid rgba(123, 63, 44, .12); border-radius: 50%; box-shadow: 0 0 0 12px rgba(123, 63, 44, .035), 0 0 0 25px rgba(123, 63, 44, .025); pointer-events: none; }
 .catalog-intro-copy { display: grid; align-content: center; gap: 8px; position: relative; z-index: 1; }
-.catalog-intro-kicker { display: flex; align-items: center; gap: 8px; }
-.catalog-intro-rule { width: 28px; height: 2px; border-radius: 2px; background: hsl(var(--accent)); }
 .catalog-intro p { max-width: 520px; margin: 0; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.5; }
 .catalog-intro-art { width: 64px; height: 64px; align-self: center; display: grid; place-items: center; position: relative; z-index: 1; border: 1px solid rgba(123, 63, 44, .13); border-radius: 22px; background: linear-gradient(145deg, hsl(var(--primary)), #9b5138); box-shadow: 0 8px 16px rgba(123, 63, 44, .2); transform: rotate(4deg); }
 .catalog-intro-art img { width: 38px; height: 38px; object-fit: contain; filter: brightness(1.18) saturate(.86); transform: rotate(-4deg); }

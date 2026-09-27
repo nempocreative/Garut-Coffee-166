@@ -320,7 +320,6 @@ function CatalogPage() {
     <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
     <div className="catalog-intro">
       <div className="catalog-intro-copy">
-        <div className="catalog-intro-kicker"><span className="section-kicker">PILIHAN DARI GARUT</span><span className="catalog-intro-rule" /></div>
         <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
       </div>
       <div className="catalog-intro-art" aria-hidden="true"><img src={asset('coffee-bean-menu.webp')} alt="" /><span>G-Beans</span></div>
