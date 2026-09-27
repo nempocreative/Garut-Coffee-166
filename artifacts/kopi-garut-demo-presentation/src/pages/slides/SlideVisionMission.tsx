@@ -32,7 +32,7 @@ export default function SlideVisionMission() {
         <p className="mt-[3.5vh] max-w-[37vw] text-[2.05vw] font-semibold leading-[1.16] text-[#806E63]">
           Menjadikan kopi Garut sebagai origin yang dikenal, dipercaya, dan memberi nilai bagi seluruh ekosistem.
         </p>
-        <p className="mt-[4.5vh] text-[1.6vw] font-bold uppercase tracking-[0.18em] text-[#806E63]">Asal · Mutu · Kolaborasi</p>
+        <p className="mt-[4.5vh] text-[1.6vw] font-bold uppercase tracking-[0.18em] text-[#806E63]">Peluang · Pasar · Karya</p>
       </div>
 
       <div className="absolute right-[6.5vw] top-[20vh] w-[31vw] text-[#FFF9F1]">
@@ -40,19 +40,19 @@ export default function SlideVisionMission() {
         <div className="mt-[2.8vh] flex flex-col gap-[2.4vh]">
           <div className="flex items-start gap-[1vw]">
             <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[2vw] font-semibold leading-[1.16]">Menyatukan data asal, pelaku, produk, dan pengalaman Garut.</p>
+            <p className="text-[2vw] font-semibold leading-[1.16]">Membuka lebih banyak lapangan kerja dan peluang usaha dari hulu hingga hilir kopi Garut.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
             <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[2vw] font-semibold leading-[1.16]">Membuka akses petani dan mitra pada informasi, program, dan pasar.</p>
+            <p className="text-[2vw] font-semibold leading-[1.16]">Mengantar kopi Garut dikenal dan dipercaya di pasar nasional hingga internasional.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
             <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[2vw] font-semibold leading-[1.16]">Menguatkan mutu, traceability, dan keputusan usaha.</p>
+            <p className="text-[2vw] font-semibold leading-[1.16]">Menjadi ruang bagi anak muda kreatif untuk berkarya dan berinovasi bersama.</p>
           </div>
           <div className="flex items-start gap-[1vw]">
             <span className="mt-[0.75vh] h-[0.6vw] w-[0.6vw] shrink-0 rounded-full bg-[#D3A15F]" />
-            <p className="text-[2vw] font-semibold leading-[1.16]">Menumbuhkan nilai kopi melalui kolaborasi daerah.</p>
+            <p className="text-[2vw] font-semibold leading-[1.16]">Menyatukan petani, pelaku usaha, pemerintah, dan mitra agar nilai kopi tumbuh bersama.</p>
           </div>
         </div>
       </div>
