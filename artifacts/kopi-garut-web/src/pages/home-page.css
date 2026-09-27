@@ -3942,16 +3942,14 @@
   inset: 0;
   height: 100%;
   border-radius: 0 0 24px 24px;
-  background:
-    linear-gradient(180deg, rgba(30, 20, 15, .14), rgba(30, 20, 15, .02) 42%, rgba(30, 20, 15, .2)),
-    url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
+  background: url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
   clip-path: none;
 }
 
 .gb-header::after {
   inset: 0;
   height: 100%;
-  background: linear-gradient(180deg, rgba(28, 18, 13, .08), transparent 48%, rgba(28, 18, 13, .18));
+  background: transparent;
 }
 
 .gb-header-top {
