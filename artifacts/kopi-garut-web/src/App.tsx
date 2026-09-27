@@ -204,14 +204,14 @@ function WebAuthProvider({ children }: { children: ReactNode }) {
   return <WebAuthContext.Provider value={{ session, signIn, signOut }}>{children}</WebAuthContext.Provider>;
 }
 
-function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title?: string }) {
+function Header({ home = false, title = 'Garut Beans', subtitle }: { home?: boolean; title?: string; subtitle?: string }) {
   const [, setLocation] = useLocation();
   const { cart } = useStore();
   return <header className={home ? 'header' : 'subpage-head'}>
      {home ? <div className="header-top">
        <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" /></div><div className="brand-lines"><div className="brand-name"><span>Garut</span><strong>Beans</strong></div><div className="brand-meta">G-BEANS · SPECIALTY COFFEE</div></div></div>
       <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><AppNavGlyph name="bell" size={24} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
-      </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><h1 className="page-title">{title}</h1><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
+       </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><div className="subpage-title-wrap"><h1 className="page-title">{title}</h1>{subtitle && <span className="subpage-subtitle">{subtitle}</span>}</div><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
     {home && <div className="header-copy"><div><div className="greeting">Mau <em>menikmati</em><br />kopi apa hari ini?</div><div className="date-line">{homeDate()}</div></div></div>}
   </header>;
 }
@@ -227,6 +227,39 @@ function BottomNav() {
     { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
   ];
   return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppIcon name={icon} size={24} /></span><span>{label}</span></button>)}</nav>;
+}
+
+function FloatingActions() {
+  const [, setLocation] = useLocation();
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    let showTimer: number | undefined;
+    const handleScroll = () => {
+      setVisible(false);
+      if (showTimer) window.clearTimeout(showTimer);
+      showTimer = window.setTimeout(() => setVisible(true), 260);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (showTimer) window.clearTimeout(showTimer);
+    };
+  }, []);
+
+  return (
+    <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'}`} aria-label="Akses cepat">
+      <button className="floating-action floating-action-chat" onClick={() => setLocation('/support')} aria-label="Buka chat bantuan" data-testid="floating-chat">
+        <span className="floating-action-icon"><MessageSquare size={18} /></span>
+        <span className="floating-action-label">Chat</span>
+      </button>
+      <button className="floating-action floating-action-game" onClick={() => setLocation('/coffee-game')} aria-label="Buka mini games" data-testid="floating-games">
+        <span className="floating-action-icon"><Coffee size={18} /></span>
+        <span className="floating-action-label">Games</span>
+      </button>
+    </div>
+  );
 }
 
 function CartPreview() {
@@ -713,20 +746,37 @@ function NotificationsPage() {
 }
 
 const programOffers = [
-  { id: 'beasiswa-anak-petani-kopi', category: 'Keluarga petani', title: 'Beasiswa anak petani kopi', description: 'Dukungan pendidikan untuk anak keluarga petani kopi agar bisa melanjutkan sekolah.', target: 'Keluarga petani kopi', support: 'Beasiswa 1 semester', deadline: '30 Nov 2026' },
-  { id: 'klinik-kesehatan-petani', category: 'CSR petani kopi', title: 'Klinik kesehatan petani kopi', description: 'Layanan pemeriksaan dasar dan edukasi kesehatan untuk petani kopi serta keluarganya.', target: 'Petani kopi & keluarga', support: 'Hari layanan kesehatan', deadline: 'Pendaftaran dibuka' },
-  { id: 'pohon-penaung-kebun', category: 'Lingkungan kebun', title: 'Pohon penaung kebun kopi', description: 'Penanaman pohon penaung dan tanaman pendamping untuk menjaga kelembapan serta mutu kebun kopi.', target: 'Petani kopi aktif', support: 'Bibit & pendampingan tanam', deadline: 'Musim hujan 2026' },
-  { id: 'konservasi-mata-air-kebun', category: 'Lingkungan kebun', title: 'Konservasi mata air kebun', description: 'Menjaga sumber air di sekitar kebun kopi melalui aksi resapan dan perawatan bersama.', target: 'Kelompok tani kopi', support: 'Sarana konservasi', deadline: 'Seleksi desa' },
-  { id: 'paket-panen-keluarga', category: 'Keluarga petani', title: 'Paket panen keluarga', description: 'Dukungan kebutuhan dasar bagi keluarga petani kopi selama masa panen dan perawatan kebun.', target: 'Keluarga petani kopi', support: 'Paket kebutuhan dasar', deadline: 'Pendaftaran dibuka' },
-  { id: 'pemberdayaan-produk-turunan', category: 'Komunitas kopi', title: 'Pemberdayaan produk turunan kopi', description: 'Pendampingan desa untuk merancang, menguji, dan memasarkan produk baru berbasis kopi.', target: 'Desa & kelompok tani', support: 'Pendampingan 3 bulan', deadline: 'Pendaftaran dibuka' },
+  { id: 'beasiswa-anak-petani-kopi', category: 'Keluarga petani', icon: 'calendar', title: 'Beasiswa anak petani kopi', description: 'Dukungan pendidikan untuk anak keluarga petani kopi agar bisa melanjutkan sekolah.', target: 'Keluarga petani kopi', support: 'Beasiswa 1 semester', deadline: '30 Nov 2026' },
+  { id: 'klinik-kesehatan-petani', category: 'CSR petani kopi', icon: 'heart', title: 'Klinik kesehatan petani kopi', description: 'Layanan pemeriksaan dasar dan edukasi kesehatan untuk petani kopi serta keluarganya.', target: 'Petani kopi & keluarga', support: 'Hari layanan kesehatan', deadline: 'Pendaftaran dibuka' },
+  { id: 'pohon-penaung-kebun', category: 'Lingkungan kebun', icon: 'coffee', title: 'Pohon penaung kebun kopi', description: 'Penanaman pohon penaung dan tanaman pendamping untuk menjaga kelembapan serta mutu kebun kopi.', target: 'Petani kopi aktif', support: 'Bibit & pendampingan tanam', deadline: 'Musim hujan 2026' },
+  { id: 'konservasi-mata-air-kebun', category: 'Lingkungan kebun', icon: 'mapPin', title: 'Konservasi mata air kebun', description: 'Menjaga sumber air di sekitar kebun kopi melalui aksi resapan dan perawatan bersama.', target: 'Kelompok tani kopi', support: 'Sarana konservasi', deadline: 'Seleksi desa' },
+  { id: 'paket-panen-keluarga', category: 'Keluarga petani', icon: 'package', title: 'Paket panen keluarga', description: 'Dukungan kebutuhan dasar bagi keluarga petani kopi selama masa panen dan perawatan kebun.', target: 'Keluarga petani kopi', support: 'Paket kebutuhan dasar', deadline: 'Pendaftaran dibuka' },
 ];
 
 const regularPrograms = [
-  { id: 'coffee-talk-garut', type: 'DIALOG & CERITA', title: 'Coffee Talk Garut', cycle: 'Rutin setiap bulan', description: 'Obrolan santai bersama petani, roaster, barista, dan pelaku usaha kopi.', date: 'Sesi berikutnya · 10 Okt 2026', location: 'Garut', image: 'event-coffee-tasting.webp' },
-  { id: 'sekolah-barista', type: 'KELAS KETERAMPILAN', title: 'Sekolah Barista Garut Beans', cycle: 'Batch per kuartal', description: 'Belajar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.', date: 'Batch 01 · 24 Okt 2026', location: 'Garut', image: 'event-coffee-workshop.webp' },
-  { id: 'cupping-kenal-asal', type: 'MUTU & RASA', title: 'Cupping & Kenal Asal', cycle: 'Rutin setiap dua minggu', description: 'Membaca rasa, membandingkan proses, dan mengenal orang di balik setiap lot.', date: 'Papandayan · 14 Nov 2026', location: 'Papandayan', image: 'event-cupping-papandayan.webp' },
-  { id: 'kelas-pascapanen', type: 'UNTUK PETANI', title: 'Kelas Pascapanen', cycle: 'Menjelang musim panen', description: 'Praktik sortasi, pengeringan, dan pencatatan mutu untuk menjaga nilai jual kopi.', date: 'Cikajang · 17 Okt 2026', location: 'Cikajang', image: 'event-postharvest-class.webp' },
+  { id: 'coffee-talk-garut', category: 'DIALOG & CERITA', title: 'Coffee Talk Garut', cycle: 'Rutin setiap bulan', next: 'Sesi berikutnya · 10 Okt 2026', description: 'Obrolan santai bersama petani, roaster, barista, dan pelaku usaha kopi.', image: 'event-coffee-tasting.webp' },
+  { id: 'sekolah-barista', category: 'KELAS KETERAMPILAN', title: 'Sekolah Barista Garut Beans', cycle: 'Batch per kuartal', next: 'Batch 01 · 24 Okt 2026', description: 'Belajar espresso, manual brew, pelayanan, dan cerita asal kopi untuk barista baru.', image: 'event-coffee-workshop.webp' },
+  { id: 'cupping-kenal-asal', category: 'MUTU & RASA', title: 'Cupping & Kenal Asal', cycle: 'Rutin setiap dua minggu', next: 'Papandayan · 14 Nov 2026', description: 'Membaca rasa, membandingkan proses, dan mengenal orang di balik setiap lot.', image: 'event-cupping-papandayan.webp' },
+  { id: 'kelas-pascapanen', category: 'UNTUK PETANI', title: 'Kelas Pascapanen', cycle: 'Menjelang musim panen', next: 'Cikajang · 17 Okt 2026', description: 'Praktik sortasi, pengeringan, dan pencatatan mutu untuk menjaga nilai jual kopi.', image: 'event-postharvest-class.webp' },
 ];
+
+const derivativeProgramOffer = {
+  id: 'pemberdayaan-produk-turunan',
+  category: 'Komunitas kopi',
+  icon: 'users',
+  title: 'Pemberdayaan produk turunan kopi',
+  description: 'Pendampingan desa untuk merancang, menguji, dan memasarkan produk baru berbasis kopi.',
+  target: 'Desa & kelompok tani',
+  support: 'Pendampingan 3 bulan',
+  deadline: 'Pendaftaran dibuka',
+};
+
+const derivativeProducts = [
+  ['Essential oil kopi', 'Aroma kopi untuk ruang, relaksasi, dan produk wellness desa.', 'trending'],
+  ['Pewangi sepatu', 'Produk harian berbahan kopi yang praktis dan mudah dipasarkan.', 'package'],
+  ['Merchandise desa', 'Tote bag, pin, kartu cerita, dan suvenir dengan identitas Garut.', 'shopping-bag'],
+  ['Oleh-oleh aroma', 'Lilin, sabun, dan paket aroma untuk memperluas cerita kopi.', 'coffee'],
+] as const;
 
 const standards = [
   ['Grade', 'Grade 1 · Specialty', 'Biji seragam, bersih, dan dapat ditelusuri sampai lot panen.'],
@@ -747,7 +797,8 @@ const iconFor = (kind: string): LucideIcon => ({
   users: Users, map: Map, mapPin: MapPin, coffee: Coffee, package: Package, shield: ShieldCheck,
   calendar: CalendarDays, briefcase: BriefcaseBusiness, chart: BarChart3, file: FileText,
   leaf: Leaf, wallet: Wallet, wheat: Wheat, check: CheckCircle2, message: MessageSquare,
-  repeat: Package, send: Send, trending: TrendingUp, clock: Clock3, compass: Compass,
+  repeat: Package, send: Send, trending: TrendingUp, clock: Clock3, compass: Compass, user: CircleUserRound,
+  heart: Heart, 'shopping-bag': ShoppingBag,
 }[kind] ?? Package);
 
 function MetricStrip({ metrics }: { metrics: ReadonlyArray<{ label: string; value: string; icon?: string }> }) {
@@ -823,7 +874,7 @@ function HubPage({ kind }: { kind: string }) {
     regions: { eyebrow: 'WILAYAH KOPI', title: 'Dari lereng ke cangkir.', copy: 'Setiap ketinggian punya karakter rasa, proses, dan cerita yang berbeda.', image: 'regions-banner.webp' },
     tourism: { eyebrow: 'PENGALAMAN KOPI', title: 'Seduh sambil menjelajah.', copy: 'Datang ke kebun, belajar prosesnya, lalu nikmati seduhan dari asalnya.', image: 'kopi-garut-seduh-sambil-menjelajah-banner.webp' },
     events: { eyebrow: 'AGENDA KOPI', title: 'Temu, belajar, dan mencicipi.', copy: 'Kalender pertemuan petani, roastery, barista, dan pecinta Garut Beans.', image: 'event-coffee-festival.webp' },
-    partnership: { eyebrow: 'JADI MITRA', title: 'Bangun rantai kopi bersama.', copy: 'Temukan cara berkolaborasi dengan kedai, hotel, UMKM, dan pelaku usaha.', image: 'kopi-garut-bangun-rantai-kopi-banner.webp' },
+    partnership: { eyebrow: 'DARI KEBUN GARUT', title: 'Bawa cerita kopi ke lebih banyak meja.', copy: 'Jadikan usahamu bagian dari perjalanan Garut Beans.', image: 'kopi-garut-promo-banner.webp' },
     diversification: { eyebrow: 'LEBIH DARI SECANGKIR', title: 'Dari kopi, lahir lebih banyak karya.', copy: 'Produk olahan, aroma, perawatan, dan merchandise dari ekosistem Garut.', image: 'coffee-essential-oil.webp' },
   };
   const content = cfg[kind];
@@ -881,7 +932,7 @@ function HubPage({ kind }: { kind: string }) {
     <div className="tour-group-note"><span><Users size={16} /></span><div><strong>Datang bersama rombongan?</strong><p>Paket dapat disesuaikan untuk komunitas, sekolah, cafe, dan rombongan.</p></div></div>
   </main></Page>;
   if (kind === 'diversification') return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="filter-pills"><span className="filter-pill active">Semua</span><span className="filter-pill">Olahan kopi</span><span className="filter-pill">Aroma & perawatan</span><span className="filter-pill">Merchandise</span></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="product-grid diversified-grid">{filteredProducts.map((product) => <article className="diversified-card" key={product.id}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><p>{product.status}</p><div><b>{product.price}</b><button className="text-button" onClick={() => { setSaved((items) => items.includes(product.id) ? items : [...items, product.id]); notify('Produk turunan disimpan untuk ditinjau'); }} data-testid={`button-save-product-${product.id}`}>{saved.includes(product.id) ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
-  if (kind === 'partnership') return <PartnershipPage content={content} />;
+   if (kind === 'partnership') return <PartnershipPage content={content} />;
   return <Page><main className="subpage"><Header /><HeroPanel {...content} /><MetricStrip metrics={hubStats.map((item) => ({ label: item.label, value: item.value, icon: item.label.includes('Petani') ? 'users' : item.label.includes('Wilayah') ? 'map' : 'chart' }))} /><div className="section-heading"><div><span className="section-kicker">PINTU EKOSISTEM</span><h2>Ruang yang saling terhubung.</h2></div></div><div className="module-grid">{[['coffee', 'Produksi & budidaya', 'Data kebun, luas lahan, produksi per musim, dan jadwal panen.', '/farm-calendar'], ['package', 'Pascapanen', 'Catatan rumah produksi, stok, dan standar kualitas per lot.', '/quality-check'], ['briefcase', 'Marketplace B2B', 'Temu hasil panen dengan cafe dan roastery yang mencari Garut Beans.', '/partnership'], ['shield', 'Sertifikasi & legalitas', 'Profil kesiapan usaha dan dokumen untuk memperluas akses pasar.', '/documents'], ['calendar', 'Akademi Garut Beans', 'Materi budidaya, pascapanen, brewing, dan kewirausahaan kopi.', '/program'], ['compass', 'Wisata kopi', 'Pengalaman langsung dari kebun, proses, budaya, dan orang-orangnya.', '/tourism']].map(([icon, title, detail, route]) => <ActionRow key={title} icon={icon} title={title} detail={detail} action="Jelajahi" onAction={() => setLocation(route)} />)}</div><div className="dark-callout"><span className="section-kicker">ROADMAP 2026</span><h2>Dari data kebun menuju keputusan yang lebih adil.</h2><p>Lot kopi, pre-order panen, kontrak kemitraan, pusat logistik, hingga QR Code Garut Beans dirancang dalam satu perjalanan.</p><button className="secondary-button" onClick={() => setLocation('/traceability')} data-testid="button-collective-trace">Lihat jejak kopi <ArrowRight size={14} /></button></div></main></Page>;
 }
 
@@ -895,19 +946,94 @@ const ecosystemStages = [
 function CollectivePage() {
   const [, setLocation] = useLocation();
   const roleItems = [
-    ['Saya petani', 'Kelola profil kebun dan cerita panen.', '/farmers', 'users'],
+    ['Saya petani', 'Kelola profil kebun dan cerita panen.', '/farmers', 'user'],
     ['Saya pembeli', 'Temukan kopi dan kenali asalnya.', '/catalog', 'coffee'],
     ['Saya punya usaha', 'Jadi mitra dan bawa kopi ke pelanggan.', '/partnership', 'briefcase'],
     ['Saya ingin berkunjung', 'Rasakan kopi langsung dari Garut.', '/tourism', 'compass'],
   ] as const;
-  return <Page><main className="subpage collective-page"><Header title="Ekosistem G-Beans" /><div className="collective-hero"><img src={asset('hero-coffee.webp')} alt="" /><div className="collective-hero-shade" /><div className="collective-hero-copy"><div className="collective-hero-top"><div className="collective-hero-icon"><Network size={24} /></div><span>01—04</span></div><small>RANTAI G-BEANS</small><h1>Satu alur,<br />banyak peran.</h1><b>KEBUN · MUTU · PASAR · CANGKIR</b></div></div><div className="collective-intro"><span className="section-kicker">BAGAIMANA KOPI BERJALAN</span><h2>Garut Beans bukan hanya katalog.</h2><p>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</p></div><div className="collective-roles"><h3>Kamu datang sebagai siapa?</h3>{roleItems.map(([title, text, route, icon], index) => <button key={title} onClick={() => setLocation(route)}><span className={`collective-role-icon role-tone-${index % 2}`}>{createElement(iconFor(icon), { size: 17 })}</span><span><strong>{title}</strong><small>{text}</small></span><ArrowRight size={14} /></button>)}</div><div className="collective-stages">{ecosystemStages.map((stage, index) => <div className="collective-stage" key={stage.number}><div className="collective-stage-head"><b className={index === 0 ? 'current' : ''}>{stage.number}</b><span><small>{stage.label}</small><strong>{stage.title}</strong></span><i>{createElement(iconFor(stage.icon), { size: 18 })}</i></div>{stage.links.map(([label, route]) => <button key={label} onClick={() => setLocation(route)}><em />{label}<ArrowRight size={15} /></button>)}</div>)}</div><div className="collective-closing"><div><Heart size={19} /></div><span><strong>Sekarang pilih langkahmu.</strong><small>Mulai dari kebun, kopi, usaha, atau pengalaman.</small></span></div></main></Page>;
+  return <Page><main className="subpage collective-page"><Header title="Ekosistem Kopi" subtitle="DARI KEBUN KE CANGKIR" /><div className="collective-hero"><img src={asset('hero-coffee.webp')} alt="" /><div className="collective-hero-shade" /><div className="collective-hero-copy"><div className="collective-hero-top"><div className="collective-hero-icon"><Network size={24} /></div><span>01—04</span></div><small>RANTAI G-BEANS</small><h1>Satu alur,<br />banyak peran.</h1><b>KEBUN · MUTU · PASAR · CANGKIR</b></div></div><div className="collective-intro"><span className="section-kicker">BAGAIMANA KOPI BERJALAN</span><h2>Garut Beans bukan hanya katalog.</h2><p>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</p></div><div className="collective-roles"><h3>Kamu datang sebagai siapa?</h3>{roleItems.map(([title, text, route, icon], index) => <button key={title} onClick={() => setLocation(route)}><span className={`collective-role-icon role-tone-${index % 2}`}>{createElement(iconFor(icon), { size: 17 })}</span><span><strong>{title}</strong><small>{text}</small></span><ArrowRight size={14} /></button>)}</div><div className="collective-stages">{ecosystemStages.map((stage, index) => <Fragment key={stage.number}><div className="collective-stage"><div className="collective-stage-head"><b className={index === 0 ? 'current' : ''}>{stage.number}</b><span><small>{stage.label}</small><strong>{stage.title}</strong></span><i>{createElement(iconFor(stage.icon), { size: 18 })}</i></div>{stage.links.map(([label, route]) => <button key={label} onClick={() => setLocation(route)}><em />{label}<ArrowRight size={15} /></button>)}</div>{index < ecosystemStages.length - 1 && <div className="collective-connector" aria-hidden="true"><span /></div>}</Fragment>)}</div><div className="collective-closing"><div><Heart size={19} /></div><span><strong>Sekarang pilih langkahmu.</strong><small>Mulai dari kebun, kopi, usaha, atau pengalaman.</small></span></div></main></Page>;
 }
 
 function PartnershipPage({ content }: { content: { image: string; eyebrow: string; title: string; copy: string } }) {
   const { notify } = useStore();
-  const [form, setForm] = useState({ name: '', type: 'Cafe / Roastery', need: '' });
+  const [form, setForm] = useState({ name: '', city: '', type: 'Cafe & restoran' });
   const [sent, setSent] = useWebStorageJson<boolean>('kopi-garut-partnership-sent', false);
-  return <Page><main className="subpage"><Header /><HeroPanel {...content} /><div className="partner-points"><ActionRow icon="coffee" title="Pasokan terkurasi" detail="Profil lot, asal, proses, dan standar mutu lebih mudah dibaca." /><ActionRow icon="users" title="Pendampingan ekosistem" detail="Temu petani, kelompok tani, penyuluh, dan pelaku usaha." /><ActionRow icon="briefcase" title="Kolaborasi yang jelas" detail="Mulai dari kebutuhan, volume, sampai bentuk kerja sama." /></div><div className="form-card"><span className="section-kicker">MULAI PERCAKAPAN</span><h2>Jadi bagian dari rantai ini.</h2><p className="form-hint">Ceritakan kebutuhan usaha atau bentuk kolaborasi yang sedang kamu cari.</p><label>Nama usaha<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Contoh: Ruang Seduh Roastery" data-testid="input-partner-name" /></label><label>Jenis mitra<select value={form.type} onChange={(event) => setForm({ ...form, type: event.target.value })} data-testid="select-partner-type"><option>Cafe / Roastery</option><option>Hotel / Restoran</option><option>UMKM produk turunan</option><option>Program CSR</option></select></label><label>Kebutuhan atau ide kolaborasi<textarea value={form.need} onChange={(event) => setForm({ ...form, need: event.target.value })} placeholder="Contoh: kebutuhan 300 kg Arabika Grade 1 proses honey" data-testid="input-partner-need" /></label><button className="primary-button wide" onClick={() => { if (!form.name.trim() || !form.need.trim()) { notify('Lengkapi nama usaha dan kebutuhan terlebih dahulu'); return; } setSent(true); notify('Profil mitra tersimpan di perangkat'); }} data-testid="button-submit-partnership">{sent ? 'Tersimpan di perangkat' : 'Kirim kebutuhan mitra'} <Send size={15} /></button></div></main></Page>;
+  const activePartners = [
+    { name: 'Ruang Seduh Roastery', type: 'CAFE & ROASTERY', location: 'Garut Kota', detail: 'Menyajikan Papandayan Series sebagai pilihan pour-over untuk pelanggan.', image: 'origin-coffee.webp', icon: Coffee },
+    { name: 'Dapur Lereng', type: 'RESTORAN', location: 'Cisurupan', detail: 'Memasangkan Garut Beans dengan menu rumahan dan hasil kebun lokal.', image: 'event-festival-garut.webp', icon: Users },
+    { name: 'Hotel Darajat View', type: 'HOTEL', location: 'Samarang', detail: 'Menghadirkan kopi asal Garut sebagai sambutan hangat untuk setiap tamu.', image: 'farmer-story-3.webp', icon: BriefcaseBusiness },
+    { name: 'Kedai Pagi Garut', type: 'CAFE', location: 'Tarogong', detail: 'Menjadikan kopi petani Garut bagian dari ritual pagi warga kota.', image: 'coffee-cookies.webp', icon: Coffee },
+  ] as const;
+  const benefits = [
+    { icon: Coffee, title: 'Sumber yang jelas', text: 'Kopi pilihan dengan cerita kebun yang bisa kamu bagikan.' },
+    { icon: Users, title: 'Tumbuh bersama', text: 'Terhubung langsung dengan petani dan ekosistem Garut.' },
+    { icon: ShieldCheck, title: 'Mitra resmi', text: 'Bangun kepercayaan pelanggan bersama identitas Garut Beans.' },
+  ] as const;
+  const partnerTypes = ['Cafe & restoran', 'Roastery', 'Hotel & kantor'] as const;
+  const submit = () => {
+    if (!form.name.trim() || !form.city.trim()) {
+      notify('Isi nama usaha dan kota terlebih dahulu');
+      return;
+    }
+    setSent(true);
+    notify(`Pengajuan ${form.name} tersimpan di perangkat`);
+    setForm({ name: '', city: '', type: form.type });
+  };
+  return <Page><main className="subpage partnership-page">
+    <Header title="Kemitraan cafe" />
+    <section className="partnership-hero">
+      <img src={asset(content.image)} alt="" />
+      <div className="partnership-hero-shade" />
+      <div className="partnership-hero-badge"><BriefcaseBusiness size={13} /> PROGRAM MITRA</div>
+      <div className="partnership-hero-copy">
+        <span>{content.eyebrow}</span>
+        <h1>{content.title}</h1>
+        <p>{content.copy}</p>
+      </div>
+    </section>
+    <div className="partnership-trust">
+      <div><strong>01</strong><span>Asal terjaga</span></div>
+      <i />
+      <div><strong>100%</strong><span>Cerita nyata</span></div>
+      <i />
+      <div><strong>GARUT</strong><span>Satu ekosistem</span></div>
+    </div>
+    <section className="partnership-section partnership-showcase">
+      <div className="partnership-heading"><div><span className="section-kicker">SUDAH BERJALAN BERSAMA</span><h2>Dari meja sarapan sampai lobi hotel.</h2></div><span className="partnership-heading-icon"><ArrowRight size={17} /></span></div>
+      <p className="partnership-intro">Mereka membawa cerita kebun Garut lebih dekat ke pelanggan, tamu, dan keluarga di berbagai meja.</p>
+      <div className="partner-card-grid">
+        {activePartners.map((partner, index) => <article className="partner-card" key={partner.name}>
+          <div className="partner-card-image"><img src={asset(partner.image)} alt={partner.name} /><div className="partner-card-shade" /><span className="partner-card-type"><partner.icon size={11} /> {partner.type}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
+          <div className="partner-card-copy"><h3>{partner.name}</h3><span className="partner-location"><MapPin size={11} /> {partner.location}</span><p>{partner.detail}</p></div>
+        </article>)}
+      </div>
+    </section>
+    <section className="partnership-section">
+      <div className="partnership-section-heading"><span className="section-kicker">KENAPA BERGABUNG</span><h2>Partner yang baik terasa di setiap cangkir.</h2></div>
+      <div className="partnership-benefits">{benefits.map((benefit, index) => <article className="partnership-benefit" key={benefit.title}><span><benefit.icon size={19} /></span><div><h3>{benefit.title}</h3><p>{benefit.text}</p></div><b>{String(index + 1).padStart(2, '0')}</b></article>)}</div>
+    </section>
+    <section className="partnership-section">
+      <div className="partnership-section-heading"><span className="section-kicker">CARA KERJA</span><h2>Mulai dari percakapan sederhana.</h2></div>
+      <div className="partnership-steps">
+        <div><strong>01</strong><h3>Kenalan</h3><p>Ceritakan usaha dan kebutuhan kopimu.</p></div>
+        <i /><div><strong>02</strong><h3>Pilih rasa</h3><p>Kami carikan profil yang cocok untuk pelangganmu.</p></div>
+        <i /><div><strong>03</strong><h3>Tumbuh</h3><p>Bangun pengalaman ngopi yang punya asal.</p></div>
+      </div>
+    </section>
+    <section className="partnership-section partnership-form-section">
+      <div className="partnership-form-heading"><div><span className="section-kicker">LANGKAH PERTAMA</span><h2>Mari ngobrol soal usahamu.</h2></div><span><Send size={18} /></span></div>
+      <div className="form-card">
+        <strong className="partnership-field-label">Kamu bergerak di bidang apa?</strong>
+        <div className="partnership-type-rail" role="listbox" aria-label="Jenis usaha">
+          {partnerTypes.map((type) => <button type="button" key={type} className={`partnership-type-chip ${form.type === type ? 'active' : ''}`} onClick={() => setForm({ ...form, type })} aria-selected={form.type === type}>{type}</button>)}
+        </div>
+        <input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Nama usaha" aria-label="Nama usaha" data-testid="input-partner-name" />
+        <input value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} placeholder="Kota dan area" aria-label="Kota dan area" data-testid="input-partner-city" />
+        <button className="primary-button wide" onClick={submit} data-testid="button-submit-partnership">{sent ? 'Kirim pengajuan lagi' : 'Kirim pengajuan'} <Send size={15} /></button>
+        <p className="form-hint partnership-form-note">Tim Garut Beans akan menghubungi kamu untuk percakapan berikutnya.</p>
+      </div>
+    </section>
+  </main></Page>;
 }
 
 function FarmerDetailPage() {
@@ -1033,13 +1159,9 @@ const programServices = [
   { title: 'Kurasi produk', route: '/curation', icon: 'repeat' },
   { title: 'Dashboard kelompok tani', route: '/group-dashboard', icon: 'users' },
   { title: 'Dashboard penyuluh', route: '/extension-dashboard', icon: 'mapPin' },
-  { title: 'Kunjungan lapangan', route: '/extension-visits', icon: 'mapPin' },
-  { title: 'Pelatihan penyuluh', route: '/extension-training', icon: 'calendar' },
-  { title: 'Peta petani binaan', route: '/extension-map', icon: 'map' },
   { title: 'Laporan digital', route: '/reports', icon: 'chart' },
-  { title: 'Laporan pendampingan', route: '/extension-reports', icon: 'file' },
   { title: 'Notifikasi program', route: '/notifications', icon: 'message' },
-  { title: 'Pusat dokumen', route: '/documents', icon: 'file' },
+  { title: 'Pusat dokumen', route: '/documents', icon: 'package' },
   { title: 'Usulan & kebutuhan dukungan', route: '/complaints', icon: 'send' },
 ];
 
@@ -1051,11 +1173,85 @@ function ProgramPage() {
   const [applications, setApplications] = useWebStorageJson<string[]>('kopi-garut-program-applications', []);
   const visibleOffers = category === 'Semua' ? programOffers : programOffers.filter((offer) => offer.category === category);
   const roleCards = session?.id === 'petani'
-    ? [{ title: 'Petani', detail: 'Verifikasi kebun, mutu lot, dan akses pasar.', route: '/verification', icon: 'coffee' }, { title: 'Ketua kelompok', detail: 'Pantau anggota, produksi, permintaan, dan jadwal kelompok.', route: '/group-dashboard', icon: 'users' }]
+    ? [{ title: 'Petani', detail: 'Verifikasi kebun, mutu lot, dan akses pasar.', route: '/verification', icon: 'coffee' }, { title: 'Ketua kelompok', detail: 'Pantau anggota, produksi, dan program bantuan.', route: '/group-dashboard', icon: 'users' }]
     : session?.id === 'penyuluh'
       ? [{ title: 'Penyuluh', detail: 'Catat kunjungan dan tindak lanjut kebun.', route: '/extension-dashboard', icon: 'mapPin' }]
       : [];
-  return <Page><main className="subpage"><Header title="Program Garut Beans" /><HeroPanel image="program-menu-ai.webp" eyebrow="PROGRAM G-BEANS" title="Belajar, berbagi, tumbuh bersama." copy="Ruang untuk pelatihan, dukungan, dan program yang menjaga masa depan Garut Beans." /><MetricStrip metrics={[{ label: 'Program rutin', value: '04', icon: 'calendar' }, { label: 'Agenda kopi', value: '08', icon: 'coffee' }, { label: 'Ekosistem', value: '01', icon: 'users' }]} /><SectionTitle kicker="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." /><p className="program-intro">Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan Garut Beans bersama-sama.</p><div className="program-rail">{regularPrograms.map((item) => <article className="program-card" key={item.id}><img src={asset(item.image)} alt={item.title} /><div className="program-card-body"><span className="section-kicker">{item.type}</span><h3>{item.title}</h3><p>{item.description}</p><div className="event-meta"><span><CalendarDays size={13} />{item.date}</span><span><MapPin size={13} />{item.location}</span><span>{item.cycle}</span></div><button className="secondary-button" onClick={() => setLocation('/events')}>Lihat jadwal <ArrowRight size={13} /></button></div></article>)}</div><SectionTitle kicker="PEMBERDAYAAN DESA" title="Dari kopi, lahir lebih banyak karya." /><div className="dark-callout"><span className="section-kicker">PROGRAM DESA</span><h2>Produk turunan kopi</h2><p>Mengubah potensi kopi dan hasil sampingnya menjadi produk bernilai tambah yang bisa dibuat, dikelola, dan dipasarkan bersama oleh warga desa.</p><div className="mini-grid">{['Essential oil kopi', 'Pewangi sepatu', 'Merchandise desa', 'Oleh-oleh aroma'].map((item) => <div className="mini-card" key={item}><Package size={16} /><strong>{item}</strong></div>)}</div><button className="secondary-button" onClick={() => setLocation('/diversification')}>Lihat produk turunan <ArrowRight size={13} /></button></div><SectionTitle kicker="CSR G-BEANS" title="Kontribusi untuk petani & kebun kopi" /><p className="program-intro">Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat Garut Beans tumbuh.</p><div className="filter-pills">{programCategories.map((item) => <button key={item} className={`filter-pill ${category === item ? 'active' : ''}`} onClick={() => setCategory(item)}>{item}</button>)}</div><div className="offer-list">{visibleOffers.map((offer) => { const applied = applications.includes(offer.id); return <article className="offer-card" key={offer.id}><div className="offer-head"><div className="row-icon"><Sparkles size={17} /></div><div><span className="section-kicker">{offer.category}</span><h3>{offer.title}</h3></div><span className="status-chip">Dibuka</span></div><p>{offer.description}</p><div className="offer-meta"><span><small>UNTUK</small><b>{offer.target}</b></span><span><small>DUKUNGAN</small><b>{offer.support}</b></span><span><small>BATAS</small><b>{offer.deadline}</b></span></div><button className={`primary-button wide ${applied ? 'is-secondary' : ''}`} onClick={() => { if (!session) { setLocation('/login?returnTo=/program'); return; } if (!applied) { setApplications((items) => [...items, offer.id]); notify(`Pengajuan ${offer.title} sudah dikirim.`); } }}><Check size={15} />{applied ? 'Sudah diajukan' : session ? 'Ajukan program' : 'Masuk untuk mengajukan'}</button></article>; })}</div><SectionTitle kicker="MULAI DARI PERANMU" title="Pilih ruang kerja" />{session && roleCards.length ? <div className="role-work-grid">{roleCards.map((role) => <button className="role-work-card" key={role.route} onClick={() => setLocation(role.route)}><div className="row-icon"><Coffee size={18} /><span /></div><span><small>RUANG KERJA</small><strong>{role.title}</strong><em>{role.detail}</em></span><ArrowRight size={16} /></button>)}</div> : <div className="access-card"><div className="row-icon"><ShieldCheck size={18} /></div><div><h3>Buka akses program</h3><p>Masuk untuk melihat ruang kerja yang sesuai dengan peranmu.</p></div><button className="secondary-button" onClick={() => setLocation('/login?returnTo=/program')}>Masuk</button></div>}<SectionTitle kicker="SEMUA LAYANAN" title="Jelajahi program" /><div className="service-grid">{programServices.filter((item) => canAccessRoute(item.route, session?.id)).map((item) => <button className="service-card" key={item.route} onClick={() => setLocation(item.route)}><div className="row-icon">{createElement(iconFor(item.icon), { size: 17 })}</div><strong>{item.title}</strong><ArrowRight size={15} /></button>)}</div></main></Page>;
+  const visibleServices = session ? programServices.filter((item) => canAccessRoute(item.route, session.id)) : [];
+  const applicationOffers = [...programOffers, derivativeProgramOffer];
+  const applyForProgram = (offer: { id: string; title: string }) => {
+    if (!session) {
+      setLocation('/login?returnTo=/program');
+      return;
+    }
+    if (applications.includes(offer.id)) {
+      notify('Pengajuan ini sudah tercatat dan sedang ditinjau.');
+      return;
+    }
+    setApplications((items) => [...items, offer.id]);
+    notify(`Pengajuan ${offer.title} sudah dikirim.`);
+  };
+
+  return (
+    <Page>
+      <main className="subpage program-page">
+        <Header title="Program Garut Beans" subtitle="PROGRAM · GARUT" />
+        <HeroPanel image="program-menu-ai.webp" eyebrow="PROGRAM G-BEANS" title="Belajar, berbagi, tumbuh bersama." copy="Ruang untuk pelatihan, dukungan, dan program yang menjaga masa depan Garut Beans." />
+        <MetricStrip metrics={[{ label: 'Program rutin', value: String(regularPrograms.length).padStart(2, '0'), icon: 'calendar' }, { label: 'Agenda kopi', value: '08', icon: 'coffee' }, { label: 'Ekosistem', value: '01', icon: 'users' }]} />
+
+        <SectionTitle kicker="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." />
+        <p className="program-intro">Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan Garut Beans bersama-sama.</p>
+        <div className="program-rail">
+          {regularPrograms.map((item) => (
+            <article className="program-card" key={item.id}>
+              <img src={asset(item.image)} alt={item.title} />
+              <div className="program-card-body">
+                <span className="section-kicker">{item.category}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <div className="event-meta"><span>{item.cycle}</span><span>{item.next}</span></div>
+                <button className="secondary-button" onClick={() => setLocation('/events')}>Lihat jadwal <ArrowRight size={13} /></button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <SectionTitle kicker="PEMBERDAYAAN DESA" title="Dari kopi, lahir lebih banyak karya." />
+        <div className="dark-callout">
+          <span className="section-kicker">PROGRAM DESA</span>
+          <h2>Produk turunan kopi</h2>
+          <p>Mengubah potensi kopi dan hasil sampingnya menjadi produk bernilai tambah yang bisa dibuat, dikelola, dan dipasarkan bersama oleh warga desa.</p>
+          <div className="mini-grid">
+            {derivativeProducts.map(([title, description, icon]) => <div className="mini-card" key={title}><span className="mini-card-icon">{createElement(iconFor(icon), { size: 16 })}</span><span><strong>{title}</strong><small>{description}</small></span></div>)}
+          </div>
+          <p className="derivative-note">Dikembangkan bersama desa, dari ide sampai siap dijual.</p>
+          <button className="secondary-button" onClick={() => applyForProgram(derivativeProgramOffer)}><ArrowRight size={13} />{applications.includes(derivativeProgramOffer.id) ? 'Sudah diajukan' : session ? 'Ajukan pendampingan desa' : 'Masuk untuk mengajukan'}</button>
+        </div>
+
+        <SectionTitle kicker="CSR G-BEANS" title="Kontribusi untuk petani & kebun kopi" />
+        <p className="program-intro">Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat Garut Beans tumbuh.</p>
+        <div className="filter-pills">{programCategories.map((item) => <button key={item} className={`filter-pill ${category === item ? 'active' : ''}`} onClick={() => setCategory(item)}>{item}</button>)}</div>
+        <div className="offer-list">
+          {visibleOffers.map((offer) => {
+            const applied = applications.includes(offer.id);
+            return <article className="offer-card" key={offer.id}>
+              <div className="offer-head"><div className="row-icon">{createElement(iconFor(offer.icon), { size: 17 })}</div><div><span className="section-kicker">{offer.category}</span><h3>{offer.title}</h3></div><span className="status-chip">Dibuka</span></div>
+              <p>{offer.description}</p>
+              <div className="offer-meta"><span><small>UNTUK</small><b>{offer.target}</b></span><span><small>DUKUNGAN</small><b>{offer.support}</b></span><span><small>BATAS</small><b>{offer.deadline}</b></span></div>
+              <button className={`primary-button wide ${applied ? 'is-secondary' : ''}`} onClick={() => applyForProgram(offer)}><span>{applied ? <Check size={15} /> : <ArrowRight size={15} />}</span>{applied ? 'Sudah diajukan' : session ? 'Ajukan program' : 'Masuk untuk mengajukan'}</button>
+            </article>;
+          })}
+        </div>
+
+        {session && applications.length > 0 && <><SectionTitle kicker="PENGAJUAN SAYA" title="Sedang ditinjau" /><div className="application-list">{applications.map((applicationId) => { const offer = applicationOffers.find((item) => item.id === applicationId); return offer ? <div className="application-card" key={applicationId}><div className="row-icon"><Check size={16} /></div><div><strong>{offer.title}</strong><small>Pengajuan diterima · menunggu verifikasi</small></div><span>PROSES</span></div> : null; })}</div></>}
+
+        <SectionTitle kicker="MULAI DARI PERANMU" title="Pilih ruang kerja" />
+        {session && roleCards.length ? <div className="role-work-grid">{roleCards.map((role) => <button className="role-work-card" key={role.route} onClick={() => setLocation(role.route)}><div className="row-icon">{createElement(iconFor(role.icon), { size: 18 })}</div><span><small>RUANG KERJA</small><strong>{role.title}</strong><em>{role.detail}</em></span><ArrowRight size={16} /></button>)}</div> : <div className="access-card"><div className="row-icon"><ShieldCheck size={18} /></div><div><h3>Buka akses program</h3><p>Masuk untuk melihat ruang kerja yang sesuai.</p></div><button className="secondary-button" onClick={() => setLocation('/login?returnTo=/program')}>Masuk</button></div>}
+
+        {session && <><SectionTitle kicker="SEMUA LAYANAN" title="Jelajahi program" /><div className="service-grid">{visibleServices.map((item) => <button className="service-card" key={item.route} onClick={() => setLocation(item.route)}><div className="row-icon">{createElement(iconFor(item.icon), { size: 17 })}</div><strong>{item.title}</strong><ArrowRight size={15} /></button>)}</div></>}
+      </main>
+    </Page>
+  );
 }
 
 const operationConfigs: Record<string, { eyebrow: string; title: string; copy: string; image: string; rows: Array<[string, string, string, string?]>; metrics?: Array<{ label: string; value: string; icon?: string }>; form?: { label: string; placeholder: string; action: string } }> = {
@@ -1088,21 +1284,210 @@ function OperationPage({ kind }: { kind: string }) {
   return <Page><main className="subpage"><Header /><HeroPanel image={config.image} eyebrow={config.eyebrow} title={config.title} copy={config.copy} />{config.metrics && <MetricStrip metrics={config.metrics} />}<div className="section-heading"><div><span className="section-kicker">RUANG KERJA</span><h2>Ringkasan terbaru</h2></div><span className="section-kicker">{config.rows.length} catatan</span></div><div className="operation-list">{config.rows.map(([title, detail, status, icon]) => <ActionRow icon={icon ?? 'package'} title={title} detail={detail} status={status} key={`${title}-${detail}`} action={kind === 'extensionFarmers' ? 'Buka' : undefined} onAction={kind === 'extensionFarmers' ? () => setLocation(`/farmer/${farmers.find((farmer) => farmer.name === title)?.id ?? farmers[0].id}`) : undefined} />)}</div>{config.form && <div className="form-card"><span className="section-kicker">CATATAN PERANGKAT</span><h2>{config.form.label}</h2><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder={config.form.placeholder} data-testid={`input-${kind}-note`} /><button className="primary-button wide" onClick={() => { if (!note.trim()) { notify('Tulis catatan terlebih dahulu'); return; } setSaved((items) => [...items, note]); setNote(''); notify(`${config.form?.action} berhasil disimpan di perangkat`); }} data-testid={`button-${kind}-save`}>{config.form.action} <Check size={15} /></button>{saved.length > 0 && <div className="saved-note"><CheckCircle2 size={16} /><span>{saved.length} catatan tersimpan di perangkat ini.</span></div>}</div>}<div className="dark-callout"><span className="section-kicker">LANJUTKAN</span><h2>Data yang rapi membantu keputusan yang lebih baik.</h2><p>Hubungkan catatan ini dengan katalog, petani, wilayah, dan program Garut Beans lainnya.</p><button className="secondary-button" onClick={() => setLocation(kind.startsWith('extension') ? '/extension-dashboard' : '/program')}>{kind.startsWith('extension') ? 'Kembali ke dashboard penyuluh' : 'Buka semua program'} <ArrowRight size={14} /></button></div></main></Page>;
 }
 
+type WebComplaintCategory = 'Petani belum terdata' | 'Bantuan bibit' | 'Lahan siap dikembangkan' | 'Pendampingan' | 'Lainnya';
+type WebComplaint = {
+  id: string;
+  category: WebComplaintCategory;
+  location: string;
+  description: string;
+  status: 'Diterima' | 'Ditinjau';
+  createdAt: string;
+};
+type WebComplaintDraft = Pick<WebComplaint, 'category' | 'location' | 'description'>;
+
+const webComplaintCategories: WebComplaintCategory[] = ['Petani belum terdata', 'Bantuan bibit', 'Lahan siap dikembangkan', 'Pendampingan', 'Lainnya'];
+const webComplaintGuidance: Record<WebComplaintCategory, { icon: string; title: string; description: string; shortDescription: string }> = {
+  'Petani belum terdata': {
+    icon: 'users',
+    title: 'Kenalkan petani atau kelompoknya',
+    shortDescription: 'Jangkau petani atau kelompok yang belum tercatat.',
+    description: 'Sebutkan nama petani atau kelompok, lokasi kebun, dan apakah mereka sudah pernah mendapat pendampingan.',
+  },
+  'Bantuan bibit': {
+    icon: 'package',
+    title: 'Jelaskan rencana penanamannya',
+    shortDescription: 'Ajukan kebutuhan bibit untuk lahan yang siap ditanam.',
+    description: 'Tuliskan luas lahan, jenis kopi yang dibutuhkan, perkiraan jumlah bibit, dan waktu tanam.',
+  },
+  'Lahan siap dikembangkan': {
+    icon: 'map',
+    title: 'Ceritakan potensi lahannya',
+    shortDescription: 'Usulkan lahan yang siap masuk tahap pengembangan.',
+    description: 'Sebutkan lokasi, perkiraan luas, kondisi lahan, dan bentuk bantuan yang paling dibutuhkan.',
+  },
+  Pendampingan: {
+    icon: 'briefcase',
+    title: 'Sampaikan pendampingan yang dibutuhkan',
+    shortDescription: 'Minta kunjungan atau arahan dari tim lapangan.',
+    description: 'Contoh: budidaya, pascapanen, pembentukan kelompok, akses program, atau pemasaran.',
+  },
+  Lainnya: {
+    icon: 'message',
+    title: 'Berikan konteks selengkap mungkin',
+    shortDescription: 'Sampaikan kebutuhan lain yang belum tercantum.',
+    description: 'Tuliskan siapa yang perlu dibantu, lokasinya, dan dukungan yang paling dibutuhkan.',
+  },
+};
+
 function ComplaintsPage() {
   const [, setLocation] = useLocation();
   const { session } = useAuth();
   const { notify } = useStore();
-  const [category, setCategory] = useState('Petani belum terdata');
-  const [location, setFieldLocation] = useState('');
-  const [description, setDescription] = useState('');
-  const [sent, setSent] = useWebStorageJson<boolean>('kopi-garut-complaint-sent', false);
-  return <Page><main className="subpage"><Header /><HeroPanel image="complaints-menu-ai.webp" eyebrow="USULAN & DUKUNGAN" title="Sampaikan kebutuhan dari lapangan." copy="Bantu tim Garut Beans mengetahui petani, lahan, atau kebutuhan dukungan yang belum terhubung." /><div className="form-card"><span className="section-kicker">FORMULIR DUKUNGAN</span><h2>Apa yang perlu kami tahu?</h2><label>Kategori<select value={category} onChange={(event) => setCategory(event.target.value)}><option>Petani belum terdata</option><option>Bantuan bibit</option><option>Lahan siap dikembangkan</option><option>Pendampingan</option><option>Lainnya</option></select></label><label>Lokasi<input value={location} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Cikajang" /></label><label>Ceritakan kebutuhannya<textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Tulis detail petani, kebun, atau dukungan yang dibutuhkan" /></label><button className="primary-button wide" onClick={() => { if (!session) { setLocation('/login?returnTo=/complaints'); return; } if (!location.trim() || !description.trim()) { notify('Lengkapi lokasi dan cerita dukungan terlebih dahulu'); return; } setSent(true); notify('Usulan sudah diterima dan disimpan di perangkat'); }}>{sent ? 'Usulan diterima' : 'Kirim usulan'} <Send size={15} /></button></div><div className="info-card"><span className="section-kicker">STATUS</span><h3>{sent ? 'Usulan sedang ditinjau' : 'Belum ada usulan tersimpan'}</h3><p>{sent ? `${category} · ${location}` : 'Setelah dikirim, usulan akan muncul di sini untuk kamu pantau.'}</p></div></main></Page>;
+  const [draft, setDraft] = useWebStorageJson<WebComplaintDraft | null>('kopi-garut-program-complaint-draft', null);
+  const [complaints, setComplaints] = useWebStorageJson<WebComplaint[]>('kopi-garut-program-complaints', []);
+  const [category, setCategory] = useState<WebComplaintCategory>(draft?.category ?? 'Petani belum terdata');
+  const [fieldLocation, setFieldLocation] = useState(draft?.location ?? '');
+  const [description, setDescription] = useState(draft?.description ?? '');
+  const [feedback, setFeedback] = useState('');
+  const selectedGuidance = webComplaintGuidance[category];
+  const summary = useMemo(() => ({
+    total: complaints.length,
+    received: complaints.filter((item) => item.status === 'Diterima').length,
+    reviewed: complaints.filter((item) => item.status === 'Ditinjau').length,
+  }), [complaints]);
+  const isSuccess = feedback.startsWith('Keluhan diterima');
+
+  const submitComplaint = () => {
+    if (!fieldLocation.trim() || !description.trim()) {
+      setFeedback('Lengkapi lokasi dan kebutuhan dukungan sebelum mengirim.');
+      return;
+    }
+    if (!session) {
+      setDraft({ category, location: fieldLocation.trim(), description: description.trim() });
+      setLocation('/login?returnTo=/complaints');
+      return;
+    }
+    const next: WebComplaint = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      category,
+      location: fieldLocation.trim(),
+      description: description.trim(),
+      status: 'Diterima',
+      createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+    };
+    setComplaints((items) => [next, ...items]);
+    setFieldLocation('');
+    setDescription('');
+    setDraft(null);
+    setFeedback('Keluhan diterima. Tim program akan meninjau dan menghubungi kamu bila perlu.');
+    notify('Usulan sudah diterima dan disimpan di perangkat');
+  };
+
+  return (
+    <Page>
+      <main className="subpage complaints-page">
+        <Header title="Sampaikan keluhan" subtitle="PROGRAM · RUANG KELUHAN" />
+        <HeroPanel image="complaints-menu-ai.webp" eyebrow="RUANG KELUHAN" title="Ada yang perlu dibenahi?" copy="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Garut Beans menentukan dukungan yang lebih tepat." />
+        <div className="complaint-hero-callout">
+          <div className="complaint-hero-top"><span><Send size={17} /></span><small>LAPORANMU BERARTI</small></div>
+          <h2>Satu laporan, satu langkah lebih dekat</h2>
+          <p>Tim akan membaca laporanmu dan mengarahkannya ke pendamping atau program yang sesuai.</p>
+          <div className="complaint-hero-footer"><i />Tanpa data pribadi sensitif</div>
+        </div>
+
+        <SectionTitle kicker="01 · PILIH TOPIK" title="Apa yang terjadi?" />
+        <p className="complaint-section-hint">Pilih topik yang paling dekat dengan kondisi di lapangan.</p>
+        <div className="complaint-category-grid">
+          {webComplaintCategories.map((item, index) => {
+            const guidance = webComplaintGuidance[item];
+            const selected = category === item;
+            return <button key={item} className={`complaint-category-card ${selected ? 'selected' : ''}`} onClick={() => setCategory(item)} aria-pressed={selected}>
+              <div className="complaint-category-top"><span>{createElement(iconFor(guidance.icon), { size: 17 })}</span><small>{String(index + 1).padStart(2, '0')}</small>{selected && <Check size={15} />}</div>
+              <strong>{item}</strong>
+              <p>{guidance.shortDescription}</p>
+            </button>;
+          })}
+        </div>
+        <div className="complaint-guidance">
+          <span>{createElement(iconFor(selectedGuidance.icon), { size: 17 })}</span>
+          <div><small>INFORMASI YANG MEMBANTU</small><strong>{selectedGuidance.title}</strong><p>{selectedGuidance.description}</p></div>
+        </div>
+
+        <SectionTitle kicker="02 · DETAIL LAPANGAN" title="Ceritakan kondisinya" />
+        <div className="form-card complaint-form-card">
+          <div className="complaint-form-heading"><span><MapPin size={17} /></span><div><strong>Bantu tim menemukan lokasinya</strong><small>Lokasi yang spesifik mempercepat tindak lanjut.</small></div></div>
+          <label><span>Lokasi petani atau lahan <b>Wajib</b></span><input value={fieldLocation} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Blok 2" /></label>
+          <label><span>Ceritakan kebutuhanmu <b>Wajib</b></span><textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika." /></label>
+          <small className="complaint-field-note">Sertakan nama kelompok, perkiraan jumlah penerima, atau waktu yang diharapkan. Hindari NIK, nomor telepon, dan data pribadi.</small>
+        </div>
+
+        {feedback && <div className={`complaint-feedback ${isSuccess ? 'success' : ''}`}><span>{isSuccess ? <Check size={16} /> : <CircleUserRound size={16} />}</span><p>{feedback}</p></div>}
+        <div className="complaint-submit-group">
+          <button className="primary-button wide" onClick={submitComplaint}>{session ? 'Kirim keluhan' : 'Masuk untuk mengirim keluhan'} {session ? <Send size={15} /> : <ShieldCheck size={15} />}</button>
+          <small>{session ? 'Laporan akan tersimpan di perangkat ini dan masuk ke riwayat.' : 'Draf akan tetap tersimpan saat kamu masuk ke akun.'}</small>
+        </div>
+
+        <SectionTitle kicker="03 · RIWAYAT DI PERANGKAT INI" title="Laporan terbaru" />
+        <div className="complaint-summary">
+          <div className="complaint-summary-intro"><Send size={16} />Ringkasan usulanmu</div>
+          <div className="complaint-summary-stats"><span><strong>{summary.total}</strong><small>Total</small></span><i /><span><strong>{summary.received}</strong><small>Diterima</small></span><i /><span><strong>{summary.reviewed}</strong><small>Ditinjau</small></span></div>
+        </div>
+        {complaints.length > 0 ? <div className="complaint-history">{complaints.slice(0, 3).map((item) => <div className="info-card complaint-history-card" key={item.id}><div className="complaint-history-top"><span>{createElement(iconFor(webComplaintGuidance[item.category]?.icon ?? 'message'), { size: 17 })}</span><div><strong>{item.category}</strong><small>{item.location} · {item.createdAt}</small></div><em className={item.status === 'Diterima' ? 'positive' : ''}>{item.status}</em></div><div className="complaint-history-divider" /><p>{item.description}</p><small className="complaint-history-status">{item.status === 'Diterima' ? '✓ Tersimpan dan menunggu peninjauan.' : 'ⓘ Usulan sedang dipelajari oleh tim.'}</small></div>)}</div> : <div className="complaint-empty"><span><Send size={19} /></span><strong>Belum ada usulan</strong><p>Usulan tentang petani, lahan, atau kebutuhan bantuan akan tersimpan di perangkat ini.</p></div>}
+      </main>
+    </Page>
+  );
 }
 
 function PricesPage() {
   const [, setLocation] = useLocation();
   const prices = [['Cherry kopi', 'Rp 8.500', 'per kg', '+4,2% bulan ini'], ['Gabah kopi', 'Rp 22.000', 'per kg', '+2,1% bulan ini'], ['Green bean', 'Rp 68.000', 'per kg', 'Harga rata-rata'], ['Roasted bean', 'Rp 125.000', 'per 200 g', 'Harga rata-rata']];
   return <Page><main className="subpage"><Header /><HeroPanel image="price-menu-ai.webp" eyebrow="HARGA ACUAN" title="Baca harga, rencanakan langkah." copy="Harga referensi membantu petani, kelompok, dan pembeli berbicara dengan dasar yang sama." /><div className="price-list">{prices.map(([label, price, unit, change]) => <article className="price-card" key={label}><div><span className="section-kicker">{label}</span><h2>{price}</h2><p>{unit} · {change}</p></div><TrendingUp size={20} /></article>)}</div><div className="dark-callout"><span className="section-kicker">LIHAT PRODUK</span><h2>Bandingkan dengan lot yang tersedia.</h2><button className="secondary-button" onClick={() => setLocation('/catalog')}>Buka katalog <ArrowRight size={14} /></button></div></main></Page>;
+}
+
+type SupportMessage = { id: string; text: string; sender: 'user' | 'assistant' };
+
+const supportFaqs = [
+  { question: 'Bagaimana cara memilih Garut Beans?', answer: 'Mulai dari rasa yang kamu suka. Lihat profil rasa di halaman Jelajah untuk membandingkan kopi dari tiap wilayah.' },
+  { question: 'Berapa lama pesanan diproses?', answer: 'Pesanan biasanya diproses dalam 1–2 hari kerja setelah pembayaran terkonfirmasi.' },
+  { question: 'Apa arti kode lot pada kopi?', answer: 'Kode lot membantu melacak asal kebun, proses pascapanen, dan waktu panen. Buka menu Jejak untuk detailnya.' },
+  { question: 'Bagaimana cara berdiskusi soal program petani?', answer: 'Pilih mode Live CS di atas, lalu tuliskan pertanyaanmu agar tim Garut Beans dapat menindaklanjutinya.' },
+] as const;
+
+function SupportPage() {
+  const [mode, setMode] = useState<'faq' | 'live'>('faq');
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<SupportMessage[]>([
+    { id: 'welcome', sender: 'assistant', text: 'Halo, saya asisten Garut Beans. Pilih pertanyaan yang sering ditanyakan atau tulis pertanyaanmu.' },
+  ]);
+
+  const askQuestion = (question: string) => {
+    const trimmed = question.trim();
+    if (!trimmed) return;
+    const answer = mode === 'faq'
+      ? supportFaqs.find((item) => item.question === trimmed)?.answer ?? 'Saya belum menemukan jawaban yang pas. Coba pilih salah satu FAQ di atas atau lanjutkan ke Live CS.'
+      : 'Pesanmu sudah masuk ke antrean tim CS. Sambil menunggu, kamu bisa melihat katalog atau mengirim detail pesanan agar kami dapat membantu lebih cepat.';
+    setMessages((current) => [
+      ...current,
+      { id: `${Date.now()}-${current.length}`, sender: 'user', text: trimmed },
+      { id: `${Date.now()}-${current.length}-answer`, sender: 'assistant', text: answer },
+    ]);
+    setInput('');
+  };
+
+  return (
+    <Page>
+      <main className="subpage support-page">
+        <Header title={mode === 'live' ? 'Chat Live CS' : 'FAQ Chat'} subtitle={mode === 'live' ? 'BANTUAN · TIM G-BEANS' : 'BANTUAN · JAWABAN CEPAT'} />
+        <div className="support-mode-switch" role="tablist" aria-label="Mode bantuan">
+          <button className={mode === 'faq' ? 'active' : ''} onClick={() => setMode('faq')} role="tab" aria-selected={mode === 'faq'} data-testid="support-mode-faq">FAQ Chat</button>
+          <button className={mode === 'live' ? 'active' : ''} onClick={() => setMode('live')} role="tab" aria-selected={mode === 'live'} data-testid="support-mode-live">Live CS</button>
+        </div>
+        <section className="support-intro">
+          <span className="support-intro-icon"><MessageSquare size={20} /></span>
+          <div><span className="section-kicker">{mode === 'faq' ? 'JAWABAN DALAM HITUNGAN DETIK' : 'TIM SIAP MEMBANTU'}</span><h2>{mode === 'faq' ? 'Tanya apa saja soal Garut Beans' : 'Mari cari solusi bersama'}</h2><p>{mode === 'faq' ? 'Pilih FAQ atau tulis pertanyaan dengan bahasamu sendiri.' : 'Sampaikan nomor pesanan atau kebutuhanmu secara singkat. Hindari mengirim data sensitif.'}</p></div>
+        </section>
+        {mode === 'faq' && <section className="support-faq-list"><span className="section-kicker">PERTANYAAN POPULER</span>{supportFaqs.map((item) => <button key={item.question} onClick={() => askQuestion(item.question)} data-testid={`support-faq-${item.question}`}><span>{item.question}</span><ArrowRight size={15} /></button>)}</section>}
+        <section className="support-chat">
+          <span className="section-kicker">PERCAKAPAN</span>
+          <div className="support-message-list">{messages.map((message) => <div className={`support-message ${message.sender}`} key={message.id}>{message.text}</div>)}</div>
+          <form className="support-composer" onSubmit={(event) => { event.preventDefault(); askQuestion(input); }}>
+            <input value={input} onChange={(event) => setInput(event.target.value)} placeholder={mode === 'faq' ? 'Tulis pertanyaan…' : 'Tulis pesan untuk CS…'} aria-label={mode === 'faq' ? 'Tulis pertanyaan FAQ' : 'Tulis pesan untuk CS'} data-testid="support-message-input" />
+            <button type="submit" aria-label="Kirim pesan" data-testid="support-send-message"><Send size={17} /></button>
+          </form>
+        </section>
+      </main>
+    </Page>
+  );
 }
 
 function CoffeeGamePage() {
@@ -1167,7 +1552,7 @@ function AppRouter() {
     <Route path="/reports"><OperationPage kind="reports" /></Route>
     <Route path="/documents"><OperationPage kind="documents" /></Route>
     <Route path="/complaints" component={ComplaintsPage} />
-    <Route path="/support"><OperationPage kind="documents" /></Route>
+    <Route path="/support" component={SupportPage} />
     <Route path="/coffee-game" component={CoffeeGamePage} />
     <Route><SimpleHubPage title="Halaman belum ditemukan" copy="Coba kembali ke beranda Garut Beans." icon={Home} /></Route>
   </Switch>;
@@ -1237,6 +1622,7 @@ function App() {
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
           <DesktopTopNav />
           <AppRouter />
+           <FloatingActions />
         </WouterRouter>
       </StoreProvider>
     </WebAuthProvider>
