@@ -91,3 +91,31 @@ mtime_ms = 1790498049491
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/9fd14581-83dd-42a0-b50c-353398b7c759/6d1b0a18-6b5b-419f-98f3-44599989bbe4"
 storage_version_token = "1790498052888961"
 content_type = "application/pdf"
+
+[[outputs]]
+id = "awbq_n-EKdf9_OXwERx35"
+uri = "file://.local/outputs/Garut-Beans-G-Beans-Footer-Transparan.pptx"
+type = "slides"
+title = "Garut Beans G-Beans — Footer Transparan (PPTX)"
+description = "Ekspor PPTX terbaru dengan footer Dinas dan Nempo tanpa blok, gradient, atau bayangan latar."
+logical_id = "25f978ca-e3d9-454f-9e75-0afd30442bbe"
+content_hash = "sha256:b0d92c22d9379af4991d936595f879527af56df6c80e426147c3c85811e69a46"
+size = 21497916
+mtime_ms = 1790498353403
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/25f978ca-e3d9-454f-9e75-0afd30442bbe/0da44136-8768-44b9-95c9-71fe8b43504f"
+storage_version_token = "1790498360970596"
+content_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+
+[[outputs]]
+id = "zn_VgQtjnzl-huJfAuJoq"
+uri = "file://.local/outputs/Garut-Beans-G-Beans-Footer-Transparan.pdf"
+type = "pdf"
+title = "Garut Beans G-Beans — Footer Transparan (PDF)"
+description = "Ekspor PDF terbaru dengan footer Dinas dan Nempo tanpa blok, gradient, atau bayangan latar."
+logical_id = "5088abeb-0632-42b7-a154-2d0de819c8d4"
+content_hash = "sha256:130f75858a8f12104dc9a3c5612b34981165a6d0c67d9b2d919cfa482c1ce117"
+size = 5074466
+mtime_ms = 1790498359531
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/5088abeb-0632-42b7-a154-2d0de819c8d4/a310c3d7-4c18-4bb2-a107-d3530e81b357"
+storage_version_token = "1790498362566516"
+content_type = "application/pdf"

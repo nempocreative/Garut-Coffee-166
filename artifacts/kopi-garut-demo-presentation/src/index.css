@@ -50,14 +50,15 @@ body {
   bottom: 2vh;
   height: 3vw;
   padding-left: 0;
-  background: none;
+  background: transparent !important;
+  background-image: none !important;
   color: #2a201d;
   font-family: var(--font-body-family);
   font-size: 1.35vw;
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: 0.01em;
-  text-shadow: 0 0 0.18vw #fff9f1, 0 0 0.34vw #fff9f1;
+  text-shadow: none;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -75,21 +76,25 @@ body {
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.06em;
+  background: transparent !important;
+  background-image: none !important;
+  text-shadow: none;
   white-space: nowrap;
   pointer-events: none;
 }
 
 .slide:has(.footer-on-dark)::before,
 .select-none > div:has(.footer-on-dark)::before {
-  background: none;
+  background: transparent !important;
+  background-image: none !important;
   color: #fff9f1;
-  text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
+  text-shadow: none;
 }
 
 .slide:has(.footer-on-dark)::after,
 .select-none > div:has(.footer-on-dark)::after {
   color: #fff9f1;
-  text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
+  text-shadow: none;
 }
 
 .cover-footer-watermark {
