@@ -177,8 +177,8 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
 function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <button className="gb-story-lead" onClick={() => onNavigate('/collective')} data-testid="button-collective-story">
-      <img className="gb-story-lead-desktop-image" src={asset('collective-banner.webp')} alt="" data-testid="img-collective-story" />
-      <img className="gb-story-lead-mobile-image" src={asset('story-background.webp')} alt="" aria-hidden="true" />
+      <img className="gb-story-lead-desktop-image" src={asset('garut-mountain-coffee-banner.png')} alt="" data-testid="img-collective-story" />
+      <img className="gb-story-lead-mobile-image" src={asset('garut-mountain-coffee-banner.png')} alt="" aria-hidden="true" />
       <span className="gb-story-lead-shade" />
       <span className="gb-story-lead-topline">
         <span>ASAL G-BEANS</span>

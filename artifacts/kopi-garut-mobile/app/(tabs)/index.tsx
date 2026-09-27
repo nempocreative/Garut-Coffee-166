@@ -715,7 +715,7 @@ export default function HomeScreen() {
         ]}
       >
         <ExpoImage
-          source={require('../../assets/images/story-background.webp')}
+          source={require('../../assets/images/garut-mountain-coffee-banner.png')}
           contentFit="cover"
           style={StyleSheet.absoluteFill}
         />

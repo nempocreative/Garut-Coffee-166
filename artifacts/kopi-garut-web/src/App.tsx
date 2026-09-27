@@ -316,18 +316,8 @@ function CatalogPage() {
     notify(alreadySaved ? `${title} dihapus dari simpanan` : `${title} disimpan di perangkat`);
   };
   return <Page><main className="subpage catalog-page">
-    <Header />
-    <div className="catalog-intro">
-      <div className="catalog-intro-copy">
-        <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
-      </div>
-      <div className="catalog-intro-art" aria-hidden="true"><img src={asset('coffee-bean-menu.webp')} alt="" /><span>G-Beans</span></div>
-      <div className="catalog-facts">
-        <div className="catalog-fact catalog-fact-primary"><div className="catalog-fact-value"><strong>{totalCatalogProducts}</strong><span>pilihan</span></div><small>produk katalog</small></div>
-        <div className="catalog-fact"><div className="catalog-fact-value"><strong>{coffees.length}</strong><span>profil</span></div><small>kopi kebun</small></div>
-        <div className="catalog-fact"><div className="catalog-fact-value"><strong>{productCategories.length}</strong><span>kategori</span></div><small>karya turunan</small></div>
-      </div>
-    </div>
+    <Header title="Jelajahi kopi" />
+    <CatalogFeatured coffee={featuredCoffee} onNavigate={setLocation} />
     <CatalogCarousel onNavigate={setLocation} />
     <div className="catalog-discovery-panel">
       <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
@@ -341,11 +331,28 @@ function CatalogPage() {
         const count = item === 'Semua' ? (scope === 'Kopi' ? coffees.length : scope === 'Karya kopi' ? diversifiedProducts.length : totalCatalogProducts) : coffees.filter((coffee) => coffee.category === item).length + diversifiedProducts.filter((product) => product.category === item).length;
         return <button className={`filter-pill ${filter === item ? 'active' : ''}`} onClick={() => setFilter(item)} key={item} data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-')}`}>{filter === item && <Check size={12} />}{item}<small>{count}</small></button>;
       })}</div>
+       <div className="catalog-result-row">
+         <div><strong>{resultCount} produk pilihan</strong><span>{scope === 'Karya kopi' ? 'Karya komunitas untuk ritualmu' : filter === 'Semua' ? 'Siap menemani setiap ritual' : `Nuansa ${filter.toLowerCase()} untuk hari ini`}</span></div>
+         <small><i /> TERSEDIA</small>
+       </div>
     </div>
     {filteredCoffees.length > 0 && <section className="catalog-group"><div className="catalog-group-heading"><div><span className="section-kicker">DARI KEBUN GARUT</span><h2>Kopi pilihan</h2></div><small>{filteredCoffees.length} profil kopi</small></div><div className="product-grid catalog-product-grid">{filteredCoffees.map((coffee) => <ProductCard key={coffee.id} coffee={coffee} />)}</div></section>}
     {filteredProducts.length > 0 && <section className="catalog-group catalog-products-group"><div className="catalog-group-heading"><div><span className="section-kicker">LEBIH DARI SECANGKIR</span><h2>Karya kopi</h2></div><small>{filteredProducts.length} produk turunan</small></div><div className="product-grid catalog-product-grid">{filteredProducts.map((product) => <DiversifiedProductCard key={product.id} product={product} saved={savedProducts.includes(product.id)} onSave={() => saveProduct(product.id, product.title)} />)}</div></section>}
     {!resultCount && <EmptyState icon={Search} title="Belum ada yang cocok" text="Coba nama produk, rasa, wilayah, atau kategori lain untuk menemukan pilihanmu." action="Bersihkan pencarian" onAction={() => { setQuery(''); setFilter('Semua'); setScope('Semua'); }} />}
   </main></Page>;
+}
+
+function CatalogFeatured({ coffee, onNavigate }: { coffee: Coffee; onNavigate: (path: string) => void }) {
+  return <section className="catalog-featured" aria-label="Kurasi kopi minggu ini">
+    <img className="catalog-featured-image" src={asset('hero-coffee.webp')} alt="" />
+    <div className="catalog-featured-shade" />
+    <div className="catalog-featured-copy">
+      <span className="catalog-eyebrow">KURASI MINGGU INI</span>
+      <strong>Temukan rasa yang cocok dengan ritmemu</strong>
+      <span>{coffee.name} · {coffee.notes.slice(0, 2).join(' dan ')}</span>
+      <button className="catalog-featured-action" onClick={() => onNavigate(`/product/${coffee.id}`)} data-testid="button-catalog-featured-action">Lihat kurasi <ArrowRight size={14} /></button>
+    </div>
+  </section>;
 }
 
 function CatalogCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
