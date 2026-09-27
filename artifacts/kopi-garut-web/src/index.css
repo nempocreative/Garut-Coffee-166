@@ -340,7 +340,7 @@
     transform: translate(-50%, -50%) translateX(40%) scale(.84);
   }
 }
-.catalog-discovery-panel { margin-top: 18px; padding: 14px; border: 1px solid hsl(var(--border)); border-radius: 22px; background: linear-gradient(155deg, rgba(255, 249, 241, .9), rgba(244, 229, 211, .52)); box-shadow: 0 10px 24px rgba(76, 48, 31, .06); }
+.catalog-discovery-panel { margin-top: 18px; }
 .catalog-search-heading, .catalog-filter-heading, .catalog-result-row { display: flex; align-items: center; justify-content: space-between; }
 .catalog-search-heading { margin: 0 0 10px; }
 .catalog-search-heading h2 { margin: 3px 0 0; font-size: 17px; letter-spacing: -.25px; }
@@ -1975,8 +1975,6 @@
 
   .catalog-discovery-panel {
     margin-top: 28px;
-    padding: 22px 24px 24px;
-    border-radius: 28px;
   }
 
   .catalog-discovery-panel .catalog-search-heading {
