@@ -532,16 +532,22 @@ function AccountMenuItem({ icon: Icon, title, description, onClick, destructive 
 function GuestAccountPage() {
   const [, setLocation] = useLocation();
   return <Page><main className="subpage account-page">
-    <Header title="Ritualmu" />
-    <section className="account-login-hero">
-      <div className="account-brand-line"><div className="account-brand-mark"><img src={asset('kopi-garut-logo.png')} alt="" /></div><div><strong>Garut <em>Beans</em></strong><small>RUANG PERSONAL</small></div></div>
-      <div className="account-status"><i /> AKUN G-BEANS</div>
-      <h1>Masuk ke ruangmu.</h1>
-      <p>Satu akun untuk kopi, pesanan, dan program Garut Beans.</p>
-      <button className="account-login-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">Masuk ke akun <ArrowRight size={16} /></button>
-      <div className="account-login-foot"><small>PILIH PERAN</small><strong>Pembeli · Petani · Penyuluh</strong></div>
+    <Header title="Akun" />
+    <section className="account-login-layout">
+      <div className="account-login-visual">
+        <div className="account-brand-line"><div className="account-brand-mark"><img src={asset('kopi-garut-logo.png')} alt="" /></div><div><strong>Garut <em>Beans</em></strong><small>G-BEANS · SPECIALTY COFFEE</small></div></div>
+        <div className="account-visual-copy"><span>RUANG PERSONAL</span><h1>Ritual yang<br /><em>punya cerita.</em></h1><p>Kenali kopi, simpan pilihanmu, dan tetap dekat dengan orang-orang di balik setiap cangkir.</p></div>
+        <div className="account-visual-foot"><span>GARUT, JAWA BARAT</span><span>01 / 03</span></div>
+      </div>
+      <div className="account-login-form">
+        <span className="section-kicker">AKUN G-BEANS</span>
+        <h2>Masuk ke ruangmu.</h2>
+        <p className="account-form-intro">Pilih akses untuk melanjutkan pengalaman Garut Beans.</p>
+        <button className="account-login-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">Masuk ke akun <ArrowRight size={16} /></button>
+        <div className="account-role-line"><span>PILIHAN AKSES</span><strong>Pembeli · Petani · Penyuluh</strong></div>
+        <div className="account-form-note"><span>Jelajah tetap terbuka</span><p>Katalog dan cerita kopi dapat diakses tanpa masuk akun.</p></div>
+      </div>
     </section>
-    <p className="account-guest-footer">Jelajah katalog dan cerita kopi tetap terbuka tanpa masuk akun.</p>
   </main></Page>;
 }
 
