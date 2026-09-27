@@ -47,14 +47,6 @@ export default function Slide1() {
         </p>
       </div>
 
-      <div className="absolute bottom-[4.2vh] left-[6.5vw] flex items-start gap-[0.85vw]">
-        <span aria-hidden="true" className="mt-[0.15vw] h-[2.75vw] w-[0.32vw] rounded-full bg-[#A8543B]" />
-        <div className="flex flex-col items-start gap-[0.7vh]">
-          <p className="text-[1.75vw] font-extrabold leading-[1.05] tracking-[0.01em] text-[#2A201D]">Dinas Pertanian Kab. Garut</p>
-          <span className="cover-footer-watermark">nempo.id × kala muda</span>
-        </div>
-      </div>
-
       <div className="absolute right-[10vw] top-[13vh] z-10 w-[20vw] rounded-[2.5vw] border-[0.52vw] border-[#2A201D] bg-[#2A201D] p-[0.5vw] shadow-[0.85vw_1vw_0_rgba(42,32,29,0.3)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.9vw] bg-[#F6F0E8]">
           <img src={`${base}demo-home-latest.jpg`} alt="Cuplikan beranda aplikasi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />

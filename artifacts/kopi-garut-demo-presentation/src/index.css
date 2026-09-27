@@ -41,41 +41,44 @@ body {
   overflow: hidden;
 }
 
+.slide::before,
+.select-none > div::before {
+  content: "Dinas Pertanian Kab. Garut";
+  position: absolute;
+  z-index: 1000;
+  left: 6.5vw;
+  bottom: 5.9vh;
+  padding-left: 1.1vw;
+  border-left: 0.32vw solid #a8543b;
+  color: #2a201d;
+  font-family: var(--font-body-family);
+  font-size: 1.75vw;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .slide::after,
 .select-none > div::after {
   content: "nempo.id × kala muda";
   position: absolute;
   z-index: 1000;
-  left: 6.5vw;
-  bottom: 1.8vh;
-  padding: 0.08em 0.55em;
-  border: 1px solid rgb(211 161 95 / 70%);
-  border-radius: 999px;
-  background: rgb(246 240 232 / 94%);
-  box-shadow: 0 1px 8px rgb(42 32 29 / 18%);
-  color: #806e63;
+  left: 7.92vw;
+  bottom: 2.5vh;
+  color: #a8543b;
   font-family: var(--font-body-family);
   font-size: 1.5vw;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   pointer-events: none;
 }
 
-.slide[data-slide-id="9f3c7a1e-6a8c-4a2b-9f21-2b6c0f4d1a01"]::after,
-.select-none > div:first-child::after {
-  display: none;
-}
-
 .cover-footer-watermark {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.16em 0.7em 0.19em;
-  border: 1px solid rgb(168 84 59 / 38%);
-  border-radius: 999px;
-  background: rgb(255 249 241 / 96%);
-  box-shadow: 0 0.18vw 0.55vw rgb(42 32 29 / 14%);
+  display: block;
   color: #a8543b;
   font-family: var(--font-body-family);
   font-size: 1.5vw;
