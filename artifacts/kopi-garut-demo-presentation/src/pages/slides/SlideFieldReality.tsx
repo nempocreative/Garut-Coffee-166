@@ -25,17 +25,17 @@ export default function SlideFieldReality() {
       </div>
 
       <div className="absolute bottom-[15vh] left-[6.5vw] z-10 grid w-[49vw] grid-cols-3 gap-[1vw]">
-        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Asal</p>
-            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Profil petani, kebun, dan lot tersebar.</p>
+        <div className="h-[19vh] border-t-[0.16vw] border-[#A8543B] bg-[#3A2B27] px-[1vw] py-[0.95vw]">
+           <p className="text-[1.25vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Asal</p>
+             <p className="mt-[1.1vh] text-[1.7vw] font-semibold leading-[1.18]">Profil petani, kebun, dan lot tersebar.</p>
         </div>
-        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Keputusan</p>
-            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Harga dan pendampingan sulit dibaca bersama.</p>
+        <div className="h-[19vh] border-t-[0.16vw] border-[#A8543B] bg-[#3A2B27] px-[1vw] py-[0.95vw]">
+           <p className="text-[1.25vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Keputusan</p>
+             <p className="mt-[1.1vh] text-[1.7vw] font-semibold leading-[1.18]">Harga dan pendampingan belum terbaca.</p>
         </div>
-        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
-           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Cerita</p>
-            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Asal dan kualitas belum terlihat pembeli.</p>
+        <div className="h-[19vh] border-t-[0.16vw] border-[#A8543B] bg-[#3A2B27] px-[1vw] py-[0.95vw]">
+           <p className="text-[1.25vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Cerita</p>
+             <p className="mt-[1.1vh] text-[1.7vw] font-semibold leading-[1.18]">Kualitas dan asal belum terlihat.</p>
         </div>
       </div>
 

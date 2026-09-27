@@ -6,6 +6,7 @@
 - [Floating action visibility](floating-action-visibility.md) — hide Mini Games and Live Chat while scrolling, then restore them after scrolling settles.
 - [Presentation layout QA](presentation-layout-qa.md) — protect footer safe areas and reflow dense card grids instead of relying on clipping.
 - [Presentation demo routes](presentation-demo-routes.md) — use public mobile routes for deck screenshots; role-gated dashboards redirect to login until a role is selected.
+- [Presentation slide route mapping](presentation-slide-route-mapping.md) — `/slideN` follows manifest position, which may differ from the component filename.
 - [Expo DevTools warning](expo-devtools-warning.md) — missing libgbm can block the optional React Native DevTools install while Expo web preview still runs normally.
 - [Shared workspace linking](shared-workspace-linking.md) — after adding a local workspace package, reinstall once so pnpm creates app symlinks before preview checks.
 - [Web and app content parity](mobile-to-web-parity.md) — keep a real standalone web UI while sharing domain content and route behavior with Expo.
