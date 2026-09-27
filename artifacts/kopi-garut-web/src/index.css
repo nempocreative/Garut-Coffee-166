@@ -3104,7 +3104,7 @@ body .bottom-nav button.center > span:last-child {
 
 @media (min-width: 700px) {
   body .app-viewport .bottom-nav {
-    display: none !important;
+    display: grid !important;
   }
 }
 
