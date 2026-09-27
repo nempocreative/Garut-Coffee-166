@@ -319,7 +319,7 @@ function CatalogPage() {
     <Header title="Jelajahi kopi" />
     <CatalogCarousel onNavigate={setLocation} />
     <div className="catalog-discovery-panel">
-      <div className="catalog-search-heading"><div><span className="section-kicker">TEMUKAN PILIHANMU</span><h2>{scope === 'Karya kopi' ? 'Cari karya kopi' : 'Cari kopi pilihanmu'}</h2><p>Cari berdasarkan nama, rasa, asal, petani, kategori, atau metode seduh.</p></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
+       <div className="catalog-search-heading"><div><h2>Temukan pilihanmu</h2></div><div className="catalog-search-badge"><Coffee size={15} /></div></div>
       <SearchEntry catalog value={query} onChange={setQuery} />
       <div className="catalog-scope-heading"><span className="section-kicker">JELAJAHI KATALOG</span><small>{totalCatalogProducts} produk tersedia</small></div>
       <div className="catalog-scope-pills" role="tablist" aria-label="Jenis produk">
