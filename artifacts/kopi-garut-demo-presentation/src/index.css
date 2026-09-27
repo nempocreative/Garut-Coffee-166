@@ -81,6 +81,8 @@ body {
 
 .slide:has(.footer-on-dark)::before,
 .select-none > div:has(.footer-on-dark)::before {
+  background: linear-gradient(#fff9f1, #fff9f1) 0 50% / 0.16vw 1.6vw
+    no-repeat;
   color: #fff9f1;
   text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
 }
