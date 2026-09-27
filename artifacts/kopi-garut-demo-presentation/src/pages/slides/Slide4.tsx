@@ -17,10 +17,10 @@ export default function Slide4() {
         <h2 className="mt-[1.6vh] text-[4.6vw] font-extrabold leading-[1.01] tracking-[-0.07em]"><span className="block">Kenali kopi</span><span className="text-[#A8543B]">dari sumbernya.</span></h2>
         <div className="mt-[3vh] h-[0.4vh] w-[6.5vw] rounded-full bg-[#D3A15F]" />
         <div className="mt-[4.4vh] space-y-[1.5vh] text-[2vw] font-medium leading-[1.18] text-[#806E63]">
-          <p>Jelajahi wilayah penghasil kopi dari Garut</p>
-          <p>Kenali profil petani dan kelompok tani</p>
-          <p>Telusuri proses serta standar yang mendukung kualitas</p>
-          <p>Bangun kepercayaan melalui informasi yang lebih terbuka</p>
+          <p>Wilayah penghasil kopi</p>
+          <p>Profil petani dan kelompok</p>
+          <p>Proses dan standar mutu</p>
+          <p>Informasi asal yang terbuka</p>
         </div>
       </div>
       <div className="absolute right-[5.5vw] top-[17vh] grid w-[39vw] grid-cols-2 gap-[1vw]">
@@ -41,7 +41,6 @@ export default function Slide4() {
           <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Wilayah · Garut</p>
         </div>
       </div>
-      <p className="absolute bottom-[3vh] right-[6.5vw] text-[1.5vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Wilayah · Petani · Kualitas</p>
     </div>
   );
 }

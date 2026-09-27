@@ -21,10 +21,9 @@ export default function Slide15Extension() {
         <p className="mt-[3vh] max-w-[33vw] text-[2vw] leading-[1.2] text-[#F6E9DD]">
           Dashboard, program, dan ringkasan wilayah hadir dalam pengalaman mobile yang sama.
         </p>
-        <div className="mt-[4vh] border-t border-[#D3A15F]/60 pt-[2vh] text-[2vw] font-bold text-[#D3A15F]">Dashboard → Program</div>
       </div>
 
-      <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">
+      <div className="absolute right-[8vw] top-[15vh] w-[22vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">
         <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
           <img src={`${base}demo-partnership.jpg`} alt="Cuplikan kemitraan Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
           <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
@@ -33,17 +32,14 @@ export default function Slide15Extension() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[6.5vw] top-[20vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">
-        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
-          <img src={`${base}demo-events.jpg`} alt="Cuplikan event dan pelatihan Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
-          <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
+      <div className="absolute left-[6.5vw] top-[59vh] w-[38vw] border-t border-[#D3A15F]/60 pt-[1.4vh]">
+        <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">Ritme pendampingan</p>
+        <div className="mt-[1.4vh] grid grid-cols-3 gap-[0.8vw]">
+          <div className="border-t border-[#FFF9F1]/35 pt-[0.8vh]"><p className="text-[1.5vw] font-extrabold text-[#D3A15F]">01</p><p className="mt-[0.4vh] text-[1.45vw] font-bold">Kunjungan</p><p className="mt-[0.25vh] text-[1.2vw] text-[#F6E9DD]">Catatan lapangan</p></div>
+          <div className="border-t border-[#FFF9F1]/35 pt-[0.8vh]"><p className="text-[1.5vw] font-extrabold text-[#D3A15F]">02</p><p className="mt-[0.4vh] text-[1.45vw] font-bold">Program</p><p className="mt-[0.25vh] text-[1.2vw] text-[#F6E9DD]">Rencana dukungan</p></div>
+          <div className="border-t border-[#FFF9F1]/35 pt-[0.8vh]"><p className="text-[1.5vw] font-extrabold text-[#D3A15F]">03</p><p className="mt-[0.4vh] text-[1.45vw] font-bold">Review</p><p className="mt-[0.25vh] text-[1.2vw] text-[#F6E9DD]">Tindak lanjut</p></div>
         </div>
-        <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-        <div className="absolute right-[18vw] bottom-[6vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Dashboard dinas</div>
-        <div className="absolute right-[6.5vw] bottom-[5vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Program</div>
     </div>
   );
 }

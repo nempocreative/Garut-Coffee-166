@@ -23,11 +23,10 @@ export default function Slide5() {
         <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[1.65vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>
           <p className="mt-[1.2vh] text-[2.25vw] font-extrabold leading-[1.03] tracking-[-0.05em]"><span className="block">Dari kebun,</span><span>untuk pilihanmu.</span></p>
-             <div className="mt-[2vh] space-y-[1.05vh] border-t border-[#DFD1C1] pt-[1.8vh] text-[2vw] font-semibold leading-[1.08] text-[#806E63]">
-            <p><span className="mr-[0.6vw] text-[#A8543B]">01</span> Lihat kopi dan produk turunan</p>
-            <p><span className="mr-[0.6vw] text-[#A8543B]">02</span> Baca karakter, asal, dan detail</p>
-            <p><span className="mr-[0.6vw] text-[#A8543B]">03</span> Simpan pilihan favorit</p>
-            <p><span className="mr-[0.6vw] text-[#A8543B]">04</span> Lanjutkan ke pesanan</p>
+          <div className="mt-[2vh] space-y-[1.05vh] border-t border-[#DFD1C1] pt-[1.8vh] text-[1.8vw] font-semibold leading-[1.08] text-[#806E63]">
+             <p><span className="mr-[0.6vw] text-[#A8543B]">01</span> Lihat kopi & produk</p>
+             <p><span className="mr-[0.6vw] text-[#A8543B]">02</span> Baca asal & karakter</p>
+             <p><span className="mr-[0.6vw] text-[#A8543B]">03</span> Simpan favorit</p>
           </div>
             <div className="mt-[2vh] inline-flex rounded-full bg-[#A8543B] px-[1.1vw] py-[0.7vh] text-[1.4vw] font-bold text-[#FFF9F1]">Kopi · Produk turunan</div>
         </div>

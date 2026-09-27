@@ -24,18 +24,18 @@ export default function SlideGovernmentSynergy() {
 
       <div className="absolute left-[6.5vw] top-[59vh] w-[49vw] border-t-[0.18vw] border-[#A8543B] pt-[1.5vh]">
         <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Persamaan kerja</p>
-        <div className="mt-[1.8vh] flex items-center gap-[1.2vw]">
-          <div className="w-[18vw]">
-            <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.14em] text-[#A8543B]">Dinas Pertanian</p>
-            <p className="mt-[0.9vh] text-[1.65vw] font-extrabold leading-[1.05]">Akses & koordinasi</p>
+        <div className="mt-[1.8vh] grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,0.9fr)] items-center gap-[0.8vw]">
+          <div className="min-w-0">
+             <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.1em] text-[#A8543B]">Dinas Pertanian</p>
+             <p className="mt-[0.9vh] text-[1.5vw] font-extrabold leading-[1.05]">Akses & koordinasi</p>
           </div>
-          <span className="text-[2.8vw] font-extrabold text-[#D3A15F]">+</span>
-          <div className="w-[18vw]">
-            <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.14em] text-[#A8543B]">Nempo × Kala Muda</p>
-            <p className="mt-[0.9vh] text-[1.65vw] font-extrabold leading-[1.05]">Cerita & pasar</p>
+          <span className="text-[2.4vw] font-extrabold text-[#D3A15F]">+</span>
+          <div className="min-w-0">
+             <p className="text-[1.1vw] font-extrabold uppercase tracking-[0.08em] text-[#A8543B]">Nempo × Kala Muda</p>
+             <p className="mt-[0.9vh] text-[1.5vw] font-extrabold leading-[1.05]">Cerita & pasar</p>
           </div>
-          <span className="text-[2.8vw] font-extrabold text-[#D3A15F]">=</span>
-          <p className="w-[11vw] text-[1.65vw] font-extrabold leading-[1.05]">Origin Garut yang bernilai.</p>
+          <span className="text-[2.4vw] font-extrabold text-[#D3A15F]">=</span>
+          <p className="min-w-0 text-[1.5vw] font-extrabold leading-[1.05]">Origin Garut bernilai.</p>
         </div>
       </div>
 

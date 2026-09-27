@@ -22,7 +22,7 @@ export default function SlideImplementationRoadmap() {
         </p>
       </div>
 
-      <div className="absolute bottom-[8vh] left-[6.5vw] w-[53vw] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.25vw] pb-[2vh] pt-[1.1vw]">
+      <div className="absolute bottom-[12vh] left-[6.5vw] w-[53vw] border-t-[0.25vw] border-[#D3A15F] bg-[#3A2B27] px-[1.25vw] pb-[1.4vh] pt-[1.1vw]">
         <div className="flex items-center justify-between border-b border-[#59443B] pb-[1.2vh]">
            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.14em] text-[#D3A15F]">Lima fase</p>
            <p className="text-[1.5vw] font-bold uppercase tracking-[0.1em] text-[#E7D9C8]">Satu arah pertumbuhan</p>
@@ -91,7 +91,6 @@ export default function SlideImplementationRoadmap() {
         </div>
       </div>
 
-      <div className="absolute bottom-[7vh] right-[6.5vw] border-t border-[#D8C7B5] pt-[1.2vh] text-[1.5vw] font-bold uppercase tracking-[0.1em] text-[#A8543B]">Fondasi dulu · skala kemudian</div>
     </div>
   );
 }

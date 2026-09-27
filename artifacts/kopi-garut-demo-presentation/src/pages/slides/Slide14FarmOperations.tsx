@@ -44,8 +44,8 @@ export default function Slide14FarmOperations() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-      <div className="absolute right-[18vw] bottom-[6vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Kalender kebun</div>
-      <div className="absolute right-[6.5vw] bottom-[5vh] text-center text-[1.5vw] font-bold text-[#A8543B]">Laporan panen</div>
+       <div className="absolute right-[18vw] bottom-[13vh] text-center text-[1.35vw] font-bold text-[#A8543B]">Kalender kebun</div>
+       <div className="absolute right-[6.5vw] bottom-[12vh] text-center text-[1.35vw] font-bold text-[#A8543B]">Laporan panen</div>
     </div>
   );
 }

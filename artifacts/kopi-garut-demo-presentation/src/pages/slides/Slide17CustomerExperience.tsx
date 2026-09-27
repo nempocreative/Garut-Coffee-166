@@ -19,31 +19,29 @@ export default function Slide17CustomerExperience() {
           <span className="text-[#D3A15F]">lebih lengkap.</span>
         </h2>
         <p className="mt-[3vh] max-w-[33vw] text-[2vw] leading-[1.2] text-[#F6E9DD]">
-          Pengalaman pelanggan berlanjut dari produk, ke wisata, hingga produk turunan Garut Beans G-Beans.
+          Dari produk yang dibeli sampai pengalaman yang dibagikan.
         </p>
-        <div className="mt-[4vh] border-t border-[#D3A15F]/60 pt-[2vh] text-[2vw] font-bold text-[#D3A15F]">Produk turunan → Wisata kopi</div>
+        <div className="mt-[4vh] border-t border-[#D3A15F]/60 pt-[2vh] text-[2vw] font-bold text-[#D3A15F]">Beli · kunjungi · bagikan</div>
       </div>
 
-      <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">
-        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
+      <div className="absolute right-[6.5vw] top-[19vh] grid h-[53vh] w-[43vw] grid-cols-2 grid-rows-2 gap-[1vw]">
+        <div className="relative overflow-hidden rounded-[0.9vw] border border-[#2A201D] bg-[#2A201D]">
           <img src={diversificationScreen} alt="Cuplikan produk turunan Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
-          <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
+          <div className="absolute inset-x-0 bottom-0 bg-[#2A201D]/85 px-[1vw] py-[1vh] text-[1.55vw] font-bold text-[#FFF9F1]">Produk turunan</div>
         </div>
-        <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
-      </div>
-      <div className="absolute right-[6.5vw] top-[20vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.22)]">
-        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.6vw] bg-[#F6F0E8]">
+        <div className="flex flex-col justify-end rounded-[0.9vw] bg-[#F6E9DD] p-[1.2vw] text-[#2A201D]">
+          <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.12em] text-[#A8543B]">02 · Pesanan</p>
+          <p className="mt-[1vh] text-[2vw] font-extrabold leading-[1.02]">Dari favorit ke checkout.</p>
+        </div>
+        <div className="relative overflow-hidden rounded-[0.9vw] border border-[#2A201D] bg-[#2A201D]">
           <img src={tourismScreen} alt="Cuplikan wisata kopi Garut Beans G-Beans" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
-          <div className="absolute left-1/2 top-0 z-10 h-[1.1vw] w-[5.3vw] -translate-x-1/2 rounded-b-[0.8vw] bg-[#2A201D]" />
+          <div className="absolute inset-x-0 bottom-0 bg-[#2A201D]/85 px-[1vw] py-[1vh] text-[1.55vw] font-bold text-[#FFF9F1]">Wisata kopi</div>
         </div>
-        <div className="absolute -left-[0.6vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
-        <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
+        <div className="flex flex-col justify-end rounded-[0.9vw] bg-[#D3A15F] p-[1.2vw] text-[#2A201D]">
+          <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.12em] text-[#A8543B]">04 · Kunjungan</p>
+          <p className="mt-[1vh] text-[2vw] font-extrabold leading-[1.02]">Cerita asal jadi pengalaman.</p>
+        </div>
       </div>
-        <div className="absolute right-[18vw] bottom-[6vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Produk turunan</div>
-        <div className="absolute right-[6.5vw] bottom-[5vh] text-center text-[1.5vw] font-bold text-[#D3A15F]">Wisata kopi</div>
     </div>
   );
 }
