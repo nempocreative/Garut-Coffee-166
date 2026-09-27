@@ -2,7 +2,7 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 
 export default function SlideFieldReality() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute right-0 top-0 h-full w-[36vw] bg-[#F6F0E8]" />
       <div className="absolute right-[36vw] top-0 h-full w-[0.12vw] bg-[#D3A15F]" />
       <div className="absolute -bottom-[18vw] left-[27vw] h-[39vw] w-[39vw] rounded-full bg-[#A8543B]/10" />

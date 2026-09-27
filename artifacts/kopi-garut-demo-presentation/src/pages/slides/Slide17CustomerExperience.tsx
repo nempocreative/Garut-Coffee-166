@@ -4,7 +4,7 @@ import tourismScreen from '@assets/kopi-garut-live-tourism.jpg';
 
 export default function Slide17CustomerExperience() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#A8543B] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#A8543B] text-[#FFF9F1]">
       <div className="absolute right-[-11vw] top-[-12vw] h-[40vw] w-[40vw] rounded-full border-[0.12vw] border-[#D3A15F]/45" />
       <div className="absolute left-[-12vw] bottom-[-16vw] h-[39vw] w-[39vw] rounded-full border-[0.12vw] border-[#FFF9F1]/20" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">

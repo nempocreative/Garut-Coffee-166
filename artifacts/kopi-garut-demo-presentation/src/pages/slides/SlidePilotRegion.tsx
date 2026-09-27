@@ -2,7 +2,7 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 
 export default function SlidePilotRegion() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute right-0 top-0 h-full w-[37vw] bg-[#F6F0E8]" />
       <div className="absolute right-[37vw] top-0 h-full w-[0.2vw] bg-[#D3A15F]" />
 

@@ -4,7 +4,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Slide15Extension() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#A8543B] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#A8543B] text-[#FFF9F1]">
       <div className="absolute -right-[10vw] -top-[13vw] h-[42vw] w-[42vw] rounded-full border-[0.12vw] border-[#D3A15F]/45" />
       <div className="absolute bottom-[-15vw] left-[-8vw] h-[35vw] w-[35vw] rounded-full border-[0.12vw] border-[#FFF9F1]/20" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">

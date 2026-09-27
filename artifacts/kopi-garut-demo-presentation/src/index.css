@@ -48,8 +48,9 @@ body {
   z-index: 1000;
   left: 6.5vw;
   bottom: 5.9vh;
-  padding-left: 1.1vw;
-  border-left: 0.32vw solid #a8543b;
+  padding-left: 0.95vw;
+  background: linear-gradient(#a8543b, #a8543b) 0 50% / 0.16vw 1.6vw
+    no-repeat;
   color: #2a201d;
   font-family: var(--font-body-family);
   font-size: 1.75vw;
@@ -76,6 +77,18 @@ body {
   letter-spacing: 0.06em;
   white-space: nowrap;
   pointer-events: none;
+}
+
+.slide:has(.footer-on-dark)::before,
+.select-none > div:has(.footer-on-dark)::before {
+  color: #fff9f1;
+  text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
+}
+
+.slide:has(.footer-on-dark)::after,
+.select-none > div:has(.footer-on-dark)::after {
+  color: #fff9f1;
+  text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
 }
 
 .cover-footer-watermark {

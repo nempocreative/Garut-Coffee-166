@@ -2,7 +2,7 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 
 export default function Slide5Explore() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute left-0 top-0 h-full w-[26vw] bg-[#A8543B]" />
       <div className="absolute left-[24.5vw] top-0 h-full w-[0.12vw] bg-[#D3A15F]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">

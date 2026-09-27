@@ -2,7 +2,7 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 
 export default function Slide2Context() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
       <div className="absolute right-0 top-0 h-full w-[34vw] bg-[#A8543B]" />
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
