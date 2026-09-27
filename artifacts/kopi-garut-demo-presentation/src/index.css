@@ -56,6 +56,7 @@ body {
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: 0.01em;
+  text-shadow: 0 0 0.18vw #fff9f1, 0 0 0.34vw #fff9f1;
   white-space: nowrap;
   pointer-events: none;
 }

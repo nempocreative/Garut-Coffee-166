@@ -24,28 +24,25 @@ export default function SlideFieldReality() {
         </p>
       </div>
 
-      <div className="absolute bottom-[13vh] left-[6.5vw] z-10 grid w-[49vw] grid-cols-3 gap-[1vw]">
-        <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
+      <div className="absolute bottom-[15vh] left-[6.5vw] z-10 grid w-[49vw] grid-cols-3 gap-[1vw]">
+        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Asal</p>
-           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Profil petani, kebun, dan lot tersimpan di banyak tempat.</p>
+            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Profil petani, kebun, dan lot tersebar.</p>
         </div>
-        <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
+        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Keputusan</p>
-           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Produksi, harga, dan pendampingan sulit dibaca bersama.</p>
+            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Harga dan pendampingan sulit dibaca bersama.</p>
         </div>
-        <div className="h-[21vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
+        <div className="h-[22vh] border-t-[0.25vw] border-[#A8543B] bg-[#3A2B27] px-[1.15vw] py-[1.1vw]">
            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.12em] text-[#D3A15F]">Cerita</p>
-           <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Asal dan kualitas belum selalu terlihat oleh pembeli.</p>
+            <p className="mt-[1.45vh] text-[2vw] font-bold leading-[1.1]">Asal dan kualitas belum terlihat pembeli.</p>
         </div>
       </div>
 
-      <div className="absolute bottom-[6vh] left-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#D3A15F]">Data sebagai titik mulai</div>
-
       <div className="absolute right-[6.5vw] top-[18vh] w-[25vw] text-[#2A201D]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.14em] text-[#A8543B]">Snapshot data awal · demo</p>
-        <p className="mt-[1.1vh] max-w-[22vw] text-[1.8vw] font-semibold leading-[1.15] text-[#806E63]">Contoh ringkasan yang perlu divalidasi bersama Dinas dan kelompok tani.</p>
 
-        <div className="mt-[3.5vh] grid grid-cols-2 gap-[1.25vw] border-y border-[#D8C7B5] py-[2.5vh]">
+        <div className="mt-[2.8vh] grid grid-cols-2 gap-[1.25vw] border-y border-[#D8C7B5] py-[2.5vh]">
           <div>
             <p className="text-[3.8vw] font-extrabold leading-none tracking-[-0.08em] text-[#A8543B]">125</p>
             <p className="mt-[0.8vh] text-[1.5vw] font-extrabold uppercase tracking-[0.09em] text-[#806E63]">Petani terdaftar</p>
@@ -62,7 +59,6 @@ export default function SlideFieldReality() {
         </div>
       </div>
 
-      <div className="absolute bottom-[6vh] right-[6.5vw] text-[1.5vw] font-bold uppercase tracking-[0.1em] text-[#806E63]">Validasi bersama</div>
     </div>
   );
 }
