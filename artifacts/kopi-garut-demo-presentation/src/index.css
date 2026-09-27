@@ -49,7 +49,7 @@ body {
   left: 6.5vw;
   bottom: 5.9vh;
   padding-left: 0.95vw;
-  background: linear-gradient(#a8543b, #a8543b) 0 50% / 0.16vw 1.6vw
+  background: linear-gradient(#a8543b, #a8543b) 0 50% / 0.18vw 3.35vw
     no-repeat;
   color: #2a201d;
   font-family: var(--font-body-family);
@@ -81,7 +81,7 @@ body {
 
 .slide:has(.footer-on-dark)::before,
 .select-none > div:has(.footer-on-dark)::before {
-  background: linear-gradient(#fff9f1, #fff9f1) 0 50% / 0.16vw 1.6vw
+  background: linear-gradient(#fff9f1, #fff9f1) 0 50% / 0.18vw 3.35vw
     no-repeat;
   color: #fff9f1;
   text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
