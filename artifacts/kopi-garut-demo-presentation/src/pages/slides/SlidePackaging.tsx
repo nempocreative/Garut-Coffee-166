@@ -1,3 +1,4 @@
+import logo from '@assets/kopi-garut-logo-presentation.png';
 import cikuray from '@assets/ChatGPT_Image_Sep_20,_2026,_02_15_53_AM_1789872310968.png';
 import papandayan from '@assets/ChatGPT_Image_Sep_20,_2026,_02_17_35_AM_1789872310994.png';
 import kamojang from '@assets/ChatGPT_Image_Sep_20,_2026,_02_20_25_AM_1789872310995.png';
@@ -5,16 +6,12 @@ import kamojang from '@assets/ChatGPT_Image_Sep_20,_2026,_02_20_25_AM_1789872310
 export default function SlidePackaging() {
   return (
     <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#2A201D] text-[#FFF9F1]">
-      <div className="absolute left-0 right-0 top-0 h-[1.1vh] bg-[#A8543B]" />
       <div className="absolute right-0 top-0 h-full w-[4.5vw] bg-[#A8543B]" />
       <div className="absolute left-[34vw] top-[19vh] h-[48vh] w-[0.12vw] bg-[#806E63]" />
 
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
-        <span className="flex h-[2.45vw] w-[2.45vw] items-center justify-center rounded-full border border-[#D3A15F] text-[1.45vw] font-extrabold text-[#D3A15F]">G</span>
+        <img src={logo} crossOrigin="anonymous" alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#806E63] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#D3A15F]">Beans</span></span>
-      </div>
-      <div className="absolute right-[7.2vw] top-[6.8vh] text-right text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#E7D9C8]">
-        <span className="text-[#D3A15F]">28</span> · Gambaran kemasan
       </div>
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[25vw]">
