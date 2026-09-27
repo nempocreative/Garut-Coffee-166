@@ -19,7 +19,7 @@ export default function Slide8() {
          <p className="mt-[3vh] max-w-[35vw] text-[2vw] font-medium leading-[1.18] text-[#806E63]">Satu ruang untuk mengenal, menemukan, dan terhubung dengan Garut Beans G-Beans.</p>
          <p className="mt-[4.2vh] text-[2vw] font-extrabold text-[#A8543B]">Tumbuh bersama, dari kebun hingga pelanggan.</p>
       </div>
-       <div className="absolute bottom-[6vh] left-[6.5vw] flex items-center gap-[1vw] text-[1.6vw] font-bold uppercase tracking-[0.14em] text-[#806E63]">
+        <div className="absolute bottom-[13vh] left-[6.5vw] flex items-center gap-[1vw] text-[1.6vw] font-bold uppercase tracking-[0.14em] text-[#806E63]">
         <span className="h-[0.45vw] w-[0.45vw] rounded-full bg-[#A8543B]" />
         Kopi · Petani · Wilayah · Mitra
       </div>

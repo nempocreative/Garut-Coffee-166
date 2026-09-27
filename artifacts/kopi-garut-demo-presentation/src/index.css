@@ -47,13 +47,13 @@ body {
   position: absolute;
   z-index: 1000;
   left: 6.5vw;
-  bottom: calc(5.9vh - 2.15vw);
-  height: 4vw;
-  padding-left: 0.95vw;
-  background: linear-gradient(#a8543b, #a8543b) 0 50% / 0.18vw 4vw no-repeat;
+  bottom: 2.8vh;
+  height: 3vw;
+  padding-left: 0.75vw;
+  background: linear-gradient(#a8543b, #a8543b) 0 50% / 0.14vw 3vw no-repeat;
   color: #2a201d;
   font-family: var(--font-body-family);
-  font-size: 1.75vw;
+  font-size: 1.35vw;
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: 0.01em;
@@ -67,11 +67,11 @@ body {
   content: "nempo.id × kala muda";
   position: absolute;
   z-index: 1000;
-  left: 7.45vw;
-  bottom: 2.5vh;
+  left: 7.25vw;
+  bottom: 1.1vh;
   color: #a8543b;
   font-family: var(--font-body-family);
-  font-size: 1.5vw;
+  font-size: 1.1vw;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.06em;
@@ -81,7 +81,7 @@ body {
 
 .slide:has(.footer-on-dark)::before,
 .select-none > div:has(.footer-on-dark)::before {
-  background: linear-gradient(#fff9f1, #fff9f1) 0 50% / 0.18vw 4vw no-repeat;
+  background: linear-gradient(#fff9f1, #fff9f1) 0 50% / 0.14vw 3vw no-repeat;
   color: #fff9f1;
   text-shadow: 0 0.08vw 0.12vw rgb(42 32 29 / 48%);
 }
@@ -96,7 +96,7 @@ body {
   display: block;
   color: #a8543b;
   font-family: var(--font-body-family);
-  font-size: 1.5vw;
+  font-size: 1.1vw;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.06em;

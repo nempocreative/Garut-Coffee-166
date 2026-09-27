@@ -16,11 +16,11 @@ export default function Slide8Traceability() {
           <span className="text-[#D3A15F]">ke pilihan pelanggan.</span>
         </h2>
         <p className="mt-[3vh] max-w-[38vw] text-[2vw] leading-[1.18] text-[#E7D9C8]">
-          Setiap produk dapat dibaca melalui rangkaian informasi yang menjelaskan siapa, dari mana, dan bagaimana kopi diproses.
+          Setiap lot punya cerita: wilayah, petani, proses, lalu produk.
         </p>
       </div>
 
-       <div className="absolute left-[6.5vw] bottom-[8vh] w-[43vw]">
+       <div className="absolute left-[6.5vw] bottom-[15vh] w-[43vw]">
         <div className="flex items-center justify-between gap-[0.55vw]">
           <div className="flex h-[4.2vw] w-[4.2vw] shrink-0 items-center justify-center rounded-full border-[0.2vw] border-[#D3A15F] bg-[#3A2B27] text-[1.7vw] font-extrabold">01</div>
           <div className="h-[0.18vw] min-w-0 flex-1 bg-[#D3A15F]" />

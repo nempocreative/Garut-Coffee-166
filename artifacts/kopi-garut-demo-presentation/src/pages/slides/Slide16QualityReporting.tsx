@@ -41,12 +41,8 @@ export default function Slide16QualityReporting() {
         <div className="absolute -left-[0.6vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
         <div className="absolute -right-[0.6vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
       </div>
-        <div className="absolute right-[18vw] bottom-[7vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Pemeriksaan mutu</div>
-        <div className="absolute right-[6.5vw] bottom-[4vh] text-center text-[1.6vw] font-bold text-[#A8543B]">Laporan mutu</div>
-
-        <div className="absolute bottom-[8vh] left-[6.5vw] max-w-[55vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.8vw] font-bold text-[#A8543B]">
-        Data bukan hanya disimpan — data dipakai untuk menjaga kepercayaan
-      </div>
+        <div className="absolute right-[18vw] bottom-[18vh] text-center text-[1.35vw] font-bold text-[#A8543B]">Pemeriksaan mutu</div>
+        <div className="absolute right-[6.5vw] bottom-[14vh] text-center text-[1.35vw] font-bold text-[#A8543B]">Laporan mutu</div>
     </div>
   );
 }

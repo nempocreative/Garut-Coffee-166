@@ -2,79 +2,50 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 
 export default function Slide3Ecosystem() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
-      <div className="absolute left-0 top-0 h-full w-[21vw] bg-[#E7D9C8]" />
-      <div className="absolute left-[40.6vw] top-[44vh] h-[0.16vw] w-[3.7vw] bg-[#D3A15F]/70" />
-      <div className="absolute left-[40.1vw] top-[43.55vh] h-[0.9vw] w-[0.9vw] rounded-full border-[0.18vw] border-[#D3A15F] bg-[#F6F0E8]" />
+    <div className="relative h-screen w-screen overflow-hidden bg-[#F6F0E8] text-[#2A201D]">
+      <div className="absolute inset-y-0 left-0 w-[21vw] bg-[#E7D9C8]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.12vw]" />
         <span className="text-[1.5vw] font-extrabold tracking-[-0.04em]">Garut <span className="text-[#A8543B]">Beans</span></span>
       </div>
 
-      <div className="absolute left-[6.5vw] top-[17vh] w-[46vw]">
-        <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Pengguna utama</p>
-        <h2 className="mt-[1.6vh] text-[4.5vw] font-extrabold leading-[1] tracking-[-0.075em]">
-          <span className="block">Satu ekosistem,</span>
-          <span className="text-[#A8543B]">empat kebutuhan.</span>
+      <section className="absolute left-[6.5vw] top-[18vh] w-[29vw]">
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.2em] text-[#A8543B]">Pengguna utama</p>
+        <h2 className="mt-[1.5vh] text-[4.5vw] font-extrabold leading-[0.96] tracking-[-0.075em]">
+          <span className="block">Empat pintu,</span>
+          <span className="text-[#A8543B]">satu ekosistem.</span>
         </h2>
-        <div className="mt-[3.2vh] h-[0.4vh] w-[7vw] bg-[#D3A15F]" />
-        <p className="mt-[3.2vh] max-w-[35vw] text-[1.8vw] leading-[1.22] text-[#806E63]">
-          Setiap pengguna datang dengan tujuan berbeda. Platform menyatukan tujuan itu tanpa menghilangkan konteks asalnya.
-        </p>
-      </div>
+        <div className="mt-[3vh] h-[0.4vh] w-[6.5vw] bg-[#D3A15F]" />
+        <p className="mt-[3vh] max-w-[25vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Platform bertemu dengan pengguna melalui tujuan yang berbeda.</p>
+        <p className="mt-[6vh] text-[1.15vw] font-extrabold uppercase tracking-[0.17em] text-[#A8543B]">Peta kebutuhan</p>
+      </section>
 
-      <div className="absolute right-[6.5vw] top-[15vh] w-[49vw]">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-[0.7vw]">
-            <span className="h-[0.65vw] w-[0.65vw] rounded-full bg-[#D3A15F]" />
-            <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Empat pintu masuk</p>
-          </div>
-          <p className="text-[1.5vw] font-bold uppercase tracking-[0.12em] text-[#806E63]">01—04 · satu ekosistem</p>
+      <section className="absolute right-[6.5vw] top-[16vh] h-[62vh] w-[52vw]">
+        <div className="absolute left-[20vw] top-[20vh] h-[20vw] w-[20vw] rounded-full border border-[#D3A15F]/60" />
+        <div className="absolute left-[24.5vw] top-[24.5vh] flex h-[11vw] w-[11vw] items-center justify-center rounded-full bg-[#2A201D] text-center text-[#FFF9F1] shadow-[0.55vw_0.65vw_0_rgba(42,32,29,0.12)]">
+          <span className="text-[1.6vw] font-extrabold leading-[1.02]">Garut<br /><span className="text-[#D3A15F]">Beans</span></span>
         </div>
-
-        <div className="mt-[2vh] grid grid-cols-2 gap-[1.1vw]">
-          <div className="min-h-[21vh] border border-[#2A201D] bg-[#2A201D] p-[1.25vw] text-[#FFF9F1] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.12)]">
-            <div className="flex items-start justify-between">
-              <p className="text-[3vw] font-extrabold leading-none text-[#D3A15F]">01</p>
-              <p className="pt-[0.4vh] text-[1.5vw] font-bold uppercase tracking-[0.14em] text-[#E7D9C8]">Asal</p>
-            </div>
-            <p className="mt-[2.2vh] text-[1.8vw] font-extrabold leading-[1.05]">Petani & kelompok tani</p>
-            <p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#E7D9C8]">Profil, wilayah, produk, dan perkembangan kebun.</p>
-          </div>
-
-          <div className="min-h-[21vh] border border-[#C29451] bg-[#D3A15F] p-[1.25vw] text-[#2A201D] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.12)]">
-            <div className="flex items-start justify-between">
-              <p className="text-[3vw] font-extrabold leading-none text-[#A8543B]">02</p>
-              <p className="pt-[0.4vh] text-[1.5vw] font-bold uppercase tracking-[0.14em] text-[#2A201D]/70">Rasa</p>
-            </div>
-            <p className="mt-[2.2vh] text-[1.8vw] font-extrabold leading-[1.05]">Pembeli & penikmat kopi</p>
-            <p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#2A201D]/75">Pilihan yang sesuai, dengan asal dan proses yang dipahami.</p>
-          </div>
-
-          <div className="min-h-[21vh] border border-[#A8543B] bg-[#A8543B] p-[1.25vw] text-[#FFF9F1] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.12)]">
-            <div className="flex items-start justify-between">
-              <p className="text-[3vw] font-extrabold leading-none text-[#F6D9B6]">03</p>
-              <p className="pt-[0.4vh] text-[1.5vw] font-bold uppercase tracking-[0.14em] text-[#F6D9B6]">Tumbuh</p>
-            </div>
-            <p className="mt-[2.2vh] text-[1.8vw] font-extrabold leading-[1.05]">Mitra & pelaku usaha</p>
-            <p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#FFF9F1]/80">Peluang kolaborasi, kemitraan, dan produk baru.</p>
-          </div>
-
-          <div className="min-h-[21vh] border border-[#D8C7B5] bg-[#E7D9C8] p-[1.25vw] text-[#2A201D] shadow-[0.35vw_0.45vw_0_rgba(42,32,29,0.1)]">
-            <div className="flex items-start justify-between">
-              <p className="text-[3vw] font-extrabold leading-none text-[#A8543B]">04</p>
-              <p className="pt-[0.4vh] text-[1.5vw] font-bold uppercase tracking-[0.14em] text-[#806E63]">Arah</p>
-            </div>
-            <p className="mt-[2.2vh] text-[1.8vw] font-extrabold leading-[1.05]">Pengelola ekosistem</p>
-            <p className="mt-[1vh] text-[1.55vw] leading-[1.15] text-[#806E63]">Data, program, laporan, dan umpan balik untuk bertindak.</p>
-          </div>
+        <div className="absolute left-[6vw] top-[3vh] w-[18vw] border-t-[0.2vw] border-[#A8543B] pt-[1.2vh]">
+          <div className="flex items-baseline justify-between"><span className="text-[2.6vw] font-extrabold text-[#A8543B]">01</span><span className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Asal</span></div>
+          <p className="mt-[1vh] text-[1.7vw] font-extrabold">Petani & kelompok tani</p>
+          <p className="mt-[0.7vh] text-[1.25vw] leading-[1.15] text-[#806E63]">Profil, wilayah, produk, dan perkembangan kebun.</p>
         </div>
-      </div>
-
-      <div className="absolute bottom-[6vh] left-[6.5vw] right-[6.5vw] flex items-center gap-[1vw] border-t border-[#D8C7B5] pt-[2vh] text-[1.7vw] font-bold text-[#A8543B]">
-        <span className="h-[0.6vw] w-[0.6vw] rounded-full bg-[#D3A15F]" />
-        Informasi yang sama · keputusan yang lebih dekat
-      </div>
+        <div className="absolute right-0 top-[8vh] w-[18vw] border-t-[0.2vw] border-[#D3A15F] pt-[1.2vh]">
+          <div className="flex items-baseline justify-between"><span className="text-[2.6vw] font-extrabold text-[#A8543B]">02</span><span className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Rasa</span></div>
+          <p className="mt-[1vh] text-[1.7vw] font-extrabold">Pembeli & penikmat kopi</p>
+          <p className="mt-[0.7vh] text-[1.25vw] leading-[1.15] text-[#806E63]">Pilihan dengan asal dan proses yang dipahami.</p>
+        </div>
+        <div className="absolute left-[3vw] bottom-[2vh] w-[18vw] border-t-[0.2vw] border-[#A8543B] pt-[1.2vh]">
+          <div className="flex items-baseline justify-between"><span className="text-[2.6vw] font-extrabold text-[#A8543B]">03</span><span className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Tumbuh</span></div>
+          <p className="mt-[1vh] text-[1.7vw] font-extrabold">Mitra & pelaku usaha</p>
+          <p className="mt-[0.7vh] text-[1.25vw] leading-[1.15] text-[#806E63]">Peluang kolaborasi, kemitraan, dan produk baru.</p>
+        </div>
+        <div className="absolute right-[1vw] bottom-[7vh] w-[18vw] border-t-[0.2vw] border-[#D3A15F] pt-[1.2vh]">
+          <div className="flex items-baseline justify-between"><span className="text-[2.6vw] font-extrabold text-[#A8543B]">04</span><span className="text-[1.1vw] font-extrabold uppercase tracking-[0.16em] text-[#A8543B]">Arah</span></div>
+          <p className="mt-[1vh] text-[1.7vw] font-extrabold">Pengelola ekosistem</p>
+          <p className="mt-[0.7vh] text-[1.25vw] leading-[1.15] text-[#806E63]">Data, program, laporan, dan umpan balik.</p>
+        </div>
+      </section>
     </div>
   );
 }
