@@ -319,8 +319,16 @@ function CatalogPage() {
     <Header />
     <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
     <div className="catalog-intro">
-      <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
-      <div className="catalog-facts"><span><strong>{totalCatalogProducts}</strong><small>produk katalog</small></span><span><strong>{coffees.length}</strong><small>profil kopi</small></span><span><strong>{productCategories.length}</strong><small>kategori karya</small></span></div>
+      <div className="catalog-intro-copy">
+        <div className="catalog-intro-kicker"><span className="section-kicker">PILIHAN DARI GARUT</span><span className="catalog-intro-rule" /></div>
+        <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
+      </div>
+      <div className="catalog-intro-art" aria-hidden="true"><img src={asset('coffee-bean-menu.webp')} alt="" /><span>G-Beans</span></div>
+      <div className="catalog-facts">
+        <div className="catalog-fact catalog-fact-primary"><div className="catalog-fact-value"><strong>{totalCatalogProducts}</strong><span>pilihan</span></div><small>produk katalog</small></div>
+        <div className="catalog-fact"><div className="catalog-fact-value"><strong>{coffees.length}</strong><span>profil</span></div><small>kopi kebun</small></div>
+        <div className="catalog-fact"><div className="catalog-fact-value"><strong>{productCategories.length}</strong><span>kategori</span></div><small>karya turunan</small></div>
+      </div>
     </div>
     <button className="catalog-featured" onClick={() => setLocation(`/product/${featuredCoffee.id}`)} data-testid="catalog-featured-coffee">
       <img src={asset('hero-coffee.webp')} alt="" /><div className="catalog-featured-shade" />
