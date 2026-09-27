@@ -349,41 +349,40 @@ function CatalogPage() {
 }
 
 function CatalogCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const slides = sharedHomeContent.promoSlides.slice(0, 4);
-  const [activeIndex, setActiveIndex] = useState(1);
-  const slideCount = slides.length;
-  const activeSlide = slides[activeIndex];
-  const previousIndex = (activeIndex - 1 + slideCount) % slideCount;
-  const nextIndex = (activeIndex + 1) % slideCount;
-  const moveTo = (index: number) => setActiveIndex((index + slideCount) % slideCount);
+  const cleanPromoImages = ['kopi-garut-panen-rasa-banner.webp', 'origin-coffee.webp', 'hero-coffee.webp'] as const;
+  const promos = sharedHomeContent.promoSlides.slice(0, 3).map((promo, promoIndex) => ({ ...promo, image: cleanPromoImages[promoIndex] }));
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const timer = window.setInterval(() => setActiveIndex((current) => (current + 1) % slideCount), 6500);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % promos.length), 4200);
     return () => window.clearInterval(timer);
-  }, [slideCount]);
+  }, [promos.length]);
 
-  return <section className="catalog-carousel" aria-label="Inspirasi jelajah Garut Beans">
-    <div className="catalog-carousel-stage">
-      <button className="catalog-carousel-slide catalog-carousel-slide-side catalog-carousel-slide-prev" onClick={() => moveTo(previousIndex)} aria-label={`Buka ${slides[previousIndex].title}`}>
-        <img src={asset(slides[previousIndex].image)} alt="" /><span className="catalog-carousel-shade" />
-      </button>
-      <button className="catalog-carousel-slide catalog-carousel-slide-active" onClick={() => onNavigate(activeSlide.route)} data-testid="catalog-carousel-active">
-        <img src={asset(activeSlide.image)} alt={activeSlide.title} /><span className="catalog-carousel-shade" />
-        <span className="catalog-carousel-copy">
-          <span className="catalog-carousel-eyebrow">{activeSlide.eyebrow}</span>
-          <strong>{activeSlide.title}</strong>
-          <small>{activeSlide.description}</small>
-          <b>{activeSlide.cta} <ArrowRight size={13} /></b>
-        </span>
-      </button>
-      <button className="catalog-carousel-slide catalog-carousel-slide-side catalog-carousel-slide-next" onClick={() => moveTo(nextIndex)} aria-label={`Buka ${slides[nextIndex].title}`}>
-        <img src={asset(slides[nextIndex].image)} alt="" /><span className="catalog-carousel-shade" />
-      </button>
-    </div>
-    <div className="catalog-carousel-controls">
-      <button className="catalog-carousel-arrow" onClick={() => moveTo(previousIndex)} aria-label="Banner sebelumnya"><ArrowLeft size={14} /></button>
-      <div className="catalog-carousel-dots" role="tablist" aria-label="Pilihan banner">{slides.map((slide, index) => <button key={slide.id} className={index === activeIndex ? 'active' : ''} onClick={() => moveTo(index)} aria-label={`Tampilkan ${slide.title}`} aria-selected={index === activeIndex} role="tab" />)}</div>
-      <button className="catalog-carousel-arrow" onClick={() => moveTo(nextIndex)} aria-label="Banner berikutnya"><ArrowRight size={14} /></button>
+  const visiblePromos = [-1, 0, 1].map((slot) => ({
+    slot,
+    promo: promos[(index + slot + promos.length) % promos.length],
+  }));
+
+  return <section className="gb-promo catalog-home-promo" data-testid="catalog-promo-carousel" aria-label="Promosi Garut Beans">
+    <div className="gb-promo-stage">
+      {visiblePromos.map(({ slot, promo }) => {
+        const isActive = slot === 0;
+        return <article className={`gb-promo-card ${isActive ? 'is-active' : slot < 0 ? 'is-prev' : 'is-next'}`} key={`${promo.id}-${slot}`} aria-hidden={!isActive}>
+          <div className="gb-promo-slide">
+            {isActive && <div className="gb-promo-copy">
+              <span className="gb-eyebrow">{promo.eyebrow}</span>
+              <h1 data-testid="text-catalog-promo-title">{promo.title}</h1>
+              <p>{promo.description}</p>
+              <button className="gb-text-action" onClick={() => onNavigate(promo.route)} data-testid="button-catalog-promo-action">{promo.cta} <ArrowRight size={15} /></button>
+            </div>}
+            <div className="gb-promo-media">
+              <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-catalog-promo-${promo.id}`} />
+              <div className="gb-promo-shade" />
+            </div>
+          </div>
+        </article>;
+      })}
     </div>
   </section>;
 }

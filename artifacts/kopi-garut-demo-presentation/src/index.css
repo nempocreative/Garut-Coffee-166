@@ -71,17 +71,17 @@ body {
 .cover-footer-watermark {
   display: inline-flex;
   align-items: center;
-  padding: 0.02em 0.55em;
-  border: 1px solid rgb(211 161 95 / 70%);
+  padding: 0.16em 0.7em 0.19em;
+  border: 1px solid rgb(168 84 59 / 38%);
   border-radius: 999px;
-  background: rgb(246 240 232 / 94%);
-  box-shadow: 0 1px 8px rgb(42 32 29 / 18%);
-  color: #806e63;
+  background: rgb(255 249 241 / 96%);
+  box-shadow: 0 0.18vw 0.55vw rgb(42 32 29 / 14%);
+  color: #a8543b;
   font-family: var(--font-body-family);
   font-size: 1.5vw;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
 
