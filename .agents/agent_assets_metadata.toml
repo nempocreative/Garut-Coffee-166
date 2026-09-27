@@ -119,3 +119,17 @@ mtime_ms = 1790498359531
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/5088abeb-0632-42b7-a154-2d0de819c8d4/a310c3d7-4c18-4bb2-a107-d3530e81b357"
 storage_version_token = "1790498362566516"
 content_type = "application/pdf"
+
+[[outputs]]
+id = "14DmjMn-gkXVx9axk9h9I"
+uri = "file://attached_assets/generated_images/garut-mountain-coffee-banner.png"
+type = "image"
+title = "Garut Mountain Coffee Banner"
+description = "Ilustrasi banner lebar tentang tanah pegunungan Garut dan ekosistem kopi, dengan gaya gambar tangan seperti referensi."
+logical_id = "650cd0c7-4616-4107-ba6d-777a71aef94f"
+content_hash = "sha256:0ffec5ab28b3cbba4a7780cd9dcee2685cda90eec601f591996c63ee2e7acb87"
+size = 2171049
+mtime_ms = 1790536803631
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/650cd0c7-4616-4107-ba6d-777a71aef94f/56fa4965-be4f-443f-96ae-adf7ad8ab5ae"
+storage_version_token = "1790536804984174"
+content_type = "image/png"
