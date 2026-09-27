@@ -3996,6 +3996,16 @@
   }
 }
 
+/* The supplied masthead artwork already carries its own lighting. Keep it
+   free from an extra gray color wash. */
+.gb-header::before {
+  background-image: url('/kopi-garut-web/assets/garut-beans-header.png');
+}
+
+.gb-header::after {
+  background: transparent;
+}
+
 /* Give the search field its own breathing room below the illustrated masthead. */
 .gb-home-content {
   margin-top: 18px;
@@ -5374,8 +5384,8 @@
 
 .gb-story-lead-shade {
   background:
-    linear-gradient(90deg, rgba(34, 22, 17, .9), rgba(47, 28, 20, .5) 62%, rgba(47, 28, 20, .12)),
-    linear-gradient(0deg, rgba(34, 22, 17, .58), transparent 64%);
+    linear-gradient(90deg, rgba(25, 15, 11, .96), rgba(42, 24, 17, .68) 62%, rgba(47, 28, 20, .22)),
+    linear-gradient(0deg, rgba(25, 15, 11, .7), transparent 64%);
 }
 
 .gb-story-lead-topline {
@@ -5421,7 +5431,7 @@
 }
 
 .gb-story-lead-kicker {
-  color: rgba(255, 249, 241, .72);
+  color: rgba(255, 216, 77, .96);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 1.05px;
@@ -5433,14 +5443,16 @@
   font-size: 24px;
   letter-spacing: -.85px;
   line-height: 1.04;
+  text-shadow: 0 2px 8px rgba(25, 15, 11, .38);
 }
 
 .gb-story-lead-copy > span:not(.gb-story-lead-footer):not(.gb-story-lead-kicker) {
   max-width: 290px;
-  color: rgba(255, 249, 241, .84);
+  color: rgba(255, 249, 241, .96);
   font-size: 10px;
   line-height: 1.42;
   text-align: left;
+  text-shadow: 0 1px 5px rgba(25, 15, 11, .34);
 }
 
 .gb-story-lead-footer {
@@ -5473,20 +5485,12 @@
 }
 
 .gb-story-lead-link {
-  color: var(--gb-highlight);
+  color: #ffd84d;
 }
 
 .gb-story-lead-link b {
   font-size: 11px;
   font-weight: 800;
-}
-
-.gb-story-lead-copy img {
-  right: -18px;
-  bottom: -20px;
-  width: 94px;
-  height: 78px;
-  opacity: .6;
 }
 
 @media (min-width: 768px) {
@@ -5508,8 +5512,8 @@
 
   .gb-story-lead-shade {
     background:
-      linear-gradient(90deg, rgba(31, 20, 15, .86), rgba(40, 24, 18, .32) 70%, rgba(40, 24, 18, .06)),
-      linear-gradient(0deg, rgba(31, 20, 15, .76), transparent 72%);
+      linear-gradient(90deg, rgba(25, 15, 11, .94), rgba(40, 24, 18, .5) 70%, rgba(40, 24, 18, .14)),
+      linear-gradient(0deg, rgba(25, 15, 11, .8), transparent 72%);
   }
 
   .gb-story-lead-topline {
@@ -5552,13 +5556,6 @@
     font-size: 9px;
   }
 
-  .gb-story-lead-copy img {
-    right: 24px;
-    bottom: -17px;
-    width: 168px;
-    height: 132px;
-    opacity: .68;
-  }
 }
 
 /* Taste selector: a lighter editorial carousel, without the heavy black
@@ -6064,6 +6061,21 @@
 .gb-taste-slide.is-next {
   opacity: .86;
   filter: saturate(.76) brightness(.78);
+}
+
+/* Story copy must stay readable after the legacy desktop card rules above. */
+.gb-story-lead,
+.gb-story-lead-copy,
+.gb-story-lead-copy strong,
+.gb-story-lead-copy > span,
+.gb-story-lead-fact {
+  color: #fff9f1 !important;
+}
+
+.gb-story-lead-topline span:first-child,
+.gb-story-lead-kicker,
+.gb-story-lead-link {
+  color: #ffd84d !important;
 }
 
 /* Keep the same footer navigation available on wide screens. */
@@ -6965,5 +6977,69 @@
 
   .gb-footer-contact-card {
     width: 100%;
+  }
+}
+
+/* Keep the supplied Garut Beans masthead artwork in its original composition. */
+.gb-header {
+  min-height: 252px;
+  padding: 16px 16px 0;
+}
+
+.gb-header::before {
+  inset: 0;
+  height: 100%;
+  border-radius: 0 0 24px 24px;
+  background:
+    linear-gradient(180deg, rgba(30, 20, 15, .14), rgba(30, 20, 15, .02) 42%, rgba(30, 20, 15, .2)),
+    url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
+  clip-path: none;
+}
+
+.gb-header::after {
+  inset: 0;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(28, 18, 13, .08), transparent 48%, rgba(28, 18, 13, .18));
+}
+
+.gb-header-top {
+  position: relative;
+  z-index: 2;
+  justify-content: flex-end;
+}
+
+.gb-header .gb-brand,
+.gb-header .gb-greeting {
+  display: none;
+}
+
+.gb-header-actions {
+  gap: 8px;
+}
+
+.gb-icon-orb {
+  width: 42px;
+  height: 42px;
+  border-color: rgba(255, 249, 241, .82);
+  background: rgba(48, 30, 20, .38);
+  color: #fff9f1;
+  box-shadow: 0 5px 14px rgba(34, 20, 13, .2), 0 0 0 3px rgba(255, 249, 241, .1);
+  backdrop-filter: blur(5px);
+}
+
+@media (min-width: 768px) {
+  .gb-header {
+    min-height: 360px;
+    padding: 24px clamp(40px, 6vw, 88px) 0;
+  }
+
+  .gb-header::before {
+    border-radius: 0 0 34px 34px;
+    background-position: center 24%;
+  }
+
+  .gb-icon-orb {
+    width: 46px;
+    height: 46px;
   }
 }

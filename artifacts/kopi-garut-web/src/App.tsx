@@ -230,12 +230,20 @@ function BottomNav() {
 }
 
 function FloatingActions() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [visible, setVisible] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [points] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
+  const supportActions = [
+    { key: 'live', title: 'Chat Live CS', description: 'Tanya langsung ke tim Garut Beans' },
+    { key: 'faq', title: 'FAQ Chat AI', description: 'Cari jawaban cepat soal kopi dan pesanan' },
+    { key: 'instagram', title: 'Instagram', description: 'Ikuti cerita terbaru dari Garut' },
+  ] as const;
 
   useEffect(() => {
     let showTimer: number | undefined;
     const handleScroll = () => {
+      setOpen(false);
       setVisible(false);
       if (showTimer) window.clearTimeout(showTimer);
       showTimer = window.setTimeout(() => setVisible(true), 260);
@@ -248,15 +256,41 @@ function FloatingActions() {
     };
   }, []);
 
+  const route = location.split('?')[0];
+  const isFarmerRoute = route === '/farmers' || route === '/extension-farmers' || route.startsWith('/farmer/');
+  if (route === '/login' || route === '/support' || route === '/coffee-game' || isFarmerRoute) return null;
+
+  const handleSupportAction = (key: (typeof supportActions)[number]['key']) => {
+    setOpen(false);
+    if (key === 'instagram') {
+      window.open('https://instagram.com/kopigarut', '_blank', 'noopener,noreferrer');
+      return;
+    }
+    setLocation(`/support?mode=${key}`);
+  };
+
   return (
     <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'}`} aria-label="Akses cepat">
-      <button className="floating-action floating-action-chat" onClick={() => setLocation('/support')} aria-label="Buka chat bantuan" data-testid="floating-chat">
-        <span className="floating-action-icon"><MessageSquare size={18} /></span>
-        <span className="floating-action-label">Chat</span>
+      {open && <button className="support-menu-backdrop" onClick={() => setOpen(false)} aria-label="Tutup menu bantuan" data-testid="floating-support-backdrop" />}
+      {open && <section className="support-menu" aria-label="Pusat bantuan">
+        <div className="support-menu-header">
+          <div><span className="section-kicker">PUSAT BANTUAN</span><h2>Butuh bantuan?</h2><p>Pilih cara yang paling nyaman untuk terhubung dengan Garut Beans.</p></div>
+          <span className="support-menu-badge"><MessageSquare size={19} /></span>
+        </div>
+        <div className="support-menu-list">
+          {supportActions.map((action, index) => <button key={action.key} className="support-menu-action" onClick={() => handleSupportAction(action.key)} data-testid={`support-action-${action.key}`}>
+            <span className="support-menu-action-icon">{index === 0 ? <Users size={18} /> : index === 1 ? <MessageSquare size={18} /> : <ArrowRight size={18} />}</span>
+            <span><strong>{action.title}</strong><small>{action.description}</small></span>
+            <ArrowRight size={16} />
+          </button>)}
+        </div>
+      </section>}
+      <button className="floating-game-button" onClick={() => setLocation('/coffee-game')} aria-label={`Buka Games Kopi, ${points} poin`} data-testid="floating-games">
+        <span className="floating-game-motion"><img src={asset('mini-games-icon.webp')} alt="" /></span>
+        <span className="floating-points-badge">{points > 999 ? '999+' : points}</span>
       </button>
-      <button className="floating-action floating-action-game" onClick={() => setLocation('/coffee-game')} aria-label="Buka mini games" data-testid="floating-games">
-        <span className="floating-action-icon"><Coffee size={18} /></span>
-        <span className="floating-action-label">Games</span>
+      <button className="floating-support-button" onClick={() => setOpen((current) => !current)} aria-label={open ? 'Tutup pusat bantuan' : 'Buka pusat bantuan'} aria-expanded={open} data-testid="floating-chat">
+        <span className="floating-support-motion"><img src={asset('faq-live-chat.webp')} alt="" /></span>
       </button>
     </div>
   );
@@ -335,7 +369,9 @@ function WebHomeRoute() {
 }
 
 function Page({ children }: { children: ReactNode }) {
-  return <div className="app-viewport"><div className="app-page">{children}</div><BottomNav /><CartPreview /></div>;
+  const [location] = useLocation();
+  const hasDesktopTopNav = location !== '/';
+  return <div className={`app-viewport ${hasDesktopTopNav ? 'has-desktop-top-nav' : ''}`}><div className="app-page">{children}</div><BottomNav /><CartPreview /></div>;
 }
 
 function CatalogPage() {
@@ -1444,7 +1480,8 @@ const supportFaqs = [
 ] as const;
 
 function SupportPage() {
-  const [mode, setMode] = useState<'faq' | 'live'>('faq');
+  const initialMode = new URLSearchParams(window.location.search).get('mode') === 'live' ? 'live' : 'faq';
+  const [mode, setMode] = useState<'faq' | 'live'>(initialMode);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<SupportMessage[]>([
     { id: 'welcome', sender: 'assistant', text: 'Halo, saya asisten Garut Beans. Pilih pertanyaan yang sering ditanyakan atau tulis pertanyaanmu.' },
@@ -1492,7 +1529,7 @@ function SupportPage() {
 
 function CoffeeGamePage() {
   const { notify } = useStore();
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
   return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>SKOR</span><strong>{score}</strong></div><img src={asset(score % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi.</p><button className="primary-button wide" onClick={() => { setScore((value) => value + 10); notify('Biji kopi terkumpul'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
 }
 
@@ -1567,27 +1604,27 @@ function LoginRedirect({ route, onRedirect }: { route: string; onRedirect: () =>
 
 function DesktopTopNav() {
   const [location, setLocation] = useLocation();
-  const active = location === '/'
-    ? 'home'
-    : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites')
-      ? 'explore'
-      : location.startsWith('/traceability')
-        ? 'trace'
-        : location.startsWith('/orders') || location.startsWith('/cart')
-          ? 'orders'
-          : location.startsWith('/profile')
-            ? 'account'
-            : '';
+  if (location === '/') return null;
+
+  const active = location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites')
+    ? 'explore'
+    : location.startsWith('/traceability')
+      ? 'trace'
+      : location.startsWith('/orders') || location.startsWith('/cart')
+        ? 'orders'
+        : location.startsWith('/profile')
+          ? 'account'
+          : '';
   const items: { id: string; label: string; path: string; icon: LucideIcon }[] = [
     { id: 'home', label: 'Beranda', path: '/', icon: Home },
     { id: 'explore', label: 'Jelajah', path: '/catalog', icon: Coffee },
-    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Barcode },
+    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Map },
     { id: 'orders', label: 'Pesanan', path: '/orders', icon: ClipboardList },
-    { id: 'account', label: 'Akun', path: '/profile', icon: Farmer },
+    { id: 'account', label: 'Akun', path: '/profile', icon: CircleUserRound },
   ];
 
   return (
-    <nav className="desktop-top-nav" aria-label="Navigasi utama">
+    <nav className="desktop-top-nav" aria-label="Navigasi halaman">
       <div className="desktop-top-nav-inner">
         <button className="desktop-top-brand" onClick={() => setLocation('/')} aria-label="Garut Beans, kembali ke beranda">
           <img src={asset('kopi-garut-logo.png')} alt="" />
@@ -1615,11 +1652,22 @@ function DesktopTopNav() {
   );
 }
 
+function ScrollToTop() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location]);
+
+  return null;
+}
+
 function App() {
   return (
     <WebAuthProvider>
       <StoreProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <ScrollToTop />
           <DesktopTopNav />
           <AppRouter />
            <FloatingActions />

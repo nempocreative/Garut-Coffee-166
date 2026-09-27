@@ -191,7 +191,6 @@ function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
           <span className="gb-story-lead-fact"><i /> 1.200 mdpl · Garut, Jawa Barat</span>
           <span className="gb-story-lead-link">Telusuri asal kopi <b>↗</b></span>
         </span>
-        <img src={asset('coffee-beans-natural.webp')} alt="" data-testid="img-story-beans" />
       </span>
     </button>
   );
