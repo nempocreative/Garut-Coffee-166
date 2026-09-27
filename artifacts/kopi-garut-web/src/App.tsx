@@ -1,4 +1,4 @@
-import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   Trash2, ClipboardList, Clock3, FileText, Factory, Leaf, LocateFixed, MessageSquare, Menu,
   Wallet, Wheat,
@@ -84,10 +84,40 @@ const coffees: Coffee[] = coffeeCatalog.map(({ tastingNotes, image, ...coffee })
   image: asset(image),
 }));
 
+const traceabilityLot = {
+  id: 'KG-26001',
+  coffeeId: 'papandayan-honey',
+  variety: 'Arabika',
+  region: 'Papandayan',
+  weightKg: 350,
+  process: 'Madu',
+  harvestDate: '12 September 2026',
+  productionDate: '20 September 2026',
+  storyTitle: 'Satu cangkir, banyak kehidupan.',
+  story: 'Di lereng Papandayan, kopi dipetik saat kulitnya merah penuh oleh keluarga tani yang merawat kebun dari musim ke musim. Setelah melalui proses madu dan pengeringan perlahan, biji ini disangrai ringan–sedang agar rasa lemon, gula merah, dan melatinya tetap terasa jernih. Bagi mereka, kopi bukan sekadar panen: kopi adalah pekerjaan yang menghidupkan rumah, menjaga kebun tetap terawat, dan membuka kesempatan bagi tangan-tangan lain untuk ikut bekerja.',
+  impact: 'Saat kamu memilih lot ini, kamu ikut menjaga pekerjaan di kebun, rumah pengeringan, proses sortir, hingga pengiriman. Jadi, yang sampai ke cangkir bukan hanya rasa—tetapi juga kesempatan untuk tumbuh bersama.',
+  journey: [
+    { label: 'Kebun', title: 'Dipetik saat matang', detail: 'Buah merah dipilih satu per satu di ketinggian 1.650 mdpl.' },
+    { label: 'Proses', title: 'Dikeringkan dengan sabar', detail: 'Lapisan madu dijaga selama pengeringan untuk membangun rasa manis.' },
+    { label: 'Cangkir', title: 'Diseduh untuk dinikmati', detail: 'Sangrai ringan–sedang menjaga akhir rasa tetap bersih dan hangat.' },
+  ],
+} as const;
+
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 const homeDate = () => { const d = new Date(); return `${weekdays[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; };
+const orderStatusSteps = ['Dipesan', 'Diproses', 'Diantar'] as const;
+const orderStatusDescriptions: Record<(typeof orderStatusSteps)[number], string> = {
+  Dipesan: 'Pesanan diterima dan menunggu diproses.',
+  Diproses: 'Kopi sedang disiapkan dengan teliti.',
+  Diantar: 'Pesanan sudah sampai di rumahmu.',
+};
+const getOrderStatusIndex = (status: string) => {
+  if (status === 'Preparing' || status === 'Diproses') return 1;
+  if (status === 'Delivered' || status === 'Diantar') return 2;
+  return 0;
+};
 
 type CartItem = { id: string; quantity: number };
 type Order = { id: string; items: CartItem[]; total: number; createdAt: string; status: string };
@@ -349,11 +379,7 @@ function CatalogPage() {
 
 function CatalogVoucherStrip({ onSelect }: { onSelect: (code: string) => void }) {
   const vouchers = sharedHomeContent.vouchers.flat();
-  return <section className="catalog-voucher-section" aria-labelledby="catalog-voucher-title">
-    <div className="catalog-voucher-heading">
-      <div><span className="section-kicker">PROMO AKTIF</span><h2 id="catalog-voucher-title">Voucher aktif</h2></div>
-      <small>{vouchers.length} pilihan</small>
-    </div>
+  return <section className="catalog-voucher-section" aria-label="Voucher yang tersedia">
     <div className="catalog-voucher-rail">
       {vouchers.map((voucher, index) => <button type="button" className={`catalog-voucher-card ${voucher.variant === 'dark' ? 'dark' : ''}`} key={voucher.code} onClick={() => onSelect(voucher.code)} data-testid={`catalog-voucher-${voucher.code}`}>
         <span className="catalog-voucher-copy">
@@ -440,14 +466,148 @@ function FavoritesPage() {
 function OrdersPage() {
   const { orders } = useStore();
   const [, setLocation] = useLocation();
-  return <Page><main className="subpage"><Header /><div className="subcopy">Pantau perjalanan pesanan kopimu.</div>{orders.length ? orders.map((order) => <div className="order-card" key={order.id}><div className="order-head"><div className="order-id">{order.id}</div><div className="status-chip">{order.status}</div></div><div className="order-meta">{order.createdAt} · {order.items.reduce((sum, item) => sum + item.quantity, 0)} item</div><div className="order-total">{formatPrice(order.total)}</div></div>) : <EmptyState icon={ShoppingBag} title="Belum ada pesanan" text="Pesananmu akan muncul di sini setelah checkout." action="Mulai belanja" onAction={() => setLocation('/catalog')} />}</main></Page>;
+  return <Page><main className="subpage orders-page">
+    <Header title="Pesanan" />
+    <section className="orders-intro">
+      <div className="orders-intro-copy">
+        <span className="section-kicker">RIWAYAT BELANJA</span>
+        <h1>{orders.length > 0 ? 'Kopi yang pernah kamu pilih.' : 'Mulai ritual kopimu.'}</h1>
+        <p>{orders.length > 0 ? 'Semua perjalanan pesananmu tersimpan di sini.' : 'Pesanan pertamamu akan menjadi awal perjalanan rasa.'}</p>
+      </div>
+      <div className="orders-intro-icon"><Package size={27} /><strong>{orders.length.toString().padStart(2, '0')}</strong></div>
+    </section>
+    {orders.length === 0 ? <section className="orders-empty">
+      <span className="orders-empty-icon"><Coffee size={24} /></span>
+      <h2>Belum ada pesanan</h2>
+      <p>Jelajahi Garut Beans dan temukan cangkir yang ingin kamu bawa pulang.</p>
+      <button className="primary-button orders-browse-button" onClick={() => setLocation('/catalog')} data-testid="orders-browse-coffee">Jelajahi kopi <ArrowRight size={15} /></button>
+    </section> : <div className="orders-list">
+      {orders.map((order, index) => {
+        const firstCoffee = coffees.find((coffee) => coffee.id === order.items[0]?.id);
+        const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
+        const itemNames = order.items.map((item) => coffees.find((coffee) => coffee.id === item.id)?.name).filter(Boolean).join(' · ');
+        const statusIndex = getOrderStatusIndex(order.status);
+        const statusLabel = orderStatusSteps[statusIndex];
+        return <article className="orders-card" key={order.id} style={{ '--order-delay': `${index * 70}ms` } as React.CSSProperties}>
+          <div className="orders-card-top">
+            <div className="orders-card-meta"><div className="orders-label-row"><span /> <small>PESANAN TERBARU</small></div><strong>#{order.id.slice(-6)}</strong></div>
+            <span className="orders-status"><i />{statusLabel}</span>
+          </div>
+          <time className="orders-date">{order.createdAt}</time>
+          <div className="orders-status-summary">
+            <span>{statusIndex === 2 ? <Check size={17} /> : statusIndex === 1 ? <Coffee size={17} /> : <Package size={17} />}</span>
+            <div><strong>{orderStatusDescriptions[statusLabel]}</strong><small>{statusIndex === 2 ? 'Terima kasih sudah memilih Garut Beans.' : 'Kami akan memberi kabar di setiap tahap.'}</small></div>
+          </div>
+          <div className="orders-progress" aria-label={`Status pesanan ${statusLabel}`}>
+            {orderStatusSteps.map((step, stepIndex) => <Fragment key={step}><div className="orders-progress-step"><span className={stepIndex <= statusIndex ? 'complete' : ''}>{stepIndex <= statusIndex && <Check size={10} />}</span><small>{step}</small></div>{stepIndex < orderStatusSteps.length - 1 && <i className={stepIndex < statusIndex ? 'complete' : ''} />}</Fragment>)}
+          </div>
+          <div className="orders-divider" />
+          <div className="orders-product-row">
+            {firstCoffee && <img src={firstCoffee.image} alt="" />}
+            <div><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemCount} item · Total pesanan</small></div>
+            <div className="orders-total"><small>TOTAL</small><strong>{formatPrice(order.total)}</strong></div>
+          </div>
+          <div className="orders-actions">
+            <button className="orders-detail-button" onClick={() => firstCoffee && setLocation(`/product/${firstCoffee.id}`)} disabled={!firstCoffee} data-testid={`order-view-${order.id}`}>Lihat kopi <ArrowRight size={14} /></button>
+            <button className="orders-reorder-button" onClick={() => setLocation('/catalog')} data-testid={`order-reorder-${order.id}`}><ShoppingBag size={15} /> Belanja lagi</button>
+          </div>
+        </article>;
+      })}
+    </div>}
+  </main></Page>;
+}
+
+function AccountStat({ value, label }: { value: string; label: string }) {
+  return <div className="account-stat"><strong>{value}</strong><span>{label}</span></div>;
+}
+
+function AccountMenuItem({ icon: Icon, title, description, onClick, destructive = false, testId }: { icon: LucideIcon; title: string; description: string; onClick: () => void; destructive?: boolean; testId: string }) {
+  return <button className={`account-menu-item ${destructive ? 'destructive' : ''}`} onClick={onClick} data-testid={testId}>
+    <span className="account-menu-icon"><Icon size={17} /></span>
+    <span className="account-menu-copy"><strong>{title}</strong><small>{description}</small></span>
+    <ChevronRight size={16} />
+  </button>;
+}
+
+function GuestAccountPage() {
+  const [, setLocation] = useLocation();
+  return <Page><main className="subpage account-page">
+    <Header title="Ritualmu" />
+    <section className="account-login-hero">
+      <div className="account-brand-line"><div className="account-brand-mark"><img src={asset('kopi-garut-logo.png')} alt="" /></div><div><strong>Garut <em>Beans</em></strong><small>RUANG PERSONAL</small></div></div>
+      <div className="account-status"><i /> AKUN G-BEANS</div>
+      <h1>Masuk ke ruangmu.</h1>
+      <p>Satu akun untuk kopi, pesanan, dan program Garut Beans.</p>
+      <button className="account-login-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">Masuk ke akun <ArrowRight size={16} /></button>
+      <div className="account-login-foot"><small>PILIH PERAN</small><strong>Pembeli · Petani · Penyuluh</strong></div>
+    </section>
+    <p className="account-guest-footer">Jelajah katalog dan cerita kopi tetap terbuka tanpa masuk akun.</p>
+  </main></Page>;
+}
+
+function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
+  const [, setLocation] = useLocation();
+  const { orders, cart, favorites, notify } = useStore();
+  const { signOut } = useAuth();
+  const [voucherSaved, setVoucherSaved] = useState(false);
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const firstName = profile.name.split(' ')[0];
+  const activeOrder = orders.find((order) => order.status !== 'Diantar' && order.status !== 'Delivered');
+  const latestOrder = activeOrder ?? orders[0];
+  const firstCoffee = latestOrder ? coffees.find((coffee) => coffee.id === latestOrder.items[0]?.id) : undefined;
+  return <Page><main className="subpage account-page buyer-account-page">
+    <Header title="Akun pembeli" />
+    <section className="buyer-account-hero">
+      <div className="buyer-account-top"><div className="avatar">{profile.initials}</div><span className="member-badge"><i /> MEMBER G-BEANS</span></div>
+      <span className="account-hero-kicker">RUANG BELANJAMU</span><h1>Halo, {firstName}.</h1>
+      <p>Pantau pesanan, gunakan voucher, dan temukan kopi untuk ritual berikutnya.</p>
+      <div className="account-hero-foot"><div><small>AKUN AKTIF</small><strong>Pembeli kopi pilihan</strong></div><ShoppingBag size={26} /></div>
+    </section>
+    <div className="account-stat-row"><AccountStat value={`${orders.length}`} label="Pesanan" /><AccountStat value={`${cartCount}`} label="Keranjang" /><AccountStat value={`${favorites.length}`} label="Favorit" /></div>
+    <section className="account-section">
+      <div className="account-section-heading"><div><span className="section-kicker">PESANANMU</span><h2>Sedang berjalan</h2></div><button className="text-button" onClick={() => setLocation('/orders')} data-testid="profile-all-orders">Riwayat <ArrowRight size={13} /></button></div>
+      {latestOrder && firstCoffee ? <article className="account-order-card"><img src={firstCoffee.image} alt="" /><div><strong>{latestOrder.items.map((item) => coffees.find((coffee) => coffee.id === item.id)?.name).filter(Boolean).join(' · ')}</strong><small>{latestOrder.createdAt} · {getOrderStatusIndex(latestOrder.status) === 2 ? 'Selesai' : 'Sedang diproses'}</small></div><b>{formatPrice(latestOrder.total)}</b></article> : <div className="account-empty-note"><Coffee size={19} /><span>Pesanan pertamamu akan muncul di sini. Mulai dengan kopi yang menemani pagi ini.</span></div>}
+    </section>
+    <section className="account-voucher">
+      <div className="voucher-stamp"><strong>15%</strong><small>OFF</small></div><div><span>VOUCHER PILIHAN</span><strong>Selamat datang di ritual baru.</strong><p>Min. belanja Rp 150.000 · berlaku minggu ini</p><code>GARUT15 <Check size={13} /></code></div><button onClick={() => { setVoucherSaved((saved) => !saved); notify(voucherSaved ? 'Voucher dihapus dari simpanan' : 'Voucher GARUT15 disimpan'); }} data-testid="buyer-voucher-save">{voucherSaved ? 'Tersimpan' : 'Simpan'}</button>
+    </section>
+    <section className="account-section"><span className="section-kicker">BELANJA & AKUN</span><div className="account-action-grid"><button onClick={() => setLocation('/cart')} data-testid="buyer-cart"><ShoppingBag size={18} /><strong>Keranjang</strong><small>{cartCount ? `${cartCount} item siap dibayar` : 'Belum ada item'}</small></button><button onClick={() => setLocation('/favorites')} data-testid="buyer-favorites"><Heart size={18} /><strong>Favorit</strong><small>{favorites.length ? `${favorites.length} kopi tersimpan` : 'Simpan kopi favorit'}</small></button><button onClick={() => setLocation('/catalog')} data-testid="buyer-shop-again"><Coffee size={18} /><strong>Belanja lagi</strong><small>Temukan kopi pilihan</small></button><button onClick={() => setLocation('/orders')} data-testid="buyer-orders"><Package size={18} /><strong>Semua pesanan</strong><small>{orders.length} riwayat belanja</small></button></div></section>
+    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Alamat pengiriman" description="Atur alamat untuk pesanan berikutnya" onClick={() => notify('Alamat pengiriman akan tersedia saat checkout berikutnya')} testId="buyer-address" /><AccountMenuItem icon={Bell} title="Notifikasi pesanan" description="Lihat kabar terbaru tentang ritualmu" onClick={() => setLocation('/notifications')} testId="buyer-notifications" /><AccountMenuItem icon={CircleUserRound} title="Pusat bantuan" description="Butuh bantuan dengan pesanan?" onClick={() => notify('Tim Garut Beans siap membantu melalui kanal dukungan')} testId="buyer-help" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" /></div>
+  </main></Page>;
+}
+
+function FarmerAccountPage({ profile }: { profile: RoleProfile }) {
+  const [, setLocation] = useLocation();
+  const { signOut } = useAuth();
+  const farmer = farmers[0];
+  return <Page><main className="subpage account-page role-account-page">
+    <Header title="Akun petani" />
+    <section className="role-account-hero farmer-account-hero"><img src={asset(farmer.image)} alt="" /><div className="role-account-shade" /><div className="role-account-content"><div className="role-account-top"><span className="verified-badge"><i /> PETANI TERVERIFIKASI</span><span className="avatar">{profile.initials}</span></div><span className="account-hero-kicker">RUANG KEBUN</span><h1>{profile.name}</h1><p>{farmer.group} · {farmer.location}</p><div className="account-hero-foot"><div><small>ANGGOTA SEJAK</small><strong>{farmer.joinedAt}</strong></div><Coffee size={25} /></div></div></section>
+    <section className="identity-card"><span><ShieldCheck size={19} /></span><div><small>ID KEANGGOTAAN</small><strong>{farmer.membershipId}</strong><p>Profil aktif di ekosistem Garut Beans</p></div><button onClick={() => setLocation('/verification')} aria-label="Buka status verifikasi"><ArrowRight size={15} /></button></section>
+    <div className="account-stat-row farmer-stat-row"><AccountStat value={farmer.landArea} label="Luas kebun" /><AccountStat value={farmer.annualProduction.replace(' cherry', '')} label="Produksi / tahun" /><AccountStat value="5 tahun" label="Bersama kami" /></div>
+    <section className="account-section"><div className="account-section-heading"><div><span className="section-kicker">PROFIL KEBUN</span><h2>Data yang siap dipercaya</h2></div><MapPin size={21} /></div><div className="account-detail-card"><div><small>WILAYAH KEBUN</small><strong>{farmer.location.split(',')[0]} · 1.450 mdpl</strong></div><div><small>KELOMPOK TANI</small><strong>{farmer.group}</strong></div><div><small>VARIETAS UTAMA</small><strong>{farmer.coffeeType}</strong></div><div><small>PRODUK UNGGULAN</small><strong>{farmer.products.join(' · ')}</strong></div></div></section>
+    <div className="account-menu"><AccountMenuItem icon={ShieldCheck} title="Status verifikasi" description="Lihat kesiapan profil dan dokumen kebun" onClick={() => setLocation('/verification')} testId="farmer-verification" /><AccountMenuItem icon={FileText} title="Standar Garut Beans" description="Rujukan mutu untuk menjaga nilai lot" onClick={() => setLocation('/standards')} testId="farmer-standards" /><AccountMenuItem icon={Bell} title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onClick={() => setLocation('/notifications')} testId="farmer-notifications" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" /></div>
+  </main></Page>;
+}
+
+function EducatorAccountPage({ profile }: { profile: RoleProfile }) {
+  const [, setLocation] = useLocation();
+  const { signOut } = useAuth();
+  return <Page><main className="subpage account-page role-account-page">
+    <Header title="Akun penyuluh" />
+    <section className="buyer-account-hero educator-account-hero"><div className="buyer-account-top"><div className="avatar">{profile.initials}</div><span className="member-badge"><i /> RUANG PENDAMPINGAN</span></div><span className="account-hero-kicker">PUSAT AKSI LAPANGAN</span><h1>{profile.name}</h1><p>Catat kunjungan, tindak lanjut kebun, dan kebutuhan petani dari satu ruang kerja.</p><div className="account-hero-foot"><div><small>AKUN AKTIF</small><strong>Penyuluh Garut Beans</strong></div><Users size={25} /></div></section>
+    <div className="account-stat-row"><AccountStat value="12" label="Kunjungan" /><AccountStat value="04" label="Tindak lanjut" /><AccountStat value="08" label="Petani aktif" /></div>
+    <section className="account-section"><div className="account-section-heading"><div><span className="section-kicker">AGENDA TERDEKAT</span><h2>Jaga kebun tetap terhubung</h2></div><CalendarDays size={21} /></div><div className="account-priority-card"><span className="account-status-dot" /><div><small>KUNJUNGAN BERIKUTNYA</small><strong>Kelompok Tani Papandayan</strong><p>Cisurupan · tindak lanjut kebun</p></div><b>10 Okt</b></div></section>
+    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Kunjungan lapangan" description="Catat agenda dan tindak lanjut kebun" onClick={() => setLocation('/extension-visits')} testId="educator-visits" /><AccountMenuItem icon={FileText} title="Pusat dokumen" description="SOP, modul, formulir, dan regulasi" onClick={() => setLocation('/documents')} testId="educator-documents" /><AccountMenuItem icon={CheckCircle2} title="Laporan pendampingan" description="Lihat catatan dan progres program" onClick={() => setLocation('/extension-reports')} testId="educator-reports" /><AccountMenuItem icon={Bell} title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onClick={() => setLocation('/notifications')} testId="educator-notifications" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" /></div>
+  </main></Page>;
 }
 
 function ProfilePage() {
-  const [, setLocation] = useLocation();
-  const { session, signOut } = useAuth();
-  const profile = session ?? roleProfiles[0];
-  return <Page><main className="subpage"><Header /><div className="profile-hero"><div className="avatar">{profile.initials}</div><div><h2>{profile.name}</h2><p>{profile.label} · Garut Beans</p></div></div><div className="profile-menu"><button onClick={() => setLocation('/orders')} data-testid="profile-orders"><ShoppingBag size={18} /><span>Riwayat pesanan</span><ChevronRight size={16} /></button><button onClick={() => setLocation('/favorites')} data-testid="profile-favorites"><Heart size={18} /><span>Kopi favorit</span><ChevronRight size={16} /></button><button onClick={() => setLocation('/notifications')} data-testid="profile-notifications"><Bell size={18} /><span>Notifikasi</span><ChevronRight size={16} /></button><button onClick={() => setLocation('/profile/settings')} data-testid="profile-settings"><Settings size={18} /><span>Pengaturan akun</span><ChevronRight size={16} /></button><button onClick={signOut} data-testid="profile-sign-out"><ArrowLeft size={18} /><span>Keluar dari akun</span><ChevronRight size={16} /></button></div></main></Page>;
+  const { session } = useAuth();
+  if (!session) return <GuestAccountPage />;
+  if (session.id === 'petani') return <FarmerAccountPage profile={session} />;
+  if (session.id === 'penyuluh') return <EducatorAccountPage profile={session} />;
+  return <BuyerAccountPage profile={session} />;
 }
 
 function LoginPage({ returnTo: requestedReturnTo }: { returnTo?: string }) {
@@ -597,10 +757,78 @@ function RegionDetailPage() {
 
 function TraceabilityPage() {
   const [, setLocation] = useLocation();
-  const [scanned, setScanned] = useState(false);
+  const [scanned, setScanned] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('lotId'));
   const coffee = coffees[0];
-  const farmer = farmers[0];
-  return <Page><main className="subpage"><Header /><div className="trace-hero"><div className="qr-mark"><AppIcon name="maximize" size={44} color={brandTokens.primary} /></div><span className="section-kicker">SCAN QR KEMASAN</span><h1>Satu scan, satu cerita utuh.</h1><p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p><button className="primary-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">{scanned ? 'Cerita terbuka' : 'Buka cerita kopi'} <AppIcon name="maximize" size={15} color={brandTokens.primaryForeground} /></button></div>{scanned && <div className="trace-result"><div className="success-banner"><CheckCircle2 size={20} /><div><span className="section-kicker">SCAN BERHASIL</span><strong>Kemasan ini punya cerita.</strong></div><code>LOT-PAP-06</code></div><div className="trace-photo"><img src={asset(farmer.image)} alt={farmer.name} /><div><span className="section-kicker">PETANI PRODUSEN</span><h2>{farmer.name}</h2></div><span className="status-chip">TERVERIFIKASI</span></div><div className="info-card"><span className="section-kicker">ASAL & PRODUSEN</span><h2>{coffee.name}</h2><ActionRow icon="mapPin" title="Asal kebun" detail={`${farmer.location} · ${coffee.altitude}`} /><ActionRow icon="users" title="Petani produsen" detail={`${farmer.name} · ${farmer.group}`} /><ActionRow icon="coffee" title="Jenis dan proses" detail={`${farmer.coffeeType} · proses ${coffee.process}`} /><ActionRow icon="calendar" title="Tanggal panen" detail="29 September 2026 · buah dipetik saat matang" /></div><div className="timeline-card"><span className="section-kicker">PERJALANAN LOT</span><h2>Dari kebun sampai cangkir</h2>{[['01', 'Kebun', 'Cherry merah dipetik dari blok utara Papandayan.'], ['02', 'Pascapanen', 'Proses madu dan pengeringan matahari dicatat per lot.'], ['03', 'Katalog', 'Disangrai dan dikirim sebagai Papandayan Series.']].map(([number, title, detail]) => <div className="timeline-row" key={number}><b>{number}</b><div><strong>{title}</strong><span>{detail}</span></div></div>)}</div><div className="trace-taste"><span className="section-kicker">YANG TERASA DI CANGKIR</span><h2>Lemon Meyer, gula merah, melati.</h2><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><button className="secondary-button" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-trace-product">Lihat kopi <ArrowRight size={14} /></button></div></div>}</main></Page>;
+  const farmer = farmers.find((item) => item.group === coffee.farmerGroup) ?? farmers[0];
+  const originRows = [
+    { icon: Map, label: 'ASAL KEBUN', value: farmer.location, meta: `Wilayah ${traceabilityLot.region}, Garut · ${coffee.altitude}` },
+    { icon: Users, label: 'PETANI PRODUSEN', value: farmer.name, meta: farmer.group },
+    { icon: Coffee, label: 'JENIS KOPI', value: farmer.coffeeType, meta: `${traceabilityLot.variety} · Proses ${traceabilityLot.process}` },
+    { icon: CalendarDays, label: 'TANGGAL PANEN', value: traceabilityLot.harvestDate, meta: 'Buah kopi dipetik saat matang' },
+    { icon: Package, label: 'TANGGAL PRODUKSI', value: traceabilityLot.productionDate, meta: 'Lot disiapkan dan dikemas untuk dijual' },
+  ];
+  return <Page><main className="subpage traceability-page">
+    <Header title="Jejak produk" />
+    <section className="trace-hero">
+      <div className="trace-hero-top">
+        <div className="qr-mark"><AppIcon name="maximize" size={44} color={brandTokens.primary} /></div>
+        <div className="trace-hero-badge"><span /> TERLACAK</div>
+      </div>
+      <span className="section-kicker">SCAN QR KEMASAN</span>
+      <h1>Satu scan, satu cerita utuh.</h1>
+      <p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p>
+      <button className="primary-button trace-scan-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">
+        {scanned ? <CheckCircle2 size={16} /> : <AppIcon name="maximize" size={16} color={brandTokens.primaryForeground} />}
+        {scanned ? 'Cerita terbuka' : 'Buka cerita kopi'}
+      </button>
+    </section>
+    {scanned && <div className="trace-result">
+      <div className="success-banner">
+        <span className="trace-success-icon"><CheckCircle2 size={17} /></span>
+        <div><span className="section-kicker">SCAN BERHASIL</span><strong>Kemasan ini punya cerita.</strong></div>
+        <code>{traceabilityLot.id}</code>
+      </div>
+
+      <section className="trace-photo">
+        <img src={asset(farmer.image)} alt={farmer.name} />
+        <div className="trace-photo-shade" />
+        <div className="trace-photo-copy"><span className="section-kicker">PETANI PRODUSEN</span><h2>{farmer.name}</h2></div>
+        <span className="status-chip"><ShieldCheck size={13} /> TERVERIFIKASI</span>
+      </section>
+
+      <div className="trace-result-copy">
+        <span className="section-kicker">LOT {traceabilityLot.id}</span>
+        <h2>{coffee.name}</h2>
+        <p>{traceabilityLot.variety} · {traceabilityLot.process} · {traceabilityLot.weightKg} kg</p>
+      </div>
+
+      <section className="trace-origin-card">
+        <div className="trace-card-heading"><span className="trace-card-icon"><MapPin size={17} /></span><div><span className="section-kicker">ASAL & PRODUSEN</span><h2>Kenali kebun dan petaninya</h2></div></div>
+        {originRows.map(({ icon: Icon, label, value, meta }) => <div className="trace-origin-row" key={label}><span className="trace-row-icon"><Icon size={15} /><span /></span><div><small>{label}</small><strong>{value}</strong><em>{meta}</em></div></div>)}
+      </section>
+
+      <section className="trace-story-card">
+        <div className="trace-story-heading"><span className="trace-story-icon"><Coffee size={18} /></span><span className="section-kicker">CERITA DI BALIK CANGKIR</span></div>
+        <h2>{traceabilityLot.storyTitle}</h2>
+        <p>{traceabilityLot.story}</p>
+        <blockquote>“Yang menghangatkan cangkir ini bukan hanya kopi, tetapi juga kehidupan yang dijaganya.”</blockquote>
+        <div className="trace-impact"><span><BriefcaseBusiness size={16} /></span><div><small>DAMPAK DI BALIK RASA</small><strong>{traceabilityLot.impact}</strong></div></div>
+      </section>
+
+      <div className="trace-section-heading"><div><span className="section-kicker">PERJALANAN LOT</span><h2>Dari kebun sampai cangkir</h2></div><span>3 tahap</span></div>
+      <section className="trace-timeline">
+        {traceabilityLot.journey.map((step, index) => <div className="trace-timeline-row" key={step.label}><div className="trace-timeline-rail"><span className={index === traceabilityLot.journey.length - 1 ? 'final' : ''}>{index + 1}</span>{index < traceabilityLot.journey.length - 1 && <i />}</div><div><small>{step.label.toUpperCase()}</small><strong>{step.title}</strong><p>{step.detail}</p></div></div>)}
+      </section>
+
+      <section className="trace-tasting-card">
+        <div className="trace-tasting-top"><div><span className="section-kicker">SAAT KAMU MENIKMATINYA</span><h2>Yang terasa di cangkir</h2></div><Coffee size={25} /></div>
+        <p>Rasa cerah lemon Meyer membuka tegukan, lalu gula merah dan melati tinggal lebih lama di akhir.</p>
+        <div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div>
+      </section>
+
+      <section className="trace-final-card"><div><span className="section-kicker">SIAP MENYEDUH?</span><h2>Bawa cerita ini ke rumah.</h2><p>Paling nikmat sebagai {coffee.recommendedBrew.toLowerCase()}.</p></div><button className="secondary-button" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-trace-product">Lihat kopi <ArrowRight size={14} /></button></section>
+    </div>}
+  </main></Page>;
 }
 
 function DashboardPage() {
