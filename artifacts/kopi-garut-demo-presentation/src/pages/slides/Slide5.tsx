@@ -17,9 +17,9 @@ export default function Slide5() {
          <p className="mt-[3.8vh] max-w-[23vw] text-[2vw] font-medium leading-[1.18] text-[#F6F0E8]">Pilihan produk yang tetap dekat dengan asal, karakter, dan detailnya.</p>
       </div>
       <div className="absolute right-[7vw] top-[15vh] flex w-[51vw] items-end gap-[1.4vw]">
-        <div className="relative h-[64vh] w-[15.5vw] shrink-0 rotate-[-3deg] rounded-[1.25vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.18)]">
-          <div className="relative h-full w-full overflow-hidden rounded-[0.9vw] bg-[#F6F0E8]">
-            <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-cover object-top" />
+        <div className="relative h-[67vh] w-[16.5vw] shrink-0 rotate-[-1.5deg] rounded-[1.5vw] border-[0.48vw] border-[#2A201D] bg-[#2A201D] p-[0.42vw] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.18)]">
+          <div className="relative h-full w-full overflow-hidden rounded-[1.05vw] bg-[#F6F0E8]">
+            <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-contain object-top" />
             <div className="absolute left-1/2 top-0 z-10 h-[1.15vw] w-[5.6vw] -translate-x-1/2 rounded-b-[0.75vw] bg-[#2A201D]" />
           </div>
           <div className="absolute -left-[0.62vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />

@@ -17,7 +17,7 @@ export default function Slide2Context() {
           <span className="text-[#D3A15F]">cerita yang tersebar.</span>
         </h2>
         <p className="mt-[3vh] max-w-[42vw] text-[2vw] leading-[1.2] text-[#E7D9C8]">
-          Garut Beans G-Beans memiliki asal, pelaku, produk, dan pengalaman yang beragam. Informasi itu perlu hadir dalam satu alur yang mudah dipahami.
+          Garut Beans (G-Beans) memiliki asal, pelaku, produk, dan pengalaman yang beragam. Informasi itu perlu hadir dalam satu alur yang mudah dipahami.
         </p>
         <div className="mt-[3.6vh] h-[0.42vh] w-[7vw] rounded-full bg-[#D3A15F]" />
       </div>

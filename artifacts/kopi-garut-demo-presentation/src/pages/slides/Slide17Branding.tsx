@@ -12,7 +12,7 @@ export default function Slide17Branding() {
       <div className="absolute left-[6.5vw] top-[17vh] w-[44vw]">
         <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.2em] text-[#D3A15F]">Strategi identitas</p>
         <h2 className="mt-[1.6vh] text-[4.8vw] font-extrabold leading-[0.98] tracking-[-0.075em]">
-          <span className="block">Garut Beans G-Beans</span>
+          <span className="block">Garut Beans <span className="whitespace-nowrap">(G-Beans)</span></span>
           <span className="text-[#D3A15F]">sebagai origin signature.</span>
         </h2>
         <p className="mt-[3vh] max-w-[37vw] text-[2vw] leading-[1.2] text-[#E7D9C8]">

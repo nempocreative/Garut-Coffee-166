@@ -23,7 +23,7 @@ export default function Slide14FarmOperations() {
         <div className="mt-[4vh] border-t border-[#D8C7B5] pt-[2vh] text-[2vw] font-bold text-[#A8543B]">
           Kalender kebun → Laporan panen
         </div>
-        <p className="mt-[1.5vh] max-w-[31vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Cuplikan ruang kerja operasional Garut Beans G-Beans.</p>
+        <p className="mt-[1.5vh] max-w-[31vw] text-[1.7vw] leading-[1.2] text-[#806E63]">Cuplikan ruang kerja operasional Garut Beans (G-Beans).</p>
       </div>
 
       <div className="absolute right-[18vw] top-[14vh] max-h-[64vh] w-[16.5vw] rounded-[2.1vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.65vw_0.75vw_0_rgba(42,32,29,0.18)]">

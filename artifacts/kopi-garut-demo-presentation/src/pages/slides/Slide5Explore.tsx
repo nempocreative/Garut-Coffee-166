@@ -16,7 +16,7 @@ export default function Slide5Explore() {
           <span className="block">Lebih dari</span>
           <span className="text-[#D3A15F]">sekadar katalog.</span>
         </h2>
-        <p className="mt-[3vh] max-w-[29vw] text-[1.8vw] leading-[1.18] text-[#E7D9C8]">Enam pintu masuk untuk menemukan rasa, manusia, tempat, dan peluang di balik Garut Beans G-Beans.</p>
+        <p className="mt-[3vh] max-w-[29vw] text-[1.8vw] leading-[1.18] text-[#E7D9C8]">Enam pintu masuk untuk menemukan rasa, manusia, tempat, dan peluang di balik Garut Beans (G-Beans).</p>
         <div className="mt-[5vh] border-t border-[#D3A15F] pt-[1.7vh]">
           <p className="text-[1.15vw] font-extrabold uppercase tracking-[0.18em] text-[#E7D9C8]">Urutan jelajah</p>
           <p className="mt-[1vh] text-[1.7vw] font-extrabold text-[#FFF9F1]">Temukan → Pahami → Terlibat</p>
