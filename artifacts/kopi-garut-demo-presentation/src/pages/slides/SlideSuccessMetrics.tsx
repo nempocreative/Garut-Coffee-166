@@ -12,7 +12,7 @@ export default function SlideSuccessMetrics() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[17vh] w-[54vw]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Target & indikator / 04</p>
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Target & indikator</p>
         <h2 className="mt-[2vh] max-w-[50vw] text-[5.25vw] font-extrabold leading-[0.9] tracking-[-0.085em]">
           Kinerja dibaca
           <span className="block text-[#A8543B]">dari hasil.</span>

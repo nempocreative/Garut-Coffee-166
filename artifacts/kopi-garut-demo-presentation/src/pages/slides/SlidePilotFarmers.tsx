@@ -20,7 +20,7 @@ export default function SlidePilotFarmers() {
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[46vw]">
         <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#D3A15F]">
-          Data awal pilot / 31
+          Data awal pilot
         </p>
         <h2 className="mt-[2vh] text-[5vw] font-extrabold leading-[0.9] tracking-[-0.085em]">
           Mulai dari

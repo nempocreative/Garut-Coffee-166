@@ -20,7 +20,7 @@ export default function Slide4MainMenu() {
       <section className="absolute left-[6.5vw] right-[6.5vw] top-[51vh]">
         <div className="mb-[1.8vh] flex items-center justify-between border-b border-[#D8C7B5] pb-[1.2vh]">
           <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.18em] text-[#806E63]">Peta perjalanan pengguna</p>
-          <span className="text-[1.2vw] font-bold text-[#A8543B]">G-BEANS / 01—05</span>
+          <span className="text-[1.2vw] font-bold text-[#A8543B]">G-BEANS</span>
         </div>
         <div className="grid grid-cols-5 gap-[0.8vw]">
           <div className="border-t-[0.35vw] border-[#A8543B] bg-[#2A201D] p-[1.15vw] text-[#FFF9F1]"><span className="text-[2.7vw] font-extrabold text-[#D3A15F]">01</span><p className="mt-[2vh] text-[1.65vw] font-extrabold">Beranda</p><p className="mt-[0.8vh] text-[1.2vw] leading-[1.15] text-[#E7D9C8]">Cerita, promo, kategori, petani, wilayah, dan agenda.</p></div>

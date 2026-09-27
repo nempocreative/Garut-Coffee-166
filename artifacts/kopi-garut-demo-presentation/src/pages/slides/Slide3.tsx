@@ -1,5 +1,6 @@
-import promoImage from '@assets/generated_images/kopi-garut-promo-banner-with-text.jpg';
 import logo from '@assets/kopi-garut-logo-presentation.png';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide3() {
   return (
@@ -28,10 +29,14 @@ export default function Slide3() {
           <div className="border-t border-[#806E63]/55" />
         </div>
       </div>
-      <div className="absolute right-[6.5vw] top-[14vh] h-[72vh] w-[42vw] rounded-[1.2vw] border border-[#D3A15F]/55 bg-[#A8543B] p-[0.65vw] shadow-[0.9vw_1vw_0_rgba(0,0,0,0.22)]">
-        <div className="relative h-full w-full overflow-hidden rounded-[0.85vw]">
-          <img src={promoImage} crossOrigin="anonymous" alt="Beranda Garut Beans G-Beans" className="h-full w-full object-cover" />
+      <div className="absolute right-[13vw] top-[10vh] z-10 w-[20vw] rounded-[2.35vw] border-[0.52vw] border-[#2A201D] bg-[#2A201D] p-[0.5vw] shadow-[0.85vw_1vw_0_rgba(0,0,0,0.3)]">
+        <div className="relative aspect-[402/874] w-full overflow-hidden rounded-[1.75vw] bg-[#F6F0E8]">
+          <img src={`${base}mobile-home-capture.jpg`} alt="Beranda aplikasi Garut Beans G-Beans di handphone" crossOrigin="anonymous" className="h-full w-full object-cover object-top" />
+          <div className="absolute left-1/2 top-0 z-10 h-[1.25vw] w-[6.2vw] -translate-x-1/2 rounded-b-[0.85vw] bg-[#2A201D]" />
         </div>
+        <div className="absolute -left-[0.65vw] top-[8vw] h-[2.9vw] w-[0.22vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -left-[0.65vw] top-[12vw] h-[2.9vw] w-[0.22vw] rounded-l-full bg-[#2A201D]" />
+        <div className="absolute -right-[0.65vw] top-[11vw] h-[4.2vw] w-[0.22vw] rounded-r-full bg-[#2A201D]" />
       </div>
     </div>
   );

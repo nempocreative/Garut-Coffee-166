@@ -12,7 +12,7 @@ export default function SlideGovernmentSynergy() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[44vw]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Permohonan kolaborasi / 06</p>
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Permohonan kolaborasi</p>
         <h2 className="mt-[2vh] text-[5vw] font-extrabold leading-[0.9] tracking-[-0.08em]">
           <span className="block">Dua kekuatan.</span>
           <span className="text-[#A8543B]">Satu arah.</span>

@@ -26,7 +26,7 @@ export default function Slide5Explore() {
       <section className="absolute right-[6.5vw] top-[14vh] w-[50vw]">
         <div className="mb-[1.8vh] flex items-center justify-between border-b border-[#59443B] pb-[1.2vh]">
           <p className="text-[1.2vw] font-extrabold uppercase tracking-[0.18em] text-[#D3A15F]">Kategori jelajah</p>
-          <span className="text-[1.2vw] font-bold text-[#E7D9C8]">01—06</span>
+          <span className="text-[1.2vw] font-bold text-[#E7D9C8]">Kategori</span>
         </div>
         <div className="grid grid-cols-2 gap-x-[2.4vw]">
           <div className="flex items-baseline gap-[1vw] border-b border-[#59443B] py-[1.8vh]"><span className="text-[1.2vw] font-bold text-[#D3A15F]">01</span><div><p className="text-[2.2vw] font-extrabold">Kopi</p><p className="mt-[0.4vh] text-[1.15vw] text-[#E7D9C8]">Katalog kopi dan produk turunan</p></div></div>

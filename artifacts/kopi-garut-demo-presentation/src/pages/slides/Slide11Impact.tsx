@@ -10,7 +10,7 @@ export default function Slide11Impact() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[40vw]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Arah pengembangan / 23</p>
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Arah pengembangan</p>
         <h2 className="mt-[2vh] max-w-[37vw] text-[5.15vw] font-extrabold leading-[0.9] tracking-[-0.085em]">
           Data tumbuh.
           <span className="block text-[#A8543B]">Dampak ikut.</span>

@@ -10,7 +10,7 @@ export default function Slide15Advantages() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[42vw]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#D3A15F]">Keunggulan aplikasi / 24</p>
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#D3A15F]">Keunggulan aplikasi</p>
         <h2 className="mt-[2vh] text-[5.25vw] font-extrabold leading-[0.89] tracking-[-0.09em]">
           Satu aplikasi.
           <span className="block text-[#D3A15F]">Banyak nilai.</span>

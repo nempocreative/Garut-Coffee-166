@@ -20,7 +20,7 @@ export default function SlidePilotPlan() {
 
       <div className="absolute left-[6.5vw] top-[17vh] w-[46vw]">
         <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">
-          Rencana pilot / 28
+          Rencana pilot
         </p>
         <h2 className="mt-[2vh] text-[5.1vw] font-extrabold leading-[0.9] tracking-[-0.085em]">
           Uji bersama,

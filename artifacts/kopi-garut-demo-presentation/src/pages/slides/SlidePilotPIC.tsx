@@ -20,7 +20,7 @@ export default function SlidePilotPIC() {
 
       <div className="absolute left-[6.5vw] top-[18vh] w-[45vw]">
         <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">
-          Akuntabilitas pilot / 30
+          Akuntabilitas pilot
         </p>
         <h2 className="mt-[2vh] text-[5vw] font-extrabold leading-[0.9] tracking-[-0.085em]">
           Satu nama.

@@ -12,11 +12,11 @@ export default function Slide7() {
         <h2 className="mt-[1.6vh] text-[4.8vw] font-extrabold leading-[1] tracking-[-0.075em]"><span className="block">Dari koneksi</span><span className="text-[#D3A15F]">menjadi kolaborasi.</span></h2>
         <div className="mt-[3vh] h-[0.4vh] w-[6.5vw] rounded-full bg-[#FFF9F1]" />
       </div>
-      <div className="absolute bottom-[11vh] left-[6.5vw] right-[6.5vw] grid grid-cols-4 gap-[1vw]">
-        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.35vw] font-extrabold text-[#D3A15F]">01</p><p className="mt-[1.8vh] text-[2vw] font-bold leading-[1.1]">Temukan peluang kemitraan yang relevan</p></div>
-        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.35vw] font-extrabold text-[#D3A15F]">02</p><p className="mt-[1.8vh] text-[2vw] font-bold leading-[1.1]">Ikuti program dan agenda ekosistem</p></div>
-        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2vw] font-bold leading-[1.1]">Sampaikan pertanyaan atau keluhan</p></div>
-        <div className="h-[22vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.35vw] font-extrabold text-[#D3A15F]">04</p><p className="mt-[1.8vh] text-[2vw] font-bold leading-[1.1]">Dorong pertumbuhan bersama secara terarah</p></div>
+      <div className="absolute bottom-[13vh] left-[6.5vw] right-[6.5vw] grid grid-cols-4 gap-[1vw]">
+        <div className="h-[18vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.2vw] font-extrabold text-[#D3A15F]">01</p><p className="mt-[1.2vh] text-[1.7vw] font-bold leading-[1.05]">Cari mitra</p><p className="mt-[0.55vh] text-[1.25vw] leading-[1.08] text-[#F6E9DD]">Peluang yang relevan</p></div>
+        <div className="h-[18vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.2vw] font-extrabold text-[#D3A15F]">02</p><p className="mt-[1.2vh] text-[1.7vw] font-bold leading-[1.05]">Ikuti program</p><p className="mt-[0.55vh] text-[1.25vw] leading-[1.08] text-[#F6E9DD]">Agenda ekosistem</p></div>
+        <div className="h-[18vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.2vw] font-extrabold text-[#D3A15F]">03</p><p className="mt-[1.2vh] text-[1.7vw] font-bold leading-[1.05]">Sampaikan suara</p><p className="mt-[0.55vh] text-[1.25vw] leading-[1.08] text-[#F6E9DD]">Pertanyaan & keluhan</p></div>
+        <div className="h-[18vh] min-h-0 rounded-[0.8vw] border-t-[0.22vw] border-[#D3A15F] bg-[#8F4433]/55 p-[1.25vw]"><p className="text-[2.2vw] font-extrabold text-[#D3A15F]">04</p><p className="mt-[1.2vh] text-[1.7vw] font-bold leading-[1.05]">Tumbuh bersama</p><p className="mt-[0.55vh] text-[1.25vw] leading-[1.08] text-[#F6E9DD]">Langkah yang terarah</p></div>
       </div>
       <div className="absolute right-[6.5vw] top-[11vh] rounded-full border border-[#D3A15F]/70 bg-[#8F4433] px-[1.25vw] py-[0.9vh] text-[1.5vw] font-bold text-[#D3A15F]">Jadi mitra</div>
     </div>

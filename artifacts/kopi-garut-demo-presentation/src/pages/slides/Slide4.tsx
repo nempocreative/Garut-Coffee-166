@@ -1,8 +1,6 @@
-import farmerAsep from '@assets/generated_images/farmer-asep-rahmat.jpg';
-import farmerDeni from '@assets/generated_images/farmer-deni-suhendar.jpg';
-import farmerIis from '@assets/generated_images/farmer-iis-nurhayati.jpg';
-import farmerUjang from '@assets/generated_images/farmer-ujang-kusnadi.jpg';
 import logo from '@assets/kopi-garut-logo-presentation.png';
+
+const base = import.meta.env.BASE_URL;
 
 export default function Slide4() {
   return (
@@ -25,19 +23,19 @@ export default function Slide4() {
       </div>
       <div className="absolute right-[5.5vw] top-[17vh] grid w-[39vw] grid-cols-2 gap-[1vw]">
         <div className="rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerAsep} crossOrigin="anonymous" alt="Petani kopi Asep Rahmat" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <img src={`${base}farmer-asep-rahmat.webp`} crossOrigin="anonymous" alt="Foto petani kopi Asep Rahmat di kebun" className="h-[24vh] w-full rounded-[0.55vw] object-cover object-[50%_25%]" />
           <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Petani · Garut</p>
         </div>
         <div className="mt-[5vh] rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerDeni} crossOrigin="anonymous" alt="Petani kopi Deni Suhendar" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <img src={`${base}farmer-deni-suhendar.webp`} crossOrigin="anonymous" alt="Foto petani kopi Deni Suhendar saat memetik kopi" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
           <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Kebun · Cikajang</p>
         </div>
         <div className="rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerIis} crossOrigin="anonymous" alt="Petani kopi Iis Nurhayati" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <img src={`${base}farmer-iis-nurhayati.webp`} crossOrigin="anonymous" alt="Foto petani kopi Iis Nurhayati di kebun" className="h-[24vh] w-full rounded-[0.55vw] object-cover object-[50%_10%]" />
           <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Cerita · Petani</p>
         </div>
         <div className="mt-[5vh] rounded-[0.8vw] border border-[#FFF9F1] bg-[#FFF9F1] p-[0.38vw] shadow-[0.4vw_0.55vw_0_rgba(42,32,29,0.1)]">
-          <img src={farmerUjang} crossOrigin="anonymous" alt="Petani kopi Ujang Kusnadi" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
+          <img src={`${base}farmer-ujang-kusnadi.webp`} crossOrigin="anonymous" alt="Foto petani kopi Ujang Kusnadi merawat tanaman kopi" className="h-[24vh] w-full rounded-[0.55vw] object-cover" />
           <p className="px-[0.45vw] py-[0.7vh] text-[1.65vw] font-bold text-[#806E63]">Wilayah · Garut</p>
         </div>
       </div>

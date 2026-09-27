@@ -13,13 +13,13 @@ export default function SlideVisionMission() {
       </div>
 
       <div className="absolute left-[6.5vw] top-[19vh] w-[42vw]">
-        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Arah platform / 02</p>
+        <p className="text-[1.35vw] font-extrabold uppercase tracking-[0.24em] text-[#A8543B]">Visi platform</p>
         <h2 className="mt-[2.2vh] max-w-[40vw] text-[5.7vw] font-extrabold leading-[0.88] tracking-[-0.09em]">
-          Kopi Garut
-          <span className="block text-[#A8543B]">punya asal.</span>
+          Dari Garut,
+          <span className="block text-[#A8543B]">go internasional.</span>
         </h2>
         <p className="mt-[4vh] max-w-[34vw] text-[1.85vw] font-semibold leading-[1.2] text-[#806E63]">
-          Platform ini membuat asal, manusia, dan peluangnya dikenal serta dipercaya.
+          Satu platform untuk membawa cerita, manusia, dan kualitas kopi Garut dari asalnya menuju pasar dunia.
         </p>
       </div>
 
