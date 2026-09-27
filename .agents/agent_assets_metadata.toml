@@ -56,3 +56,38 @@ mtime_ms = 1790495732968
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/9e771b6e-cede-4a44-8533-dfb8915d351a/b7e61ff0-77b6-4b0b-8797-46f47648f4cb"
 storage_version_token = "1790495736022510"
 content_type = "application/pdf"
+
+[[outputs]]
+id = "295tCeaYbhErGdbeL3LuR"
+uri = "file://.local/outputs/Garut-Beans-G-Beans---Demo-Platform.pdf"
+type = "pdf"
+title = "Garut Beans G-Beans — Demo Platform.pdf"
+logical_id = "71f96cfc-1212-40a3-a808-52f9af230ebf"
+
+[[outputs]]
+id = "rxppWdue-RAcEwAzQDeEU"
+uri = "file://.local/outputs/Garut-Beans-G-Beans-Demo-Platform-Clean.pptx"
+type = "slides"
+title = "Garut Beans G-Beans — Clean Footer (PPTX)"
+description = "File PPTX terbaru dengan footer bersih tanpa blok warna di belakang tulisan Dinas dan Nempo."
+logical_id = "1c70b761-acff-4d07-8162-4153489bf13e"
+content_hash = "sha256:26c849f0b1d5f4dd0950c81ff18975c726df329b1f0de845d0e4303c10376643"
+size = 21497916
+mtime_ms = 1790498043607
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/1c70b761-acff-4d07-8162-4153489bf13e/1efa15dc-13de-4daa-af7a-3d01ead64173"
+storage_version_token = "1790498051466544"
+content_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+
+[[outputs]]
+id = "FSao8ig8G3bTYwj9JYkV6"
+uri = "file://.local/outputs/Garut-Beans-G-Beans-Demo-Platform-Clean.pdf"
+type = "pdf"
+title = "Garut Beans G-Beans — Clean Footer (PDF)"
+description = "File PDF terbaru dengan footer bersih tanpa blok warna di belakang tulisan Dinas dan Nempo."
+logical_id = "9fd14581-83dd-42a0-b50c-353398b7c759"
+content_hash = "sha256:a2898fb5a7244edb314c0be6f2d80ecfd4dd8d362cf34af9301158dd5edd0e48"
+size = 5579128
+mtime_ms = 1790498049491
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/9fd14581-83dd-42a0-b50c-353398b7c759/6d1b0a18-6b5b-419f-98f3-44599989bbe4"
+storage_version_token = "1790498052888961"
+content_type = "application/pdf"
