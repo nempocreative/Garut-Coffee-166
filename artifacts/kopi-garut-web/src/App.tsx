@@ -317,7 +317,7 @@ function CatalogPage() {
   };
   return <Page><main className="subpage catalog-page">
     <Header />
-    <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div><div className="catalog-heading-mark"><Coffee size={21} /></div></div>
+    <div className="catalog-heading-row"><div><h1 className="catalog-title">Jelajahi katalog</h1></div></div>
     <div className="catalog-intro">
       <div className="catalog-intro-copy">
         <p>Temukan produk dari kebun-kebun Garut sampai karya turunan komunitas. Bandingkan asal, proses, rasa, dan kategori sebelum memilih.</p>
