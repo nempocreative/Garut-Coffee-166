@@ -42,6 +42,7 @@ const mobileIcon = (name: AppIconName): LucideIcon => {
 
 const ArrowLeft = mobileIcon('arrow-left');
 const ArrowRight = mobileIcon('arrow-up-right');
+const Barcode = mobileIcon('barcode');
 const Bell = mobileIcon('bell');
 const BriefcaseBusiness = mobileIcon('briefcase');
 const CalendarDays = mobileIcon('calendar');
@@ -221,7 +222,7 @@ function BottomNav() {
   const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
     { id: 'explore', label: 'Jelajah', icon: 'coffee', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'scan', path: '/traceability' },
+    { id: 'trace', label: 'Jejak', icon: 'barcode', path: '/traceability' },
     { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
     { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
   ];
@@ -1016,7 +1017,7 @@ function DesktopTopNav() {
   const items: { id: string; label: string; path: string; icon: LucideIcon }[] = [
     { id: 'home', label: 'Beranda', path: '/', icon: Home },
     { id: 'explore', label: 'Jelajah', path: '/catalog', icon: Coffee },
-    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Scan },
+    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Barcode },
     { id: 'orders', label: 'Pesanan', path: '/orders', icon: ClipboardList },
     { id: 'account', label: 'Akun', path: '/profile', icon: Farmer },
   ];
