@@ -4,9 +4,9 @@ import logo from '@assets/kopi-garut-logo-presentation.png';
 export default function Slide8() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-[#F6F0E8] text-[#2A201D]">
-      <div className="absolute inset-y-0 right-0 w-[49vw] overflow-hidden">
-        <img src={closingImage} crossOrigin="anonymous" alt="Garut Beans G-Beans dari lereng ke cangkir" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#F6F0E8_0%,rgba(246,240,232,0.52)_20%,rgba(42,32,29,0.08)_100%)]" />
+      <div className="absolute inset-y-0 right-0 w-[49vw] overflow-hidden border-l-[0.12vw] border-[#D3A15F]/60">
+        <img src={closingImage} crossOrigin="anonymous" alt="Garut Beans G-Beans dari lereng ke cangkir" className="h-full w-full object-cover object-[58%_center]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#F6F0E8_0%,rgba(246,240,232,0.9)_8%,rgba(246,240,232,0.34)_22%,rgba(246,240,232,0)_45%),linear-gradient(0deg,rgba(42,32,29,0.26)_0%,rgba(42,32,29,0)_48%)]" />
       </div>
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} alt="Logo Garut Beans G-Beans" className="h-[3vw] w-[3vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#FFF9F1] object-contain p-[0.14vw]" />
@@ -23,7 +23,7 @@ export default function Slide8() {
         <span className="h-[0.45vw] w-[0.45vw] rounded-full bg-[#A8543B]" />
         Kopi · Petani · Wilayah · Mitra
       </div>
-        <div className="absolute bottom-[6vh] right-[6.5vw] rounded-full bg-[#A8543B] px-[1.45vw] py-[0.95vh] text-[1.6vw] font-extrabold text-[#FFF9F1]">Garut Beans G-Beans</div>
+         <div className="absolute bottom-[6vh] right-[6.5vw] rounded-full border border-[#F6D9B6]/70 bg-[#A8543B] px-[1.45vw] py-[0.95vh] text-[1.6vw] font-extrabold tracking-[-0.02em] text-[#FFF9F1] shadow-[0.35vw_0.4vw_0_rgba(42,32,29,0.18)]">Garut Beans G-Beans</div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Slide5() {
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#FFF9F1] text-[#2A201D]">
+    <div className="footer-on-dark w-screen h-screen overflow-hidden relative bg-[#FFF9F1] text-[#2A201D]">
       <div className="absolute left-0 top-0 h-full w-[35vw] bg-[#A8543B]" />
       <div className="absolute left-[6.5vw] top-[6vh] flex items-center gap-[0.75vw]">
         <img src={logo} crossOrigin="anonymous" alt="Logo Garut Beans G-Beans" className="h-[2.45vw] w-[2.45vw] rounded-[0.65vw] border border-[#E7D9C8] bg-[#FFF9F1] object-contain p-[0.12vw]" />
@@ -17,8 +17,14 @@ export default function Slide5() {
          <p className="mt-[3.8vh] max-w-[23vw] text-[2vw] font-medium leading-[1.18] text-[#F6F0E8]">Pilihan produk yang tetap dekat dengan asal, karakter, dan detailnya.</p>
       </div>
       <div className="absolute right-[7vw] top-[15vh] flex w-[51vw] items-end gap-[1.4vw]">
-        <div className="h-[56vh] w-[16vw] rotate-[-4deg] overflow-hidden rounded-[0.95vw] border-[0.4vw] border-[#E7D9C8] bg-[#D3A15F] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.13)]">
-           <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-cover" />
+        <div className="relative h-[64vh] w-[15.5vw] shrink-0 rotate-[-3deg] rounded-[1.25vw] border-[0.45vw] border-[#2A201D] bg-[#2A201D] p-[0.45vw] shadow-[0.9vw_1vw_0_rgba(42,32,29,0.18)]">
+          <div className="relative h-full w-full overflow-hidden rounded-[0.9vw] bg-[#F6F0E8]">
+            <img src={`${base}demo-catalog.jpg`} crossOrigin="anonymous" alt="Cuplikan katalog Garut Beans G-Beans" className="h-full w-full object-cover object-top" />
+            <div className="absolute left-1/2 top-0 z-10 h-[1.15vw] w-[5.6vw] -translate-x-1/2 rounded-b-[0.75vw] bg-[#2A201D]" />
+          </div>
+          <div className="absolute -left-[0.62vw] top-[8vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+          <div className="absolute -left-[0.62vw] top-[12vw] h-[2.8vw] w-[0.2vw] rounded-l-full bg-[#2A201D]" />
+          <div className="absolute -right-[0.62vw] top-[11vw] h-[4vw] w-[0.2vw] rounded-r-full bg-[#2A201D]" />
         </div>
         <div className="mb-[1vh] w-[31vw] rounded-[0.8vw] border border-[#DFD1C1] bg-[#F6F0E8] p-[1.65vw]">
           <p className="text-[1.5vw] font-extrabold uppercase tracking-[0.18em] text-[#A8543B]">Katalog produk</p>
