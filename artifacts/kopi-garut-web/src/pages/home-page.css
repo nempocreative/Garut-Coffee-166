@@ -4024,7 +4024,9 @@
 }
 
 .gb-search-entry {
-  background: #fff;
+  background: #f1d39a;
+  border-color: rgba(123, 63, 44, .42);
+  box-shadow: 0 8px 20px rgba(76, 48, 31, .12), inset 0 1px rgba(255, 255, 255, .42);
   transform: none;
 }
 
