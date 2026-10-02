@@ -501,7 +501,13 @@
   animation: floating-game-lift 1900ms ease-in-out infinite;
 }
 .floating-support-motion {
+  width: 64px;
+  height: 64px;
   animation: floating-support-lift 2100ms ease-in-out infinite;
+}
+.floating-support-button img {
+  width: 64px;
+  height: 64px;
 }
 .floating-game-motion img {
   transform-origin: center bottom;
@@ -775,8 +781,6 @@
 .catalog-diversified-card .diversified-body p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 9px; line-height: 1.35; }
 .catalog-diversified-card .diversified-body em { color: hsl(var(--muted-foreground)); font-size: 8px; font-style: normal; }
 .catalog-diversified-card .diversified-body .text-button { display: inline-flex; align-items: center; gap: 3px; padding: 0; color: hsl(var(--primary)); background: transparent; border: 0; font-size: 9px; font-weight: 800; }
-.diversification-note { display: flex; align-items: flex-start; gap: 9px; margin: -3px 0 16px; padding: 11px 12px; border: 1px solid rgba(123, 63, 44, .14); border-radius: 14px; background: linear-gradient(135deg, rgba(255, 249, 241, .95), rgba(244, 229, 211, .68)); color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.45; }
-.diversification-note svg { flex: 0 0 auto; color: hsl(var(--primary)); }
 .filter-pills { display: flex; gap: 7px; overflow-x: auto; margin-bottom: 15px; }
 .filter-pill { flex: 0 0 auto; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); border-radius: 20px; color: hsl(var(--muted-foreground)); padding: 8px 12px; font-size: 10px; font-weight: 800; }
 .filter-pill.active { color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); background: hsl(var(--primary)); }
@@ -3755,8 +3759,9 @@ body .bottom-nav button.center > span:last-child {
     letter-spacing: clamp(-1px, -.2vw, -.8px);
   }
 
-  .catalog-page .catalog-home-promo {
-    height: clamp(218px, 61vw, 238px);
+  .catalog-page .catalog-home-promo,
+  .diversification-page .catalog-home-promo {
+    height: clamp(190px, 52vw, 208px);
     margin-top: 0;
   }
 
@@ -3805,8 +3810,9 @@ body .bottom-nav button.center > span:last-child {
     font-size: clamp(30px, 3.2vw, 42px);
   }
 
-  .catalog-page .catalog-home-promo {
-    height: clamp(300px, 31vw, 430px);
+  .catalog-page .catalog-home-promo,
+  .diversification-page .catalog-home-promo {
+    height: clamp(250px, 25vw, 350px);
     margin-top: clamp(0px, 1.4vw, 18px);
   }
 

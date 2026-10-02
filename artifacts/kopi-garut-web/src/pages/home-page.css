@@ -3086,7 +3086,7 @@
 .gb-category-tile.is-featured .gb-category-tile-label,
 .gb-category-tile-label {
   color: var(--gb-foreground);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -5127,7 +5127,7 @@
 
   .gb-category-tile.is-featured .gb-category-tile-label {
     color: var(--gb-foreground);
-    font-size: 16px;
+    font-size: 12px;
   }
 
   .gb-category-tile.is-featured .gb-category-tile-action {

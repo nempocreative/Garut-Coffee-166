@@ -42,7 +42,6 @@ const mobileIcon = (name: AppIconName): LucideIcon => {
 
 const ArrowLeft = mobileIcon('arrow-left');
 const ArrowRight = mobileIcon('arrow-up-right');
-const Barcode = mobileIcon('barcode');
 const Bell = mobileIcon('bell');
 const BriefcaseBusiness = mobileIcon('briefcase');
 const CalendarDays = mobileIcon('calendar');
@@ -222,7 +221,7 @@ function BottomNav() {
   const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
     { id: 'explore', label: 'Kopi', icon: 'coffee', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'barcode', path: '/traceability' },
+    { id: 'trace', label: 'Jejak', icon: 'scan', path: '/traceability' },
     { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
     { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
   ];
@@ -1007,7 +1006,7 @@ function HubPage({ kind }: { kind: string }) {
     </article>)}</div>
     <div className="tour-group-note"><span><Users size={16} /></span><div><strong>Datang bersama rombongan?</strong><p>Paket dapat disesuaikan untuk komunitas, sekolah, cafe, dan rombongan.</p></div></div>
   </main></Page>;
-  if (kind === 'diversification') return <Page><main className="subpage diversification-page"><Header title="Karya kopi" subtitle="LEBIH DARI SECANGKIR" /><HeroPanel {...content} /><div className="diversification-note"><Package size={16} /><span>Menu terpisah dari katalog kopi. Temukan olahan, aroma, dan karya lokal yang lahir dari ekosistem Garut Beans.</span></div><div className="filter-pills"><span className="filter-pill active">Semua</span><span className="filter-pill">Olahan kopi</span><span className="filter-pill">Aroma & perawatan</span><span className="filter-pill">Merchandise</span></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="product-grid diversified-grid">{filteredProducts.map((product) => <article className="diversified-card" key={product.id}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><p>{product.status}</p><div><b>{product.price}</b><button className="text-button" onClick={() => { setSaved((items) => items.includes(product.id) ? items : [...items, product.id]); notify('Produk turunan disimpan untuk ditinjau'); }} data-testid={`button-save-product-${product.id}`}>{saved.includes(product.id) ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
+  if (kind === 'diversification') return <Page><main className="subpage diversification-page"><Header title="Karya kopi" subtitle="LEBIH DARI SECANGKIR" /><CatalogCarousel onNavigate={setLocation} /><div className="filter-pills"><span className="filter-pill active">Semua</span><span className="filter-pill">Olahan kopi</span><span className="filter-pill">Aroma & perawatan</span><span className="filter-pill">Merchandise</span></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="product-grid diversified-grid">{filteredProducts.map((product) => <article className="diversified-card" key={product.id}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><p>{product.status}</p><div><b>{product.price}</b><button className="text-button" onClick={() => { setSaved((items) => items.includes(product.id) ? items : [...items, product.id]); notify('Produk turunan disimpan untuk ditinjau'); }} data-testid={`button-save-product-${product.id}`}>{saved.includes(product.id) ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
    if (kind === 'partnership') return <PartnershipPage content={content} />;
   return <Page><main className="subpage"><Header /><HeroPanel {...content} /><MetricStrip metrics={hubStats.map((item) => ({ label: item.label, value: item.value, icon: item.label.includes('Petani') ? 'users' : item.label.includes('Wilayah') ? 'map' : 'chart' }))} /><div className="section-heading"><div><span className="section-kicker">PINTU EKOSISTEM</span><h2>Ruang yang saling terhubung.</h2></div></div><div className="module-grid">{[['coffee', 'Produksi & budidaya', 'Data kebun, luas lahan, produksi per musim, dan jadwal panen.', '/farm-calendar'], ['package', 'Pascapanen', 'Catatan rumah produksi, stok, dan standar kualitas per lot.', '/quality-check'], ['briefcase', 'Marketplace B2B', 'Temu hasil panen dengan cafe dan roastery yang mencari Garut Beans.', '/partnership'], ['shield', 'Sertifikasi & legalitas', 'Profil kesiapan usaha dan dokumen untuk memperluas akses pasar.', '/documents'], ['calendar', 'Akademi Garut Beans', 'Materi budidaya, pascapanen, brewing, dan kewirausahaan kopi.', '/program'], ['compass', 'Wisata kopi', 'Pengalaman langsung dari kebun, proses, budaya, dan orang-orangnya.', '/tourism']].map(([icon, title, detail, route]) => <ActionRow key={title} icon={icon} title={title} detail={detail} action="Jelajahi" onAction={() => setLocation(route)} />)}</div><div className="dark-callout"><span className="section-kicker">ROADMAP 2026</span><h2>Dari data kebun menuju keputusan yang lebih adil.</h2><p>Lot kopi, pre-order panen, kontrak kemitraan, pusat logistik, hingga QR Code Garut Beans dirancang dalam satu perjalanan.</p><button className="secondary-button" onClick={() => setLocation('/traceability')} data-testid="button-collective-trace">Lihat jejak kopi <ArrowRight size={14} /></button></div></main></Page>;
 }
@@ -1661,7 +1660,7 @@ function DesktopTopNav() {
     { id: 'home', label: 'Beranda', path: '/', icon: Home },
     { id: 'explore', label: 'Kopi', path: '/catalog', icon: Coffee },
     { id: 'craft', label: 'Karya kopi', path: '/diversification', icon: Package },
-    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Map },
+    { id: 'trace', label: 'Jejak', path: '/traceability', icon: Scan },
     { id: 'orders', label: 'Pesanan', path: '/orders', icon: ClipboardList },
     { id: 'account', label: 'Akun', path: '/profile', icon: CircleUserRound },
   ];
