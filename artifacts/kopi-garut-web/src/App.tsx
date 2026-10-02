@@ -1155,19 +1155,54 @@ function TraceabilityPage() {
   ];
   return <Page><main className="subpage traceability-page">
     <Header title="Jejak produk" />
-    <section className="trace-hero">
-      <div className="trace-hero-top">
-        <div className="qr-mark"><AppIcon name="maximize" size={44} color={brandTokens.primary} /></div>
-        <div className="trace-hero-badge"><span /> TERLACAK</div>
-      </div>
-      <span className="section-kicker">SCAN QR KEMASAN</span>
-      <h1>Satu scan, satu cerita utuh.</h1>
-      <p>Kenali kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p>
-      <button className="primary-button trace-scan-button" onClick={() => setScanned(true)} data-testid="button-trace-scan">
-        {scanned ? <CheckCircle2 size={16} /> : <AppIcon name="maximize" size={16} color={brandTokens.primaryForeground} />}
-        {scanned ? 'Cerita terbuka' : 'Buka cerita kopi'}
-      </button>
-    </section>
+    <div className="trace-overview">
+      <section className="trace-hero" aria-labelledby="trace-hero-title">
+        <div className="trace-hero-top">
+          <div className="qr-mark"><AppIcon name="maximize" size={38} color={brandTokens.primary} /></div>
+          <div className="trace-hero-badge"><span /> LOT TERVERIFIKASI</div>
+        </div>
+        <span className="section-kicker">DARI KEBUN GARUT, DENGAN CERITA</span>
+        <h1 id="trace-hero-title">Satu scan, satu cerita utuh.</h1>
+        <p>Telusuri kebun, proses, dan rasa yang akhirnya sampai di cangkir.</p>
+        <button
+          className="primary-button trace-scan-button"
+          onClick={() => setScanned(true)}
+          aria-expanded={scanned}
+          aria-controls="trace-story"
+          data-testid="button-trace-scan"
+        >
+          {scanned ? <CheckCircle2 size={16} /> : <AppIcon name="maximize" size={16} color={brandTokens.primaryForeground} />}
+          {scanned ? 'Cerita terbuka' : 'Buka cerita kopi'}
+          {!scanned && <ArrowRight size={15} />}
+        </button>
+        <div className="trace-hero-foot"><span>GARUT · JAWA BARAT</span><span>LOT {traceabilityLot.id}</span></div>
+      </section>
+
+      <section className="trace-lot-preview" aria-label="Ringkasan lot kopi">
+        <div className="trace-preview-topline">
+          <span className="section-kicker">LOT {traceabilityLot.id}</span>
+          <span className="trace-lot-mark">TRACEABLE</span>
+        </div>
+        <div className="trace-preview-product">
+          <span className="trace-product-index">01</span>
+          <div><h2>{coffee.name}</h2><p>{traceabilityLot.variety}<i />Proses {traceabilityLot.process}</p></div>
+        </div>
+        <div className="trace-preview-farmer">
+          <img src={asset(farmer.image)} alt="" />
+          <div><small>DITUMBUHKAN OLEH</small><strong>{farmer.name}</strong><span>{farmer.location}</span></div>
+          <ShieldCheck size={19} aria-label="Petani terverifikasi" />
+        </div>
+        <div className="trace-preview-facts">
+          <div><small>ASAL</small><strong>{traceabilityLot.region}, Garut</strong></div>
+          <div><small>KETINGGIAN</small><strong>{coffee.altitude}</strong></div>
+          <div><small>BERAT LOT</small><strong>{traceabilityLot.weightKg} kg</strong></div>
+        </div>
+        <div className="trace-preview-tasting">
+          <span className="section-kicker">CATATAN RASA</span>
+          <div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div>
+        </div>
+      </section>
+    </div>
     {scanned && <div className="trace-result">
       <div className="success-banner">
         <span className="trace-success-icon"><CheckCircle2 size={17} /></span>
@@ -1193,7 +1228,7 @@ function TraceabilityPage() {
         {originRows.map(({ icon: Icon, label, value, meta }) => <div className="trace-origin-row" key={label}><span className="trace-row-icon"><Icon size={15} /><span /></span><div><small>{label}</small><strong>{value}</strong><em>{meta}</em></div></div>)}
       </section>
 
-      <section className="trace-story-card">
+      <section className="trace-story-card" id="trace-story">
         <div className="trace-story-heading"><span className="trace-story-icon"><Coffee size={18} /></span><span className="section-kicker">CERITA DI BALIK CANGKIR</span></div>
         <h2>{traceabilityLot.storyTitle}</h2>
         <p>{traceabilityLot.story}</p>

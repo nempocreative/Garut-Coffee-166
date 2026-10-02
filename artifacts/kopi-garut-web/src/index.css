@@ -4917,3 +4917,511 @@ body .bottom-nav button.center > span:last-child {
     margin-top: 5px;
   }
 }
+
+/* Jejak product passport layout */
+.trace-overview {
+  display: grid;
+  gap: 14px;
+}
+
+.traceability-page .trace-hero {
+  min-height: 330px;
+  align-content: start;
+  padding: 22px;
+  border: 1px solid rgba(65, 40, 28, .14);
+  box-shadow: 0 16px 34px rgba(68, 40, 27, .12);
+}
+
+.traceability-page .trace-hero-top {
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.traceability-page .qr-mark {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+}
+
+.traceability-page .trace-hero-badge {
+  padding: 8px 10px;
+  font-size: 8px;
+}
+
+.traceability-page .trace-hero h1 {
+  max-width: 460px;
+  font-size: clamp(29px, 3.4vw, 40px);
+  line-height: 1.06;
+  letter-spacing: -1.2px;
+}
+
+.traceability-page .trace-hero p {
+  max-width: 390px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.traceability-page .trace-scan-button {
+  min-height: 46px;
+  gap: 9px;
+  padding: 0 16px;
+  margin-top: 7px;
+  border-radius: 13px;
+  box-shadow: 0 7px 16px rgba(28, 17, 13, .2);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.traceability-page .trace-scan-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(28, 17, 13, .24);
+}
+
+.trace-hero-foot {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 13px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 249, 241, .18);
+  color: rgba(255, 249, 241, .66);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.trace-lot-preview {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 18px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 22px;
+  background: hsl(var(--card));
+  box-shadow: 0 9px 22px rgba(76, 48, 31, .06);
+}
+
+.trace-preview-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trace-preview-topline .section-kicker {
+  color: hsl(var(--primary));
+}
+
+.trace-lot-mark {
+  padding: 5px 8px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  color: hsl(var(--muted-foreground));
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .9px;
+}
+
+.trace-preview-product {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 15px 0 13px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.trace-product-index {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 12px;
+  color: hsl(var(--primary));
+  background: hsl(var(--secondary));
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.trace-preview-product h2 {
+  margin: 0 0 5px;
+  font-size: clamp(16px, 1.8vw, 21px);
+  line-height: 1.2;
+  letter-spacing: -.4px;
+}
+
+.trace-preview-product p {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 10px;
+}
+
+.trace-preview-product p i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: hsl(var(--accent));
+}
+
+.trace-preview-farmer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.trace-preview-farmer > img {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.trace-preview-farmer > div {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.trace-preview-farmer small,
+.trace-preview-facts small {
+  color: hsl(var(--muted-foreground));
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .8px;
+}
+
+.trace-preview-farmer strong {
+  font-size: 11px;
+}
+
+.trace-preview-farmer span {
+  overflow: hidden;
+  color: hsl(var(--muted-foreground));
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trace-preview-farmer > svg {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: hsl(var(--primary));
+}
+
+.trace-preview-facts {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr .75fr;
+  gap: 8px;
+  padding: 11px 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.trace-preview-facts > div {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.trace-preview-facts strong {
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trace-preview-tasting {
+  display: grid;
+  gap: 7px;
+  padding-top: 11px;
+}
+
+.trace-preview-tasting .section-kicker {
+  color: hsl(var(--muted-foreground));
+  font-size: 8px;
+}
+
+.trace-preview-tasting .taste-list {
+  gap: 5px;
+}
+
+.trace-preview-tasting .taste {
+  padding: 5px 8px;
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-size: 9px;
+}
+
+.traceability-page .trace-result {
+  gap: 14px;
+  margin-top: 18px;
+  animation: trace-reveal .38s ease both;
+}
+
+@keyframes trace-reveal {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.traceability-page .success-banner {
+  padding: 13px 15px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--secondary));
+}
+
+.traceability-page .trace-photo {
+  min-height: 250px;
+  box-shadow: 0 10px 24px rgba(61, 38, 27, .12);
+}
+
+.traceability-page .trace-photo > img {
+  object-position: center 34%;
+}
+
+.traceability-page .trace-result-copy {
+  align-self: center;
+  padding: 8px 4px;
+}
+
+.traceability-page .trace-result-copy h2 {
+  font-size: clamp(23px, 2.8vw, 34px);
+  line-height: 1.08;
+}
+
+.traceability-page .trace-result-copy p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.traceability-page .trace-origin-card,
+.traceability-page .trace-story-card,
+.traceability-page .trace-timeline {
+  padding: 18px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(76, 48, 31, .05);
+}
+
+.traceability-page .trace-origin-row {
+  padding-top: 12px;
+  margin-top: 10px;
+}
+
+.traceability-page .trace-origin-row small,
+.traceability-page .trace-timeline-row small,
+.traceability-page .trace-impact small {
+  font-size: 8px;
+}
+
+.traceability-page .trace-origin-row strong {
+  font-size: 12px;
+}
+
+.traceability-page .trace-origin-row em {
+  font-size: 9px;
+}
+
+.traceability-page .trace-story-card {
+  gap: 12px;
+}
+
+.traceability-page .trace-story-card h2 {
+  font-size: clamp(21px, 2.2vw, 27px);
+}
+
+.traceability-page .trace-story-card > p,
+.traceability-page .trace-story-card blockquote {
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.traceability-page .trace-impact {
+  padding: 12px;
+}
+
+.traceability-page .trace-impact strong {
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.traceability-page .trace-section-heading {
+  margin-top: 5px;
+}
+
+.traceability-page .trace-timeline {
+  gap: 8px;
+}
+
+.traceability-page .trace-timeline-row > div:last-child {
+  padding-bottom: 14px;
+}
+
+.traceability-page .trace-timeline-row strong {
+  font-size: 12px;
+}
+
+.traceability-page .trace-timeline-row p {
+  font-size: 10px;
+}
+
+.traceability-page .trace-tasting-card {
+  padding: 20px;
+  box-shadow: 0 12px 25px rgba(61, 38, 27, .12);
+}
+
+.traceability-page .trace-final-card {
+  padding: 18px;
+  border: 1px solid hsl(var(--border));
+}
+
+@media (min-width: 700px) {
+  .trace-overview {
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .traceability-page .trace-hero {
+    min-height: 360px;
+    padding: 24px 26px 18px;
+  }
+
+  .trace-lot-preview {
+    padding: 20px 21px 16px;
+  }
+
+  .traceability-page .trace-result {
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    gap: 16px;
+    margin-top: 22px;
+  }
+
+  .traceability-page .trace-result > .success-banner,
+  .traceability-page .trace-result > .trace-section-heading,
+  .traceability-page .trace-result > .trace-timeline,
+  .traceability-page .trace-result > .trace-tasting-card,
+  .traceability-page .trace-result > .trace-final-card {
+    grid-column: 1 / -1;
+  }
+
+  .traceability-page .trace-result > .trace-photo {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 280px;
+    height: 100%;
+  }
+
+  .traceability-page .trace-result > .trace-result-copy {
+    grid-column: 2;
+    grid-row: 2;
+    padding: 16px;
+  }
+
+  .traceability-page .trace-result > .trace-origin-card {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .traceability-page .trace-result > .trace-story-card {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .traceability-page .trace-result > .trace-section-heading {
+    grid-row: 4;
+  }
+
+  .traceability-page .trace-result > .trace-timeline {
+    grid-row: 5;
+  }
+
+  .traceability-page .trace-result > .trace-tasting-card {
+    grid-row: 6;
+  }
+
+  .traceability-page .trace-result > .trace-final-card {
+    grid-row: 7;
+  }
+
+  .traceability-page .trace-result > .trace-timeline {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .traceability-page .trace-timeline-row {
+    position: relative;
+    grid-template-columns: 29px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .traceability-page .trace-timeline-rail {
+    position: static;
+    justify-content: flex-start;
+  }
+
+  .traceability-page .trace-timeline-rail > i {
+    top: 13px;
+    right: 8px;
+    bottom: auto;
+    left: 34px;
+    width: auto;
+    height: 1px;
+  }
+
+  .traceability-page .trace-timeline-row > div:last-child {
+    padding: 36px 6px 0 0;
+  }
+}
+
+@media (max-width: 699px) {
+  .trace-overview,
+  .traceability-page .trace-result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .traceability-page .trace-hero {
+    min-height: 300px;
+    padding: 20px;
+  }
+
+  .trace-lot-preview {
+    padding: 16px;
+  }
+
+  .traceability-page .trace-result > .trace-result-copy {
+    grid-column: 1;
+    grid-row: auto;
+    padding: 0 2px 3px;
+  }
+
+  .traceability-page .trace-result > .trace-photo {
+    height: 230px;
+    min-height: 0;
+  }
+
+  .traceability-page .trace-result > .trace-section-heading,
+  .traceability-page .trace-result > .trace-timeline,
+  .traceability-page .trace-result > .trace-tasting-card,
+  .traceability-page .trace-result > .trace-final-card {
+    grid-column: 1;
+  }
+
+  .traceability-page .trace-timeline {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traceability-page .trace-result {
+    animation: none;
+  }
+
+  .traceability-page .trace-scan-button {
+    transition: none;
+  }
+}
