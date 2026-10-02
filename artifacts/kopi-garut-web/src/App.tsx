@@ -269,7 +269,7 @@ function FloatingActions() {
   };
 
   return (
-    <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'}`} aria-label="Akses cepat">
+    <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'} ${location.startsWith('/profile') ? 'account-entry-hidden' : ''}`} aria-label="Akses cepat">
       {open && <button className="support-menu-backdrop" onClick={() => setOpen(false)} aria-label="Tutup menu bantuan" data-testid="floating-support-backdrop" />}
       {open && <section className="support-menu" aria-label="Pusat bantuan">
         <div className="support-menu-header">
@@ -584,23 +584,70 @@ function AccountMenuItem({ icon: Icon, title, description, onClick, destructive 
 
 function GuestAccountPage() {
   const [, setLocation] = useLocation();
-  return <Page><main className="subpage account-page">
+  return <Page><main className="subpage account-page guest-account-page">
     <Header title="Akun" />
-    <section className="account-login-layout">
-      <div className="account-login-visual">
-        <div className="account-brand-line"><div className="account-brand-mark"><img src={asset('kopi-garut-logo.png')} alt="" /></div><div><strong>Garut <em>Beans</em></strong><small>G-BEANS · SPECIALTY COFFEE</small></div></div>
-        <div className="account-visual-copy"><span>RUANG PERSONAL</span><h1>Ritual yang<br /><em>punya cerita.</em></h1><p>Kenali kopi, simpan pilihanmu, dan tetap dekat dengan orang-orang di balik setiap cangkir.</p></div>
-        <div className="account-visual-foot"><span>GARUT, JAWA BARAT</span><span>01 / 03</span></div>
+    <div className="guest-account-breadcrumb" aria-label="Lokasi halaman">
+      Garut Beans <i /> Ruang komunitas <i /> Akun
+    </div>
+    <section className="guest-account-hero" aria-labelledby="guest-account-title">
+      <div className="guest-account-story">
+        <span className="guest-account-eyebrow">Tempat cerita kopi bertemu</span>
+        <h1 id="guest-account-title">Satu akun.<br />Banyak cara <em>tumbuh.</em></h1>
+        <p>Masuk ke komunitas kopi spesialti Garut—ruang untuk menemukan pilihanmu, berbagi pengetahuan, dan tumbuh bersama.</p>
+        <div className="guest-account-landscape" aria-label="Ilustrasi dataran tinggi Garut">
+          <span className="guest-account-landscape-label">DATARAN TINGGI GARUT · JAWA BARAT</span>
+          <span className="guest-account-landscape-pin" aria-hidden="true"><MapPin size={14} /></span>
+        </div>
+        <div className="guest-account-origin"><i /> Kopi dari tanah yang kami sebut rumah</div>
       </div>
-      <div className="account-login-form">
-        <span className="section-kicker">AKUN G-BEANS</span>
-        <h2>Masuk ke ruangmu.</h2>
-        <p className="account-form-intro">Pilih akses untuk melanjutkan pengalaman Garut Beans.</p>
-        <button className="account-login-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">Masuk ke akun <ArrowRight size={16} /></button>
-        <div className="account-role-line"><span>PILIHAN AKSES</span><strong>Pembeli · Petani · Penyuluh</strong></div>
-        <div className="account-form-note"><span>Jelajah tetap terbuka</span><p>Katalog dan cerita kopi dapat diakses tanpa masuk akun.</p></div>
-      </div>
+
+      <aside className="guest-account-access" aria-labelledby="guest-account-access-title">
+        <div className="guest-account-access-top">
+          <span className="guest-account-kicker">AKUN G-BEANS</span>
+          <span className="guest-account-guest-badge"><i /> Akses tamu</span>
+        </div>
+        <h2 id="guest-account-access-title">Temukan ruangmu.</h2>
+        <p className="guest-account-intro">Pilih akses sesuai peranmu di perjalanan kopi Garut.</p>
+
+        <div className="guest-account-roles" aria-label="Pilihan akses komunitas">
+          <div className="guest-account-role">
+            <span className="guest-account-role-icon"><Users size={17} /></span>
+            <span className="guest-account-role-copy"><strong>Pembeli</strong><small>Temukan kopi untuk dinikmati</small></span>
+            <span className="guest-account-role-number">01</span>
+          </div>
+          <div className="guest-account-role">
+            <span className="guest-account-role-icon"><Leaf size={17} /></span>
+            <span className="guest-account-role-copy"><strong>Petani</strong><small>Kenalkan hasil panenmu</small></span>
+            <span className="guest-account-role-number">02</span>
+          </div>
+          <div className="guest-account-role">
+            <span className="guest-account-role-icon"><GraduationCap size={18} /></span>
+            <span className="guest-account-role-copy"><strong>Penyuluh pertanian</strong><small>Bagikan ilmu, tumbuhkan potensi</small></span>
+            <span className="guest-account-role-number">03</span>
+          </div>
+        </div>
+
+        <button className="guest-account-primary" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">
+          <span>Masuk ke akun</span><ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <div className="guest-account-card-foot"><span>Belum bergabung?</span><strong>Semua peran punya tempat di sini.</strong></div>
+      </aside>
     </section>
+
+    <section className="guest-account-browse" aria-label="Jelajah tanpa masuk">
+      <div className="guest-account-browse-copy">
+        <span className="guest-account-browse-icon"><Coffee size={18} /></span>
+        <span><strong>Belum ingin masuk? Tak apa.</strong><small>Katalog dan cerita kopi tetap terbuka untuk dijelajahi.</small></span>
+      </div>
+      <button className="guest-account-browse-link" onClick={() => setLocation('/catalog')} data-testid="profile-browse-coffee">
+        Jelajahi kopi <ArrowRight size={16} aria-hidden="true" />
+      </button>
+    </section>
+
+    <footer className="guest-account-footer">
+      <span>Garut Beans · G-BEANS</span>
+      <span>Dirawat bersama, tumbuh dari Garut</span>
+    </footer>
   </main></Page>;
 }
 

@@ -5425,3 +5425,590 @@ body .bottom-nav button.center > span:last-child {
     transition: none;
   }
 }
+
+/* Guest account entry: clear role choices, with guest browsing kept equally visible. */
+.floating-actions.account-entry-hidden {
+  display: none;
+}
+
+.guest-account-page {
+  padding-bottom: 180px;
+}
+
+.guest-account-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(100%, 1180px);
+  margin: 7px auto 0;
+  color: #8a958c;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.guest-account-breadcrumb i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: hsl(var(--accent));
+}
+
+.guest-account-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(370px, .92fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 88px);
+  width: min(100%, 1180px);
+  margin: 12px auto 0;
+  padding: 24px 3.5% 42px;
+}
+
+.guest-account-story {
+  min-width: 0;
+  padding: 16px 0;
+}
+
+.guest-account-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #345b4a;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.guest-account-eyebrow::before {
+  width: 23px;
+  height: 1px;
+  background: hsl(var(--primary));
+  content: "";
+}
+
+.guest-account-story h1 {
+  max-width: 700px;
+  margin: 23px 0 18px;
+  color: #244a3d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(54px, 6.6vw, 86px);
+  font-weight: 400;
+  line-height: .94;
+  letter-spacing: -.06em;
+}
+
+.guest-account-story h1 em {
+  color: #bd7057;
+  font-weight: 400;
+}
+
+.guest-account-story > p {
+  max-width: 440px;
+  margin: 0;
+  color: #65766c;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guest-account-landscape {
+  position: relative;
+  width: min(100%, 475px);
+  height: 112px;
+  margin-top: 31px;
+  overflow: hidden;
+  border-radius: 17px;
+  background: linear-gradient(115deg, #e9eddc, #e5e9d5);
+}
+
+.guest-account-landscape::before,
+.guest-account-landscape::after {
+  position: absolute;
+  right: -4%;
+  bottom: -75px;
+  left: -8%;
+  height: 142px;
+  border: 1px solid rgba(36, 74, 61, .28);
+  border-radius: 50% 50% 0 0 / 46% 46% 0 0;
+  content: "";
+  transform: rotate(-5deg);
+}
+
+.guest-account-landscape::after {
+  right: -15%;
+  bottom: -99px;
+  left: 25%;
+  height: 142px;
+  border-color: rgba(189, 112, 87, .43);
+  transform: rotate(7deg);
+}
+
+.guest-account-landscape-label {
+  position: absolute;
+  z-index: 1;
+  top: 15px;
+  left: 18px;
+  color: #5d7465;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.guest-account-landscape-pin {
+  position: absolute;
+  z-index: 1;
+  top: 39px;
+  left: 59%;
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid rgba(36, 74, 61, .3);
+  border-radius: 50%;
+  color: #315a46;
+  background: #dce890;
+}
+
+.guest-account-origin {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 15px;
+  color: #78857c;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.guest-account-origin i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+}
+
+.guest-account-access {
+  position: relative;
+  min-width: 0;
+  padding: 31px 30px 24px;
+  border: 1px solid rgba(33, 59, 50, .13);
+  border-radius: 24px 24px 24px 5px;
+  background: #fffdf5;
+  box-shadow: 0 19px 45px rgba(48, 63, 51, .1);
+}
+
+.guest-account-access::before {
+  position: absolute;
+  top: -12px;
+  right: 28px;
+  width: 48px;
+  height: 24px;
+  border: 1px solid rgba(33, 59, 50, .13);
+  border-bottom: 0;
+  border-radius: 17px 17px 0 0;
+  background: #fffdf5;
+  content: "";
+}
+
+.guest-account-access-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.guest-account-kicker {
+  color: #8c978b;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.guest-account-guest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: 99px;
+  color: #567060;
+  background: #eef1e4;
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.guest-account-guest-badge i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #8aa27c;
+}
+
+.guest-account-access h2 {
+  margin: 22px 0 8px;
+  color: #244a3d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.guest-account-intro {
+  margin: 0;
+  color: #7b8880;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.guest-account-roles {
+  margin: 21px 0 19px;
+  border-top: 1px solid #e9e9dd;
+}
+
+.guest-account-role {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 61px;
+  border-bottom: 1px solid #e9e9dd;
+}
+
+.guest-account-role-icon {
+  display: grid;
+  width: 33px;
+  height: 33px;
+  place-items: center;
+  border-radius: 11px;
+  color: #315a46;
+  background: #edf0e2;
+}
+
+.guest-account-role:nth-child(2) .guest-account-role-icon {
+  color: #a35f4c;
+  background: #f6e8df;
+}
+
+.guest-account-role:nth-child(3) .guest-account-role-icon {
+  color: #647847;
+  background: #edf0dc;
+}
+
+.guest-account-role-copy {
+  min-width: 0;
+}
+
+.guest-account-role-copy strong,
+.guest-account-role-copy small {
+  display: block;
+}
+
+.guest-account-role-copy strong {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.guest-account-role-copy small {
+  margin-top: 3px;
+  color: #8c978e;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.guest-account-role-number {
+  color: #b1b9ae;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+}
+
+.guest-account-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px 12px 12px 3px;
+  color: #f9f7ec;
+  background: #244a3d;
+  box-shadow: 0 9px 18px rgba(36, 74, 61, .15);
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.guest-account-primary:hover {
+  background: #1b3a30;
+  box-shadow: 0 13px 22px rgba(36, 74, 61, .2);
+  transform: translateY(-2px);
+}
+
+.guest-account-primary:focus-visible,
+.guest-account-browse-link:focus-visible {
+  outline: 3px solid rgba(189, 112, 87, .65);
+  outline-offset: 4px;
+}
+
+.guest-account-primary svg {
+  color: #dce890;
+}
+
+.guest-account-card-foot {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: #8b968d;
+  font-size: 9px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.guest-account-card-foot strong {
+  color: #586e60;
+  font-weight: 900;
+}
+
+.guest-account-browse {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  width: min(100% - 48px, 1110px);
+  margin: 0 auto;
+  padding: 20px 0;
+  border-top: 1px solid rgba(33, 59, 50, .15);
+}
+
+.guest-account-browse-copy {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.guest-account-browse-icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(36, 74, 61, .16);
+  border-radius: 50%;
+  color: #244a3d;
+  background: rgba(255, 253, 245, .72);
+}
+
+.guest-account-browse-copy strong {
+  display: block;
+  color: #244a3d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.guest-account-browse-copy small {
+  display: block;
+  margin-top: 4px;
+  color: #78857c;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.guest-account-browse-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  color: #244a3d;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: gap .2s ease;
+}
+
+.guest-account-browse-link:hover {
+  gap: 13px;
+}
+
+.guest-account-browse-link svg {
+  color: #bd7057;
+}
+
+.guest-account-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100% - 48px, 1110px);
+  margin: 4px auto 0;
+  color: #9aa39a;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .guest-account-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+    width: min(100% - 24px, 620px);
+    padding: 35px 0 25px;
+  }
+
+  .guest-account-story {
+    padding: 0;
+  }
+
+  .guest-account-story h1 {
+    font-size: clamp(57px, 10vw, 78px);
+  }
+
+  .guest-account-landscape {
+    max-width: 520px;
+  }
+
+  .guest-account-access {
+    width: min(100%, 530px);
+    justify-self: center;
+  }
+
+  .guest-account-browse,
+  .guest-account-footer {
+    width: min(100% - 24px, 620px);
+  }
+}
+
+@media (max-width: 600px) {
+  .guest-account-access {
+    order: 1;
+  }
+
+  .guest-account-story {
+    order: 2;
+  }
+
+  .guest-account-breadcrumb {
+    gap: 7px;
+    font-size: 7px;
+  }
+
+  .guest-account-hero {
+    gap: 17px;
+    padding-top: 30px;
+  }
+
+  .guest-account-eyebrow {
+    font-size: 8px;
+    letter-spacing: .12em;
+  }
+
+  .guest-account-story h1 {
+    margin: 13px 0 12px;
+    font-size: clamp(42px, 10.7vw, 56px);
+    line-height: .95;
+  }
+
+  .guest-account-story > p {
+    max-width: 355px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .guest-account-landscape {
+    height: 88px;
+    margin-top: 23px;
+  }
+
+  .guest-account-landscape-label {
+    top: 12px;
+    left: 14px;
+    font-size: 7px;
+  }
+
+  .guest-account-landscape-pin {
+    top: 31px;
+    width: 23px;
+    height: 23px;
+  }
+
+  .guest-account-origin {
+    margin-top: 12px;
+    font-size: 7px;
+    letter-spacing: .1em;
+  }
+
+  .guest-account-access {
+    padding: 25px 20px 20px;
+    border-radius: 21px 21px 21px 5px;
+  }
+
+  .guest-account-access h2 {
+    margin-top: 19px;
+    font-size: 31px;
+  }
+
+  .guest-account-intro {
+    font-size: 10px;
+  }
+
+  .guest-account-roles {
+    margin: 18px 0 16px;
+  }
+
+  .guest-account-role {
+    min-height: 58px;
+  }
+
+  .guest-account-browse {
+    align-items: center;
+    gap: 12px;
+    padding: 18px 0;
+  }
+
+  .guest-account-browse-copy {
+    gap: 10px;
+  }
+
+  .guest-account-browse-icon {
+    width: 37px;
+    height: 37px;
+  }
+
+  .guest-account-browse-copy strong {
+    font-size: 15px;
+  }
+
+  .guest-account-browse-copy small {
+    max-width: 195px;
+    font-size: 9px;
+  }
+
+  .guest-account-browse-link {
+    gap: 4px;
+    white-space: nowrap;
+    font-size: 9px;
+  }
+
+  .guest-account-footer {
+    gap: 8px;
+    margin-top: 3px;
+    font-size: 6px;
+    letter-spacing: .07em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guest-account-primary,
+  .guest-account-browse-link {
+    transition: none;
+  }
+}
