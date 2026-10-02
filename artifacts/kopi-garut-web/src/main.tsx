@@ -5,6 +5,7 @@ import App from './App';
 import { ErrorBoundary } from '@/components/error-boundary';
 
 import './index.css';
+import './orders-page.css';
 
 const hexToHsl = (hex: string) => {
   const value = hex.replace('#', '');

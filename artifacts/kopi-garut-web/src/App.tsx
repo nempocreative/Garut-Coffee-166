@@ -538,12 +538,13 @@ function OrdersPage() {
         const firstCoffee = coffees.find((coffee) => coffee.id === order.items[0]?.id);
         const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
         const itemNames = order.items.map((item) => coffees.find((coffee) => coffee.id === item.id)?.name).filter(Boolean).join(' · ');
+        const itemQuantities = order.items.map((item) => `${item.quantity} × ${coffees.find((coffee) => coffee.id === item.id)?.name ?? 'Kopi Garut Beans'}`).join(' / ');
         const statusIndex = getOrderStatusIndex(order.status);
         const statusLabel = orderStatusSteps[statusIndex];
         return <article className="orders-card" key={order.id} style={{ '--order-delay': `${index * 70}ms` } as React.CSSProperties}>
           <div className="orders-card-top">
             <div className="orders-card-meta"><div className="orders-label-row"><span /> <small>PESANAN TERBARU</small></div><strong>#{order.id.slice(-6)}</strong></div>
-            <span className="orders-status"><i />{statusLabel}</span>
+            <span className={`orders-status status-${statusIndex}`}><i />{statusLabel}</span>
           </div>
           <time className="orders-date">{order.createdAt}</time>
           <div className="orders-status-summary">
@@ -551,12 +552,12 @@ function OrdersPage() {
             <div><strong>{orderStatusDescriptions[statusLabel]}</strong><small>{statusIndex === 2 ? 'Terima kasih sudah memilih Garut Beans.' : 'Kami akan memberi kabar di setiap tahap.'}</small></div>
           </div>
           <div className="orders-progress" aria-label={`Status pesanan ${statusLabel}`}>
-            {orderStatusSteps.map((step, stepIndex) => <Fragment key={step}><div className="orders-progress-step"><span className={stepIndex <= statusIndex ? 'complete' : ''}>{stepIndex <= statusIndex && <Check size={10} />}</span><small>{step}</small></div>{stepIndex < orderStatusSteps.length - 1 && <i className={stepIndex < statusIndex ? 'complete' : ''} />}</Fragment>)}
+            {orderStatusSteps.map((step, stepIndex) => <div className={`orders-progress-segment ${stepIndex < statusIndex ? 'passed' : ''}`} key={step}><span className={stepIndex <= statusIndex ? 'complete' : ''}>{stepIndex <= statusIndex && <Check size={11} />}</span><small>{step}</small></div>)}
           </div>
           <div className="orders-divider" />
           <div className="orders-product-row">
-            {firstCoffee && <img src={firstCoffee.image} alt="" />}
-            <div><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemCount} item · Total pesanan</small></div>
+            <div className="orders-item-mark"><Coffee size={21} /></div>
+            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · Total pesanan</small></div>
             <div className="orders-total"><small>TOTAL</small><strong>{formatPrice(order.total)}</strong></div>
           </div>
           <div className="orders-actions">
