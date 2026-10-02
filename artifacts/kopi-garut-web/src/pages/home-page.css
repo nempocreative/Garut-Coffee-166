@@ -4670,7 +4670,7 @@
 
 @media (max-width: 767px) {
   .gb-promo {
-    height: 238px;
+    height: 210px;
   }
 
   .gb-promo-card.is-prev,
@@ -4696,7 +4696,7 @@
 
 @media (min-width: 768px) {
   .gb-promo {
-    height: clamp(320px, 31vw, 430px);
+    height: clamp(250px, 25vw, 350px);
     border-radius: 28px;
     perspective: 1400px;
     background:

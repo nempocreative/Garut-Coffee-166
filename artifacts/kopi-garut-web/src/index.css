@@ -752,6 +752,7 @@
 .catalog-products-group { margin-top: 29px; }
 .catalog-group-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 11px; padding: 0 2px; }
 .catalog-group-heading h2 { margin: 3px 0 0; font-size: 18px; letter-spacing: -.35px; }
+.catalog-group-description { max-width: 420px; margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.45; }
 .catalog-group-heading small { color: hsl(var(--muted-foreground)); font-size: 9px; font-weight: 800; }
 .catalog-product-grid { margin-top: 0; gap: 13px; }
 .catalog-product-grid .product-card, .catalog-product-grid .diversified-card { box-shadow: 0 8px 18px rgba(76, 48, 31, .065); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
@@ -774,6 +775,8 @@
 .catalog-diversified-card .diversified-body p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 9px; line-height: 1.35; }
 .catalog-diversified-card .diversified-body em { color: hsl(var(--muted-foreground)); font-size: 8px; font-style: normal; }
 .catalog-diversified-card .diversified-body .text-button { display: inline-flex; align-items: center; gap: 3px; padding: 0; color: hsl(var(--primary)); background: transparent; border: 0; font-size: 9px; font-weight: 800; }
+.diversification-note { display: flex; align-items: flex-start; gap: 9px; margin: -3px 0 16px; padding: 11px 12px; border: 1px solid rgba(123, 63, 44, .14); border-radius: 14px; background: linear-gradient(135deg, rgba(255, 249, 241, .95), rgba(244, 229, 211, .68)); color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.45; }
+.diversification-note svg { flex: 0 0 auto; color: hsl(var(--primary)); }
 .filter-pills { display: flex; gap: 7px; overflow-x: auto; margin-bottom: 15px; }
 .filter-pill { flex: 0 0 auto; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); border-radius: 20px; color: hsl(var(--muted-foreground)); padding: 8px 12px; font-size: 10px; font-weight: 800; }
 .filter-pill.active { color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); background: hsl(var(--primary)); }
@@ -1840,6 +1843,49 @@
 .farmer-grid, .tour-grid { display: grid; gap: 10px; }
 .farmer-card > img { height: 190px; }
 .farmer-stats span { padding: 5px 7px; border-radius: 8px; background: hsl(var(--muted)); font-size: 8px; font-weight: 800; }
+.farmers-intro { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 0 0 14px; padding: 16px; border: 1px solid hsl(var(--border)); border-radius: 21px; background: radial-gradient(circle at 100% 0%, rgba(241, 204, 145, .45), transparent 34%), linear-gradient(135deg, hsl(var(--card)), rgba(244, 229, 211, .72)); box-shadow: 0 9px 20px rgba(76, 48, 31, .055); }
+.farmers-intro > div:first-child { min-width: 0; }
+.farmers-intro h2 { max-width: 500px; margin: 5px 0 6px; font-size: 18px; line-height: 1.1; letter-spacing: -.45px; }
+.farmers-intro p { max-width: 520px; margin: 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.5; }
+.farmers-intro-mark { display: grid; flex: 0 0 68px; width: 68px; height: 68px; align-content: center; justify-items: center; gap: 3px; border-radius: 21px; color: #fff9f1; background: linear-gradient(145deg, hsl(var(--primary)), #8d4432); box-shadow: 0 8px 16px rgba(123, 63, 44, .2); transform: rotate(4deg); }
+.farmers-intro-mark span { font-size: 7px; font-weight: 900; letter-spacing: .7px; line-height: 1.05; text-align: center; }
+.farmers-intro-mark small { color: #f1cc91; font-size: 5px; letter-spacing: .4px; }
+.farmer-featured { position: relative; min-height: 258px; margin: 4px 0 25px; overflow: hidden; border-radius: 21px; background: hsl(var(--foreground)); box-shadow: 0 12px 24px rgba(48, 28, 20, .14); }
+.farmer-featured > img, .farmer-featured-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.farmer-featured > img { object-fit: cover; }
+.farmer-featured-shade { background: linear-gradient(90deg, rgba(37, 22, 15, .93), rgba(37, 22, 15, .24) 78%), linear-gradient(0deg, rgba(37, 22, 15, .65), transparent 60%); }
+.farmer-featured-copy { position: relative; z-index: 1; display: grid; align-content: end; min-height: 258px; padding: 18px; color: #fff9f1; }
+.farmer-featured-badge { display: inline-flex; align-items: center; gap: 5px; width: fit-content; color: #f1cc91; font-size: 8px; font-weight: 900; letter-spacing: 1px; }
+.farmer-featured-badge i { width: 6px; height: 6px; border-radius: 50%; background: #f1cc91; }
+.farmer-featured-copy .section-kicker { margin-top: 20px; color: #f1cc91; }
+.farmer-featured-copy h2 { max-width: 360px; margin: 5px 0 5px; font-size: 24px; line-height: 1.02; letter-spacing: -.7px; }
+.farmer-featured-copy p { max-width: 500px; margin: 0; color: rgba(255, 249, 241, .83); font-size: 10px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.farmer-featured-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; color: rgba(255, 249, 241, .72); font-size: 9px; font-weight: 800; }
+.farmer-featured-foot .hero-link { display: inline-flex; align-items: center; gap: 5px; color: #fff9f1; }
+.farmers-list-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 0 0 11px; }
+.farmers-list-heading h2 { margin: 4px 0 4px; font-size: 19px; letter-spacing: -.4px; }
+.farmers-list-heading p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.4; }
+.farmers-list-heading > span { flex: 0 0 auto; color: hsl(var(--muted-foreground)); font-size: 9px; font-weight: 800; }
+.farmer-grid-rich { gap: 12px; }
+.farmer-card-rich { overflow: hidden; box-shadow: 0 8px 18px rgba(76, 48, 31, .06); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.farmer-card-rich:hover { transform: translateY(-3px); border-color: color-mix(in srgb, hsl(var(--primary)) 35%, hsl(var(--border))); box-shadow: 0 13px 25px rgba(76, 48, 31, .12); }
+.farmer-card-image { position: relative; height: 170px; overflow: hidden; background: hsl(var(--secondary)); }
+.farmer-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.farmer-card-rich:hover .farmer-card-image img { transform: scale(1.04); }
+.farmer-card-location { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 4px; padding: 5px 7px; border: 1px solid rgba(255, 249, 241, .3); border-radius: 999px; color: #fff9f1; background: rgba(37, 22, 15, .58); font-size: 8px; font-weight: 800; backdrop-filter: blur(5px); }
+.farmer-card-rich .farmer-copy { padding: 13px; }
+.farmer-card-rich .farmer-copy h3 { margin-top: 5px; }
+.farmer-card-rich .farmer-stats { flex-wrap: wrap; justify-content: flex-start; margin-top: 11px; }
+.farmer-card-rich .farmer-stats span { color: hsl(var(--foreground)); background: hsl(var(--muted)); }
+.farmer-products { display: grid; gap: 4px; margin-top: 12px; padding-top: 10px; border-top: 1px solid hsl(var(--border)); }
+.farmer-products small { color: hsl(var(--primary)); font-size: 7px; font-weight: 900; letter-spacing: .8px; }
+.farmer-products strong { color: hsl(var(--foreground)); font-size: 9px; line-height: 1.3; }
+.farmers-closing { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 15px; border: 1px solid rgba(255, 249, 241, .18); border-radius: 19px; color: #fff9f1; background: linear-gradient(135deg, #2d211d, #8d4432); box-shadow: 0 11px 22px rgba(76, 48, 31, .14); }
+.farmers-closing-icon { display: grid; flex: 0 0 42px; width: 42px; height: 42px; place-items: center; border-radius: 14px; color: #3d2c26; background: #f1cc91; }
+.farmers-closing > div:nth-child(2) { min-width: 0; flex: 1; }
+.farmers-closing h2 { margin: 4px 0; font-size: 15px; line-height: 1.1; }
+.farmers-closing p { margin: 0; color: rgba(255, 249, 241, .76); font-size: 9px; line-height: 1.35; }
+.farmers-closing .secondary-button { flex: 0 0 auto; border-color: #f1cc91; color: #fff9f1; }
 .region-list { display: grid; gap: 10px; }
 .region-card { display: grid; grid-template-columns: 116px 1fr; }
 .region-card > img { width: 116px; height: 100%; min-height: 145px; }
