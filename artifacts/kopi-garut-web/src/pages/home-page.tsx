@@ -11,6 +11,7 @@ import {
 } from '@workspace/kopi-garut-shared';
 import { AppIcon, AppNavGlyph } from '../components/app-icon';
 import { MenuIllustration } from '../components/menu-illustration';
+import { SiteFooter } from '../components/site-footer';
 import './home-page.css';
 
 type HomePageProps = {
@@ -18,6 +19,16 @@ type HomePageProps = {
   onAddToCart: (id: string) => void;
   onToggleFavorite: (id: string) => void;
   favorites: string[];
+  programHighlights: HomeProgramHighlight[];
+};
+
+type HomeProgramHighlight = {
+  id: string;
+  category: string;
+  title: string;
+  next: string;
+  description: string;
+  image: string;
 };
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
@@ -193,47 +204,6 @@ function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
         </span>
       </span>
     </button>
-  );
-}
-
-function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
-  return (
-    <footer id="site-footer" className="gb-footer" data-testid="site-footer">
-      <div className="gb-footer-inner">
-        <div className="gb-footer-brand">
-          <button className="gb-footer-logo" onClick={() => onNavigate('/')} aria-label="Kembali ke Beranda">
-            <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" />
-          </button>
-          <div>
-            <div className="gb-footer-name"><span>Garut</span> <strong>Beans</strong></div>
-            <p>Kopi spesialti dari Garut.</p>
-          </div>
-        </div>
-        <nav className="gb-footer-simple-links" aria-label="Menu footer">
-          <span className="gb-footer-label">MENU</span>
-          <button onClick={() => onNavigate('/catalog')}>Kopi</button>
-          <button onClick={() => onNavigate('/farmers')}>Petani</button>
-          <button onClick={() => onNavigate('/regions')}>Wilayah</button>
-          <button onClick={() => onNavigate('/program')}>Program</button>
-        </nav>
-        <div className="gb-footer-contact-card">
-          <div className="gb-footer-contact-head">
-            <span className="gb-footer-label">TEMUI KAMI</span>
-          </div>
-          <p>Garut, Jawa Barat · Senin—Sabtu</p>
-          <button className="gb-footer-contact-action" onClick={() => onNavigate('/complaints')}>
-            <span>Hubungi kami</span>
-            <span className="gb-footer-action-icon" aria-hidden="true">↗</span>
-          </button>
-        </div>
-      </div>
-      <div className="gb-footer-bottom">
-        <span>© 2026 Garut Beans.</span>
-        <div className="gb-footer-bottom-links">
-          <button onClick={() => onNavigate('/traceability')}>Jejak kopi</button>
-        </div>
-      </div>
-    </footer>
   );
 }
 
@@ -602,6 +572,30 @@ function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) 
   );
 }
 
+function ProgramHighlightRail({ programs, onNavigate }: { programs: HomeProgramHighlight[]; onNavigate: (path: string) => void }) {
+  return (
+    <div className="gb-program-highlights" data-testid="rail-home-programs">
+      {programs.map((program) => (
+        <button
+          className="gb-program-highlight"
+          key={program.id}
+          onClick={() => onNavigate('/program')}
+          data-testid={`button-home-program-${program.id}`}
+        >
+          <img src={asset(program.image)} alt="" />
+          <span className="gb-program-highlight-copy">
+            <small>{program.category}</small>
+            <strong>{program.title}</strong>
+            <span>{program.description}</span>
+            <em>{program.next}</em>
+            <b>Lihat program <i aria-hidden="true">↗</i></b>
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNavigate: (path: string) => void }) {
   return (
     <button className="gb-tour-card" onClick={() => onNavigate('/tourism')} data-testid={`button-home-tour-${tour.id}`}>
@@ -672,7 +666,7 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   );
 }
 
-export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites }: HomePageProps) {
+export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites, programHighlights }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const firstCoffees = coffeeCatalog.slice(0, 10);
 
@@ -727,9 +721,14 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             </div>
           </section>
 
-          <section className="gb-home-section gb-mobile-only">
-            <SectionTitle title="Selalu ada cerita baru" action="Lihat agenda" onAction={() => onNavigate('/events')} />
+          <section className="gb-home-section">
+            <SectionTitle title="Event kopi mendatang" action="Lihat agenda" onAction={() => onNavigate('/events')} />
             <EventStoryRail onNavigate={onNavigate} />
+          </section>
+
+          <section className="gb-home-section">
+            <SectionTitle title="Program untuk tumbuh bersama" action="Semua program" onAction={() => onNavigate('/program')} />
+            <ProgramHighlightRail programs={programHighlights} onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section gb-mobile-only">

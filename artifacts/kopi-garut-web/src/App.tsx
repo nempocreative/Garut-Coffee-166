@@ -23,6 +23,7 @@ import {
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
 import HomePage from '@/pages/home-page';
+import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
 import { AppIcon, AppNavGlyph, type AppIconName } from '@/components/app-icon';
 
@@ -362,6 +363,7 @@ function WebHomeRoute() {
       onAddToCart={(id) => addToCart(id)}
       onToggleFavorite={toggleFavorite}
       favorites={favorites}
+      programHighlights={regularPrograms.slice(0, 2)}
     />
     <BottomNav />
     <CartPreview />
@@ -369,9 +371,9 @@ function WebHomeRoute() {
 }
 
 function Page({ children }: { children: ReactNode }) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const hasDesktopTopNav = location !== '/';
-  return <div className={`app-viewport ${hasDesktopTopNav ? 'has-desktop-top-nav' : ''}`}><div className="app-page">{children}</div><BottomNav /><CartPreview /></div>;
+  return <div className={`app-viewport ${hasDesktopTopNav ? 'has-desktop-top-nav' : ''}`}><div className="app-page">{children}<SiteFooter onNavigate={setLocation} /></div><BottomNav /><CartPreview /></div>;
 }
 
 function CatalogPage() {
@@ -783,6 +785,7 @@ function LoginPage({ returnTo: requestedReturnTo }: { returnTo?: string }) {
       <button className="primary-button auth-submit" onClick={() => { signIn(selectedRole); setLocation(returnTo); }} data-testid="login-submit">{session ? 'Simpan peran ini' : 'Masuk sebagai akun ini'} <ArrowRight size={15} /></button>
       <p className="auth-note">Akun ini masih lokal di perangkat. Login server dan akun lintas perangkat dapat disambungkan kemudian.</p>
     </div>
+    <SiteFooter onNavigate={setLocation} />
     <BottomNav />
   </div>;
 }

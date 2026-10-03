@@ -26,3 +26,9 @@ For Web sign-in, use a genuine desktop layout above the desktop breakpoint inste
 **Why:** The user corrected a 430px-wide sign-in layout because it made the Web page look like a mobile screen.
 
 **How to apply:** Keep the desktop sign-in content at a controlled web width with a desktop composition; verify both desktop and phone layouts.
+
+For the Garut Beans Web footer, keep only the brand, short tagline, and copyright/location; do not add a navigation menu. Show the same footer across all pages.
+
+**Why:** The user explicitly asked for a simple footer without a menu, then asked to show it on every page.
+
+**How to apply:** Reuse the same compact footer on the home page, routed content pages, and sign-in page.

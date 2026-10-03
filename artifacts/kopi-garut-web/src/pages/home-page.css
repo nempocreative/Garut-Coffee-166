@@ -4008,6 +4008,260 @@
   }
 }
 
+.gb-program-highlights {
+  display: flex;
+  gap: 12px;
+  margin: 0 -2px;
+  overflow-x: auto;
+  padding: 1px 2px 8px;
+  scrollbar-width: none;
+}
+
+.gb-program-highlights::-webkit-scrollbar {
+  display: none;
+}
+
+.gb-program-highlight {
+  display: grid;
+  flex: 0 0 min(84vw, 330px);
+  grid-template-columns: 108px minmax(0, 1fr);
+  min-height: 188px;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(211, 161, 95, .3);
+  border-radius: 20px;
+  color: var(--gb-foreground);
+  background: var(--gb-card);
+  box-shadow: 0 8px 20px rgba(76, 48, 31, .08);
+  text-align: left;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.gb-program-highlight:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(76, 48, 31, .14);
+}
+
+.gb-program-highlight > img {
+  width: 100%;
+  height: 100%;
+  min-height: 188px;
+  object-fit: cover;
+}
+
+.gb-program-highlight-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 13px 12px;
+}
+
+.gb-program-highlight-copy > small {
+  color: var(--gb-primary);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .7px;
+}
+
+.gb-program-highlight-copy > strong {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.gb-program-highlight-copy > span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--gb-muted);
+  font-size: 9px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.gb-program-highlight-copy > em {
+  color: var(--gb-muted);
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.gb-program-highlight-copy > b {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  color: var(--gb-primary);
+  font-size: 9px;
+}
+
+.gb-program-highlight-copy > b i {
+  font-size: 11px;
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  .gb-event-rail {
+    gap: 16px;
+  }
+
+  .gb-event-card {
+    flex-basis: clamp(220px, 24vw, 300px);
+    height: 300px;
+    border-radius: 24px;
+  }
+
+  .gb-event-copy {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    gap: 9px;
+  }
+
+  .gb-event-copy > small {
+    font-size: 10px;
+  }
+
+  .gb-event-copy > strong {
+    height: auto;
+    font-size: 20px;
+  }
+
+  .gb-event-copy > span {
+    font-size: 10px;
+  }
+
+  .gb-program-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    overflow: visible;
+  }
+
+  .gb-program-highlight {
+    grid-template-columns: minmax(145px, .72fr) minmax(0, 1.28fr);
+    min-height: 224px;
+    border-radius: 24px;
+  }
+
+  .gb-program-highlight > img {
+    min-height: 224px;
+  }
+
+  .gb-program-highlight-copy {
+    gap: 9px;
+    padding: 18px;
+  }
+
+  .gb-program-highlight-copy > small {
+    font-size: 8px;
+  }
+
+  .gb-program-highlight-copy > strong {
+    font-size: 17px;
+  }
+
+  .gb-program-highlight-copy > span {
+    font-size: 11px;
+  }
+
+  .gb-program-highlight-copy > em {
+    font-size: 9px;
+  }
+
+  .gb-program-highlight-copy > b {
+    font-size: 10px;
+  }
+}
+
+/* Keep the site footer compact and focused on the essentials. */
+.gb-footer {
+  margin-top: 38px;
+  padding: 24px clamp(18px, 5vw, 64px) 16px;
+  border-top: 1px solid rgba(245, 234, 220, .12);
+  background: #2c211d;
+}
+
+.gb-footer::before,
+.gb-footer::after {
+  display: none;
+}
+
+.gb-footer-inner {
+  display: flex;
+  max-width: 1120px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.gb-footer-brand {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.gb-footer-logo {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+}
+
+.gb-footer-logo img {
+  width: 32px;
+  height: 32px;
+}
+
+.gb-footer-name {
+  color: #f5eadc;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.gb-footer-name strong {
+  color: #e6b96f;
+}
+
+.gb-footer-brand p {
+  margin: 3px 0 0;
+  color: rgba(245, 234, 220, .6);
+  font-size: 11px;
+}
+
+.gb-footer-bottom {
+  display: flex;
+  max-width: 1120px;
+  justify-content: center;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(245, 234, 220, .12);
+  text-align: center;
+}
+
+.gb-footer-bottom > span {
+  color: rgba(245, 234, 220, .48);
+  font-size: 10px;
+}
+
+.gb-footer-logo:focus-visible,
+@media (max-width: 767px) {
+  .gb-footer {
+    margin-top: 32px;
+    padding: 22px 18px 16px;
+  }
+
+  .gb-footer-inner {
+    align-items: center;
+    gap: 16px;
+  }
+
+  .gb-footer-bottom {
+    margin-top: 14px;
+  }
+}
+
 /* Keep the home screen on the same rough aggregate surface as the rest of Web. */
 .gb-home {
   background-color: color-mix(in srgb, var(--gb-background) 62%, #858781 38%);
