@@ -14,3 +14,9 @@ For the Web page background, use a subtle rough, asphalt-like aggregate texture 
 **Why:** The user clarified that “textured” means a coarse asphalt-like surface, not the previous paper contour pattern.
 
 **How to apply:** When changing the Web background, preserve clear contrast for the foreground and avoid illustrative line patterns.
+
+For account-page refinements, use the existing warm coffee, cream, and terracotta palette; avoid dominant green surfaces and oversized decorative panels.
+
+**Why:** The user explicitly asked that the account page match the Web theme without green or large shapes.
+
+**How to apply:** Keep the textured page background visible and limit solid surfaces to the functional account card.
