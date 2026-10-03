@@ -21,11 +21,11 @@ For account-page refinements, use the existing warm coffee, cream, and terracott
 
 **How to apply:** Keep the textured page background visible and limit solid surfaces to the functional account card.
 
-For Web sign-in, use a genuine desktop layout above the desktop breakpoint instead of constraining the page to the mobile app's 430px width. Keep it fluid and stack the content only on narrow screens.
+For the Garut Beans website, desktop visitors should see the same phone-width composition as mobile visitors rather than a wide-screen rearrangement.
 
-**Why:** The user corrected a 430px-wide sign-in layout because it made the Web page look like a mobile screen.
+**Why:** The user asked for the desktop website appearance to match the mobile layout.
 
-**How to apply:** Keep the desktop sign-in content at a controlled web width with a desktop composition; verify both desktop and phone layouts.
+**How to apply:** Reuse the existing phone-responsive Web route inside a centered phone-width viewport on desktop; verify the same route at both desktop and phone sizes.
 
 For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 

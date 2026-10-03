@@ -1,4 +1,4 @@
-import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   Trash2, ClipboardList, Clock3, FileText, Factory, Leaf, LocateFixed, MessageSquare, Menu,
   Wallet, Wheat,
@@ -2021,11 +2021,122 @@ function ScrollToTop() {
   return null;
 }
 
+const phoneFrameParam = 'gbPhoneView';
+const desktopPhoneFrameMessage = 'garut-beans:web-phone-route';
+const desktopPhoneBreakpoint = 700;
+const webBasePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function buildPhoneFrameUrl(url: URL) {
+  const frameUrl = new URL(url.href);
+  frameUrl.searchParams.set(phoneFrameParam, '1');
+  return `${frameUrl.pathname}${frameUrl.search}${frameUrl.hash}`;
+}
+
+function DesktopPhoneRouteSync({ enabled }: { enabled: boolean }) {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    if (!enabled || window.parent === window) return;
+    window.parent.postMessage({
+      type: desktopPhoneFrameMessage,
+      pathname: window.location.pathname,
+      search: window.location.search,
+      hash: window.location.hash,
+    }, window.location.origin);
+  }, [enabled, location]);
+
+  return null;
+}
+
+function DesktopPhoneView() {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const [frameUrl, setFrameUrl] = useState(() => buildPhoneFrameUrl(new URL(window.location.href)));
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin || event.source !== frameRef.current?.contentWindow) return;
+      if (!event.data || event.data.type !== desktopPhoneFrameMessage) return;
+
+      const { pathname, search, hash } = event.data as {
+        pathname?: unknown;
+        search?: unknown;
+        hash?: unknown;
+      };
+      if (typeof pathname !== 'string' || typeof search !== 'string' || typeof hash !== 'string') return;
+      if (webBasePath && pathname !== webBasePath && !pathname.startsWith(`${webBasePath}/`)) return;
+
+      const nextUrl = new URL(`${pathname}${search}${hash}`, window.location.origin);
+      nextUrl.searchParams.delete(phoneFrameParam);
+      const nextAddress = `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
+      const currentAddress = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (nextAddress !== currentAddress) {
+        window.history.pushState({ ...window.history.state, desktopPhoneFrame: true }, '', nextAddress);
+      }
+    };
+
+    const handlePopState = () => {
+      setFrameUrl(buildPhoneFrameUrl(new URL(window.location.href)));
+    };
+
+    window.addEventListener('message', handleMessage);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  return (
+    <main
+      aria-label="Garut Beans"
+      style={{
+        display: 'grid',
+        minHeight: '100dvh',
+        placeItems: 'start center',
+        overflow: 'hidden',
+        background: '#f6f0e8',
+      }}
+    >
+      <iframe
+        ref={frameRef}
+        key={frameUrl}
+        title="Garut Beans — tampilan ponsel"
+        src={frameUrl}
+        style={{
+          display: 'block',
+          width: 'min(430px, 100vw)',
+          height: '100dvh',
+          border: 0,
+          background: '#f6f0e8',
+          boxShadow: '0 0 36px rgba(54, 34, 22, 0.12)',
+        }}
+      />
+    </main>
+  );
+}
+
 function App() {
+  const [desktopViewport, setDesktopViewport] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(`(min-width: ${desktopPhoneBreakpoint}px)`).matches,
+  );
+  const phoneFrameMode = typeof window !== 'undefined'
+    && new URLSearchParams(window.location.search).get(phoneFrameParam) === '1';
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(`(min-width: ${desktopPhoneBreakpoint}px)`);
+    const updateViewport = () => setDesktopViewport(mediaQuery.matches);
+    updateViewport();
+    mediaQuery.addEventListener('change', updateViewport);
+    return () => mediaQuery.removeEventListener('change', updateViewport);
+  }, []);
+
+  if (desktopViewport && !phoneFrameMode) return <DesktopPhoneView />;
+
   return (
     <WebAuthProvider>
       <StoreProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <DesktopPhoneRouteSync enabled={phoneFrameMode} />
           <ScrollToTop />
           <DesktopTopNav />
           <AppRouter />
