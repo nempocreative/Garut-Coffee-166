@@ -396,7 +396,7 @@ function CatalogPage() {
   }), [filter, normalizedQuery]);
   const activeFilterCount = filter !== 'Semua' ? 1 : 0;
   return <Page><main className="subpage catalog-page">
-    <Header title="Kopi Garut" subtitle="DARI KEBUN KE CANGKIR" />
+    <Header title="Kopi Garut" />
     <CatalogCarousel onNavigate={setLocation} />
     <section className="catalog-intro" aria-labelledby="catalog-intro-title">
       <div className="catalog-intro-copy">

@@ -44,3 +44,9 @@ For customer-facing coffee taste choices, lead with everyday Indonesian phrasing
 **Why:** The user noted that many visitors may not understand coffee tasting jargon and chose everyday wording with the coffee vocabulary retained in parentheses.
 
 **How to apply:** Use this wording for taste-preference controls in the Garut Beans Web experience while keeping the underlying coffee-profile matching intact.
+
+For destinations opened through the bottom navigation, show the page title without small subtitle text immediately below it.
+
+**Why:** The user explicitly requested no small text beneath titles when opening bottom-navigation menus.
+
+**How to apply:** Check the main bottom-navigation routes when editing headers and omit subtitle text there while preserving explanatory copy in the page body.
