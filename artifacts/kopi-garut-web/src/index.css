@@ -837,6 +837,7 @@
 .info-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 18px; padding: 14px; margin-bottom: 10px; }
 .info-card h3 { margin: 0 0 5px; font-size: 14px; }
 .info-card p { margin: 0; font-size: 11px; color: hsl(var(--muted-foreground)); line-height: 1.5; }
+.auth-viewport { width: min(100%, 430px); min-height: 100dvh; margin: 0 auto; position: relative; overflow-x: clip; }
 .auth-screen { min-height: 100vh; padding: 28px 20px 110px; display: grid; align-content: start; gap: 16px; background: hsl(var(--background)); }
 .auth-hero { padding: 22px; border-radius: 24px; color: hsl(var(--primary-foreground)); background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--secondary-foreground))); }
 .auth-hero .eyebrow { color: hsl(var(--accent)); margin-bottom: 14px; }
