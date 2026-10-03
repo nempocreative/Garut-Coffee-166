@@ -4167,6 +4167,16 @@
   white-space: nowrap;
 }
 
+@media (max-width: 360px) {
+  .gb-coffee-finder-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gb-home .gb-coffee-finder-submit {
+    grid-column: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gb-home .gb-coffee-finder-submit {
     transition: none;

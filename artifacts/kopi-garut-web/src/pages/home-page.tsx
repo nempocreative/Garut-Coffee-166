@@ -734,22 +734,22 @@ function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNa
 
 const coffeeTasteProfiles = {
   bright: {
-    label: 'Cerah & floral',
+    label: 'Segar & ringan (bright / floral)',
     categories: ['Cerah', 'Floral', 'Bersih'],
     notes: ['lemon', 'melati', 'gula batu', 'apel', 'jeruk', 'teh hitam', 'persik'],
   },
   fruity: {
-    label: 'Buah & juicy',
+    label: 'Manis & buah (sweet / juicy)',
     categories: ['Buah', 'Manis'],
     notes: ['stroberi', 'buah', 'molase', 'madu', 'persik', 'apel'],
   },
   cozy: {
-    label: 'Hangat & cokelat',
+    label: 'Cokelat & hangat (chocolatey / spicy)',
     categories: ['Nyaman', 'Hangat'],
     notes: ['karamel', 'cokelat', 'kakao', 'cengkeh', 'rempah'],
   },
   balanced: {
-    label: 'Seimbang & bersih',
+    label: 'Seimbang & bersih (balanced / clean)',
     categories: ['Seimbang', 'Harian', 'Bersih'],
     notes: ['gula aren', 'almon', 'jeruk', 'teh hitam', 'buah batu'],
   },

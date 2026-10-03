@@ -38,3 +38,9 @@ For homepage sections, vary the composition instead of putting every section in 
 **Why:** The user said repetitive, oversized cards make the homepage feel monotonous.
 
 **How to apply:** Prefer editorial rows or compact inline layouts where they fit, and use large cards only when containment adds value.
+
+For customer-facing coffee taste choices, lead with everyday Indonesian phrasing and put specialty-coffee terms in parentheses.
+
+**Why:** The user noted that many visitors may not understand coffee tasting jargon and chose everyday wording with the coffee vocabulary retained in parentheses.
+
+**How to apply:** Use this wording for taste-preference controls in the Garut Beans Web experience while keeping the underlying coffee-profile matching intact.
