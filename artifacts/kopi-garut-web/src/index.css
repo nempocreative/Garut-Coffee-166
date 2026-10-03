@@ -9715,4 +9715,13 @@ body {
   .app-page:has(> .guest-account-page) {
     padding-bottom: calc(102px + env(safe-area-inset-bottom));
   }
+
+  .app-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-page > main {
+    flex: 1 0 auto;
+  }
 }
