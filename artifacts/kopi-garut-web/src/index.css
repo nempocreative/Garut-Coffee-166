@@ -9725,3 +9725,9 @@ body {
     flex: 1 0 auto;
   }
 }
+
+/* Keep the shared informational footer full-bleed on every route, like Home. */
+#site-footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
