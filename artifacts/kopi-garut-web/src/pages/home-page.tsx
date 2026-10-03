@@ -31,6 +31,128 @@ type HomeProgramHighlight = {
   image: string;
 };
 
+type WeeklyBrewRecipe = {
+  id: string;
+  coffeeId: string;
+  method: string;
+  dose: string;
+  water: string;
+  ratio: string;
+  temperature: string;
+  duration: string;
+  steps: readonly string[];
+};
+
+const weeklyBrewRecipeRotation = [
+  {
+    id: 'kamojang-v60',
+    coffeeId: 'talaga-washed',
+    method: 'V60',
+    dose: '15 g',
+    water: '225 ml',
+    ratio: '1:15',
+    temperature: '93°C',
+    duration: '2:30–3:00',
+    steps: [
+      'Bilas filter, lalu masukkan kopi giling sedang.',
+      'Tuang 45 ml air untuk bloom dan tunggu 30 detik.',
+      'Tuang perlahan melingkar hingga 225 ml.',
+    ],
+  },
+  {
+    id: 'darajat-french-press',
+    coffeeId: 'samarang-dark',
+    method: 'French press',
+    dose: '18 g',
+    water: '270 ml',
+    ratio: '1:15',
+    temperature: '92°C',
+    duration: '4:00',
+    steps: [
+      'Gunakan gilingan kasar dan masukkan kopi ke French press.',
+      'Tuang 270 ml air, lalu aduk perlahan satu kali.',
+      'Diamkan 4 menit dan tekan plunger secara perlahan.',
+    ],
+  },
+  {
+    id: 'cikuray-aeropress',
+    coffeeId: 'cikajang-natural',
+    method: 'Aeropress',
+    dose: '15 g',
+    water: '225 ml',
+    ratio: '1:15',
+    temperature: '90°C',
+    duration: '2:00',
+    steps: [
+      'Pasang dan bilas filter, lalu masukkan kopi giling sedang.',
+      'Tuang 225 ml air dan aduk perlahan selama 10 detik.',
+      'Tekan perlahan mulai 1:30 hingga selesai sekitar 2 menit.',
+    ],
+  },
+  {
+    id: 'cikajang-chemex',
+    coffeeId: 'cikajang-honey',
+    method: 'Chemex',
+    dose: '18 g',
+    water: '270 ml',
+    ratio: '1:15',
+    temperature: '93°C',
+    duration: '3:30–4:00',
+    steps: [
+      'Bilas filter Chemex dan masukkan kopi giling sedang.',
+      'Tuang 54 ml air untuk bloom selama 30 detik.',
+      'Tuang bertahap hingga 270 ml dan tunggu sampai selesai menetes.',
+    ],
+  },
+  {
+    id: 'papandayan-pour-over',
+    coffeeId: 'papandayan-honey',
+    method: 'Seduh tuang',
+    dose: '15 g',
+    water: '225 ml',
+    ratio: '1:15',
+    temperature: '92°C',
+    duration: '2:45–3:15',
+    steps: [
+      'Bilas kertas filter dan masukkan kopi giling sedang.',
+      'Basahi kopi dengan 45 ml air dan tunggu 30 detik.',
+      'Tuang perlahan dalam dua tahap hingga 225 ml.',
+    ],
+  },
+  {
+    id: 'papandayan-kalita',
+    coffeeId: 'papandayan-reserve',
+    method: 'Kalita',
+    dose: '15 g',
+    water: '225 ml',
+    ratio: '1:15',
+    temperature: '92°C',
+    duration: '2:45–3:15',
+    steps: [
+      'Bilas filter Kalita dan masukkan kopi giling sedang.',
+      'Tuang 45 ml air untuk bloom selama 30 detik.',
+      'Tuang perlahan dalam beberapa tahap hingga 225 ml.',
+    ],
+  },
+] as const satisfies readonly WeeklyBrewRecipe[];
+
+function getIsoWeekNumber(date: Date) {
+  const thursday = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const weekday = thursday.getUTCDay() || 7;
+  thursday.setUTCDate(thursday.getUTCDate() + 4 - weekday);
+  const yearStart = new Date(Date.UTC(thursday.getUTCFullYear(), 0, 1));
+  return Math.ceil(((thursday.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
+function getWeeklyBrewRecipes(date: Date): readonly WeeklyBrewRecipe[] {
+  if (weeklyBrewRecipeRotation.length % 2 !== 0) {
+    throw new Error('Weekly brew rotation must contain recipe pairs.');
+  }
+  const pairCount = weeklyBrewRecipeRotation.length / 2;
+  const pairIndex = (getIsoWeekNumber(date) - 1) % pairCount;
+  return weeklyBrewRecipeRotation.slice(pairIndex * 2, pairIndex * 2 + 2);
+}
+
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
 const cleanPromoImages = [
@@ -666,37 +788,36 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   );
 }
 
-function WeeklyBrewGuide({ coffee, onNavigate }: { coffee: SharedCoffee; onNavigate: (path: string) => void }) {
+function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
+  recipe: WeeklyBrewRecipe;
+  coffee: SharedCoffee;
+  position: number;
+  onNavigate: (path: string) => void;
+}) {
   const brewParameters = [
-    { label: 'Kopi', value: '15 g' },
-    { label: 'Air', value: '225 ml' },
-    { label: 'Rasio', value: '1:15' },
-    { label: 'Suhu air', value: '93°C' },
-    { label: 'Total waktu', value: '2:30–3:00' },
-  ];
-  const brewSteps = [
-    'Bilas filter, lalu masukkan 15 g kopi dengan gilingan sedang.',
-    'Tuang 45 ml air untuk bloom dan tunggu 30 detik.',
-    'Tuang perlahan dalam gerakan melingkar hingga 225 ml.',
+    { label: 'Kopi', value: recipe.dose },
+    { label: 'Air', value: recipe.water },
+    { label: 'Rasio', value: recipe.ratio },
+    { label: 'Suhu air', value: recipe.temperature },
+    { label: 'Total waktu', value: recipe.duration },
   ];
 
   return (
-    <article className="gb-weekly-brew" data-testid="weekly-brew-guide">
+    <article className="gb-weekly-brew" data-testid={`weekly-brew-guide-${recipe.id}`}>
       <div className="gb-weekly-brew-visual">
-        <img src={asset('event-home-brew.webp')} alt="Proses menyeduh kopi dengan metode V60" />
-        <span className="gb-weekly-brew-badge">PANDUAN MINGGU INI</span>
+        <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} />
+        <span className="gb-weekly-brew-badge">PILIHAN 0{position} MINGGU INI</span>
         <div className="gb-weekly-brew-method">
           <small>METODE SEDUH</small>
-          <strong>{coffee.recommendedBrew}</strong>
-          <span>Tuang perlahan, nikmati profil aslinya.</span>
+          <strong>{recipe.method}</strong>
+          <span>Ikuti takaran, suhu, dan waktu yang disarankan.</span>
         </div>
       </div>
 
       <div className="gb-weekly-brew-details">
         <div className="gb-weekly-brew-coffee">
-          <img src={asset(coffee.image)} alt="" />
           <div>
-            <small>KOPI PILIHAN MINGGU INI</small>
+            <small>KOPI PILIHAN</small>
             <strong>{coffee.name}</strong>
             <span>{coffee.origin} · {coffee.tastingNotes.slice(0, 2).join(' · ')}</span>
           </div>
@@ -712,13 +833,13 @@ function WeeklyBrewGuide({ coffee, onNavigate }: { coffee: SharedCoffee; onNavig
         </div>
 
         <ol className="gb-weekly-brew-steps">
-          {brewSteps.map((step) => <li key={step}>{step}</li>)}
+          {recipe.steps.map((step) => <li key={step}>{step}</li>)}
         </ol>
 
         <button
           className="gb-weekly-brew-link"
           onClick={() => onNavigate(`/product/${coffee.id}`)}
-          data-testid="button-weekly-brew-coffee"
+          data-testid={`button-weekly-brew-coffee-${coffee.id}`}
         >
           Lihat kopi ini <span aria-hidden="true">↗</span>
         </button>
@@ -730,8 +851,14 @@ function WeeklyBrewGuide({ coffee, onNavigate }: { coffee: SharedCoffee; onNavig
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites, programHighlights }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const firstCoffees = coffeeCatalog.slice(0, 10);
-  const weeklyBrewCoffee = coffeeCatalog.find((coffee) => coffee.id === 'talaga-washed');
-  if (!weeklyBrewCoffee) throw new Error('The weekly brew coffee is missing from the catalog.');
+  const weeklyBrewGuides = getWeeklyBrewRecipes(new Date()).map((recipe, index) => {
+    const coffee = coffeeCatalog.find((item) => item.id === recipe.coffeeId);
+    if (!coffee) throw new Error(`The weekly brew coffee ${recipe.coffeeId} is missing from the catalog.`);
+    if (coffee.recommendedBrew !== recipe.method) {
+      throw new Error(`The weekly brew method for ${coffee.name} no longer matches the catalog.`);
+    }
+    return { recipe, coffee, position: index + 1 };
+  });
 
   return (
     <div className="gb-home">
@@ -767,9 +894,20 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
             <SectionTitle
               title="Resep seduh minggu ini"
               action="Lihat kopi"
-              onAction={() => onNavigate(`/product/${weeklyBrewCoffee.id}`)}
+              onAction={() => onNavigate('/catalog')}
             />
-            <WeeklyBrewGuide coffee={weeklyBrewCoffee} onNavigate={onNavigate} />
+            <p className="gb-weekly-brews-intro">Dua resep pilihan berganti otomatis setiap pekan.</p>
+            <div className="gb-weekly-brews" data-testid="weekly-brew-guides">
+              {weeklyBrewGuides.map(({ recipe, coffee, position }) => (
+                <WeeklyBrewGuide
+                  key={recipe.id}
+                  recipe={recipe}
+                  coffee={coffee}
+                  position={position}
+                  onNavigate={onNavigate}
+                />
+              ))}
+            </div>
           </section>
 
           <section className="gb-home-section gb-farmer-section">

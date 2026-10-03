@@ -4012,8 +4012,21 @@
   }
 }
 
+.gb-weekly-brews {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.gb-weekly-brews-intro {
+  margin: -4px 0 14px;
+  color: var(--gb-muted);
+  font-size: 11px;
+}
+
 .gb-weekly-brew {
   display: grid;
+  grid-template-columns: 1fr;
   overflow: hidden;
   border: 1px solid rgba(211, 161, 95, .3);
   border-radius: 24px;
@@ -4023,7 +4036,7 @@
 
 .gb-weekly-brew-visual {
   position: relative;
-  min-height: 220px;
+  min-height: 170px;
   overflow: hidden;
   background: var(--gb-foreground);
 }
@@ -4039,7 +4052,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 220px;
+  min-height: 170px;
   object-fit: cover;
 }
 
@@ -4076,7 +4089,7 @@
 }
 
 .gb-weekly-brew-method > strong {
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
 }
 
@@ -4202,59 +4215,57 @@
 }
 
 @media (min-width: 768px) {
+  .gb-weekly-brews {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
   .gb-weekly-brew {
-    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    grid-template-columns: 1fr;
   }
 
   .gb-weekly-brew-visual,
   .gb-weekly-brew-visual > img {
-    min-height: 440px;
+    min-height: 180px;
   }
 
   .gb-weekly-brew-method {
-    right: 24px;
-    bottom: 24px;
-    left: 24px;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
   }
 
   .gb-weekly-brew-method > strong {
-    font-size: 40px;
+    font-size: 28px;
   }
 
   .gb-weekly-brew-details {
-    align-content: center;
-    gap: 16px;
-    padding: clamp(20px, 3vw, 36px);
-  }
-
-  .gb-weekly-brew-coffee > img {
-    flex-basis: 62px;
-    width: 62px;
-    height: 72px;
+    gap: 13px;
+    padding: 16px;
   }
 
   .gb-weekly-brew-coffee strong {
-    font-size: 18px;
-  }
-
-  .gb-weekly-brew-metrics {
-    gap: 10px;
-  }
-
-  .gb-weekly-brew-metrics > div {
-    padding: 12px 14px;
-  }
-
-  .gb-weekly-brew-metrics strong {
     font-size: 16px;
   }
 
+  .gb-weekly-brew-metrics {
+    gap: 8px;
+  }
+
+  .gb-weekly-brew-metrics > div {
+    padding: 10px 11px;
+  }
+
+  .gb-weekly-brew-metrics strong {
+    font-size: 14px;
+  }
+
   .gb-weekly-brew-steps {
-    gap: 11px;
+    gap: 8px;
   }
 
   .gb-weekly-brew-steps li {
-    font-size: 11px;
+    font-size: 10px;
   }
 }
 
