@@ -806,18 +806,16 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
     <article className="gb-weekly-brew" data-testid={`weekly-brew-guide-${recipe.id}`}>
       <div className="gb-weekly-brew-visual">
         <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} />
-        <span className="gb-weekly-brew-badge">PILIHAN 0{position} MINGGU INI</span>
-        <div className="gb-weekly-brew-method">
-          <small>METODE SEDUH</small>
-          <strong>{recipe.method}</strong>
-          <span>Ikuti takaran, suhu, dan waktu yang disarankan.</span>
-        </div>
+        <span className="gb-weekly-brew-badge" aria-hidden="true">0{position}</span>
       </div>
 
       <div className="gb-weekly-brew-details">
         <div className="gb-weekly-brew-coffee">
           <div>
-            <small>KOPI PILIHAN</small>
+            <div className="gb-weekly-brew-heading">
+              <span className="gb-weekly-brew-method-tag">{recipe.method}</span>
+              <small>RESEP MINGGU INI · 0{position}</small>
+            </div>
             <strong>{coffee.name}</strong>
             <span>{coffee.origin} · {coffee.tastingNotes.slice(0, 2).join(' · ')}</span>
           </div>
@@ -832,18 +830,21 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
           ))}
         </div>
 
-        <ol className="gb-weekly-brew-steps">
-          {recipe.steps.map((step) => <li key={step}>{step}</li>)}
-        </ol>
-
-        <button
-          className="gb-weekly-brew-link"
-          onClick={() => onNavigate(`/product/${coffee.id}`)}
-          data-testid={`button-weekly-brew-coffee-${coffee.id}`}
-        >
-          Lihat kopi ini <span aria-hidden="true">↗</span>
-        </button>
+        <details className="gb-weekly-brew-step-disclosure">
+          <summary>Lihat langkah seduh</summary>
+          <ol className="gb-weekly-brew-steps">
+            {recipe.steps.map((step) => <li key={step}>{step}</li>)}
+          </ol>
+        </details>
       </div>
+
+      <button
+        className="gb-weekly-brew-link"
+        onClick={() => onNavigate(`/product/${coffee.id}`)}
+        data-testid={`button-weekly-brew-coffee-${coffee.id}`}
+      >
+        Lihat kopi <span aria-hidden="true">↗</span>
+      </button>
     </article>
   );
 }

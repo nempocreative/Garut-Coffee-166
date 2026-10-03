@@ -32,3 +32,9 @@ For the Garut Beans Web footer, keep only the brand, short tagline, and copyrigh
 **Why:** The user explicitly asked for a simple footer without a menu, then asked to show it on every page.
 
 **How to apply:** Reuse the same compact footer on the home page, routed content pages, and sign-in page.
+
+For homepage sections, vary the composition instead of putting every section in a large card.
+
+**Why:** The user said repetitive, oversized cards make the homepage feel monotonous.
+
+**How to apply:** Prefer editorial rows or compact inline layouts where they fit, and use large cards only when containment adds value.
