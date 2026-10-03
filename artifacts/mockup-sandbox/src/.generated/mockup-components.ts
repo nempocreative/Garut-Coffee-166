@@ -4,9 +4,9 @@ export const modules: ModuleMap = {
   "./components/mockups/account-page/Current.tsx": () => import("../components/mockups/account-page/Current.tsx"),
   "./components/mockups/account-page/Refined.tsx": () => import("../components/mockups/account-page/Refined.tsx"),
   "./components/mockups/kopi-garut-home/Current.tsx": () => import("../components/mockups/kopi-garut-home/Current.tsx"),
-  "./components/mockups/traceability/Current.tsx": () => import("../components/mockups/traceability/Current.tsx"),
-  "./components/mockups/traceability/Refined.tsx": () => import("../components/mockups/traceability/Refined.tsx"),
   "./components/mockups/orders-page/Current.tsx": () => import("../components/mockups/orders-page/Current.tsx"),
   "./components/mockups/orders-page/Refined.tsx": () => import("../components/mockups/orders-page/Refined.tsx"),
-  "./components/mockups/orders-page/RefinedHistory.tsx": () => import("../components/mockups/orders-page/RefinedHistory.tsx")
+  "./components/mockups/orders-page/RefinedHistory.tsx": () => import("../components/mockups/orders-page/RefinedHistory.tsx"),
+  "./components/mockups/traceability/Current.tsx": () => import("../components/mockups/traceability/Current.tsx"),
+  "./components/mockups/traceability/Refined.tsx": () => import("../components/mockups/traceability/Refined.tsx")
 };
