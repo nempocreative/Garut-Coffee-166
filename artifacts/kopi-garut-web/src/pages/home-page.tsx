@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import {
   coffeeCatalog,
   coffeeTours,
@@ -732,58 +732,110 @@ function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNa
   );
 }
 
-function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const tastes = [
-    ['Cerah & manis', 'Lemon dan melati dengan manis gula merah', 'coffee-bean-menu-original.webp', '/product/papandayan-honey'],
-    ['Buah & juicy', 'Rasa stroberi dan kakao dengan akhir molase', 'coffee-palm-sugar-concentrate.webp', '/product/cikajang-natural'],
-    ['Hangat & nyaman', 'Karamel dan cokelat dengan sentuhan rempah', 'garut-mug.webp', '/product/samarang-dark'],
-  ] as const;
-  const [activeIndex, setActiveIndex] = useState(0);
+const coffeeTasteProfiles = {
+  bright: {
+    label: 'Cerah & floral',
+    categories: ['Cerah', 'Floral', 'Bersih'],
+    notes: ['lemon', 'melati', 'gula batu', 'apel', 'jeruk', 'teh hitam', 'persik'],
+  },
+  fruity: {
+    label: 'Buah & juicy',
+    categories: ['Buah', 'Manis'],
+    notes: ['stroberi', 'buah', 'molase', 'madu', 'persik', 'apel'],
+  },
+  cozy: {
+    label: 'Hangat & cokelat',
+    categories: ['Nyaman', 'Hangat'],
+    notes: ['karamel', 'cokelat', 'kakao', 'cengkeh', 'rempah'],
+  },
+  balanced: {
+    label: 'Seimbang & bersih',
+    categories: ['Seimbang', 'Harian', 'Bersih'],
+    notes: ['gula aren', 'almon', 'jeruk', 'teh hitam', 'buah batu'],
+  },
+} as const;
 
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => setActiveIndex((current) => (current + 1) % tastes.length), 4200);
-    return () => window.clearInterval(timer);
-  }, [tastes.length]);
+const coffeePriceRanges = {
+  under110: { label: 'Di bawah Rp110 rb', test: (price: number) => price < 110000 },
+  from110to125: { label: 'Rp110–125 rb', test: (price: number) => price >= 110000 && price <= 125000 },
+  over125: { label: 'Di atas Rp125 rb', test: (price: number) => price > 125000 },
+} as const;
+
+function CoffeeFinder({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const [taste, setTaste] = useState<keyof typeof coffeeTasteProfiles | ''>('');
+  const [brew, setBrew] = useState('');
+  const [priceRange, setPriceRange] = useState<keyof typeof coffeePriceRanges | ''>('');
+  const [recommendedCoffeeId, setRecommendedCoffeeId] = useState<string | null>(null);
+
+  const recommendedCoffee = coffeeCatalog.find((coffee) => coffee.id === recommendedCoffeeId);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!taste || !brew || !priceRange) return;
+
+    const profile = coffeeTasteProfiles[taste];
+    const priceMatches = coffeeCatalog.filter((coffee) => coffeePriceRanges[priceRange].test(coffee.price));
+    const bestMatch = [...priceMatches].sort((a, b) => {
+      const score = (coffee: typeof coffeeCatalog[number]) => {
+        const notes = coffee.tastingNotes.join(' ').toLocaleLowerCase('id-ID');
+        const categoryScore = (profile.categories as readonly string[]).includes(coffee.category) ? 8 : 0;
+        const noteScore = profile.notes.reduce((total, note) => total + (notes.includes(note) ? 2 : 0), 0);
+        const brewScore = coffee.recommendedBrew === brew ? 5 : 0;
+        return categoryScore + noteScore + brewScore;
+      };
+      return score(b) - score(a);
+    })[0];
+
+    if (bestMatch) setRecommendedCoffeeId(bestMatch.id);
+  }
 
   return (
-    <div className="gb-taste-carousel" data-testid="taste-carousel">
-      <div className="gb-taste-stage" aria-label="Pilihan jenis kopi berdasarkan profil rasa">
-        {tastes.map(([title, detail, image, route], itemIndex) => {
-          const relativePosition = (itemIndex - activeIndex + tastes.length) % tastes.length;
-          const position = relativePosition === 0 ? 'is-active' : relativePosition === 1 ? 'is-next' : 'is-prev';
-          const isActive = position === 'is-active';
-          return (
-            <button
-              className={`gb-taste-card gb-taste-slide ${position}`}
-              key={title}
-              onClick={() => isActive && onNavigate(route)}
-              aria-hidden={!isActive}
-              tabIndex={isActive ? 0 : -1}
-              aria-label={`${title}: ${detail}`}
-              data-testid={`button-taste-${itemIndex}`}
-            >
-              <img src={asset(image)} alt="" data-testid={`img-taste-${itemIndex}`} />
-              <span className="gb-taste-shade" />
-              <span className="gb-taste-kicker">PROFIL RASA</span>
-              <strong>{title}</strong>
-              <span>{detail}</span>
-            </button>
-          );
-        })}
+    <div className="gb-coffee-finder" data-testid="coffee-finder">
+      <div className="gb-coffee-finder-heading">
+        <div>
+          <strong>Bantu pilih kopi</strong>
+          <span>Isi tiga pilihan, dapat satu rekomendasi.</span>
+        </div>
       </div>
-      <div className="gb-taste-dots" aria-label="Pilih jenis kopi">
-        {tastes.map(([title], itemIndex) => (
-          <button
-            key={title}
-            className={`gb-page-dot ${activeIndex === itemIndex ? 'active' : ''}`}
-            onClick={() => setActiveIndex(itemIndex)}
-            aria-label={`Tampilkan profil ${title}`}
-            aria-current={activeIndex === itemIndex}
-            data-testid={`button-taste-dot-${itemIndex}`}
-          />
-        ))}
-      </div>
+      <form className="gb-coffee-finder-form" onSubmit={handleSubmit}>
+        <label className="gb-coffee-finder-field">
+          <span>Rasa</span>
+          <select value={taste} onChange={(event) => { setTaste(event.target.value as typeof taste); setRecommendedCoffeeId(null); }} required aria-label="Pilih profil rasa" data-testid="select-coffee-taste">
+            <option value="" disabled>Pilih rasa</option>
+            {Object.entries(coffeeTasteProfiles).map(([value, profile]) => <option key={value} value={value}>{profile.label}</option>)}
+          </select>
+        </label>
+        <label className="gb-coffee-finder-field">
+          <span>Metode seduh</span>
+          <select value={brew} onChange={(event) => { setBrew(event.target.value); setRecommendedCoffeeId(null); }} required aria-label="Pilih metode seduh" data-testid="select-coffee-brew">
+            <option value="" disabled>Pilih metode</option>
+            {[...new Set(coffeeCatalog.map((coffee) => coffee.recommendedBrew))].map((method) => <option key={method} value={method}>{method}</option>)}
+          </select>
+        </label>
+        <label className="gb-coffee-finder-field">
+          <span>Kisaran harga</span>
+          <select value={priceRange} onChange={(event) => { setPriceRange(event.target.value as typeof priceRange); setRecommendedCoffeeId(null); }} required aria-label="Pilih kisaran harga" data-testid="select-coffee-price">
+            <option value="" disabled>Pilih harga</option>
+            {Object.entries(coffeePriceRanges).map(([value, range]) => <option key={value} value={value}>{range.label}</option>)}
+          </select>
+        </label>
+        <button className="gb-coffee-finder-submit" type="submit" data-testid="button-coffee-finder-submit">
+          Temukan kopi
+        </button>
+      </form>
+      {recommendedCoffee && (
+        <div className="gb-coffee-finder-result" aria-live="polite" data-testid="coffee-finder-result">
+          <img src={asset(recommendedCoffee.image)} alt="" />
+          <div className="gb-coffee-finder-result-copy">
+            <small>REKOMENDASI UNTUKMU</small>
+            <strong>{recommendedCoffee.name}</strong>
+            <span>{recommendedCoffee.tastingNotes.slice(0, 2).join(' · ')} · {formatPrice(recommendedCoffee.price)}</span>
+          </div>
+          <button onClick={() => onNavigate(`/product/${recommendedCoffee.id}`)} aria-label={`Lihat ${recommendedCoffee.name}`} data-testid="button-coffee-finder-result">
+            Lihat <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -888,7 +940,7 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
 
           <section className="gb-home-section">
             <SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => onNavigate('/catalog')} />
-            <TasteCarousel onNavigate={onNavigate} />
+            <CoffeeFinder onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section">

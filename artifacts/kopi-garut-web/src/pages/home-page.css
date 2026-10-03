@@ -4012,6 +4012,167 @@
   }
 }
 
+/* A compact, catalog-driven selector replaces the large taste carousel. */
+.gb-coffee-finder {
+  margin-top: 12px;
+  padding: 13px 0 15px;
+  border-top: 1px solid rgba(168, 84, 59, .2);
+  border-bottom: 1px solid rgba(168, 84, 59, .2);
+}
+
+.gb-coffee-finder-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 11px;
+}
+
+.gb-coffee-finder-heading > div {
+  display: grid;
+  gap: 2px;
+}
+
+.gb-coffee-finder-heading strong {
+  color: var(--gb-primary-dark);
+  font-size: 14px;
+  font-weight: 850;
+  letter-spacing: -.2px;
+}
+
+.gb-coffee-finder-heading span {
+  color: var(--gb-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.gb-coffee-finder-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.gb-coffee-finder-field {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.gb-coffee-finder-field > span {
+  color: var(--gb-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .25px;
+}
+
+.gb-coffee-finder-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 27px 0 10px;
+  border: 1px solid rgba(128, 110, 99, .23);
+  border-radius: 11px;
+  color: var(--gb-foreground);
+  background: #fffaf3;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+}
+
+.gb-coffee-finder-field select:focus-visible,
+.gb-coffee-finder-submit:focus-visible,
+.gb-coffee-finder-result button:focus-visible {
+  outline: 3px solid rgba(168, 84, 59, .3);
+  outline-offset: 2px;
+}
+
+.gb-home .gb-coffee-finder-submit {
+  grid-column: 1 / -1;
+  min-height: 39px;
+  margin-top: 1px;
+  padding: 0 15px;
+  border-radius: 12px;
+  color: #fffaf3;
+  background: var(--gb-primary);
+  font-size: 11px;
+  font-weight: 850;
+  transition: background-color .18s ease, transform .18s ease;
+}
+
+.gb-home .gb-coffee-finder-submit:hover {
+  background: var(--gb-primary-dark);
+  transform: translateY(-1px);
+}
+
+.gb-coffee-finder-result {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(168, 84, 59, .15);
+}
+
+.gb-coffee-finder-result > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--gb-secondary);
+}
+
+.gb-coffee-finder-result-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.gb-coffee-finder-result-copy small {
+  color: var(--gb-primary);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .75px;
+}
+
+.gb-coffee-finder-result-copy strong {
+  overflow: hidden;
+  color: var(--gb-foreground);
+  font-size: 12px;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gb-coffee-finder-result-copy span {
+  overflow: hidden;
+  color: var(--gb-muted);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gb-home .gb-coffee-finder-result button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(168, 84, 59, .22);
+  border-radius: 10px;
+  color: var(--gb-primary-dark);
+  background: #fffaf3;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-home .gb-coffee-finder-submit {
+    transition: none;
+  }
+}
+
 .gb-weekly-brews {
   display: grid;
   grid-template-columns: 1fr;
