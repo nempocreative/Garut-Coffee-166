@@ -25,7 +25,7 @@ import {
 import HomePage from '@/pages/home-page';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
-import { AppIcon, AppNavGlyph, type AppIconName } from '@/components/app-icon';
+import { AppIcon, AppNavGlyph, type AppIconName, type AppNavGlyphName } from '@/components/app-icon';
 
 const mobileIcon = (name: AppIconName): LucideIcon => {
   const Icon = ({ size = 24, color = 'currentColor', strokeWidth = 1.8, className, style }: LucideProps) => (
@@ -219,14 +219,14 @@ function Header({ home = false, title = 'Garut Beans', subtitle }: { home?: bool
 function BottomNav() {
   const [location, setLocation] = useLocation();
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : location.startsWith('/profile') || location.startsWith('/settings') ? 'profile' : '';
-  const items: { id: string; label: string; icon: AppIconName; path: string }[] = [
+  const items: { id: string; label: string; icon: AppNavGlyphName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
     { id: 'explore', label: 'Kopi', icon: 'coffee', path: '/catalog' },
-    { id: 'trace', label: 'Jejak', icon: 'scan', path: '/traceability' },
-    { id: 'orders', label: 'Pesanan', icon: 'package', path: '/orders' },
-    { id: 'profile', label: 'Akun', icon: 'farmer', path: '/profile' },
+    { id: 'trace', label: 'Jejak', icon: 'trace', path: '/traceability' },
+    { id: 'orders', label: 'Pesanan', icon: 'orders', path: '/orders' },
+    { id: 'profile', label: 'Akun', icon: 'profile', path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppIcon name={icon} size={24} /></span><span>{label}</span></button>)}</nav>;
+  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppNavGlyph name={icon} size={24} active={active === id || id === 'trace'} /></span><span>{label}</span></button>)}</nav>;
 }
 
 function FloatingActions() {

@@ -229,46 +229,111 @@ export function AppIcon({
   );
 }
 
-export function AppNavGlyph({ name, size = 24 }: { name: 'bell' | 'home' | 'shopping-cart'; size?: number }) {
-  const main = brandTokens.primary;
+export type AppNavGlyphName = 'bell' | 'coffee' | 'home' | 'orders' | 'profile' | 'shopping-cart' | 'trace';
+
+export function AppNavGlyph({
+  name,
+  size = 24,
+  active = false,
+}: {
+  name: AppNavGlyphName;
+  size?: number;
+  active?: boolean;
+}) {
+  const main = active ? brandTokens.primaryForeground : brandTokens.primary;
   const light = brandTokens.accent;
   const shadow = brandTokens.foreground;
-  const accent = brandTokens.primaryForeground;
+  const accent = active ? brandTokens.accent : brandTokens.primaryForeground;
+  const artwork = (() => {
+    switch (name) {
+      case 'home':
+        return (
+          <>
+            <path d="m3.2 14.7 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={shadow} />
+            <path d="m3.2 13.2 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={main} />
+            <path d="m5.8 12.8 9.2-7.5 9.2 7.5-1.4 1.7L15 7.4l-7.8 7.1-1.4-1.7Z" fill={light} opacity=".88" />
+            <rect x="7" y="15.2" width="3.4" height="3.4" rx=".7" fill={accent} />
+            <path d="M8.7 15.2v3.4M7 16.9h3.4" stroke={main} strokeWidth="1" />
+            <path d="M12 23.5v-7.1a3 3 0 0 1 6 0v7.1" fill={shadow} />
+            <path d="M12 22v-7.1a3 3 0 0 1 6 0V22h-6Z" fill={accent} />
+            <circle cx="16.5" cy="18.5" r=".45" fill={main} />
+          </>
+        );
+      case 'bell':
+        return (
+          <>
+            <path d="M5 20h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0v4.7L5 20Z" fill={shadow} />
+            <path d="M5 18.5h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0V15L5 18.5Z" fill={main} />
+            <path d="M7.6 13.5c.5-4.4 3-6.5 6.2-6.5 2.4 0 4.6 1.2 5.7 3.4-2.2-1.2-4.8-1.8-7.2-1.2-2.2.5-3.7 2-4.7 4.3Z" fill={light} opacity=".8" />
+            <path d="M11 22c.8 2.6 7.2 2.6 8 0" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" />
+            <circle cx="15" cy="4.2" r="1.5" fill={accent} />
+          </>
+        );
+      case 'shopping-cart':
+        return (
+          <>
+            <path d="M3.5 5.5h3l2 14h14l3-10H9.5" fill="none" stroke={shadow} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3.5 4h3l2 14h14l3-10H9.5" fill="none" stroke={main} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M9 9.2h16l-2.3 8.2H10.2L9 9.2Z" fill={shadow} />
+            <path d="M9 7.7h16l-2.3 8.2H10.2L9 7.7Z" fill={main} />
+            <path d="M10.2 9.2h13.3l-.8 2.4H10.6l-.4-2.4Z" fill={light} opacity=".82" />
+            <circle cx="11.5" cy="23.5" r="2" fill={shadow} />
+            <circle cx="11.5" cy="22" r="2" fill={accent} />
+            <circle cx="22" cy="23.5" r="2" fill={shadow} />
+            <circle cx="22" cy="22" r="2" fill={accent} />
+          </>
+        );
+      case 'coffee':
+        return (
+          <>
+            <path d="M6 12h16v5.8a5.5 5.5 0 0 1-5.5 5.5h-5A5.5 5.5 0 0 1 6 17.8V12Z" fill={shadow} />
+            <path d="M6 10.5h16v5.8a5.5 5.5 0 0 1-5.5 5.5h-5A5.5 5.5 0 0 1 6 16.3v-5.8Z" fill={main} />
+            <path d="M22 13.2h1a2.5 2.5 0 0 1 0 5h-1" fill="none" stroke={shadow} strokeWidth="3" strokeLinecap="round" />
+            <path d="M22 11.7h1a2.5 2.5 0 0 1 0 5h-1" fill="none" stroke={main} strokeWidth="3" strokeLinecap="round" />
+            <path d="M8.3 12h11.4" stroke={light} strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M10.5 8.2c-1.4-1.7 1.2-2.5-.1-4.3M16 8.2c-1.4-1.7 1.2-2.5-.1-4.3" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M5 25h18" fill="none" stroke={shadow} strokeWidth="2.5" strokeLinecap="round" />
+          </>
+        );
+      case 'trace':
+        return (
+          <>
+            <path d="M12 6H8a2 2 0 0 0-2 2v4m12-6h4a2 2 0 0 1 2 2v4M12 24H8a2 2 0 0 1-2-2v-4m12 6h4a2 2 0 0 0 2-2v-4" fill="none" stroke={shadow} strokeWidth="3.7" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 4.5H8a2 2 0 0 0-2 2v4m12-6h4a2 2 0 0 1 2 2v4M12 22.5H8a2 2 0 0 1-2-2v-4m12 6h4a2 2 0 0 0 2-2v-4" fill="none" stroke={main} strokeWidth="3.7" strokeLinecap="round" strokeLinejoin="round" />
+            <rect x="10.5" y="10.5" width="9" height="9" rx="2" fill={shadow} />
+            <rect x="10.5" y="9" width="9" height="9" rx="2" fill={main} />
+            <path d="M13 14.7c1.8-2.2 4.7-1.5 3.8.5-.7 1.5-2.4 2.6-3.5 2.4-1.3-.3-1.5-1.5-.3-2.9Z" fill={light} />
+          </>
+        );
+      case 'orders':
+        return (
+          <>
+            <path d="m15 5 10 5.2v11L15 26 5 21.2v-11L15 5Z" fill={shadow} />
+            <path d="m15 3.5 10 5.2v11L15 24.5 5 19.7v-11L15 3.5Z" fill={main} />
+            <path d="m15 5.5 7.2 3.7-7.2 3.7-7.2-3.7L15 5.5Z" fill={light} />
+            <path d="M15 12.9v10.8M15 3.5v9.4" fill="none" stroke={accent} strokeWidth="1.4" strokeLinecap="round" />
+          </>
+        );
+      case 'profile':
+        return (
+          <>
+            <path d="M5.5 24c.7-4.8 4-7.3 9.5-7.3s8.8 2.5 9.5 7.3v1H5.5v-1Z" fill={shadow} />
+            <path d="M5.5 22.5c.7-4.8 4-7.3 9.5-7.3s8.8 2.5 9.5 7.3v1H5.5v-1Z" fill={main} />
+            <circle cx="15" cy="13" r="5.1" fill={shadow} />
+            <circle cx="15" cy="11.8" r="5.1" fill={accent} />
+            <path d="M6 10.4c1.1-4.4 4.1-6.8 9-6.8s7.9 2.4 9 6.8H6Z" fill={shadow} />
+            <path d="M6 8.9c1.1-4.4 4.1-6.8 9-6.8s7.9 2.4 9 6.8H6Z" fill={main} />
+            <path d="M8.1 7.2c1.5-2.5 3.7-3.7 6.8-3.9" fill="none" stroke={light} strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M6 9.4h18" fill="none" stroke={shadow} strokeWidth="3" strokeLinecap="round" />
+            <path d="M6 8h18" fill="none" stroke={main} strokeWidth="3" strokeLinecap="round" />
+          </>
+        );
+    }
+  })();
 
   return (
     <svg aria-hidden="true" width={size} height={size} viewBox="0 0 30 30">
-      {name === 'home' ? (
-        <>
-          <path d="m3.2 14.7 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={shadow} />
-          <path d="m3.2 13.2 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={main} />
-          <path d="m5.8 12.8 9.2-7.5 9.2 7.5-1.4 1.7L15 7.4l-7.8 7.1-1.4-1.7Z" fill={light} opacity=".88" />
-          <rect x="7" y="15.2" width="3.4" height="3.4" rx=".7" fill={accent} />
-          <path d="M8.7 15.2v3.4M7 16.9h3.4" stroke={main} strokeWidth="1" />
-          <path d="M12 23.5v-7.1a3 3 0 0 1 6 0v7.1" fill={shadow} />
-          <path d="M12 22v-7.1a3 3 0 0 1 6 0V22h-6Z" fill={accent} />
-          <circle cx="16.5" cy="18.5" r=".45" fill={main} />
-        </>
-      ) : name === 'bell' ? (
-        <>
-          <path d="M5 20h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0v4.7L5 20Z" fill={shadow} />
-          <path d="M5 18.5h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0V15L5 18.5Z" fill={main} />
-          <path d="M7.6 13.5c.5-4.4 3-6.5 6.2-6.5 2.4 0 4.6 1.2 5.7 3.4-2.2-1.2-4.8-1.8-7.2-1.2-2.2.5-3.7 2-4.7 4.3Z" fill={light} opacity=".8" />
-          <path d="M11 22c.8 2.6 7.2 2.6 8 0" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" />
-          <circle cx="15" cy="4.2" r="1.5" fill={accent} />
-        </>
-      ) : (
-        <>
-          <path d="M3.5 5.5h3l2 14h14l3-10H9.5" fill="none" stroke={shadow} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M3.5 4h3l2 14h14l3-10H9.5" fill="none" stroke={main} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M9 9.2h16l-2.3 8.2H10.2L9 9.2Z" fill={shadow} />
-          <path d="M9 7.7h16l-2.3 8.2H10.2L9 7.7Z" fill={main} />
-          <path d="M10.2 9.2h13.3l-.8 2.4H10.6l-.4-2.4Z" fill={light} opacity=".82" />
-          <circle cx="11.5" cy="23.5" r="2" fill={shadow} />
-          <circle cx="11.5" cy="22" r="2" fill={accent} />
-          <circle cx="22" cy="23.5" r="2" fill={shadow} />
-          <circle cx="22" cy="22" r="2" fill={accent} />
-        </>
-      )}
+      {artwork}
     </svg>
   );
 }
