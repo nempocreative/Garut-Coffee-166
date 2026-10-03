@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import { useEffect } from 'react';
 import { brandTokens } from '@workspace/kopi-garut-shared';
 
 import App from './App';
@@ -50,12 +51,52 @@ Object.entries(cssTokenMap).forEach(([token, cssName]) => {
 });
 rootStyle.setProperty('--ring', hexToHsl(brandTokens.primary));
 
+const initialLoaderBean = document.querySelector<HTMLImageElement>('[data-initial-loader-bean]');
+if (initialLoaderBean) {
+  initialLoaderBean.src = `${import.meta.env.BASE_URL}assets/coffee-bean-menu.webp`;
+}
+
+function AppBootstrap() {
+  useEffect(() => {
+    const loader = document.getElementById('gb-initial-loader');
+    const root = document.getElementById('root');
+    if (!loader) {
+      root?.removeAttribute('aria-hidden');
+      root?.removeAttribute('inert');
+      return;
+    }
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minimumVisibleMs = reducedMotion ? 180 : 1250;
+    const startedAt = Number(loader.dataset.startedAt);
+    const elapsed = Number.isFinite(startedAt) ? performance.now() - startedAt : 0;
+    const dismissTimer = window.setTimeout(() => {
+      loader.classList.add('is-hiding');
+
+      let removalFallback: number;
+      const finish = () => {
+        window.clearTimeout(removalFallback);
+        if (loader.isConnected) loader.remove();
+        root?.removeAttribute('aria-hidden');
+        root?.removeAttribute('inert');
+      };
+
+      loader.addEventListener('transitionend', finish, { once: true });
+      removalFallback = window.setTimeout(finish, 700);
+    }, Math.max(0, minimumVisibleMs - elapsed));
+
+    return () => window.clearTimeout(dismissTimer);
+  }, []);
+
+  return <App />;
+}
+
 createRoot(document.getElementById('root')!, {
   onCaughtError: (error, errorInfo) => {
     console.error(error, errorInfo.componentStack);
   },
 }).render(
   <ErrorBoundary>
-    <App />
+    <AppBootstrap />
   </ErrorBoundary>,
 );

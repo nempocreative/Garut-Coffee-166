@@ -16,9 +16,205 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      #gb-initial-loader,
+      #gb-initial-loader *,
+      #gb-initial-loader *::before,
+      #gb-initial-loader *::after {
+        box-sizing: border-box;
+      }
+
+      #gb-initial-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        color: #fff9f1;
+        background:
+          radial-gradient(ellipse at 50% 43%, rgba(168, 84, 59, .34), transparent 42%),
+          linear-gradient(150deg, #35251f 0%, #281e1a 62%, #211916 100%);
+        font-family: Manrope, 'Trebuchet MS', sans-serif;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity .48s ease, visibility .48s ease;
+      }
+
+      #gb-initial-loader::before {
+        position: absolute;
+        inset: 0;
+        content: '';
+        pointer-events: none;
+        background-image:
+          radial-gradient(circle at 15% 24%, rgba(255, 216, 77, .22) 0 1px, transparent 1.6px),
+          radial-gradient(circle at 82% 70%, rgba(255, 249, 241, .16) 0 1px, transparent 1.6px),
+          radial-gradient(circle at 76% 18%, rgba(255, 216, 77, .13) 0 1px, transparent 1.6px);
+      }
+
+      #gb-initial-loader.is-hiding {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .gb-loader-content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        justify-items: center;
+        width: min(100% - 32px, 360px);
+        padding: 28px 20px;
+        text-align: center;
+      }
+
+      .gb-loader-emblem {
+        position: relative;
+        display: grid;
+        width: 146px;
+        height: 146px;
+        place-items: center;
+        border: 1px solid rgba(255, 249, 241, .12);
+        border-radius: 50%;
+        background: radial-gradient(circle, #61402f 0%, #3d2b24 58%, #30231e 100%);
+        box-shadow: 0 0 0 12px rgba(255, 249, 241, .025), 0 20px 55px rgba(13, 9, 7, .32);
+      }
+
+      .gb-loader-emblem::before {
+        position: absolute;
+        inset: 9px;
+        border: 1px solid rgba(255, 249, 241, .11);
+        border-radius: 50%;
+        content: '';
+      }
+
+      .gb-loader-orbit {
+        position: absolute;
+        inset: -1px;
+        border: 1px solid transparent;
+        border-top-color: #ffd84d;
+        border-right-color: rgba(211, 161, 95, .58);
+        border-radius: 50%;
+        animation: gb-loader-spin 2.4s linear infinite;
+      }
+
+      .gb-loader-orbit-dot {
+        position: absolute;
+        top: 11px;
+        left: 50%;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ffd84d;
+        box-shadow: 0 0 14px rgba(255, 216, 77, .8);
+        transform: translateX(-50%);
+      }
+
+      .gb-loader-bean {
+        width: 76px;
+        height: 76px;
+        object-fit: contain;
+        filter: brightness(1.62) saturate(.72) drop-shadow(0 7px 12px rgba(15, 9, 7, .3));
+        animation: gb-loader-bean 2.1s ease-in-out infinite;
+      }
+
+      .gb-loader-brand {
+        margin: 25px 0 0;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 2.4px;
+      }
+
+      .gb-loader-brand span {
+        color: #d3a15f;
+      }
+
+      .gb-loader-copy {
+        margin: 8px 0 0;
+        color: rgba(255, 249, 241, .68);
+        font-size: 12px;
+        letter-spacing: .1px;
+      }
+
+      .gb-loader-track {
+        width: 188px;
+        height: 3px;
+        margin-top: 25px;
+        overflow: hidden;
+        border-radius: 99px;
+        background: rgba(255, 249, 241, .13);
+      }
+
+      .gb-loader-track span {
+        display: block;
+        width: 34%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #a8543b, #ffd84d);
+        animation: gb-loader-progress 1.35s ease-in-out infinite;
+      }
+
+      .gb-loader-caption {
+        margin-top: 11px;
+        color: rgba(255, 249, 241, .42);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+      }
+
+      @keyframes gb-loader-spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes gb-loader-bean {
+        0%, 100% { transform: translateY(2px) rotate(-8deg); }
+        50% { transform: translateY(-5px) rotate(8deg); }
+      }
+
+      @keyframes gb-loader-progress {
+        0% { transform: translateX(-125%); }
+        100% { transform: translateX(395%); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #gb-initial-loader { transition-duration: .01ms; }
+        .gb-loader-orbit,
+        .gb-loader-bean,
+        .gb-loader-track span { animation: none; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" aria-hidden="true" inert></div>
+    <div id="gb-initial-loader" role="status" aria-live="polite" aria-label="Menyiapkan Garut Beans">
+      <div class="gb-loader-content">
+        <div class="gb-loader-emblem" aria-hidden="true">
+          <span class="gb-loader-orbit"><span class="gb-loader-orbit-dot"></span></span>
+          <img class="gb-loader-bean" data-initial-loader-bean alt="" />
+        </div>
+        <p class="gb-loader-brand">GARUT <span>BEANS</span></p>
+        <p class="gb-loader-copy">Menyiapkan pengalaman kopi dari Garut</p>
+        <div class="gb-loader-track" aria-hidden="true"><span></span></div>
+        <span class="gb-loader-caption" aria-hidden="true">MENYIAPKAN RASA</span>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const loader = document.getElementById('gb-initial-loader');
+        if (!loader) return;
+        loader.dataset.startedAt = String(performance.now());
+        window.setTimeout(() => {
+          if (!loader.isConnected) return;
+          loader.classList.add('is-hiding');
+          window.setTimeout(() => {
+            loader.remove();
+            const root = document.getElementById('root');
+            root?.removeAttribute('aria-hidden');
+            root?.removeAttribute('inert');
+          }, 650);
+        }, 15000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
