@@ -6012,3 +6012,27 @@ body .bottom-nav button.center > span:last-child {
     transition: none;
   }
 }
+
+/* A soft Garut-inspired backdrop keeps non-home web pages from feeling flat. */
+body {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 38rem 32rem at 8% 8%, hsl(var(--accent) / 0.2), transparent 76%),
+    radial-gradient(ellipse 34rem 36rem at 94% 42%, hsl(var(--primary) / 0.1), transparent 74%),
+    linear-gradient(155deg, hsl(var(--background)), hsl(var(--background)));
+  background-attachment: fixed;
+}
+
+.app-viewport {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 28rem 26rem at 0% 12%, hsl(var(--accent) / 0.15), transparent 75%),
+    radial-gradient(ellipse 24rem 30rem at 100% 66%, hsl(var(--primary) / 0.08), transparent 76%),
+    linear-gradient(160deg, hsl(var(--background)), hsl(var(--background)));
+}
+
+@media (max-width: 430px) {
+  body {
+    background-attachment: scroll;
+  }
+}
