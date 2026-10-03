@@ -4008,13 +4008,12 @@
   }
 }
 
-/* A subtle paper-and-contour texture adds origin character without competing
-   with the coffee photography and product cards. */
+/* Keep the home screen on the same rough aggregate surface as the rest of Web. */
 .gb-home {
-  background-color: var(--gb-background);
-  background-image: url('/kopi-garut-web/assets/garut-paper-topography.svg');
+  background-color: color-mix(in srgb, var(--gb-background) 62%, #858781 38%);
+  background-image: url('/kopi-garut-web/assets/garut-asphalt-texture.svg');
   background-repeat: repeat;
-  background-size: 840px 760px;
+  background-size: 320px 320px;
 }
 
 .gb-home-shell {

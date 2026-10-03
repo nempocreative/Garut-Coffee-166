@@ -6013,20 +6013,21 @@ body .bottom-nav button.center > span:last-child {
   }
 }
 
-/* A tactile Garut-inspired texture keeps non-home web pages from feeling flat. */
+/* A fine asphalt-like grain gives the web background texture without competing
+   with the product cards and their content. */
 body {
-  background-color: hsl(var(--background));
-  background-image: url('/kopi-garut-web/assets/garut-paper-topography.svg');
+  background-color: color-mix(in srgb, hsl(var(--background)) 62%, #858781 38%);
+  background-image: url('/kopi-garut-web/assets/garut-asphalt-texture.svg');
   background-repeat: repeat;
-  background-size: 840px 760px;
+  background-size: 320px 320px;
   background-attachment: fixed;
 }
 
 .app-viewport {
-  background-color: hsl(var(--background));
-  background-image: url('/kopi-garut-web/assets/garut-paper-topography.svg');
+  background-color: color-mix(in srgb, hsl(var(--background)) 62%, #858781 38%);
+  background-image: url('/kopi-garut-web/assets/garut-asphalt-texture.svg');
   background-repeat: repeat;
-  background-size: 720px 680px;
+  background-size: 320px 320px;
 }
 
 @media (max-width: 430px) {

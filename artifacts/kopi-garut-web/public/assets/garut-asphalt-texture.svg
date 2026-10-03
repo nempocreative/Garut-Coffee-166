@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <filter id="coarse-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency=".055"
+        numOctaves="3"
+        seed="17"
+        stitchTiles="stitch"
+      />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+    <filter id="fine-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency=".78"
+        numOctaves="3"
+        seed="29"
+        stitchTiles="stitch"
+      />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+  </defs>
+  <rect width="320" height="320" fill="#383a36" filter="url(#coarse-grain)" opacity=".12" />
+  <rect width="320" height="320" fill="#343632" filter="url(#fine-grain)" opacity=".16" />
+  <g fill="#343632" opacity=".13">
+    <path d="m24 41 2-1 2 2-1 2-3-1zm41 18 2-2 3 1-1 3-3 1zm72-35 3-1 2 2-2 2-3-1zm89 24 2-2 3 1v3l-3 1zm56 44 3-2 3 2-1 3-4 1zm-215 48 2-2 3 1-1 3-3 1zm83 28 3-1 2 2-2 3-3-1zm94-17 2-2 3 2-1 3-3 1zm54 49 3-1 2 2-2 3-3-1zm-229 32 2-2 3 1v3l-3 1zm75 34 3-1 2 2-2 3-3-1zm105-8 2-2 3 2-1 3-3 1zm-151 47 3-2 3 2-2 3-3-1zm87 20 2-2 3 1-1 3-3 1zm108-14 3-1 2 2-2 3-3-1z" />
+  </g>
+</svg>
