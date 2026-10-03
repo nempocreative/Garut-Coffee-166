@@ -6908,10 +6908,3 @@ body {
     justify-content: center;
   }
 }
-
-@media (min-width: 700px) {
-  /* Interior pages already have the full desktop navigation at the top. */
-  .app-viewport.has-desktop-top-nav > .bottom-nav {
-    display: none !important;
-  }
-}

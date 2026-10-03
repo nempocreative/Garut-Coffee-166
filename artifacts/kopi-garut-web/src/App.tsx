@@ -365,7 +365,6 @@ function WebHomeRoute() {
       favorites={favorites}
       programHighlights={regularPrograms.slice(0, 2)}
     />
-    <BottomNav />
     <CartPreview />
   </>;
 }
@@ -373,7 +372,7 @@ function WebHomeRoute() {
 function Page({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
   const hasDesktopTopNav = location !== '/';
-  return <div className={`app-viewport ${hasDesktopTopNav ? 'has-desktop-top-nav' : ''}`}><div className="app-page">{children}<SiteFooter onNavigate={setLocation} /></div><BottomNav /><CartPreview /></div>;
+  return <div className={`app-viewport ${hasDesktopTopNav ? 'has-desktop-top-nav' : ''}`}><div className="app-page">{children}<SiteFooter onNavigate={setLocation} /></div><CartPreview /></div>;
 }
 
 function CatalogPage() {
@@ -786,7 +785,6 @@ function LoginPage({ returnTo: requestedReturnTo }: { returnTo?: string }) {
       <p className="auth-note">Akun ini masih lokal di perangkat. Login server dan akun lintas perangkat dapat disambungkan kemudian.</p>
     </div>
     <SiteFooter onNavigate={setLocation} />
-    <BottomNav />
   </div>;
 }
 
@@ -1877,6 +1875,7 @@ function App() {
           <ScrollToTop />
           <DesktopTopNav />
           <AppRouter />
+          <BottomNav />
            <FloatingActions />
         </WouterRouter>
       </StoreProvider>

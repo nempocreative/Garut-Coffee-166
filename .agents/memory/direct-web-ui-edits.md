@@ -27,11 +27,11 @@ For Web sign-in, use a genuine desktop layout above the desktop breakpoint inste
 
 **How to apply:** Keep the desktop sign-in content at a controlled web width with a desktop composition; verify both desktop and phone layouts.
 
-For the Garut Beans Web footer, keep only the brand, short tagline, and copyright/location; do not add a navigation menu. Show the same footer across all pages.
+For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 
-**Why:** The user explicitly asked for a simple footer without a menu, then asked to show it on every page.
+**Why:** The user explicitly asked for a simple informational footer without navigation links, and separately asked for the bottom navigation to appear on every page.
 
-**How to apply:** Reuse the same compact footer on the home page, routed content pages, and sign-in page.
+**How to apply:** Render one shared bottom navigation across all routes; reuse the compact informational footer on pages that include it.
 
 For homepage sections, vary the composition instead of putting every section in a large card.
 
