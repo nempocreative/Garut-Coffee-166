@@ -7873,6 +7873,10 @@
   .gb-home-shell {
     padding-bottom: calc(102px + env(safe-area-inset-bottom));
   }
+
+  .gb-footer {
+    box-shadow: 0 16px 0 #2c211d;
+  }
 }
 
 @media (min-width: 700px) and (max-width: 767px) {
