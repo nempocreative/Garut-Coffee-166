@@ -1805,6 +1805,10 @@
   text-align: left;
 }
 
+.gb-home .gb-event-card {
+  color: #fff9f1;
+}
+
 .gb-event-top {
   position: absolute;
   z-index: 1;
