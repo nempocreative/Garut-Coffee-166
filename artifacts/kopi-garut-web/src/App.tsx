@@ -1227,7 +1227,7 @@ function PartnershipPage({ content }: { content: { image: string; eyebrow: strin
     setForm({ name: '', city: '', type: form.type });
   };
   return <Page><main className="subpage partnership-page">
-    <Header title="Kemitraan cafe" />
+     <Header title="Mitra Garut Beans" />
     <section className="partnership-hero">
       <img src={asset(content.image)} alt="" />
       <div className="partnership-hero-shade" />
@@ -1236,17 +1236,18 @@ function PartnershipPage({ content }: { content: { image: string; eyebrow: strin
         <span>{content.eyebrow}</span>
         <h1>{content.title}</h1>
         <p>{content.copy}</p>
+        <button type="button" className="partnership-hero-cta" onClick={() => document.getElementById('partnership-request')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>Mulai jadi mitra <ArrowRight size={15} /></button>
       </div>
     </section>
     <div className="partnership-trust">
-      <div><strong>01</strong><span>Asal terjaga</span></div>
+      <div><strong>{String(activePartners.length).padStart(2, '0')}</strong><span>Mitra ditampilkan</span></div>
       <i />
-      <div><strong>100%</strong><span>Cerita nyata</span></div>
+      <div><strong>{String(partnerTypes.length).padStart(2, '0')}</strong><span>Jenis usaha</span></div>
       <i />
-      <div><strong>GARUT</strong><span>Satu ekosistem</span></div>
+      <div><strong>GARUT</strong><span>Asal kopi</span></div>
     </div>
     <section className="partnership-section partnership-showcase">
-      <div className="partnership-heading"><div><span className="section-kicker">SUDAH BERJALAN BERSAMA</span><h2>Dari meja sarapan sampai lobi hotel.</h2></div><span className="partnership-heading-icon"><ArrowRight size={17} /></span></div>
+      <div className="partnership-heading"><div><span className="section-kicker">SUDAH BERJALAN BERSAMA</span><h2>Dari meja sarapan sampai lobi hotel.</h2></div><span className="partnership-partner-count" aria-label={`${activePartners.length} contoh mitra`}><strong>{String(activePartners.length).padStart(2, '0')}</strong><small>MITRA</small></span></div>
       <p className="partnership-intro">Mereka membawa cerita kebun Garut lebih dekat ke pelanggan, tamu, dan keluarga di berbagai meja.</p>
       <div className="partner-card-grid">
         {activePartners.map((partner, index) => <article className="partner-card" key={partner.name}>
@@ -1267,7 +1268,7 @@ function PartnershipPage({ content }: { content: { image: string; eyebrow: strin
         <i /><div><strong>03</strong><h3>Tumbuh</h3><p>Bangun pengalaman ngopi yang punya asal.</p></div>
       </div>
     </section>
-    <section className="partnership-section partnership-form-section">
+    <section className="partnership-section partnership-form-section" id="partnership-request">
       <div className="partnership-form-heading"><div><span className="section-kicker">LANGKAH PERTAMA</span><h2>Mari ngobrol soal usahamu.</h2></div><span><Send size={18} /></span></div>
       <div className="form-card">
         <strong className="partnership-field-label">Kamu bergerak di bidang apa?</strong>
