@@ -2463,6 +2463,10 @@
 }
 
 @media (max-width: 767px) {
+  .gb-mobile-only {
+    display: none !important;
+  }
+
   .gb-category-heading {
     display: none;
   }
@@ -6025,8 +6029,7 @@
   }
 }
 
-/* On desktop the full menu is one quick-scan row. Mobile keeps the
-   paged layout so each illustration stays comfortably tappable. */
+/* Desktop category layout: all menu items stay visible for quick scanning. */
 @media (min-width: 1024px) {
   .gb-category-grid {
     display: grid;
@@ -7823,5 +7826,35 @@
   .gb-promo-card.is-prev .gb-promo-shade,
   .gb-promo-card.is-next .gb-promo-shade {
     background: transparent;
+  }
+}
+
+/* Keep the complete category set visible on phone-sized Web layouts too. */
+@media (max-width: 767px) {
+  .gb-category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px 4px;
+    overflow: visible;
+    padding: 0 12px;
+    scroll-snap-type: none;
+    touch-action: auto;
+    scrollbar-width: none;
+  }
+
+  .gb-category-page {
+    display: contents;
+  }
+
+  .gb-category-tile,
+  .gb-category-tile.is-featured {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    flex: none;
+  }
+
+  .gb-category-pagination {
+    display: none;
   }
 }

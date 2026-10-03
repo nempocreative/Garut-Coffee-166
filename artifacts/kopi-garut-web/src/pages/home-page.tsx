@@ -268,7 +268,7 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
       <div
         className="gb-category-grid"
         role="group"
-        aria-label="Menu kategori, geser ke samping untuk melihat semua pilihan"
+        aria-label="Menu kategori Garut Beans"
         tabIndex={0}
         data-testid="category-scroll"
         ref={categoryRef}
