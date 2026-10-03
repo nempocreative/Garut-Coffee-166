@@ -6096,6 +6096,10 @@
   .gb-category-pagination {
     display: none;
   }
+
+  .gb-footer {
+    margin-top: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
