@@ -6230,3 +6230,581 @@ body {
     background-attachment: scroll;
   }
 }
+
+/* Region discovery: a photographic, responsive overview with clear paths into
+   each origin profile. Keep these rules scoped to this page. */
+.regions-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.regions-page .region-map-hero {
+  position: relative;
+  display: grid;
+  min-height: 410px;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  margin: 0 0 34px;
+  padding: clamp(26px, 5vw, 54px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 249, 241, .24);
+  border-radius: 30px;
+  color: #fff9f1;
+  background: #38281e;
+  box-shadow: 0 22px 55px rgba(53, 39, 28, .17);
+  isolation: isolate;
+}
+
+.regions-page .region-map-hero > img {
+  z-index: -2;
+  object-position: center 54%;
+  transform: scale(1.015);
+}
+
+.regions-page .region-map-shade {
+  z-index: -1;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, rgba(31, 24, 18, .87) 0%, rgba(31, 24, 18, .62) 48%, rgba(31, 24, 18, .08) 100%),
+    linear-gradient(0deg, rgba(31, 24, 18, .66) 0%, transparent 53%);
+}
+
+.regions-page .region-map-top {
+  align-items: flex-start;
+}
+
+.regions-page .region-map-heading {
+  max-width: 700px;
+  gap: 15px;
+}
+
+.regions-page .region-map-kicker {
+  gap: 8px;
+  padding: 8px 12px;
+  color: #f4cf9b;
+  background: rgba(35, 26, 19, .48);
+  border: 1px solid rgba(255, 249, 241, .22);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  backdrop-filter: blur(8px);
+}
+
+.regions-page .region-map-heading h1 {
+  max-width: 700px;
+  font-size: clamp(36px, 5.4vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -2.1px;
+  text-wrap: balance;
+}
+
+.regions-page .region-map-heading p {
+  max-width: 500px;
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: .88;
+}
+
+.regions-page .region-map-icon {
+  width: 52px;
+  height: 52px;
+  margin-left: auto;
+  border: 1px solid rgba(255, 249, 241, .32);
+  border-radius: 18px;
+  color: #fff9f1;
+  background: rgba(42, 31, 22, .38);
+  transform: none;
+  backdrop-filter: blur(8px);
+}
+
+.regions-page .region-route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: end;
+  gap: 9px;
+  height: auto;
+  padding-bottom: 4px;
+}
+
+.region-route-place {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 249, 241, .24);
+  border-radius: 999px;
+  color: rgba(255, 249, 241, .94);
+  background: rgba(35, 26, 19, .35);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1px;
+  backdrop-filter: blur(7px);
+}
+
+.region-route-place i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e8bd82;
+  box-shadow: 0 0 0 3px rgba(232, 189, 130, .16);
+}
+
+.regions-page .region-map-stats {
+  gap: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 249, 241, .24);
+}
+
+.regions-page .region-map-stats > span {
+  gap: 4px;
+}
+
+.regions-page .region-map-stats strong {
+  font-size: 24px;
+  letter-spacing: -.7px;
+}
+
+.regions-page .region-map-stats small {
+  font-size: 11px;
+  letter-spacing: .15px;
+}
+
+.regions-discovery {
+  padding-bottom: 26px;
+}
+
+.regions-page .region-section-heading {
+  align-items: flex-end;
+  margin: 0;
+}
+
+.regions-page .region-section-heading h2 {
+  margin-top: 7px;
+  font-size: clamp(24px, 3.2vw, 34px);
+  line-height: 1.12;
+  letter-spacing: -1px;
+}
+
+.regions-page .region-count-pill {
+  margin-bottom: 2px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, hsl(var(--primary)) 18%, hsl(var(--border)));
+  color: hsl(var(--primary));
+  background: rgba(255, 249, 241, .75);
+  font-size: 11px;
+}
+
+.regions-page .region-section-description {
+  max-width: 640px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.regions-search {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: min(100%, 540px);
+  min-height: 52px;
+  margin: 19px 0 18px auto;
+  padding: 0 15px;
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 75%, white);
+  border-radius: 16px;
+  color: hsl(var(--muted-foreground));
+  background: rgba(255, 249, 241, .84);
+  box-shadow: 0 7px 22px rgba(76, 48, 31, .045);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.regions-search:focus-within {
+  border-color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--border)));
+  box-shadow: 0 0 0 4px color-mix(in srgb, hsl(var(--primary)) 10%, transparent);
+}
+
+.regions-search > svg {
+  flex: 0 0 auto;
+  color: hsl(var(--primary));
+}
+
+.regions-search input {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+  border: 0;
+  outline: 0;
+  color: hsl(var(--foreground));
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+}
+
+.regions-search input::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: .85;
+}
+
+.regions-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.regions-search button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--secondary));
+}
+
+.regions-page .region-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.regions-page .region-card {
+  grid-template-columns: minmax(110px, .72fr) minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 194px;
+  gap: 19px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, hsl(var(--border)) 82%, white);
+  border-radius: 23px;
+  background: rgba(255, 249, 241, .94);
+  box-shadow: 0 7px 20px rgba(76, 48, 31, .065);
+  transform: none;
+}
+
+.regions-page .region-card:hover,
+.regions-page .region-card:focus-visible {
+  border-color: color-mix(in srgb, hsl(var(--primary)) 48%, hsl(var(--border)));
+  box-shadow: 0 14px 30px rgba(76, 48, 31, .13);
+  transform: translateY(-3px);
+}
+
+.regions-page .region-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, hsl(var(--primary)) 35%, white);
+  outline-offset: 3px;
+}
+
+.region-image-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 168px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: hsl(var(--secondary));
+}
+
+.regions-page .region-image-wrap > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 168px;
+  object-fit: cover;
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1);
+}
+
+.regions-page .region-card:hover .region-image-wrap > img,
+.regions-page .region-card:focus-visible .region-image-wrap > img {
+  transform: scale(1.045);
+}
+
+.region-image-elevation {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 249, 241, .35);
+  border-radius: 999px;
+  color: #fff9f1;
+  background: rgba(37, 27, 20, .68);
+  font-size: 10px;
+  font-weight: 800;
+  backdrop-filter: blur(7px);
+}
+
+.regions-page .region-copy {
+  align-content: center;
+  gap: 8px;
+  padding: 7px 8px 7px 0;
+}
+
+.region-card-overline {
+  color: hsl(var(--primary));
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.regions-page .region-card-heading {
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.regions-page .region-card-heading h3 {
+  font-size: clamp(18px, 2.1vw, 23px);
+  letter-spacing: -.5px;
+}
+
+.regions-page .region-specialty {
+  color: hsl(var(--foreground));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.regions-page .region-meta {
+  flex-wrap: wrap;
+  gap: 6px;
+  overflow: visible;
+  color: hsl(var(--muted-foreground));
+  font-size: 11px;
+}
+
+.regions-page .region-meta svg {
+  flex: 0 0 auto;
+  color: hsl(var(--primary));
+}
+
+.regions-page .region-meta i {
+  width: 1px;
+  height: 14px;
+  margin: 0 3px;
+  background: hsl(var(--border));
+}
+
+.regions-page .region-card-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: hsl(var(--secondary));
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.regions-page .region-card:hover .region-card-arrow,
+.regions-page .region-card:focus-visible .region-card-arrow {
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+  transform: translateX(2px);
+}
+
+.regions-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 38px 20px;
+  border: 1px dashed color-mix(in srgb, hsl(var(--primary)) 28%, hsl(var(--border)));
+  border-radius: 22px;
+  background: rgba(255, 249, 241, .65);
+  text-align: center;
+}
+
+.regions-empty > span {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 15px;
+  color: hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+
+.regions-empty h3 {
+  margin: 3px 0 0;
+  color: hsl(var(--foreground));
+  font-size: 17px;
+}
+
+.regions-empty p {
+  max-width: 340px;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 699px) {
+  .regions-page .region-map-hero {
+    min-height: 360px;
+    gap: 18px;
+    margin-bottom: 27px;
+    padding: 24px 22px;
+    border-radius: 24px;
+  }
+
+  .regions-page .region-map-shade {
+    background:
+      linear-gradient(90deg, rgba(31, 24, 18, .83), rgba(31, 24, 18, .34)),
+      linear-gradient(0deg, rgba(31, 24, 18, .75), transparent 58%);
+  }
+
+  .regions-page .region-map-heading {
+    gap: 12px;
+  }
+
+  .regions-page .region-map-heading h1 {
+    max-width: 410px;
+    font-size: clamp(34px, 9vw, 44px);
+    letter-spacing: -1.5px;
+  }
+
+  .regions-page .region-map-heading p {
+    max-width: 340px;
+    font-size: 13px;
+  }
+
+  .regions-page .region-map-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 15px;
+  }
+
+  .regions-page .region-route {
+    gap: 7px;
+  }
+
+  .region-route-place {
+    min-height: 29px;
+    padding-inline: 9px;
+    font-size: 10px;
+  }
+
+  .regions-page .region-map-stats {
+    gap: 14px;
+    padding-top: 13px;
+  }
+
+  .regions-page .region-map-stats strong {
+    font-size: 21px;
+  }
+
+  .regions-page .region-map-stats small {
+    font-size: 10px;
+  }
+
+  .regions-page .region-section-heading {
+    align-items: flex-start;
+  }
+
+  .regions-page .region-section-heading h2 {
+    max-width: 300px;
+    font-size: 25px;
+  }
+
+  .regions-page .region-count-pill {
+    max-width: 108px;
+    padding: 7px 9px;
+    font-size: 9px;
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .regions-page .region-section-description {
+    font-size: 12px;
+  }
+
+  .regions-search {
+    width: 100%;
+    min-height: 50px;
+    margin: 16px 0;
+    padding-inline: 12px;
+    border-radius: 15px;
+  }
+
+  .regions-search input {
+    height: 48px;
+    font-size: 12px;
+  }
+
+  .regions-page .region-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .regions-page .region-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+    min-height: 132px;
+    gap: 13px;
+    padding: 9px;
+    border-radius: 19px;
+  }
+
+  .region-image-wrap,
+  .regions-page .region-image-wrap > img {
+    min-height: 112px;
+  }
+
+  .regions-page .region-copy {
+    gap: 6px;
+    padding: 5px 4px 5px 0;
+  }
+
+  .region-card-overline {
+    font-size: 8px;
+  }
+
+  .regions-page .region-card-heading h3 {
+    font-size: 17px;
+  }
+
+  .regions-page .region-specialty {
+    font-size: 11px;
+  }
+
+  .regions-page .region-meta {
+    gap: 5px;
+    font-size: 9px;
+  }
+
+  .regions-page .region-meta i {
+    margin-inline: 1px;
+  }
+
+  .region-image-elevation {
+    right: 6px;
+    bottom: 6px;
+    padding: 5px 6px;
+    font-size: 8px;
+  }
+
+  .regions-page .region-card-arrow {
+    width: 29px;
+    height: 29px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .regions-page .region-map-hero {
+    min-height: 380px;
+    padding-inline: 18px;
+  }
+
+  .regions-page .region-card {
+    grid-template-columns: 94px minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .regions-search,
+  .regions-page .region-card,
+  .regions-page .region-image-wrap > img,
+  .regions-page .region-card-arrow {
+    transition: none;
+  }
+}
+
+@media (min-width: 700px) {
+  /* Interior pages already have the full desktop navigation at the top. */
+  .app-viewport.has-desktop-top-nav > .bottom-nav {
+    display: none !important;
+  }
+}

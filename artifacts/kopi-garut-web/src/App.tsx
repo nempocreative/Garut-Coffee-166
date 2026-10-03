@@ -257,7 +257,8 @@ function FloatingActions() {
 
   const route = location.split('?')[0];
   const isFarmerRoute = route === '/farmers' || route === '/extension-farmers' || route.startsWith('/farmer/');
-  if (route === '/login' || route === '/support' || route === '/coffee-game' || isFarmerRoute) return null;
+  const isRegionRoute = route === '/regions' || route.startsWith('/region/');
+  if (route === '/login' || route === '/support' || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
 
   const handleSupportAction = (key: (typeof supportActions)[number]['key']) => {
     setOpen(false);
@@ -881,26 +882,25 @@ function ActionRow({ icon, title, detail, action, onAction, status }: { icon: st
 }
 
 function RegionMapHero() {
+  const farmerCount = regions.reduce((total, region) => total + region.farmerCount, 0);
   return <section className="region-map-hero">
-    <img src={asset('mountain-banner.webp')} alt="" />
+    <img src={asset('regions-banner.webp')} alt="" />
     <div className="region-map-shade" />
-    <div className="region-map-glow" />
     <div className="region-map-top">
       <div className="region-map-heading">
-        <span className="region-map-kicker"><Map size={12} /> JEJAK WILAYAH</span>
-        <h1>Dari lereng ke cangkir.</h1>
-        <p>Kenali kebun, petani, dan karakter rasa dari tiap sudut Garut.</p>
+        <span className="region-map-kicker"><Map size={13} /> ASAL KOPI GARUT</span>
+        <h1>Karakter kopi tumbuh dari lerengnya.</h1>
+        <p>Temukan kebun, petani, dan profil rasa dari dataran tinggi Garut.</p>
       </div>
-      <span className="region-map-icon"><Compass size={22} /></span>
+      <span className="region-map-icon" aria-hidden="true"><Compass size={22} /></span>
     </div>
-    <div className="region-route" aria-hidden="true">
-      <span className="region-route-line" />
-      <span className="region-route-dots"><i /><i /><i /><i /></span>
+    <div className="region-route" aria-label={`Wilayah kopi: ${regions.map((region) => region.name).join(', ')}`}>
+      {regions.map((region) => <span className="region-route-place" key={region.id}><i />{region.name}</span>)}
     </div>
     <div className="region-map-stats">
-      <span><strong>4</strong><small>wilayah kurasi</small></span>
+      <span><strong>{regions.length}</strong><small>wilayah utama</small></span>
       <i />
-      <span><strong>125+</strong><small>petani terhubung</small></span>
+      <span><strong>{farmerCount}</strong><small>petani terhubung</small></span>
     </div>
   </section>;
 }
@@ -1034,15 +1034,39 @@ function HubPage({ kind }: { kind: string }) {
   </main></Page>;
   if (kind === 'farmers') return <FarmersPage />;
   if (kind === 'regions') return <Page><main className="subpage regions-page">
-    <Header title="Peta Garut Beans" />
+    <Header title="Wilayah Kopi Garut" subtitle="ASAL · KEBUN · KARAKTER RASA" />
     <RegionMapHero />
-    <div className="region-section-heading"><div><span className="section-kicker">PILIH DESTINASIMU</span><h2>Wilayah utama</h2></div><span className="region-count-pill">{regions.length} zona</span></div>
-    <p className="region-section-description">Setiap wilayah punya elevasi, petani, dan profil rasa yang berbeda.</p>
-    <div className="region-list">{filteredRegions.map((region) => <button className="region-card" key={region.id} onClick={() => setLocation(`/region/${region.id}`)} data-testid={`region-card-${region.id}`} aria-label={`Buka profil wilayah ${region.name}`}>
-      <img src={asset(region.image)} alt="" />
-      <div className="region-copy"><div className="region-card-heading"><h3>{region.name}</h3><span className="region-farmer-pill"><Users size={11} />{region.farmerCount}</span></div><strong className="region-specialty">{region.specialty}</strong><span className="region-meta"><MapPin size={12} />{region.village}<i />{region.elevation}</span></div>
-      <span className="region-card-arrow"><ArrowRight size={17} /></span>
-    </button>)}</div>
+    <section className="regions-discovery" aria-labelledby="regions-title">
+      <div className="region-section-heading">
+        <div><span className="section-kicker">KOPI DARI DATARAN TINGGI</span><h2 id="regions-title">Jelajahi asal dan karakter rasa</h2></div>
+        <span className="region-count-pill">{filteredRegions.length} dari {regions.length} wilayah</span>
+      </div>
+      <p className="region-section-description">Pilih wilayah untuk melihat profil kebun, ketinggian, dan petani yang menghidupkan setiap lot.</p>
+      <label className="regions-search" htmlFor="input-regions-search">
+        <Search size={18} aria-hidden="true" />
+        <input
+          id="input-regions-search"
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Cari nama wilayah, desa, atau profil rasa"
+          autoComplete="off"
+          data-testid="input-regions-search"
+        />
+        {query && <button type="button" onClick={() => setQuery('')} aria-label="Hapus pencarian" data-testid="button-clear-regions-search"><X size={16} /></button>}
+      </label>
+      {filteredRegions.length > 0 ? <div className="region-list" aria-live="polite">{filteredRegions.map((region) => <button type="button" className="region-card" key={region.id} onClick={() => setLocation(`/region/${region.id}`)} data-testid={`region-card-${region.id}`} aria-label={`Buka profil wilayah ${region.name}, ${region.village}, ${region.elevation}`}>
+        <span className="region-image-wrap"><img src={asset(region.image)} alt={`Kopi dari wilayah ${region.name}`} /><span className="region-image-elevation">{region.elevation}</span></span>
+        <span className="region-copy">
+          <span className="region-card-overline">GARUT · JAWA BARAT</span>
+          <span className="region-card-heading"><h3>{region.name}</h3><span className="region-card-arrow" aria-hidden="true"><ArrowRight size={17} /></span></span>
+          <strong className="region-specialty">{region.specialty}</strong>
+          <span className="region-meta"><MapPin size={13} />{region.village}<i /><Users size={13} />{region.farmerCount} petani</span>
+        </span>
+      </button>)}</div> : <div className="regions-empty" role="status" data-testid="empty-regions-search">
+        <span><MapPin size={21} /></span><h3>Wilayah belum ditemukan</h3><p>Coba kata kunci lain, seperti nama desa atau karakter rasa.</p>
+      </div>}
+    </section>
   </main></Page>;
   if (kind === 'tourism') return <Page><main className="subpage tourism-page">
     <Header title="Wisata kopi" />
