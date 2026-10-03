@@ -45,8 +45,8 @@ For customer-facing coffee taste choices, lead with everyday Indonesian phrasing
 
 **How to apply:** Use this wording for taste-preference controls in the Garut Beans Web experience while keeping the underlying coffee-profile matching intact.
 
-For destinations opened through the bottom navigation, show the page title without small subtitle text immediately below it.
+For Garut Beans Web menu headers, show the page title without small subtitle text immediately below it.
 
-**Why:** The user explicitly requested no small text beneath titles when opening bottom-navigation menus.
+**Why:** The user explicitly requested no small text beneath titles and corrected that subtitles remained in other menus.
 
-**How to apply:** Check the main bottom-navigation routes when editing headers and omit subtitle text there while preserving explanatory copy in the page body.
+**How to apply:** Omit subtitle text below page titles across menu headers while preserving explanatory copy in the page body.
