@@ -9709,10 +9709,10 @@ body {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 699px) {
   .app-page,
   .app-page:has(> .catalog-page),
   .app-page:has(> .guest-account-page) {
-    padding-bottom: 64px;
+    padding-bottom: calc(102px + env(safe-area-inset-bottom));
   }
 }

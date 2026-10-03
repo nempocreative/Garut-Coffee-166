@@ -7868,3 +7868,15 @@
     display: none;
   }
 }
+
+@media (max-width: 699px) {
+  .gb-home-shell {
+    padding-bottom: calc(102px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 700px) and (max-width: 767px) {
+  .gb-home-shell {
+    padding-bottom: 126px;
+  }
+}
