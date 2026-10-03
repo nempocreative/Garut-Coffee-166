@@ -15,3 +15,4 @@
 - [Shared content vs user state](shared-content-vs-user-state.md) — shared mobile/web screens do not synchronize AsyncStorage-backed roles, commerce, or operational records across devices.
 - [Header artwork crop safety](header-art-crops.md) — keep key figures and landmarks inside the center crop when using AI artwork in wide headers.
 - [Mockup CSS extraction](mockup-css-extraction.md) — copy structural layout rules as well as tokens; empty states can hide missing list and progress styles.
+- [Direct Web UI edits](direct-web-ui-edits.md) — apply requested visual refinements in the existing Web artifact, not new Canvas mockups.

@@ -4008,15 +4008,13 @@
   }
 }
 
-/* Warm, layered origin tones give the homepage more depth without competing
+/* A subtle paper-and-contour texture adds origin character without competing
    with the coffee photography and product cards. */
 .gb-home {
   background-color: var(--gb-background);
-  background-image:
-    radial-gradient(ellipse 52rem 34rem at 4% 30%, rgba(211, 161, 95, .2), transparent 76%),
-    radial-gradient(ellipse 44rem 34rem at 96% 50%, rgba(168, 84, 59, .11), transparent 74%),
-    radial-gradient(ellipse 56rem 30rem at 52% 100%, rgba(94, 119, 76, .1), transparent 75%),
-    linear-gradient(150deg, #fbf6ed 0%, #f1e6d7 48%, #faf4e9 100%);
+  background-image: url('/kopi-garut-web/assets/garut-paper-topography.svg');
+  background-repeat: repeat;
+  background-size: 840px 760px;
 }
 
 .gb-home-shell {
