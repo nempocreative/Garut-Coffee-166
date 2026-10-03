@@ -907,27 +907,43 @@ function RegionMapHero() {
 }
 
 function TourismHero() {
+  const startingPrice = Math.min(...coffeeTours.map((tour) => tour.price));
   return <section className="tourism-hero">
-    <img src={asset('kopi-garut-seduh-sambil-menjelajah-banner.webp')} alt="" />
+    <img src={asset('regions-banner.webp')} alt="Buah kopi matang tumbuh di kebun lereng Garut" />
     <div className="tourism-hero-shade" />
-    <div className="tourism-hero-glow" />
-    <div className="tourism-hero-top">
-      <span className="tourism-hero-kicker"><Compass size={13} /> PENGALAMAN PILIHAN</span>
-      <span className="tourism-hero-count">3 rute</span>
-    </div>
-    <div className="tourism-hero-copy">
-      <h1>Datang sebagai tamu, pulang bawa cerita.</h1>
-      <p>Rasakan Garut dari kebunnya: belajar, tinggal lebih lama, dan bertemu orang-orang di balik kopi.</p>
-    </div>
-    <div className="tourism-hero-stats">
-      <span><strong>3</strong><small>pengalaman</small></span>
-      <i />
-      <span><strong>1–2</strong><small>hari perjalanan</small></span>
-      <i />
-      <span><strong>Garut</strong><small>dataran tinggi</small></span>
+    <div className="tourism-hero-content">
+      <div className="tourism-hero-top">
+        <span className="tourism-hero-kicker"><Compass size={13} /> WISATA KOPI GARUT</span>
+        <span className="tourism-hero-count">{coffeeTours.length} pengalaman</span>
+      </div>
+      <div className="tourism-hero-copy">
+        <span className="tourism-hero-overline">DARI LERENG HINGGA CANGKIR</span>
+        <h1>Kenali Garut dari tempat kopinya tumbuh.</h1>
+        <p>Jelajahi kebun, kenali prosesnya, lalu nikmati seduhan bersama orang-orang di balik kopi.</p>
+        <a className="tourism-hero-action" href="#tour-packages">Lihat pengalaman <ArrowRight size={16} /></a>
+      </div>
+      <div className="tourism-hero-stats">
+        <span><strong>{String(coffeeTours.length).padStart(2, '0')}</strong><small>pilihan pengalaman</small></span>
+        <i />
+        <span><strong>{formatPrice(startingPrice)}</strong><small>harga mulai / orang</small></span>
+        <i />
+        <span><strong>Garut</strong><small>Jawa Barat</small></span>
+      </div>
     </div>
   </section>;
 }
+
+const tourismMoments = [
+  { number: '01', icon: MapPin, title: 'Jelajah kebun', copy: 'Lihat langsung tempat buah kopi tumbuh di lereng Garut.' },
+  { number: '02', icon: Leaf, title: 'Kenali proses', copy: 'Ikuti cerita panen dan proses di balik setiap biji.' },
+  { number: '03', icon: Coffee, title: 'Nikmati seduhan', copy: 'Cicipi kopi Garut di tempat asalnya.' },
+];
+
+const tourismTourImages: Record<string, string> = {
+  'coffee-tour': 'farmer-story-2.webp',
+  'roasting-class': 'event-coffee-workshop.webp',
+  'camping-coffee': 'kopi-garut-dari-lereng-ke-cangkir-banner.webp',
+};
 
 function FarmersPage() {
   const [, setLocation] = useLocation();
@@ -1080,12 +1096,36 @@ function HubPage({ kind }: { kind: string }) {
   if (kind === 'tourism') return <Page><main className="subpage tourism-page">
     <Header title="Wisata kopi" />
     <TourismHero />
-    <div className="tourism-section-heading"><span className="section-kicker">PILIH PERJALANANMU</span><h2>Cerita yang bisa kamu datangi.</h2></div>
-    <div className="tour-grid">{coffeeTours.map((tour, index) => <article className="tour-card" key={tour.id}>
-      <div className="tour-image-wrap"><img src={asset(tour.image)} alt={tour.title} /><div className="tour-image-shade" /><span className="tour-type-badge">{tour.type}</span><span className="tour-duration-badge"><CalendarDays size={12} />{tour.duration}</span>{index === 0 && <span className="tour-featured-badge">PALING DICARI</span>}</div>
-      <div className="tour-copy"><h3>{tour.title}</h3><span className="tour-location"><MapPin size={13} />{tour.location}, Garut</span><p>{tour.description}</p><div className="tour-foot"><div><small>MULAI DARI</small><strong>{formatPrice(tour.price)} <em>/ orang</em></strong></div><button className="primary-button compact" onClick={() => { setSaved((items) => items.includes(tour.id) ? items : [...items, tour.id]); notify(`Minat untuk ${tour.title} sudah dicatat. Tim kami akan menghubungi kamu.`); }} data-testid={`tour-book-${tour.id}`}>{saved.includes(tour.id) ? 'Tersimpan' : 'Pesan'} <ArrowRight size={14} /></button></div></div>
-    </article>)}</div>
-    <div className="tour-group-note"><span><Users size={16} /></span><div><strong>Datang bersama rombongan?</strong><p>Paket dapat disesuaikan untuk komunitas, sekolah, cafe, dan rombongan.</p></div></div>
+    <section className="tourism-journey" aria-labelledby="tourism-journey-title">
+      <div className="tourism-journey-copy">
+        <span className="section-kicker">LEBIH DEKAT DENGAN KOPI GARUT</span>
+        <h2 id="tourism-journey-title">Satu perjalanan, tiga pengalaman.</h2>
+        <p>Bukan hanya melihat kebun—kenali cerita dan proses yang membuat setiap cangkir berbeda.</p>
+      </div>
+      <div className="tourism-journey-steps">
+        {tourismMoments.map(({ number, icon: Icon, title, copy }) => <article className="tourism-journey-step" key={number}>
+          <span className="tourism-journey-icon"><Icon size={17} /></span>
+          <span className="tourism-journey-number">{number}</span>
+          <h3>{title}</h3>
+          <p>{copy}</p>
+        </article>)}
+      </div>
+    </section>
+    <section className="tourism-packages" id="tour-packages" aria-labelledby="tourism-packages-title">
+      <div className="tourism-section-heading">
+        <div><span className="section-kicker">PILIH PERJALANANMU</span><h2 id="tourism-packages-title">Pengalaman untuk setiap cara menjelajah.</h2><p>Dari kunjungan singkat ke kebun hingga malam di dataran tinggi.</p></div>
+        <span className="tourism-package-count">{String(coffeeTours.length).padStart(2, '0')} PAKET</span>
+      </div>
+      <div className="tour-grid">{coffeeTours.map((tour, index) => <article className="tour-card" key={tour.id} data-testid={`tour-card-${tour.id}`}>
+        <div className="tour-image-wrap"><img src={asset(tourismTourImages[tour.id] ?? tour.image)} alt={`Pengalaman wisata: ${tour.title}`} /><div className="tour-image-shade" /><span className="tour-type-badge">{tour.type}</span><span className="tour-duration-badge"><Clock3 size={12} />{tour.duration}</span>{index === 0 && <span className="tour-featured-badge">PENGALAMAN PILIHAN</span>}</div>
+        <div className="tour-copy"><h3>{tour.title}</h3><span className="tour-location"><MapPin size={13} />{tour.location}</span><p>{tour.description}</p><div className="tour-foot"><div><small>HARGA PER ORANG</small><strong>{formatPrice(tour.price)} <em>/ orang</em></strong></div><button className="primary-button compact" aria-pressed={saved.includes(tour.id)} onClick={() => { setSaved((items) => items.includes(tour.id) ? items : [...items, tour.id]); notify(`Minat untuk ${tour.title} tersimpan di perangkat ini.`); }} data-testid={`tour-book-${tour.id}`}>{saved.includes(tour.id) ? 'Minat tersimpan' : 'Simpan minat'} <ArrowRight size={14} /></button></div></div>
+      </article>)}</div>
+    </section>
+    <aside className="tour-group-note">
+      <span className="tour-group-icon"><Users size={19} /></span>
+      <div><span className="section-kicker">KUNJUNGAN BERSAMA</span><strong>Merencanakan perjalanan rombongan?</strong><p>Paket kunjungan bisa dibicarakan untuk komunitas, sekolah, dan usaha kopi.</p></div>
+      <button className="tour-group-action" onClick={() => setLocation('/support?mode=live')} data-testid="tour-group-contact">Tanya detail <ArrowRight size={15} /></button>
+    </aside>
   </main></Page>;
   if (kind === 'diversification') return <Page><main className="subpage diversification-page"><Header title="Karya kopi" subtitle="LEBIH DARI SECANGKIR" /><CatalogCarousel onNavigate={setLocation} /><div className="filter-pills"><span className="filter-pill active">Semua</span><span className="filter-pill">Olahan kopi</span><span className="filter-pill">Aroma & perawatan</span><span className="filter-pill">Merchandise</span></div><SearchEntry catalog value={query} onChange={setQuery} /><div className="product-grid diversified-grid">{filteredProducts.map((product) => <article className="diversified-card" key={product.id}><div className="diversified-image"><img src={asset(product.image)} alt={product.title} /><span>{product.badge}</span></div><div className="diversified-body"><small>{product.category}</small><strong>{product.title}</strong><p>{product.status}</p><div><b>{product.price}</b><button className="text-button" onClick={() => { setSaved((items) => items.includes(product.id) ? items : [...items, product.id]); notify('Produk turunan disimpan untuk ditinjau'); }} data-testid={`button-save-product-${product.id}`}>{saved.includes(product.id) ? 'Tersimpan' : 'Simpan'} <ArrowRight size={13} /></button></div></div></article>)}</div></main></Page>;
    if (kind === 'partnership') return <PartnershipPage content={content} />;
