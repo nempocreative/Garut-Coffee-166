@@ -7740,7 +7740,7 @@
   .gb-footer {
     margin-top: 20px;
     padding-top: 24px;
-    padding-bottom: 44px;
+    padding-bottom: 18px;
     border-top: 0;
   }
 
@@ -7875,7 +7875,7 @@
   }
 
   .gb-footer {
-    box-shadow: 0 16px 0 #2c211d;
+    box-shadow: 0 53px 0 #2c211d;
   }
 }
 
