@@ -666,9 +666,72 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   );
 }
 
+function WeeklyBrewGuide({ coffee, onNavigate }: { coffee: SharedCoffee; onNavigate: (path: string) => void }) {
+  const brewParameters = [
+    { label: 'Kopi', value: '15 g' },
+    { label: 'Air', value: '225 ml' },
+    { label: 'Rasio', value: '1:15' },
+    { label: 'Suhu air', value: '93°C' },
+    { label: 'Total waktu', value: '2:30–3:00' },
+  ];
+  const brewSteps = [
+    'Bilas filter, lalu masukkan 15 g kopi dengan gilingan sedang.',
+    'Tuang 45 ml air untuk bloom dan tunggu 30 detik.',
+    'Tuang perlahan dalam gerakan melingkar hingga 225 ml.',
+  ];
+
+  return (
+    <article className="gb-weekly-brew" data-testid="weekly-brew-guide">
+      <div className="gb-weekly-brew-visual">
+        <img src={asset('event-home-brew.webp')} alt="Proses menyeduh kopi dengan metode V60" />
+        <span className="gb-weekly-brew-badge">PANDUAN MINGGU INI</span>
+        <div className="gb-weekly-brew-method">
+          <small>METODE SEDUH</small>
+          <strong>{coffee.recommendedBrew}</strong>
+          <span>Tuang perlahan, nikmati profil aslinya.</span>
+        </div>
+      </div>
+
+      <div className="gb-weekly-brew-details">
+        <div className="gb-weekly-brew-coffee">
+          <img src={asset(coffee.image)} alt="" />
+          <div>
+            <small>KOPI PILIHAN MINGGU INI</small>
+            <strong>{coffee.name}</strong>
+            <span>{coffee.origin} · {coffee.tastingNotes.slice(0, 2).join(' · ')}</span>
+          </div>
+        </div>
+
+        <div className="gb-weekly-brew-metrics" aria-label="Takaran resep seduh">
+          {brewParameters.map(({ label, value }) => (
+            <div className={label === 'Total waktu' ? 'is-time' : ''} key={label}>
+              <small>{label}</small>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+
+        <ol className="gb-weekly-brew-steps">
+          {brewSteps.map((step) => <li key={step}>{step}</li>)}
+        </ol>
+
+        <button
+          className="gb-weekly-brew-link"
+          onClick={() => onNavigate(`/product/${coffee.id}`)}
+          data-testid="button-weekly-brew-coffee"
+        >
+          Lihat kopi ini <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </article>
+  );
+}
+
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites, programHighlights }: HomePageProps) {
   const diversified = homeContent.diversifiedProducts;
   const firstCoffees = coffeeCatalog.slice(0, 10);
+  const weeklyBrewCoffee = coffeeCatalog.find((coffee) => coffee.id === 'talaga-washed');
+  if (!weeklyBrewCoffee) throw new Error('The weekly brew coffee is missing from the catalog.');
 
   return (
     <div className="gb-home">
@@ -698,6 +761,15 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
           <section className="gb-home-section">
             <SectionTitle title="Mulai dari selera" action="Jelajahi" onAction={() => onNavigate('/catalog')} />
             <TasteCarousel onNavigate={onNavigate} />
+          </section>
+
+          <section className="gb-home-section">
+            <SectionTitle
+              title="Resep seduh minggu ini"
+              action="Lihat kopi"
+              onAction={() => onNavigate(`/product/${weeklyBrewCoffee.id}`)}
+            />
+            <WeeklyBrewGuide coffee={weeklyBrewCoffee} onNavigate={onNavigate} />
           </section>
 
           <section className="gb-home-section gb-farmer-section">
