@@ -229,7 +229,7 @@ export function AppIcon({
   );
 }
 
-export function AppNavGlyph({ name, size = 24 }: { name: 'bell' | 'shopping-cart'; size?: number }) {
+export function AppNavGlyph({ name, size = 24 }: { name: 'bell' | 'home' | 'shopping-cart'; size?: number }) {
   const main = brandTokens.primary;
   const light = brandTokens.accent;
   const shadow = brandTokens.foreground;
@@ -237,7 +237,18 @@ export function AppNavGlyph({ name, size = 24 }: { name: 'bell' | 'shopping-cart
 
   return (
     <svg aria-hidden="true" width={size} height={size} viewBox="0 0 30 30">
-      {name === 'bell' ? (
+      {name === 'home' ? (
+        <>
+          <path d="m3.2 14.7 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={shadow} />
+          <path d="m3.2 13.2 11.8-9.6 11.8 9.6v8.2c0 1.4-1.1 2.5-2.5 2.5H5.7c-1.4 0-2.5-1.1-2.5-2.5v-8.2Z" fill={main} />
+          <path d="m5.8 12.8 9.2-7.5 9.2 7.5-1.4 1.7L15 7.4l-7.8 7.1-1.4-1.7Z" fill={light} opacity=".88" />
+          <rect x="7" y="15.2" width="3.4" height="3.4" rx=".7" fill={accent} />
+          <path d="M8.7 15.2v3.4M7 16.9h3.4" stroke={main} strokeWidth="1" />
+          <path d="M12 23.5v-7.1a3 3 0 0 1 6 0v7.1" fill={shadow} />
+          <path d="M12 22v-7.1a3 3 0 0 1 6 0V22h-6Z" fill={accent} />
+          <circle cx="16.5" cy="18.5" r=".45" fill={main} />
+        </>
+      ) : name === 'bell' ? (
         <>
           <path d="M5 20h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0v4.7L5 20Z" fill={shadow} />
           <path d="M5 18.5h20l-2.4-3.5v-4.7a7.6 7.6 0 0 0-15.2 0V15L5 18.5Z" fill={main} />
