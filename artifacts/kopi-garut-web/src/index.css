@@ -837,7 +837,7 @@
 .info-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 18px; padding: 14px; margin-bottom: 10px; }
 .info-card h3 { margin: 0 0 5px; font-size: 14px; }
 .info-card p { margin: 0; font-size: 11px; color: hsl(var(--muted-foreground)); line-height: 1.5; }
-.auth-viewport { width: min(100%, 430px); min-height: 100dvh; margin: 0 auto; position: relative; overflow-x: clip; }
+.auth-viewport { width: 100%; min-height: 100dvh; margin: 0 auto; position: relative; overflow-x: clip; }
 .auth-screen { min-height: 100vh; padding: 28px 20px 110px; display: grid; align-content: start; gap: 16px; background: hsl(var(--background)); }
 .auth-hero { padding: 22px; border-radius: 24px; color: hsl(var(--primary-foreground)); background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--secondary-foreground))); }
 .auth-hero .eyebrow { color: hsl(var(--accent)); margin-bottom: 14px; }
@@ -861,6 +861,60 @@
 .selected-access span { font-size: 12px; font-weight: 800; }
 .auth-submit { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .auth-note { margin: 0; color: hsl(var(--muted-foreground)); font-size: 10px; line-height: 1.5; text-align: center; }
+@media (min-width: 900px) {
+  .auth-screen {
+    width: min(calc(100% - 64px), 1040px);
+    min-height: calc(100dvh - 80px);
+    margin: 0 auto;
+    padding: 42px 0 122px;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "hero copy"
+      "hero roles"
+      "hero access"
+      "hero submit"
+      "hero note";
+    align-content: center;
+    align-items: stretch;
+    gap: 14px 42px;
+    background: transparent;
+  }
+  .auth-hero {
+    grid-area: hero;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(30px, 4vw, 46px);
+    border-radius: 30px;
+  }
+  .auth-hero h1 { max-width: 380px; font-size: clamp(38px, 4vw, 58px); }
+  .auth-hero p { max-width: 330px; font-size: 14px; }
+  .auth-copy { grid-area: copy; align-self: end; gap: 8px; padding-top: 0; }
+  .auth-copy h2 { font-size: 32px; }
+  .auth-copy p { font-size: 14px; }
+  .role-list { grid-area: roles; gap: 10px; }
+  .role-card { gap: 13px; padding: 15px 16px; }
+  .role-card-copy strong { font-size: 14px; }
+  .role-card-copy b { font-size: 11px; }
+  .role-card-copy small { font-size: 11px; }
+  .selected-access { grid-area: access; }
+  .auth-submit { grid-area: submit; }
+  .auth-note { grid-area: note; }
+}
+@media (min-width: 700px) and (max-width: 899px) {
+  .auth-screen {
+    width: min(calc(100% - 56px), 760px);
+    min-height: calc(100dvh - 80px);
+    margin: 0 auto;
+    padding: 34px 0 122px;
+    background: transparent;
+  }
+  .auth-hero { padding: 30px; }
+  .auth-hero h1 { max-width: 420px; font-size: clamp(32px, 5vw, 46px); }
+  .auth-hero p { max-width: 440px; font-size: 13px; }
+  .auth-copy h2 { font-size: 30px; }
+}
 .order-card { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 17px; padding: 14px; margin-bottom: 10px; }
 .order-head { display: flex; justify-content: space-between; align-items: center; }
 .order-id { font-size: 11px; font-weight: 800; }

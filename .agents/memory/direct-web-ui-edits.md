@@ -20,3 +20,9 @@ For account-page refinements, use the existing warm coffee, cream, and terracott
 **Why:** The user explicitly asked that the account page match the Web theme without green or large shapes.
 
 **How to apply:** Keep the textured page background visible and limit solid surfaces to the functional account card.
+
+For Web sign-in, use a genuine desktop layout above the desktop breakpoint instead of constraining the page to the mobile app's 430px width. Keep it fluid and stack the content only on narrow screens.
+
+**Why:** The user corrected a 430px-wide sign-in layout because it made the Web page look like a mobile screen.
+
+**How to apply:** Keep the desktop sign-in content at a controlled web width with a desktop composition; verify both desktop and phone layouts.
