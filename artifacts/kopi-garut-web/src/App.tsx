@@ -271,7 +271,7 @@ function FloatingActions() {
   };
 
   return (
-    <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'} ${location.startsWith('/profile') ? 'account-entry-hidden' : ''}`} aria-label="Akses cepat">
+    <div className={`floating-actions ${visible ? 'is-visible' : 'is-hidden'} ${location.startsWith('/profile') ? 'account-entry-hidden' : ''} ${route === '/' && window.innerWidth <= 420 && window.scrollY < 480 ? 'home-intro-hidden' : ''}`} aria-label="Akses cepat">
       {open && <button className="support-menu-backdrop" onClick={() => setOpen(false)} aria-label="Tutup menu bantuan" data-testid="floating-support-backdrop" />}
       {open && <section className="support-menu" aria-label="Pusat bantuan">
         <div className="support-menu-header">

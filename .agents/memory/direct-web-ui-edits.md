@@ -27,6 +27,12 @@ For the Garut Beans website, desktop visitors should see the same phone-width co
 
 **How to apply:** Reuse the existing phone-responsive Web route inside a centered phone-width viewport on desktop; verify the same route at both desktop and phone sizes.
 
+For mobile-scoped Web refinements, leave the existing desktop rendering and its 430px phone-frame preview unchanged.
+
+**Why:** Mobile breakpoints also apply inside the desktop phone-frame preview unless their width is isolated.
+
+**How to apply:** Scope mobile-only overrides below 420px and verify 430px desktop-frame, 390px, and 320px views.
+
 For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 
 **Why:** The user explicitly asked for a simple informational footer without navigation links, and separately asked for the bottom navigation to appear on every page.
