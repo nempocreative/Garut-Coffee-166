@@ -1010,6 +1010,29 @@ function FarmersPage() {
   </main></Page>;
 }
 
+const eventMonthIndex: Record<string, number> = {
+  januari: 0,
+  februari: 1,
+  maret: 2,
+  april: 3,
+  mei: 4,
+  juni: 5,
+  juli: 6,
+  agustus: 7,
+  september: 8,
+  oktober: 9,
+  november: 10,
+  desember: 11,
+};
+
+function eventTimestamp(dateLabel: string): number {
+  const match = dateLabel.match(/^(\d{1,2})(?:\s*[–—-]\s*\d{1,2})?\s+([a-z]+)\s+(\d{4})$/i);
+  if (!match) return Number.MAX_SAFE_INTEGER;
+  const month = eventMonthIndex[match[2].toLowerCase()];
+  if (month === undefined) return Number.MAX_SAFE_INTEGER;
+  return Date.UTC(Number(match[3]), month, Number(match[1]));
+}
+
 function HubPage({ kind }: { kind: string }) {
   const [, setLocation] = useLocation();
   const { notify } = useStore();
@@ -1029,8 +1052,9 @@ function HubPage({ kind }: { kind: string }) {
   const filteredFarmers = farmers.filter((farmer) => `${farmer.name} ${farmer.group} ${farmer.location}`.toLowerCase().includes(query.toLowerCase()));
   const filteredRegions = regions.filter((region) => `${region.name} ${region.village} ${region.specialty}`.toLowerCase().includes(query.toLowerCase()));
   const filteredProducts = diversifiedProducts.filter((product) => `${product.title} ${product.category}`.toLowerCase().includes(query.toLowerCase()));
-  const eventFilters = ['Semua', ...Array.from(new Set(sharedHomeContent.stories.map((event) => event.type)))];
-  const visibleEvents = eventFilter === 'Semua' ? sharedHomeContent.stories : sharedHomeContent.stories.filter((event) => event.type === eventFilter);
+  const orderedEvents = [...sharedHomeContent.stories].sort((a, b) => eventTimestamp(a.date) - eventTimestamp(b.date));
+  const eventFilters = ['Semua', ...Array.from(new Set(orderedEvents.map((event) => event.type)))];
+  const visibleEvents = eventFilter === 'Semua' ? orderedEvents : orderedEvents.filter((event) => event.type === eventFilter);
   if (kind === 'events') return <Page><main className="subpage events-page">
     <Header title="Event & pelatihan" />
     <section className="events-intro">
@@ -1044,14 +1068,13 @@ function HubPage({ kind }: { kind: string }) {
     {visibleEvents[0] && <section className="event-featured-card">
       <img src={asset(visibleEvents[0].image)} alt="" />
       <div className="event-featured-shade" />
-      <div className="event-featured-top"><span className="event-featured-badge"><CalendarDays size={12} /> AGENDA PILIHAN</span><span className="event-featured-arrow"><ArrowRight size={16} /></span></div>
+      <div className="event-featured-top"><span className="event-featured-badge"><CalendarDays size={12} /> AGENDA PILIHAN</span></div>
       <div className="event-featured-copy"><div className="event-featured-meta"><strong>{visibleEvents[0].type}</strong><i /> <span>{visibleEvents[0].location}</span></div><h2>{visibleEvents[0].title}</h2><span className="event-featured-date"><CalendarDays size={14} />{visibleEvents[0].date}</span></div>
     </section>}
-    <div className="events-section-heading"><div><h2>Agenda berikutnya</h2><p>{visibleEvents.length} agenda untuk kamu jelajahi</p></div><span>{String(visibleEvents.length).padStart(2, '0')}</span></div>
+    <div className="events-section-heading"><div><h2>Agenda berikutnya</h2><p>{Math.max(visibleEvents.length - 1, 0)} agenda lainnya untuk dijelajahi</p></div><span>{String(Math.max(visibleEvents.length - 1, 0)).padStart(2, '0')}</span></div>
     <div className="event-agenda-list">{visibleEvents.slice(1).map((event) => <article className="event-agenda-card" key={event.id}>
       <div className="event-date-block"><CalendarDays size={18} /><strong>{event.date}</strong></div>
       <div className="event-agenda-body"><div className="event-agenda-meta"><strong>{event.type}</strong><span><MapPin size={11} />{event.location}</span></div><h3>{event.title}</h3><p>{event.description}</p></div>
-      <span className="event-agenda-arrow"><ChevronRight size={16} /></span>
     </article>)}
     {!visibleEvents.slice(1).length && <div className="event-empty-state"><span><CalendarDays size={22} /></span><h3>Ini agenda terdepannya</h3><p>Pilih kategori lain untuk melihat agenda berikutnya.</p></div>}
     </div>
