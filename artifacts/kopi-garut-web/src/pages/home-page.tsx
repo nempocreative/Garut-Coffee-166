@@ -151,7 +151,7 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
               return (
                 <button className={`gb-category-tile ${isFeatured ? 'is-featured' : ''}`} key={category.label} onClick={() => onNavigate(category.route)} data-testid={`button-category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
                   <span className="gb-category-glyph">
-                    <MenuIllustration name={category.icon} size={50} />
+                    <MenuIllustration name={category.icon} size={34} />
                   </span>
                   <span className="gb-category-tile-label">{category.label}</span>
                 </button>
@@ -211,10 +211,10 @@ function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
         </div>
         <nav className="gb-footer-simple-links" aria-label="Menu footer">
           <span className="gb-footer-label">MENU</span>
-          <button onClick={() => onNavigate('/catalog')}><AppIcon name="coffee" size={14} /> Kopi</button>
-          <button onClick={() => onNavigate('/farmers')}><AppIcon name="users" size={14} /> Petani</button>
-          <button onClick={() => onNavigate('/regions')}><AppIcon name="map-pin" size={14} /> Wilayah</button>
-          <button onClick={() => onNavigate('/program')}><AppIcon name="sparkles" size={14} /> Program</button>
+          <button onClick={() => onNavigate('/catalog')}>Kopi</button>
+          <button onClick={() => onNavigate('/farmers')}>Petani</button>
+          <button onClick={() => onNavigate('/regions')}>Wilayah</button>
+          <button onClick={() => onNavigate('/program')}>Program</button>
         </nav>
         <div className="gb-footer-contact-card">
           <div className="gb-footer-contact-head">
@@ -223,14 +223,14 @@ function SiteFooter({ onNavigate }: { onNavigate: (path: string) => void }) {
           <p>Garut, Jawa Barat · Senin—Sabtu</p>
           <button className="gb-footer-contact-action" onClick={() => onNavigate('/complaints')}>
             <span>Hubungi kami</span>
-            <span className="gb-footer-action-icon"><AppIcon name="arrow-up-right" size={14} /></span>
+            <span className="gb-footer-action-icon" aria-hidden="true">↗</span>
           </button>
         </div>
       </div>
       <div className="gb-footer-bottom">
         <span>© 2026 Garut Beans.</span>
         <div className="gb-footer-bottom-links">
-          <button onClick={() => onNavigate('/traceability')}>Jejak kopi <AppIcon name="arrow-up-right" size={12} /></button>
+          <button onClick={() => onNavigate('/traceability')}>Jejak kopi</button>
         </div>
       </div>
     </footer>
@@ -253,7 +253,7 @@ function VoucherCarousel({ onNavigate }: { onNavigate: (path: string) => void })
         {vouchers[slide].map((voucher, index) => (
           <button className={`gb-voucher ${voucher.variant === 'dark' ? 'dark' : ''}`} key={voucher.code} onClick={() => onNavigate('/catalog')} data-testid={`button-voucher-${voucher.code}`}>
             <span className="gb-voucher-main">
-              <span className="gb-voucher-kicker"><AppIcon name="shopping-bag" size={12} /> VOUCHER</span>
+              <span className="gb-voucher-kicker">VOUCHER</span>
               <strong>{voucher.discount}</strong>
               <span className="gb-voucher-title">{voucher.title}</span>
               <span className="gb-voucher-note">{voucher.note}</span>
@@ -262,7 +262,7 @@ function VoucherCarousel({ onNavigate }: { onNavigate: (path: string) => void })
             <span className="gb-voucher-action">
               <small>KODE</small>
               <span className="gb-voucher-code">{voucher.code}</span>
-              <span className="gb-voucher-apply">Pakai <AppIcon name="arrow-up-right" size={11} /></span>
+              <span className="gb-voucher-apply">Pakai</span>
             </span>
             <span className="gb-voucher-index">{index + 1}</span>
           </button>
@@ -282,7 +282,7 @@ function SectionTitle({ title, action, onAction }: { title: string; action: stri
     <div className="gb-section-heading">
       <h2 data-testid={`text-section-${title.toLowerCase().replaceAll(' ', '-')}`}>{title}</h2>
       <button onClick={onAction} data-testid={`button-section-${title.toLowerCase().replaceAll(' ', '-')}`}>
-        {action} <AppIcon name="arrow-up-right" size={13} />
+        {action}
       </button>
     </div>
   );
@@ -505,12 +505,11 @@ function FarmerFeatureCard({ farmer, index, onNavigate }: { farmer: typeof farme
       <span className="gb-farmer-portrait">
         <img src={asset(farmer.image)} alt={farmer.name} />
         <span className="gb-farmer-portrait-shade" />
-        <span className="gb-farmer-badge"><AppIcon name="coffee" size={16} /></span>
       </span>
       <span className="gb-farmer-copy">
         <span className="gb-farmer-topline"><small>● PETANI PILIHAN</small><em>{farmer.membershipId}</em></span>
         <strong>{farmer.name}</strong>
-        <span className="gb-farmer-location"><AppIcon name="map-pin" size={12} /> {farmer.location}</span>
+        <span className="gb-farmer-location">{farmer.location}</span>
         <span className="gb-farmer-meta"><span>{farmer.coffeeType}</span><span>{farmer.landArea}</span></span>
         <span className="gb-farmer-story">{farmer.story}</span>
         <span className="gb-farmer-rule" />
@@ -534,7 +533,7 @@ function ExtensionCard({ worker, onNavigate }: { worker: typeof extensionTeam[nu
       </span>
       <span className="gb-extension-copy">
         <strong>{worker.name}</strong>
-        <span className="gb-extension-region"><AppIcon name="map-pin" size={12} /> Wilayah: {worker.regions.join(' · ')}</span>
+        <span className="gb-extension-region">Wilayah: {worker.regions.join(' · ')}</span>
         <span className="gb-extension-focus">{worker.focus}</span>
         <span className="gb-extension-footer">PENDAMPINGAN KEBUN <AppIcon name="arrow-up-right" size={13} /></span>
       </span>
@@ -549,12 +548,11 @@ function RegionCard({ region, index, onNavigate }: { region: typeof regions[numb
         <img src={asset(region.image)} alt={region.name} />
         <span className="gb-region-image-shade" />
         <b>0{index + 1}</b>
-        <span><AppIcon name="arrow-up-right" size={14} /></span>
       </span>
       <span className="gb-region-copy">
         <strong>{region.name}</strong>
-        <small><AppIcon name="map-pin" size={12} /> {region.village} <i /> {region.elevation}</small>
-        <em><AppIcon name="coffee" size={12} /> {region.specialty}</em>
+        <small>{region.village} <i /> {region.elevation}</small>
+        <em>{region.specialty}</em>
       </span>
     </button>
   );
@@ -596,7 +594,7 @@ function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) 
           <span className="gb-event-copy">
             <small>{story.date} <i /> {story.location}</small>
             <strong>{story.title}</strong>
-            <span>{story.type} <b><AppIcon name="arrow-up-right" size={13} /></b></span>
+            <span>{story.type}</span>
           </span>
         </button>
       ))}
@@ -654,7 +652,6 @@ function TasteCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
               <span className="gb-taste-kicker">PROFIL RASA</span>
               <strong>{title}</strong>
               <span>{detail}</span>
-              <AppIcon name="arrow-up-right" size={14} />
             </button>
           );
         })}
