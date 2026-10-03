@@ -923,9 +923,9 @@ function TourismHero() {
         <a className="tourism-hero-action" href="#tour-packages">Lihat pengalaman <ArrowRight size={16} /></a>
       </div>
       <div className="tourism-hero-stats">
-        <span><strong>{String(coffeeTours.length).padStart(2, '0')}</strong><small>pilihan pengalaman</small></span>
+        <span><strong>{String(coffeeTours.length).padStart(2, '0')}</strong><small>paket wisata</small></span>
         <i />
-        <span><strong>{formatPrice(startingPrice)}</strong><small>harga mulai / orang</small></span>
+        <span><strong>{formatPrice(startingPrice)}</strong><small>mulai / orang</small></span>
         <i />
         <span><strong>Garut</strong><small>Jawa Barat</small></span>
       </div>
