@@ -1,5 +1,6 @@
 import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
+  Bell as BellOutline, Home as HomeOutline, ShoppingCart as ShoppingCartOutline,
   Trash2, ClipboardList, Clock3, FileText, Factory, Leaf, LocateFixed, MessageSquare, Menu,
   Wallet, Wheat,
 } from 'lucide-react';
@@ -25,7 +26,7 @@ import {
 import HomePage from '@/pages/home-page';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
-import { AppIcon, AppNavGlyph, type AppIconName } from '@/components/app-icon';
+import { AppIcon, type AppIconName } from '@/components/app-icon';
 
 const mobileIcon = (name: AppIconName): LucideIcon => {
   const Icon = ({ size = 24, color = 'currentColor', strokeWidth = 1.8, className, style }: LucideProps) => (
@@ -210,8 +211,8 @@ function Header({ home = false, title = 'Garut Beans', subtitle }: { home?: bool
   return <header className={home ? 'header' : 'subpage-head'}>
      {home ? <div className="header-top">
        <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" /></div><div className="brand-lines"><div className="brand-name"><span>Garut</span><strong>Beans</strong></div><div className="brand-meta">G-BEANS · SPECIALTY COFFEE</div></div></div>
-      <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><AppNavGlyph name="bell" size={24} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
-       </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><div className="subpage-title-wrap"><h1 className="page-title">{title}</h1>{subtitle && <span className="subpage-subtitle">{subtitle}</span>}</div><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><img className="header-home-image" src={asset('home-coffee-house.png')} alt="" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
+      <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><BellOutline size={20} strokeWidth={1.8} aria-hidden="true" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><ShoppingCartOutline size={20} strokeWidth={1.8} aria-hidden="true" />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
+       </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><div className="subpage-title-wrap"><h1 className="page-title">{title}</h1>{subtitle && <span className="subpage-subtitle">{subtitle}</span>}</div><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><HomeOutline size={20} strokeWidth={1.8} aria-hidden="true" /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><ShoppingCartOutline size={20} strokeWidth={1.8} aria-hidden="true" />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
     {home && <div className="header-copy"><div><div className="greeting">Mau <em>menikmati</em><br />kopi apa hari ini?</div><div className="date-line">{homeDate()}</div></div></div>}
   </header>;
 }
@@ -935,37 +936,45 @@ function FarmersPage() {
   const [, setLocation] = useLocation();
   const [query, setQuery] = useState('');
   const normalizedQuery = query.trim().toLowerCase();
-  const filteredFarmers = farmers.filter((farmer) => `${farmer.name} ${farmer.group} ${farmer.location} ${farmer.coffeeType} ${farmer.products.join(' ')}`.toLowerCase().includes(normalizedQuery));
   const featuredFarmer = farmers[0];
+  const matchingFarmers = farmers.filter((farmer) => `${farmer.name} ${farmer.group} ${farmer.location} ${farmer.coffeeType} ${farmer.products.join(' ')}`.toLowerCase().includes(normalizedQuery));
+  const filteredFarmers = normalizedQuery
+    ? matchingFarmers
+    : matchingFarmers.filter((farmer) => farmer.id !== featuredFarmer.id);
 
   return <Page><main className="subpage farmers-page">
-    <Header title="Petani Garut" subtitle="ORANG DI BALIK RASA" />
-    <HeroPanel image="farmer-asep-rahmat.webp" eyebrow="ORANG DI BALIK RASA" title="Kenali tangan di balik setiap cangkir." copy="Profil keluarga tani, kelompok, dan kebun yang menjaga kualitas kopi Garut dari musim ke musim." />
-    <section className="farmers-intro">
-      <div>
-        <span className="section-kicker">JEJAK YANG BISA DIKENALI</span>
-        <h2>Kopi yang baik dimulai dari kebun yang dirawat.</h2>
-        <p>Temukan cerita petani, wilayah, dan hasil panen yang membentuk karakter Garut Beans.</p>
-      </div>
-      <div className="farmers-intro-mark"><Users size={24} /><span>G-BEANS<br /><small>GROW TOGETHER</small></span></div>
-    </section>
+    <Header title="Petani Garut" />
+    <HeroPanel image="farmer-story-2.webp" eyebrow="PETANI & KEBUN GARUT" title="Mengenal orang di balik setiap panen." copy="Telusuri profil petani, kelompok tani, dan kebun yang menghasilkan kopi Garut Beans." />
     <MetricStrip metrics={[{ label: 'Petani terdaftar', value: '125', icon: 'users' }, { label: 'Kelompok tani', value: '18', icon: 'coffee' }, { label: 'Wilayah binaan', value: '12', icon: 'map' }, { label: 'Produksi tahunan', value: '312 ton', icon: 'chart' }]} />
-    <section className="farmer-featured">
-      <img src={asset(featuredFarmer.image)} alt={featuredFarmer.name} />
-      <div className="farmer-featured-shade" />
+    {!normalizedQuery && <section className="farmer-featured" aria-label={`Profil unggulan ${featuredFarmer.name}`}>
+      <div className="farmer-featured-image">
+        <img src={asset(featuredFarmer.image)} alt={`Petani ${featuredFarmer.name} di kebun kopi`} />
+        <span className="farmer-featured-badge">PROFIL UNGGULAN</span>
+      </div>
       <div className="farmer-featured-copy">
-        <span className="farmer-featured-badge"><i /> PROFIL PILIHAN</span>
         <span className="section-kicker">{featuredFarmer.location}</span>
         <h2>{featuredFarmer.name}</h2>
         <p>{featuredFarmer.story}</p>
-        <div className="farmer-featured-foot"><span>{featuredFarmer.group}</span><button className="hero-link" onClick={() => setLocation(`/farmer/${featuredFarmer.id}`)} data-testid="button-featured-farmer">Buka cerita <ArrowRight size={14} /></button></div>
+        <div className="farmer-featured-facts">
+          <span><small>JENIS KOPI</small><strong>{featuredFarmer.coffeeType}</strong></span>
+          <span><small>LUAS KEBUN</small><strong>{featuredFarmer.landArea}</strong></span>
+          <span><small>HASIL PANEN / TAHUN</small><strong>{featuredFarmer.annualProduction}</strong></span>
+        </div>
+        <div className="farmer-featured-foot">
+          <span>{featuredFarmer.group}</span>
+          <button className="farmer-featured-link" onClick={() => setLocation(`/farmer/${featuredFarmer.id}`)} data-testid="button-featured-farmer">Lihat profil <ArrowRight size={14} /></button>
+        </div>
       </div>
-    </section>
+    </section>}
     <div className="farmers-list-heading">
-      <div><span className="section-kicker">PROFIL KEBUN</span><h2>Petani pilihan Garut</h2><p>Kenali hasil, varietas, dan kelompok di balik kopi yang kamu nikmati.</p></div>
-      <span>{filteredFarmers.length} profil</span>
+      <div>
+        <span className="section-kicker">{normalizedQuery ? 'PENCARIAN PETANI' : 'PROFIL KEBUN'}</span>
+        <h2>{normalizedQuery ? 'Hasil pencarian' : 'Petani lainnya'}</h2>
+        <p>{normalizedQuery ? `Profil yang sesuai dengan “${query.trim()}”.` : 'Kenali varietas, kelompok tani, dan hasil panen dari kebun Garut.'}</p>
+      </div>
+      <span aria-live="polite">{filteredFarmers.length} {normalizedQuery ? 'hasil' : 'profil'}</span>
     </div>
-    <SearchEntry catalog value={query} onChange={setQuery} placeholder="Cari nama petani, kelompok, atau wilayah" showFilter={false} />
+    <SearchEntry catalog value={query} onChange={setQuery} placeholder="Cari nama, kelompok, wilayah, atau kopi" showFilter={false} />
     <div className="farmer-grid farmer-grid-rich">
       {filteredFarmers.map((farmer) => <article className="farmer-card farmer-card-rich" key={farmer.id}>
         <div className="farmer-card-image"><img src={asset(farmer.image)} alt={farmer.name} /><span className="farmer-card-location"><MapPin size={11} /> {farmer.location}</span></div>
@@ -1191,7 +1200,54 @@ function FarmerDetailPage() {
   const [, setLocation] = useLocation();
   const farmer = farmers.find((item) => item.id === id) ?? farmers[0];
   const coffee = coffees.find((item) => item.farmerName === farmer.name);
-  return <Page><main className="subpage"><Header /><div className="detail-image"><img src={asset(farmer.image)} alt={farmer.name} /><button className="back-button" onClick={() => setLocation('/farmers')} aria-label="Kembali ke petani" data-testid="button-farmer-detail-back"><ArrowLeft size={18} /></button></div><div className="detail-copy"><span className="detail-series">{farmer.location} · {farmer.membershipId}</span><h1 className="detail-name">{farmer.name}</h1><p className="detail-tagline">{farmer.group}</p><div className="stat-row"><div className="stat"><b>{farmer.landArea}</b><span>Luas lahan</span></div><div className="stat"><b>{farmer.annualProduction}</b><span>Produksi</span></div><div className="stat"><b>{farmer.coffeeType}</b><span>Varietas</span></div></div><div className="info-card"><span className="section-kicker">CERITA KEBUN</span><p>{farmer.story}</p><p className="detail-description">Bergabung sejak {farmer.joinedAt}. Produk yang tercatat: {farmer.products.join(', ')}.</p></div>{coffee && <div className="info-card"><span className="section-kicker">LOT YANG DAPAT DICICIPI</span><h3>{coffee.name}</h3><p>{coffee.tagline} · {coffee.process} · {coffee.altitude}</p><button className="primary-button wide" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-farmer-coffee">Lihat kopi dari kebun ini <ArrowRight size={14} /></button></div>}</div></main></Page>;
+  return <Page><main className="subpage farmer-detail-page">
+    <Header title="Petani Garut" />
+    <section className="farmer-detail-hero" aria-label={`Profil ${farmer.name}`}>
+      <div className="farmer-detail-photo">
+        <img src={asset(farmer.image)} alt={`Petani ${farmer.name} di kebun kopi`} />
+        <button className="farmer-detail-back" onClick={() => setLocation('/farmers')} aria-label="Kembali ke petani" data-testid="button-farmer-detail-back"><ArrowLeft size={18} /></button>
+        <span className="farmer-detail-place"><MapPin size={13} /> {farmer.location}</span>
+      </div>
+      <div className="farmer-detail-intro">
+        <div className="farmer-detail-meta">
+          <span className="section-kicker">CERITA PETANI</span>
+          <span className="farmer-detail-id" data-testid={`text-farmer-membership-${farmer.id}`}>{farmer.membershipId}</span>
+        </div>
+        <h1 data-testid="text-farmer-detail-name">{farmer.name}</h1>
+        <p className="farmer-detail-group">{farmer.group}</p>
+        <div className="farmer-detail-story">
+          <span className="section-kicker">CERITA KEBUN</span>
+          <p data-testid={`text-farmer-story-${farmer.id}`}>{farmer.story}</p>
+        </div>
+        <div className="farmer-detail-stats" aria-label="Data kebun">
+          <div data-testid={`text-farmer-area-${farmer.id}`}><b>{farmer.landArea}</b><span>Luas kebun</span></div>
+          <div data-testid={`text-farmer-production-${farmer.id}`}><b>{farmer.annualProduction}</b><span>Panen / tahun</span></div>
+          <div data-testid={`text-farmer-variety-${farmer.id}`}><b>{farmer.coffeeType}</b><span>Varietas</span></div>
+        </div>
+      </div>
+    </section>
+    <div className="farmer-detail-lower">
+      <section className="farmer-detail-products">
+        <span className="section-kicker">JEJAK KEBUN</span>
+        <h2>Tumbuh bersama kelompok tani.</h2>
+        <p>Menjadi bagian dari Garut Beans sejak <strong>{farmer.joinedAt}</strong>.</p>
+        <div className="farmer-detail-product-list">
+          <small>PRODUK DARI KEBUN</small>
+          <div>{farmer.products.map((product, index) => <span className="farmer-detail-product" key={product} data-testid={`chip-farmer-product-${farmer.id}-${index}`}>{product}</span>)}</div>
+        </div>
+      </section>
+      {coffee && <section className="farmer-detail-lot">
+        <span className="section-kicker">KOPI DARI KEBUN INI</span>
+        <h2 data-testid="text-farmer-coffee-name">{coffee.name}</h2>
+        <p>{coffee.tagline}</p>
+        <div className="farmer-detail-lot-facts">
+          <span><small>PROSES</small><strong>{coffee.process}</strong></span>
+          <span><small>KETINGGIAN</small><strong>{coffee.altitude}</strong></span>
+        </div>
+        <button className="farmer-detail-coffee-link" onClick={() => setLocation(`/product/${coffee.id}`)} data-testid="button-farmer-coffee">Lihat kopi dari kebun ini <ArrowRight size={14} /></button>
+      </section>}
+    </div>
+  </main></Page>;
 }
 
 function RegionDetailPage() {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { Bell as BellOutline, ShoppingCart as ShoppingCartOutline } from 'lucide-react';
 import {
   coffeeCatalog,
   coffeeTours,
@@ -9,7 +10,7 @@ import {
   type HomeIconName,
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
-import { AppIcon, AppNavGlyph } from '../components/app-icon';
+import { AppIcon } from '../components/app-icon';
 import { MenuIllustration } from '../components/menu-illustration';
 import { SiteFooter } from '../components/site-footer';
 import './home-page.css';
@@ -175,10 +176,10 @@ function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
       <div className="gb-header-top">
         <div className="gb-header-actions">
           <button className="gb-icon-orb" onClick={() => onNavigate('/notifications')} aria-label="Buka notifikasi" data-testid="button-home-notifications">
-            <AppNavGlyph name="bell" size={24} />
+            <BellOutline size={20} strokeWidth={1.8} aria-hidden="true" />
           </button>
           <button className="gb-icon-orb" onClick={() => onNavigate('/cart')} aria-label="Buka keranjang" data-testid="button-home-cart">
-            <AppNavGlyph name="shopping-cart" size={24} />
+            <ShoppingCartOutline size={20} strokeWidth={1.8} aria-hidden="true" />
           </button>
         </div>
       </div>
