@@ -1025,12 +1025,24 @@ const eventMonthIndex: Record<string, number> = {
   desember: 11,
 };
 
+function eventDateInfo(dateLabel: string) {
+  const match = dateLabel.match(/^(\d{1,2})(?:\s*[–—-]\s*(\d{1,2}))?\s+([a-z]+)\s+(\d{4})$/i);
+  if (!match) return null;
+  const monthIndex = eventMonthIndex[match[3].toLowerCase()];
+  if (monthIndex === undefined) return null;
+  const day = Number(match[1]);
+  const year = Number(match[4]);
+  return {
+    dayLabel: match[2] ? `${match[1]}–${match[2]}` : match[1],
+    monthShort: match[3].slice(0, 3).toUpperCase(),
+    monthLabel: `${match[3]} ${match[4]}`,
+    timestamp: Date.UTC(year, monthIndex, day),
+    dateTime: `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
+  };
+}
+
 function eventTimestamp(dateLabel: string): number {
-  const match = dateLabel.match(/^(\d{1,2})(?:\s*[–—-]\s*\d{1,2})?\s+([a-z]+)\s+(\d{4})$/i);
-  if (!match) return Number.MAX_SAFE_INTEGER;
-  const month = eventMonthIndex[match[2].toLowerCase()];
-  if (month === undefined) return Number.MAX_SAFE_INTEGER;
-  return Date.UTC(Number(match[3]), month, Number(match[1]));
+  return eventDateInfo(dateLabel)?.timestamp ?? Number.MAX_SAFE_INTEGER;
 }
 
 function HubPage({ kind }: { kind: string }) {
@@ -1055,6 +1067,14 @@ function HubPage({ kind }: { kind: string }) {
   const orderedEvents = [...sharedHomeContent.stories].sort((a, b) => eventTimestamp(a.date) - eventTimestamp(b.date));
   const eventFilters = ['Semua', ...Array.from(new Set(orderedEvents.map((event) => event.type)))];
   const visibleEvents = eventFilter === 'Semua' ? orderedEvents : orderedEvents.filter((event) => event.type === eventFilter);
+  const remainingEvents = visibleEvents.slice(1);
+  const agendaGroups = remainingEvents.reduce<Array<{ month: string; events: typeof remainingEvents }>>((groups, event) => {
+    const month = eventDateInfo(event.date)?.monthLabel ?? 'Tanggal menyusul';
+    const currentGroup = groups[groups.length - 1];
+    if (currentGroup?.month === month) currentGroup.events.push(event);
+    else groups.push({ month, events: [event] });
+    return groups;
+  }, []);
   if (kind === 'events') return <Page><main className="subpage events-page">
     <Header title="Event & pelatihan" />
     <section className="events-intro">
@@ -1071,12 +1091,20 @@ function HubPage({ kind }: { kind: string }) {
       <div className="event-featured-top"><span className="event-featured-badge"><CalendarDays size={12} /> AGENDA PILIHAN</span></div>
       <div className="event-featured-copy"><div className="event-featured-meta"><strong>{visibleEvents[0].type}</strong><i /> <span>{visibleEvents[0].location}</span></div><h2>{visibleEvents[0].title}</h2><span className="event-featured-date"><CalendarDays size={14} />{visibleEvents[0].date}</span></div>
     </section>}
-    <div className="events-section-heading"><div><h2>Agenda berikutnya</h2><p>{Math.max(visibleEvents.length - 1, 0)} agenda lainnya untuk dijelajahi</p></div><span>{String(Math.max(visibleEvents.length - 1, 0)).padStart(2, '0')}</span></div>
-    <div className="event-agenda-list">{visibleEvents.slice(1).map((event) => <article className="event-agenda-card" key={event.id}>
-      <div className="event-date-block"><CalendarDays size={18} /><strong>{event.date}</strong></div>
-      <div className="event-agenda-body"><div className="event-agenda-meta"><strong>{event.type}</strong><span><MapPin size={11} />{event.location}</span></div><h3>{event.title}</h3><p>{event.description}</p></div>
-    </article>)}
-    {!visibleEvents.slice(1).length && <div className="event-empty-state"><span><CalendarDays size={22} /></span><h3>Ini agenda terdepannya</h3><p>Pilih kategori lain untuk melihat agenda berikutnya.</p></div>}
+    <div className="events-section-heading"><div><h2>Agenda berikutnya</h2><p>{remainingEvents.length} acara setelah agenda pilihan</p></div><span>{String(remainingEvents.length).padStart(2, '0')}</span></div>
+    <div className="events-agenda-groups">
+      {agendaGroups.map((group) => <section className="event-month-group" key={group.month}>
+        <header className="event-month-heading"><div><span>BULAN AGENDA</span><h3>{group.month}</h3></div><b>{String(group.events.length).padStart(2, '0')}</b></header>
+        <div className="event-agenda-list">{group.events.map((event) => {
+          const dateInfo = eventDateInfo(event.date);
+          return <article className="event-agenda-card" key={event.id}>
+            <time className="event-date-stamp" dateTime={dateInfo?.dateTime} aria-label={event.date}><strong>{dateInfo?.dayLabel ?? '—'}</strong><span>{dateInfo?.monthShort ?? 'JAD'}</span></time>
+            <div className="event-agenda-thumb"><img src={asset(event.image)} alt="" loading="lazy" /></div>
+            <div className="event-agenda-body"><div className="event-agenda-meta"><strong>{event.type}</strong><span><MapPin size={11} />{event.location}</span></div><h3>{event.title}</h3><p>{event.description}</p></div>
+          </article>;
+        })}</div>
+      </section>)}
+      {!remainingEvents.length && <div className="event-empty-state"><span><CalendarDays size={22} /></span><h3>Ini agenda terdepannya</h3><p>Pilih kategori lain untuk melihat agenda berikutnya.</p></div>}
     </div>
     <div className="events-closing-card"><span><Coffee size={21} /></span><div><strong>Datang, belajar, tumbuh bersama.</strong><p>Setiap pertemuan membawa cerita baru dari kebun Garut.</p></div></div>
   </main></Page>;
