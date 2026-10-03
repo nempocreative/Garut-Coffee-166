@@ -1198,7 +1198,67 @@ function CollectivePage() {
     ['Saya punya usaha', 'Jadi mitra dan bawa kopi ke pelanggan.', '/partnership', 'briefcase'],
     ['Saya ingin berkunjung', 'Rasakan kopi langsung dari Garut.', '/tourism', 'compass'],
   ] as const;
-  return <Page><main className="subpage collective-page"><Header title="Ekosistem Kopi" subtitle="DARI KEBUN KE CANGKIR" /><div className="collective-hero"><img src={asset('hero-coffee.webp')} alt="" /><div className="collective-hero-shade" /><div className="collective-hero-copy"><div className="collective-hero-top"><div className="collective-hero-icon"><Network size={24} /></div><span>01—04</span></div><small>RANTAI G-BEANS</small><h1>Satu alur,<br />banyak peran.</h1><b>KEBUN · MUTU · PASAR · CANGKIR</b></div></div><div className="collective-intro"><span className="section-kicker">BAGAIMANA KOPI BERJALAN</span><h2>Garut Beans bukan hanya katalog.</h2><p>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</p></div><div className="collective-roles"><h3>Kamu datang sebagai siapa?</h3>{roleItems.map(([title, text, route, icon], index) => <button key={title} onClick={() => setLocation(route)}><span className={`collective-role-icon role-tone-${index % 2}`}>{createElement(iconFor(icon), { size: 17 })}</span><span><strong>{title}</strong><small>{text}</small></span><ArrowRight size={14} /></button>)}</div><div className="collective-stages">{ecosystemStages.map((stage, index) => <Fragment key={stage.number}><div className="collective-stage"><div className="collective-stage-head"><b className={index === 0 ? 'current' : ''}>{stage.number}</b><span><small>{stage.label}</small><strong>{stage.title}</strong></span><i>{createElement(iconFor(stage.icon), { size: 18 })}</i></div>{stage.links.map(([label, route]) => <button key={label} onClick={() => setLocation(route)}><em />{label}<ArrowRight size={15} /></button>)}</div>{index < ecosystemStages.length - 1 && <div className="collective-connector" aria-hidden="true"><span /></div>}</Fragment>)}</div><div className="collective-closing"><div><Heart size={19} /></div><span><strong>Sekarang pilih langkahmu.</strong><small>Mulai dari kebun, kopi, usaha, atau pengalaman.</small></span></div></main></Page>;
+  return <Page>
+    <main className="subpage collective-page">
+      <Header title="Ekosistem Kopi" />
+      <section className="collective-hero" aria-label="Rantai ekosistem Garut Beans">
+        <img src={asset('hero-coffee.webp')} alt="" />
+        <div className="collective-hero-shade" />
+        <div className="collective-hero-copy">
+          <div className="collective-hero-top">
+            <div className="collective-hero-icon"><Network size={24} /></div>
+            <span aria-label="Empat tahap perjalanan kopi">01—04</span>
+          </div>
+          <div className="collective-hero-main">
+            <small>RANTAI G-BEANS</small>
+            <h2>Satu alur,<br />banyak peran.</h2>
+            <b>KEBUN · MUTU · PASAR · CANGKIR</b>
+          </div>
+        </div>
+      </section>
+      <div className="collective-overview">
+        <section className="collective-intro" aria-labelledby="collective-intro-title">
+          <span className="section-kicker">BAGAIMANA KOPI BERJALAN</span>
+          <h2 id="collective-intro-title">Garut Beans bukan hanya katalog.</h2>
+          <p>Ini adalah ruang yang menghubungkan petani, pembeli, pelaku usaha, dan pengunjung dalam satu perjalanan kopi.</p>
+        </section>
+        <section className="collective-roles" aria-labelledby="collective-roles-title">
+          <h2 id="collective-roles-title">Pilih cara Anda terhubung.</h2>
+          {roleItems.map(([title, text, route, icon], index) => <button key={title} onClick={() => setLocation(route)}>
+            <span className={`collective-role-icon role-tone-${index % 2}`}>{createElement(iconFor(icon), { size: 17 })}</span>
+            <span><strong>{title}</strong><small>{text}</small></span>
+            <ArrowRight size={15} aria-hidden="true" />
+          </button>)}
+        </section>
+      </div>
+      <section className="collective-journey" aria-labelledby="collective-journey-title">
+        <div className="collective-section-heading">
+          <span className="section-kicker">EMPAT TAHAPAN</span>
+          <h2 id="collective-journey-title">Perjalanan dari kebun ke cangkir.</h2>
+          <p>Telusuri setiap bagian ekosistem—dari asal kopi hingga pengalaman menikmatinya.</p>
+        </div>
+        <div className="collective-stages">
+          {ecosystemStages.map((stage, index) => <Fragment key={stage.number}>
+            <article className="collective-stage">
+              <div className="collective-stage-head">
+                <b className={index === 0 ? 'current' : ''}>{stage.number}</b>
+                <span><small>{stage.label}</small><strong>{stage.title}</strong></span>
+                <i aria-hidden="true">{createElement(iconFor(stage.icon), { size: 18 })}</i>
+              </div>
+              {stage.links.map(([label, route]) => <button key={label} onClick={() => setLocation(route)}>
+                <em aria-hidden="true" />{label}<ArrowRight size={15} aria-hidden="true" />
+              </button>)}
+            </article>
+            {index < ecosystemStages.length - 1 && <div className="collective-connector" aria-hidden="true"><span /></div>}
+          </Fragment>)}
+        </div>
+      </section>
+      <aside className="collective-closing" aria-label="Mulai menjelajahi ekosistem">
+        <div><Heart size={19} /></div>
+        <span><strong>Sekarang pilih langkahmu.</strong><small>Mulai dari kebun, kopi, usaha, atau pengalaman.</small></span>
+      </aside>
+    </main>
+  </Page>;
 }
 
 function PartnershipPage({ content }: { content: { image: string; eyebrow: string; title: string; copy: string } }) {
@@ -1531,7 +1591,7 @@ function ProgramPage() {
 
         <SectionTitle kicker="PROGRAM KAMI" title="Kegiatan rutin untuk yang mencintai kopi." />
         <p className="program-intro">Bukan hanya menjual kopi. Kami membuat ruang untuk belajar, bertemu, dan membangun masa depan Garut Beans bersama-sama.</p>
-        <div className="program-rail">
+        <section className="program-rail" aria-label="Program rutin Garut Beans">
           {regularPrograms.map((item) => (
             <article className="program-card" key={item.id}>
               <img src={asset(item.image)} alt={item.title} />
@@ -1544,7 +1604,7 @@ function ProgramPage() {
               </div>
             </article>
           ))}
-        </div>
+        </section>
 
         <SectionTitle kicker="PEMBERDAYAAN DESA" title="Dari kopi, lahir lebih banyak karya." />
         <div className="dark-callout">
@@ -1560,7 +1620,7 @@ function ProgramPage() {
 
         <SectionTitle kicker="CSR G-BEANS" title="Kontribusi untuk petani & kebun kopi" />
         <p className="program-intro">Dukungan CSR yang kembali ke ekosistem kopi: memperkuat keluarga petani, menjaga kebun, dan merawat lingkungan tempat Garut Beans tumbuh.</p>
-        <div className="filter-pills">{programCategories.map((item) => <button key={item} className={`filter-pill ${category === item ? 'active' : ''}`} onClick={() => setCategory(item)}>{item}</button>)}</div>
+        <div className="filter-pills" role="group" aria-label="Filter kategori program">{programCategories.map((item) => <button key={item} className={`filter-pill ${category === item ? 'active' : ''}`} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div>
         <div className="offer-list">
           {visibleOffers.map((offer) => {
             const applied = applications.includes(offer.id);
@@ -1707,7 +1767,7 @@ function ComplaintsPage() {
     <Page>
       <main className="subpage complaints-page">
         <Header title="Sampaikan keluhan" subtitle="PROGRAM · RUANG KELUHAN" />
-        <HeroPanel image="complaints-menu-ai.webp" eyebrow="RUANG KELUHAN" title="Ada yang perlu dibenahi?" copy="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Garut Beans menentukan dukungan yang lebih tepat." />
+        <HeroPanel image="farmer-ujang-kusnadi.webp" eyebrow="RUANG KELUHAN" title="Ada yang perlu dibenahi?" copy="Ceritakan kondisi di lapangan. Setiap laporan membantu tim Garut Beans menentukan dukungan yang lebih tepat." />
         <div className="complaint-hero-callout">
           <div className="complaint-hero-top"><span><Send size={17} /></span><small>LAPORANMU BERARTI</small></div>
           <h2>Satu laporan, satu langkah lebih dekat</h2>
@@ -1717,7 +1777,7 @@ function ComplaintsPage() {
 
         <SectionTitle kicker="01 · PILIH TOPIK" title="Apa yang terjadi?" />
         <p className="complaint-section-hint">Pilih topik yang paling dekat dengan kondisi di lapangan.</p>
-        <div className="complaint-category-grid">
+        <div className="complaint-category-grid" role="group" aria-label="Pilih topik keluhan">
           {webComplaintCategories.map((item, index) => {
             const guidance = webComplaintGuidance[item];
             const selected = category === item;
@@ -1736,12 +1796,14 @@ function ComplaintsPage() {
         <SectionTitle kicker="02 · DETAIL LAPANGAN" title="Ceritakan kondisinya" />
         <div className="form-card complaint-form-card">
           <div className="complaint-form-heading"><span><MapPin size={17} /></span><div><strong>Bantu tim menemukan lokasinya</strong><small>Lokasi yang spesifik mempercepat tindak lanjut.</small></div></div>
-          <label><span>Lokasi petani atau lahan <b>Wajib</b></span><input value={fieldLocation} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Blok 2" /></label>
-          <label><span>Ceritakan kebutuhanmu <b>Wajib</b></span><textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika." /></label>
+          <div className="complaint-fields">
+            <label><span>Lokasi petani atau lahan <b>Wajib</b></span><input value={fieldLocation} onChange={(event) => setFieldLocation(event.target.value)} placeholder="Contoh: Desa Mekarsari, Blok 2" /></label>
+            <label><span>Ceritakan kebutuhanmu <b>Wajib</b></span><textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Contoh: Ada 12 petani kopi yang belum terdata dan membutuhkan bibit Arabika." /></label>
+          </div>
           <small className="complaint-field-note">Sertakan nama kelompok, perkiraan jumlah penerima, atau waktu yang diharapkan. Hindari NIK, nomor telepon, dan data pribadi.</small>
         </div>
 
-        {feedback && <div className={`complaint-feedback ${isSuccess ? 'success' : ''}`}><span>{isSuccess ? <Check size={16} /> : <CircleUserRound size={16} />}</span><p>{feedback}</p></div>}
+        {feedback && <div className={`complaint-feedback ${isSuccess ? 'success' : ''}`} role="status" aria-live="polite"><span>{isSuccess ? <Check size={16} /> : <CircleUserRound size={16} />}</span><p>{feedback}</p></div>}
         <div className="complaint-submit-group">
           <button className="primary-button wide" onClick={submitComplaint}>{session ? 'Kirim keluhan' : 'Masuk untuk mengirim keluhan'} {session ? <Send size={15} /> : <ShieldCheck size={15} />}</button>
           <small>{session ? 'Laporan akan tersimpan di perangkat ini dan masuk ke riwayat.' : 'Draf akan tetap tersimpan saat kamu masuk ke akun.'}</small>
