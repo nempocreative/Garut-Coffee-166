@@ -21,17 +21,11 @@ For account-page refinements, use the existing warm coffee, cream, and terracott
 
 **How to apply:** Keep the textured page background visible and limit solid surfaces to the functional account card.
 
-For the Garut Beans website, desktop visitors should see the same phone-width composition as mobile visitors rather than a wide-screen rearrangement.
+For the Garut Beans Web artifact, keep the desktop experience full-width; do not force desktop visitors into the 430px phone frame. Keep phone-only homepage refinements scoped to narrow screens.
 
-**Why:** The user asked for the desktop website appearance to match the mobile layout.
+**Why:** The user clarified that the phone-width desktop view looked wrong and asked to restore the real desktop layout while limiting the requested refinements to mobile.
 
-**How to apply:** Reuse the existing phone-responsive Web route inside a centered phone-width viewport on desktop; verify the same route at both desktop and phone sizes.
-
-For mobile-scoped Web refinements, leave the existing desktop rendering and its 430px phone-frame preview unchanged.
-
-**Why:** Mobile breakpoints also apply inside the desktop phone-frame preview unless their width is isolated.
-
-**How to apply:** Scope mobile-only overrides below 420px and verify 430px desktop-frame, 390px, and 320px views.
+**How to apply:** Keep the standalone desktop route and its wide responsive layout. Scope mobile-only overrides below 420px and verify a 1440px desktop plus 390px and 320px phone views.
 
 For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 
