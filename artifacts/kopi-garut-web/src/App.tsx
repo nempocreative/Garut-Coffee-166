@@ -227,7 +227,8 @@ function StoreProvider({ children }: { children: ReactNode }) {
       return;
     }
     if (points < reward.cost) {
-      notify(`Kurang ${reward.cost - points} PT untuk menukar hadiah ini`);
+      const missingPoints = reward.cost - points;
+      notify(`Kurang ${missingPoints.toLocaleString('id-ID')} PT (${formatPrice(missingPoints)}) untuk menukar hadiah ini`);
       return;
     }
     setPoints((current) => Math.max(0, current - reward.cost));
@@ -702,7 +703,7 @@ function CartPage() {
       </section>
 
       <section className="cart-vouchers-section" aria-label="Voucher poin">
-        <div className="cart-loyalty-heading"><h2>Voucher poin</h2><small>{points} PT</small></div>
+        <div className="cart-loyalty-heading"><h2>Voucher poin</h2><small>{points.toLocaleString('id-ID')} PT · {formatPrice(points)}</small></div>
         {availableVouchers.length ? <div className="cart-voucher-list">{availableVouchers.map((reward) => {
           const eligible = subtotal >= reward.minimumSubtotal;
           const selected = selectedVoucherId === reward.id && eligible;
@@ -2086,16 +2087,17 @@ function PointsPage() {
       <main className="subpage points-page">
         <Header title="Poin G-Beans" />
 
-        <section className="points-balance-card" aria-label={`Saldo ${points} poin`}>
+        <section className="points-balance-card" aria-label={`Saldo ${points.toLocaleString('id-ID')} PT, setara ${formatPrice(points)}`}>
           <span className="points-balance-icon"><Sparkles size={20} /></span>
           <div className="points-balance-copy">
             <span>G-BEANS MEMBER</span>
             <h2>Saldo poinmu</h2>
-            <p>Kumpulkan poin, tukar voucher, lalu gunakan saat checkout.</p>
+            <p>1 PT = Rp1. Gunakan saldo poin untuk menukar voucher diskon.</p>
           </div>
           <div className="points-balance-total">
             <strong>{points.toLocaleString('id-ID')}</strong>
             <span>PT</span>
+            <small>{formatPrice(points)}</small>
           </div>
         </section>
         <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan di browser ini.</p>
@@ -2110,7 +2112,7 @@ function PointsPage() {
             <span className="points-earn-icon"><Coffee size={20} /></span>
             <div className="points-earn-copy">
               <h3>Panen biji kopi</h3>
-              <p>Setiap panen di Mini Games menambah 10 poin ke saldo.</p>
+              <p>Setiap panen menambah 10 PT, setara Rp10.</p>
             </div>
             <div className="points-earn-rate"><strong>+10</strong><span>PT / panen</span></div>
             <button type="button" className="primary-button points-page-button" onClick={() => setLocation('/coffee-game')} data-testid="points-play-game">
@@ -2123,7 +2125,7 @@ function PointsPage() {
           <div className="points-section-heading">
             <span>HADIAH DISKON</span>
             <h2 id="points-rewards-title">Tukar poin dengan voucher</h2>
-            <p>Pilih hadiah sesuai saldo. Setiap voucher memiliki minimum belanja.</p>
+            <p>Biaya tukar 1 PT per Rp1 diskon. Setiap voucher memiliki minimum belanja.</p>
           </div>
           <div className="points-reward-grid">
             {webRewards.map((reward) => {
@@ -2141,7 +2143,11 @@ function PointsPage() {
                       <h3>{reward.title}</h3>
                       <p>Min. belanja {formatPrice(reward.minimumSubtotal)}</p>
                     </div>
-                    <div className="points-reward-cost"><strong>{reward.cost}</strong><span>PT</span></div>
+                    <div className="points-reward-cost">
+                      <strong>{reward.cost.toLocaleString('id-ID')}</strong>
+                      <span>PT</span>
+                      <small>{formatPrice(reward.cost)}</small>
+                    </div>
                   </div>
                   <button
                     type="button"
@@ -2197,7 +2203,7 @@ function PointsPage() {
 
 function CoffeeGamePage() {
   const { notify, points, addPoints } = useStore();
-  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN</span><strong>{points}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 poin.</p><button className="primary-button wide" onClick={() => { addPoints(10); notify('10 poin berhasil ditambahkan'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
+  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN · 1 PT = Rp1</span><strong>{points.toLocaleString('id-ID')}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 PT, setara Rp10.</p><button className="primary-button wide" onClick={() => { addPoints(10); notify('10 PT berhasil ditambahkan (Rp10)'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
 }
 
 function SimpleHubPage({ title, copy, icon: Icon }: { title: string; copy: string; icon: LucideIcon }) {

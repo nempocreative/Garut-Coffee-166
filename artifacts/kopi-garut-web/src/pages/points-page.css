@@ -81,6 +81,12 @@
   letter-spacing: .9px;
 }
 
+.points-balance-total small {
+  color: rgba(255, 249, 241, .8);
+  font-size: 8px;
+  font-weight: 800;
+}
+
 .points-storage-note {
   display: flex;
   align-items: center;
@@ -244,6 +250,12 @@
 .points-reward-cost span {
   font-size: 8px;
   font-weight: 900;
+}
+
+.points-reward-cost small {
+  color: hsl(var(--muted-foreground));
+  font-size: 7px;
+  font-weight: 700;
 }
 
 .points-reward-action {

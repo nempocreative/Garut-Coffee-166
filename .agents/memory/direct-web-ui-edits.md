@@ -79,4 +79,4 @@ Keep the accumulated points balance on the Garut Beans Web homepage, but put poi
 
 **Why:** The user asked to remove “Tukar hadiah” from the homepage panel, then asked the balance box to open a dedicated points page.
 
-**How to apply:** Keep the homepage panel balance-only and link it to the points page; explain earning and redemption there, then let customers apply active vouchers in the cart/checkout flow.
+**How to apply:** Keep the homepage panel balance-only and link it to the points page; explain earning and redemption there, then let customers apply active vouchers in the cart/checkout flow. The point value and voucher cost are 1 PT = Rp1.

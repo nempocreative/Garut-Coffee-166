@@ -1,21 +1,21 @@
 export const webRewards = [
   {
     id: 'discount-10k',
-    cost: 100,
+    cost: 10_000,
     amount: 10_000,
     minimumSubtotal: 100_000,
     title: 'Potongan Rp10.000',
   },
   {
     id: 'discount-25k',
-    cost: 220,
+    cost: 25_000,
     amount: 25_000,
     minimumSubtotal: 180_000,
     title: 'Potongan Rp25.000',
   },
   {
     id: 'discount-50k',
-    cost: 400,
+    cost: 50_000,
     amount: 50_000,
     minimumSubtotal: 300_000,
     title: 'Potongan Rp50.000',
