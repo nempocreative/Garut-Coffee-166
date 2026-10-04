@@ -357,3 +357,17 @@ mtime_ms = 1791151856584
 storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:d37d2525-ca21-4bd9-a884-e89b2eb7471d/8094efab-2fb4-4bca-b45f-13be55ed365e/2f277b56-4402-4641-b1f3-0b2afb5712df"
 storage_version_token = "1791151953806845"
 content_type = "image/webp"
+
+[[outputs]]
+id = "4m0I9yiKP3lTICY-TSAmB"
+uri = "file://artifacts/kopi-garut-web/public/assets/garut-beans-closed-gift-box-final.webp"
+type = "image"
+title = "Box tertutup Garut Beans — maskot Ayo Ngopi"
+description = "Desain kotak tertutup yang memakai maskot domba berkemeja biru dan memegang kopi dari poster Ayo Ngopi, dengan logo Garut Beans di tutup dan sisi depan."
+logical_id = "bca1294d-750c-44e9-a269-dad87515091d"
+content_hash = "sha256:ab4050bb4b571db6f7b33170b9b2f9563383773b7ed5fe33ddaf352b08cc6364"
+size = 246970
+mtime_ms = 1791152151840
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:d37d2525-ca21-4bd9-a884-e89b2eb7471d/bca1294d-750c-44e9-a269-dad87515091d/f02d4258-5891-421c-814b-3be6975566c6"
+storage_version_token = "1791152252847327"
+content_type = "image/webp"

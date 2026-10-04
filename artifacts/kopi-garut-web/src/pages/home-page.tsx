@@ -1015,7 +1015,7 @@ export default function HomePage({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
 }: HomePageProps) {
-  const [giftBoxIsClosed, setGiftBoxIsClosed] = useState(false);
+  const [giftBoxIsClosed, setGiftBoxIsClosed] = useState(true);
   const diversified = homeContent.diversifiedProducts.map((product) => ({
     ...product,
     image: getWebProductImage(product.id, product.image),
@@ -1068,8 +1068,8 @@ export default function HomePage({
                   <span className="gb-gift-closed-caption">KONSEP KEMASAN TERTUTUP</span>
                   <img
                     className="gb-gift-closed-image"
-                    src={`${import.meta.env.BASE_URL}assets/garut-beans-closed-gift-box-natural.webp`}
-                    alt="Konsep AI kemasan Garut Beans tertutup dengan maskot domba petani yang membawa kopi, nama merek, dan motif batik Garut."
+                    src={`${import.meta.env.BASE_URL}assets/garut-beans-closed-gift-box-final.webp`}
+                    alt="Konsep AI box tertutup dengan maskot domba Garut Beans berkemeja biru, memegang secangkir kopi, dan logo pada kotak."
                     loading="eager"
                   />
                 </div>

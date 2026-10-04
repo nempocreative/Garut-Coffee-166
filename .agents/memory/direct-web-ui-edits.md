@@ -75,11 +75,11 @@ For the Garut Beans gift-box visuals, arrange the original catalog products insi
 
 **How to apply:** Use the original product-photo pixels as cutouts over an empty gift-box backdrop, with the greeting card visible in the composition.
 
-For a closed gift-box concept, keep the Garut Beans box form and batik trim, and make the lid artwork echo the coffee bags with the Garut Beans name and a naturally integrated, hand-drawn sheep-farmer mascot carrying coffee; avoid a rigid badge-like layout.
+For a closed gift-box concept, keep the Garut Beans box form and batik trim, and make the lid artwork echo the coffee bags with the Garut Beans name and the Ayo Ngopi poster's white ram mascot in its blue branded shirt holding a coffee cup; avoid a rigid badge-like layout.
 
-**Why:** The user asked for an attractive AI-created closed-box view, then specified the coffee-bag-style lid artwork and mascot.
+**Why:** The user supplied the Ayo Ngopi poster as the exact mascot reference after rejecting a generic sheep design.
 
-**How to apply:** Use the real open-box photo as the structural reference and the existing coffee packaging as the style reference; blend the mascot and brand into the lid's illustration without replacing the box with unrelated packaging.
+**How to apply:** Use the real box photo as the structural reference and the poster as the mascot reference; blend the mascot and brand into the lid and front artwork without replacing the box with unrelated packaging.
 
 For the Garut Beans Web homepage, the location selector is for partner outlets where customers can try and order Garut Beans, not for customers' personal delivery addresses. Add personal delivery addresses during checkout.
 
