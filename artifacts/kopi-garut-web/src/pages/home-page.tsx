@@ -1065,34 +1065,36 @@ export default function HomePage({
               <img
                 className="gb-gift-teaser-backdrop"
                 src={`${import.meta.env.BASE_URL}assets/garut-beans-empty-gift-box.webp`}
-                alt="Box oleh-oleh Garut Beans terbuka dengan kemasan asli kopi Cikuray, cookies kopi, dan sabun scrub tersusun rapi bersama kartu ucapan."
+                alt="Box hadiah Garut Beans terbuka."
                 loading="eager"
               />
-              <span className="gb-gift-teaser-brand">GARUT <strong>BEANS</strong><small>DARI TANAH GARUT</small></span>
-              <div className="gb-gift-teaser-products" role="group" aria-label="Produk Paket A ditata di dalam box">
-                <img
-                  className="gb-gift-teaser-product gb-gift-teaser-product-cikuray"
-                  src={`${import.meta.env.BASE_URL}assets/gift-cikuray-cutout.webp`}
-                  alt="Kemasan asli Kopi Cikuray Series"
-                  loading="eager"
-                />
-                <img
-                  className="gb-gift-teaser-product gb-gift-teaser-product-cookies"
-                  src={`${import.meta.env.BASE_URL}assets/gift-cookies-cutout.webp`}
-                  alt="Kemasan asli Cookies Ampas Kopi"
-                  loading="eager"
-                />
-                <img
-                  className="gb-gift-teaser-product gb-gift-teaser-product-soap"
-                  src={`${import.meta.env.BASE_URL}assets/gift-soap-cutout.webp`}
-                  alt="Kemasan asli Sabun Scrub Kopi"
-                  loading="eager"
-                />
-              </div>
-              <div className="gb-gift-teaser-card" aria-label="Contoh kartu ucapan: Salam hangat dari Garut">
-                <small>SEBUAH PESAN KECIL</small>
-                <strong>Salam hangat<br />dari Garut</strong>
-                <span>Dengan cinta, Garut Beans</span>
+              <div className="gb-gift-teaser-stage">
+                <span className="gb-gift-teaser-brand">GARUT <strong>BEANS</strong><small>DARI TANAH GARUT</small></span>
+                <div className="gb-gift-teaser-products" role="group" aria-label="Produk Paket A ditata di dalam box">
+                  <img
+                    className="gb-gift-teaser-product gb-gift-teaser-product-cikuray"
+                    src={`${import.meta.env.BASE_URL}assets/gift-cikuray-cutout.webp`}
+                    alt="Kemasan asli Kopi Cikuray Series"
+                    loading="eager"
+                  />
+                  <img
+                    className="gb-gift-teaser-product gb-gift-teaser-product-cookies"
+                    src={`${import.meta.env.BASE_URL}assets/gift-cookies-cutout.webp`}
+                    alt="Kemasan asli Cookies Ampas Kopi"
+                    loading="eager"
+                  />
+                  <img
+                    className="gb-gift-teaser-product gb-gift-teaser-product-soap"
+                    src={`${import.meta.env.BASE_URL}assets/gift-soap-cutout.webp`}
+                    alt="Kemasan asli Sabun Scrub Kopi"
+                    loading="eager"
+                  />
+                </div>
+                <div className="gb-gift-teaser-card" aria-label="Contoh kartu ucapan: Salam hangat dari Garut">
+                  <small>SEBUAH PESAN KECIL</small>
+                  <strong>Salam hangat<br />dari Garut</strong>
+                  <span>Dengan cinta, Garut Beans</span>
+                </div>
               </div>
             </div>
             <div className="gb-gift-bundle-teaser-copy">

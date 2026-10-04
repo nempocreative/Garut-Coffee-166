@@ -9234,7 +9234,7 @@
 
 .gb-gift-bundle-teaser-visual {
   position: relative;
-  min-height: 320px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   isolation: isolate;
   background: #4e3729;
@@ -9243,8 +9243,8 @@
 .gb-gift-bundle-teaser-visual::after {
   position: absolute;
   z-index: 0;
-  inset: 35% 0 0;
-  background: linear-gradient(180deg, transparent, rgba(35, 24, 18, .56));
+  inset: 68% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(35, 24, 18, .3));
   content: "";
   pointer-events: none;
 }
@@ -9255,13 +9255,19 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 55%;
-  transition: transform .65s cubic-bezier(.2, .7, .2, 1);
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
 }
 
-.gb-gift-bundle-teaser:hover .gb-gift-bundle-teaser-visual > img {
-  transform: scale(1.035);
+.gb-gift-teaser-stage {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
 }
 
 .gb-gift-teaser-products {
@@ -9273,46 +9279,43 @@
 
 .gb-gift-teaser-product {
   position: absolute;
-  bottom: 7%;
+  bottom: 21%;
   display: block;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 8px rgba(31, 22, 15, .34));
+  filter: drop-shadow(0 7px 6px rgba(31, 22, 15, .32));
   transform-origin: center bottom;
 }
 
 .gb-gift-teaser-product-cikuray {
-  left: 39%;
-  bottom: 9%;
-  width: 22%;
-  max-height: 59%;
+  left: 34%;
+  width: 29%;
+  max-height: 49%;
   transform: rotate(-4deg);
 }
 
 .gb-gift-teaser-product-cookies {
-  left: 21%;
-  bottom: 8%;
-  width: 18%;
-  max-height: 43%;
-  transform: rotate(-3deg);
+  left: 13%;
+  width: 31%;
+  max-height: 40%;
+  transform: rotate(-2deg);
 }
 
 .gb-gift-teaser-product-soap {
-  left: 59%;
-  bottom: 10%;
-  width: 22%;
-  max-height: 34%;
+  left: 53%;
+  width: 31%;
+  max-height: 29%;
   transform: rotate(3deg);
 }
 
 .gb-gift-teaser-brand {
   position: absolute;
   z-index: 2;
-  top: 17px;
-  left: 17px;
+  top: 4%;
+  left: 4%;
   display: grid;
   gap: 1px;
-  padding: 8px 11px;
+  padding: 7px 9px;
   border: 1px solid rgba(255, 249, 239, .48);
   border-radius: 10px;
   color: #fff9ef;
@@ -9338,12 +9341,12 @@
 .gb-gift-teaser-card {
   position: absolute;
   z-index: 3;
-  top: 14%;
+  top: 6%;
   right: 5%;
   display: grid;
-  width: min(155px, 29%);
-  gap: 6px;
-  padding: 13px 15px 12px;
+  width: min(155px, 39%);
+  gap: 5px;
+  padding: 10px 11px 9px;
   transform: rotate(-3deg);
   border: 1px solid rgba(105, 76, 48, .18);
   border-radius: 3px 12px 3px 3px;
@@ -9373,14 +9376,14 @@
 
 .gb-gift-teaser-card strong {
   font-family: Georgia, serif;
-  font-size: 17px;
+  font-size: clamp(12px, 3vw, 16px);
   font-weight: 600;
   line-height: 1.08;
 }
 
 .gb-gift-teaser-card span {
   color: #7a6556;
-  font-size: 8px;
+  font-size: clamp(6px, 1.8vw, 8px);
   font-style: italic;
 }
 
@@ -9511,7 +9514,7 @@
   }
 
   .gb-gift-bundle-teaser-visual {
-    min-height: clamp(225px, 65vw, 300px);
+    aspect-ratio: 1 / 1;
   }
 
   .gb-gift-teaser-products {
@@ -9519,9 +9522,7 @@
   }
 
   .gb-gift-teaser-card {
-    right: 4%;
-    width: min(135px, 31%);
-    padding: 10px 11px 9px;
+    width: min(155px, 39%);
   }
 
   .gb-gift-bundle-teaser-copy {
@@ -9548,17 +9549,11 @@
 
 @media (max-width: 380px) {
   .gb-gift-bundle-teaser-visual {
-    min-height: 215px;
-  }
-
-  .gb-gift-teaser-card {
-    right: 4%;
-    width: min(122px, 31%);
-    padding: 8px 9px 7px;
+    aspect-ratio: 1 / 1;
   }
 
   .gb-gift-teaser-card strong {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .gb-gift-bundle-teaser-copy {
