@@ -483,7 +483,7 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
 function WebHomeRoute() {
   const [, setLocation] = useLocation();
   const {
-    favorites, addToCart, toggleFavorite, points, vouchers, redeemPoints, serviceMode, setServiceMode,
+    favorites, addToCart, toggleFavorite, points, serviceMode, setServiceMode,
     serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
   } = useStore();
@@ -495,8 +495,6 @@ function WebHomeRoute() {
       favorites={favorites}
       programHighlights={regularPrograms.slice(0, 2)}
       points={points}
-      vouchers={vouchers}
-      onRedeemReward={redeemPoints}
       serviceMode={serviceMode}
       onSelectService={setServiceMode}
       serviceLocationId={serviceLocationId}

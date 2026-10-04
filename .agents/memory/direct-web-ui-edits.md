@@ -68,3 +68,15 @@ For Garut Beans Web, keep photo and icon files lightweight, preserve their inten
 **Why:** The user explicitly asked that website photos and icons not be oversized or disrupt the layout, and that photos not suddenly disappear.
 
 **How to apply:** Prefer optimized image formats for Web assets, verify the mounted asset paths and responsive crops, and keep a local fallback for failed image loads.
+
+For the Garut Beans Web homepage, the location selector is for partner outlets where customers can try and order Garut Beans, not for customers' personal delivery addresses. Add personal delivery addresses during checkout.
+
+**Why:** The user clarified that homepage locations should represent partner outlets, while delivery addresses belong in checkout.
+
+**How to apply:** Show partner locations on the homepage in every service mode; use saved delivery addresses only in the cart/checkout flow.
+
+Keep the accumulated points balance on the Garut Beans Web homepage, but do not put reward redemption controls in the member/outlet panel. Voucher redemption belongs in the cart/checkout flow.
+
+**Why:** The user asked to remove “Tukar hadiah” from that homepage section.
+
+**How to apply:** Show the points total without reward options or redemption links in the homepage panel; preserve voucher redemption in the cart.

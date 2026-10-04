@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
-import { ArrowRight, Check, Coffee, Heart } from 'lucide-react';
+import { ArrowRight, Heart } from 'lucide-react';
 import {
   coffeeTours,
   farmers,
@@ -17,7 +17,6 @@ import { ServiceLocationPicker } from '../components/service-location-picker';
 import { getWebProductImage } from '../lib/web-product-images';
 import {
   serviceModes,
-  webRewards,
   type DeliveryAddress,
   type ServiceLocationId,
   type ServiceMode,
@@ -31,8 +30,6 @@ type HomePageProps = {
   favorites: string[];
   programHighlights: HomeProgramHighlight[];
   points: number;
-  vouchers: string[];
-  onRedeemReward: (rewardId: string) => void;
   serviceMode: ServiceMode;
   onSelectService: (mode: ServiceMode) => void;
   serviceLocationId: string;
@@ -925,8 +922,6 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
 
 function HomeMemberPanel({
   points,
-  vouchers,
-  onRedeemReward,
   serviceMode,
   serviceLocationId,
   deliveryAddresses,
@@ -936,11 +931,8 @@ function HomeMemberPanel({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
   onSelectService,
-  onNavigate,
 }: Pick<HomePageProps,
   | 'points'
-  | 'vouchers'
-  | 'onRedeemReward'
   | 'serviceMode'
   | 'onSelectService'
   | 'serviceLocationId'
@@ -950,7 +942,6 @@ function HomeMemberPanel({
   | 'onSelectDeliveryAddress'
   | 'onAddDeliveryAddress'
   | 'onRemoveDeliveryAddress'
-  | 'onNavigate'
 >) {
   return (
     <section className="gb-member-order-area" aria-label="Poin, outlet, dan layanan">
@@ -974,7 +965,6 @@ function HomeMemberPanel({
         onSelectDeliveryAddress={onSelectDeliveryAddress}
         onAddDeliveryAddress={onAddDeliveryAddress}
         onRemoveDeliveryAddress={onRemoveDeliveryAddress}
-        allowAddressCreation={false}
       />
 
       <div className="gb-service-inline">
@@ -994,38 +984,6 @@ function HomeMemberPanel({
         </div>
       </div>
 
-      <details className="gb-rewards-disclosure">
-        <summary data-testid="home-rewards-toggle">Potongan poin <span>Tukar hadiah</span></summary>
-        <div className="gb-rewards-panel">
-          <div className="gb-reward-heading">
-            <span>Hadiah diskon</span>
-            <button type="button" onClick={() => onNavigate('/coffee-game')} data-testid="home-earn-points">Main Games <ArrowRight size={13} /></button>
-          </div>
-          <div className="gb-reward-options">
-            {webRewards.map((reward) => {
-              const owned = vouchers.includes(reward.id);
-              const canRedeem = points >= reward.cost;
-              const ActionIcon = owned ? Check : canRedeem ? ArrowRight : Coffee;
-              return <article className={`gb-reward-option ${owned ? 'owned' : ''}`} key={reward.id}>
-                <strong>{reward.title.replace('Potongan ', '')}</strong>
-                <small>{reward.cost} PT · min. {formatPrice(reward.minimumSubtotal)}</small>
-                <button
-                  type="button"
-                  className={canRedeem || owned ? 'available' : ''}
-                  onClick={() => owned ? onNavigate('/cart') : canRedeem ? onRedeemReward(reward.id) : onNavigate('/coffee-game')}
-                  aria-label={owned ? `Gunakan ${reward.title} di keranjang` : canRedeem ? `Tukar ${reward.title}` : `Kumpulkan poin untuk ${reward.title}`}
-                  data-testid={`home-redeem-${reward.id}`}
-                >
-                  {owned ? 'Gunakan' : canRedeem ? 'Tukar' : `Kurang ${reward.cost - points} PT`} <ActionIcon size={12} />
-                </button>
-              </article>;
-            })}
-          </div>
-          {vouchers.length > 0 && <button type="button" className="gb-active-voucher-link" onClick={() => onNavigate('/cart')} data-testid="home-active-vouchers">
-            {vouchers.length} voucher aktif · gunakan di keranjang <ArrowRight size={13} />
-          </button>}
-        </div>
-      </details>
     </section>
   );
 }
@@ -1037,8 +995,6 @@ export default function HomePage({
   favorites,
   programHighlights,
   points,
-  vouchers,
-  onRedeemReward,
   serviceMode,
   onSelectService,
   serviceLocationId,
@@ -1071,8 +1027,6 @@ export default function HomePage({
           <SearchEntry onNavigate={onNavigate} />
           <HomeMemberPanel
             points={points}
-            vouchers={vouchers}
-            onRedeemReward={onRedeemReward}
             serviceMode={serviceMode}
             onSelectService={onSelectService}
             serviceLocationId={serviceLocationId}
@@ -1082,7 +1036,6 @@ export default function HomePage({
             onSelectDeliveryAddress={onSelectDeliveryAddress}
             onAddDeliveryAddress={onAddDeliveryAddress}
             onRemoveDeliveryAddress={onRemoveDeliveryAddress}
-            onNavigate={onNavigate}
           />
           <PromoCarousel onNavigate={onNavigate} />
           <CategoryTiles onNavigate={onNavigate} />

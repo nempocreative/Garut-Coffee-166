@@ -18,7 +18,6 @@ type ServiceLocationPickerProps = {
   onAddDeliveryAddress: (label: string, address: string) => void;
   onRemoveDeliveryAddress: (id: string) => void;
   variant?: 'home' | 'cart';
-  allowAddressCreation?: boolean;
 };
 
 export function ServiceLocationPicker({
@@ -31,7 +30,6 @@ export function ServiceLocationPicker({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
   variant = 'home',
-  allowAddressCreation = true,
 }: ServiceLocationPickerProps) {
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [addressLabel, setAddressLabel] = useState('');
@@ -40,6 +38,7 @@ export function ServiceLocationPicker({
   const selectedLocation = serviceLocations.find((location) => location.id === selectedLocationId)
     ?? serviceLocations[0];
   const selectedAddress = deliveryAddresses.find((item) => item.id === selectedDeliveryAddressId);
+  const usesDeliveryAddress = variant === 'cart' && isDelivery;
 
   const handleAddAddress = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,19 +56,19 @@ export function ServiceLocationPicker({
       <div className="gb-outlet-row">
         <span className="gb-outlet-icon" aria-hidden="true"><MapPin size={17} /></span>
         <label className="gb-outlet-copy">
-          <small>{isDelivery ? 'ALAMAT DELIVERY' : 'OUTLET MITRA'}</small>
+          <small>{usesDeliveryAddress ? 'ALAMAT DELIVERY' : variant === 'home' ? 'OUTLET MITRA · COBA & PESAN' : 'OUTLET MITRA'}</small>
           <span className="gb-location-select-wrap">
-            {isDelivery ? (
+            {usesDeliveryAddress ? (
               <select
                 className="gb-location-select"
                 value={selectedAddress?.id ?? ''}
                 onChange={(event) => onSelectDeliveryAddress(event.target.value)}
-                aria-label="Pilih alamat Delivery"
+                aria-label="Pilih alamat pengantaran"
                 aria-describedby={`location-detail-${variant}`}
                 disabled={!deliveryAddresses.length}
                 data-testid={`${variant}-delivery-address-select`}
               >
-                <option value="">Pilih alamat Delivery</option>
+                <option value="">Pilih alamat pengantaran</option>
                 {deliveryAddresses.map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}
               </select>
             ) : (
@@ -77,7 +76,7 @@ export function ServiceLocationPicker({
                 className="gb-location-select"
                 value={selectedLocation.id}
                 onChange={(event) => onSelectLocation(event.target.value as ServiceLocationId)}
-                aria-label="Pilih outlet untuk Pickup atau Dine In"
+                aria-label={variant === 'home' ? 'Pilih outlet mitra Garut Beans' : 'Pilih outlet untuk Pickup atau Dine In'}
                 aria-describedby={`location-detail-${variant}`}
                 data-testid={`${variant}-partner-location-select`}
               >
@@ -87,12 +86,12 @@ export function ServiceLocationPicker({
             <ChevronDown size={16} aria-hidden="true" />
           </span>
           <span className="gb-location-detail" id={`location-detail-${variant}`}>
-            {isDelivery
-              ? selectedAddress?.address ?? (allowAddressCreation ? 'Tambahkan alamat tujuan pengantaran.' : 'Tambahkan alamat saat checkout.')
+            {usesDeliveryAddress
+              ? selectedAddress?.address ?? 'Tambahkan alamat tujuan pengantaran.'
               : selectedLocation.area}
           </span>
         </label>
-        {isDelivery ? (
+        {usesDeliveryAddress ? (
           selectedAddress ? (
             <button
               type="button"
@@ -106,7 +105,7 @@ export function ServiceLocationPicker({
         ) : null}
       </div>
 
-      {isDelivery && allowAddressCreation && !isAddingAddress && (
+      {usesDeliveryAddress && !isAddingAddress && (
         <button
           type="button"
           className="gb-add-address-button"
@@ -115,7 +114,7 @@ export function ServiceLocationPicker({
         ><Plus size={14} /> Tambah alamat</button>
       )}
 
-      {isDelivery && allowAddressCreation && isAddingAddress && (
+      {usesDeliveryAddress && isAddingAddress && (
         <form className="gb-address-form" onSubmit={handleAddAddress}>
           <label>
             <span>Nama alamat</span>
