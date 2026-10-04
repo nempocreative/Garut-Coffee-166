@@ -2081,6 +2081,8 @@ function PointsPage() {
   const [, setLocation] = useLocation();
   const { points, vouchers, redeemPoints } = useStore();
   const activeRewards = webRewards.filter((reward) => vouchers.includes(reward.id));
+  const nextReward = webRewards.find((reward) => points < reward.cost);
+  const nextRewardProgress = nextReward ? Math.min(100, Math.round((points / nextReward.cost) * 100)) : 100;
 
   return (
     <Page>
@@ -2088,16 +2090,47 @@ function PointsPage() {
         <Header title="Poin G-Beans" />
 
         <section className="points-balance-card" aria-label={`Saldo ${points.toLocaleString('id-ID')} PT, setara ${formatPrice(points)}`}>
-          <span className="points-balance-icon"><Sparkles size={20} /></span>
-          <div className="points-balance-copy">
-            <span>G-BEANS MEMBER</span>
-            <h2>Saldo poinmu</h2>
-            <p>1 PT = Rp1. Gunakan saldo poin untuk menukar voucher diskon.</p>
+          <div className="points-balance-overview">
+            <div className="points-balance-topline">
+              <span className="points-balance-icon"><Sparkles size={19} /></span>
+              <span className="points-balance-eyebrow">G-BEANS REWARDS</span>
+              <span className="points-rate-chip">1 PT = Rp1</span>
+            </div>
+            <div className="points-balance-copy">
+              <span>Saldo poinmu</span>
+              <div className="points-balance-total">
+                <strong>{points.toLocaleString('id-ID')}</strong>
+                <span>PT</span>
+              </div>
+              <p>Nilai saldo setara <strong>{formatPrice(points)}</strong></p>
+            </div>
           </div>
-          <div className="points-balance-total">
-            <strong>{points.toLocaleString('id-ID')}</strong>
-            <span>PT</span>
-            <small>{formatPrice(points)}</small>
+
+          <div className="points-next-reward">
+            <div className="points-progress-heading">
+              <span>HADIAH BERIKUTNYA</span>
+              <strong>{nextReward ? `${nextRewardProgress}%` : 'Siap'}</strong>
+            </div>
+            <h3>{nextReward ? nextReward.title : 'Semua voucher terbuka'}</h3>
+            <p>
+              {nextReward
+                ? `Kumpulkan ${ (nextReward.cost - points).toLocaleString('id-ID') } PT lagi untuk menukar.`
+                : 'Saldo poinmu cukup untuk semua pilihan voucher.'}
+            </p>
+            <div
+              className="points-progress-track"
+              role="progressbar"
+              aria-label={nextReward ? `Progress menuju ${nextReward.title}` : 'Progress poin'}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={nextRewardProgress}
+            >
+              <span style={{ width: `${nextRewardProgress}%` }} />
+            </div>
+            <div className="points-progress-labels">
+              <span>{points.toLocaleString('id-ID')} PT</span>
+              <span>{nextReward ? `${nextReward.cost.toLocaleString('id-ID')} PT` : 'Semua hadiah'}</span>
+            </div>
           </div>
         </section>
         <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan di browser ini.</p>
@@ -2136,17 +2169,22 @@ function PointsPage() {
 
               return (
                 <article className={`points-reward-card ${owned ? 'is-owned' : ''}`} key={reward.id}>
-                  <div className="points-reward-top">
+                  <div className="points-reward-head">
                     <span className="points-reward-icon"><Wallet size={18} /></span>
+                    <span className="points-reward-kicker">VOUCHER G-BEANS</span>
+                    <span className={`points-reward-status ${owned ? 'is-owned' : canRedeem ? 'is-ready' : ''}`}>
+                      {owned ? 'Tersimpan' : canRedeem ? 'Siap ditukar' : 'Belum cukup'}
+                    </span>
+                  </div>
+                  <div className="points-reward-top">
                     <div className="points-reward-copy">
-                      <span>VOUCHER DISKON</span>
                       <h3>{reward.title}</h3>
                       <p>Min. belanja {formatPrice(reward.minimumSubtotal)}</p>
                     </div>
                     <div className="points-reward-cost">
                       <strong>{reward.cost.toLocaleString('id-ID')}</strong>
                       <span>PT</span>
-                      <small>{formatPrice(reward.cost)}</small>
+                      <small>= {formatPrice(reward.cost)}</small>
                     </div>
                   </div>
                   <button
