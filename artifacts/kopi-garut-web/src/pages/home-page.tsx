@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import {
-  coffeeCatalog,
   coffeeTours,
   farmers,
   homeContent,
@@ -9,9 +8,11 @@ import {
   type HomeIconName,
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
+import { webCoffeeCatalog } from '../lib/coffee-catalog';
 import { AppIcon, AppNavGlyph } from '../components/app-icon';
 import { MenuIllustration } from '../components/menu-illustration';
 import { SiteFooter } from '../components/site-footer';
+import { getWebProductImage } from '../lib/web-product-images';
 import './home-page.css';
 
 type HomePageProps = {
@@ -417,7 +418,7 @@ function DiversifiedCard({ product, onNavigate, onAddToCart }: { product: typeof
     <article className="gb-diversified-card" data-testid={`card-diversified-${product.id}`}>
       <button className="gb-diversified-main" onClick={() => onNavigate('/diversification')} data-testid={`button-diversified-${product.id}`}>
         <span className="gb-diversified-image">
-          <img src={asset(product.image)} alt={product.title} data-testid={`img-diversified-${product.id}`} />
+          <img src={asset(getWebProductImage(product.id, product.image))} alt={product.title} data-testid={`img-diversified-${product.id}`} />
           <span>{product.badge}</span>
         </span>
         <span className="gb-diversified-body">
@@ -767,16 +768,16 @@ function CoffeeFinder({ onNavigate }: { onNavigate: (path: string) => void }) {
   const [priceRange, setPriceRange] = useState<keyof typeof coffeePriceRanges | ''>('');
   const [recommendedCoffeeId, setRecommendedCoffeeId] = useState<string | null>(null);
 
-  const recommendedCoffee = coffeeCatalog.find((coffee) => coffee.id === recommendedCoffeeId);
+  const recommendedCoffee = webCoffeeCatalog.find((coffee) => coffee.id === recommendedCoffeeId);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!taste || !brew || !priceRange) return;
 
     const profile = coffeeTasteProfiles[taste];
-    const priceMatches = coffeeCatalog.filter((coffee) => coffeePriceRanges[priceRange].test(coffee.price));
+    const priceMatches = webCoffeeCatalog.filter((coffee) => coffeePriceRanges[priceRange].test(coffee.price));
     const bestMatch = [...priceMatches].sort((a, b) => {
-      const score = (coffee: typeof coffeeCatalog[number]) => {
+      const score = (coffee: typeof webCoffeeCatalog[number]) => {
         const notes = coffee.tastingNotes.join(' ').toLocaleLowerCase('id-ID');
         const categoryScore = (profile.categories as readonly string[]).includes(coffee.category) ? 8 : 0;
         const noteScore = profile.notes.reduce((total, note) => total + (notes.includes(note) ? 2 : 0), 0);
@@ -809,7 +810,7 @@ function CoffeeFinder({ onNavigate }: { onNavigate: (path: string) => void }) {
           <span>Metode seduh</span>
           <select value={brew} onChange={(event) => { setBrew(event.target.value); setRecommendedCoffeeId(null); }} required aria-label="Pilih metode seduh" data-testid="select-coffee-brew">
             <option value="" disabled>Pilih metode</option>
-            {[...new Set(coffeeCatalog.map((coffee) => coffee.recommendedBrew))].map((method) => <option key={method} value={method}>{method}</option>)}
+            {[...new Set(webCoffeeCatalog.map((coffee) => coffee.recommendedBrew))].map((method) => <option key={method} value={method}>{method}</option>)}
           </select>
         </label>
         <label className="gb-coffee-finder-field">
@@ -902,10 +903,13 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
 }
 
 export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites, programHighlights }: HomePageProps) {
-  const diversified = homeContent.diversifiedProducts;
-  const firstCoffees = coffeeCatalog.slice(0, 10);
+  const diversified = homeContent.diversifiedProducts.map((product) => ({
+    ...product,
+    image: getWebProductImage(product.id, product.image),
+  }));
+  const firstCoffees = webCoffeeCatalog.slice(0, 10);
   const weeklyBrewGuides = getWeeklyBrewRecipes(new Date()).map((recipe, index) => {
-    const coffee = coffeeCatalog.find((item) => item.id === recipe.coffeeId);
+    const coffee = webCoffeeCatalog.find((item) => item.id === recipe.coffeeId);
     if (!coffee) throw new Error(`The weekly brew coffee ${recipe.coffeeId} is missing from the catalog.`);
     if (coffee.recommendedBrew !== recipe.method) {
       throw new Error(`The weekly brew method for ${coffee.name} no longer matches the catalog.`);

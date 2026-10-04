@@ -9,7 +9,6 @@ import {
   authSessionStorageKey,
   brandTokens,
   canAccessRoute,
-  coffeeCatalog,
   getRoleProfile,
   roleProfiles,
   farmers,
@@ -22,6 +21,8 @@ import {
   type RoleProfile,
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
+import { webCoffeeCatalog } from '@/lib/coffee-catalog';
+import { getWebProductImage } from '@/lib/web-product-images';
 import HomePage from '@/pages/home-page';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
@@ -79,10 +80,14 @@ const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filenam
 
 type Coffee = Omit<SharedCoffee, 'image' | 'tastingNotes'> & { notes: string[]; image: string };
 
-const coffees: Coffee[] = coffeeCatalog.map(({ tastingNotes, image, ...coffee }) => ({
+const coffees: Coffee[] = webCoffeeCatalog.map(({ tastingNotes, image, ...coffee }) => ({
   ...coffee,
   notes: tastingNotes,
   image: asset(image),
+}));
+const webDiversifiedProducts = diversifiedProducts.map((product) => ({
+  ...product,
+  image: getWebProductImage(product.id, product.image),
 }));
 
 const traceabilityLot = {
@@ -499,7 +504,7 @@ function ProductDetailPage() {
   const [, setLocation] = useLocation();
   const [quantity, setQuantity] = useState(1);
   const saved = favorites.includes(coffee.id);
-  return <Page><main className="subpage"><div className="detail-image"><img src={coffee.image} alt={coffee.name} /><button className="back-button" onClick={() => setLocation('/catalog')} aria-label="Kembali ke katalog" data-testid="button-detail-back"><ArrowLeft size={18} /></button><button className={`fav-button ${saved ? 'saved' : ''}`} onClick={() => toggleFavorite(coffee.id)} aria-label="Simpan favorit" data-testid="button-detail-favorite"><Heart size={18} fill={saved ? 'currentColor' : 'none'} /></button></div><div className="detail-copy"><div className="detail-series">{coffee.origin} · {coffee.process}</div><h1 className="detail-name">{coffee.name}</h1><p className="detail-tagline">{coffee.tagline}</p><div className="detail-price">{formatPrice(coffee.price)} <small>/ 200g</small></div><div className="stat-row"><div className="stat"><b>{coffee.roast}</b><span>Sangrai</span></div><div className="stat"><b>{coffee.process}</b><span>Proses</span></div><div className="stat"><b>{coffee.altitude}</b><span>Ketinggian</span></div></div><p className="detail-description">{coffee.description}</p><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><div className="sticky-buy"><div className="quantity"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Kurangi jumlah" data-testid="button-detail-minus"><Minus size={14} /></button><b data-testid="text-detail-quantity">{quantity}</b><button onClick={() => setQuantity((value) => value + 1)} aria-label="Tambah jumlah" data-testid="button-detail-plus"><Plus size={14} /></button></div><button className="primary-button" onClick={() => addToCart(coffee.id, quantity)} data-testid="button-detail-add">Tambah ke keranjang</button></div></div></main></Page>;
+  return <Page><main className="subpage"><div className={`detail-image ${coffee.id === 'garut-house-blend' ? 'detail-image-origin-selection' : ''}`}><img src={coffee.image} alt={coffee.name} /><button className="back-button" onClick={() => setLocation('/catalog')} aria-label="Kembali ke katalog" data-testid="button-detail-back"><ArrowLeft size={18} /></button><button className={`fav-button ${saved ? 'saved' : ''}`} onClick={() => toggleFavorite(coffee.id)} aria-label="Simpan favorit" data-testid="button-detail-favorite"><Heart size={18} fill={saved ? 'currentColor' : 'none'} /></button></div><div className="detail-copy"><div className="detail-series">{coffee.origin} · {coffee.process}</div><h1 className="detail-name">{coffee.name}</h1><p className="detail-tagline">{coffee.tagline}</p><div className="detail-price">{formatPrice(coffee.price)} <small>/ 200g</small></div><div className="stat-row"><div className="stat"><b>{coffee.roast}</b><span>Sangrai</span></div><div className="stat"><b>{coffee.process}</b><span>Proses</span></div><div className="stat"><b>{coffee.altitude}</b><span>Ketinggian</span></div></div><p className="detail-description">{coffee.description}</p><div className="taste-list">{coffee.notes.map((note) => <span className="taste" key={note}>{note}</span>)}</div><div className="sticky-buy"><div className="quantity"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Kurangi jumlah" data-testid="button-detail-minus"><Minus size={14} /></button><b data-testid="text-detail-quantity">{quantity}</b><button onClick={() => setQuantity((value) => value + 1)} aria-label="Tambah jumlah" data-testid="button-detail-plus"><Plus size={14} /></button></div><button className="primary-button" onClick={() => addToCart(coffee.id, quantity)} data-testid="button-detail-add">Tambah ke keranjang</button></div></div></main></Page>;
 }
 
 function CartPage() {
@@ -1028,12 +1033,12 @@ function HubPage({ kind }: { kind: string }) {
     tourism: { eyebrow: 'PENGALAMAN KOPI', title: 'Seduh sambil menjelajah.', copy: 'Datang ke kebun, belajar prosesnya, lalu nikmati seduhan dari asalnya.', image: 'kopi-garut-seduh-sambil-menjelajah-banner.webp' },
     events: { eyebrow: 'AGENDA KOPI', title: 'Temu, belajar, dan mencicipi.', copy: 'Kalender pertemuan petani, roastery, barista, dan pecinta Garut Beans.', image: 'event-coffee-festival.webp' },
     partnership: { eyebrow: 'DARI KEBUN GARUT', title: 'Bawa cerita kopi ke lebih banyak meja.', copy: 'Jadikan usahamu bagian dari perjalanan Garut Beans.', image: 'kopi-garut-promo-banner.webp' },
-    diversification: { eyebrow: 'LEBIH DARI SECANGKIR', title: 'Dari kopi, lahir lebih banyak karya.', copy: 'Produk olahan, aroma, perawatan, dan merchandise dari ekosistem Garut.', image: 'coffee-essential-oil.webp' },
+    diversification: { eyebrow: 'LEBIH DARI SECANGKIR', title: 'Dari kopi, lahir lebih banyak karya.', copy: 'Produk olahan, aroma, perawatan, dan merchandise dari ekosistem Garut.', image: getWebProductImage('essential-oil-kopi', 'coffee-essential-oil.webp') },
   };
   const content = cfg[kind];
   const filteredFarmers = farmers.filter((farmer) => `${farmer.name} ${farmer.group} ${farmer.location}`.toLowerCase().includes(query.toLowerCase()));
   const filteredRegions = regions.filter((region) => `${region.name} ${region.village} ${region.specialty}`.toLowerCase().includes(query.toLowerCase()));
-  const filteredProducts = diversifiedProducts.filter((product) => `${product.title} ${product.category}`.toLowerCase().includes(query.toLowerCase()));
+  const filteredProducts = webDiversifiedProducts.filter((product) => `${product.title} ${product.category}`.toLowerCase().includes(query.toLowerCase()));
   const orderedEvents = [...sharedHomeContent.stories].sort((a, b) => eventTimestamp(a.date) - eventTimestamp(b.date));
   const eventFilters = ['Semua', ...Array.from(new Set(orderedEvents.map((event) => event.type)))];
   const visibleEvents = eventFilter === 'Semua' ? orderedEvents : orderedEvents.filter((event) => event.type === eventFilter);

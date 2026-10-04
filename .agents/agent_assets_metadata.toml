@@ -133,3 +133,73 @@ mtime_ms = 1790536803631
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:0b783b00-808b-4493-ba87-86c224276315/650cd0c7-4616-4107-ba6d-777a71aef94f/56fa4965-be4f-443f-96ae-adf7ad8ab5ae"
 storage_version_token = "1790536804984174"
 content_type = "image/png"
+
+[[outputs]]
+id = "OsfCmbNqCcG2KIDkysLgH"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-essential-oil-garut-beans.png"
+type = "image"
+title = "Essential Oil Kopi — Garut Beans"
+description = "Visual konsep produk fotorealistik dengan identitas kemasan Garut Beans, tersedia sebagai PNG 1024 × 1024."
+logical_id = "53b786cf-08fa-41cc-92f8-cf8eca8cb50a"
+content_hash = "sha256:fcdf9efc56dd2821632d4bb86f0a060ab5367c7a645f008851ec628e9e6bc971"
+size = 1432630
+mtime_ms = 1791099124655
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/53b786cf-08fa-41cc-92f8-cf8eca8cb50a/a5152c02-fd64-45cd-8d1b-7f7b40e7bf4d"
+storage_version_token = "1791099279945953"
+content_type = "image/png"
+
+[[outputs]]
+id = "RWrdMIR_dpmYNCN5QZJ6e"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-shoe-deodorizer-garut-beans.png"
+type = "image"
+title = "Pewangi Sepatu Kopi — Garut Beans"
+description = "Konsep foto produk fotorealistik dengan label Garut Beans dan kemasan kraft, PNG 1024 × 1024."
+logical_id = "bc750881-6838-44fc-afbd-7fe368be4045"
+content_hash = "sha256:c76d7278589b9042f86e9f6101f5c24fb9c3d37f7351d98cc343d3e06399a51b"
+size = 1697283
+mtime_ms = 1791099347258
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/bc750881-6838-44fc-afbd-7fe368be4045/c4e3be20-da22-420a-a786-c6a90b63f6af"
+storage_version_token = "1791099425335139"
+content_type = "image/png"
+
+[[outputs]]
+id = "70y82DJpz04gmkIz7UsQT"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-aroma-oil-garut-beans.png"
+type = "image"
+title = "Minyak Aroma Kopi — Garut Beans"
+description = "Konsep foto produk fotorealistik dengan botol amber dan kemasan kraft Garut Beans, PNG 1024 × 1024."
+logical_id = "b757cc07-df19-49c9-9cca-78156a703551"
+content_hash = "sha256:c1e43b8077a46fc0a9b5d5a7642f6ac014af4e6110066842b76b3e4686e94cf7"
+size = 1585432
+mtime_ms = 1791099495151
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/b757cc07-df19-49c9-9cca-78156a703551/3900eee1-2455-4191-9ab6-4e577cc35582"
+storage_version_token = "1791099569948319"
+content_type = "image/png"
+
+[[outputs]]
+id = "E82F5KZWq5qUME3dwqOtl"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-concentrate-garut-beans.png"
+type = "image"
+title = "Konsentrat Kopi Gula Aren — Garut Beans"
+description = "Konsep foto produk fotorealistik dalam botol amber dengan kemasan kraft Garut Beans, PNG 1024 × 1024."
+logical_id = "b0b3709f-3652-42ae-ac30-b4ce4eb3460f"
+content_hash = "sha256:7ecc435d563eb891ca520edea70ad0ae47b1b6a407ef367f312eb17181bcb4d9"
+size = 1669800
+mtime_ms = 1791099653644
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/b0b3709f-3652-42ae-ac30-b4ce4eb3460f/e83a1d91-e5d5-4fb2-bb25-6c744c45b183"
+storage_version_token = "1791099717185080"
+content_type = "image/png"
+
+[[outputs]]
+id = "9Q43dYgbxYhdSGH-J3ZdN"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-cookies-garut-beans.png"
+type = "image"
+title = "Cookies Ampas Kopi — Garut Beans"
+description = "Konsep foto produk fotorealistik dalam pouch kraft berjendela, PNG 1024 × 1024."
+logical_id = "3be7afae-b283-47a9-a168-e213ec2854fd"
+content_hash = "sha256:7dcdbb55a8dd6e0055dc8d985efda899872158e4839f56b36da5b9a58c47c664"
+size = 1899561
+mtime_ms = 1791099783158
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/3be7afae-b283-47a9-a168-e213ec2854fd/0c15ee48-c0e7-4349-bf17-fac300f22d66"
+storage_version_token = "1791099851378361"
+content_type = "image/png"
