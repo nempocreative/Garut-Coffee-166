@@ -18,6 +18,7 @@ type ServiceLocationPickerProps = {
   onAddDeliveryAddress: (label: string, address: string) => void;
   onRemoveDeliveryAddress: (id: string) => void;
   variant?: 'home' | 'cart';
+  allowAddressCreation?: boolean;
 };
 
 export function ServiceLocationPicker({
@@ -30,6 +31,7 @@ export function ServiceLocationPicker({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
   variant = 'home',
+  allowAddressCreation = true,
 }: ServiceLocationPickerProps) {
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [addressLabel, setAddressLabel] = useState('');
@@ -86,7 +88,7 @@ export function ServiceLocationPicker({
           </span>
           <span className="gb-location-detail" id={`location-detail-${variant}`}>
             {isDelivery
-              ? selectedAddress?.address ?? 'Tambahkan alamat tujuan pengantaran.'
+              ? selectedAddress?.address ?? (allowAddressCreation ? 'Tambahkan alamat tujuan pengantaran.' : 'Tambahkan alamat saat checkout.')
               : selectedLocation.area}
           </span>
         </label>
@@ -104,7 +106,7 @@ export function ServiceLocationPicker({
         ) : null}
       </div>
 
-      {isDelivery && !isAddingAddress && (
+      {isDelivery && allowAddressCreation && !isAddingAddress && (
         <button
           type="button"
           className="gb-add-address-button"
@@ -113,7 +115,7 @@ export function ServiceLocationPicker({
         ><Plus size={14} /> Tambah alamat</button>
       )}
 
-      {isAddingAddress && (
+      {isDelivery && allowAddressCreation && isAddingAddress && (
         <form className="gb-address-form" onSubmit={handleAddAddress}>
           <label>
             <span>Nama alamat</span>

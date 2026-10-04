@@ -952,18 +952,6 @@ function HomeMemberPanel({
   | 'onRemoveDeliveryAddress'
   | 'onNavigate'
 >) {
-  const readyReward = webRewards.find((reward) => !vouchers.includes(reward.id) && points >= reward.cost);
-  const nextReward = webRewards.find((reward) => !vouchers.includes(reward.id) && points < reward.cost);
-  const progressTarget = readyReward ?? nextReward;
-  const progress = progressTarget ? Math.min(100, Math.round((points / progressTarget.cost) * 100)) : 100;
-  const progressCopy = readyReward
-    ? `${readyReward.title} siap ditukar`
-    : nextReward
-      ? `Tambah ${nextReward.cost - points} PT untuk diskon ${formatPrice(nextReward.amount)}`
-      : vouchers.length
-        ? 'Gunakan voucher aktifmu di keranjang'
-        : 'Semua hadiah poin sudah ditukar';
-
   return (
     <section className="gb-member-order-area" aria-label="Poin, outlet, dan layanan">
       <div className="gb-member-summary">
@@ -972,23 +960,9 @@ function HomeMemberPanel({
           <span><small>G-BEANS MEMBER</small><strong>Member Garut Beans</strong></span>
         </div>
         <div className="gb-member-points" aria-label={`${points} poin`}>
-          <strong>{points.toLocaleString('id-ID')}</strong><span>PT</span>
+          <span className="gb-member-points-label">POIN TERKUMPUL</span>
+          <span className="gb-member-points-value"><strong>{points.toLocaleString('id-ID')}</strong><span>PT</span></span>
         </div>
-      </div>
-
-      <div className="gb-member-progress">
-        <div className="gb-member-progress-copy">
-          <span>Progres hadiah</span>
-          <strong>{progressCopy}</strong>
-        </div>
-        <div
-          className="gb-member-progress-track"
-          role="progressbar"
-          aria-label="Progres menuju hadiah poin berikutnya"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-        ><span style={{ width: `${progress}%` }} /></div>
       </div>
 
       <ServiceLocationPicker
@@ -1000,6 +974,7 @@ function HomeMemberPanel({
         onSelectDeliveryAddress={onSelectDeliveryAddress}
         onAddDeliveryAddress={onAddDeliveryAddress}
         onRemoveDeliveryAddress={onRemoveDeliveryAddress}
+        allowAddressCreation={false}
       />
 
       <div className="gb-service-inline">
