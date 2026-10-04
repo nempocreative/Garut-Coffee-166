@@ -931,8 +931,10 @@ function HomeMemberPanel({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
   onSelectService,
+  onNavigate,
 }: Pick<HomePageProps,
   | 'points'
+  | 'onNavigate'
   | 'serviceMode'
   | 'onSelectService'
   | 'serviceLocationId'
@@ -950,10 +952,17 @@ function HomeMemberPanel({
           <span className="gb-member-heart"><Heart size={17} fill="currentColor" /></span>
           <span><small>G-BEANS MEMBER</small><strong>Member Garut Beans</strong></span>
         </div>
-        <div className="gb-member-points" aria-label={`${points} poin`}>
-          <span className="gb-member-points-label">POIN TERKUMPUL</span>
+        <button
+          type="button"
+          className="gb-member-points"
+          onClick={() => onNavigate('/points')}
+          aria-label={`Lihat detail poin. Saldo ${points} poin`}
+          title="Lihat detail poin dan hadiah"
+          data-testid="home-points-button"
+        >
+          <span className="gb-member-points-label">POIN TERKUMPUL <ArrowRight size={10} aria-hidden="true" /></span>
           <span className="gb-member-points-value"><strong>{points.toLocaleString('id-ID')}</strong><span>PT</span></span>
-        </div>
+        </button>
       </div>
 
       <ServiceLocationPicker
@@ -1036,6 +1045,7 @@ export default function HomePage({
             onSelectDeliveryAddress={onSelectDeliveryAddress}
             onAddDeliveryAddress={onAddDeliveryAddress}
             onRemoveDeliveryAddress={onRemoveDeliveryAddress}
+            onNavigate={onNavigate}
           />
           <PromoCarousel onNavigate={onNavigate} />
           <CategoryTiles onNavigate={onNavigate} />

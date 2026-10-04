@@ -75,8 +75,8 @@ For the Garut Beans Web homepage, the location selector is for partner outlets w
 
 **How to apply:** Show partner locations on the homepage in every service mode; use saved delivery addresses only in the cart/checkout flow.
 
-Keep the accumulated points balance on the Garut Beans Web homepage, but do not put reward redemption controls in the member/outlet panel. Voucher redemption belongs in the cart/checkout flow.
+Keep the accumulated points balance on the Garut Beans Web homepage, but put point explanations, reward redemption, and active-voucher details on a dedicated points page instead of the member/outlet panel.
 
-**Why:** The user asked to remove “Tukar hadiah” from that homepage section.
+**Why:** The user asked to remove “Tukar hadiah” from the homepage panel, then asked the balance box to open a dedicated points page.
 
-**How to apply:** Show the points total without reward options or redemption links in the homepage panel; preserve voucher redemption in the cart.
+**How to apply:** Keep the homepage panel balance-only and link it to the points page; explain earning and redemption there, then let customers apply active vouchers in the cart/checkout flow.

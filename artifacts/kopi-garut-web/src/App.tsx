@@ -24,6 +24,7 @@ import {
 import { webCoffeeCatalog } from '@/lib/coffee-catalog';
 import { getWebProductImage } from '@/lib/web-product-images';
 import HomePage from '@/pages/home-page';
+import '@/pages/points-page.css';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
 import {
@@ -718,7 +719,7 @@ function CartPage() {
             <span className="cart-voucher-copy"><strong>{reward.title}</strong><small>{eligible ? `Min. belanja ${formatPrice(reward.minimumSubtotal)}` : `Tambah ${formatPrice(reward.minimumSubtotal - subtotal)} agar bisa digunakan`}</small></span>
             <span className="cart-voucher-state">{selected ? <Check size={16} /> : eligible ? 'Pakai' : 'Belum'}</span>
           </button>;
-        })}</div> : <div className="cart-no-voucher"><p>Belum ada voucher aktif. Tukar poin dengan hadiah diskon di beranda.</p><button type="button" onClick={() => setLocation('/')} data-testid="cart-go-home-rewards">Lihat hadiah poin <ArrowRight size={14} /></button></div>}
+        })}</div> : <div className="cart-no-voucher"><p>Belum ada voucher aktif. Tukar poin dengan hadiah diskon di halaman Poin G-Beans.</p><button type="button" onClick={() => setLocation('/points')} data-testid="cart-go-points">Lihat poin &amp; hadiah <ArrowRight size={14} /></button></div>}
       </section>
 
       <div className="summary">
@@ -2075,6 +2076,125 @@ function SupportPage() {
   );
 }
 
+function PointsPage() {
+  const [, setLocation] = useLocation();
+  const { points, vouchers, redeemPoints } = useStore();
+  const activeRewards = webRewards.filter((reward) => vouchers.includes(reward.id));
+
+  return (
+    <Page>
+      <main className="subpage points-page">
+        <Header title="Poin G-Beans" />
+
+        <section className="points-balance-card" aria-label={`Saldo ${points} poin`}>
+          <span className="points-balance-icon"><Sparkles size={20} /></span>
+          <div className="points-balance-copy">
+            <span>G-BEANS MEMBER</span>
+            <h2>Saldo poinmu</h2>
+            <p>Kumpulkan poin, tukar voucher, lalu gunakan saat checkout.</p>
+          </div>
+          <div className="points-balance-total">
+            <strong>{points.toLocaleString('id-ID')}</strong>
+            <span>PT</span>
+          </div>
+        </section>
+        <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan di browser ini.</p>
+
+        <section className="points-section" aria-labelledby="points-earn-title">
+          <div className="points-section-heading">
+            <span>CARA MENGUMPULKAN</span>
+            <h2 id="points-earn-title">Tambah poin</h2>
+            <p>Saat ini, poin bisa dikumpulkan lewat Mini Games.</p>
+          </div>
+          <article className="points-earn-card">
+            <span className="points-earn-icon"><Coffee size={20} /></span>
+            <div className="points-earn-copy">
+              <h3>Panen biji kopi</h3>
+              <p>Setiap panen di Mini Games menambah 10 poin ke saldo.</p>
+            </div>
+            <div className="points-earn-rate"><strong>+10</strong><span>PT / panen</span></div>
+            <button type="button" className="primary-button points-page-button" onClick={() => setLocation('/coffee-game')} data-testid="points-play-game">
+              Main Mini Games <ArrowRight size={15} />
+            </button>
+          </article>
+        </section>
+
+        <section className="points-section" aria-labelledby="points-rewards-title">
+          <div className="points-section-heading">
+            <span>HADIAH DISKON</span>
+            <h2 id="points-rewards-title">Tukar poin dengan voucher</h2>
+            <p>Pilih hadiah sesuai saldo. Setiap voucher memiliki minimum belanja.</p>
+          </div>
+          <div className="points-reward-grid">
+            {webRewards.map((reward) => {
+              const owned = vouchers.includes(reward.id);
+              const canRedeem = points >= reward.cost;
+              const canAct = owned || canRedeem;
+              const actionLabel = owned ? 'Pakai di keranjang' : canRedeem ? 'Tukar poin' : `Kurang ${reward.cost - points} PT`;
+
+              return (
+                <article className={`points-reward-card ${owned ? 'is-owned' : ''}`} key={reward.id}>
+                  <div className="points-reward-top">
+                    <span className="points-reward-icon"><Wallet size={18} /></span>
+                    <div className="points-reward-copy">
+                      <span>VOUCHER DISKON</span>
+                      <h3>{reward.title}</h3>
+                      <p>Min. belanja {formatPrice(reward.minimumSubtotal)}</p>
+                    </div>
+                    <div className="points-reward-cost"><strong>{reward.cost}</strong><span>PT</span></div>
+                  </div>
+                  <button
+                    type="button"
+                    className="points-reward-action"
+                    disabled={!canAct}
+                    onClick={() => owned ? setLocation('/cart') : redeemPoints(reward.id)}
+                    aria-label={owned ? `Gunakan ${reward.title} di keranjang` : canRedeem ? `Tukar ${reward.title}` : `Kurang ${reward.cost - points} poin untuk ${reward.title}`}
+                    data-testid={`points-redeem-${reward.id}`}
+                  >
+                    {actionLabel}
+                    {canAct && <ArrowRight size={14} />}
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="points-section points-howto" aria-labelledby="points-howto-title">
+          <div className="points-section-heading">
+            <span>CARA MENGGUNAKAN</span>
+            <h2 id="points-howto-title">Pakai voucher saat belanja</h2>
+          </div>
+          <ol className="points-steps">
+            <li><span>1</span><div><strong>Tukar poin</strong><p>Pilih voucher yang sesuai dengan saldo poinmu.</p></div></li>
+            <li><span>2</span><div><strong>Penuhi minimum</strong><p>Pastikan subtotal keranjang memenuhi syarat voucher.</p></div></li>
+            <li><span>3</span><div><strong>Pilih di keranjang</strong><p>Gunakan voucher aktif sebelum membuat pesanan.</p></div></li>
+          </ol>
+        </section>
+
+        <section className="points-active-section" aria-labelledby="points-active-title">
+          <div className="points-section-heading">
+            <span>VOUCHER TERSIMPAN</span>
+            <h2 id="points-active-title">{activeRewards.length ? `${activeRewards.length} voucher aktif` : 'Voucher aktif'}</h2>
+          </div>
+          {activeRewards.length ? (
+            <>
+              <div className="points-active-list">
+                {activeRewards.map((reward) => <span key={reward.id}><Check size={14} /> {reward.title}</span>)}
+              </div>
+              <button type="button" className="secondary-button points-cart-link" onClick={() => setLocation('/cart')} data-testid="points-open-cart">
+                Buka keranjang <ArrowRight size={14} />
+              </button>
+            </>
+          ) : (
+            <p className="points-active-empty">Voucher yang sudah ditukar akan muncul di sini dan siap dipakai di keranjang.</p>
+          )}
+        </section>
+      </main>
+    </Page>
+  );
+}
+
 function CoffeeGamePage() {
   const { notify, points, addPoints } = useStore();
   return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN</span><strong>{points}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 poin.</p><button className="primary-button wide" onClick={() => { addPoints(10); notify('10 poin berhasil ditambahkan'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
@@ -2103,6 +2223,7 @@ function AppRouter() {
     <Route path="/profile/settings"><SimpleHubPage title="Pengaturan akun" copy="Preferensi akun dan pengalaman Garut Beans tersimpan di perangkat ini." icon={Settings} /></Route>
     <Route path="/notifications" component={NotificationsPage} />
     <Route path="/traceability" component={TraceabilityPage} />
+    <Route path="/points" component={PointsPage} />
     <Route path="/farmers"><HubPage kind="farmers" /></Route>
     <Route path="/farmer/:id" component={FarmerDetailPage} />
     <Route path="/regions"><HubPage kind="regions" /></Route>
