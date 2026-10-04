@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -96,6 +97,7 @@ const giftBundleFormSchema = z.object({
 type GiftBundleFormValues = z.infer<typeof giftBundleFormSchema>;
 
 export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
+  const [giftBoxView, setGiftBoxView] = useState<'open' | 'closed'>('open');
   const giftBundleForm = useForm<GiftBundleFormValues>({
     resolver: zodResolver(giftBundleFormSchema),
     defaultValues: {
@@ -263,10 +265,48 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
               ))}
             </div>
 
-            <div className={`gb-gift-preview ${giftBundleType}`} data-testid="gift-bundle-preview">
+            <div className={`gb-gift-preview gb-gift-design-board ${giftBundleType}`} data-testid="gift-bundle-preview">
               <div className="gb-gift-preview-topline">
                 <span>GARUT BEANS</span>
                 <small>PAKET {giftBundleType.slice(-1).toUpperCase()} · {giftBoxType === 'custom' ? 'CUSTOM BOX' : 'BOX GARUT BEANS'}</small>
+              </div>
+              <div className={`gb-gift-design-canvas ${giftBoxView}`} data-testid="gift-box-design-canvas">
+                <img
+                  className="gb-gift-design-box-image"
+                  src={asset(giftBoxView === 'open' ? 'garut-beans-empty-gift-box.webp' : 'garut-beans-closed-gift-box-final.webp')}
+                  alt={giftBoxView === 'open' ? 'Pratinjau box Garut Beans dalam keadaan terbuka.' : 'Pratinjau box Garut Beans dalam keadaan tertutup.'}
+                />
+                <span className="gb-gift-design-caption">{giftBoxView === 'open' ? 'TAMPAK TERBUKA' : 'TAMPAK TERTUTUP'}</span>
+                {customMessageEnabled && (
+                  <div className={`gb-gift-design-imprint ${giftBoxView}`} data-testid="gift-bundle-preview-message">
+                    <span>PRATINJAU TULISAN</span>
+                    <strong>{giftMessage.trim() || 'Tulis ucapanmu di sini'}</strong>
+                  </div>
+                )}
+              </div>
+              <div className="gb-gift-design-views" role="group" aria-label="Pilih tampilan pratinjau box">
+                <button
+                  type="button"
+                  className={giftBoxView === 'open' ? 'is-selected' : ''}
+                  aria-pressed={giftBoxView === 'open'}
+                  onClick={() => setGiftBoxView('open')}
+                  data-testid="gift-box-view-open"
+                >
+                  Terbuka
+                </button>
+                <button
+                  type="button"
+                  className={giftBoxView === 'closed' ? 'is-selected' : ''}
+                  aria-pressed={giftBoxView === 'closed'}
+                  onClick={() => setGiftBoxView('closed')}
+                  data-testid="gift-box-view-closed"
+                >
+                  Tertutup
+                </button>
+              </div>
+              <div className="gb-gift-design-product-heading">
+                <span>ISI PAKET</span>
+                <small>{selectedGiftProducts.length} produk · Paket {giftBundleType.slice(-1).toUpperCase()}</small>
               </div>
               <div className="gb-gift-preview-products">
                 {selectedGiftProducts.map((product, index) => (
@@ -276,19 +316,7 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
                   </figure>
                 ))}
               </div>
-              <div className="gb-gift-preview-card" data-testid="gift-bundle-preview-card">
-                <span>KARTU UCAPAN</span>
-                <strong>{customMessageEnabled ? (giftMessage.trim() || 'Tulis ucapanmu di sini') : 'Salam hangat dari Garut'}</strong>
-                <small>Dengan cinta, Garut Beans</small>
-              </div>
-              <div className="gb-gift-preview-box">
-                <span>{customMessageEnabled ? 'Tulisan custom' : 'Box hadiah'}</span>
-                <strong data-testid="gift-bundle-preview-message">
-                  {customMessageEnabled
-                    ? (giftMessage.trim() || 'Isi tulisan custom')
-                    : (giftBoxType === 'custom' ? 'Desain box khusus' : 'Box Garut Beans')}
-                </strong>
-              </div>
+              <p className="gb-gift-design-note">Pratinjau ini membantu melihat tulisan dan isi paket. Box yang dipesan mengikuti pilihan di sebelah kiri.</p>
             </div>
 
             <div className="gb-gift-custom-message">

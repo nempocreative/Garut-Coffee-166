@@ -8822,6 +8822,179 @@
   box-shadow: 0 16px 32px rgba(67, 42, 32, .15);
 }
 
+.gb-gift-design-board {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.gb-gift-design-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255, 249, 241, .46);
+  border-radius: 14px;
+  background: #5a4030;
+  box-shadow: 0 10px 22px rgba(31, 19, 14, .2);
+}
+
+.gb-gift-design-canvas::after {
+  position: absolute;
+  z-index: 1;
+  inset: 64% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(32, 23, 17, .22));
+  content: "";
+  pointer-events: none;
+}
+
+.gb-gift-design-box-image {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.gb-gift-design-caption {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 10px;
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 249, 241, .5);
+  border-radius: 999px;
+  color: #fff9f1;
+  background: rgba(47, 34, 25, .62);
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.gb-gift-design-imprint {
+  position: absolute;
+  z-index: 2;
+  right: 21%;
+  bottom: 15%;
+  left: 21%;
+  display: grid;
+  min-height: 34px;
+  align-content: center;
+  gap: 3px;
+  padding: 5px 9px;
+  border: 1px dashed rgba(72, 48, 32, .62);
+  border-radius: 5px;
+  color: #493126;
+  background: rgba(250, 237, 215, .9);
+  box-shadow: 0 3px 10px rgba(31, 19, 14, .16);
+  text-align: center;
+}
+
+.gb-gift-design-imprint.open {
+  bottom: 7%;
+}
+
+.gb-gift-design-imprint span {
+  color: #805a40;
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.gb-gift-design-imprint strong {
+  overflow-wrap: anywhere;
+  font-family: Georgia, serif;
+  font-size: clamp(9px, 1.5vw, 13px);
+  line-height: 1.2;
+}
+
+.gb-gift-design-views {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px;
+  border: 1px solid rgba(255, 249, 241, .26);
+  border-radius: 999px;
+  background: rgba(255, 249, 241, .08);
+}
+
+.gb-gift-design-views button {
+  min-height: 31px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(255, 249, 241, .84);
+  background: transparent;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.gb-gift-design-views button:hover {
+  transform: translateY(-1px);
+}
+
+.gb-gift-design-views button:focus-visible {
+  outline: 2px solid #f4d6aa;
+  outline-offset: 2px;
+}
+
+.gb-gift-design-views button.is-selected {
+  color: #493126;
+  background: #fff5e7;
+}
+
+.gb-gift-design-product-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 2px;
+  color: rgba(255, 249, 241, .94);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.gb-gift-design-product-heading small {
+  color: rgba(255, 249, 241, .72);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.gb-gift-design-board .gb-gift-preview-products {
+  gap: 6px;
+  margin: 0;
+}
+
+.gb-gift-design-board .gb-gift-preview-item {
+  border-color: rgba(255, 255, 255, .72);
+  border-radius: 9px;
+}
+
+.gb-gift-design-board .gb-gift-preview-item img {
+  height: 56px;
+}
+
+.gb-gift-design-board .gb-gift-preview-item figcaption {
+  min-height: 25px;
+  font-size: 6px;
+}
+
+.gb-gift-design-note {
+  margin: 0;
+  color: rgba(255, 249, 241, .72);
+  font-size: 8px;
+  line-height: 1.45;
+}
+
 .gb-gift-preview-topline {
   display: flex;
   align-items: center;
@@ -9094,6 +9267,31 @@
 
   .gb-gift-preview {
     padding: 12px;
+  }
+
+  .gb-gift-design-caption {
+    top: 8px;
+    left: 8px;
+    padding: 5px 7px;
+    font-size: 6px;
+  }
+
+  .gb-gift-design-imprint {
+    right: 15%;
+    left: 15%;
+  }
+
+  .gb-gift-design-views button {
+    min-height: 29px;
+    padding-inline: 12px;
+  }
+
+  .gb-gift-design-board .gb-gift-preview-products {
+    gap: 4px;
+  }
+
+  .gb-gift-design-board .gb-gift-preview-item img {
+    height: 48px;
   }
 
   .gb-gift-preview-products {
