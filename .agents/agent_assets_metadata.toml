@@ -343,3 +343,17 @@ mtime_ms = 1791102202924
 storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/fcf78660-4570-4dbd-ba88-e8117fa9444d/8d25c5b2-7c62-4e0c-b25d-629e665e8d92"
 storage_version_token = "1791102295408050"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "z5aDjNXPqLDHBhCBcmER4"
+uri = "file://artifacts/kopi-garut-web/public/assets/garut-beans-closed-gift-box-natural.webp"
+type = "image"
+title = "Konsep AI box Garut Beans tertutup"
+description = "Visual kotak kraft tertutup dengan ilustrasi maskot domba petani membawa kopi, nama Garut Beans, dan motif Garut yang menyatu secara natural."
+logical_id = "8094efab-2fb4-4bca-b45f-13be55ed365e"
+content_hash = "sha256:8e5e7ca9102b53013460034ae0f27fdfc76c78e0a71217ec802ddce83a1703cc"
+size = 163448
+mtime_ms = 1791151856584
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:d37d2525-ca21-4bd9-a884-e89b2eb7471d/8094efab-2fb4-4bca-b45f-13be55ed365e/2f277b56-4402-4641-b1f3-0b2afb5712df"
+storage_version_token = "1791151953806845"
+content_type = "image/webp"

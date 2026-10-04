@@ -1015,6 +1015,7 @@ export default function HomePage({
   onAddDeliveryAddress,
   onRemoveDeliveryAddress,
 }: HomePageProps) {
+  const [giftBoxIsClosed, setGiftBoxIsClosed] = useState(false);
   const diversified = homeContent.diversifiedProducts.map((product) => ({
     ...product,
     image: getWebProductImage(product.id, product.image),
@@ -1061,7 +1062,22 @@ export default function HomePage({
           </section>
 
           <section id="gift-bundle-section" className="gb-home-section gb-gift-bundle-teaser" aria-labelledby="gift-bundle-teaser-title" data-testid="gift-bundle-section">
-            <div className="gb-gift-bundle-teaser-visual">
+            <div className={`gb-gift-bundle-teaser-visual ${giftBoxIsClosed ? 'is-closed' : ''}`}>
+              {giftBoxIsClosed && (
+                <div className="gb-gift-closed-scene">
+                  <span className="gb-gift-closed-caption">KONSEP KEMASAN TERTUTUP</span>
+                  <img
+                    className="gb-gift-closed-image"
+                    src={`${import.meta.env.BASE_URL}assets/garut-beans-closed-gift-box-natural.webp`}
+                    alt="Konsep AI kemasan Garut Beans tertutup dengan maskot domba petani yang membawa kopi, nama merek, dan motif batik Garut."
+                    loading="eager"
+                  />
+                </div>
+              )}
+              <div className="gb-gift-visual-toggle" role="group" aria-label="Pilih tampilan contoh paket">
+                <button type="button" className={!giftBoxIsClosed ? 'is-selected' : ''} aria-pressed={!giftBoxIsClosed} onClick={() => setGiftBoxIsClosed(false)}>Terbuka</button>
+                <button type="button" className={giftBoxIsClosed ? 'is-selected' : ''} aria-pressed={giftBoxIsClosed} onClick={() => setGiftBoxIsClosed(true)}>Tertutup</button>
+              </div>
               <img
                 className="gb-gift-teaser-backdrop"
                 src={`${import.meta.env.BASE_URL}assets/garut-beans-empty-gift-box.webp`}

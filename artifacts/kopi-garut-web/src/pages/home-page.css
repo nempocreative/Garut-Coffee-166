@@ -989,6 +989,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 64%;
 }
 
 .gb-diversified-image span {
@@ -9558,5 +9559,119 @@
 
   .gb-gift-bundle-teaser-copy {
     padding: 17px;
+  }
+}
+
+.gb-gift-bundle-teaser-visual.is-closed {
+  background: #66503c;
+}
+
+.gb-gift-bundle-teaser-visual.is-closed::after {
+  display: none;
+}
+
+.gb-gift-bundle-teaser-visual.is-closed > .gb-gift-teaser-backdrop,
+.gb-gift-bundle-teaser-visual.is-closed > .gb-gift-teaser-stage {
+  visibility: hidden;
+}
+
+.gb-gift-closed-scene {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  background: #66503c;
+}
+
+.gb-gift-closed-scene::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(23, 30, 32, .08), transparent 43%, rgba(31, 23, 17, .16));
+  content: "";
+}
+
+.gb-gift-closed-image {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gb-gift-closed-caption {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 248, 235, .48);
+  border-radius: 999px;
+  color: rgba(255, 248, 235, .96);
+  background: rgba(39, 29, 22, .56);
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-shadow: 0 2px 8px rgba(30, 21, 15, .42);
+}
+
+.gb-gift-visual-toggle {
+  position: absolute;
+  z-index: 5;
+  bottom: 14px;
+  left: 50%;
+  display: inline-flex;
+  gap: 3px;
+  padding: 4px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 248, 235, .62);
+  border-radius: 999px;
+  background: rgba(39, 29, 22, .62);
+  box-shadow: 0 5px 16px rgba(24, 16, 12, .22);
+  backdrop-filter: blur(10px);
+}
+
+.gb-gift-visual-toggle button {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(255, 248, 235, .9);
+  background: transparent;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.gb-gift-visual-toggle button:hover {
+  transform: translateY(-1px);
+}
+
+.gb-gift-visual-toggle button:focus-visible {
+  outline: 2px solid #f4d6aa;
+  outline-offset: 2px;
+}
+
+.gb-gift-visual-toggle button.is-selected {
+  color: #493126;
+  background: #fff5e7;
+}
+
+@media (max-width: 380px) {
+  .gb-gift-closed-caption {
+    top: 10px;
+    left: 10px;
+    padding: 6px 8px;
+    font-size: 6px;
+  }
+
+  .gb-gift-visual-toggle button {
+    min-height: 28px;
+    padding-inline: 10px;
+    font-size: 8px;
   }
 }
