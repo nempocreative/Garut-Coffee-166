@@ -57,8 +57,8 @@ For Garut Beans product imagery, including coffee by-products, use Cikuray Serie
 
 **How to apply:** Start product image edits from the Cikuray Series image. Preserve its visual identity and specify only the product-specific label and any format changes needed for the item.
 
-For Garut Beans Web, style the essential-oil product like the coffee scrub product photo while keeping the essential oil in its own bottle format.
+For Garut Beans Web, use the Coffee Scrub Soap photo as the shared visual reference for Essential Oil, Pewangi Sepatu, Minyak Aroma, Konsentrat Kopi, and Cookies Ampas Kopi while preserving each product's format.
 
-**Why:** The user explicitly chose the coffee scrub image as the essential oil's design reference.
+**Why:** The user first chose the coffee scrub image as the essential oil's design reference, then extended the same treatment to four other coffee-derived products.
 
-**How to apply:** Match the scrub image's cream/kraft label, Garut Beans mark, blue batik accents, Garut illustration, tabletop, and warm composition; change only the central product to a dropper bottle.
+**How to apply:** Keep the cream/kraft label, Garut Beans mark, blue batik accents, Garut illustration, tabletop, and warm composition consistent across those web product photos; retain each spray bottle, dropper bottle, concentrate bottle, or cookie pouch. Use the Cikuray Series reference for products without a more specific style reference.

@@ -203,3 +203,73 @@ mtime_ms = 1791099783158
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:e1bf7b63-9161-482a-888e-0dfd42003995/3be7afae-b283-47a9-a168-e213ec2854fd/0c15ee48-c0e7-4349-bf17-fac300f22d66"
 storage_version_token = "1791099851378361"
 content_type = "image/png"
+
+[[outputs]]
+id = "0Uk--8I6JC7pLKbEo0IR5"
+uri = "file://artifacts/kopi-garut-web/public/assets/essential-oil-scrub-style.jpg"
+type = "image"
+title = "Essential Oil Kopi — gaya Sabun Scrub"
+description = "Foto Essential Oil Kopi dengan botol dropper, label kraft-krem, detail batik Garut, dan suasana hangat seperti foto Sabun Scrub Kopi. Sudah dipasang untuk katalog website."
+logical_id = "dbf59b0d-5217-4991-812a-04dae59c0a91"
+content_hash = "sha256:9f231902bf69992e6091a3303ec10b29d241e404867b5a975ee4fc4f013a5701"
+size = 154275
+mtime_ms = 1791101513236
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/dbf59b0d-5217-4991-812a-04dae59c0a91/82d03303-4c93-4b08-b5e4-c871f1d9ed99"
+storage_version_token = "1791101634011289"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "GxLm3X52pusUgu6u8iNXX"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-shoe-deodorizer-scrub-style.jpg"
+type = "image"
+title = "Pewangi Sepatu Kopi — gaya Sabun Scrub"
+description = "Foto produk bergaya Garut Beans dengan botol spray tetap dipertahankan."
+logical_id = "af733f61-d009-441a-ba5e-83a52fc8a335"
+content_hash = "sha256:ba597a2b0b900d7079df36280ddd7b63c0c83d00c94c03291644f1a359309712"
+size = 157096
+mtime_ms = 1791101735403
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/af733f61-d009-441a-ba5e-83a52fc8a335/2dfa7ee3-efbb-4906-b5fe-87c756c5b7d6"
+storage_version_token = "1791101820524122"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "4QVxJuxxqbbr6dNRfnp8Z"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-aroma-oil-scrub-style.jpg"
+type = "image"
+title = "Minyak Aroma Kopi — gaya Sabun Scrub"
+description = "Foto produk bergaya Garut Beans dengan botol dropper tetap dipertahankan."
+logical_id = "49327d7a-b988-49fb-960b-daacdb3d0db3"
+content_hash = "sha256:d4c46863c155ee11b14586b0354fde0e9083253a7a4fcb10bd3dcdb9518a31be"
+size = 156217
+mtime_ms = 1791101735555
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/49327d7a-b988-49fb-960b-daacdb3d0db3/cc76e4e5-581a-4716-a13a-1c9fc3799953"
+storage_version_token = "1791101821831519"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "dZbWT-_lQzX3SyNivmK9N"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-concentrate-scrub-style.jpg"
+type = "image"
+title = "Konsentrat Kopi — gaya Sabun Scrub"
+description = "Foto produk bergaya Garut Beans dengan botol konsentrat tetap dipertahankan."
+logical_id = "ea8c5773-c731-410f-94bd-9b8c8bb0056d"
+content_hash = "sha256:0b8f5b69d1e8840d169e9a0a6008f87612615e012903e1ce5bf0103a134dbc92"
+size = 156559
+mtime_ms = 1791101736256
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/ea8c5773-c731-410f-94bd-9b8c8bb0056d/68a281b8-cc3d-4d23-b28d-0fa82dab4797"
+storage_version_token = "1791101823086305"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "3tJPKjeCUYXl2yh8sdEuT"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-cookies-scrub-style.jpg"
+type = "image"
+title = "Cookies Ampas Kopi — gaya Sabun Scrub"
+description = "Foto produk bergaya Garut Beans dengan kemasan pouch cookies tetap dipertahankan."
+logical_id = "bc159c1e-dcb2-4bbe-8111-e0f5234a7bc7"
+content_hash = "sha256:d252fce6d6aace0be38de24a99042d15bfe2f6a9f22a5c49ca6e79b9525946b5"
+size = 186114
+mtime_ms = 1791101737456
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/bc159c1e-dcb2-4bbe-8111-e0f5234a7bc7/c332264f-1bd2-4d57-86b7-31a281000615"
+storage_version_token = "1791101824438696"
+content_type = "image/jpeg"
