@@ -16,4 +16,4 @@
 - [Header artwork crop safety](header-art-crops.md) — keep key figures and landmarks inside the center crop when using AI artwork in wide headers.
 - [Mockup CSS extraction](mockup-css-extraction.md) — copy structural layout rules as well as tokens; empty states can hide missing list and progress styles.
 - [Direct Web UI edits](direct-web-ui-edits.md) — edit Web directly, keep warm coffee tones, and vary homepage layouts instead of using cards for every section.
-- [Vite Web asset paths](vite-web-asset-paths.md) — set pre-React asset URLs from the runtime Vite base to avoid double-prefixing in the proxied preview.
+- [Vite Web asset paths](vite-web-asset-paths.md) — use runtime base paths for app assets; preload the opening mark before the first frame.

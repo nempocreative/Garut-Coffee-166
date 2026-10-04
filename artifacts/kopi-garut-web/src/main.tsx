@@ -51,11 +51,6 @@ Object.entries(cssTokenMap).forEach(([token, cssName]) => {
 });
 rootStyle.setProperty('--ring', hexToHsl(brandTokens.primary));
 
-const initialLoaderBean = document.querySelector<HTMLImageElement>('[data-initial-loader-bean]');
-if (initialLoaderBean) {
-  initialLoaderBean.src = `${import.meta.env.BASE_URL}assets/coffee-bean-menu.webp`;
-}
-
 const rootElement = document.getElementById('root');
 const trackImage = (image: HTMLImageElement) => {
   image.dataset.gbImageState = image.complete && image.naturalWidth > 0 ? 'ready' : 'loading';

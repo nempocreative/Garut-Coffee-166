@@ -3,8 +3,10 @@ name: Vite Web asset paths
 description: Avoid double-prefixed asset URLs in the proxied Vite Web preview for content shown before React mounts.
 ---
 
-For assets needed before React mounts, do not rely on `%BASE_URL%` substitution in static HTML when the Vite app is mounted under its artifact path. The Vite HTML transform and the preview mount can both apply the path prefix. Leave the static asset URL unset and assign it at runtime from `import.meta.env.BASE_URL`.
+For assets loaded after React starts, use `import.meta.env.BASE_URL`; do not rely on `%BASE_URL%` substitution in static `src` or preload URLs under an artifact path, because the Vite HTML transform and preview mount can both apply the prefix.
 
-**Why:** A production build can contain the expected-looking URL while the proxied development preview resolves a double-prefixed URL and displays a broken image.
+For the small brand mark shown by the initial loader, preload its known artifact asset path and assign it from a synchronous inline script immediately after the loader markup. This starts the correct request before the app bundle can delay it.
 
-**How to apply:** Use the runtime Vite base for pre-React assets, then verify both the development preview and the production build.
+**Why:** The proxied preview can double-prefix static Vite asset URLs, and waiting for the app bundle to assign a correct URL leaves the first loader frame blank.
+
+**How to apply:** Use the runtime Vite base for regular app assets. For a loader mark that must appear immediately, use the artifact's explicit asset path in a preload hint and in the synchronous bootstrap script; verify the request returns the image file.
