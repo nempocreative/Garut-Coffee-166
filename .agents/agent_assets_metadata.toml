@@ -287,3 +287,59 @@ mtime_ms = 1791101934988
 storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/afe37787-7227-4aa5-88e9-11918737db77/ea7b2222-235e-4fa6-8df9-fe39f5353ef3"
 storage_version_token = "1791102006057815"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "HPQfT6HYHUkwBtwGyaGeO"
+uri = "file://artifacts/kopi-garut-web/public/assets/shoe-deodorizer-garut-series.jpg"
+type = "image"
+title = "Pewangi Sepatu Kopi — gaya seri Garut Beans"
+description = "Foto baru dengan botol spray, mengikuti komposisi Sabun Scrub dan Totebag Garut Beans."
+logical_id = "d347da9b-fa37-4748-a2ad-0e0913c137f7"
+content_hash = "sha256:7b8d21b8b23692403287f48feaa0277f3541506b9ec40f1a5195702707684852"
+size = 161589
+mtime_ms = 1791102065174
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/d347da9b-fa37-4748-a2ad-0e0913c137f7/9a294354-7dbb-4deb-81c8-0bb831be81fa"
+storage_version_token = "1791102145901955"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "dDoU3iMdWV_N7vmcPCic9"
+uri = "file://artifacts/kopi-garut-web/public/assets/aroma-oil-garut-series.jpg"
+type = "image"
+title = "Minyak Aroma Kopi — gaya seri Garut Beans"
+description = "Botol dropper dengan adegan dan label senada Sabun Scrub serta Totebag."
+logical_id = "be8ea0cd-3913-448b-b0c4-13878fc38a2e"
+content_hash = "sha256:068bc50e0346271504d3a3d5a69653274aac3dc1461566b096c7bfe8160dc746"
+size = 162921
+mtime_ms = 1791102198803
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/be8ea0cd-3913-448b-b0c4-13878fc38a2e/5172da7f-3d94-4406-a823-108a91daa63c"
+storage_version_token = "1791102292430414"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "PO1FBEVPBCfAWvyWwUJ9U"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-concentrate-garut-series.jpg"
+type = "image"
+title = "Konsentrat Kopi — gaya seri Garut Beans"
+description = "Botol konsentrat dengan adegan dan label senada Sabun Scrub serta Totebag."
+logical_id = "84616b55-eb32-4534-8bdf-73a3460319c8"
+content_hash = "sha256:150495865e2b659d9957ad9b37f753d1efb4af8908f70e2d0b3eb448b29e102a"
+size = 159762
+mtime_ms = 1791102197879
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/84616b55-eb32-4534-8bdf-73a3460319c8/d9279fc6-d73d-4b70-bae5-9f5aa6d1ce2a"
+storage_version_token = "1791102293954099"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "J1lPFlNgGpykmc5-RN6gY"
+uri = "file://artifacts/kopi-garut-web/public/assets/coffee-cookies-garut-series.jpg"
+type = "image"
+title = "Cookies Ampas Kopi — gaya seri Garut Beans"
+description = "Pouch cookies dengan adegan dan label senada Sabun Scrub serta Totebag."
+logical_id = "fcf78660-4570-4dbd-ba88-e8117fa9444d"
+content_hash = "sha256:1cd79769c9424399c7c5bcf477e2fd8a8cb6ee8aef5ea5d1c48b08af83299729"
+size = 186354
+mtime_ms = 1791102202924
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/fcf78660-4570-4dbd-ba88-e8117fa9444d/8d25c5b2-7c62-4e0c-b25d-629e665e8d92"
+storage_version_token = "1791102295408050"
+content_type = "image/jpeg"
