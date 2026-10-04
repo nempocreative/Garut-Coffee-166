@@ -26,7 +26,15 @@ import { getWebProductImage } from '@/lib/web-product-images';
 import HomePage from '@/pages/home-page';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
-import { serviceModes, webRewards, type ServiceMode } from '@/lib/loyalty';
+import {
+  serviceLocations,
+  serviceModes,
+  webRewards,
+  type DeliveryAddress,
+  type ServiceLocationId,
+  type ServiceMode,
+} from '@/lib/loyalty';
+import { ServiceLocationPicker } from '@/components/service-location-picker';
 import { AppIcon, AppNavGlyph, type AppIconName, type AppNavGlyphName } from '@/components/app-icon';
 
 const mobileIcon = (name: AppIconName): LucideIcon => {
@@ -133,6 +141,8 @@ type Order = {
   total: number;
   discount?: number;
   serviceMode?: ServiceMode;
+  serviceLocation?: string;
+  serviceLocationDetail?: string;
   createdAt: string;
   status: string;
 };
@@ -140,11 +150,16 @@ type StoreValue = {
   cart: CartItem[]; favorites: string[]; orders: Order[];
   cartNotice: { id: string; quantity: number } | null;
   points: number; vouchers: string[]; serviceMode: ServiceMode;
+  serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
   addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
   addPoints: (amount: number) => void;
   redeemPoints: (rewardId: string) => void;
   setServiceMode: (mode: ServiceMode) => void;
+  setServiceLocationId: (id: ServiceLocationId) => void;
+  setSelectedDeliveryAddressId: (id: string) => void;
+  addDeliveryAddress: (label: string, address: string) => void;
+  removeDeliveryAddress: (id: string) => void;
   placeOrder: (voucherId?: string | null) => boolean;
   notify: (message: string) => void; dismissCartNotice: () => void;
 };
@@ -162,6 +177,9 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [points, setPoints] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
   const [vouchers, setVouchers] = useWebStorageJson<string[]>('kopi-garut-coffee-game-vouchers', []);
   const [serviceMode, setServiceMode] = useWebStorageJson<ServiceMode>('kopi-garut-service-mode', 'delivery');
+  const [serviceLocationId, setServiceLocationId] = useWebStorageJson<string>('kopi-garut-service-location', 'papandayan');
+  const [deliveryAddresses, setDeliveryAddresses] = useWebStorageJson<DeliveryAddress[]>('kopi-garut-delivery-addresses', []);
+  const [selectedDeliveryAddressId, setSelectedDeliveryAddressId] = useWebStorageJson<string>('kopi-garut-selected-delivery-address', '');
   const [notice, setNotice] = useState('');
   const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
@@ -183,6 +201,20 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const addPoints = (amount: number) => {
     if (amount > 0) setPoints((current) => current + amount);
   };
+  const addDeliveryAddress = (label: string, address: string) => {
+    const nextAddress = {
+      id: `delivery-${Date.now().toString(36)}`,
+      label,
+      address,
+    };
+    setDeliveryAddresses((current) => [...current, nextAddress]);
+    setSelectedDeliveryAddressId(nextAddress.id);
+    notify('Alamat tersimpan di browser ini');
+  };
+  const removeDeliveryAddress = (id: string) => {
+    setDeliveryAddresses((current) => current.filter((item) => item.id !== id));
+    setSelectedDeliveryAddressId((current) => current === id ? '' : current);
+  };
   const redeemPoints = (rewardId: string) => {
     const reward = webRewards.find((item) => item.id === rewardId);
     if (!reward) {
@@ -203,6 +235,25 @@ function StoreProvider({ children }: { children: ReactNode }) {
   };
   const placeOrder = (voucherId: string | null = null) => {
     if (!cart.length) return false;
+    let serviceLocation: string;
+    let serviceLocationDetail: string;
+    if (serviceMode === 'delivery') {
+      const address = deliveryAddresses.find((item) => item.id === selectedDeliveryAddressId);
+      if (!address) {
+        notify('Tambahkan alamat Delivery sebelum membuat pesanan');
+        return false;
+      }
+      serviceLocation = address.label;
+      serviceLocationDetail = address.address;
+    } else {
+      const location = serviceLocations.find((item) => item.id === serviceLocationId);
+      if (!location) {
+        notify('Pilih outlet mitra sebelum membuat pesanan');
+        return false;
+      }
+      serviceLocation = location.name;
+      serviceLocationDetail = location.area;
+    }
     const subtotal = cart.reduce((sum, item) => sum + (coffees.find((coffee) => coffee.id === item.id)?.price || 0) * item.quantity, 0);
     const reward = voucherId ? webRewards.find((item) => item.id === voucherId) : undefined;
     const canUseVoucher = Boolean(reward && vouchers.includes(voucherId!) && subtotal >= reward.minimumSubtotal);
@@ -218,6 +269,8 @@ function StoreProvider({ children }: { children: ReactNode }) {
       total,
       discount,
       serviceMode,
+      serviceLocation,
+      serviceLocationDetail,
       createdAt: homeDate(),
       status: 'Dipesan',
     }, ...current]);
@@ -233,7 +286,10 @@ function StoreProvider({ children }: { children: ReactNode }) {
   };
   return <StoreContext.Provider value={{
     cart, favorites, orders, cartNotice, points, vouchers, serviceMode,
-    addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode, placeOrder, notify, dismissCartNotice,
+    serviceLocationId, deliveryAddresses, selectedDeliveryAddressId,
+    addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode,
+    setServiceLocationId, setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
+    placeOrder, notify, dismissCartNotice,
   }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
 }
 
@@ -426,7 +482,11 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
 
 function WebHomeRoute() {
   const [, setLocation] = useLocation();
-  const { favorites, addToCart, toggleFavorite, points, vouchers, redeemPoints, serviceMode, setServiceMode } = useStore();
+  const {
+    favorites, addToCart, toggleFavorite, points, vouchers, redeemPoints, serviceMode, setServiceMode,
+    serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
+    setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
+  } = useStore();
   return <>
     <HomePage
       onNavigate={setLocation}
@@ -439,6 +499,13 @@ function WebHomeRoute() {
       onRedeemReward={redeemPoints}
       serviceMode={serviceMode}
       onSelectService={setServiceMode}
+      serviceLocationId={serviceLocationId}
+      deliveryAddresses={deliveryAddresses}
+      selectedDeliveryAddressId={selectedDeliveryAddressId}
+      onSelectLocation={setServiceLocationId}
+      onSelectDeliveryAddress={setSelectedDeliveryAddressId}
+      onAddDeliveryAddress={addDeliveryAddress}
+      onRemoveDeliveryAddress={removeDeliveryAddress}
     />
     <CartPreview />
   </>;
@@ -578,7 +645,11 @@ function ProductDetailPage() {
 }
 
 function CartPage() {
-  const { cart, updateQuantity, placeOrder, vouchers, points, serviceMode, setServiceMode } = useStore();
+  const {
+    cart, updateQuantity, placeOrder, vouchers, points, serviceMode, setServiceMode,
+    serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
+    setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
+  } = useStore();
   const [, setLocation] = useLocation();
   const [selectedVoucherId, setSelectedVoucherId] = useState<string | null>(null);
   const rows = cart.map((item) => ({ ...item, coffee: coffees.find((coffee) => coffee.id === item.id) })).filter((item) => item.coffee);
@@ -586,11 +657,11 @@ function CartPage() {
   const availableVouchers = webRewards.filter((reward) => vouchers.includes(reward.id));
   const selectedVoucher = availableVouchers.find((reward) => reward.id === selectedVoucherId && subtotal >= reward.minimumSubtotal) ?? null;
   const selectedService = serviceModes.find((mode) => mode.id === serviceMode) ?? serviceModes[0];
-  const serviceDescription = serviceMode === 'delivery'
-    ? 'Alamat dan ongkir belum dihitung di website.'
-    : serviceMode === 'pickup'
-      ? 'Ambil pesanan di Ruko Papandayan Garut.'
-      : 'Nikmati pesanan di Ruko Papandayan Garut.';
+  const selectedAddress = deliveryAddresses.find((address) => address.id === selectedDeliveryAddressId);
+  const selectedLocation = serviceLocations.find((location) => location.id === serviceLocationId);
+  const serviceLocationSummary = serviceMode === 'delivery'
+    ? selectedAddress ? `${selectedAddress.label}: ${selectedAddress.address}` : 'Pilih alamat Delivery'
+    : selectedLocation ? `${selectedLocation.name} · ${selectedLocation.area}` : 'Pilih outlet mitra';
   const submitOrder = () => {
     if (placeOrder(selectedVoucher?.id ?? null)) setLocation('/orders');
   };
@@ -617,7 +688,18 @@ function CartPage() {
           onClick={() => setServiceMode(mode.id)}
           data-testid={`cart-service-${mode.id}`}
         >{mode.label}</button>)}</div>
-        <p className="cart-service-note">{serviceDescription}</p>
+        <ServiceLocationPicker
+          variant="cart"
+          serviceMode={serviceMode}
+          selectedLocationId={serviceLocationId}
+          selectedDeliveryAddressId={selectedDeliveryAddressId}
+          deliveryAddresses={deliveryAddresses}
+          onSelectLocation={setServiceLocationId}
+          onSelectDeliveryAddress={setSelectedDeliveryAddressId}
+          onAddDeliveryAddress={addDeliveryAddress}
+          onRemoveDeliveryAddress={removeDeliveryAddress}
+        />
+        {serviceMode === 'delivery' && <p className="cart-service-note">Ongkir belum dihitung otomatis dan akan dikonfirmasi terpisah.</p>}
       </section>
 
       <section className="cart-vouchers-section" aria-label="Voucher poin">
@@ -643,7 +725,7 @@ function CartPage() {
 
       <div className="summary">
         <div className="summary-line"><span>Subtotal</span><b>{formatPrice(subtotal)}</b></div>
-        <div className="summary-line"><span>{selectedService.label}</span><b>{serviceMode === 'delivery' ? 'Alamat dan ongkir belum dihitung' : 'Ruko Papandayan Garut'}</b></div>
+        <div className="summary-line"><span>{selectedService.label}</span><b>{serviceLocationSummary}</b></div>
         {selectedVoucher && <div className="summary-line cart-discount-line"><span>{selectedVoucher.title}</span><b>−{formatPrice(selectedVoucher.amount)}</b></div>}
         <div className="summary-line total"><span>Total sementara</span><b>{formatPrice(subtotal - (selectedVoucher?.amount ?? 0))}</b></div>
         <button className="primary-button" onClick={submitOrder} data-testid="button-place-order">Buat pesanan</button>
@@ -701,7 +783,7 @@ function OrdersPage() {
           <div className="orders-divider" />
           <div className="orders-product-row">
             <div className="orders-item-mark"><Coffee size={21} /></div>
-            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · {order.serviceMode ? serviceModes.find((mode) => mode.id === order.serviceMode)?.label : 'Total pesanan'}</small>{order.discount ? <small>Potongan poin −{formatPrice(order.discount)}</small> : null}</div>
+            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · {order.serviceMode ? serviceModes.find((mode) => mode.id === order.serviceMode)?.label : 'Total pesanan'}</small>{order.serviceLocation && <small>{order.serviceLocation} · {order.serviceLocationDetail}</small>}{order.discount ? <small>Potongan poin −{formatPrice(order.discount)}</small> : null}</div>
             <div className="orders-total"><small>TOTAL</small><strong>{formatPrice(order.total)}</strong></div>
           </div>
           <div className="orders-actions">

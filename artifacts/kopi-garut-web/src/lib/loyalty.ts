@@ -29,3 +29,17 @@ export const serviceModes = [
 ] as const;
 
 export type ServiceMode = (typeof serviceModes)[number]['id'];
+
+export const serviceLocations = [
+  { id: 'papandayan', name: 'Ruko Papandayan Garut', area: 'Papandayan, Garut' },
+  { id: 'ruang-seduh', name: 'Ruang Seduh Roastery', area: 'Garut Kota' },
+  { id: 'kedai-pagi', name: 'Kedai Pagi Garut', area: 'Tarogong' },
+] as const;
+
+export type ServiceLocationId = (typeof serviceLocations)[number]['id'];
+
+export type DeliveryAddress = {
+  id: string;
+  label: string;
+  address: string;
+};

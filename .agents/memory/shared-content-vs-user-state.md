@@ -8,3 +8,9 @@ Shared source files keep default catalog and hub content aligned, but they do no
 **Why:** The web artifact exports the Expo mobile routes, while AsyncStorage has separate stores on a phone and in a browser. A calendar endpoint that only acknowledges a snapshot is not persistence or two-way synchronization.
 
 **How to apply:** When investigating parity, separate static content parity, responsive layout parity, and cross-device state synchronization. Do not describe the latter as complete until a shared server-side source of truth and a read-after-write path exist.
+
+Garut Beans Web loyalty points and delivery addresses are intentionally browser-local and must remain separate from the mobile app.
+
+**Why:** The user explicitly decided that the Web points balance is Web-only and that delivery addresses saved on Web are not synchronized to HP.
+
+**How to apply:** Keep these records in the Web browser's local storage and avoid UI copy that suggests they appear in the mobile app.
