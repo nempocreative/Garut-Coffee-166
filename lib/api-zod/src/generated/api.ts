@@ -43,3 +43,147 @@ export const SyncFarmCalendarResponse = zod.object({
 })
 
 
+/**
+ * Requires a signed-in buyer session cookie. Account points remain Web-only.
+ * @summary Get the signed-in buyer's Web points and active vouchers
+ */
+export const getBuyerPointsResponseBalanceMin = 0;
+
+
+
+
+export const GetBuyerPointsResponse = zod.object({
+  "balance": zod.number().int().min(getBuyerPointsResponseBalanceMin),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+})
+
+
+/**
+ * Imports an existing browser balance and vouchers to the signed-in account, once per browser migration ID.
+ * @summary Import legacy browser points once
+ */
+export const importLegacyBuyerPointsBodyMigrationIdMax = 100;
+
+
+
+
+export const ImportLegacyBuyerPointsBody = zod.object({
+  "migrationId": zod.string().min(1).max(importLegacyBuyerPointsBodyMigrationIdMax),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+})
+
+export const importLegacyBuyerPointsResponseOneBalanceMin = 0;
+
+
+export const importLegacyBuyerPointsResponseTwoImportedPointsMin = 0;
+
+
+
+export const ImportLegacyBuyerPointsResponse = zod.object({
+  "balance": zod.number().int().min(importLegacyBuyerPointsResponseOneBalanceMin),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+}).and(zod.object({
+  "imported": zod.boolean(),
+  "importedPoints": zod.number().int().min(importLegacyBuyerPointsResponseTwoImportedPointsMin)
+}))
+
+
+/**
+ * Awards 10 points for one mini-game harvest action to the signed-in buyer.
+ * @summary Award the fixed Web mini-game points
+ */
+export const earnBuyerPointsBodyActionIdMax = 100;
+
+
+
+export const EarnBuyerPointsBody = zod.object({
+  "actionId": zod.string().min(1).max(earnBuyerPointsBodyActionIdMax)
+})
+
+export const earnBuyerPointsResponseOneBalanceMin = 0;
+
+
+export const earnBuyerPointsResponseTwoAwardedPointsMin = 0;
+
+
+
+export const EarnBuyerPointsResponse = zod.object({
+  "balance": zod.number().int().min(earnBuyerPointsResponseOneBalanceMin),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+}).and(zod.object({
+  "awardedPoints": zod.number().int().min(earnBuyerPointsResponseTwoAwardedPointsMin)
+}))
+
+
+/**
+ * Deducts the reward cost from the buyer's oldest active point lots and creates an account voucher.
+ * @summary Redeem an account voucher
+ */
+export const redeemBuyerPointsBodyActionIdMax = 100;
+
+
+
+export const RedeemBuyerPointsBody = zod.object({
+  "rewardId": zod.enum(['discount-10k', 'discount-25k', 'discount-50k']),
+  "actionId": zod.string().min(1).max(redeemBuyerPointsBodyActionIdMax)
+})
+
+export const redeemBuyerPointsResponseBalanceMin = 0;
+
+
+
+
+export const RedeemBuyerPointsResponse = zod.object({
+  "balance": zod.number().int().min(redeemBuyerPointsResponseBalanceMin),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+})
+
+
+/**
+ * Consumes one active voucher belonging to the signed-in buyer.
+ * @summary Mark an account voucher as used for a Web order
+ */
+export const useBuyerPointsVoucherBodyOrderIdMax = 100;
+
+
+
+export const UseBuyerPointsVoucherBody = zod.object({
+  "rewardId": zod.enum(['discount-10k', 'discount-25k', 'discount-50k']),
+  "orderId": zod.string().min(1).max(useBuyerPointsVoucherBodyOrderIdMax)
+})
+
+export const useBuyerPointsVoucherResponseBalanceMin = 0;
+
+
+
+
+export const UseBuyerPointsVoucherResponse = zod.object({
+  "balance": zod.number().int().min(useBuyerPointsVoucherResponseBalanceMin),
+  "lots": zod.array(zod.object({
+  "amount": zod.number().int().min(1),
+  "earnedAt": zod.coerce.date()
+})),
+  "vouchers": zod.array(zod.enum(['discount-10k', 'discount-25k', 'discount-50k']))
+})
+
+

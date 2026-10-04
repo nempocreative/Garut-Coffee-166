@@ -1,0 +1,237 @@
+.clerk-auth-page {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding: 28px;
+  background:
+    radial-gradient(circle at 14% 8%, rgba(205, 155, 88, .2), transparent 32%),
+    linear-gradient(135deg, #f7f2e9, #eee2d1);
+}
+
+.clerk-auth-layout {
+  display: grid;
+  width: min(100%, 1080px);
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+  align-items: center;
+  gap: clamp(30px, 7vw, 88px);
+}
+
+.clerk-auth-story {
+  display: grid;
+  justify-items: start;
+  gap: 22px;
+  max-width: 500px;
+  padding: 12px 0;
+}
+
+.clerk-auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #38271e;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clerk-auth-brand img {
+  width: 48px;
+  height: 48px;
+}
+
+.clerk-auth-eyebrow {
+  color: #8a6348;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.clerk-auth-story h1 {
+  max-width: 520px;
+  margin: 0;
+  color: #38271e;
+  font-family: Georgia, serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -1.8px;
+}
+
+.clerk-auth-story > p {
+  max-width: 430px;
+  margin: 0;
+  color: #68584d;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.clerk-auth-disclosure {
+  display: grid;
+  gap: 8px;
+  max-width: 430px;
+  padding: 15px 17px;
+  border: 1px solid rgba(117, 73, 54, .15);
+  border-radius: 17px;
+  color: #5f4b3f;
+  background: rgba(255, 253, 249, .68);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.clerk-auth-disclosure strong {
+  color: #573a2b;
+  font-size: 12px;
+}
+
+.clerk-auth-form {
+  width: 100%;
+  min-width: 0;
+}
+
+.points-account-gate,
+.points-sync-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 18px;
+  background: hsl(var(--card));
+}
+
+.points-account-gate {
+  display: grid;
+  justify-items: start;
+  gap: 11px;
+  margin: 20px 0;
+  padding: 22px;
+}
+
+.points-account-gate h2,
+.points-account-gate p {
+  margin: 0;
+}
+
+.points-account-gate h2 {
+  color: hsl(var(--foreground));
+  font-family: var(--app-font-serif);
+  font-size: 23px;
+}
+
+.points-account-gate p {
+  color: hsl(var(--muted-foreground));
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.points-account-gate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 3px;
+}
+
+.points-account-gate-actions .primary-button,
+.points-account-gate-actions .secondary-button {
+  min-width: 116px;
+  min-height: 44px;
+  justify-content: center;
+  padding-inline: 16px;
+}
+
+.points-sync-notice {
+  margin: 10px 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.points-sync-notice.error {
+  justify-content: space-between;
+  color: #8d3f31;
+  background: #fff6f1;
+}
+
+.points-sync-notice button {
+  flex: 0 0 auto;
+  border: 0;
+  color: #754936;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.cart-account-voucher-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--secondary));
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.cart-account-voucher-notice button {
+  flex: 0 0 auto;
+  border: 0;
+  color: hsl(var(--primary));
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+  .clerk-auth-page {
+    align-items: start;
+    padding: 22px 16px 34px;
+  }
+
+  .clerk-auth-layout {
+    width: min(100%, 440px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .clerk-auth-story {
+    gap: 13px;
+  }
+
+  .clerk-auth-brand img {
+    width: 39px;
+    height: 39px;
+  }
+
+  .clerk-auth-brand {
+    font-size: 17px;
+  }
+
+  .clerk-auth-story h1 {
+    max-width: 400px;
+    font-size: clamp(31px, 9vw, 43px);
+    letter-spacing: -1px;
+  }
+
+  .clerk-auth-story > p {
+    font-size: 13px;
+  }
+
+  .clerk-auth-disclosure {
+    padding: 11px 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  .clerk-auth-page {
+    padding-inline: 10px;
+  }
+
+  .points-account-gate {
+    padding: 17px;
+  }
+}

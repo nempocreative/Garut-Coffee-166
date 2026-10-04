@@ -30,3 +30,99 @@ export interface FarmCalendarSyncResponse {
   syncedAt: string;
 }
 
+export interface BuyerPointLot {
+  /** @minimum 1 */
+  amount: number;
+  earnedAt: string;
+}
+
+export type BuyerPointsResponseVouchersItem = typeof BuyerPointsResponseVouchersItem[keyof typeof BuyerPointsResponseVouchersItem];
+
+
+export const BuyerPointsResponseVouchersItem = {
+  'discount-10k': 'discount-10k',
+  'discount-25k': 'discount-25k',
+  'discount-50k': 'discount-50k',
+} as const;
+
+export interface BuyerPointsResponse {
+  /** @minimum 0 */
+  balance: number;
+  lots: BuyerPointLot[];
+  vouchers: BuyerPointsResponseVouchersItem[];
+}
+
+export type ImportBuyerPointsBodyVouchersItem = typeof ImportBuyerPointsBodyVouchersItem[keyof typeof ImportBuyerPointsBodyVouchersItem];
+
+
+export const ImportBuyerPointsBodyVouchersItem = {
+  'discount-10k': 'discount-10k',
+  'discount-25k': 'discount-25k',
+  'discount-50k': 'discount-50k',
+} as const;
+
+export interface ImportBuyerPointsBody {
+  /**
+     * @minLength 1
+     * @maxLength 100
+     */
+  migrationId: string;
+  lots: BuyerPointLot[];
+  vouchers: ImportBuyerPointsBodyVouchersItem[];
+}
+
+export type ImportBuyerPointsResponse = BuyerPointsResponse & {
+  imported: boolean;
+  /** @minimum 0 */
+  importedPoints: number;
+};
+
+export interface PointEarnRequest {
+  /**
+     * @minLength 1
+     * @maxLength 100
+     */
+  actionId: string;
+}
+
+export type PointEarnResult = BuyerPointsResponse & {
+  /** @minimum 0 */
+  awardedPoints: number;
+};
+
+export type PointRedemptionRequestRewardId = typeof PointRedemptionRequestRewardId[keyof typeof PointRedemptionRequestRewardId];
+
+
+export const PointRedemptionRequestRewardId = {
+  'discount-10k': 'discount-10k',
+  'discount-25k': 'discount-25k',
+  'discount-50k': 'discount-50k',
+} as const;
+
+export interface PointRedemptionRequest {
+  rewardId: PointRedemptionRequestRewardId;
+  /**
+     * @minLength 1
+     * @maxLength 100
+     */
+  actionId: string;
+}
+
+export type UseBuyerVoucherBodyRewardId = typeof UseBuyerVoucherBodyRewardId[keyof typeof UseBuyerVoucherBodyRewardId];
+
+
+export const UseBuyerVoucherBodyRewardId = {
+  'discount-10k': 'discount-10k',
+  'discount-25k': 'discount-25k',
+  'discount-50k': 'discount-50k',
+} as const;
+
+export interface UseBuyerVoucherBody {
+  rewardId: UseBuyerVoucherBodyRewardId;
+  /**
+     * @minLength 1
+     * @maxLength 100
+     */
+  orderId: string;
+}
+

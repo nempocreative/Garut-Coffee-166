@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: farm-calendar
     description: Offline-first farm calendar synchronization
+  - name: points
+    description: Web-only buyer loyalty points and vouchers
 paths:
   /healthz:
     get:
@@ -45,6 +47,113 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FarmCalendarSyncResponse"
+  /points:
+    get:
+      operationId: getBuyerPoints
+      tags: [points]
+      summary: Get the signed-in buyer's Web points and active vouchers
+      description: Requires a signed-in buyer session cookie. Account points remain Web-only.
+      responses:
+        "200":
+          description: Buyer points account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuyerPointsResponse"
+        "401":
+          description: Authentication required
+  /points/import:
+    post:
+      operationId: importLegacyBuyerPoints
+      tags: [points]
+      summary: Import legacy browser points once
+      description: Imports an existing browser balance and vouchers to the signed-in account, once per browser migration ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImportBuyerPointsBody"
+      responses:
+        "200":
+          description: Import result and refreshed account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportBuyerPointsResponse"
+        "400":
+          description: Invalid import data
+        "401":
+          description: Authentication required
+  /points/earn:
+    post:
+      operationId: earnBuyerPoints
+      tags: [points]
+      summary: Award the fixed Web mini-game points
+      description: Awards 10 points for one mini-game harvest action to the signed-in buyer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PointEarnRequest"
+      responses:
+        "200":
+          description: Award result and refreshed account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PointEarnResult"
+        "400":
+          description: Invalid action
+        "401":
+          description: Authentication required
+  /points/redeem:
+    post:
+      operationId: redeemBuyerPoints
+      tags: [points]
+      summary: Redeem an account voucher
+      description: Deducts the reward cost from the buyer's oldest active point lots and creates an account voucher.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PointRedemptionRequest"
+      responses:
+        "200":
+          description: Refreshed points account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuyerPointsResponse"
+        "400":
+          description: Invalid reward or insufficient points
+        "401":
+          description: Authentication required
+  /points/vouchers/use:
+    post:
+      operationId: useBuyerPointsVoucher
+      tags: [points]
+      summary: Mark an account voucher as used for a Web order
+      description: Consumes one active voucher belonging to the signed-in buyer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseBuyerVoucherBody"
+      responses:
+        "200":
+          description: Refreshed points account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuyerPointsResponse"
+        "400":
+          description: Voucher is not available
+        "401":
+          description: Authentication required
 components:
   schemas:
     HealthStatus:
@@ -103,4 +212,97 @@ components:
       required:
         - acceptedCount
         - syncedAt
+    BuyerPointLot:
+      type: object
+      properties:
+        amount:
+          type: integer
+          minimum: 1
+        earnedAt:
+          type: string
+          format: date-time
+      required: [amount, earnedAt]
+    BuyerPointsResponse:
+      type: object
+      properties:
+        balance:
+          type: integer
+          minimum: 0
+        lots:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuyerPointLot"
+        vouchers:
+          type: array
+          items:
+            type: string
+            enum: [discount-10k, discount-25k, discount-50k]
+      required: [balance, lots, vouchers]
+    ImportBuyerPointsBody:
+      type: object
+      properties:
+        migrationId:
+          type: string
+          minLength: 1
+          maxLength: 100
+        lots:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuyerPointLot"
+        vouchers:
+          type: array
+          items:
+            type: string
+            enum: [discount-10k, discount-25k, discount-50k]
+      required: [migrationId, lots, vouchers]
+    ImportBuyerPointsResponse:
+      allOf:
+        - $ref: "#/components/schemas/BuyerPointsResponse"
+        - type: object
+          properties:
+            imported:
+              type: boolean
+            importedPoints:
+              type: integer
+              minimum: 0
+          required: [imported, importedPoints]
+    PointEarnRequest:
+      type: object
+      properties:
+        actionId:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required: [actionId]
+    PointEarnResult:
+      allOf:
+        - $ref: "#/components/schemas/BuyerPointsResponse"
+        - type: object
+          properties:
+            awardedPoints:
+              type: integer
+              minimum: 0
+          required: [awardedPoints]
+    PointRedemptionRequest:
+      type: object
+      properties:
+        rewardId:
+          type: string
+          enum: [discount-10k, discount-25k, discount-50k]
+        actionId:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required: [rewardId, actionId]
+    UseBuyerVoucherBody:
+      type: object
+      properties:
+        rewardId:
+          type: string
+          enum: [discount-10k, discount-25k, discount-50k]
+        orderId:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required: [rewardId, orderId]
 

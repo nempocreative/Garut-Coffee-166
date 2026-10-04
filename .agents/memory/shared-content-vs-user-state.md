@@ -9,14 +9,20 @@ Shared source files keep default catalog and hub content aligned, but they do no
 
 **How to apply:** When investigating parity, separate static content parity, responsive layout parity, and cross-device state synchronization. Do not describe the latter as complete until a shared server-side source of truth and a read-after-write path exist.
 
-Garut Beans Web loyalty points and delivery addresses are intentionally browser-local and must remain separate from the mobile app.
+Garut Beans Web loyalty points and vouchers are persisted on a Clerk buyer account and remain separate from the mobile app. Delivery addresses stay browser-local.
 
-**Why:** The user explicitly decided that the Web points balance is Web-only and that delivery addresses saved on Web are not synchronized to HP.
+**Why:** The user chose account-linked Web points and vouchers, a one-time copy of legacy browser data, and no synchronization with mobile. Delivery addresses remain local.
 
-**How to apply:** Keep these records in the Web browser's local storage and avoid UI copy that suggests they appear in the mobile app.
+**How to apply:** Do not use the device-local role as buyer identity; use the authenticated account for loyalty reads and writes. Never suggest that Web points, vouchers, or addresses appear in the mobile app.
 
 G-Beans Web points expire 365 days after earning. Redeeming rewards consumes the oldest active points first. Legacy numeric balances without earning dates receive a one-year grace period when migrated.
 
 **Why:** The user set a one-year expiry rule, and older browser balances do not contain earning timestamps.
 
-**How to apply:** Preserve browser-only storage, record each Web point award with its earning time, and avoid expiring legacy balances immediately during migration.
+**How to apply:** Record each Web point award with its earning time and avoid expiring legacy balances immediately during migration.
+
+New Web Mini Game harvest actions award a fixed 10 PT.
+
+**Why:** The user chose a consistent 10 PT reward for each harvest action.
+
+**How to apply:** Keep the displayed reward and server-awarded amount aligned; do not let the browser choose a different amount.

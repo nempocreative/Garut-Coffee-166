@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" fill="none">
+  <rect width="96" height="96" rx="28" fill="#754936"/>
+  <path d="M61.9 20.5c-12.7-5.6-28.6 2.8-35.5 18.9-6.8 16.1-2 33.6 10.7 39.2 12.7 5.6 28.6-2.8 35.5-18.9 6.8-16.1 2-33.6-10.7-39.2Z" fill="#F2D59A"/>
+  <path d="M59.5 27.1C48.4 39.4 42 54.9 42.3 70.8" stroke="#754936" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 68c8.5-4.2 15.2-11.1 18.8-19.7" stroke="#754936" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="116" y="45" fill="#38271E" font-family="Georgia,serif" font-size="28" font-weight="700">Garut Beans</text>
+  <text x="118" y="68" fill="#795B46" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2.3">G-BEANS · SPECIALTY COFFEE</text>
+</svg>

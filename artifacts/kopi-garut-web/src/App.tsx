@@ -1,10 +1,32 @@
-import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, createElement, Fragment, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   Trash2, ClipboardList, Clock3, FileText, Factory, Leaf, LocateFixed, MessageSquare, Menu,
   Wallet, Wheat,
 } from 'lucide-react';
 import type { LucideIcon, LucideProps } from 'lucide-react';
 import { Route, Router as WouterRouter, Switch, useLocation, useParams } from 'wouter';
+import {
+  ClerkProvider,
+  SignIn,
+  SignUp,
+  useAuth as useClerkAuth,
+  useClerk,
+  useUser,
+} from '@clerk/react';
+import { publishableKeyFromHost } from '@clerk/react/internal';
+import { shadcn } from '@clerk/themes';
+import { idID } from '@clerk/localizations';
+import {
+  earnBuyerPoints,
+  getBuyerPoints,
+  importLegacyBuyerPoints,
+  redeemBuyerPoints,
+  useBuyerPointsVoucher,
+  type BuyerPointsResponse,
+  type ImportBuyerPointsBody,
+  type PointRedemptionRequest,
+  type UseBuyerVoucherBody,
+} from '@workspace/api-client-react';
 import {
   authSessionStorageKey,
   brandTokens,
@@ -25,10 +47,10 @@ import { webCoffeeCatalog } from '@/lib/coffee-catalog';
 import { getWebProductImage } from '@/lib/web-product-images';
 import HomePage from '@/pages/home-page';
 import '@/pages/points-page.css';
+import '@/clerk-auth.css';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
 import {
-  consumeOldestPointLots,
   getActivePointLots,
   getNextPointExpiry,
   getPointsBalance,
@@ -46,6 +68,67 @@ import {
 } from '@/lib/loyalty';
 import { ServiceLocationPicker } from '@/components/service-location-picker';
 import { AppIcon, AppNavGlyph, type AppIconName, type AppNavGlyphName } from '@/components/app-icon';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const clerkPubKey = publishableKeyFromHost(
+  window.location.hostname,
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
+);
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+
+if (!clerkPubKey) {
+  throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in the Web app environment.');
+}
+
+function stripClerkBase(path: string) {
+  return basePath && path.startsWith(basePath)
+    ? path.slice(basePath.length) || '/'
+    : path;
+}
+
+const clerkAppearance = {
+  theme: shadcn,
+  cssLayerName: 'clerk',
+  options: {
+    logoPlacement: 'inside' as const,
+    logoLinkUrl: basePath || '/',
+    logoImageUrl: `${window.location.origin}${basePath}/logo.svg`,
+  },
+  variables: {
+    colorPrimary: brandTokens.primary,
+    colorForeground: brandTokens.foreground,
+    colorMutedForeground: brandTokens.mutedForeground,
+    colorBackground: brandTokens.card,
+    colorInput: brandTokens.card,
+    colorInputForeground: brandTokens.foreground,
+    colorDanger: brandTokens.destructive,
+    colorNeutral: brandTokens.border,
+    fontFamily: 'Manrope, Trebuchet MS, sans-serif',
+    borderRadius: '1rem',
+  },
+  elements: {
+    rootBox: { width: '100%', display: 'flex', justifyContent: 'center' },
+    cardBox: {
+      width: '100%',
+      overflow: 'hidden',
+      border: '1px solid rgba(117, 73, 54, .14)',
+      borderRadius: '24px',
+      background: '#fffdf9',
+      boxShadow: '0 20px 55px rgba(72, 47, 30, .12)',
+    },
+    card: { background: 'transparent', boxShadow: 'none' },
+    footer: { background: 'transparent', boxShadow: 'none' },
+    headerTitle: { color: '#38271e', fontFamily: 'Georgia, serif' },
+    headerSubtitle: { color: '#68584d' },
+    socialButtonsBlockButtonText: { color: '#38271e' },
+    formFieldLabel: { color: '#49372c' },
+    formFieldInput: { color: '#38271e', background: '#fff' },
+    footerActionLink: { color: '#754936' },
+    footerActionText: { color: '#68584d' },
+    dividerText: { color: '#68584d' },
+    formButtonPrimary: { background: '#754936', color: '#fffdf9' },
+  },
+};
 
 const mobileIcon = (name: AppIconName): LucideIcon => {
   const Icon = ({ size = 24, color = 'currentColor', strokeWidth = 1.8, className, style }: LucideProps) => (
@@ -155,21 +238,24 @@ type Order = {
   createdAt: string;
   status: string;
 };
+type PointMigrationSnapshot = { lots: PointLot[]; vouchers: string[] };
 type StoreValue = {
   cart: CartItem[]; favorites: string[]; orders: Order[];
   cartNotice: { id: string; quantity: number } | null;
   points: number; nextPointExpiry: PointExpirySummary | null; vouchers: string[]; serviceMode: ServiceMode;
+  pointsLoading: boolean; pointsError: string; hasBuyerAccount: boolean;
+  refreshBuyerPoints: () => void;
   serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
   addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
-  addPoints: (amount: number) => void;
-  redeemPoints: (rewardId: string) => void;
+  addPoints: (amount: number) => Promise<boolean>;
+  redeemPoints: (rewardId: string) => Promise<void>;
   setServiceMode: (mode: ServiceMode) => void;
   setServiceLocationId: (id: ServiceLocationId) => void;
   setSelectedDeliveryAddressId: (id: string) => void;
   addDeliveryAddress: (label: string, address: string) => void;
   removeDeliveryAddress: (id: string) => void;
-  placeOrder: (voucherId?: string | null) => boolean;
+  placeOrder: (voucherId?: string | null) => Promise<boolean>;
   notify: (message: string) => void; dismissCartNotice: () => void;
 };
 const StoreContext = createContext<StoreValue | null>(null);
@@ -180,12 +266,19 @@ const useStore = () => {
 };
 
 function StoreProvider({ children }: { children: ReactNode }) {
+  const clerkAuth = useClerkAuth();
   const [cart, setCart] = useWebStorageJson<CartItem[]>('kopi-garut-cart', []);
   const [favorites, setFavorites] = useWebStorageJson<string[]>('kopi-garut-favorites', []);
   const [orders, setOrders] = useWebStorageJson<Order[]>('kopi-garut-orders', []);
   const [storedPointLots, setStoredPointLots] = useWebStorageJson<PointLot[]>('kopi-garut-coffee-game-point-lots', []);
   const [legacyPoints, setLegacyPoints] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
-  const [vouchers, setVouchers] = useWebStorageJson<string[]>('kopi-garut-coffee-game-vouchers', []);
+  const [storedVouchers, setStoredVouchers] = useWebStorageJson<string[]>('kopi-garut-coffee-game-vouchers', []);
+  const [accountPointLots, setAccountPointLots] = useState<PointLot[]>([]);
+  const [accountVouchers, setAccountVouchers] = useState<string[]>([]);
+  const [accountOwnerId, setAccountOwnerId] = useState('');
+  const [pointSyncStatus, setPointSyncStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+  const [pointSyncError, setPointSyncError] = useState('');
+  const [pointSyncRetry, setPointSyncRetry] = useState(0);
   const [serviceMode, setServiceMode] = useWebStorageJson<ServiceMode>('kopi-garut-service-mode', 'delivery');
   const [serviceLocationId, setServiceLocationId] = useWebStorageJson<string>('kopi-garut-service-location', 'papandayan');
   const [deliveryAddresses, setDeliveryAddresses] = useWebStorageJson<DeliveryAddress[]>('kopi-garut-delivery-addresses', []);
@@ -193,6 +286,11 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [notice, setNotice] = useState('');
   const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
   const [pointClock, setPointClock] = useState(() => Date.now());
+  const pendingVoucherOrderRef = useRef<{ signature: string; id: string } | null>(null);
+  const pendingEarnActionRef = useRef<{ userId: string; actionId: string } | null>(null);
+  const pendingRedemptionActionsRef = useRef<Record<string, { userId: string; actionId: string }>>({});
+  const buyerUserId = clerkAuth.userId ?? '';
+  const hasBuyerAccount = Boolean(clerkAuth.isLoaded && clerkAuth.isSignedIn && buyerUserId);
   const normalizedPointLots = useMemo(() => normalizePointLots(storedPointLots), [storedPointLots]);
   const legacyPointAmount = typeof legacyPoints === 'number' && Number.isFinite(legacyPoints)
     ? Math.max(0, Math.floor(legacyPoints))
@@ -205,8 +303,33 @@ function StoreProvider({ children }: { children: ReactNode }) {
         : [];
     return getActivePointLots(lots, pointClock);
   }, [normalizedPointLots, legacyPointAmount, pointClock]);
-  const points = useMemo(() => getPointsBalance(pointLots), [pointLots]);
-  const nextPointExpiry = useMemo(() => getNextPointExpiry(pointLots), [pointLots]);
+  const migrationSnapshotRef = useRef<PointMigrationSnapshot>({ lots: [], vouchers: [] });
+  if (!hasBuyerAccount) {
+    migrationSnapshotRef.current = { lots: pointLots, vouchers: storedVouchers };
+  }
+  const accountMatchesCurrentUser = hasBuyerAccount && accountOwnerId === buyerUserId;
+  const accountLotsForView = accountMatchesCurrentUser ? accountPointLots : [];
+  const pointLotsForView = hasBuyerAccount ? accountLotsForView : pointLots;
+  const points = useMemo(() => getPointsBalance(pointLotsForView), [pointLotsForView]);
+  const nextPointExpiry = useMemo(() => getNextPointExpiry(pointLotsForView), [pointLotsForView]);
+  const vouchers = hasBuyerAccount
+    ? accountMatchesCurrentUser ? accountVouchers : []
+    : storedVouchers;
+  const pointsLoading = hasBuyerAccount && (
+    !accountMatchesCurrentUser || pointSyncStatus === 'loading'
+  );
+  const pointsError = hasBuyerAccount && pointSyncStatus === 'error' ? pointSyncError : '';
+
+  const applyBuyerPoints = (response: BuyerPointsResponse, ownerId: string) => {
+    setAccountPointLots(response.lots.map((lot) => ({
+      amount: lot.amount,
+      earnedAt: new Date(lot.earnedAt).getTime(),
+    })));
+    setAccountVouchers([...response.vouchers]);
+    setAccountOwnerId(ownerId);
+    setPointSyncStatus('ready');
+    setPointSyncError('');
+  };
 
   useEffect(() => {
     if (JSON.stringify(storedPointLots) !== JSON.stringify(pointLots)) {
@@ -217,6 +340,83 @@ function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (legacyPoints !== 0) setLegacyPoints(0);
   }, [legacyPoints, setLegacyPoints]);
+
+  useEffect(() => {
+    if (!clerkAuth.isLoaded) return;
+    if (!hasBuyerAccount || !buyerUserId) {
+      setAccountPointLots([]);
+      setAccountVouchers([]);
+      setAccountOwnerId('');
+      setPointSyncStatus('idle');
+      setPointSyncError('');
+      return;
+    }
+
+    let cancelled = false;
+    setAccountPointLots([]);
+    setAccountVouchers([]);
+    setAccountOwnerId('');
+    setPointSyncStatus('loading');
+    setPointSyncError('');
+
+    const syncBuyerPoints = async () => {
+      const current = await getBuyerPoints();
+      if (cancelled) return;
+      applyBuyerPoints(current, buyerUserId);
+
+      const importComplete = localStorage.getItem('kopi-garut-buyer-points-import-complete');
+      if (importComplete) return;
+
+      const migrationIdKey = 'kopi-garut-buyer-points-migration-id';
+      let migrationId = localStorage.getItem(migrationIdKey);
+      if (!migrationId) {
+        migrationId = crypto.randomUUID();
+        localStorage.setItem(migrationIdKey, migrationId);
+      }
+      const legacySnapshot = migrationSnapshotRef.current;
+      const rewardIds = new Set<ImportBuyerPointsBody['vouchers'][number]>([
+        'discount-10k',
+        'discount-25k',
+        'discount-50k',
+      ]);
+      const imported = await importLegacyBuyerPoints({
+        migrationId,
+        lots: legacySnapshot.lots.map((lot) => ({
+          amount: lot.amount,
+          earnedAt: new Date(lot.earnedAt).toISOString(),
+        })),
+        vouchers: legacySnapshot.vouchers.filter(
+          (voucher): voucher is ImportBuyerPointsBody['vouchers'][number] =>
+            rewardIds.has(voucher as ImportBuyerPointsBody['vouchers'][number]),
+        ),
+      });
+      if (cancelled) return;
+
+      localStorage.setItem('kopi-garut-buyer-points-import-complete', 'true');
+      setStoredPointLots([]);
+      setLegacyPoints(0);
+      setStoredVouchers([]);
+      applyBuyerPoints(imported, buyerUserId);
+    };
+
+    void syncBuyerPoints().catch((error: unknown) => {
+      if (cancelled) return;
+      setPointSyncStatus('error');
+      setPointSyncError(error instanceof Error ? error.message : 'Gagal memuat saldo akun.');
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    clerkAuth.isLoaded,
+    hasBuyerAccount,
+    buyerUserId,
+    pointSyncRetry,
+    setLegacyPoints,
+    setStoredPointLots,
+    setStoredVouchers,
+  ]);
 
   useEffect(() => {
     const refreshPointClock = () => setPointClock(Date.now());
@@ -231,6 +431,7 @@ function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
   useEffect(() => { if (!cartNotice) return; const timer = window.setTimeout(() => setCartNotice(null), 4800); return () => window.clearTimeout(timer); }, [cartNotice]);
   const notify = (message: string) => setNotice(message);
+  const refreshBuyerPoints = () => setPointSyncRetry((current) => current + 1);
   const addToCart = (id: string, quantity = 1) => {
     setCartNotice({ id, quantity });
     setCart((current) => {
@@ -244,19 +445,34 @@ function StoreProvider({ children }: { children: ReactNode }) {
     setFavorites((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
     notify(favorites.includes(id) ? 'Dihapus dari favorit' : 'Disimpan ke favorit');
   };
-  const addPoints = (amount: number) => {
-    const pointsToAdd = Math.floor(amount);
-    if (pointsToAdd <= 0) return;
-    const earnedAt = Date.now();
-    setStoredPointLots((current) => {
-      const currentLots = normalizePointLots(current);
-      const startingLots = currentLots.length > 0
-        ? getActivePointLots(currentLots, earnedAt)
-        : legacyPointAmount > 0
-          ? getActivePointLots([{ amount: legacyPointAmount, earnedAt: pointClock }], earnedAt)
-          : [];
-      return [...startingLots, { amount: pointsToAdd, earnedAt }];
-    });
+  const addPoints = async (amount: number) => {
+    if (!hasBuyerAccount || !buyerUserId) {
+      notify('Masuk ke akun pembeli untuk menyimpan poin.');
+      return false;
+    }
+    if (amount !== 10) {
+      notify('Panen biji kopi menambah tepat 10 PT.');
+      return false;
+    }
+    if (pointsLoading || pointSyncStatus === 'error') {
+      notify('Saldo akun belum siap. Coba sinkronkan lagi sebelum panen.');
+      return false;
+    }
+    try {
+      if (pendingEarnActionRef.current?.userId !== buyerUserId) {
+        pendingEarnActionRef.current = { userId: buyerUserId, actionId: crypto.randomUUID() };
+      }
+      const response = await earnBuyerPoints({ actionId: pendingEarnActionRef.current.actionId });
+      pendingEarnActionRef.current = null;
+      applyBuyerPoints(response, buyerUserId);
+      notify(response.awardedPoints > 0 ? '10 PT berhasil ditambahkan ke akunmu.' : 'Panen ini sudah tercatat.');
+      return response.awardedPoints > 0;
+    } catch {
+      setPointSyncStatus('error');
+      setPointSyncError('Poin belum berhasil disimpan ke akun.');
+      notify('Poin belum berhasil disimpan. Periksa koneksi lalu coba lagi.');
+      return false;
+    }
   };
   const addDeliveryAddress = (label: string, address: string) => {
     const nextAddress = {
@@ -272,10 +488,18 @@ function StoreProvider({ children }: { children: ReactNode }) {
     setDeliveryAddresses((current) => current.filter((item) => item.id !== id));
     setSelectedDeliveryAddressId((current) => current === id ? '' : current);
   };
-  const redeemPoints = (rewardId: string) => {
+  const redeemPoints = async (rewardId: string) => {
     const reward = webRewards.find((item) => item.id === rewardId);
     if (!reward) {
       notify('Hadiah poin tidak ditemukan');
+      return;
+    }
+    if (!hasBuyerAccount || !buyerUserId) {
+      notify('Masuk ke akun pembeli untuk menukar poin.');
+      return;
+    }
+    if (pointsLoading || pointSyncStatus === 'error') {
+      notify('Saldo akun belum siap. Coba sinkronkan lagi sebelum menukar poin.');
       return;
     }
     if (vouchers.includes(rewardId)) {
@@ -283,18 +507,33 @@ function StoreProvider({ children }: { children: ReactNode }) {
       return;
     }
     const now = Date.now();
-    const currentPointLots = getActivePointLots(pointLots, now);
+    const currentPointLots = getActivePointLots(pointLotsForView, now);
     const currentPoints = getPointsBalance(currentPointLots);
     if (currentPoints < reward.cost) {
       const missingPoints = reward.cost - currentPoints;
       notify(`Kurang ${missingPoints.toLocaleString('id-ID')} PT (${formatPrice(missingPoints)}) untuk menukar hadiah ini`);
       return;
     }
-    setStoredPointLots(consumeOldestPointLots(currentPointLots, reward.cost, now));
-    setVouchers((current) => current.includes(rewardId) ? current : [...current, rewardId]);
-    notify('Voucher berhasil ditukar dan siap digunakan di keranjang');
+    try {
+      let pending = pendingRedemptionActionsRef.current[rewardId];
+      if (pending?.userId !== buyerUserId) {
+        pending = { userId: buyerUserId, actionId: crypto.randomUUID() };
+        pendingRedemptionActionsRef.current[rewardId] = pending;
+      }
+      const response = await redeemBuyerPoints({
+        rewardId: rewardId as PointRedemptionRequest['rewardId'],
+        actionId: pending.actionId,
+      });
+      delete pendingRedemptionActionsRef.current[rewardId];
+      applyBuyerPoints(response, buyerUserId);
+      notify('Voucher berhasil ditukar dan siap digunakan di keranjang');
+    } catch {
+      setPointSyncStatus('error');
+      setPointSyncError('Penukaran belum berhasil disimpan.');
+      notify('Penukaran belum berhasil. Saldo akan diperbarui sebelum mencoba lagi.');
+    }
   };
-  const placeOrder = (voucherId: string | null = null) => {
+  const placeOrder = async (voucherId: string | null = null) => {
     if (!cart.length) return false;
     let serviceLocation: string;
     let serviceLocationDetail: string;
@@ -324,8 +563,42 @@ function StoreProvider({ children }: { children: ReactNode }) {
     }
     const discount = canUseVoucher ? reward!.amount : 0;
     const total = Math.max(0, subtotal - discount);
+    const signature = JSON.stringify({ cart, voucherId });
+    let orderId = `KG-${Date.now().toString().slice(-6)}`;
+    if (canUseVoucher && reward) {
+      if (!hasBuyerAccount || !buyerUserId) {
+        notify('Masuk ke akun pembeli untuk menggunakan voucher akun.');
+        return false;
+      }
+      if (pointsLoading || pointSyncStatus !== 'ready' || !accountMatchesCurrentUser) {
+        notify('Saldo akun belum siap. Coba sinkronkan lagi sebelum memakai voucher.');
+        return false;
+      }
+      if (
+        !pendingVoucherOrderRef.current ||
+        pendingVoucherOrderRef.current.signature !== signature
+      ) {
+        pendingVoucherOrderRef.current = {
+          signature,
+          id: `KG-${crypto.randomUUID().slice(0, 12).toUpperCase()}`,
+        };
+      }
+      orderId = pendingVoucherOrderRef.current.id;
+      try {
+        const response = await useBuyerPointsVoucher({
+          rewardId: reward.id as UseBuyerVoucherBody['rewardId'],
+          orderId,
+        });
+        applyBuyerPoints(response, buyerUserId);
+      } catch {
+        setPointSyncStatus('error');
+        setPointSyncError('Voucher belum berhasil digunakan.');
+        notify('Voucher belum berhasil digunakan. Keranjangmu tetap tersimpan.');
+        return false;
+      }
+    }
     setOrders((current) => [{
-      id: `KG-${Date.now().toString().slice(-6)}`,
+      id: orderId,
       items: cart,
       total,
       discount,
@@ -335,18 +608,14 @@ function StoreProvider({ children }: { children: ReactNode }) {
       createdAt: homeDate(),
       status: 'Dipesan',
     }, ...current]);
-    if (canUseVoucher && reward) {
-      setVouchers((current) => {
-        const index = current.indexOf(reward.id);
-        return index < 0 ? current : current.filter((_, itemIndex) => itemIndex !== index);
-      });
-    }
+    pendingVoucherOrderRef.current = null;
     setCart([]);
     notify('Pesanan berhasil dibuat');
     return true;
   };
   return <StoreContext.Provider value={{
     cart, favorites, orders, cartNotice, points, nextPointExpiry, vouchers, serviceMode,
+    pointsLoading, pointsError, hasBuyerAccount, refreshBuyerPoints,
     serviceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode,
     setServiceLocationId, setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
@@ -405,6 +674,7 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
 
 function BottomNav() {
   const [location, setLocation] = useLocation();
+  if (location.startsWith('/sign-in') || location.startsWith('/sign-up')) return null;
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : location.startsWith('/profile') || location.startsWith('/settings') ? 'profile' : '';
   const items: { id: string; label: string; icon: AppNavGlyphName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
@@ -446,7 +716,7 @@ function FloatingActions() {
   const route = location.split('?')[0];
   const isFarmerRoute = route === '/farmers' || route === '/extension-farmers' || route.startsWith('/farmer/');
   const isRegionRoute = route === '/regions' || route.startsWith('/region/');
-  if (route === '/login' || route === '/support' || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
+  if (route === '/login' || route === '/support' || route.startsWith('/sign-in') || route.startsWith('/sign-up') || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
 
   const handleSupportAction = (key: (typeof supportActions)[number]['key']) => {
     setOpen(false);
@@ -543,11 +813,15 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
 
 function WebHomeRoute() {
   const [, setLocation] = useLocation();
+  const clerkAuth = useClerkAuth();
   const {
     favorites, addToCart, toggleFavorite, points, serviceMode, setServiceMode,
     serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
   } = useStore();
+  useEffect(() => {
+    if (clerkAuth.isLoaded && clerkAuth.isSignedIn) setLocation('/profile', { replace: true });
+  }, [clerkAuth.isLoaded, clerkAuth.isSignedIn, setLocation]);
   return <>
     <HomePage
       onNavigate={setLocation}
@@ -706,11 +980,14 @@ function ProductDetailPage() {
 function CartPage() {
   const {
     cart, updateQuantity, placeOrder, vouchers, points, serviceMode, setServiceMode,
+    pointsLoading, hasBuyerAccount,
     serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
   } = useStore();
+  const clerkAuth = useClerkAuth();
   const [, setLocation] = useLocation();
   const [selectedVoucherId, setSelectedVoucherId] = useState<string | null>(null);
+  const [placingOrder, setPlacingOrder] = useState(false);
   const rows = cart.map((item) => ({ ...item, coffee: coffees.find((coffee) => coffee.id === item.id) })).filter((item) => item.coffee);
   const subtotal = rows.reduce((sum, item) => sum + (item.coffee?.price || 0) * item.quantity, 0);
   const availableVouchers = webRewards.filter((reward) => vouchers.includes(reward.id));
@@ -721,8 +998,14 @@ function CartPage() {
   const serviceLocationSummary = serviceMode === 'delivery'
     ? selectedAddress ? `${selectedAddress.label}: ${selectedAddress.address}` : 'Pilih alamat Delivery'
     : selectedLocation ? `${selectedLocation.name} · ${selectedLocation.area}` : 'Pilih outlet mitra';
-  const submitOrder = () => {
-    if (placeOrder(selectedVoucher?.id ?? null)) setLocation('/orders');
+  const submitOrder = async () => {
+    if (placingOrder) return;
+    setPlacingOrder(true);
+    try {
+      if (await placeOrder(selectedVoucher?.id ?? null)) setLocation('/orders');
+    } finally {
+      setPlacingOrder(false);
+    }
   };
   return <Page><main className="subpage">
     <Header />
@@ -770,16 +1053,17 @@ function CartPage() {
             key={reward.id}
             className={`cart-voucher-card ${selected ? 'selected' : ''} ${eligible ? '' : 'ineligible'}`}
             type="button"
-            disabled={!eligible}
+            disabled={!eligible || !hasBuyerAccount || pointsLoading}
             aria-pressed={selected}
             onClick={() => setSelectedVoucherId(selected ? null : reward.id)}
             data-testid={`cart-voucher-${reward.id}`}
           >
             <span className="cart-voucher-mark"><Coffee size={17} /></span>
-            <span className="cart-voucher-copy"><strong>{reward.title}</strong><small>{eligible ? `Min. belanja ${formatPrice(reward.minimumSubtotal)}` : `Tambah ${formatPrice(reward.minimumSubtotal - subtotal)} agar bisa digunakan`}</small></span>
-            <span className="cart-voucher-state">{selected ? <Check size={16} /> : eligible ? 'Pakai' : 'Belum'}</span>
+            <span className="cart-voucher-copy"><strong>{reward.title}</strong><small>{!clerkAuth.isSignedIn ? 'Masuk untuk memakai voucher akun' : eligible ? `Min. belanja ${formatPrice(reward.minimumSubtotal)}` : `Tambah ${formatPrice(reward.minimumSubtotal - subtotal)} agar bisa digunakan`}</small></span>
+            <span className="cart-voucher-state">{selected ? <Check size={16} /> : eligible && hasBuyerAccount ? 'Pakai' : 'Belum'}</span>
           </button>;
         })}</div> : <div className="cart-no-voucher"><p>Belum ada voucher aktif. Tukar poin dengan hadiah diskon di halaman Poin G-Beans.</p><button type="button" onClick={() => setLocation('/points')} data-testid="cart-go-points">Lihat poin &amp; hadiah <ArrowRight size={14} /></button></div>}
+        {availableVouchers.length > 0 && !clerkAuth.isSignedIn && <div className="cart-account-voucher-notice"><span>Voucher digunakan dari akun pembeli. Masuk untuk memindahkan voucher lama dan menyinkronkannya.</span><button type="button" onClick={() => setLocation('/sign-in?returnTo=/cart')}>Masuk</button></div>}
       </section>
 
       <div className="summary">
@@ -787,7 +1071,7 @@ function CartPage() {
         <div className="summary-line"><span>{selectedService.label}</span><b>{serviceLocationSummary}</b></div>
         {selectedVoucher && <div className="summary-line cart-discount-line"><span>{selectedVoucher.title}</span><b>−{formatPrice(selectedVoucher.amount)}</b></div>}
         <div className="summary-line total"><span>Total sementara</span><b>{formatPrice(subtotal - (selectedVoucher?.amount ?? 0))}</b></div>
-        <button className="primary-button" onClick={submitOrder} data-testid="button-place-order">Buat pesanan</button>
+        <button className="primary-button" onClick={submitOrder} disabled={placingOrder} data-testid="button-place-order">{placingOrder ? 'Menyimpan pesanan…' : 'Buat pesanan'}</button>
       </div>
     </> : <EmptyState icon={ShoppingBag} title="Keranjang masih kosong" text="Pilih kopi yang ingin kamu bawa pulang dari lereng Garut." action="Jelajahi katalog" onAction={() => setLocation('/catalog')} />}
   </main></Page>;
@@ -898,8 +1182,18 @@ function GuestAccountPage() {
           </div>
         </div>
 
-        <button className="guest-account-primary" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">
-          <span>Masuk ke akun</span><ArrowRight size={18} aria-hidden="true" />
+        <div className="guest-account-role-copy" style={{ marginTop: 18 }}>
+          <strong>Akun pembeli G-Beans</strong>
+          <small>Poin dan voucher tersimpan pada akun Web yang terhubung.</small>
+        </div>
+        <button className="guest-account-primary" onClick={() => setLocation('/sign-up')} data-testid="profile-buyer-sign-up">
+          <span>Buat akun pembeli</span><ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <button className="text-button" onClick={() => setLocation('/sign-in')} data-testid="profile-buyer-sign-in">
+          Sudah punya akun? Masuk
+        </button>
+        <button className="text-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">
+          Masuk ke ruang kerja petani / penyuluh
         </button>
       </aside>
     </section>
@@ -910,19 +1204,31 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
   const [, setLocation] = useLocation();
   const { orders, cart, favorites, notify } = useStore();
   const { signOut } = useAuth();
+  const clerkAuth = useClerkAuth();
+  const { user } = useUser();
+  const clerk = useClerk();
   const [voucherSaved, setVoucherSaved] = useState(false);
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const firstName = profile.name.split(' ')[0];
+  const buyerName = clerkAuth.isSignedIn && user?.fullName ? user.fullName : profile.name;
+  const firstName = buyerName.split(' ')[0];
+  const buyerInitials = buyerName.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || profile.initials;
+  const handleSignOut = () => {
+    if (clerkAuth.isSignedIn) {
+      void clerk.signOut({ redirectUrl: basePath || '/' });
+      return;
+    }
+    signOut();
+  };
   const activeOrder = orders.find((order) => order.status !== 'Diantar' && order.status !== 'Delivered');
   const latestOrder = activeOrder ?? orders[0];
   const firstCoffee = latestOrder ? coffees.find((coffee) => coffee.id === latestOrder.items[0]?.id) : undefined;
   return <Page><main className="subpage account-page buyer-account-page">
     <Header title="Akun pembeli" />
     <section className="buyer-account-hero">
-      <div className="buyer-account-top"><div className="avatar">{profile.initials}</div><span className="member-badge"><i /> MEMBER G-BEANS</span></div>
+      <div className="buyer-account-top"><div className="avatar">{buyerInitials}</div><span className="member-badge"><i /> MEMBER G-BEANS</span></div>
       <span className="account-hero-kicker">RUANG BELANJAMU</span><h1>Halo, {firstName}.</h1>
       <p>Pantau pesanan, gunakan voucher, dan temukan kopi untuk ritual berikutnya.</p>
-      <div className="account-hero-foot"><div><small>AKUN AKTIF</small><strong>Pembeli kopi pilihan</strong></div><ShoppingBag size={26} /></div>
+      <div className="account-hero-foot"><div><small>{clerkAuth.isSignedIn ? 'AKUN PEMBELI' : 'AKUN AKTIF'}</small><strong>{clerkAuth.isSignedIn ? user?.primaryEmailAddress?.emailAddress ?? 'Akun terhubung' : 'Pembeli kopi pilihan'}</strong></div><ShoppingBag size={26} /></div>
     </section>
     <div className="account-stat-row"><AccountStat value={`${orders.length}`} label="Pesanan" /><AccountStat value={`${cartCount}`} label="Keranjang" /><AccountStat value={`${favorites.length}`} label="Favorit" /></div>
     <section className="account-section">
@@ -933,7 +1239,7 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
       <div className="voucher-stamp"><strong>15%</strong><small>OFF</small></div><div><span>VOUCHER PILIHAN</span><strong>Selamat datang di ritual baru.</strong><p>Min. belanja Rp 150.000 · berlaku minggu ini</p><code>GARUT15 <Check size={13} /></code></div><button onClick={() => { setVoucherSaved((saved) => !saved); notify(voucherSaved ? 'Voucher dihapus dari simpanan' : 'Voucher GARUT15 disimpan'); }} data-testid="buyer-voucher-save">{voucherSaved ? 'Tersimpan' : 'Simpan'}</button>
     </section>
     <section className="account-section"><span className="section-kicker">BELANJA & AKUN</span><div className="account-action-grid"><button onClick={() => setLocation('/cart')} data-testid="buyer-cart"><ShoppingBag size={18} /><strong>Keranjang</strong><small>{cartCount ? `${cartCount} item siap dibayar` : 'Belum ada item'}</small></button><button onClick={() => setLocation('/favorites')} data-testid="buyer-favorites"><Heart size={18} /><strong>Favorit</strong><small>{favorites.length ? `${favorites.length} kopi tersimpan` : 'Simpan kopi favorit'}</small></button><button onClick={() => setLocation('/catalog')} data-testid="buyer-shop-again"><Coffee size={18} /><strong>Belanja lagi</strong><small>Temukan kopi pilihan</small></button><button onClick={() => setLocation('/orders')} data-testid="buyer-orders"><Package size={18} /><strong>Semua pesanan</strong><small>{orders.length} riwayat belanja</small></button></div></section>
-    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Alamat pengiriman" description="Atur alamat untuk pesanan berikutnya" onClick={() => notify('Alamat pengiriman akan tersedia saat checkout berikutnya')} testId="buyer-address" /><AccountMenuItem icon={Bell} title="Notifikasi pesanan" description="Lihat kabar terbaru tentang ritualmu" onClick={() => setLocation('/notifications')} testId="buyer-notifications" /><AccountMenuItem icon={CircleUserRound} title="Pusat bantuan" description="Butuh bantuan dengan pesanan?" onClick={() => notify('Tim Garut Beans siap membantu melalui kanal dukungan')} testId="buyer-help" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" /></div>
+    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Alamat pengiriman" description="Atur alamat untuk pesanan berikutnya" onClick={() => notify('Alamat pengiriman akan tersedia saat checkout berikutnya')} testId="buyer-address" /><AccountMenuItem icon={Bell} title="Notifikasi pesanan" description="Lihat kabar terbaru tentang ritualmu" onClick={() => setLocation('/notifications')} testId="buyer-notifications" /><AccountMenuItem icon={CircleUserRound} title="Pusat bantuan" description="Butuh bantuan dengan pesanan?" onClick={() => notify('Tim Garut Beans siap membantu melalui kanal dukungan')} testId="buyer-help" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={handleSignOut} destructive testId="profile-sign-out" /></div>
   </main></Page>;
 }
 
@@ -1009,6 +1315,10 @@ function EducatorAccountPage({ profile }: { profile: RoleProfile }) {
 
 function ProfilePage() {
   const { session } = useAuth();
+  const clerkAuth = useClerkAuth();
+  if (clerkAuth.isLoaded && clerkAuth.isSignedIn) {
+    return <BuyerAccountPage profile={getRoleProfile('pengguna')} />;
+  }
   if (!session) return <GuestAccountPage />;
   if (session.id === 'petani') return <FarmerAccountPage profile={session} />;
   if (session.id === 'penyuluh') return <EducatorAccountPage profile={session} />;
@@ -1018,11 +1328,14 @@ function ProfilePage() {
 function LoginPage({ returnTo: requestedReturnTo }: { returnTo?: string }) {
   const [, setLocation] = useLocation();
   const { session, signIn } = useAuth();
-  const [selectedRole, setSelectedRole] = useState<AuthRole>(session?.id ?? 'pengguna');
+  const [selectedRole, setSelectedRole] = useState<AuthRole>(
+    session && session.id !== 'pengguna' ? session.id : 'petani',
+  );
   const params = new URLSearchParams(window.location.search);
   const requestedPath = requestedReturnTo || params.get('returnTo') || '/program';
   const returnTo = requestedPath.startsWith('/') ? requestedPath : '/program';
   const selectedProfile = getRoleProfile(selectedRole);
+  const internalRoleProfiles = roleProfiles.filter((profile) => profile.id !== 'pengguna');
 
   return <div className="auth-viewport">
     <div className="auth-screen">
@@ -1032,10 +1345,11 @@ function LoginPage({ returnTo: requestedReturnTo }: { returnTo?: string }) {
         <p>Masuk untuk menemukan asal, rasa, dan orang-orang di balik setiap cangkir.</p>
       </div>
       <div className="auth-copy"><div className="section-kicker">PILIH AKSES</div><h2>Kamu masuk sebagai siapa?</h2><p>Menu dan pengalaman akan menyesuaikan peran yang kamu pilih.</p></div>
-      <div className="role-list">{roleProfiles.map((profile) => <button key={profile.id} className={`role-card ${profile.id === selectedRole ? 'selected' : ''}`} onClick={() => setSelectedRole(profile.id)} data-testid={`login-role-${profile.id}`}><span className="avatar">{profile.initials}</span><span className="role-card-copy"><strong>{profile.label}</strong><b>{profile.name}</b><small>{profile.description}</small></span><span className="role-check">{profile.id === selectedRole ? '✓' : '○'}</span></button>)}</div>
+       <div className="role-list">{internalRoleProfiles.map((profile) => <button key={profile.id} className={`role-card ${profile.id === selectedRole ? 'selected' : ''}`} onClick={() => setSelectedRole(profile.id)} data-testid={`login-role-${profile.id}`}><span className="avatar">{profile.initials}</span><span className="role-card-copy"><strong>{profile.label}</strong><b>{profile.name}</b><small>{profile.description}</small></span><span className="role-check">{profile.id === selectedRole ? '✓' : '○'}</span></button>)}</div>
       <div className="selected-access"><b>AKSES TERPILIH</b><span>{selectedProfile.label} · {selectedProfile.name}</span></div>
-      <button className="primary-button auth-submit" onClick={() => { signIn(selectedRole); setLocation(returnTo); }} data-testid="login-submit">{session ? 'Simpan peran ini' : 'Masuk sebagai akun ini'} <ArrowRight size={15} /></button>
-      <p className="auth-note">Akun ini masih lokal di perangkat. Login server dan akun lintas perangkat dapat disambungkan kemudian.</p>
+       <button className="primary-button auth-submit" onClick={() => { signIn(selectedRole); setLocation(returnTo); }} data-testid="login-submit">{session && session.id !== 'pengguna' ? 'Simpan peran ini' : 'Masuk ke ruang kerja'} <ArrowRight size={15} /></button>
+       <button className="text-button" onClick={() => setLocation('/sign-in')}>Pembeli? Masuk dengan akun G-Beans</button>
+       <p className="auth-note">Akses petani dan penyuluh di demo ini masih lokal di perangkat. Akun pembeli memakai login G-Beans yang terhubung.</p>
     </div>
     <SiteFooter onNavigate={setLocation} />
   </div>;
@@ -2138,10 +2452,39 @@ function SupportPage() {
 
 function PointsPage() {
   const [, setLocation] = useLocation();
-  const { points, nextPointExpiry, vouchers, redeemPoints } = useStore();
+  const clerkAuth = useClerkAuth();
+  const {
+    points, nextPointExpiry, vouchers, redeemPoints,
+    pointsLoading, pointsError, refreshBuyerPoints,
+  } = useStore();
   const activeRewards = webRewards.filter((reward) => vouchers.includes(reward.id));
   const nextReward = webRewards.find((reward) => points < reward.cost);
   const nextRewardProgress = nextReward ? Math.min(100, Math.round((points / nextReward.cost) * 100)) : 100;
+
+  if (!clerkAuth.isLoaded) {
+    return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate" role="status"><h2>Memuat akun pembeli…</h2></div></main></Page>;
+  }
+  if (!clerkAuth.isSignedIn) {
+    return <Page><main className="subpage points-page">
+      <Header title="Poin G-Beans" />
+      <section className="points-account-gate">
+        <span className="section-kicker">AKUN PEMBELI G-BEANS</span>
+        <h2>Simpan poin pada akun Web-mu</h2>
+        <p>Masuk atau buat akun agar poin panen dan voucher tersimpan di server dan bisa dipakai kembali saat kamu membuka Web di perangkat lain.</p>
+        <p>Saldo lama dari browser ini dapat disalin satu kali ke akun. Nilai awalnya tidak dapat diverifikasi; poin Web tidak tersambung ke aplikasi HP.</p>
+        <div className="points-account-gate-actions">
+          <button className="primary-button" onClick={() => setLocation('/sign-in?returnTo=/points')}>Masuk</button>
+          <button className="secondary-button" onClick={() => setLocation('/sign-up?returnTo=/points')}>Buat akun</button>
+        </div>
+      </section>
+    </main></Page>;
+  }
+  if (pointsLoading) {
+    return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate" role="status"><h2>Menyinkronkan saldo akun…</h2><p>Saldo poin dan voucher sedang dimuat.</p></div></main></Page>;
+  }
+  if (pointsError) {
+    return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate"><h2>Saldo belum berhasil dimuat</h2><p>{pointsError}</p><button className="primary-button" onClick={refreshBuyerPoints}>Coba lagi</button></div></main></Page>;
+  }
 
   return (
     <Page>
@@ -2192,7 +2535,7 @@ function PointsPage() {
             </div>
           </div>
         </section>
-        <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan di browser ini.</p>
+        <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan pada akun Web ini, terpisah dari aplikasi HP. Saldo lama disalin satu kali dan tidak dapat diverifikasi.</p>
         <p className="points-expiry-note">
           Poin hangus 365 hari setelah diperoleh. Poin yang lebih lama digunakan lebih dulu.
           {nextPointExpiry && (
@@ -2330,7 +2673,7 @@ function PointsPage() {
             </details>
             <details className="points-faq-item">
               <summary>Apakah saldo poin tersimpan di perangkat lain?</summary>
-              <p className="points-faq-answer">Saldo poin dan voucher tersimpan di browser Web yang sedang digunakan, dan tidak otomatis berpindah ke browser atau perangkat lain.</p>
+              <p className="points-faq-answer">Poin dan voucher mengikuti akun pembeli saat kamu masuk ke Web dari browser atau perangkat lain. Data ini tetap terpisah dari aplikasi HP.</p>
             </details>
           </div>
         </section>
@@ -2340,8 +2683,71 @@ function PointsPage() {
 }
 
 function CoffeeGamePage() {
-  const { notify, points, addPoints } = useStore();
-  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN · 1 PT = Rp1</span><strong>{points.toLocaleString('id-ID')}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 PT, setara Rp10.</p><button className="primary-button wide" onClick={() => { addPoints(10); notify('10 PT berhasil ditambahkan (Rp10)'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
+  const clerkAuth = useClerkAuth();
+  const [, setLocation] = useLocation();
+  const { points, addPoints, pointsLoading, pointsError, refreshBuyerPoints } = useStore();
+  if (!clerkAuth.isLoaded) {
+    return <Page><main className="subpage"><Header /><div className="points-account-gate" role="status"><h2>Memuat akun pembeli…</h2></div></main></Page>;
+  }
+  if (!clerkAuth.isSignedIn) {
+    return <Page><main className="subpage"><Header title="Mini Games" /><section className="points-account-gate"><span className="section-kicker">PANEN BIJI KOPI</span><h2>Masuk untuk menyimpan poin</h2><p>Poin panen akan tersimpan pada akun pembeli Web, bukan di browser atau aplikasi HP.</p><div className="points-account-gate-actions"><button className="primary-button" onClick={() => setLocation('/sign-in?returnTo=/coffee-game')}>Masuk</button><button className="secondary-button" onClick={() => setLocation('/sign-up?returnTo=/coffee-game')}>Buat akun</button></div></section></main></Page>;
+  }
+  if (pointsLoading) {
+    return <Page><main className="subpage"><Header title="Mini Games" /><div className="points-account-gate" role="status"><h2>Menyinkronkan saldo poin…</h2></div></main></Page>;
+  }
+  if (pointsError) {
+    return <Page><main className="subpage"><Header title="Mini Games" /><div className="points-account-gate"><h2>Saldo akun belum tersedia</h2><p>{pointsError}</p><button className="primary-button" onClick={refreshBuyerPoints}>Coba lagi</button></div></main></Page>;
+  }
+  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN · 1 PT = Rp1</span><strong>{points.toLocaleString('id-ID')}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 PT, setara Rp10.</p><button className="primary-button wide" onClick={() => { void addPoints(10); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
+}
+
+function ClerkAuthShell({ children, mode }: { children: ReactNode; mode: 'sign-in' | 'sign-up' }) {
+  return <main className={`clerk-auth-page clerk-auth-${mode}`}>
+    <div className="clerk-auth-layout">
+      <section className="clerk-auth-story">
+        <a className="clerk-auth-brand" href={`${basePath || ''}/`} aria-label="Garut Beans, beranda">
+          <img src={clerkAppearance.options.logoImageUrl} alt="" />
+          <span>Garut Beans</span>
+        </a>
+        <span className="clerk-auth-eyebrow">AKUN PEMBELI G-BEANS</span>
+        <h1>{mode === 'sign-up' ? 'Satu akun untuk ritual kopi pilihanmu.' : 'Selamat datang kembali.'}</h1>
+        <p>Masuk untuk menyimpan poin panen, voucher, dan aktivitas belanja pada akun Web-mu.</p>
+        <aside className="clerk-auth-disclosure">
+          <strong>Saldo poin dan voucher</strong>
+          <span>Saldo lama dari browser ini dapat disalin satu kali ke akun. Saldo awal tidak dapat diverifikasi. Poin Web tetap terpisah dari aplikasi HP.</span>
+        </aside>
+      </section>
+      <div className="clerk-auth-form">{children}</div>
+    </div>
+  </main>;
+}
+
+function getClerkReturnPath() {
+  const requested = new URLSearchParams(window.location.search).get('returnTo') ?? '/profile';
+  if (!requested.startsWith('/') || requested.startsWith('//')) return `${basePath}/profile`;
+  return `${basePath}${requested}`;
+}
+
+function ClerkSignInPage() {
+  return <ClerkAuthShell mode="sign-in">
+    <SignIn
+      routing="path"
+      path={`${basePath}/sign-in`}
+      signUpUrl={`${basePath}/sign-up`}
+      fallbackRedirectUrl={getClerkReturnPath()}
+    />
+  </ClerkAuthShell>;
+}
+
+function ClerkSignUpPage() {
+  return <ClerkAuthShell mode="sign-up">
+    <SignUp
+      routing="path"
+      path={`${basePath}/sign-up`}
+      signInUrl={`${basePath}/sign-in`}
+      fallbackRedirectUrl={getClerkReturnPath()}
+    />
+  </ClerkAuthShell>;
 }
 
 function SimpleHubPage({ title, copy, icon: Icon }: { title: string; copy: string; icon: LucideIcon }) {
@@ -2352,11 +2758,15 @@ function AppRouter() {
   const [location, setLocation] = useLocation();
   const { session } = useAuth();
   const route = location.split('?')[0];
-  if (!canAccessRoute(route, session?.id)) {
+  const clerkAuthRoute = route.startsWith('/sign-in') || route.startsWith('/sign-up');
+  const buyerPointsRoute = route === '/points' || route === '/coffee-game';
+  if (!clerkAuthRoute && !buyerPointsRoute && !canAccessRoute(route, session?.id)) {
     return <LoginRedirect route={route} onRedirect={() => setLocation(`/login?returnTo=${encodeURIComponent(route)}`)} />;
   }
   return <Switch>
     <Route path="/" component={WebHomeRoute} />
+    <Route path="/sign-in/*?" component={ClerkSignInPage} />
+    <Route path="/sign-up/*?" component={ClerkSignUpPage} />
     <Route path="/login"><LoginPage /></Route>
     <Route path="/catalog" component={CatalogPage} />
     <Route path="/product/:id" component={ProductDetailPage} />
@@ -2416,7 +2826,7 @@ function LoginRedirect({ route, onRedirect }: { route: string; onRedirect: () =>
 
 function DesktopTopNav() {
   const [location, setLocation] = useLocation();
-  if (location === '/') return null;
+  if (location === '/' || location.startsWith('/sign-in') || location.startsWith('/sign-up')) return null;
 
   const active = location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites')
     ? 'explore'
@@ -2479,17 +2889,56 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <WebAuthProvider>
-      <StoreProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+    <WouterRouter base={basePath}>
+      <ClerkWebProviders />
+    </WouterRouter>
+  );
+}
+
+function ClerkWebProviders() {
+  const [, setLocation] = useLocation();
+  return (
+    <ClerkProvider
+      publishableKey={clerkPubKey}
+      proxyUrl={clerkProxyUrl}
+      appearance={clerkAppearance}
+      signInUrl={`${basePath}/sign-in`}
+      signUpUrl={`${basePath}/sign-up`}
+      localization={{
+        ...idID,
+        signIn: {
+          ...idID.signIn,
+          start: {
+            ...idID.signIn.start,
+            title: 'Masuk ke akun G-Beans',
+            subtitle: 'Selamat datang kembali. Silakan masuk untuk melanjutkan.',
+          },
+        },
+        signUp: {
+          ...idID.signUp,
+          start: {
+            ...idID.signUp.start,
+            title: 'Buat akun G-Beans',
+            subtitle: 'Simpan poin dan voucher di akun Garut Beans-mu.',
+          },
+        },
+        formFieldInputPlaceholder__emailAddress: 'Masukkan alamat email',
+        formFieldInputPlaceholder__password: 'Masukkan kata sandi',
+        formFieldInputPlaceholder__signUpPassword: 'Buat kata sandi',
+      }}
+      routerPush={(to) => setLocation(stripClerkBase(to))}
+      routerReplace={(to) => setLocation(stripClerkBase(to), { replace: true })}
+    >
+      <WebAuthProvider>
+        <StoreProvider>
           <ScrollToTop />
           <DesktopTopNav />
           <AppRouter />
           <BottomNav />
            <FloatingActions />
-        </WouterRouter>
-      </StoreProvider>
-    </WebAuthProvider>
+        </StoreProvider>
+      </WebAuthProvider>
+    </ClerkProvider>
   );
 }
 

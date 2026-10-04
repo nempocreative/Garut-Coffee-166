@@ -20,9 +20,16 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  BuyerPointsResponse,
   FarmCalendarSyncRequest,
   FarmCalendarSyncResponse,
-  HealthStatus
+  HealthStatus,
+  ImportBuyerPointsBody,
+  ImportBuyerPointsResponse,
+  PointEarnRequest,
+  PointEarnResult,
+  PointRedemptionRequest,
+  UseBuyerVoucherBody
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -217,5 +224,439 @@ export const useSyncFarmCalendar = <TError = ErrorType<unknown>,
         TContext
       > => {
       return useMutation(getSyncFarmCalendarMutationOptions(options));
+    }
+
+export const getGetBuyerPointsUrl = () => {
+
+
+
+
+  return `/api/points`
+}
+
+/**
+ * Requires a signed-in buyer session cookie. Account points remain Web-only.
+ * @summary Get the signed-in buyer's Web points and active vouchers
+ */
+export const getBuyerPoints = async ( options?: Parameters<typeof customFetch>[1]): Promise<BuyerPointsResponse> => {
+
+  return customFetch<BuyerPointsResponse>(getGetBuyerPointsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetBuyerPointsQueryKey = () => {
+    return [
+    `/api/points`
+    ] as const;
+    }
+
+
+export const getGetBuyerPointsQueryOptions = <TData = Awaited<ReturnType<typeof getBuyerPoints>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBuyerPoints>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBuyerPointsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBuyerPoints>>> = ({ signal }) => getBuyerPoints({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBuyerPoints>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetBuyerPointsQueryResult = NonNullable<Awaited<ReturnType<typeof getBuyerPoints>>>
+export type GetBuyerPointsQueryError = ErrorType<void>
+
+
+/**
+ * @summary Get the signed-in buyer's Web points and active vouchers
+ */
+
+export function useGetBuyerPoints<TData = Awaited<ReturnType<typeof getBuyerPoints>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBuyerPoints>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetBuyerPointsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getImportLegacyBuyerPointsUrl = () => {
+
+
+
+
+  return `/api/points/import`
+}
+
+/**
+ * Imports an existing browser balance and vouchers to the signed-in account, once per browser migration ID.
+ * @summary Import legacy browser points once
+ */
+export const importLegacyBuyerPoints = async (importBuyerPointsBody: ImportBuyerPointsBody, options?: Parameters<typeof customFetch>[1]): Promise<ImportBuyerPointsResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ImportBuyerPointsResponse>(getImportLegacyBuyerPointsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(importBuyerPointsBody)
+  }
+);}
+
+
+
+
+
+export const getImportLegacyBuyerPointsMutationKey = () => ['importLegacyBuyerPoints'] as const;
+
+export const getImportLegacyBuyerPointsMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importLegacyBuyerPoints>>, TError,ImportLegacyBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof importLegacyBuyerPoints>>, TError,ImportLegacyBuyerPointsMutationVariables, TContext> => {
+
+const mutationKey = getImportLegacyBuyerPointsMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof importLegacyBuyerPoints>>, ImportLegacyBuyerPointsMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  importLegacyBuyerPoints(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ImportLegacyBuyerPointsMutationResult = NonNullable<Awaited<ReturnType<typeof importLegacyBuyerPoints>>>
+    export type ImportLegacyBuyerPointsMutationBody = BodyType<ImportBuyerPointsBody>
+    export type ImportLegacyBuyerPointsMutationError = ErrorType<void>
+    export type ImportLegacyBuyerPointsMutationVariables = {data: BodyType<ImportBuyerPointsBody>}
+
+    /**
+ * @summary Import legacy browser points once
+ */
+export const useImportLegacyBuyerPoints = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importLegacyBuyerPoints>>, TError,ImportLegacyBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof importLegacyBuyerPoints>>,
+        TError,
+        ImportLegacyBuyerPointsMutationVariables,
+        TContext
+      > => {
+      return useMutation(getImportLegacyBuyerPointsMutationOptions(options));
+    }
+
+export const getEarnBuyerPointsUrl = () => {
+
+
+
+
+  return `/api/points/earn`
+}
+
+/**
+ * Awards 10 points for one mini-game harvest action to the signed-in buyer.
+ * @summary Award the fixed Web mini-game points
+ */
+export const earnBuyerPoints = async (pointEarnRequest: PointEarnRequest, options?: Parameters<typeof customFetch>[1]): Promise<PointEarnResult> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<PointEarnResult>(getEarnBuyerPointsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(pointEarnRequest)
+  }
+);}
+
+
+
+
+
+export const getEarnBuyerPointsMutationKey = () => ['earnBuyerPoints'] as const;
+
+export const getEarnBuyerPointsMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof earnBuyerPoints>>, TError,EarnBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof earnBuyerPoints>>, TError,EarnBuyerPointsMutationVariables, TContext> => {
+
+const mutationKey = getEarnBuyerPointsMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof earnBuyerPoints>>, EarnBuyerPointsMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  earnBuyerPoints(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type EarnBuyerPointsMutationResult = NonNullable<Awaited<ReturnType<typeof earnBuyerPoints>>>
+    export type EarnBuyerPointsMutationBody = BodyType<PointEarnRequest>
+    export type EarnBuyerPointsMutationError = ErrorType<void>
+    export type EarnBuyerPointsMutationVariables = {data: BodyType<PointEarnRequest>}
+
+    /**
+ * @summary Award the fixed Web mini-game points
+ */
+export const useEarnBuyerPoints = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof earnBuyerPoints>>, TError,EarnBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof earnBuyerPoints>>,
+        TError,
+        EarnBuyerPointsMutationVariables,
+        TContext
+      > => {
+      return useMutation(getEarnBuyerPointsMutationOptions(options));
+    }
+
+export const getRedeemBuyerPointsUrl = () => {
+
+
+
+
+  return `/api/points/redeem`
+}
+
+/**
+ * Deducts the reward cost from the buyer's oldest active point lots and creates an account voucher.
+ * @summary Redeem an account voucher
+ */
+export const redeemBuyerPoints = async (pointRedemptionRequest: PointRedemptionRequest, options?: Parameters<typeof customFetch>[1]): Promise<BuyerPointsResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<BuyerPointsResponse>(getRedeemBuyerPointsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(pointRedemptionRequest)
+  }
+);}
+
+
+
+
+
+export const getRedeemBuyerPointsMutationKey = () => ['redeemBuyerPoints'] as const;
+
+export const getRedeemBuyerPointsMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof redeemBuyerPoints>>, TError,RedeemBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof redeemBuyerPoints>>, TError,RedeemBuyerPointsMutationVariables, TContext> => {
+
+const mutationKey = getRedeemBuyerPointsMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof redeemBuyerPoints>>, RedeemBuyerPointsMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  redeemBuyerPoints(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RedeemBuyerPointsMutationResult = NonNullable<Awaited<ReturnType<typeof redeemBuyerPoints>>>
+    export type RedeemBuyerPointsMutationBody = BodyType<PointRedemptionRequest>
+    export type RedeemBuyerPointsMutationError = ErrorType<void>
+    export type RedeemBuyerPointsMutationVariables = {data: BodyType<PointRedemptionRequest>}
+
+    /**
+ * @summary Redeem an account voucher
+ */
+export const useRedeemBuyerPoints = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof redeemBuyerPoints>>, TError,RedeemBuyerPointsMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof redeemBuyerPoints>>,
+        TError,
+        RedeemBuyerPointsMutationVariables,
+        TContext
+      > => {
+      return useMutation(getRedeemBuyerPointsMutationOptions(options));
+    }
+
+export const getUseBuyerPointsVoucherUrl = () => {
+
+
+
+
+  return `/api/points/vouchers/use`
+}
+
+/**
+ * Consumes one active voucher belonging to the signed-in buyer.
+ * @summary Mark an account voucher as used for a Web order
+ */
+export const useBuyerPointsVoucher = async (useBuyerVoucherBody: UseBuyerVoucherBody, options?: Parameters<typeof customFetch>[1]): Promise<BuyerPointsResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<BuyerPointsResponse>(getUseBuyerPointsVoucherUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(useBuyerVoucherBody)
+  }
+);}
+
+
+
+
+
+export const getUseBuyerPointsVoucherMutationKey = () => ['useBuyerPointsVoucher'] as const;
+
+export const getUseBuyerPointsVoucherMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof useBuyerPointsVoucher>>, TError,UseBuyerPointsVoucherMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof useBuyerPointsVoucher>>, TError,UseBuyerPointsVoucherMutationVariables, TContext> => {
+
+const mutationKey = getUseBuyerPointsVoucherMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof useBuyerPointsVoucher>>, UseBuyerPointsVoucherMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  useBuyerPointsVoucher(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UseBuyerPointsVoucherMutationResult = NonNullable<Awaited<ReturnType<typeof useBuyerPointsVoucher>>>
+    export type UseBuyerPointsVoucherMutationBody = BodyType<UseBuyerVoucherBody>
+    export type UseBuyerPointsVoucherMutationError = ErrorType<void>
+    export type UseBuyerPointsVoucherMutationVariables = {data: BodyType<UseBuyerVoucherBody>}
+
+    /**
+ * @summary Mark an account voucher as used for a Web order
+ */
+export const useUseBuyerPointsVoucher = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof useBuyerPointsVoucher>>, TError,UseBuyerPointsVoucherMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof useBuyerPointsVoucher>>,
+        TError,
+        UseBuyerPointsVoucherMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUseBuyerPointsVoucherMutationOptions(options));
     }
 
