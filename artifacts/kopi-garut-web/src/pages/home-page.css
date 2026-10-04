@@ -8128,18 +8128,18 @@
   border-radius: inherit;
   background: conic-gradient(
     from var(--gb-member-edge-angle, 0deg),
-    rgba(166, 103, 55, .2) 0deg 286deg,
-    rgba(211, 157, 91, .58) 306deg,
-    #fff3d3 325deg,
-    rgba(194, 119, 58, .82) 340deg,
-    rgba(166, 103, 55, .2) 360deg
+    rgba(72, 43, 32, .22) 0deg 286deg,
+    rgba(72, 43, 32, .72) 306deg,
+    #2f1c15 325deg,
+    rgba(91, 55, 41, .95) 340deg,
+    rgba(72, 43, 32, .22) 360deg
   );
   content: "";
   pointer-events: none;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  filter: drop-shadow(0 0 4px rgba(194, 137, 73, .32));
+  filter: drop-shadow(0 0 4px rgba(55, 31, 23, .4));
   animation: gb-member-edge-light-run 5.8s linear infinite;
 }
 
