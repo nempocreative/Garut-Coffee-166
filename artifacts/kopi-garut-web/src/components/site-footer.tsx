@@ -10,7 +10,7 @@ export function SiteFooter({ onNavigate }: SiteFooterProps) {
       <div className="gb-footer-inner">
         <div className="gb-footer-brand">
           <button className="gb-footer-logo" onClick={() => onNavigate('/')} aria-label="Kembali ke Beranda">
-            <img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" />
+            <img src={asset('kopi-garut-logo.webp')} alt="Logo Garut Beans" />
           </button>
           <div>
             <div className="gb-footer-name"><span>Garut</span> <strong>Beans</strong></div>

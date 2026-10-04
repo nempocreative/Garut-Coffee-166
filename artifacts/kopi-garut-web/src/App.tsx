@@ -214,7 +214,7 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
   const { cart } = useStore();
   return <header className={home ? 'header' : 'subpage-head'}>
      {home ? <div className="header-top">
-       <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.png')} alt="Logo Garut Beans" /></div><div className="brand-lines"><div className="brand-name"><span>Garut</span><strong>Beans</strong></div><div className="brand-meta">G-BEANS · SPECIALTY COFFEE</div></div></div>
+       <div className="brand"><div className="logo-frame"><img src={asset('kopi-garut-logo.webp')} alt="Logo Garut Beans" /></div><div className="brand-lines"><div className="brand-name"><span>Garut</span><strong>Beans</strong></div><div className="brand-meta">G-BEANS · SPECIALTY COFFEE</div></div></div>
       <div className="header-actions"><button className="icon-orb" onClick={() => setLocation('/notifications')} aria-label="Buka notifikasi" data-testid="button-notifications"><AppNavGlyph name="bell" size={24} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div>
         </div> : <><button className="back-button" onClick={() => setLocation('/')} aria-label="Kembali" data-testid="button-back"><ArrowLeft size={18} /></button><div className="subpage-title-wrap"><h1 className="page-title">{title}</h1></div><div className="header-actions" style={{ marginLeft: 'auto' }}><button className="icon-orb" onClick={() => setLocation('/')} aria-label="Kembali ke beranda" data-testid="button-header-home"><AppNavGlyph name="home" size={24} /></button><button className="icon-orb" onClick={() => setLocation('/cart')} aria-label="Buka keranjang" data-testid="button-header-cart"><AppNavGlyph name="shopping-cart" size={24} />{cart.length > 0 && <span className="count-badge">{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>}</button></div></>}
     {home && <div className="header-copy"><div><div className="greeting">Mau <em>menikmati</em><br />kopi apa hari ini?</div><div className="date-line">{homeDate()}</div></div></div>}
@@ -1961,7 +1961,7 @@ function DesktopTopNav() {
     <nav className="desktop-top-nav" aria-label="Navigasi halaman">
       <div className="desktop-top-nav-inner">
         <button className="desktop-top-brand" onClick={() => setLocation('/')} aria-label="Garut Beans, kembali ke beranda">
-          <img src={asset('kopi-garut-logo.png')} alt="" />
+          <img src={asset('kopi-garut-logo.webp')} alt="" />
           <span>
             <strong>Garut Beans</strong>
             <small>G-BEANS · SPECIALTY COFFEE</small>

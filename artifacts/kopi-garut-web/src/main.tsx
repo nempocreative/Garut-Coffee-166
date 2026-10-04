@@ -56,6 +56,22 @@ if (initialLoaderBean) {
   initialLoaderBean.src = `${import.meta.env.BASE_URL}assets/coffee-bean-menu.webp`;
 }
 
+document.addEventListener(
+  'error',
+  (event) => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement) || image.dataset.imageFallback === 'true') return;
+
+    image.dataset.imageFallback = 'true';
+    const imageDescription = `${image.alt} ${image.className}`.toLowerCase();
+    const isSmallBrandMark = Math.max(image.clientWidth, image.clientHeight) <= 60
+      || /logo|icon|avatar|app-nav-image/.test(imageDescription);
+    const fallbackImage = isSmallBrandMark ? 'coffee-bean-menu.webp' : 'origin-coffee.webp';
+    image.src = `${import.meta.env.BASE_URL}assets/${fallbackImage}`;
+  },
+  true,
+);
+
 function AppBootstrap() {
   useEffect(() => {
     const loader = document.getElementById('gb-initial-loader');

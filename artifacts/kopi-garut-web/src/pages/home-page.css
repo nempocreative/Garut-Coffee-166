@@ -53,9 +53,9 @@
   height: 225px;
   z-index: -1;
   background:
-    url('/kopi-garut-web/assets/garut-beans-mascot-transparent.png') left 55px / 72px auto no-repeat,
+    url('/kopi-garut-web/assets/garut-beans-mascot-transparent.webp') left 55px / 72px auto no-repeat,
     linear-gradient(135deg, rgba(43, 26, 17, .52), rgba(81, 37, 21, .2)),
-    url('/kopi-garut-web/assets/garut-beans-mountain-header-clean-ai.png') center 48% / cover;
+    url('/kopi-garut-web/assets/garut-beans-mountain-header-clean-ai.webp') center 48% / cover;
   clip-path: path('M 0 0 L 430 0 L 430 190 C 387 177 353 177 314 190 C 268 206 237 210 190 202 C 133 192 83 198 0 214 Z');
 }
 
@@ -3989,7 +3989,7 @@
   inset: 0;
   height: 100%;
   border-radius: 0 0 24px 24px;
-  background: url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
+  background: url('/kopi-garut-web/assets/garut-beans-header.webp') center center / cover no-repeat;
   clip-path: none;
 }
 
@@ -4764,7 +4764,7 @@
 /* The supplied masthead artwork already carries its own lighting. Keep it
    free from an extra gray color wash. */
 .gb-header::before {
-  background-image: url('/kopi-garut-web/assets/garut-beans-header.png');
+  background-image: url('/kopi-garut-web/assets/garut-beans-header.webp');
 }
 
 .gb-header::after {
@@ -7777,7 +7777,7 @@
   inset: 0;
   height: 100%;
   border-radius: 0 0 24px 24px;
-  background: url('/kopi-garut-web/assets/garut-beans-header.png') center center / cover no-repeat;
+  background: url('/kopi-garut-web/assets/garut-beans-header.webp') center center / cover no-repeat;
   clip-path: none;
 }
 

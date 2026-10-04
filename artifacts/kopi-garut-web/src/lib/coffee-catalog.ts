@@ -6,7 +6,7 @@ export const webCoffeeCatalog = coffeeCatalog.map((coffee) =>
         ...coffee,
         name: 'Garut Origin Selection',
         series: 'Garut Origin Selection',
-        image: 'garut-origin-selection.png',
+        image: 'garut-origin-selection.webp',
       }
     : coffee,
 );

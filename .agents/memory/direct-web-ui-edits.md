@@ -62,3 +62,9 @@ For Garut Beans Web, use the Coffee Scrub Soap photo as the shared visual refere
 **Why:** The user wants these products to look like one family alongside the Sabun Scrub and Totebag references; isolated restyling produced too much scene variation.
 
 **How to apply:** For this product group, start from the Sabun Scrub photo and replace only the central product, preserving its scene and composition. Keep the cream/kraft label, Garut Beans mark, blue batik accents, Garut illustration, tabletop, and warm lighting; retain each product's own spray bottle, dropper bottle, concentrate bottle, or cookie pouch. Use the Cikuray Series reference for products without a more specific style reference.
+
+For Garut Beans Web, keep photo and icon files lightweight, preserve their intended on-screen proportions, and show a local fallback rather than a broken or empty image when a file fails to load.
+
+**Why:** The user explicitly asked that website photos and icons not be oversized or disrupt the layout, and that photos not suddenly disappear.
+
+**How to apply:** Prefer optimized image formats for Web assets, verify the mounted asset paths and responsive crops, and keep a local fallback for failed image loads.
