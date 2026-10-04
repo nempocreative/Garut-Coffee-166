@@ -9451,6 +9451,10 @@
   font-size: 11px;
 }
 
+.gb-home .gb-gift-bundle-teaser-cta {
+  color: #fff9f1;
+}
+
 .gb-gift-preview-card {
   position: relative;
   display: grid;
@@ -9564,6 +9568,7 @@
 
 .gb-gift-bundle-teaser-visual.is-closed {
   background: #66503c;
+  aspect-ratio: 1.4 / 1;
 }
 
 .gb-gift-bundle-teaser-visual.is-closed::after {
@@ -9600,6 +9605,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center bottom;
 }
 
 .gb-gift-closed-caption {
