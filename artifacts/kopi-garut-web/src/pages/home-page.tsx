@@ -1060,20 +1060,38 @@ export default function HomePage({
             <CoffeeCarousel coffees={firstCoffees} favorites={favorites} onAddToCart={onAddToCart} onToggleFavorite={onToggleFavorite} onNavigate={onNavigate} />
           </section>
 
-          <section className="gb-home-section gb-gift-bundle-teaser" aria-labelledby="gift-bundle-teaser-title" data-testid="gift-bundle-section">
+          <section id="gift-bundle-section" className="gb-home-section gb-gift-bundle-teaser" aria-labelledby="gift-bundle-teaser-title" data-testid="gift-bundle-section">
+            <div className="gb-gift-bundle-teaser-visual">
+              <img
+                src={`${import.meta.env.BASE_URL}assets/garut-beans-gift-box-ai.webp`}
+                alt="Kotak oleh-oleh Garut Beans berisi kopi dan aneka produk lokal, lengkap dengan kartu ucapan."
+                loading="eager"
+              />
+              <span className="gb-gift-teaser-brand">GARUT <strong>BEANS</strong><small>DARI TANAH GARUT</small></span>
+              <div className="gb-gift-teaser-card" aria-label="Contoh kartu ucapan: Salam hangat dari Garut">
+                <small>SEBUAH PESAN KECIL</small>
+                <strong>Salam hangat<br />dari Garut</strong>
+                <span>Dengan cinta, Garut Beans</span>
+              </div>
+            </div>
             <div className="gb-gift-bundle-teaser-copy">
               <span className="gb-gift-bundle-kicker"><Gift size={14} /> OLEH-OLEH GARUT</span>
               <h2 id="gift-bundle-teaser-title">Racik paket oleh-olehmu.</h2>
-              <p>Paket A · 3 produk &nbsp;|&nbsp; B · 4 &nbsp;|&nbsp; C · 5</p>
+              <p>Kopi dan karya lokal Garut dalam box istimewa, lengkap dengan kartu ucapan untuk orang tersayang.</p>
+              <div className="gb-gift-bundle-sizes" aria-label="Pilihan ukuran paket">
+                <span><b>A</b><strong>3 produk</strong></span>
+                <span><b>B</b><strong>4 produk</strong></span>
+                <span><b>C</b><strong>5 produk</strong></span>
+              </div>
+              <button
+                className="gb-gift-bundle-teaser-cta"
+                type="button"
+                onClick={() => onNavigate('/gift-bundle')}
+                data-testid="button-open-gift-bundle"
+              >
+                Racik paket <ArrowRight size={16} />
+              </button>
             </div>
-            <button
-              className="gb-gift-bundle-teaser-cta"
-              type="button"
-              onClick={() => onNavigate('/gift-bundle')}
-              data-testid="button-open-gift-bundle"
-            >
-              Racik paket <ArrowRight size={16} />
-            </button>
           </section>
 
           <section className="gb-home-section">

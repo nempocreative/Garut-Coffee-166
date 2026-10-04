@@ -276,6 +276,11 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
                   </figure>
                 ))}
               </div>
+              <div className="gb-gift-preview-card" data-testid="gift-bundle-preview-card">
+                <span>KARTU UCAPAN</span>
+                <strong>{customMessageEnabled ? (giftMessage.trim() || 'Tulis ucapanmu di sini') : 'Salam hangat dari Garut'}</strong>
+                <small>Dengan cinta, Garut Beans</small>
+              </div>
               <div className="gb-gift-preview-box">
                 <span>{customMessageEnabled ? 'Tulisan custom' : 'Box hadiah'}</span>
                 <strong data-testid="gift-bundle-preview-message">
