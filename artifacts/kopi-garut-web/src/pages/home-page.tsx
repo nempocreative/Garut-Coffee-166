@@ -39,7 +39,7 @@ import './home-page.css';
 type HomePageProps = {
   onNavigate: (path: string) => void;
   onAddToCart: (id: string) => void;
-  onAddGiftBundle: (bundleType: 'paket-1' | 'paket-2', coffeeIds: string[], giftMessage: string) => void;
+  onAddGiftBundle: (bundleType: GiftBundleType, productIds: string[], giftMessage: string) => void;
   onToggleFavorite: (id: string) => void;
   favorites: string[];
   programHighlights: HomeProgramHighlight[];
@@ -196,27 +196,55 @@ const cleanPromoImages = [
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 const parseCatalogPrice = (value: string) => Number(value.replace(/[^\d]/g, ''));
-const requireGiftBundleProduct = (id: string) => {
-  const product = diversifiedProducts.find((item) => item.id === id);
-  if (!product) throw new Error(`The souvenir bundle needs the ${id} product in the catalog.`);
-  return product;
-};
-const giftBundleMug = requireGiftBundleProduct('garut-mug');
-const giftBundleTote = requireGiftBundleProduct('garut-tote-bag');
+export const giftBundleProductCounts = {
+  'paket-a': 3,
+  'paket-b': 4,
+  'paket-c': 5,
+} as const;
+export type GiftBundleType = keyof typeof giftBundleProductCounts;
+const giftBundleOptions: { id: GiftBundleType; label: string; productCount: number }[] = [
+  { id: 'paket-a', label: 'Paket A', productCount: giftBundleProductCounts['paket-a'] },
+  { id: 'paket-b', label: 'Paket B', productCount: giftBundleProductCounts['paket-b'] },
+  { id: 'paket-c', label: 'Paket C', productCount: giftBundleProductCounts['paket-c'] },
+];
+const giftBundleChoices = [
+  ...webCoffeeCatalog.map((coffee) => ({
+    id: coffee.id,
+    name: coffee.name,
+    kind: 'Kopi',
+    price: coffee.price,
+    image: asset(coffee.image),
+  })),
+  ...diversifiedProducts.map((product) => ({
+    id: product.id,
+    name: product.title,
+    kind: 'Karya Kopi',
+    price: parseCatalogPrice(product.price),
+    image: asset(getWebProductImage(product.id, product.image)),
+  })),
+];
+type GiftBundleChoice = (typeof giftBundleChoices)[number];
+const giftBundleDefaultProductIds = [
+  'papandayan-honey',
+  'cikajang-natural',
+  'coffee-cookies',
+  'garut-mug',
+  'coffee-soap',
+];
 
 const giftBundleFormSchema = z.object({
-  bundleType: z.enum(['paket-1', 'paket-2']),
-  firstCoffeeId: z.string().min(1, 'Pilih kopi untuk paket ini.'),
-  secondCoffeeId: z.string(),
+  bundleType: z.enum(['paket-a', 'paket-b', 'paket-c']),
+  productIds: z.array(z.string()).length(5),
   giftMessage: z.string().max(40, 'Tulisan box maksimal 40 karakter.'),
 }).superRefine((values, context) => {
-  if (values.bundleType === 'paket-2' && !values.secondCoffeeId) {
-    context.addIssue({
+  const productCount = giftBundleProductCounts[values.bundleType];
+  values.productIds.slice(0, productCount).forEach((productId, index) => {
+    if (!productId) context.addIssue({
       code: z.ZodIssueCode.custom,
-      path: ['secondCoffeeId'],
-      message: 'Pilih kopi kedua untuk Paket 2.',
+      path: ['productIds', index],
+      message: `Pilih produk ${index + 1}.`,
     });
-  }
+  });
 });
 
 type GiftBundleFormValues = z.infer<typeof giftBundleFormSchema>;
@@ -1057,29 +1085,20 @@ export default function HomePage({
   const giftBundleForm = useForm<GiftBundleFormValues>({
     resolver: zodResolver(giftBundleFormSchema),
     defaultValues: {
-      bundleType: 'paket-1',
-      firstCoffeeId: 'papandayan-honey',
-      secondCoffeeId: 'cikajang-natural',
+      bundleType: 'paket-a',
+      productIds: giftBundleDefaultProductIds,
       giftMessage: '',
     },
   });
   const giftBundleType = giftBundleForm.watch('bundleType');
-  const firstGiftCoffeeId = giftBundleForm.watch('firstCoffeeId');
-  const secondGiftCoffeeId = giftBundleForm.watch('secondCoffeeId');
+  const giftBundleProductIds = giftBundleForm.watch('productIds');
   const giftMessage = giftBundleForm.watch('giftMessage');
-  const giftCoffeeChoices = webCoffeeCatalog.slice(0, 4);
-  const firstGiftCoffee = giftCoffeeChoices.find((coffee) => coffee.id === firstGiftCoffeeId) ?? giftCoffeeChoices[0];
-  const secondGiftCoffee = giftCoffeeChoices.find((coffee) => coffee.id === secondGiftCoffeeId) ?? giftCoffeeChoices[1];
-  const selectedGiftCoffees = giftBundleType === 'paket-2'
-    ? [firstGiftCoffee, secondGiftCoffee]
-    : [firstGiftCoffee];
-  const mugPrice = parseCatalogPrice(giftBundleMug.price);
-  const totePrice = parseCatalogPrice(giftBundleTote.price);
-  const giftBundlePrice = selectedGiftCoffees.reduce((total, coffee) => total + coffee.price, 0)
-    + mugPrice
-    + (giftBundleType === 'paket-2' ? totePrice : 0);
-  const giftBundleMugImage = asset(getWebProductImage(giftBundleMug.id, giftBundleMug.image));
-  const giftBundleToteImage = asset(getWebProductImage(giftBundleTote.id, giftBundleTote.image));
+  const giftBundleProductCount = giftBundleProductCounts[giftBundleType];
+  const selectedGiftProducts = giftBundleProductIds
+    .slice(0, giftBundleProductCount)
+    .map((id) => giftBundleChoices.find((product) => product.id === id))
+    .filter((product): product is GiftBundleChoice => Boolean(product));
+  const giftBundlePrice = selectedGiftProducts.reduce((total, product) => total + product.price, 0);
   const diversified = homeContent.diversifiedProducts.map((product) => ({
     ...product,
     image: getWebProductImage(product.id, product.image),
@@ -1129,7 +1148,7 @@ export default function HomePage({
             <div className="gb-gift-bundle-heading">
               <span className="gb-gift-bundle-kicker"><Gift size={14} /> OLEH-OLEH GARUT</span>
               <h2 id="gift-bundle-title">Racik paket, tulis pesan di box.</h2>
-              <p>Pilih isi hadiahmu. Pratinjau ikut berubah sesuai kopi dan paket yang dipilih.</p>
+              <p>Pilih 3–5 produk kopi dan Karya Kopi. Box hadiah termasuk.</p>
             </div>
 
             <Form {...giftBundleForm}>
@@ -1137,9 +1156,7 @@ export default function HomePage({
                 className="gb-gift-bundle-builder"
                 onSubmit={giftBundleForm.handleSubmit((values) => onAddGiftBundle(
                   values.bundleType,
-                  values.bundleType === 'paket-1'
-                    ? [values.firstCoffeeId]
-                    : [values.firstCoffeeId, values.secondCoffeeId],
+                  values.productIds.slice(0, giftBundleProductCounts[values.bundleType]),
                   values.giftMessage.trim(),
                 ))}
                 noValidate
@@ -1152,66 +1169,44 @@ export default function HomePage({
                       <FormItem className="gb-gift-form-item">
                         <FormLabel>Pilih susunan paket</FormLabel>
                         <div className="gb-gift-package-options" role="group" aria-label="Pilihan paket oleh-oleh">
-                          <button
-                            type="button"
-                            className={`gb-gift-package-option ${field.value === 'paket-1' ? 'is-selected' : ''}`}
-                            aria-pressed={field.value === 'paket-1'}
-                            onClick={() => field.onChange('paket-1')}
-                            data-testid="gift-bundle-option-paket-1"
-                          >
-                            <span className="gb-gift-package-option-title">Paket 1</span>
-                            <span>1 kopi 200 g · mug · box</span>
-                            <strong>{formatPrice(firstGiftCoffee.price + mugPrice)}</strong>
-                          </button>
-                          <button
-                            type="button"
-                            className={`gb-gift-package-option ${field.value === 'paket-2' ? 'is-selected' : ''}`}
-                            aria-pressed={field.value === 'paket-2'}
-                            onClick={() => field.onChange('paket-2')}
-                            data-testid="gift-bundle-option-paket-2"
-                          >
-                            <span className="gb-gift-package-option-title">Paket 2</span>
-                            <span>2 kopi 200 g · mug · totebag · box</span>
-                            <strong>{formatPrice(firstGiftCoffee.price + secondGiftCoffee.price + mugPrice + totePrice)}</strong>
-                          </button>
+                          {giftBundleOptions.map((option) => (
+                            <button
+                              key={option.id}
+                              type="button"
+                              className={`gb-gift-package-option ${field.value === option.id ? 'is-selected' : ''}`}
+                              aria-pressed={field.value === option.id}
+                              onClick={() => field.onChange(option.id)}
+                              data-testid={`gift-bundle-option-${option.id}`}
+                            >
+                              <span className="gb-gift-package-option-title">{option.label}</span>
+                              <span>{option.productCount} produk pilihan</span>
+                            </button>
+                          ))}
                         </div>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <div className="gb-gift-coffee-fields">
-                    <FormField
-                      control={giftBundleForm.control}
-                      name="firstCoffeeId"
-                      render={({ field }) => (
-                        <FormItem className="gb-gift-form-item">
-                          <FormLabel>{giftBundleType === 'paket-2' ? 'Kopi pertama' : 'Pilih kopi'}</FormLabel>
-                          <FormControl>
-                            <select {...field} className="gb-gift-select" data-testid="gift-bundle-coffee-1">
-                              {giftCoffeeChoices.map((coffee) => (
-                                <option value={coffee.id} key={coffee.id}>
-                                  {coffee.name} — {formatPrice(coffee.price)}
-                                </option>
-                              ))}
-                            </select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    {giftBundleType === 'paket-2' && (
+                  <div className="gb-gift-product-fields">
+                    {Array.from({ length: giftBundleProductCount }, (_, index) => (
                       <FormField
+                        key={`gift-bundle-product-field-${index}`}
                         control={giftBundleForm.control}
-                        name="secondCoffeeId"
+                        name={`productIds.${index}` as const}
                         render={({ field }) => (
                           <FormItem className="gb-gift-form-item">
-                            <FormLabel>Kopi kedua</FormLabel>
+                            <FormLabel>Pilih produk {index + 1}</FormLabel>
                             <FormControl>
-                              <select {...field} className="gb-gift-select" data-testid="gift-bundle-coffee-2">
-                                {giftCoffeeChoices.map((coffee) => (
-                                  <option value={coffee.id} key={coffee.id}>
-                                    {coffee.name} — {formatPrice(coffee.price)}
+                              <select
+                                {...field}
+                                className="gb-gift-select"
+                                aria-label={`Pilih produk ke-${index + 1}`}
+                                data-testid={`gift-bundle-product-${index + 1}`}
+                              >
+                                {giftBundleChoices.map((product) => (
+                                  <option value={product.id} key={product.id}>
+                                    {product.kind} · {product.name} — {formatPrice(product.price)}
                                   </option>
                                 ))}
                               </select>
@@ -1220,31 +1215,21 @@ export default function HomePage({
                           </FormItem>
                         )}
                       />
-                    )}
+                    ))}
                   </div>
 
                   <div className={`gb-gift-preview ${giftBundleType}`} data-testid="gift-bundle-preview">
                     <div className="gb-gift-preview-topline">
                       <span>GARUT BEANS</span>
-                      <small>{giftBundleType === 'paket-1' ? 'PAKET 1' : 'PAKET 2'}</small>
+                      <small>PAKET {giftBundleType.slice(-1).toUpperCase()}</small>
                     </div>
                     <div className="gb-gift-preview-products">
-                      {selectedGiftCoffees.map((coffee, index) => (
-                        <figure className="gb-gift-preview-item gb-gift-preview-coffee" key={`${coffee.id}-${index}`}>
-                          <img src={asset(coffee.image)} alt={coffee.name} />
-                          <figcaption>{coffee.name}</figcaption>
+                      {selectedGiftProducts.map((product, index) => (
+                        <figure className="gb-gift-preview-item" key={`${product.id}-${index}`}>
+                          <img src={product.image} alt={product.name} />
+                          <figcaption>{product.name}</figcaption>
                         </figure>
                       ))}
-                      <figure className="gb-gift-preview-item gb-gift-preview-mug">
-                        <img src={giftBundleMugImage} alt={giftBundleMug.title} />
-                        <figcaption>Mug Garut Beans</figcaption>
-                      </figure>
-                      {giftBundleType === 'paket-2' && (
-                        <figure className="gb-gift-preview-item gb-gift-preview-tote">
-                          <img src={giftBundleToteImage} alt={giftBundleTote.title} />
-                          <figcaption>Totebag</figcaption>
-                        </figure>
-                      )}
                     </div>
                     <div className="gb-gift-preview-box">
                       <span>Pesan pada box</span>
@@ -1279,10 +1264,10 @@ export default function HomePage({
 
                   <div className="gb-gift-bundle-checkout">
                     <div className="gb-gift-bundle-total">
-                      <span>Total paket</span>
+                      <span>Total {giftBundleType.slice(-1).toUpperCase()} · {giftBundleProductCount} produk</span>
                       <strong data-testid="gift-bundle-price">{formatPrice(giftBundlePrice)}</strong>
                     </div>
-                    <small>Harga mengikuti isi paket di katalog. Box hadiah termasuk.</small>
+                    <small>Harga mengikuti produk pilihan. Box hadiah termasuk.</small>
                     <button className="gb-gift-bundle-submit" type="submit" data-testid="button-add-gift-bundle">
                       <Gift size={16} /> Tambahkan paket
                     </button>

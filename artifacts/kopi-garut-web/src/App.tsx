@@ -45,7 +45,7 @@ import {
 } from '@workspace/kopi-garut-shared';
 import { webCoffeeCatalog } from '@/lib/coffee-catalog';
 import { getWebProductImage } from '@/lib/web-product-images';
-import HomePage from '@/pages/home-page';
+import HomePage, { giftBundleProductCounts, type GiftBundleType } from '@/pages/home-page';
 import '@/pages/points-page.css';
 import '@/clerk-auth.css';
 import { SiteFooter } from '@/components/site-footer';
@@ -214,6 +214,24 @@ const webDiversifiedProducts = diversifiedProducts.map((product) => ({
   ...product,
   image: getWebProductImage(product.id, product.image),
 }));
+type LegacyGiftBundleType = 'paket-1' | 'paket-2';
+type GiftBundleCartType = GiftBundleType | LegacyGiftBundleType;
+const getGiftBundleProductDetails = (id: string) => {
+  const coffee = webCoffeeCatalog.find((item) => item.id === id);
+  if (coffee) return { id: coffee.id, name: coffee.name, price: coffee.price };
+  const product = diversifiedProducts.find((item) => item.id === id);
+  if (!product) return undefined;
+  return {
+    id: product.id,
+    name: product.title,
+    price: Number(product.price.replace(/[^\d]/g, '')),
+  };
+};
+const getGiftBundleLabel = (bundleType: GiftBundleCartType) => {
+  if (bundleType === 'paket-1') return 'Paket 1';
+  if (bundleType === 'paket-2') return 'Paket 2';
+  return `Paket ${bundleType.slice(-1).toUpperCase()}`;
+};
 
 const traceabilityLot = {
   id: 'KG-26001',
@@ -255,7 +273,8 @@ type CartItem = {
   quantity: number;
   lineId?: string;
   unitPrice?: number;
-  bundleType?: 'paket-1' | 'paket-2';
+  bundleType?: GiftBundleCartType;
+  bundleProductIds?: string[];
   bundleCoffeeIds?: string[];
   giftMessage?: string;
 };
@@ -281,7 +300,7 @@ type StoreValue = {
   refreshBuyerPoints: () => void;
   serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
   addToCart: (id: string, quantity?: number) => void;
-  addGiftBundle: (bundleType: 'paket-1' | 'paket-2', coffeeIds: string[], giftMessage: string) => void;
+  addGiftBundle: (bundleType: GiftBundleType, productIds: string[], giftMessage: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
   addPoints: (amount: number) => Promise<boolean>;
@@ -475,32 +494,25 @@ function StoreProvider({ children }: { children: ReactNode }) {
       return found ? current.map((item) => item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : [...current, { id, quantity }];
     });
   };
-  const addGiftBundle = (bundleType: 'paket-1' | 'paket-2', coffeeIds: string[], giftMessage: string) => {
-    const expectedCoffeeCount = bundleType === 'paket-1' ? 1 : 2;
-    const selectedCoffees = coffeeIds.map((id) => webCoffeeCatalog.find((coffee) => coffee.id === id));
-    const mug = diversifiedProducts.find((product) => product.id === 'garut-mug');
-    const tote = diversifiedProducts.find((product) => product.id === 'garut-tote-bag');
+  const addGiftBundle = (bundleType: GiftBundleType, productIds: string[], giftMessage: string) => {
+    const expectedProductCount = giftBundleProductCounts[bundleType];
+    const selectedProducts = productIds.map(getGiftBundleProductDetails);
     if (
-      selectedCoffees.length !== expectedCoffeeCount
-      || selectedCoffees.some((coffee) => !coffee)
-      || !mug
-      || !tote
+      selectedProducts.length !== expectedProductCount
+      || selectedProducts.some((product) => !product)
     ) {
-      notify('Isi paket belum lengkap. Silakan pilih kembali isi paket oleh-oleh.');
+      notify('Isi paket belum lengkap. Silakan pilih kembali produk oleh-oleh.');
       return;
     }
-    const parsePrice = (value: string) => Number(value.replace(/[^\d]/g, ''));
-    const unitPrice = selectedCoffees.reduce((sum, coffee) => sum + (coffee?.price ?? 0), 0)
-      + parsePrice(mug.price)
-      + (bundleType === 'paket-2' ? parsePrice(tote.price) : 0);
-    const normalizedCoffeeIds = [...coffeeIds];
+    const unitPrice = selectedProducts.reduce((sum, product) => sum + (product?.price ?? 0), 0);
+    const normalizedProductIds = [...productIds];
     const normalizedMessage = giftMessage.trim().slice(0, 40);
     setCartNotice({ id: giftBundleProduct.id, quantity: 1 });
     setCart((current) => {
       const found = current.find((item) => (
         item.id === giftBundleProduct.id
         && item.bundleType === bundleType
-        && JSON.stringify(item.bundleCoffeeIds) === JSON.stringify(normalizedCoffeeIds)
+        && JSON.stringify(item.bundleProductIds) === JSON.stringify(normalizedProductIds)
         && (item.giftMessage ?? '') === normalizedMessage
       ));
       if (found) {
@@ -514,11 +526,11 @@ function StoreProvider({ children }: { children: ReactNode }) {
         lineId: crypto.randomUUID(),
         unitPrice,
         bundleType,
-        bundleCoffeeIds: normalizedCoffeeIds,
+        bundleProductIds: normalizedProductIds,
         giftMessage: normalizedMessage,
       }];
     });
-    notify('Paket oleh-oleh ditambahkan ke keranjang');
+    notify(`${getGiftBundleLabel(bundleType)} ditambahkan ke keranjang`);
   };
   const dismissCartNotice = () => setCartNotice(null);
   const updateQuantity = (id: string, quantity: number) => setCart((current) => quantity <= 0
@@ -1100,17 +1112,20 @@ function CartPage() {
     <div className="subcopy">Periksa kembali kopi yang akan menemani harimu.</div>
     {rows.length ? <>
       <div className="cart-list">{rows.map((row) => {
-        const { id, quantity, coffee, lineKey, unitPrice, bundleType, bundleCoffeeIds, giftMessage } = row;
+        const { id, quantity, coffee, lineKey, unitPrice, bundleType, bundleProductIds, bundleCoffeeIds, giftMessage } = row;
         if (!coffee) return null;
-        const bundleCoffeeNames = (bundleCoffeeIds ?? [])
-          .map((coffeeId) => coffees.find((item) => item.id === coffeeId)?.name)
+        const bundleProductNames = (bundleProductIds ?? bundleCoffeeIds ?? [])
+          .map((productId) => getGiftBundleProductDetails(productId)?.name)
           .filter(Boolean)
           .join(' + ');
+        const bundleContents = bundleProductIds?.length
+          ? `${bundleProductNames} · Box hadiah`
+          : `${bundleProductNames} · Mug · ${bundleType === 'paket-2' ? 'Totebag · ' : ''}Box hadiah`;
         return <div className="cart-row" key={lineKey}>
           <img src={coffee.image} alt={coffee.name} />
           <div>
             <div className="cart-name">{coffee.name}</div>
-            <div className="cart-detail">{bundleType ? `${bundleCoffeeNames} · Mug · ${bundleType === 'paket-2' ? 'Totebag · ' : ''}Box hadiah` : coffee.origin}</div>
+            <div className="cart-detail">{bundleType ? `${getGiftBundleLabel(bundleType)} · ${bundleContents}` : coffee.origin}</div>
             {giftMessage && <div className="cart-gift-message" data-testid={`text-gift-message-${lineKey}`}>Tulisan box: “{giftMessage}”</div>}
             <div className="cart-price">{formatPrice(unitPrice ?? coffee.price)}</div>
           </div>
@@ -1211,12 +1226,15 @@ function OrdersPage() {
         const itemQuantities = order.items.map((item) => {
           const name = getOrderableProduct(item.id)?.name ?? 'Kopi Garut Beans';
           if (!item.bundleType) return `${item.quantity} × ${name}`;
-          const coffeeNames = (item.bundleCoffeeIds ?? [])
-            .map((coffeeId) => coffees.find((coffee) => coffee.id === coffeeId)?.name)
+          const productIds = item.bundleProductIds ?? item.bundleCoffeeIds ?? [];
+          const productNames = productIds
+            .map((productId) => getGiftBundleProductDetails(productId)?.name)
             .filter(Boolean)
             .join(' + ');
-          const extras = item.bundleType === 'paket-2' ? 'mug + totebag + box' : 'mug + box';
-          return `${item.quantity} × ${item.bundleType === 'paket-1' ? 'Paket 1' : 'Paket 2'} (${coffeeNames} + ${extras})`;
+          const extras = item.bundleProductIds?.length
+            ? 'box'
+            : `mug${item.bundleType === 'paket-2' ? ' + totebag' : ''} + box`;
+          return `${item.quantity} × ${getGiftBundleLabel(item.bundleType)} (${productNames} + ${extras})`;
         }).join(' / ');
         const giftMessages = order.items
           .filter((item) => item.giftMessage)
