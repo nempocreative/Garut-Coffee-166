@@ -441,7 +441,7 @@ export const coffeeCatalog = [
     origin: 'Samarang, Garut',
     tastingNotes: ['karamel', 'cokelat', 'rempah'],
     description: 'Sangrai hangat yang cocok untuk sore panjang, dengan rasa manis yang nyaman dan aroma rempah yang pelan-pelan muncul.',
-    image: 'coffee-bean-menu.webp',
+    image: 'darajat-sunset.webp',
     category: 'Hangat',
     recommendedBrew: 'French press',
     farmerName: 'Ujang Kusnadi',

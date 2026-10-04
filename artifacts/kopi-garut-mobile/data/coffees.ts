@@ -37,6 +37,7 @@ const mobileCoffeeImages: Record<string, ImageSource> = {
   'kamojang-series.webp': require('../assets/images/kamojang-series.webp'),
   'kamojang-reserve.webp': require('../assets/images/kamojang-reserve.webp'),
   'darajat-series.webp': require('../assets/images/darajat-series.webp'),
+  'darajat-sunset.webp': require('../assets/images/darajat-sunset.webp'),
 };
 
 export const coffees: Coffee[] = coffeeCatalog.map((coffee) => ({
