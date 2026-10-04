@@ -186,6 +186,30 @@ const coffees: Coffee[] = webCoffeeCatalog.map(({ tastingNotes, image, ...coffee
   notes: tastingNotes,
   image: asset(image),
 }));
+const giftBundleProduct: Coffee = {
+  ...coffees[0],
+  id: 'garut-souvenir-bundle',
+  name: 'Paket Oleh-oleh Garut Beans',
+  series: 'Paket Oleh-oleh',
+  tagline: 'Kopi dan cendera mata Garut dalam box pilihanmu.',
+  price: 0,
+  roast: 'Paket hadiah',
+  process: 'Box hadiah',
+  altitude: 'Garut, Jawa Barat',
+  origin: 'Garut Beans',
+  notes: ['Isi paket pilihan', 'Pesan personal pada box'],
+  description: 'Paket kopi dan cendera mata Garut dengan tulisan khusus pada box.',
+  image: asset('garut-origin-selection.webp'),
+  category: 'Paket oleh-oleh',
+  recommendedBrew: 'Sesuai kopi pilihan',
+  farmerName: 'Garut Beans',
+  farmerGroup: 'Garut Beans',
+  stock: 99,
+  badge: 'Paket hadiah',
+};
+const getOrderableProduct = (id: string) => (
+  id === giftBundleProduct.id ? giftBundleProduct : coffees.find((coffee) => coffee.id === id)
+);
 const webDiversifiedProducts = diversifiedProducts.map((product) => ({
   ...product,
   image: getWebProductImage(product.id, product.image),
@@ -226,7 +250,17 @@ const getOrderStatusIndex = (status: string) => {
   return 0;
 };
 
-type CartItem = { id: string; quantity: number };
+type CartItem = {
+  id: string;
+  quantity: number;
+  lineId?: string;
+  unitPrice?: number;
+  bundleType?: 'paket-1' | 'paket-2';
+  bundleCoffeeIds?: string[];
+  giftMessage?: string;
+};
+const cartItemKey = (item: CartItem) => item.lineId ?? item.id;
+const getCartItemUnitPrice = (item: CartItem) => item.unitPrice ?? getOrderableProduct(item.id)?.price ?? 0;
 type Order = {
   id: string;
   items: CartItem[];
@@ -246,7 +280,9 @@ type StoreValue = {
   pointsLoading: boolean; pointsError: string; hasBuyerAccount: boolean;
   refreshBuyerPoints: () => void;
   serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
-  addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
+  addToCart: (id: string, quantity?: number) => void;
+  addGiftBundle: (bundleType: 'paket-1' | 'paket-2', coffeeIds: string[], giftMessage: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
   addPoints: (amount: number) => Promise<boolean>;
   redeemPoints: (rewardId: string) => Promise<void>;
@@ -439,8 +475,55 @@ function StoreProvider({ children }: { children: ReactNode }) {
       return found ? current.map((item) => item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : [...current, { id, quantity }];
     });
   };
+  const addGiftBundle = (bundleType: 'paket-1' | 'paket-2', coffeeIds: string[], giftMessage: string) => {
+    const expectedCoffeeCount = bundleType === 'paket-1' ? 1 : 2;
+    const selectedCoffees = coffeeIds.map((id) => webCoffeeCatalog.find((coffee) => coffee.id === id));
+    const mug = diversifiedProducts.find((product) => product.id === 'garut-mug');
+    const tote = diversifiedProducts.find((product) => product.id === 'garut-tote-bag');
+    if (
+      selectedCoffees.length !== expectedCoffeeCount
+      || selectedCoffees.some((coffee) => !coffee)
+      || !mug
+      || !tote
+    ) {
+      notify('Isi paket belum lengkap. Silakan pilih kembali isi paket oleh-oleh.');
+      return;
+    }
+    const parsePrice = (value: string) => Number(value.replace(/[^\d]/g, ''));
+    const unitPrice = selectedCoffees.reduce((sum, coffee) => sum + (coffee?.price ?? 0), 0)
+      + parsePrice(mug.price)
+      + (bundleType === 'paket-2' ? parsePrice(tote.price) : 0);
+    const normalizedCoffeeIds = [...coffeeIds];
+    const normalizedMessage = giftMessage.trim().slice(0, 40);
+    setCartNotice({ id: giftBundleProduct.id, quantity: 1 });
+    setCart((current) => {
+      const found = current.find((item) => (
+        item.id === giftBundleProduct.id
+        && item.bundleType === bundleType
+        && JSON.stringify(item.bundleCoffeeIds) === JSON.stringify(normalizedCoffeeIds)
+        && (item.giftMessage ?? '') === normalizedMessage
+      ));
+      if (found) {
+        return current.map((item) => cartItemKey(item) === cartItemKey(found)
+          ? { ...item, quantity: item.quantity + 1 }
+          : item);
+      }
+      return [...current, {
+        id: giftBundleProduct.id,
+        quantity: 1,
+        lineId: crypto.randomUUID(),
+        unitPrice,
+        bundleType,
+        bundleCoffeeIds: normalizedCoffeeIds,
+        giftMessage: normalizedMessage,
+      }];
+    });
+    notify('Paket oleh-oleh ditambahkan ke keranjang');
+  };
   const dismissCartNotice = () => setCartNotice(null);
-  const updateQuantity = (id: string, quantity: number) => setCart((current) => quantity <= 0 ? current.filter((item) => item.id !== id) : current.map((item) => item.id === id ? { ...item, quantity } : item));
+  const updateQuantity = (id: string, quantity: number) => setCart((current) => quantity <= 0
+    ? current.filter((item) => cartItemKey(item) !== id)
+    : current.map((item) => cartItemKey(item) === id ? { ...item, quantity } : item));
   const toggleFavorite = (id: string) => {
     setFavorites((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
     notify(favorites.includes(id) ? 'Dihapus dari favorit' : 'Disimpan ke favorit');
@@ -554,7 +637,7 @@ function StoreProvider({ children }: { children: ReactNode }) {
       serviceLocation = location.name;
       serviceLocationDetail = location.area;
     }
-    const subtotal = cart.reduce((sum, item) => sum + (coffees.find((coffee) => coffee.id === item.id)?.price || 0) * item.quantity, 0);
+    const subtotal = cart.reduce((sum, item) => sum + getCartItemUnitPrice(item) * item.quantity, 0);
     const reward = voucherId ? webRewards.find((item) => item.id === voucherId) : undefined;
     const canUseVoucher = Boolean(reward && vouchers.includes(voucherId!) && subtotal >= reward.minimumSubtotal);
     if (voucherId && !canUseVoucher) {
@@ -617,7 +700,7 @@ function StoreProvider({ children }: { children: ReactNode }) {
     cart, favorites, orders, cartNotice, points, nextPointExpiry, vouchers, serviceMode,
     pointsLoading, pointsError, hasBuyerAccount, refreshBuyerPoints,
     serviceLocationId, deliveryAddresses, selectedDeliveryAddressId,
-    addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode,
+    addToCart, addGiftBundle, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode,
     setServiceLocationId, setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
     placeOrder, notify, dismissCartNotice,
   }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
@@ -758,7 +841,7 @@ function CartPreview() {
   const [, setLocation] = useLocation();
   const { cart, cartNotice, dismissCartNotice } = useStore();
   if (!cartNotice) return null;
-  const coffee = coffees.find((item) => item.id === cartNotice.id);
+  const coffee = getOrderableProduct(cartNotice.id);
   if (!coffee) return null;
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
   return <button className="cart-preview" onClick={() => { dismissCartNotice(); setLocation('/cart'); }} aria-label={`Buka keranjang, ${count} item`} data-testid="cart-preview"><img src={coffee.image} alt="" /><span className="cart-preview-copy"><small>{cartNotice.quantity} item ditambahkan</small><strong>{coffee.name}</strong><em>{count} item di keranjang</em></span><span className="cart-preview-action"><ShoppingBag size={15} /> Lihat</span></button>;
@@ -815,7 +898,7 @@ function WebHomeRoute() {
   const [, setLocation] = useLocation();
   const clerkAuth = useClerkAuth();
   const {
-    favorites, addToCart, toggleFavorite, points, serviceMode, setServiceMode,
+    favorites, addToCart, addGiftBundle, toggleFavorite, points, serviceMode, setServiceMode,
     serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
   } = useStore();
@@ -826,6 +909,7 @@ function WebHomeRoute() {
     <HomePage
       onNavigate={setLocation}
       onAddToCart={(id) => addToCart(id)}
+      onAddGiftBundle={addGiftBundle}
       onToggleFavorite={toggleFavorite}
       favorites={favorites}
       programHighlights={regularPrograms.slice(0, 2)}
@@ -988,8 +1072,12 @@ function CartPage() {
   const [, setLocation] = useLocation();
   const [selectedVoucherId, setSelectedVoucherId] = useState<string | null>(null);
   const [placingOrder, setPlacingOrder] = useState(false);
-  const rows = cart.map((item) => ({ ...item, coffee: coffees.find((coffee) => coffee.id === item.id) })).filter((item) => item.coffee);
-  const subtotal = rows.reduce((sum, item) => sum + (item.coffee?.price || 0) * item.quantity, 0);
+  const rows = cart.map((item) => ({
+    ...item,
+    lineKey: cartItemKey(item),
+    coffee: getOrderableProduct(item.id),
+  })).filter((item) => item.coffee);
+  const subtotal = rows.reduce((sum, item) => sum + (item.unitPrice ?? item.coffee?.price ?? 0) * item.quantity, 0);
   const availableVouchers = webRewards.filter((reward) => vouchers.includes(reward.id));
   const selectedVoucher = availableVouchers.find((reward) => reward.id === selectedVoucherId && subtotal >= reward.minimumSubtotal) ?? null;
   const selectedService = serviceModes.find((mode) => mode.id === serviceMode) ?? serviceModes[0];
@@ -1011,14 +1099,27 @@ function CartPage() {
     <Header />
     <div className="subcopy">Periksa kembali kopi yang akan menemani harimu.</div>
     {rows.length ? <>
-      <div className="cart-list">{rows.map(({ id, quantity, coffee }) => coffee && <div className="cart-row" key={id}>
-        <img src={coffee.image} alt={coffee.name} />
-        <div><div className="cart-name">{coffee.name}</div><div className="cart-detail">{coffee.origin}</div><div className="cart-price">{formatPrice(coffee.price)}</div></div>
-        <div className="cart-controls">
-          <button className="delete-button" onClick={() => updateQuantity(id, 0)} aria-label={`Hapus ${coffee.name}`} data-testid={`button-delete-${id}`}><Trash2 size={14} /></button>
-          <div className="quantity"><button onClick={() => updateQuantity(id, quantity - 1)} aria-label="Kurangi" data-testid={`button-minus-${id}`}><Minus size={12} /></button><b>{quantity}</b><button onClick={() => updateQuantity(id, quantity + 1)} aria-label="Tambah" data-testid={`button-plus-${id}`}><Plus size={12} /></button></div>
-        </div>
-      </div>)}</div>
+      <div className="cart-list">{rows.map((row) => {
+        const { id, quantity, coffee, lineKey, unitPrice, bundleType, bundleCoffeeIds, giftMessage } = row;
+        if (!coffee) return null;
+        const bundleCoffeeNames = (bundleCoffeeIds ?? [])
+          .map((coffeeId) => coffees.find((item) => item.id === coffeeId)?.name)
+          .filter(Boolean)
+          .join(' + ');
+        return <div className="cart-row" key={lineKey}>
+          <img src={coffee.image} alt={coffee.name} />
+          <div>
+            <div className="cart-name">{coffee.name}</div>
+            <div className="cart-detail">{bundleType ? `${bundleCoffeeNames} · Mug · ${bundleType === 'paket-2' ? 'Totebag · ' : ''}Box hadiah` : coffee.origin}</div>
+            {giftMessage && <div className="cart-gift-message" data-testid={`text-gift-message-${lineKey}`}>Tulisan box: “{giftMessage}”</div>}
+            <div className="cart-price">{formatPrice(unitPrice ?? coffee.price)}</div>
+          </div>
+          <div className="cart-controls">
+            <button className="delete-button" onClick={() => updateQuantity(lineKey, 0)} aria-label={`Hapus ${coffee.name}`} data-testid={`button-delete-${lineKey}`}><Trash2 size={14} /></button>
+            <div className="quantity"><button onClick={() => updateQuantity(lineKey, quantity - 1)} aria-label="Kurangi" data-testid={`button-minus-${lineKey}`}><Minus size={12} /></button><b>{quantity}</b><button onClick={() => updateQuantity(lineKey, quantity + 1)} aria-label="Tambah" data-testid={`button-plus-${lineKey}`}><Plus size={12} /></button></div>
+          </div>
+        </div>;
+      })}</div>
 
       <section className="cart-service-section" aria-label="Pilih layanan">
         <div className="cart-loyalty-heading"><h2>Layanan pesanan</h2><small>{selectedService.label}</small></div>
@@ -1104,10 +1205,23 @@ function OrdersPage() {
       <button className="primary-button orders-browse-button" onClick={() => setLocation('/catalog')} data-testid="orders-browse-coffee">Jelajahi kopi <ArrowRight size={15} /></button>
     </section> : <div className="orders-list">
       {orders.map((order, index) => {
-        const firstCoffee = coffees.find((coffee) => coffee.id === order.items[0]?.id);
+        const firstProduct = getOrderableProduct(order.items[0]?.id ?? '');
         const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-        const itemNames = order.items.map((item) => coffees.find((coffee) => coffee.id === item.id)?.name).filter(Boolean).join(' · ');
-        const itemQuantities = order.items.map((item) => `${item.quantity} × ${coffees.find((coffee) => coffee.id === item.id)?.name ?? 'Kopi Garut Beans'}`).join(' / ');
+        const itemNames = order.items.map((item) => getOrderableProduct(item.id)?.name).filter(Boolean).join(' · ');
+        const itemQuantities = order.items.map((item) => {
+          const name = getOrderableProduct(item.id)?.name ?? 'Kopi Garut Beans';
+          if (!item.bundleType) return `${item.quantity} × ${name}`;
+          const coffeeNames = (item.bundleCoffeeIds ?? [])
+            .map((coffeeId) => coffees.find((coffee) => coffee.id === coffeeId)?.name)
+            .filter(Boolean)
+            .join(' + ');
+          const extras = item.bundleType === 'paket-2' ? 'mug + totebag + box' : 'mug + box';
+          return `${item.quantity} × ${item.bundleType === 'paket-1' ? 'Paket 1' : 'Paket 2'} (${coffeeNames} + ${extras})`;
+        }).join(' / ');
+        const giftMessages = order.items
+          .filter((item) => item.giftMessage)
+          .map((item) => item.giftMessage)
+          .join(' · ');
         const statusIndex = getOrderStatusIndex(order.status);
         const statusLabel = orderStatusSteps[statusIndex];
         return <article className="orders-card" key={order.id} style={{ '--order-delay': `${index * 70}ms` } as React.CSSProperties}>
@@ -1126,11 +1240,11 @@ function OrdersPage() {
           <div className="orders-divider" />
           <div className="orders-product-row">
             <div className="orders-item-mark"><Coffee size={21} /></div>
-            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · {order.serviceMode ? serviceModes.find((mode) => mode.id === order.serviceMode)?.label : 'Total pesanan'}</small>{order.serviceLocation && <small>{order.serviceLocation} · {order.serviceLocationDetail}</small>}{order.discount ? <small>Potongan poin −{formatPrice(order.discount)}</small> : null}</div>
+            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · {order.serviceMode ? serviceModes.find((mode) => mode.id === order.serviceMode)?.label : 'Total pesanan'}</small>{giftMessages && <small>Pesan box: “{giftMessages}”</small>}{order.serviceLocation && <small>{order.serviceLocation} · {order.serviceLocationDetail}</small>}{order.discount ? <small>Potongan poin −{formatPrice(order.discount)}</small> : null}</div>
             <div className="orders-total"><small>TOTAL</small><strong>{formatPrice(order.total)}</strong></div>
           </div>
           <div className="orders-actions">
-            <button className="orders-detail-button" onClick={() => firstCoffee && setLocation(`/product/${firstCoffee.id}`)} disabled={!firstCoffee} data-testid={`order-view-${order.id}`}>Lihat kopi <ArrowRight size={14} /></button>
+            <button className="orders-detail-button" onClick={() => firstProduct && setLocation(firstProduct.id === giftBundleProduct.id ? '/catalog' : `/product/${firstProduct.id}`)} disabled={!firstProduct} data-testid={`order-view-${order.id}`}>{firstProduct?.id === giftBundleProduct.id ? 'Lihat katalog' : 'Lihat kopi'} <ArrowRight size={14} /></button>
             <button className="orders-reorder-button" onClick={() => setLocation('/catalog')} data-testid={`order-reorder-${order.id}`}><ShoppingBag size={15} /> Belanja lagi</button>
           </div>
         </article>;
@@ -1221,7 +1335,7 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
   };
   const activeOrder = orders.find((order) => order.status !== 'Diantar' && order.status !== 'Delivered');
   const latestOrder = activeOrder ?? orders[0];
-  const firstCoffee = latestOrder ? coffees.find((coffee) => coffee.id === latestOrder.items[0]?.id) : undefined;
+  const firstProduct = latestOrder ? getOrderableProduct(latestOrder.items[0]?.id ?? '') : undefined;
   return <Page><main className="subpage account-page buyer-account-page">
     <Header title="Akun pembeli" />
     <section className="buyer-account-hero">
@@ -1233,7 +1347,7 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
     <div className="account-stat-row"><AccountStat value={`${orders.length}`} label="Pesanan" /><AccountStat value={`${cartCount}`} label="Keranjang" /><AccountStat value={`${favorites.length}`} label="Favorit" /></div>
     <section className="account-section">
       <div className="account-section-heading"><div><span className="section-kicker">PESANANMU</span><h2>Sedang berjalan</h2></div><button className="text-button" onClick={() => setLocation('/orders')} data-testid="profile-all-orders">Riwayat <ArrowRight size={13} /></button></div>
-      {latestOrder && firstCoffee ? <article className="account-order-card"><img src={firstCoffee.image} alt="" /><div><strong>{latestOrder.items.map((item) => coffees.find((coffee) => coffee.id === item.id)?.name).filter(Boolean).join(' · ')}</strong><small>{latestOrder.createdAt} · {getOrderStatusIndex(latestOrder.status) === 2 ? 'Selesai' : 'Sedang diproses'}</small></div><b>{formatPrice(latestOrder.total)}</b></article> : <div className="account-empty-note"><Coffee size={19} /><span>Pesanan pertamamu akan muncul di sini. Mulai dengan kopi yang menemani pagi ini.</span></div>}
+      {latestOrder && firstProduct ? <article className="account-order-card"><img src={firstProduct.image} alt="" /><div><strong>{latestOrder.items.map((item) => getOrderableProduct(item.id)?.name).filter(Boolean).join(' · ')}</strong><small>{latestOrder.createdAt} · {getOrderStatusIndex(latestOrder.status) === 2 ? 'Selesai' : 'Sedang diproses'}</small></div><b>{formatPrice(latestOrder.total)}</b></article> : <div className="account-empty-note"><Coffee size={19} /><span>Pesanan pertamamu akan muncul di sini. Mulai dengan kopi yang menemani pagi ini.</span></div>}
     </section>
     <section className="account-voucher">
       <div className="voucher-stamp"><strong>15%</strong><small>OFF</small></div><div><span>VOUCHER PILIHAN</span><strong>Selamat datang di ritual baru.</strong><p>Min. belanja Rp 150.000 · berlaku minggu ini</p><code>GARUT15 <Check size={13} /></code></div><button onClick={() => { setVoucherSaved((saved) => !saved); notify(voucherSaved ? 'Voucher dihapus dari simpanan' : 'Voucher GARUT15 disimpan'); }} data-testid="buyer-voucher-save">{voucherSaved ? 'Tersimpan' : 'Simpan'}</button>
