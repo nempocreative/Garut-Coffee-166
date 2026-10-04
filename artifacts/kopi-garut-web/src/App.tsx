@@ -26,6 +26,7 @@ import { getWebProductImage } from '@/lib/web-product-images';
 import HomePage from '@/pages/home-page';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
+import { serviceModes, webRewards, type ServiceMode } from '@/lib/loyalty';
 import { AppIcon, AppNavGlyph, type AppIconName, type AppNavGlyphName } from '@/components/app-icon';
 
 const mobileIcon = (name: AppIconName): LucideIcon => {
@@ -126,12 +127,26 @@ const getOrderStatusIndex = (status: string) => {
 };
 
 type CartItem = { id: string; quantity: number };
-type Order = { id: string; items: CartItem[]; total: number; createdAt: string; status: string };
+type Order = {
+  id: string;
+  items: CartItem[];
+  total: number;
+  discount?: number;
+  serviceMode?: ServiceMode;
+  createdAt: string;
+  status: string;
+};
 type StoreValue = {
   cart: CartItem[]; favorites: string[]; orders: Order[];
   cartNotice: { id: string; quantity: number } | null;
+  points: number; vouchers: string[]; serviceMode: ServiceMode;
   addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
-  toggleFavorite: (id: string) => void; placeOrder: () => void; notify: (message: string) => void; dismissCartNotice: () => void;
+  toggleFavorite: (id: string) => void;
+  addPoints: (amount: number) => void;
+  redeemPoints: (rewardId: string) => void;
+  setServiceMode: (mode: ServiceMode) => void;
+  placeOrder: (voucherId?: string | null) => boolean;
+  notify: (message: string) => void; dismissCartNotice: () => void;
 };
 const StoreContext = createContext<StoreValue | null>(null);
 const useStore = () => {
@@ -144,6 +159,9 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useWebStorageJson<CartItem[]>('kopi-garut-cart', []);
   const [favorites, setFavorites] = useWebStorageJson<string[]>('kopi-garut-favorites', []);
   const [orders, setOrders] = useWebStorageJson<Order[]>('kopi-garut-orders', []);
+  const [points, setPoints] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
+  const [vouchers, setVouchers] = useWebStorageJson<string[]>('kopi-garut-coffee-game-vouchers', []);
+  const [serviceMode, setServiceMode] = useWebStorageJson<ServiceMode>('kopi-garut-service-mode', 'delivery');
   const [notice, setNotice] = useState('');
   const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
@@ -162,14 +180,61 @@ function StoreProvider({ children }: { children: ReactNode }) {
     setFavorites((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
     notify(favorites.includes(id) ? 'Dihapus dari favorit' : 'Disimpan ke favorit');
   };
-  const placeOrder = () => {
-    if (!cart.length) return;
-    const total = cart.reduce((sum, item) => sum + (coffees.find((coffee) => coffee.id === item.id)?.price || 0) * item.quantity, 0);
-    setOrders((current) => [{ id: `KG-${Date.now().toString().slice(-6)}`, items: cart, total, createdAt: homeDate(), status: 'Dipesan' }, ...current]);
+  const addPoints = (amount: number) => {
+    if (amount > 0) setPoints((current) => current + amount);
+  };
+  const redeemPoints = (rewardId: string) => {
+    const reward = webRewards.find((item) => item.id === rewardId);
+    if (!reward) {
+      notify('Hadiah poin tidak ditemukan');
+      return;
+    }
+    if (vouchers.includes(rewardId)) {
+      notify('Voucher ini sudah tersimpan');
+      return;
+    }
+    if (points < reward.cost) {
+      notify(`Kurang ${reward.cost - points} PT untuk menukar hadiah ini`);
+      return;
+    }
+    setPoints((current) => Math.max(0, current - reward.cost));
+    setVouchers((current) => current.includes(rewardId) ? current : [...current, rewardId]);
+    notify('Voucher berhasil ditukar dan siap digunakan di keranjang');
+  };
+  const placeOrder = (voucherId: string | null = null) => {
+    if (!cart.length) return false;
+    const subtotal = cart.reduce((sum, item) => sum + (coffees.find((coffee) => coffee.id === item.id)?.price || 0) * item.quantity, 0);
+    const reward = voucherId ? webRewards.find((item) => item.id === voucherId) : undefined;
+    const canUseVoucher = Boolean(reward && vouchers.includes(voucherId!) && subtotal >= reward.minimumSubtotal);
+    if (voucherId && !canUseVoucher) {
+      notify('Voucher belum memenuhi minimum belanja atau tidak lagi tersedia');
+      return false;
+    }
+    const discount = canUseVoucher ? reward!.amount : 0;
+    const total = Math.max(0, subtotal - discount);
+    setOrders((current) => [{
+      id: `KG-${Date.now().toString().slice(-6)}`,
+      items: cart,
+      total,
+      discount,
+      serviceMode,
+      createdAt: homeDate(),
+      status: 'Dipesan',
+    }, ...current]);
+    if (canUseVoucher && reward) {
+      setVouchers((current) => {
+        const index = current.indexOf(reward.id);
+        return index < 0 ? current : current.filter((_, itemIndex) => itemIndex !== index);
+      });
+    }
     setCart([]);
     notify('Pesanan berhasil dibuat');
+    return true;
   };
-  return <StoreContext.Provider value={{ cart, favorites, orders, cartNotice, addToCart, updateQuantity, toggleFavorite, placeOrder, notify, dismissCartNotice }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
+  return <StoreContext.Provider value={{
+    cart, favorites, orders, cartNotice, points, vouchers, serviceMode,
+    addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode, placeOrder, notify, dismissCartNotice,
+  }}>{children}{notice && <div className="toast" role="status" data-testid="status-toast">{notice}</div>}</StoreContext.Provider>;
 }
 
 type WebAuthValue = {
@@ -238,7 +303,7 @@ function FloatingActions() {
   const [location, setLocation] = useLocation();
   const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
-  const [points] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
+  const { points } = useStore();
   const supportActions = [
     { key: 'live', title: 'Chat Live CS', description: 'Tanya langsung ke tim Garut Beans' },
     { key: 'faq', title: 'FAQ Chat AI', description: 'Cari jawaban cepat soal kopi dan pesanan' },
@@ -361,7 +426,7 @@ function SectionTitle({ kicker, title, action, onAction }: { kicker?: string; ti
 
 function WebHomeRoute() {
   const [, setLocation] = useLocation();
-  const { favorites, addToCart, toggleFavorite } = useStore();
+  const { favorites, addToCart, toggleFavorite, points, vouchers, redeemPoints, serviceMode, setServiceMode } = useStore();
   return <>
     <HomePage
       onNavigate={setLocation}
@@ -369,6 +434,11 @@ function WebHomeRoute() {
       onToggleFavorite={toggleFavorite}
       favorites={favorites}
       programHighlights={regularPrograms.slice(0, 2)}
+      points={points}
+      vouchers={vouchers}
+      onRedeemReward={redeemPoints}
+      serviceMode={serviceMode}
+      onSelectService={setServiceMode}
     />
     <CartPreview />
   </>;
@@ -508,11 +578,78 @@ function ProductDetailPage() {
 }
 
 function CartPage() {
-  const { cart, updateQuantity, placeOrder } = useStore();
+  const { cart, updateQuantity, placeOrder, vouchers, points, serviceMode, setServiceMode } = useStore();
   const [, setLocation] = useLocation();
+  const [selectedVoucherId, setSelectedVoucherId] = useState<string | null>(null);
   const rows = cart.map((item) => ({ ...item, coffee: coffees.find((coffee) => coffee.id === item.id) })).filter((item) => item.coffee);
-  const total = rows.reduce((sum, item) => sum + (item.coffee?.price || 0) * item.quantity, 0);
-  return <Page><main className="subpage"><Header /><div className="subcopy">Periksa kembali kopi yang akan menemani harimu.</div>{rows.length ? <><div className="cart-list">{rows.map(({ id, quantity, coffee }) => coffee && <div className="cart-row" key={id}><img src={coffee.image} alt={coffee.name} /><div><div className="cart-name">{coffee.name}</div><div className="cart-detail">{coffee.origin}</div><div className="cart-price">{formatPrice(coffee.price)}</div></div><div className="cart-controls"><button className="delete-button" onClick={() => updateQuantity(id, 0)} aria-label={`Hapus ${coffee.name}`} data-testid={`button-delete-${id}`}><Trash2 size={14} /></button><div className="quantity"><button onClick={() => updateQuantity(id, quantity - 1)} aria-label="Kurangi" data-testid={`button-minus-${id}`}><Minus size={12} /></button><b>{quantity}</b><button onClick={() => updateQuantity(id, quantity + 1)} aria-label="Tambah" data-testid={`button-plus-${id}`}><Plus size={12} /></button></div></div></div>)}</div><div className="summary"><div className="summary-line"><span>Subtotal</span><b>{formatPrice(total)}</b></div><div className="summary-line"><span>Pengiriman</span><b>Ditentukan saat checkout</b></div><div className="summary-line total"><span>Total sementara</span><b>{formatPrice(total)}</b></div><button className="primary-button" onClick={placeOrder} data-testid="button-place-order">Buat pesanan</button></div></> : <EmptyState icon={ShoppingBag} title="Keranjang masih kosong" text="Pilih kopi yang ingin kamu bawa pulang dari lereng Garut." action="Jelajahi katalog" onAction={() => setLocation('/catalog')} />}</main></Page>;
+  const subtotal = rows.reduce((sum, item) => sum + (item.coffee?.price || 0) * item.quantity, 0);
+  const availableVouchers = webRewards.filter((reward) => vouchers.includes(reward.id));
+  const selectedVoucher = availableVouchers.find((reward) => reward.id === selectedVoucherId && subtotal >= reward.minimumSubtotal) ?? null;
+  const selectedService = serviceModes.find((mode) => mode.id === serviceMode) ?? serviceModes[0];
+  const serviceDescription = serviceMode === 'delivery'
+    ? 'Alamat dan ongkir belum dihitung di website.'
+    : serviceMode === 'pickup'
+      ? 'Ambil pesanan di Ruko Papandayan Garut.'
+      : 'Nikmati pesanan di Ruko Papandayan Garut.';
+  const submitOrder = () => {
+    if (placeOrder(selectedVoucher?.id ?? null)) setLocation('/orders');
+  };
+  return <Page><main className="subpage">
+    <Header />
+    <div className="subcopy">Periksa kembali kopi yang akan menemani harimu.</div>
+    {rows.length ? <>
+      <div className="cart-list">{rows.map(({ id, quantity, coffee }) => coffee && <div className="cart-row" key={id}>
+        <img src={coffee.image} alt={coffee.name} />
+        <div><div className="cart-name">{coffee.name}</div><div className="cart-detail">{coffee.origin}</div><div className="cart-price">{formatPrice(coffee.price)}</div></div>
+        <div className="cart-controls">
+          <button className="delete-button" onClick={() => updateQuantity(id, 0)} aria-label={`Hapus ${coffee.name}`} data-testid={`button-delete-${id}`}><Trash2 size={14} /></button>
+          <div className="quantity"><button onClick={() => updateQuantity(id, quantity - 1)} aria-label="Kurangi" data-testid={`button-minus-${id}`}><Minus size={12} /></button><b>{quantity}</b><button onClick={() => updateQuantity(id, quantity + 1)} aria-label="Tambah" data-testid={`button-plus-${id}`}><Plus size={12} /></button></div>
+        </div>
+      </div>)}</div>
+
+      <section className="cart-service-section" aria-label="Pilih layanan">
+        <div className="cart-loyalty-heading"><h2>Layanan pesanan</h2><small>{selectedService.label}</small></div>
+        <div className="cart-service-options">{serviceModes.map((mode) => <button
+          key={mode.id}
+          className={`cart-service-option ${mode.id === serviceMode ? 'selected' : ''}`}
+          type="button"
+          aria-pressed={mode.id === serviceMode}
+          onClick={() => setServiceMode(mode.id)}
+          data-testid={`cart-service-${mode.id}`}
+        >{mode.label}</button>)}</div>
+        <p className="cart-service-note">{serviceDescription}</p>
+      </section>
+
+      <section className="cart-vouchers-section" aria-label="Voucher poin">
+        <div className="cart-loyalty-heading"><h2>Voucher poin</h2><small>{points} PT</small></div>
+        {availableVouchers.length ? <div className="cart-voucher-list">{availableVouchers.map((reward) => {
+          const eligible = subtotal >= reward.minimumSubtotal;
+          const selected = selectedVoucherId === reward.id && eligible;
+          return <button
+            key={reward.id}
+            className={`cart-voucher-card ${selected ? 'selected' : ''} ${eligible ? '' : 'ineligible'}`}
+            type="button"
+            disabled={!eligible}
+            aria-pressed={selected}
+            onClick={() => setSelectedVoucherId(selected ? null : reward.id)}
+            data-testid={`cart-voucher-${reward.id}`}
+          >
+            <span className="cart-voucher-mark"><Coffee size={17} /></span>
+            <span className="cart-voucher-copy"><strong>{reward.title}</strong><small>{eligible ? `Min. belanja ${formatPrice(reward.minimumSubtotal)}` : `Tambah ${formatPrice(reward.minimumSubtotal - subtotal)} agar bisa digunakan`}</small></span>
+            <span className="cart-voucher-state">{selected ? <Check size={16} /> : eligible ? 'Pakai' : 'Belum'}</span>
+          </button>;
+        })}</div> : <div className="cart-no-voucher"><p>Belum ada voucher aktif. Tukar poin dengan hadiah diskon di beranda.</p><button type="button" onClick={() => setLocation('/')} data-testid="cart-go-home-rewards">Lihat hadiah poin <ArrowRight size={14} /></button></div>}
+      </section>
+
+      <div className="summary">
+        <div className="summary-line"><span>Subtotal</span><b>{formatPrice(subtotal)}</b></div>
+        <div className="summary-line"><span>{selectedService.label}</span><b>{serviceMode === 'delivery' ? 'Alamat dan ongkir belum dihitung' : 'Ruko Papandayan Garut'}</b></div>
+        {selectedVoucher && <div className="summary-line cart-discount-line"><span>{selectedVoucher.title}</span><b>−{formatPrice(selectedVoucher.amount)}</b></div>}
+        <div className="summary-line total"><span>Total sementara</span><b>{formatPrice(subtotal - (selectedVoucher?.amount ?? 0))}</b></div>
+        <button className="primary-button" onClick={submitOrder} data-testid="button-place-order">Buat pesanan</button>
+      </div>
+    </> : <EmptyState icon={ShoppingBag} title="Keranjang masih kosong" text="Pilih kopi yang ingin kamu bawa pulang dari lereng Garut." action="Jelajahi katalog" onAction={() => setLocation('/catalog')} />}
+  </main></Page>;
 }
 
 function FavoritesPage() {
@@ -564,7 +701,7 @@ function OrdersPage() {
           <div className="orders-divider" />
           <div className="orders-product-row">
             <div className="orders-item-mark"><Coffee size={21} /></div>
-            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · Total pesanan</small></div>
+            <div className="orders-item-detail"><strong>{itemNames || 'Pesanan Garut Beans'}</strong><small>{itemQuantities}</small><small>{itemCount} item · {order.serviceMode ? serviceModes.find((mode) => mode.id === order.serviceMode)?.label : 'Total pesanan'}</small>{order.discount ? <small>Potongan poin −{formatPrice(order.discount)}</small> : null}</div>
             <div className="orders-total"><small>TOTAL</small><strong>{formatPrice(order.total)}</strong></div>
           </div>
           <div className="orders-actions">
@@ -1859,9 +1996,8 @@ function SupportPage() {
 }
 
 function CoffeeGamePage() {
-  const { notify } = useStore();
-  const [score, setScore] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
-  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>SKOR</span><strong>{score}</strong></div><img src={asset(score % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi.</p><button className="primary-button wide" onClick={() => { setScore((value) => value + 10); notify('Biji kopi terkumpul'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
+  const { notify, points, addPoints } = useStore();
+  return <Page><main className="subpage"><Header /><HeroPanel image="games-coffee-beans.webp" eyebrow="MINI GAMES" title="Panen biji, raih skor." copy="Permainan ringan untuk mengenal ritme panen Garut Beans." /><div className="game-board"><div className="game-score"><span>POIN</span><strong>{points}</strong></div><img src={asset(points % 2 ? 'games-cart.webp' : 'games-basket.webp')} alt="Keranjang kopi" /><p>Klik tombol untuk mengumpulkan biji kopi. Setiap panen menambah 10 poin.</p><button className="primary-button wide" onClick={() => { addPoints(10); notify('10 poin berhasil ditambahkan'); }}>Panen biji kopi <Coffee size={16} /></button></div></main></Page>;
 }
 
 function SimpleHubPage({ title, copy, icon: Icon }: { title: string; copy: string; icon: LucideIcon }) {

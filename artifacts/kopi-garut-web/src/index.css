@@ -9733,3 +9733,170 @@ body {
   width: 100vw;
   margin-left: calc(50% - 50vw);
 }
+
+.cart-service-section,
+.cart-vouchers-section {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 18px;
+  background: hsl(var(--card));
+}
+
+.cart-loyalty-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cart-loyalty-heading h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.cart-loyalty-heading small {
+  color: hsl(var(--primary));
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.cart-service-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.cart-service-option {
+  min-height: 38px;
+  padding: 7px 4px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 11px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--background));
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.cart-service-option.selected {
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+}
+
+.cart-service-option:focus-visible,
+.cart-voucher-card:focus-visible,
+.cart-no-voucher button:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+.cart-service-note {
+  margin: 9px 1px 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.cart-voucher-list {
+  display: grid;
+  gap: 8px;
+}
+
+.cart-voucher-card {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 13px;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  text-align: left;
+}
+
+.cart-voucher-card.selected {
+  border-color: hsl(var(--primary));
+  background: color-mix(in srgb, hsl(var(--primary)) 8%, hsl(var(--card)));
+}
+
+.cart-voucher-card.ineligible {
+  opacity: .62;
+}
+
+.cart-voucher-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 11px;
+  color: hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+
+.cart-voucher-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.cart-voucher-copy strong {
+  font-size: 11px;
+}
+
+.cart-voucher-copy small {
+  color: hsl(var(--muted-foreground));
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.cart-voucher-state {
+  color: hsl(var(--primary));
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.cart-no-voucher p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.cart-no-voucher button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  padding: 0;
+  color: hsl(var(--primary));
+  background: transparent;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.summary-line.cart-discount-line {
+  color: hsl(var(--primary));
+  font-weight: 800;
+}
+
+@media (max-width: 359px) {
+  .cart-service-section,
+  .cart-vouchers-section {
+    padding: 11px;
+  }
+
+  .cart-voucher-card {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .cart-voucher-mark {
+    width: 30px;
+    height: 30px;
+  }
+}

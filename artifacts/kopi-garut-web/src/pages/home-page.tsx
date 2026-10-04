@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { ArrowRight, Check, Coffee, MapPin, ShoppingBag, Truck } from 'lucide-react';
 import {
   coffeeTours,
   farmers,
@@ -13,6 +14,7 @@ import { AppIcon, AppNavGlyph } from '../components/app-icon';
 import { MenuIllustration } from '../components/menu-illustration';
 import { SiteFooter } from '../components/site-footer';
 import { getWebProductImage } from '../lib/web-product-images';
+import { serviceModes, webRewards, type ServiceMode } from '../lib/loyalty';
 import './home-page.css';
 
 type HomePageProps = {
@@ -21,6 +23,11 @@ type HomePageProps = {
   onToggleFavorite: (id: string) => void;
   favorites: string[];
   programHighlights: HomeProgramHighlight[];
+  points: number;
+  vouchers: string[];
+  onRedeemReward: (rewardId: string) => void;
+  serviceMode: ServiceMode;
+  onSelectService: (mode: ServiceMode) => void;
 };
 
 type HomeProgramHighlight = {
@@ -902,7 +909,127 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
   );
 }
 
-export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, favorites, programHighlights }: HomePageProps) {
+function HomeMemberPanel({
+  points,
+  vouchers,
+  onRedeemReward,
+  serviceMode,
+  onSelectService,
+  onNavigate,
+}: Pick<HomePageProps, 'points' | 'vouchers' | 'onRedeemReward' | 'serviceMode' | 'onSelectService' | 'onNavigate'>) {
+  const readyReward = webRewards.find((reward) => !vouchers.includes(reward.id) && points >= reward.cost);
+  const nextReward = webRewards.find((reward) => !vouchers.includes(reward.id) && points < reward.cost);
+  const progressTarget = readyReward ?? nextReward;
+  const progress = progressTarget ? Math.min(100, Math.round((points / progressTarget.cost) * 100)) : 100;
+  const progressCopy = readyReward
+    ? `${readyReward.title} siap ditukar`
+    : nextReward
+      ? `Tambah ${nextReward.cost - points} PT untuk diskon ${formatPrice(nextReward.amount)}`
+      : vouchers.length
+        ? 'Gunakan voucher aktifmu di keranjang'
+        : 'Semua hadiah poin sudah ditukar';
+  const serviceIcons = {
+    delivery: Truck,
+    pickup: ShoppingBag,
+    'dine-in': Coffee,
+  } as const;
+
+  return (
+    <section className="gb-member-order-area" aria-label="Poin, outlet, dan layanan">
+      <div className="gb-loyalty-card">
+        <div className="gb-loyalty-top">
+          <div className="gb-member-title">
+            <span className="gb-member-kicker"><Coffee size={13} /> G-BEANS MEMBER</span>
+            <strong>Member Garut Beans</strong>
+          </div>
+          <div className="gb-member-points" aria-label={`${points} poin`}>
+            <strong>{points.toLocaleString('id-ID')}</strong><span>PT</span>
+          </div>
+        </div>
+
+        <div className="gb-member-progress-copy">
+          <span>Progres hadiah</span>
+          <strong>{progressCopy}</strong>
+        </div>
+        <div
+          className="gb-member-progress-track"
+          role="progressbar"
+          aria-label="Progres menuju hadiah poin berikutnya"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progress}
+        ><span style={{ width: `${progress}%` }} /></div>
+
+        <div className="gb-reward-heading">
+          <span>Potongan dari poin</span>
+          <button type="button" onClick={() => onNavigate('/coffee-game')} data-testid="home-earn-points">Main Games <ArrowRight size={13} /></button>
+        </div>
+        <div className="gb-reward-options">
+          {webRewards.map((reward) => {
+            const owned = vouchers.includes(reward.id);
+            const canRedeem = points >= reward.cost;
+            const ActionIcon = owned ? Check : canRedeem ? ArrowRight : Coffee;
+            return <article className={`gb-reward-option ${owned ? 'owned' : ''}`} key={reward.id}>
+              <strong>{reward.title.replace('Potongan ', '')}</strong>
+              <small>{reward.cost} PT · min. {formatPrice(reward.minimumSubtotal)}</small>
+              <button
+                type="button"
+                className={canRedeem || owned ? 'available' : ''}
+                onClick={() => owned ? onNavigate('/cart') : canRedeem ? onRedeemReward(reward.id) : onNavigate('/coffee-game')}
+                aria-label={owned ? `Gunakan ${reward.title} di keranjang` : canRedeem ? `Tukar ${reward.title}` : `Kumpulkan poin untuk ${reward.title}`}
+                data-testid={`home-redeem-${reward.id}`}
+              >
+                {owned ? 'Gunakan' : canRedeem ? 'Tukar' : `Kurang ${reward.cost - points} PT`} <ActionIcon size={12} />
+              </button>
+            </article>;
+          })}
+        </div>
+        {vouchers.length > 0 && <button type="button" className="gb-active-voucher-link" onClick={() => onNavigate('/cart')} data-testid="home-active-vouchers">
+          {vouchers.length} voucher aktif · gunakan di keranjang <ArrowRight size={13} />
+        </button>}
+      </div>
+
+      <div className="gb-service-card">
+        <div className="gb-outlet-row">
+          <span className="gb-outlet-icon"><MapPin size={17} /></span>
+          <span className="gb-outlet-copy"><small>OUTLET</small><strong>Ruko Papandayan Garut</strong></span>
+          <span className="gb-outlet-area">Garut</span>
+        </div>
+        <div className="gb-service-heading"><strong>Pilih layanan</strong><span>Tersimpan di keranjang</span></div>
+        <div className="gb-service-options" role="group" aria-label="Pilihan layanan">
+          {serviceModes.map((mode) => {
+            const Icon = serviceIcons[mode.id];
+            const selected = serviceMode === mode.id;
+            return <button
+              type="button"
+              key={mode.id}
+              className={`gb-service-option ${selected ? 'selected' : ''}`}
+              aria-pressed={selected}
+              onClick={() => onSelectService(mode.id)}
+              data-testid={`home-service-${mode.id}`}
+            >
+              <Icon size={16} />
+              <span>{mode.label}</span>
+            </button>;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function HomePage({
+  onNavigate,
+  onAddToCart,
+  onToggleFavorite,
+  favorites,
+  programHighlights,
+  points,
+  vouchers,
+  onRedeemReward,
+  serviceMode,
+  onSelectService,
+}: HomePageProps) {
   const diversified = homeContent.diversifiedProducts.map((product) => ({
     ...product,
     image: getWebProductImage(product.id, product.image),
@@ -923,6 +1050,14 @@ export default function HomePage({ onNavigate, onAddToCart, onToggleFavorite, fa
         <Header onNavigate={onNavigate} />
         <main className="gb-home-content">
           <SearchEntry onNavigate={onNavigate} />
+          <HomeMemberPanel
+            points={points}
+            vouchers={vouchers}
+            onRedeemReward={onRedeemReward}
+            serviceMode={serviceMode}
+            onSelectService={onSelectService}
+            onNavigate={onNavigate}
+          />
           <PromoCarousel onNavigate={onNavigate} />
           <CategoryTiles onNavigate={onNavigate} />
           <div className="gb-home-feature-grid">
