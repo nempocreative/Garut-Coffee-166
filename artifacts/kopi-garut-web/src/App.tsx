@@ -44,8 +44,16 @@ import {
   type SharedCoffee,
 } from '@workspace/kopi-garut-shared';
 import { webCoffeeCatalog } from '@/lib/coffee-catalog';
+import {
+  customBoxMinimumQuantity,
+  customBoxSurchargePerPackage,
+  giftBundleProductCounts,
+  type GiftBoxType,
+  type GiftBundleType,
+} from '@/lib/gift-bundle';
 import { getWebProductImage } from '@/lib/web-product-images';
-import HomePage, { giftBundleProductCounts, type GiftBundleType } from '@/pages/home-page';
+import HomePage from '@/pages/home-page';
+import { GiftBundleBuilder } from '@/components/gift-bundle-builder';
 import '@/pages/points-page.css';
 import '@/clerk-auth.css';
 import { SiteFooter } from '@/components/site-footer';
@@ -275,6 +283,7 @@ type CartItem = {
   unitPrice?: number;
   bundleType?: GiftBundleCartType;
   bundleProductIds?: string[];
+  bundleBoxType?: GiftBoxType;
   bundleCoffeeIds?: string[];
   giftMessage?: string;
 };
@@ -300,7 +309,13 @@ type StoreValue = {
   refreshBuyerPoints: () => void;
   serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
   addToCart: (id: string, quantity?: number) => void;
-  addGiftBundle: (bundleType: GiftBundleType, productIds: string[], giftMessage: string) => void;
+  addGiftBundle: (
+    bundleType: GiftBundleType,
+    productIds: string[],
+    giftMessage: string,
+    boxType: GiftBoxType,
+    quantity: number,
+  ) => void;
   updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
   addPoints: (amount: number) => Promise<boolean>;
@@ -494,48 +509,68 @@ function StoreProvider({ children }: { children: ReactNode }) {
       return found ? current.map((item) => item.id === id ? { ...item, quantity: item.quantity + quantity } : item) : [...current, { id, quantity }];
     });
   };
-  const addGiftBundle = (bundleType: GiftBundleType, productIds: string[], giftMessage: string) => {
+  const addGiftBundle = (
+    bundleType: GiftBundleType,
+    productIds: string[],
+    giftMessage: string,
+    boxType: GiftBoxType,
+    quantity: number,
+  ) => {
     const expectedProductCount = giftBundleProductCounts[bundleType];
     const selectedProducts = productIds.map(getGiftBundleProductDetails);
     if (
       selectedProducts.length !== expectedProductCount
       || selectedProducts.some((product) => !product)
+      || !Number.isInteger(quantity)
+      || quantity < (boxType === 'custom' ? customBoxMinimumQuantity : 1)
     ) {
-      notify('Isi paket belum lengkap. Silakan pilih kembali produk oleh-oleh.');
+      notify(boxType === 'custom'
+        ? `Custom box minimal ${customBoxMinimumQuantity} paket.`
+        : 'Isi paket belum lengkap. Silakan pilih kembali produk oleh-oleh.');
       return;
     }
-    const unitPrice = selectedProducts.reduce((sum, product) => sum + (product?.price ?? 0), 0);
+    const unitPrice = selectedProducts.reduce((sum, product) => sum + (product?.price ?? 0), 0)
+      + (boxType === 'custom' ? customBoxSurchargePerPackage : 0);
     const normalizedProductIds = [...productIds];
     const normalizedMessage = giftMessage.trim().slice(0, 40);
-    setCartNotice({ id: giftBundleProduct.id, quantity: 1 });
+    setCartNotice({ id: giftBundleProduct.id, quantity });
     setCart((current) => {
       const found = current.find((item) => (
         item.id === giftBundleProduct.id
         && item.bundleType === bundleType
         && JSON.stringify(item.bundleProductIds) === JSON.stringify(normalizedProductIds)
+        && item.bundleBoxType === boxType
         && (item.giftMessage ?? '') === normalizedMessage
       ));
       if (found) {
         return current.map((item) => cartItemKey(item) === cartItemKey(found)
-          ? { ...item, quantity: item.quantity + 1 }
+          ? { ...item, quantity: item.quantity + quantity }
           : item);
       }
       return [...current, {
         id: giftBundleProduct.id,
-        quantity: 1,
+        quantity,
         lineId: crypto.randomUUID(),
         unitPrice,
         bundleType,
         bundleProductIds: normalizedProductIds,
+        bundleBoxType: boxType,
         giftMessage: normalizedMessage,
       }];
     });
-    notify(`${getGiftBundleLabel(bundleType)} ditambahkan ke keranjang`);
+    notify(`${getGiftBundleLabel(bundleType)} (${quantity} paket) ditambahkan ke keranjang`);
   };
   const dismissCartNotice = () => setCartNotice(null);
-  const updateQuantity = (id: string, quantity: number) => setCart((current) => quantity <= 0
-    ? current.filter((item) => cartItemKey(item) !== id)
-    : current.map((item) => cartItemKey(item) === id ? { ...item, quantity } : item));
+  const updateQuantity = (id: string, quantity: number) => {
+    const item = cart.find((entry) => cartItemKey(entry) === id);
+    if (item?.bundleBoxType === 'custom' && quantity > 0 && quantity < customBoxMinimumQuantity) {
+      notify(`Custom box minimal ${customBoxMinimumQuantity} paket.`);
+      return;
+    }
+    setCart((current) => quantity <= 0
+      ? current.filter((entry) => cartItemKey(entry) !== id)
+      : current.map((entry) => cartItemKey(entry) === id ? { ...entry, quantity } : entry));
+  };
   const toggleFavorite = (id: string) => {
     setFavorites((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
     notify(favorites.includes(id) ? 'Dihapus dari favorit' : 'Disimpan ke favorit');
@@ -811,7 +846,7 @@ function FloatingActions() {
   const route = location.split('?')[0];
   const isFarmerRoute = route === '/farmers' || route === '/extension-farmers' || route.startsWith('/farmer/');
   const isRegionRoute = route === '/regions' || route.startsWith('/region/');
-  if (route === '/login' || route === '/support' || route.startsWith('/sign-in') || route.startsWith('/sign-up') || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
+  if (route === '/login' || route === '/support' || route === '/gift-bundle' || route.startsWith('/sign-in') || route.startsWith('/sign-up') || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
 
   const handleSupportAction = (key: (typeof supportActions)[number]['key']) => {
     setOpen(false);
@@ -910,7 +945,7 @@ function WebHomeRoute() {
   const [, setLocation] = useLocation();
   const clerkAuth = useClerkAuth();
   const {
-    favorites, addToCart, addGiftBundle, toggleFavorite, points, serviceMode, setServiceMode,
+    favorites, addToCart, toggleFavorite, points, serviceMode, setServiceMode,
     serviceLocationId, setServiceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
   } = useStore();
@@ -921,7 +956,6 @@ function WebHomeRoute() {
     <HomePage
       onNavigate={setLocation}
       onAddToCart={(id) => addToCart(id)}
-      onAddGiftBundle={addGiftBundle}
       onToggleFavorite={toggleFavorite}
       favorites={favorites}
       programHighlights={regularPrograms.slice(0, 2)}
@@ -938,6 +972,18 @@ function WebHomeRoute() {
     />
     <CartPreview />
   </>;
+}
+
+function GiftBundleRoute() {
+  const { addGiftBundle } = useStore();
+  return (
+    <Page>
+      <main className="subpage gift-bundle-page" data-testid="gift-bundle-page">
+        <Header title="Oleh-oleh" />
+        <GiftBundleBuilder onAddGiftBundle={addGiftBundle} />
+      </main>
+    </Page>
+  );
 }
 
 function Page({ children }: { children: ReactNode }) {
@@ -1112,14 +1158,14 @@ function CartPage() {
     <div className="subcopy">Periksa kembali kopi yang akan menemani harimu.</div>
     {rows.length ? <>
       <div className="cart-list">{rows.map((row) => {
-        const { id, quantity, coffee, lineKey, unitPrice, bundleType, bundleProductIds, bundleCoffeeIds, giftMessage } = row;
+        const { id, quantity, coffee, lineKey, unitPrice, bundleType, bundleProductIds, bundleBoxType, bundleCoffeeIds, giftMessage } = row;
         if (!coffee) return null;
         const bundleProductNames = (bundleProductIds ?? bundleCoffeeIds ?? [])
           .map((productId) => getGiftBundleProductDetails(productId)?.name)
           .filter(Boolean)
           .join(' + ');
         const bundleContents = bundleProductIds?.length
-          ? `${bundleProductNames} · Box hadiah`
+          ? `${bundleProductNames} · ${bundleBoxType === 'custom' ? 'Custom box' : 'Box Garut Beans'}`
           : `${bundleProductNames} · Mug · ${bundleType === 'paket-2' ? 'Totebag · ' : ''}Box hadiah`;
         return <div className="cart-row" key={lineKey}>
           <img src={coffee.image} alt={coffee.name} />
@@ -1232,7 +1278,7 @@ function OrdersPage() {
             .filter(Boolean)
             .join(' + ');
           const extras = item.bundleProductIds?.length
-            ? 'box'
+            ? (item.bundleBoxType === 'custom' ? 'custom box' : 'box Garut Beans')
             : `mug${item.bundleType === 'paket-2' ? ' + totebag' : ''} + box`;
           return `${item.quantity} × ${getGiftBundleLabel(item.bundleType)} (${productNames} + ${extras})`;
         }).join(' / ');
@@ -2901,6 +2947,7 @@ function AppRouter() {
     <Route path="/sign-up/*?" component={ClerkSignUpPage} />
     <Route path="/login"><LoginPage /></Route>
     <Route path="/catalog" component={CatalogPage} />
+    <Route path="/gift-bundle" component={GiftBundleRoute} />
     <Route path="/product/:id" component={ProductDetailPage} />
     <Route path="/cart" component={CartPage} />
     <Route path="/favorites" component={FavoritesPage} />
