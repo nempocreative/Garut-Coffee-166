@@ -1,5 +1,5 @@
 const webProductImages: Record<string, string> = {
-  'essential-oil-kopi': 'essential-oil-scrub-style.jpg',
+  'essential-oil-kopi': 'essential-oil-garut-series.jpg',
   'pewangi-sepatu-kopi': 'coffee-shoe-deodorizer-scrub-style.jpg',
   'minyak-aroma-kopi': 'coffee-aroma-oil-scrub-style.jpg',
   'coffee-concentrate': 'coffee-concentrate-scrub-style.jpg',

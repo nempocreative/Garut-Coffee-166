@@ -273,3 +273,17 @@ mtime_ms = 1791101737456
 storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/bc159c1e-dcb2-4bbe-8111-e0f5234a7bc7/c332264f-1bd2-4d57-86b7-31a281000615"
 storage_version_token = "1791101824438696"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "ny9hc2LLeckuSCACQAq35"
+uri = "file://artifacts/kopi-garut-web/public/assets/essential-oil-garut-series.jpg"
+type = "image"
+title = "Essential Oil Kopi — gaya seri Garut Beans"
+description = "Foto baru Essential Oil dengan botol dropper, mengikuti adegan visual Sabun Scrub dan Totebag Garut Beans."
+logical_id = "afe37787-7227-4aa5-88e9-11918737db77"
+content_hash = "sha256:f265a3c97d4413b14f9fe75831f348fbfad53496e2efaf17a3ee1bdadc726732"
+size = 160640
+mtime_ms = 1791101934988
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:2a85f755-e153-4897-995b-f9572e0fbfc0/afe37787-7227-4aa5-88e9-11918737db77/ea7b2222-235e-4fa6-8df9-fe39f5353ef3"
+storage_version_token = "1791102006057815"
+content_type = "image/jpeg"
