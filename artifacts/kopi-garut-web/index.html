@@ -16,7 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="/assets/coffee-bean-menu.webp" />
+    <script>
+      const beanPreload = document.createElement('link');
+      beanPreload.rel = 'preload';
+      beanPreload.as = 'image';
+      beanPreload.href = '/kopi-garut-web/assets/coffee-bean-menu.webp';
+      document.head.append(beanPreload);
+    </script>
     <style>
       #gb-initial-loader,
       #gb-initial-loader *,
