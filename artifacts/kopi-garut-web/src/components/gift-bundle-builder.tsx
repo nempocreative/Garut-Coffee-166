@@ -276,8 +276,30 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
                   src={asset(giftBoxView === 'open' ? 'garut-beans-empty-gift-box.webp' : 'garut-beans-closed-gift-box-final.webp')}
                   alt={giftBoxView === 'open' ? 'Pratinjau box Garut Beans dalam keadaan terbuka.' : 'Pratinjau box Garut Beans dalam keadaan tertutup.'}
                 />
+                {giftBoxView === 'open' && (
+                  <div
+                    className={`gb-gift-design-products-inside count-${selectedGiftProducts.length}`}
+                    role="group"
+                    aria-label={`${selectedGiftProducts.length} produk pilihan di dalam box`}
+                    data-testid="gift-box-products-inside"
+                  >
+                    {selectedGiftProducts.map((product, index) => (
+                      <figure
+                        className="gb-gift-design-product-inside"
+                        key={`${product.id}-${index}`}
+                        title={product.name}
+                        data-testid={`gift-box-product-preview-${index + 1}`}
+                      >
+                        <img
+                          src={product.image}
+                          alt={`${product.name}, produk ke-${index + 1} di dalam box`}
+                        />
+                      </figure>
+                    ))}
+                  </div>
+                )}
                 <span className="gb-gift-design-caption">{giftBoxView === 'open' ? 'TAMPAK TERBUKA' : 'TAMPAK TERTUTUP'}</span>
-                {customMessageEnabled && (
+                {customMessageEnabled && giftBoxView === 'closed' && (
                   <div className={`gb-gift-design-imprint ${giftBoxView}`} data-testid="gift-bundle-preview-message">
                     <span>PRATINJAU TULISAN</span>
                     <strong>{giftMessage.trim() || 'Tulis ucapanmu di sini'}</strong>

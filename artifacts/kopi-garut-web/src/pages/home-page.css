@@ -8849,6 +8849,44 @@
   pointer-events: none;
 }
 
+.gb-gift-design-products-inside {
+  position: absolute;
+  z-index: 2;
+  top: 58%;
+  right: 17%;
+  left: 17%;
+  display: flex;
+  height: 19%;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.gb-gift-design-product-inside {
+  display: grid;
+  width: 100%;
+  max-width: 26%;
+  height: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-items: center;
+  margin: 0;
+  overflow: hidden;
+  padding: 2px;
+  border: 1px solid rgba(98, 67, 42, .42);
+  border-radius: 5px;
+  background: rgba(255, 249, 239, .94);
+  box-shadow: 0 3px 7px rgba(39, 27, 18, .22);
+}
+
+.gb-gift-design-product-inside img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .gb-gift-design-box-image {
   position: absolute;
   z-index: 0;
@@ -9279,6 +9317,16 @@
   .gb-gift-design-imprint {
     right: 15%;
     left: 15%;
+  }
+
+  .gb-gift-design-products-inside {
+    right: 15%;
+    left: 15%;
+  }
+
+  .gb-gift-design-product-inside {
+    padding: 1px;
+    border-radius: 3px;
   }
 
   .gb-gift-design-views button {
