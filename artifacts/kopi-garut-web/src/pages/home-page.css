@@ -9249,7 +9249,7 @@
   pointer-events: none;
 }
 
-.gb-gift-bundle-teaser-visual > img {
+.gb-gift-bundle-teaser-visual > .gb-gift-teaser-backdrop {
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -9264,8 +9264,50 @@
   transform: scale(1.035);
 }
 
+.gb-gift-teaser-products {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gb-gift-teaser-product {
+  position: absolute;
+  bottom: 7%;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 8px rgba(31, 22, 15, .34));
+  transform-origin: center bottom;
+}
+
+.gb-gift-teaser-product-cikuray {
+  left: 39%;
+  bottom: 9%;
+  width: 22%;
+  max-height: 59%;
+  transform: rotate(-4deg);
+}
+
+.gb-gift-teaser-product-cookies {
+  left: 21%;
+  bottom: 8%;
+  width: 18%;
+  max-height: 43%;
+  transform: rotate(-3deg);
+}
+
+.gb-gift-teaser-product-soap {
+  left: 59%;
+  bottom: 10%;
+  width: 22%;
+  max-height: 34%;
+  transform: rotate(3deg);
+}
+
 .gb-gift-teaser-brand {
   position: absolute;
+  z-index: 2;
   top: 17px;
   left: 17px;
   display: grid;
@@ -9295,10 +9337,11 @@
 
 .gb-gift-teaser-card {
   position: absolute;
-  right: 20px;
-  bottom: 18px;
+  z-index: 3;
+  top: 14%;
+  right: 5%;
   display: grid;
-  width: min(192px, 47%);
+  width: min(155px, 29%);
   gap: 6px;
   padding: 13px 15px 12px;
   transform: rotate(-3deg);
@@ -9471,6 +9514,16 @@
     min-height: clamp(225px, 65vw, 300px);
   }
 
+  .gb-gift-teaser-products {
+    inset: 0;
+  }
+
+  .gb-gift-teaser-card {
+    right: 4%;
+    width: min(135px, 31%);
+    padding: 10px 11px 9px;
+  }
+
   .gb-gift-bundle-teaser-copy {
     gap: 11px;
     padding: 20px;
@@ -9499,10 +9552,9 @@
   }
 
   .gb-gift-teaser-card {
-    right: 13px;
-    bottom: 13px;
-    width: min(175px, 51%);
-    padding: 10px 12px;
+    right: 4%;
+    width: min(122px, 31%);
+    padding: 8px 9px 7px;
   }
 
   .gb-gift-teaser-card strong {

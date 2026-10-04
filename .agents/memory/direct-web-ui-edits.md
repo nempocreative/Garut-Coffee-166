@@ -69,6 +69,12 @@ For Garut Beans Web, keep photo and icon files lightweight, preserve their inten
 
 **How to apply:** Prefer optimized image formats for Web assets, verify the mounted asset paths and responsive crops, and keep a local fallback for failed image loads.
 
+For the Garut Beans gift-box visuals, arrange the original catalog products inside the box and preserve each package design exactly; do not generate replacement packaging.
+
+**Why:** The user clarified that the products should be arranged inside the box and that their packaging must match the existing catalog designs.
+
+**How to apply:** Use the original product-photo pixels as cutouts over an empty gift-box backdrop, with the greeting card visible in the composition.
+
 For the Garut Beans Web homepage, the location selector is for partner outlets where customers can try and order Garut Beans, not for customers' personal delivery addresses. Add personal delivery addresses during checkout.
 
 **Why:** The user clarified that homepage locations should represent partner outlets, while delivery addresses belong in checkout.
