@@ -376,8 +376,8 @@ function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
       </span>
       <span className="gb-story-lead-copy">
         <span className="gb-story-lead-kicker">CERITA DARI LERENG GARUT</span>
-        <strong>Dari tanah pegunungan, lahir rasa yang punya cerita.</strong>
-        <span>Di antara tanah vulkanik, udara sejuk, dan kebun yang dirawat turun-temurun, Garut Beans tumbuh perlahan bersama para petani.</span>
+        <strong>Dari Garut, lahir rasa penuh cerita.</strong>
+        <span>Tumbuh di tanah vulkanik, dirawat petani Garut.</span>
         <span className="gb-story-lead-footer">
           <span className="gb-story-lead-fact"><i /> 1.200 mdpl · Garut, Jawa Barat</span>
           <span className="gb-story-lead-link">Telusuri asal kopi <b>↗</b></span>
