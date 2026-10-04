@@ -208,7 +208,7 @@ function Header({ onNavigate }: { onNavigate: (path: string) => void }) {
 function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <button className="gb-search-entry" onClick={() => onNavigate('/catalog')} data-testid="button-home-search" aria-label="Cari kopi, petani, atau wilayah">
-      <img src={asset('coffee-bean-menu.webp')} alt="" data-testid="img-search-bean" />
+      <img src={asset('coffee-bean-menu.webp')} alt="" data-testid="img-search-bean" decoding="async" />
       <span>Cari kopi, petani, atau wilayah</span>
       <span className="gb-filter-orb"><AppIcon name="sliders" size={16} /></span>
     </button>
@@ -256,7 +256,7 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
                   </div>
                 )}
                 <div className="gb-promo-media">
-                  <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} />
+                  <img src={asset(promo.image)} alt={isActive ? promo.title : ''} data-testid={`img-promo-${promo.id}`} loading="eager" fetchPriority={isActive ? 'high' : 'low'} decoding="async" />
                   <div className="gb-promo-shade" />
                 </div>
               </div>
@@ -329,8 +329,8 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
 function StoryLead({ onNavigate }: { onNavigate: (path: string) => void }) {
   return (
     <button className="gb-story-lead" onClick={() => onNavigate('/collective')} data-testid="button-collective-story">
-      <img className="gb-story-lead-desktop-image" src={asset('garut-mountain-coffee-banner.webp')} alt="" data-testid="img-collective-story" />
-      <img className="gb-story-lead-mobile-image" src={asset('garut-mountain-coffee-banner.webp')} alt="" aria-hidden="true" />
+      <img className="gb-story-lead-desktop-image" src={asset('garut-mountain-coffee-banner.webp')} alt="" data-testid="img-collective-story" loading="lazy" decoding="async" />
+      <img className="gb-story-lead-mobile-image" src={asset('garut-mountain-coffee-banner.webp')} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <span className="gb-story-lead-shade" />
       <span className="gb-story-lead-topline">
         <span>ASAL G-BEANS</span>
@@ -410,7 +410,7 @@ function CoffeeCard({ coffee, favorites, onAddToCart, onToggleFavorite, onNaviga
   return (
     <article className="gb-coffee-card" data-testid={`card-coffee-${coffee.id}`}>
       <button className="gb-coffee-image-button" onClick={() => onNavigate(`/product/${coffee.id}`)} data-testid={`button-coffee-${coffee.id}`} aria-label={`Lihat ${coffee.name}`}>
-        <img src={asset(coffee.image)} alt={coffee.name} data-testid={`img-coffee-${coffee.id}`} />
+        <img src={asset(coffee.image)} alt={coffee.name} data-testid={`img-coffee-${coffee.id}`} loading="lazy" decoding="async" />
         {coffee.badge && <span className="gb-badge">{coffee.badge}</span>}
       </button>
       <div className="gb-coffee-body">
@@ -436,7 +436,7 @@ function DiversifiedCard({ product, onNavigate, onAddToCart }: { product: typeof
     <article className="gb-diversified-card" data-testid={`card-diversified-${product.id}`}>
       <button className="gb-diversified-main" onClick={() => onNavigate('/diversification')} data-testid={`button-diversified-${product.id}`}>
         <span className="gb-diversified-image">
-          <img src={asset(getWebProductImage(product.id, product.image))} alt={product.title} data-testid={`img-diversified-${product.id}`} />
+          <img src={asset(getWebProductImage(product.id, product.image))} alt={product.title} data-testid={`img-diversified-${product.id}`} loading="lazy" decoding="async" />
           <span>{product.badge}</span>
         </span>
         <span className="gb-diversified-body">
@@ -614,7 +614,7 @@ function FarmerFeatureCard({ farmer, index, onNavigate }: { farmer: typeof farme
     <button className="gb-farmer-feature" onClick={() => onNavigate(`/farmer/${farmer.id}`)} data-testid={`button-home-farmer-${farmer.id}`}>
       <span className={`gb-farmer-accent ${index === 0 ? 'gold' : ''}`} />
       <span className="gb-farmer-portrait">
-        <img src={asset(farmer.image)} alt={farmer.name} />
+        <img src={asset(farmer.image)} alt={farmer.name} loading="lazy" decoding="async" />
         <span className="gb-farmer-portrait-shade" />
       </span>
       <span className="gb-farmer-copy">
@@ -637,7 +637,7 @@ function ExtensionCard({ worker, onNavigate }: { worker: typeof extensionTeam[nu
   return (
     <button className="gb-extension-card" onClick={() => onNavigate('/extension-dashboard')} data-testid={`button-home-extension-${worker.id}`}>
       <span className="gb-extension-image">
-        <img src={asset(worker.image)} alt={worker.name} />
+        <img src={asset(worker.image)} alt={worker.name} loading="lazy" decoding="async" />
         <span className="gb-extension-image-shade" />
         <span className="gb-extension-status"><b /> AKTIF</span>
         <strong>{worker.role}</strong>
@@ -656,7 +656,7 @@ function RegionCard({ region, index, onNavigate }: { region: typeof regions[numb
   return (
     <button className="gb-region-card" onClick={() => onNavigate(`/region/${region.id}`)} data-testid={`button-home-region-${region.id}`}>
       <span className="gb-region-image">
-        <img src={asset(region.image)} alt={region.name} />
+        <img src={asset(region.image)} alt={region.name} loading="lazy" decoding="async" />
         <span className="gb-region-image-shade" />
         <b>0{index + 1}</b>
       </span>
@@ -699,7 +699,7 @@ function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) 
     >
       {stories.map((story, index) => (
         <button className="gb-event-card" data-story-reel-card key={story.id} onClick={() => onNavigate('/events')} data-testid={`button-home-event-${story.id}`}>
-          <img src={asset(story.image)} alt={story.title} />
+          <img src={asset(story.image)} alt={story.title} loading="lazy" decoding="async" />
           <span className="gb-event-shade" />
           <span className="gb-event-top"><b>◷ CERITA BARU</b><em>0{index + 1}</em></span>
           <span className="gb-event-copy">
@@ -723,7 +723,7 @@ function ProgramHighlightRail({ programs, onNavigate }: { programs: HomeProgramH
           onClick={() => onNavigate('/program')}
           data-testid={`button-home-program-${program.id}`}
         >
-          <img src={asset(program.image)} alt="" />
+          <img src={asset(program.image)} alt="" loading="lazy" decoding="async" />
           <span className="gb-program-highlight-copy">
             <small>{program.category}</small>
             <strong>{program.title}</strong>
@@ -740,7 +740,7 @@ function ProgramHighlightRail({ programs, onNavigate }: { programs: HomeProgramH
 function TourCard({ tour, onNavigate }: { tour: typeof coffeeTours[number]; onNavigate: (path: string) => void }) {
   return (
     <button className="gb-tour-card" onClick={() => onNavigate('/tourism')} data-testid={`button-home-tour-${tour.id}`}>
-      <img src={asset(tour.image)} alt={tour.title} />
+      <img src={asset(tour.image)} alt={tour.title} loading="lazy" decoding="async" />
       <span className="gb-tour-shade" />
       <span className="gb-tour-copy">
         <small>{tour.type}</small>
@@ -844,7 +844,7 @@ function CoffeeFinder({ onNavigate }: { onNavigate: (path: string) => void }) {
       </form>
       {recommendedCoffee && (
         <div className="gb-coffee-finder-result" aria-live="polite" data-testid="coffee-finder-result">
-          <img src={asset(recommendedCoffee.image)} alt="" />
+          <img src={asset(recommendedCoffee.image)} alt="" loading="lazy" decoding="async" />
           <div className="gb-coffee-finder-result-copy">
             <small>REKOMENDASI UNTUKMU</small>
             <strong>{recommendedCoffee.name}</strong>
@@ -876,7 +876,7 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
   return (
     <article className="gb-weekly-brew" data-testid={`weekly-brew-guide-${recipe.id}`}>
       <div className="gb-weekly-brew-visual">
-        <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} />
+        <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} loading="lazy" decoding="async" />
         <span className="gb-weekly-brew-badge" aria-hidden="true">0{position}</span>
       </div>
 
@@ -1130,7 +1130,7 @@ export default function HomePage({
           </section>
 
           <div className="gb-mobile-home-footer gb-mobile-only">
-            <img src={asset('garut-mountains.webp')} alt="Ilustrasi pegunungan Garut" />
+        <img src={asset('garut-mountains.webp')} alt="Ilustrasi pegunungan Garut" loading="lazy" decoding="async" />
             <span>DARI KEBUN GARUT, UNTUK SETIAP CANGKIR</span>
           </div>
 

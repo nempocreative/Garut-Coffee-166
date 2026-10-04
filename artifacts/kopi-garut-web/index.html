@@ -16,6 +16,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="%BASE_URL%assets/coffee-bean-menu.webp" />
+    <link rel="preload" as="image" href="%BASE_URL%assets/kopi-garut-logo.webp" />
+    <link rel="preload" as="image" href="%BASE_URL%assets/garut-beans-header.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="%BASE_URL%assets/kopi-garut-panen-rasa-banner.webp" fetchpriority="high" />
     <style>
       #gb-initial-loader,
       #gb-initial-loader *,
@@ -33,12 +37,15 @@
         overflow: hidden;
         color: #fff9f1;
         background:
-          radial-gradient(ellipse at 50% 43%, rgba(168, 84, 59, .34), transparent 42%),
+          radial-gradient(ellipse at 50% 43%, rgba(211, 161, 95, .18), transparent 38%),
+          radial-gradient(ellipse at 50% 46%, rgba(168, 84, 59, .38), transparent 52%),
           linear-gradient(150deg, #35251f 0%, #281e1a 62%, #211916 100%);
         font-family: Manrope, 'Trebuchet MS', sans-serif;
         opacity: 1;
         visibility: visible;
-        transition: opacity .48s ease, visibility .48s ease;
+        transform: scale(1);
+        filter: blur(0);
+        transition: opacity .44s cubic-bezier(.22, .72, .2, 1), visibility .44s ease, transform .44s cubic-bezier(.22, .72, .2, 1), filter .44s ease;
       }
 
       #gb-initial-loader::before {
@@ -50,12 +57,24 @@
           radial-gradient(circle at 15% 24%, rgba(255, 216, 77, .22) 0 1px, transparent 1.6px),
           radial-gradient(circle at 82% 70%, rgba(255, 249, 241, .16) 0 1px, transparent 1.6px),
           radial-gradient(circle at 76% 18%, rgba(255, 216, 77, .13) 0 1px, transparent 1.6px);
+        animation: gb-loader-ambient 8s ease-in-out infinite alternate;
+      }
+
+      #gb-initial-loader::after {
+        position: absolute;
+        inset: 0;
+        content: '';
+        pointer-events: none;
+        background: radial-gradient(ellipse at 50% 48%, rgba(255, 216, 77, .08), transparent 28%);
+        animation: gb-loader-ambient 3.2s ease-in-out infinite alternate;
       }
 
       #gb-initial-loader.is-hiding {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        transform: scale(1.025);
+        filter: blur(7px);
       }
 
       .gb-loader-content {
@@ -66,6 +85,7 @@
         width: min(100% - 32px, 360px);
         padding: 28px 20px;
         text-align: center;
+        animation: gb-loader-arrive .65s cubic-bezier(.2, .75, .2, 1) both;
       }
 
       .gb-loader-emblem {
@@ -78,6 +98,7 @@
         border-radius: 50%;
         background: radial-gradient(circle, #61402f 0%, #3d2b24 58%, #30231e 100%);
         box-shadow: 0 0 0 12px rgba(255, 249, 241, .025), 0 20px 55px rgba(13, 9, 7, .32);
+        animation: gb-loader-emblem-glow 2.8s ease-in-out infinite;
       }
 
       .gb-loader-emblem::before {
@@ -123,6 +144,7 @@
         font-size: 19px;
         font-weight: 800;
         letter-spacing: 2.4px;
+        animation: gb-loader-rise .45s .08s both;
       }
 
       .gb-loader-brand span {
@@ -134,6 +156,7 @@
         color: rgba(255, 249, 241, .68);
         font-size: 12px;
         letter-spacing: .1px;
+        animation: gb-loader-rise .45s .16s both;
       }
 
       .gb-loader-track {
@@ -143,6 +166,7 @@
         overflow: hidden;
         border-radius: 99px;
         background: rgba(255, 249, 241, .13);
+        animation: gb-loader-rise .45s .22s both;
       }
 
       .gb-loader-track span {
@@ -160,6 +184,27 @@
         font-size: 8px;
         font-weight: 800;
         letter-spacing: 1.8px;
+        animation: gb-loader-rise .45s .28s both;
+      }
+
+      @keyframes gb-loader-ambient {
+        from { opacity: .58; transform: scale(.98); }
+        to { opacity: 1; transform: scale(1.04); }
+      }
+
+      @keyframes gb-loader-arrive {
+        from { opacity: 0; transform: translateY(10px) scale(.985); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      @keyframes gb-loader-rise {
+        from { opacity: 0; transform: translateY(7px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes gb-loader-emblem-glow {
+        0%, 100% { box-shadow: 0 0 0 12px rgba(255, 249, 241, .025), 0 20px 55px rgba(13, 9, 7, .32); }
+        50% { box-shadow: 0 0 0 16px rgba(255, 249, 241, .045), 0 20px 62px rgba(13, 9, 7, .38); }
       }
 
       @keyframes gb-loader-spin {
@@ -178,9 +223,17 @@
 
       @media (prefers-reduced-motion: reduce) {
         #gb-initial-loader { transition-duration: .01ms; }
+        .gb-loader-content,
+        .gb-loader-brand,
+        .gb-loader-copy,
+        .gb-loader-track,
+        .gb-loader-caption { animation: none; }
         .gb-loader-orbit,
         .gb-loader-bean,
-        .gb-loader-track span { animation: none; }
+        .gb-loader-track span,
+        .gb-loader-emblem,
+        #gb-initial-loader::before,
+        #gb-initial-loader::after { animation: none; }
       }
     </style>
   </head>
@@ -190,7 +243,7 @@
       <div class="gb-loader-content">
         <div class="gb-loader-emblem" aria-hidden="true">
           <span class="gb-loader-orbit"><span class="gb-loader-orbit-dot"></span></span>
-          <img class="gb-loader-bean" data-initial-loader-bean alt="" />
+          <img class="gb-loader-bean" data-initial-loader-bean src="%BASE_URL%assets/coffee-bean-menu.webp" alt="" />
         </div>
         <p class="gb-loader-brand">GARUT <span>BEANS</span></p>
         <p class="gb-loader-copy">Menyiapkan pengalaman kopi dari Garut</p>

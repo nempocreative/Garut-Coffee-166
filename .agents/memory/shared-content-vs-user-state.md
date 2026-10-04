@@ -14,3 +14,9 @@ Garut Beans Web loyalty points and delivery addresses are intentionally browser-
 **Why:** The user explicitly decided that the Web points balance is Web-only and that delivery addresses saved on Web are not synchronized to HP.
 
 **How to apply:** Keep these records in the Web browser's local storage and avoid UI copy that suggests they appear in the mobile app.
+
+G-Beans Web points expire 365 days after earning. Redeeming rewards consumes the oldest active points first. Legacy numeric balances without earning dates receive a one-year grace period when migrated.
+
+**Why:** The user set a one-year expiry rule, and older browser balances do not contain earning timestamps.
+
+**How to apply:** Preserve browser-only storage, record each Web point award with its earning time, and avoid expiring legacy balances immediately during migration.

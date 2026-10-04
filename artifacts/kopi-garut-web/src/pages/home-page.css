@@ -5418,6 +5418,15 @@
   object-fit: cover;
 }
 
+.gb-promo-media > img[data-gb-image-state='loading'] {
+  opacity: 0;
+}
+
+.gb-promo-media > img[data-gb-image-state='ready'] {
+  opacity: 1;
+  transition: opacity .16s ease-out;
+}
+
 .gb-promo-media .gb-promo-shade {
   position: absolute;
   inset: 0;
@@ -5432,6 +5441,12 @@
 
 .gb-promo-copy--embedded {
   display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-promo-media > img[data-gb-image-state='ready'] {
+    transition: none;
+  }
 }
 
 @media (max-width: 767px) {

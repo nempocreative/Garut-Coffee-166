@@ -28,6 +28,15 @@ import '@/pages/points-page.css';
 import { SiteFooter } from '@/components/site-footer';
 import { useWebStorageJson } from '@/lib/web-storage';
 import {
+  consumeOldestPointLots,
+  getActivePointLots,
+  getNextPointExpiry,
+  getPointsBalance,
+  normalizePointLots,
+  type PointExpirySummary,
+  type PointLot,
+} from '@/lib/points-ledger';
+import {
   serviceLocations,
   serviceModes,
   webRewards,
@@ -74,7 +83,6 @@ const Settings = mobileIcon('settings');
 const ShieldCheck = mobileIcon('shield');
 const ShoppingBag = mobileIcon('shopping-bag');
 const SlidersHorizontal = mobileIcon('sliders');
-const Sparkles = mobileIcon('sparkles');
 const Users = mobileIcon('users');
 const BarChart3 = mobileIcon('bar-chart-2');
 const Check = mobileIcon('check');
@@ -150,7 +158,7 @@ type Order = {
 type StoreValue = {
   cart: CartItem[]; favorites: string[]; orders: Order[];
   cartNotice: { id: string; quantity: number } | null;
-  points: number; vouchers: string[]; serviceMode: ServiceMode;
+  points: number; nextPointExpiry: PointExpirySummary | null; vouchers: string[]; serviceMode: ServiceMode;
   serviceLocationId: string; deliveryAddresses: DeliveryAddress[]; selectedDeliveryAddressId: string;
   addToCart: (id: string, quantity?: number) => void; updateQuantity: (id: string, quantity: number) => void;
   toggleFavorite: (id: string) => void;
@@ -175,7 +183,8 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useWebStorageJson<CartItem[]>('kopi-garut-cart', []);
   const [favorites, setFavorites] = useWebStorageJson<string[]>('kopi-garut-favorites', []);
   const [orders, setOrders] = useWebStorageJson<Order[]>('kopi-garut-orders', []);
-  const [points, setPoints] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
+  const [storedPointLots, setStoredPointLots] = useWebStorageJson<PointLot[]>('kopi-garut-coffee-game-point-lots', []);
+  const [legacyPoints, setLegacyPoints] = useWebStorageJson<number>('kopi-garut-coffee-game-points', 0);
   const [vouchers, setVouchers] = useWebStorageJson<string[]>('kopi-garut-coffee-game-vouchers', []);
   const [serviceMode, setServiceMode] = useWebStorageJson<ServiceMode>('kopi-garut-service-mode', 'delivery');
   const [serviceLocationId, setServiceLocationId] = useWebStorageJson<string>('kopi-garut-service-location', 'papandayan');
@@ -183,6 +192,42 @@ function StoreProvider({ children }: { children: ReactNode }) {
   const [selectedDeliveryAddressId, setSelectedDeliveryAddressId] = useWebStorageJson<string>('kopi-garut-selected-delivery-address', '');
   const [notice, setNotice] = useState('');
   const [cartNotice, setCartNotice] = useState<{ id: string; quantity: number } | null>(null);
+  const [pointClock, setPointClock] = useState(() => Date.now());
+  const normalizedPointLots = useMemo(() => normalizePointLots(storedPointLots), [storedPointLots]);
+  const legacyPointAmount = typeof legacyPoints === 'number' && Number.isFinite(legacyPoints)
+    ? Math.max(0, Math.floor(legacyPoints))
+    : 0;
+  const pointLots = useMemo(() => {
+    const lots = normalizedPointLots.length > 0
+      ? normalizedPointLots
+      : legacyPointAmount > 0
+        ? [{ amount: legacyPointAmount, earnedAt: pointClock }]
+        : [];
+    return getActivePointLots(lots, pointClock);
+  }, [normalizedPointLots, legacyPointAmount, pointClock]);
+  const points = useMemo(() => getPointsBalance(pointLots), [pointLots]);
+  const nextPointExpiry = useMemo(() => getNextPointExpiry(pointLots), [pointLots]);
+
+  useEffect(() => {
+    if (JSON.stringify(storedPointLots) !== JSON.stringify(pointLots)) {
+      setStoredPointLots(pointLots);
+    }
+  }, [storedPointLots, pointLots, setStoredPointLots]);
+
+  useEffect(() => {
+    if (legacyPoints !== 0) setLegacyPoints(0);
+  }, [legacyPoints, setLegacyPoints]);
+
+  useEffect(() => {
+    const refreshPointClock = () => setPointClock(Date.now());
+    const interval = window.setInterval(refreshPointClock, 60_000);
+    document.addEventListener('visibilitychange', refreshPointClock);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', refreshPointClock);
+    };
+  }, []);
+
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 2200); return () => window.clearTimeout(timer); }, [notice]);
   useEffect(() => { if (!cartNotice) return; const timer = window.setTimeout(() => setCartNotice(null), 4800); return () => window.clearTimeout(timer); }, [cartNotice]);
   const notify = (message: string) => setNotice(message);
@@ -200,7 +245,18 @@ function StoreProvider({ children }: { children: ReactNode }) {
     notify(favorites.includes(id) ? 'Dihapus dari favorit' : 'Disimpan ke favorit');
   };
   const addPoints = (amount: number) => {
-    if (amount > 0) setPoints((current) => current + amount);
+    const pointsToAdd = Math.floor(amount);
+    if (pointsToAdd <= 0) return;
+    const earnedAt = Date.now();
+    setStoredPointLots((current) => {
+      const currentLots = normalizePointLots(current);
+      const startingLots = currentLots.length > 0
+        ? getActivePointLots(currentLots, earnedAt)
+        : legacyPointAmount > 0
+          ? getActivePointLots([{ amount: legacyPointAmount, earnedAt: pointClock }], earnedAt)
+          : [];
+      return [...startingLots, { amount: pointsToAdd, earnedAt }];
+    });
   };
   const addDeliveryAddress = (label: string, address: string) => {
     const nextAddress = {
@@ -226,12 +282,15 @@ function StoreProvider({ children }: { children: ReactNode }) {
       notify('Voucher ini sudah tersimpan');
       return;
     }
-    if (points < reward.cost) {
-      const missingPoints = reward.cost - points;
+    const now = Date.now();
+    const currentPointLots = getActivePointLots(pointLots, now);
+    const currentPoints = getPointsBalance(currentPointLots);
+    if (currentPoints < reward.cost) {
+      const missingPoints = reward.cost - currentPoints;
       notify(`Kurang ${missingPoints.toLocaleString('id-ID')} PT (${formatPrice(missingPoints)}) untuk menukar hadiah ini`);
       return;
     }
-    setPoints((current) => Math.max(0, current - reward.cost));
+    setStoredPointLots(consumeOldestPointLots(currentPointLots, reward.cost, now));
     setVouchers((current) => current.includes(rewardId) ? current : [...current, rewardId]);
     notify('Voucher berhasil ditukar dan siap digunakan di keranjang');
   };
@@ -287,7 +346,7 @@ function StoreProvider({ children }: { children: ReactNode }) {
     return true;
   };
   return <StoreContext.Provider value={{
-    cart, favorites, orders, cartNotice, points, vouchers, serviceMode,
+    cart, favorites, orders, cartNotice, points, nextPointExpiry, vouchers, serviceMode,
     serviceLocationId, deliveryAddresses, selectedDeliveryAddressId,
     addToCart, updateQuantity, toggleFavorite, addPoints, redeemPoints, setServiceMode,
     setServiceLocationId, setSelectedDeliveryAddressId, addDeliveryAddress, removeDeliveryAddress,
@@ -2079,7 +2138,7 @@ function SupportPage() {
 
 function PointsPage() {
   const [, setLocation] = useLocation();
-  const { points, vouchers, redeemPoints } = useStore();
+  const { points, nextPointExpiry, vouchers, redeemPoints } = useStore();
   const activeRewards = webRewards.filter((reward) => vouchers.includes(reward.id));
   const nextReward = webRewards.find((reward) => points < reward.cost);
   const nextRewardProgress = nextReward ? Math.min(100, Math.round((points / nextReward.cost) * 100)) : 100;
@@ -2092,7 +2151,7 @@ function PointsPage() {
         <section className="points-balance-card" aria-label={`Saldo ${points.toLocaleString('id-ID')} PT, setara ${formatPrice(points)}`}>
           <div className="points-balance-overview">
             <div className="points-balance-topline">
-              <span className="points-balance-icon"><Sparkles size={19} /></span>
+              <span className="points-balance-icon"><Wallet size={19} /></span>
               <span className="points-balance-eyebrow">G-BEANS REWARDS</span>
               <span className="points-rate-chip">1 PT = Rp1</span>
             </div>
@@ -2134,6 +2193,17 @@ function PointsPage() {
           </div>
         </section>
         <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan di browser ini.</p>
+        <p className="points-expiry-note">
+          Poin hangus 365 hari setelah diperoleh. Poin yang lebih lama digunakan lebih dulu.
+          {nextPointExpiry && (
+            <span>
+              {' '}{nextPointExpiry.amount.toLocaleString('id-ID')} PT berikutnya hangus pada{' '}
+              <time dateTime={new Date(nextPointExpiry.expiresAt).toISOString()}>
+                {new Date(nextPointExpiry.expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>.
+            </span>
+          )}
+        </p>
 
         <section className="points-section" aria-labelledby="points-earn-title">
           <div className="points-section-heading">
@@ -2165,7 +2235,7 @@ function PointsPage() {
               const owned = vouchers.includes(reward.id);
               const canRedeem = points >= reward.cost;
               const canAct = owned || canRedeem;
-              const actionLabel = owned ? 'Pakai di keranjang' : canRedeem ? 'Tukar poin' : `Kurang ${reward.cost - points} PT`;
+              const actionLabel = owned ? 'Pakai di keranjang' : canRedeem ? 'Tukar poin' : `Kurang ${(reward.cost - points).toLocaleString('id-ID')} PT`;
 
               return (
                 <article className={`points-reward-card ${owned ? 'is-owned' : ''}`} key={reward.id}>
@@ -2231,8 +2301,38 @@ function PointsPage() {
               </button>
             </>
           ) : (
-            <p className="points-active-empty">Voucher yang sudah ditukar akan muncul di sini dan siap dipakai di keranjang.</p>
+            <div className="points-active-empty"><Wallet size={18} aria-hidden="true" /><span>Voucher yang sudah ditukar akan muncul di sini dan siap dipakai di keranjang.</span></div>
           )}
+        </section>
+
+        <section className="points-section points-faq-section" aria-labelledby="points-faq-title">
+          <div className="points-section-heading">
+            <span>PUSAT BANTUAN</span>
+            <h2 id="points-faq-title">Pertanyaan seputar poin</h2>
+            <p>Jawaban singkat tentang cara mengumpulkan, menukar, dan menjaga poinmu.</p>
+          </div>
+          <div className="points-faq-list">
+            <details className="points-faq-item">
+              <summary>Bagaimana cara mendapatkan poin?</summary>
+              <p className="points-faq-answer">Mainkan Mini Games dan panen biji kopi. Setiap panen menambah 10 PT ke saldo Web-mu.</p>
+            </details>
+            <details className="points-faq-item">
+              <summary>Berapa nilai 1 PT?</summary>
+              <p className="points-faq-answer">1 PT setara Rp1. Tukarkan poin dengan voucher diskon; biaya poin sama dengan nilai diskonnya, dan setiap voucher memiliki minimum belanja yang tertera.</p>
+            </details>
+            <details className="points-faq-item">
+              <summary>Bagaimana cara menukar dan menggunakan voucher?</summary>
+              <p className="points-faq-answer">Pilih hadiah yang saldonya mencukupi. Poin langsung terpotong saat ditukar, lalu gunakan voucher aktif di keranjang setelah minimum belanjanya terpenuhi.</p>
+            </details>
+            <details className="points-faq-item">
+              <summary>Kapan poin akan hangus?</summary>
+              <p className="points-faq-answer">Setiap poin berlaku 365 hari sejak diperoleh. Poin yang paling lama akan digunakan lebih dulu saat kamu menukar voucher. Tanggal kedaluwarsa terdekat terlihat di bawah saldo jika ada.</p>
+            </details>
+            <details className="points-faq-item">
+              <summary>Apakah saldo poin tersimpan di perangkat lain?</summary>
+              <p className="points-faq-answer">Saldo poin dan voucher tersimpan di browser Web yang sedang digunakan, dan tidak otomatis berpindah ke browser atau perangkat lain.</p>
+            </details>
+          </div>
         </section>
       </main>
     </Page>
