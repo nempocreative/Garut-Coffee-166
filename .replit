@@ -22,23 +22,3 @@ timeoutMs = 20000
 [nix]
 channel = "stable-25_05"
 packages = ["glib", "nspr", "nss", "dbus", "gtk3", "at-spi2-atk", "cups", "libdrm", "libxkbcommon", "alsa-lib", "mesa"]
-
-[[ports]]
-localPort = 8080
-externalPort = 8080
-
-[[ports]]
-localPort = 8081
-externalPort = 80
-
-[[ports]]
-localPort = 21729
-externalPort = 3002
-
-[[ports]]
-localPort = 24260
-externalPort = 3000
-
-[[ports]]
-localPort = 26016
-externalPort = 3001

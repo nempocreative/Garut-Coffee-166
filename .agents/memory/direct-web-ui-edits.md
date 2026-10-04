@@ -51,8 +51,14 @@ For Garut Beans Web menu headers, show the page title without small subtitle tex
 
 **How to apply:** Omit subtitle text below page titles across menu headers while preserving explanatory copy in the page body.
 
-For Garut Beans coffee product images, use Cikuray Series as the strict packaging and composition reference. Keep the pouch shape, brand placement, framing, lighting, table, beans, and surrounding scene consistent; vary the product name, accent colors, and printed dancer/landscape illustration. Change package shape only when the product format calls for it.
+For Garut Beans product imagery, including coffee by-products, use Cikuray Series as the strict brand and composition reference. Keep its brand mark, kraft-and-cream packaging, blue batik details, Garut landscape illustration, framing, lighting, and surrounding scene consistent; adapt the package shape only when the product format requires it.
 
-**Why:** The user corrected an earlier Papandayan image as too different and asked that later coffee images closely match Cikuray, with only product-specific color and illustration changes.
+**Why:** The user corrected an earlier Papandayan image as too different and reiterated that product imagery, including coffee soap, must follow the existing Cikuray reference rather than drift into a generic style.
 
-**How to apply:** Start each coffee image edit from the Cikuray Series image and specify only the product-specific label, palette, dancer, and landscape changes.
+**How to apply:** Start product image edits from the Cikuray Series image. Preserve its visual identity and specify only the product-specific label and any format changes needed for the item.
+
+For Garut Beans Web, style the essential-oil product like the coffee scrub product photo while keeping the essential oil in its own bottle format.
+
+**Why:** The user explicitly chose the coffee scrub image as the essential oil's design reference.
+
+**How to apply:** Match the scrub image's cream/kraft label, Garut Beans mark, blue batik accents, Garut illustration, tabletop, and warm composition; change only the central product to a dropper bottle.
