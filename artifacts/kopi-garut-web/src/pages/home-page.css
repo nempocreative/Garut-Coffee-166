@@ -9568,7 +9568,7 @@
 
 .gb-gift-bundle-teaser-visual.is-closed {
   background: #66503c;
-  aspect-ratio: 1.4 / 1;
+  aspect-ratio: 1 / 1;
 }
 
 .gb-gift-bundle-teaser-visual.is-closed::after {
