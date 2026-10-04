@@ -50,3 +50,9 @@ For Garut Beans Web menu headers, show the page title without small subtitle tex
 **Why:** The user explicitly requested no small text beneath titles and corrected that subtitles remained in other menus.
 
 **How to apply:** Omit subtitle text below page titles across menu headers while preserving explanatory copy in the page body.
+
+For Garut Beans coffee product images, use Cikuray Series as the strict packaging and composition reference. Keep the pouch shape, brand placement, framing, lighting, table, beans, and surrounding scene consistent; vary the product name, accent colors, and printed dancer/landscape illustration. Change package shape only when the product format calls for it.
+
+**Why:** The user corrected an earlier Papandayan image as too different and asked that later coffee images closely match Cikuray, with only product-specific color and illustration changes.
+
+**How to apply:** Start each coffee image edit from the Cikuray Series image and specify only the product-specific label, palette, dancer, and landscape changes.

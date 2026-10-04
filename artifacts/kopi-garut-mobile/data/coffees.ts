@@ -31,8 +31,11 @@ export type Order = {
 
 const mobileCoffeeImages: Record<string, ImageSource> = {
   'papandayan-series.webp': require('../assets/images/papandayan-series.webp'),
+  'papandayan-reserve.webp': require('../assets/images/papandayan-reserve.webp'),
+  'cikajang-honey.webp': require('../assets/images/cikajang-honey.webp'),
   'cikuray-series.webp': require('../assets/images/cikuray-series.webp'),
   'kamojang-series.webp': require('../assets/images/kamojang-series.webp'),
+  'kamojang-reserve.webp': require('../assets/images/kamojang-reserve.webp'),
   'darajat-series.webp': require('../assets/images/darajat-series.webp'),
 };
 
