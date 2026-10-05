@@ -197,6 +197,37 @@ const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filenam
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
+function useAutoScrollRail<T extends HTMLElement>(railRef: { current: T | null }, intervalMs = 4500) {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const timer = window.setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      const bounds = rail.getBoundingClientRect();
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
+
+      const firstCard = rail.firstElementChild as HTMLElement | null;
+      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      if (!firstCard || maxScroll <= 2) return;
+
+      const railStyle = window.getComputedStyle(rail);
+      const gap = Number.parseFloat(railStyle.columnGap) || Number.parseFloat(railStyle.gap) || 0;
+      const step = firstCard.getBoundingClientRect().width + gap;
+      if (step <= 2) return;
+
+      const nextScroll = rail.scrollLeft + step;
+      rail.scrollTo({
+        left: nextScroll > maxScroll + 2 ? 0 : Math.min(nextScroll, maxScroll),
+        behavior: 'smooth',
+      });
+    }, intervalMs);
+
+    return () => window.clearInterval(timer);
+  }, [railRef, intervalMs]);
+}
+
 const extensionTeam = [
   { id: 'rani-permata', name: 'Rani Permata', role: 'Penyuluh utama', regions: ['Cikajang', 'Cisurupan'], focus: 'Mutu lot & tindak lanjut kebun', image: 'penyuluh-rani-permata.webp' },
   { id: 'dimas-suryana', name: 'Dimas Suryana', role: 'Penyuluh lapangan', regions: ['Pakenjeng', 'Cisurupan'], focus: 'Perawatan tanaman & panen', image: 'penyuluh-dimas-suryana.webp' },
@@ -286,6 +317,7 @@ function CategoryTiles({ onNavigate }: { onNavigate: (path: string) => void }) {
   );
   const categoryRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
+  useAutoScrollRail(categoryRef);
 
   const scrollToPage = (pageIndex: number) => {
     const container = categoryRef.current;
@@ -683,31 +715,14 @@ function RegionCard({ region, index, onNavigate }: { region: typeof regions[numb
 
 function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) {
   const railRef = useRef<HTMLDivElement>(null);
-  const [activeStory, setActiveStory] = useState(0);
+  useAutoScrollRail(railRef, 3800);
   const stories = homeContent.stories;
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => {
-      setActiveStory((current) => {
-        const next = current >= Math.max(0, stories.length - 2) ? 0 : current + 1;
-        const card = railRef.current?.querySelector<HTMLElement>('[data-story-reel-card]');
-        railRef.current?.scrollTo({ left: next * ((card?.offsetWidth ?? 156) + 8), behavior: 'smooth' });
-        return next;
-      });
-    }, 3800);
-    return () => window.clearInterval(timer);
-  }, [stories.length]);
 
   return (
     <div
       className="gb-horizontal-scroll gb-event-rail"
       ref={railRef}
       data-testid="rail-event-stories"
-      onScroll={(event) => {
-        const card = event.currentTarget.querySelector<HTMLElement>('[data-story-reel-card]');
-        if (card) setActiveStory(Math.round(event.currentTarget.scrollLeft / (card.offsetWidth + 8)));
-      }}
     >
       {stories.map((story, index) => (
         <button className="gb-event-card" data-story-reel-card key={story.id} onClick={() => onNavigate('/events')} data-testid={`button-home-event-${story.id}`}>
@@ -726,8 +741,11 @@ function EventStoryRail({ onNavigate }: { onNavigate: (path: string) => void }) 
 }
 
 function ProgramHighlightRail({ programs, onNavigate }: { programs: HomeProgramHighlight[]; onNavigate: (path: string) => void }) {
+  const railRef = useRef<HTMLDivElement>(null);
+  useAutoScrollRail(railRef);
+
   return (
-    <div className="gb-program-highlights" data-testid="rail-home-programs">
+    <div className="gb-program-highlights" ref={railRef} data-testid="rail-home-programs">
       {programs.map((program) => (
         <button
           className="gb-program-highlight"
@@ -1028,6 +1046,14 @@ export default function HomePage({
   onRemoveDeliveryAddress,
 }: HomePageProps) {
   const [giftBoxIsClosed, setGiftBoxIsClosed] = useState(true);
+  const weeklyBrewRailRef = useRef<HTMLDivElement>(null);
+  const farmerRailRef = useRef<HTMLDivElement>(null);
+  const extensionRailRef = useRef<HTMLDivElement>(null);
+  const regionRailRef = useRef<HTMLDivElement>(null);
+  useAutoScrollRail(weeklyBrewRailRef);
+  useAutoScrollRail(farmerRailRef);
+  useAutoScrollRail(extensionRailRef);
+  useAutoScrollRail(regionRailRef);
   const diversified = homeContent.diversifiedProducts.map((product) => ({
     ...product,
     image: getWebProductImage(product.id, product.image),
@@ -1163,7 +1189,7 @@ export default function HomePage({
               onAction={() => onNavigate('/catalog')}
             />
             <p className="gb-weekly-brews-intro">Dua cara seduh pilihan minggu ini, lengkap dengan takaran, suhu, dan langkah yang mudah diikuti.</p>
-            <div className="gb-weekly-brews" data-testid="weekly-brew-guides">
+            <div className="gb-weekly-brews" ref={weeklyBrewRailRef} data-testid="weekly-brew-guides">
               {weeklyBrewGuides.map(({ recipe, coffee, position }) => (
                 <WeeklyBrewGuide
                   key={recipe.id}
@@ -1178,21 +1204,21 @@ export default function HomePage({
 
           <section className="gb-home-section gb-farmer-section">
             <SectionTitle title="Orang di balik rasa" action="Semua petani" onAction={() => onNavigate('/farmers')} />
-            <div className="gb-horizontal-scroll gb-farmer-rail" data-testid="rail-farmers">
+            <div className="gb-horizontal-scroll gb-farmer-rail" ref={farmerRailRef} data-testid="rail-farmers">
               {farmers.slice(0, 4).map((farmer, index) => <FarmerFeatureCard key={farmer.id} farmer={farmer} index={index} onNavigate={onNavigate} />)}
             </div>
           </section>
 
           <section className="gb-home-section gb-extension-section">
             <SectionTitle title="Penyuluh di lapangan" action="Ruang kerja" onAction={() => onNavigate('/extension-dashboard')} />
-            <div className="gb-horizontal-scroll gb-extension-rail" data-testid="rail-extension">
+            <div className="gb-horizontal-scroll gb-extension-rail" ref={extensionRailRef} data-testid="rail-extension">
               {extensionTeam.map((worker) => <ExtensionCard key={worker.id} worker={worker} onNavigate={onNavigate} />)}
             </div>
           </section>
 
           <section className="gb-home-section gb-mobile-only">
             <SectionTitle title="Baca peta rasa Garut" action="Lihat semua" onAction={() => onNavigate('/regions')} />
-            <div className="gb-horizontal-scroll gb-region-rail" data-testid="rail-regions">
+            <div className="gb-horizontal-scroll gb-region-rail" ref={regionRailRef} data-testid="rail-regions">
               {regions.slice(0, 3).map((region, index) => <RegionCard key={region.id} region={region} index={index} onNavigate={onNavigate} />)}
             </div>
           </section>
