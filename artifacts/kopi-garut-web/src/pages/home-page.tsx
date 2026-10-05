@@ -58,8 +58,10 @@ type WeeklyBrewRecipe = {
   dose: string;
   water: string;
   ratio: string;
+  grind: string;
   temperature: string;
   duration: string;
+  tip: string;
   steps: readonly string[];
 };
 
@@ -71,13 +73,16 @@ const weeklyBrewRecipeRotation = [
     dose: '15 g',
     water: '225 ml',
     ratio: '1:15',
+    grind: 'Sedang-halus',
     temperature: '93°C',
     duration: '2:30–3:00',
     steps: [
-      'Bilas filter, lalu masukkan kopi giling sedang.',
-      'Tuang 45 ml air untuk bloom dan tunggu 30 detik.',
-      'Tuang perlahan melingkar hingga 225 ml.',
+      'Bilas filter, buang air bilasan, lalu masukkan kopi giling sedang-halus.',
+      'Mulai timer. Tuang 45 ml air 93°C hingga semua kopi basah; tunggu sampai 0:30.',
+      'Tuang melingkar hingga 135 ml pada sekitar 1:15, lalu lanjutkan sampai 225 ml pada 1:45.',
+      'Biarkan air turun seluruhnya. Target seduhan selesai pada 2:30–3:00.',
     ],
+    tip: 'Jika air terlalu lama menetes, kasarkan gilingan sedikit. Jika terlalu cepat, haluskan.',
   },
   {
     id: 'darajat-french-press',
@@ -86,13 +91,16 @@ const weeklyBrewRecipeRotation = [
     dose: '18 g',
     water: '270 ml',
     ratio: '1:15',
+    grind: 'Kasar',
     temperature: '92°C',
-    duration: '4:00',
+    duration: '4:20–4:30',
     steps: [
-      'Gunakan gilingan kasar dan masukkan kopi ke French press.',
-      'Tuang 270 ml air, lalu aduk perlahan satu kali.',
-      'Diamkan 4 menit dan tekan plunger secara perlahan.',
+      'Masukkan kopi giling kasar ke French press yang sudah dihangatkan.',
+      'Tuang 270 ml air 92°C, pastikan semua kopi terendam, lalu aduk perlahan satu kali.',
+      'Tutup tanpa menekan plunger dan diamkan selama 4 menit.',
+      'Tekan plunger perlahan selama 20–30 detik, lalu langsung tuang ke cangkir.',
     ],
+    tip: 'Jangan biarkan kopi terlalu lama di dalam French press setelah plunger ditekan.',
   },
   {
     id: 'cikuray-aeropress',
@@ -101,13 +109,16 @@ const weeklyBrewRecipeRotation = [
     dose: '15 g',
     water: '225 ml',
     ratio: '1:15',
+    grind: 'Sedang-halus',
     temperature: '90°C',
     duration: '2:00',
     steps: [
-      'Pasang dan bilas filter, lalu masukkan kopi giling sedang.',
-      'Tuang 225 ml air dan aduk perlahan selama 10 detik.',
-      'Tekan perlahan mulai 1:30 hingga selesai sekitar 2 menit.',
+      'Bilas filter, pasang pada tutup, lalu masukkan kopi giling sedang-halus.',
+      'Tuang 45 ml air 90°C, aduk perlahan, dan tunggu sampai 0:30.',
+      'Tambahkan air hingga 225 ml. Aduk perlahan lima kali dan pasang plunger tanpa menekannya.',
+      'Pada 1:30, tekan perlahan selama 20–30 detik; target selesai sekitar 2:00.',
     ],
+    tip: 'Tekan dengan lembut. Jika plunger terasa tersendat, berhenti sejenak dan lanjutkan perlahan.',
   },
   {
     id: 'cikajang-chemex',
@@ -116,13 +127,16 @@ const weeklyBrewRecipeRotation = [
     dose: '18 g',
     water: '270 ml',
     ratio: '1:15',
+    grind: 'Sedang-agak kasar',
     temperature: '93°C',
     duration: '3:30–4:00',
     steps: [
-      'Bilas filter Chemex dan masukkan kopi giling sedang.',
-      'Tuang 54 ml air untuk bloom selama 30 detik.',
-      'Tuang bertahap hingga 270 ml dan tunggu sampai selesai menetes.',
+      'Letakkan sisi filter yang berlapis ke arah cerat, bilas, lalu buang air bilasan.',
+      'Masukkan kopi giling sedang-agak kasar. Tuang 54 ml air 93°C dan tunggu sampai 0:30.',
+      'Tuang melingkar hingga 150 ml pada sekitar 1:15 tanpa menyiram dinding kertas.',
+      'Lanjutkan sampai 270 ml pada sekitar 2:00. Tunggu hingga selesai menetes pada 3:30–4:00.',
     ],
+    tip: 'Arahkan air ke kopi, bukan ke dinding filter, agar air tidak melewati kopi terlalu cepat.',
   },
   {
     id: 'papandayan-pour-over',
@@ -131,13 +145,16 @@ const weeklyBrewRecipeRotation = [
     dose: '15 g',
     water: '225 ml',
     ratio: '1:15',
+    grind: 'Sedang',
     temperature: '92°C',
     duration: '2:45–3:15',
     steps: [
-      'Bilas kertas filter dan masukkan kopi giling sedang.',
-      'Basahi kopi dengan 45 ml air dan tunggu 30 detik.',
-      'Tuang perlahan dalam dua tahap hingga 225 ml.',
+      'Bilas filter, buang air bilasan, lalu masukkan kopi giling sedang.',
+      'Tuang 45 ml air 92°C hingga semua kopi basah; tunggu 30 detik.',
+      'Tuang melingkar hingga 135 ml pada sekitar 1:15, lalu lanjutkan sampai 225 ml pada 1:45.',
+      'Biarkan air turun. Target seduhan selesai pada 2:45–3:15.',
     ],
+    tip: 'Jika aliran terlalu lambat, kasarkan gilingan sedikit; jika terlalu cepat, haluskan.',
   },
   {
     id: 'papandayan-kalita',
@@ -146,13 +163,16 @@ const weeklyBrewRecipeRotation = [
     dose: '15 g',
     water: '225 ml',
     ratio: '1:15',
+    grind: 'Sedang',
     temperature: '92°C',
     duration: '2:45–3:15',
     steps: [
-      'Bilas filter Kalita dan masukkan kopi giling sedang.',
-      'Tuang 45 ml air untuk bloom selama 30 detik.',
-      'Tuang perlahan dalam beberapa tahap hingga 225 ml.',
+      'Bilas filter Kalita Wave, buang air bilasan, lalu masukkan kopi giling sedang.',
+      'Tuang 45 ml air 92°C dan tunggu sampai 0:30.',
+      'Tuang bertahap hingga 135 ml pada 1:15, 180 ml pada 1:45, lalu 225 ml pada 2:15.',
+      'Biarkan air turun sampai selesai pada 2:45–3:15.',
     ],
+    tip: 'Gunakan tuangan kecil dan merata agar permukaan kopi tetap rata.',
   },
 ] as const satisfies readonly WeeklyBrewRecipe[];
 
@@ -860,33 +880,33 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
   const brewParameters = [
     { label: 'Kopi', value: recipe.dose },
     { label: 'Air', value: recipe.water },
+    { label: 'Gilingan', value: recipe.grind },
     { label: 'Rasio', value: recipe.ratio },
     { label: 'Suhu air', value: recipe.temperature },
-    { label: 'Total waktu', value: recipe.duration },
+    { label: 'Waktu', value: recipe.duration },
   ];
 
   return (
     <article className="gb-weekly-brew" data-testid={`weekly-brew-guide-${recipe.id}`}>
-      <div className="gb-weekly-brew-visual">
-        <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} loading="lazy" decoding="async" />
-        <span className="gb-weekly-brew-badge" aria-hidden="true">0{position}</span>
+      <div className="gb-weekly-brew-head">
+        <div className="gb-weekly-brew-visual">
+          <img src={asset(coffee.image)} alt={`${coffee.name} untuk metode ${recipe.method}`} loading="lazy" decoding="async" />
+          <span className="gb-weekly-brew-badge" aria-hidden="true">0{position}</span>
+        </div>
+        <div className="gb-weekly-brew-coffee">
+          <div className="gb-weekly-brew-heading">
+            <span className="gb-weekly-brew-method-tag">{recipe.method}</span>
+            <small>RESEP MINGGU INI · 0{position}</small>
+          </div>
+          <strong>{coffee.name}</strong>
+          <span>{coffee.origin} · {coffee.tastingNotes.slice(0, 2).join(' · ')}</span>
+        </div>
       </div>
 
       <div className="gb-weekly-brew-details">
-        <div className="gb-weekly-brew-coffee">
-          <div>
-            <div className="gb-weekly-brew-heading">
-              <span className="gb-weekly-brew-method-tag">{recipe.method}</span>
-              <small>RESEP MINGGU INI · 0{position}</small>
-            </div>
-            <strong>{coffee.name}</strong>
-            <span>{coffee.origin} · {coffee.tastingNotes.slice(0, 2).join(' · ')}</span>
-          </div>
-        </div>
-
         <div className="gb-weekly-brew-metrics" aria-label="Takaran resep seduh">
           {brewParameters.map(({ label, value }) => (
-            <div className={label === 'Total waktu' ? 'is-time' : ''} key={label}>
+            <div key={label}>
               <small>{label}</small>
               <strong>{value}</strong>
             </div>
@@ -894,20 +914,21 @@ function WeeklyBrewGuide({ recipe, coffee, position, onNavigate }: {
         </div>
 
         <details className="gb-weekly-brew-step-disclosure">
-          <summary>Lihat langkah seduh</summary>
+          <summary>Tampilkan langkah seduh</summary>
           <ol className="gb-weekly-brew-steps">
             {recipe.steps.map((step) => <li key={step}>{step}</li>)}
           </ol>
+          <p className="gb-weekly-brew-tip"><strong>Catatan seduh:</strong> {recipe.tip}</p>
         </details>
-      </div>
 
-      <button
-        className="gb-weekly-brew-link"
-        onClick={() => onNavigate(`/product/${coffee.id}`)}
-        data-testid={`button-weekly-brew-coffee-${coffee.id}`}
-      >
-        Lihat kopi <span aria-hidden="true">↗</span>
-      </button>
+        <button
+          className="gb-weekly-brew-link"
+          onClick={() => onNavigate(`/product/${coffee.id}`)}
+          data-testid={`button-weekly-brew-coffee-${coffee.id}`}
+        >
+          Lihat kopi <span aria-hidden="true">↗</span>
+        </button>
+      </div>
     </article>
   );
 }
@@ -1105,7 +1126,6 @@ export default function HomePage({
               </div>
             </div>
             <div className="gb-gift-bundle-teaser-copy">
-              <span className="gb-gift-bundle-kicker"><Gift size={14} /> OLEH-OLEH GARUT</span>
               <h2 id="gift-bundle-teaser-title">Racik paket oleh-olehmu.</h2>
               <p>Kopi dan karya lokal Garut dalam box istimewa, lengkap dengan kartu ucapan untuk orang tersayang.</p>
               <div className="gb-gift-bundle-sizes" aria-label="Pilihan ukuran paket">
@@ -1142,7 +1162,7 @@ export default function HomePage({
               action="Lihat kopi"
               onAction={() => onNavigate('/catalog')}
             />
-            <p className="gb-weekly-brews-intro">Dua resep pilihan berganti otomatis setiap pekan.</p>
+            <p className="gb-weekly-brews-intro">Dua cara seduh pilihan minggu ini, lengkap dengan takaran, suhu, dan langkah yang mudah diikuti.</p>
             <div className="gb-weekly-brews" data-testid="weekly-brew-guides">
               {weeklyBrewGuides.map(({ recipe, coffee, position }) => (
                 <WeeklyBrewGuide

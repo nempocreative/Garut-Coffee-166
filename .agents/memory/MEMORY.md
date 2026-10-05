@@ -12,7 +12,7 @@
 - [Web and app content parity](mobile-to-web-parity.md) — keep a real standalone web UI while sharing domain content and route behavior with Expo.
 - [Expo web artifact base paths](expo-web-basepath.md) — use Expo static export with experiments.baseUrl; development Metro does not strip artifact prefixes during route matching.
 - [Expo web document scrolling](safari-document-scroll.md) — render web routes with Slot so Expo stack scenes do not lock long pages to viewport height.
-- [Shared content vs user state](shared-content-vs-user-state.md) — shared mobile/web screens do not synchronize AsyncStorage-backed roles, commerce, or operational records across devices.
+- [Shared content vs user state](shared-content-vs-user-state.md) — guests can browse point rules/rewards, but balances and earning/redemption remain buyer-account only; mobile state is separate.
 - [Header artwork crop safety](header-art-crops.md) — keep key figures and landmarks inside the center crop when using AI artwork in wide headers.
 - [Mockup CSS extraction](mockup-css-extraction.md) — copy structural layout rules as well as tokens; empty states can hide missing list and progress styles.
 - [Direct Web UI edits](direct-web-ui-edits.md) — edit Web directly, keep warm coffee tones, and vary homepage layouts instead of using cards for every section.

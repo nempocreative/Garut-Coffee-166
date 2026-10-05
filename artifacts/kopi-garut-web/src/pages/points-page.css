@@ -241,6 +241,58 @@
   font-weight: 750;
 }
 
+.points-public-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.points-public-facts span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 249, 241, .2);
+  border-radius: 999px;
+  color: rgba(255, 249, 241, .88);
+  background: rgba(255, 249, 241, .08);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.points-public-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.points-public-actions button {
+  min-width: 0;
+  min-height: 38px;
+  flex: 1;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 249, 241, .32);
+  border-radius: 10px;
+  color: #fff9f1;
+  background: rgba(255, 249, 241, .08);
+  font-size: 11px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: background-color .16s ease, color .16s ease, transform .16s ease;
+}
+
+.points-public-actions button:first-child {
+  border-color: #fff9f1;
+  color: #33231f;
+  background: #fff9f1;
+}
+
+.points-public-actions button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 249, 241, .18);
+}
+
+.points-public-actions button:first-child:hover {
+  color: #33231f;
+  background: #f1cc91;
+}
+
 .points-storage-note {
   display: flex;
   align-items: center;
@@ -827,7 +879,8 @@
 @media (prefers-reduced-motion: reduce) {
   .points-reward-action,
   .points-reward-card,
-  .points-progress-track span {
+  .points-progress-track span,
+  .points-public-actions button {
     transition: none;
   }
 }

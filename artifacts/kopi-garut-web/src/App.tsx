@@ -379,12 +379,12 @@ function StoreProvider({ children }: { children: ReactNode }) {
   }
   const accountMatchesCurrentUser = hasBuyerAccount && accountOwnerId === buyerUserId;
   const accountLotsForView = accountMatchesCurrentUser ? accountPointLots : [];
-  const pointLotsForView = hasBuyerAccount ? accountLotsForView : pointLots;
+  const pointLotsForView = hasBuyerAccount ? accountLotsForView : [];
   const points = useMemo(() => getPointsBalance(pointLotsForView), [pointLotsForView]);
   const nextPointExpiry = useMemo(() => getNextPointExpiry(pointLotsForView), [pointLotsForView]);
   const vouchers = hasBuyerAccount
     ? accountMatchesCurrentUser ? accountVouchers : []
-    : storedVouchers;
+    : [];
   const pointsLoading = hasBuyerAccount && (
     !accountMatchesCurrentUser || pointSyncStatus === 'loading'
   );
@@ -1332,48 +1332,62 @@ function AccountMenuItem({ icon: Icon, title, description, onClick, destructive 
 
 function GuestAccountPage() {
   const [, setLocation] = useLocation();
+  const { signIn } = useAuth();
+  const demoRoles: { id: AuthRole; label: string; description: string; icon: LucideIcon }[] = [
+    { id: 'pengguna', label: 'Pembeli', description: 'Lihat pesanan, voucher, dan favorit kopi.', icon: Users },
+    { id: 'petani', label: 'Petani', description: 'Jelajahi profil kebun, panen, dan lot kopi.', icon: Leaf },
+    { id: 'penyuluh', label: 'Penyuluh pertanian', description: 'Lihat agenda kunjungan dan pendampingan.', icon: GraduationCap },
+  ];
+  const openDemo = (role: AuthRole) => {
+    signIn(role);
+    setLocation('/profile');
+  };
+
   return <Page><main className="subpage account-page guest-account-page">
     <Header title="Akun" />
     <section className="guest-account-hero guest-account-only" aria-labelledby="guest-account-access-title">
       <aside className="guest-account-access" aria-labelledby="guest-account-access-title">
         <div className="guest-account-access-top">
-          <span className="guest-account-kicker">PILIH PERAN</span>
-          <span className="guest-account-guest-badge"><i /> Akses tamu</span>
+          <span className="guest-account-kicker">RUANG DEMO</span>
+          <span className="guest-account-guest-badge"><i /> Tanpa login</span>
         </div>
         <h2 id="guest-account-access-title">Pilih jenis akun</h2>
-        <p className="guest-account-intro">Pilih peran untuk melanjutkan.</p>
+        <p className="guest-account-intro">Buka tiap peran untuk melihat isi akun dan fitur demonya.</p>
 
         <div className="guest-account-roles" aria-label="Pilihan jenis akun">
-          <div className="guest-account-role">
-            <span className="guest-account-role-icon"><Users size={17} /></span>
-            <span className="guest-account-role-copy"><strong>Pembeli</strong><small>Pesan dan lacak kopi pilihan</small></span>
-            <span className="guest-account-role-number">01</span>
-          </div>
-          <div className="guest-account-role">
-            <span className="guest-account-role-icon"><Leaf size={17} /></span>
-            <span className="guest-account-role-copy"><strong>Petani</strong><small>Kelola kebun, panen, dan lot kopi</small></span>
-            <span className="guest-account-role-number">02</span>
-          </div>
-          <div className="guest-account-role">
-            <span className="guest-account-role-icon"><GraduationCap size={18} /></span>
-            <span className="guest-account-role-copy"><strong>Penyuluh pertanian</strong><small>Kelola kegiatan pendampingan</small></span>
-            <span className="guest-account-role-number">03</span>
-          </div>
+          {demoRoles.map(({ id, label, description, icon: Icon }) => (
+            <button
+              className="guest-account-role"
+              key={id}
+              type="button"
+              onClick={() => openDemo(id)}
+              aria-label={`Buka demo akun ${label}`}
+              data-testid={`profile-demo-${id}`}
+            >
+              <span className="guest-account-role-icon"><Icon size={17} aria-hidden="true" /></span>
+              <span className="guest-account-role-copy"><strong>{label}</strong><small>{description}</small></span>
+              <span className="guest-account-role-action">Buka demo <ArrowRight size={14} aria-hidden="true" /></span>
+            </button>
+          ))}
         </div>
 
-        <div className="guest-account-role-copy" style={{ marginTop: 18 }}>
-          <strong>Akun pembeli G-Beans</strong>
-          <small>Poin dan voucher tersimpan pada akun Web yang terhubung.</small>
+        <div className="guest-account-demo-note" role="note">
+          <CheckCircle2 size={16} aria-hidden="true" />
+          <span>Semua akun demo memakai data contoh. Kembali ke menu Akun untuk mencoba peran lain.</span>
         </div>
-        <button className="guest-account-primary" onClick={() => setLocation('/sign-up')} data-testid="profile-buyer-sign-up">
-          <span>Buat akun pembeli</span><ArrowRight size={18} aria-hidden="true" />
-        </button>
-        <button className="text-button" onClick={() => setLocation('/sign-in')} data-testid="profile-buyer-sign-in">
-          Sudah punya akun? Masuk
-        </button>
-        <button className="text-button" onClick={() => setLocation('/login?returnTo=/profile')} data-testid="profile-login">
-          Masuk ke ruang kerja petani / penyuluh
-        </button>
+
+        <div className="guest-account-real-account">
+          <div className="guest-account-real-copy">
+            <strong>Akun pembeli G-Beans</strong>
+            <small>Poin dan voucher pribadi tersimpan di akun Web yang terhubung.</small>
+          </div>
+          <button className="guest-account-primary" onClick={() => setLocation('/sign-up')} data-testid="profile-buyer-sign-up">
+            <span>Daftar akun pembeli</span><ArrowRight size={18} aria-hidden="true" />
+          </button>
+          <button className="guest-account-sign-in" onClick={() => setLocation('/sign-in')} data-testid="profile-buyer-sign-in">
+            Sudah punya akun? Masuk
+          </button>
+        </div>
       </aside>
     </section>
   </main></Page>;
@@ -1404,10 +1418,10 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
   return <Page><main className="subpage account-page buyer-account-page">
     <Header title="Akun pembeli" />
     <section className="buyer-account-hero">
-      <div className="buyer-account-top"><div className="avatar">{buyerInitials}</div><span className="member-badge"><i /> MEMBER G-BEANS</span></div>
+      <div className="buyer-account-top"><div className="avatar">{buyerInitials}</div><span className="member-badge"><i /> {clerkAuth.isSignedIn ? 'MEMBER G-BEANS' : 'DEMO PEMBELI'}</span></div>
       <span className="account-hero-kicker">RUANG BELANJAMU</span><h1>Halo, {firstName}.</h1>
       <p>Pantau pesanan, gunakan voucher, dan temukan kopi untuk ritual berikutnya.</p>
-      <div className="account-hero-foot"><div><small>{clerkAuth.isSignedIn ? 'AKUN PEMBELI' : 'AKUN AKTIF'}</small><strong>{clerkAuth.isSignedIn ? user?.primaryEmailAddress?.emailAddress ?? 'Akun terhubung' : 'Pembeli kopi pilihan'}</strong></div><ShoppingBag size={26} /></div>
+      <div className="account-hero-foot"><div><small>{clerkAuth.isSignedIn ? 'AKUN PEMBELI' : 'MODE DEMO'}</small><strong>{clerkAuth.isSignedIn ? user?.primaryEmailAddress?.emailAddress ?? 'Akun terhubung' : 'Data contoh untuk presentasi'}</strong></div><ShoppingBag size={26} /></div>
     </section>
     <div className="account-stat-row"><AccountStat value={`${orders.length}`} label="Pesanan" /><AccountStat value={`${cartCount}`} label="Keranjang" /><AccountStat value={`${favorites.length}`} label="Favorit" /></div>
     <section className="account-section">
@@ -1418,7 +1432,7 @@ function BuyerAccountPage({ profile }: { profile: RoleProfile }) {
       <div className="voucher-stamp"><strong>15%</strong><small>OFF</small></div><div><span>VOUCHER PILIHAN</span><strong>Selamat datang di ritual baru.</strong><p>Min. belanja Rp 150.000 · berlaku minggu ini</p><code>GARUT15 <Check size={13} /></code></div><button onClick={() => { setVoucherSaved((saved) => !saved); notify(voucherSaved ? 'Voucher dihapus dari simpanan' : 'Voucher GARUT15 disimpan'); }} data-testid="buyer-voucher-save">{voucherSaved ? 'Tersimpan' : 'Simpan'}</button>
     </section>
     <section className="account-section"><span className="section-kicker">BELANJA & AKUN</span><div className="account-action-grid"><button onClick={() => setLocation('/cart')} data-testid="buyer-cart"><ShoppingBag size={18} /><strong>Keranjang</strong><small>{cartCount ? `${cartCount} item siap dibayar` : 'Belum ada item'}</small></button><button onClick={() => setLocation('/favorites')} data-testid="buyer-favorites"><Heart size={18} /><strong>Favorit</strong><small>{favorites.length ? `${favorites.length} kopi tersimpan` : 'Simpan kopi favorit'}</small></button><button onClick={() => setLocation('/catalog')} data-testid="buyer-shop-again"><Coffee size={18} /><strong>Belanja lagi</strong><small>Temukan kopi pilihan</small></button><button onClick={() => setLocation('/orders')} data-testid="buyer-orders"><Package size={18} /><strong>Semua pesanan</strong><small>{orders.length} riwayat belanja</small></button></div></section>
-    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Alamat pengiriman" description="Atur alamat untuk pesanan berikutnya" onClick={() => notify('Alamat pengiriman akan tersedia saat checkout berikutnya')} testId="buyer-address" /><AccountMenuItem icon={Bell} title="Notifikasi pesanan" description="Lihat kabar terbaru tentang ritualmu" onClick={() => setLocation('/notifications')} testId="buyer-notifications" /><AccountMenuItem icon={CircleUserRound} title="Pusat bantuan" description="Butuh bantuan dengan pesanan?" onClick={() => notify('Tim Garut Beans siap membantu melalui kanal dukungan')} testId="buyer-help" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={handleSignOut} destructive testId="profile-sign-out" /></div>
+      <div className="account-menu"><AccountMenuItem icon={MapPin} title="Alamat pengiriman" description="Atur alamat untuk pesanan berikutnya" onClick={() => notify('Alamat pengiriman akan tersedia saat checkout berikutnya')} testId="buyer-address" /><AccountMenuItem icon={Bell} title="Notifikasi pesanan" description="Lihat kabar terbaru tentang ritualmu" onClick={() => setLocation('/notifications')} testId="buyer-notifications" /><AccountMenuItem icon={CircleUserRound} title="Pusat bantuan" description="Butuh bantuan dengan pesanan?" onClick={() => notify('Tim Garut Beans siap membantu melalui kanal dukungan')} testId="buyer-help" />{clerkAuth.isSignedIn ? <AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={handleSignOut} destructive testId="profile-sign-out" /> : <AccountMenuItem icon={Users} title="Ganti peran demo" description="Kembali ke pilihan akun demo" onClick={handleSignOut} testId="buyer-switch-demo" />}</div>
   </main></Page>;
 }
 
@@ -1428,7 +1442,7 @@ function FarmerAccountPage({ profile }: { profile: RoleProfile }) {
   const farmer = farmers[0];
   return <Page><main className="subpage account-page role-account-page">
     <Header title="Akun petani" />
-    <section className="role-account-hero farmer-account-hero"><img src={asset(farmer.image)} alt="" /><div className="role-account-shade" /><div className="role-account-content"><div className="role-account-top"><span className="verified-badge"><i /> PETANI TERVERIFIKASI</span><span className="avatar">{profile.initials}</span></div><span className="account-hero-kicker">RUANG KEBUN</span><h1>{profile.name}</h1><p>{farmer.group} · {farmer.location}</p><div className="account-hero-foot"><div><small>ANGGOTA SEJAK</small><strong>{farmer.joinedAt}</strong></div><Coffee size={25} /></div></div></section>
+    <section className="role-account-hero farmer-account-hero"><img src={asset(farmer.image)} alt="" /><div className="role-account-shade" /><div className="role-account-content"><div className="role-account-top"><span className="verified-badge"><i /> DEMO PETANI</span><span className="avatar">{profile.initials}</span></div><span className="account-hero-kicker">RUANG KEBUN</span><h1>{profile.name}</h1><p>{farmer.group} · {farmer.location}</p><div className="account-hero-foot"><div><small>CONTOH ANGGOTA SEJAK</small><strong>{farmer.joinedAt}</strong></div><Coffee size={25} /></div></div></section>
     <section className="identity-card"><span><ShieldCheck size={19} /></span><div><small>ID KEANGGOTAAN</small><strong>{farmer.membershipId}</strong><p>Profil aktif di ekosistem Garut Beans</p></div><button onClick={() => setLocation('/verification')} aria-label="Buka status verifikasi"><ArrowRight size={15} /></button></section>
     <div className="account-stat-row farmer-stat-row"><AccountStat value={farmer.landArea} label="Luas kebun" /><AccountStat value={farmer.annualProduction.replace(' cherry', '')} label="Produksi / tahun" /><AccountStat value="5 tahun" label="Bersama kami" /></div>
     <section className="account-section"><div className="account-section-heading"><div><span className="section-kicker">PROFIL KEBUN</span><h2>Data yang siap dipercaya</h2></div><MapPin size={21} /></div><div className="account-detail-card"><div><small>WILAYAH KEBUN</small><strong>{farmer.location.split(',')[0]} · 1.450 mdpl</strong></div><div><small>KELOMPOK TANI</small><strong>{farmer.group}</strong></div><div><small>VARIETAS UTAMA</small><strong>{farmer.coffeeType}</strong></div><div><small>PRODUK UNGGULAN</small><strong>{farmer.products.join(' · ')}</strong></div></div></section>
@@ -1474,8 +1488,7 @@ function FarmerAccountPage({ profile }: { profile: RoleProfile }) {
       <AccountMenuItem icon={MessageSquare} title="Laporan masalah kebun" description="Kirim foto, lokasi, dan keterangan ke penyuluh" onClick={() => setLocation('/farm-issues')} testId="farmer-issues-menu" />
       <AccountMenuItem icon={CalendarDays} title="Kalender kegiatan kebun" description="Atur pemupukan, panen, pengeringan, dan kunjungan" onClick={() => setLocation('/farm-calendar')} testId="farmer-calendar-menu" />
       <AccountMenuItem icon={BriefcaseBusiness} title="Kemitraan & pasar" description="Temukan peluang pembelian hasil kebun" onClick={() => setLocation('/partnership')} testId="farmer-partnership" />
-      <AccountMenuItem icon={ArrowLeft} title="Ganti akun" description="Beralih ke ruang pengguna lain" onClick={() => setLocation('/login')} testId="farmer-switch-account" />
-      <AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" />
+       <AccountMenuItem icon={Users} title="Ganti peran demo" description="Kembali ke pilihan akun demo" onClick={signOut} testId="farmer-switch-account" />
     </div>
   </main></Page>;
 }
@@ -1483,12 +1496,12 @@ function FarmerAccountPage({ profile }: { profile: RoleProfile }) {
 function EducatorAccountPage({ profile }: { profile: RoleProfile }) {
   const [, setLocation] = useLocation();
   const { signOut } = useAuth();
-  return <Page><main className="subpage account-page role-account-page">
+   return <Page><main className="subpage account-page role-account-page">
     <Header title="Akun penyuluh" />
-    <section className="buyer-account-hero educator-account-hero"><div className="buyer-account-top"><div className="avatar">{profile.initials}</div><span className="member-badge"><i /> RUANG PENDAMPINGAN</span></div><span className="account-hero-kicker">PUSAT AKSI LAPANGAN</span><h1>{profile.name}</h1><p>Catat kunjungan, tindak lanjut kebun, dan kebutuhan petani dari satu ruang kerja.</p><div className="account-hero-foot"><div><small>AKUN AKTIF</small><strong>Penyuluh Garut Beans</strong></div><Users size={25} /></div></section>
+     <section className="buyer-account-hero educator-account-hero"><div className="buyer-account-top"><div className="avatar">{profile.initials}</div><span className="member-badge"><i /> DEMO PENYULUH</span></div><span className="account-hero-kicker">PUSAT AKSI LAPANGAN</span><h1>{profile.name}</h1><p>Catat kunjungan, tindak lanjut kebun, dan kebutuhan petani dari satu ruang kerja.</p><div className="account-hero-foot"><div><small>MODE DEMO</small><strong>Data contoh pendampingan</strong></div><Users size={25} /></div></section>
     <div className="account-stat-row"><AccountStat value="12" label="Kunjungan" /><AccountStat value="04" label="Tindak lanjut" /><AccountStat value="08" label="Petani aktif" /></div>
     <section className="account-section"><div className="account-section-heading"><div><span className="section-kicker">AGENDA TERDEKAT</span><h2>Jaga kebun tetap terhubung</h2></div><CalendarDays size={21} /></div><div className="account-priority-card"><span className="account-status-dot" /><div><small>KUNJUNGAN BERIKUTNYA</small><strong>Kelompok Tani Papandayan</strong><p>Cisurupan · tindak lanjut kebun</p></div><b>10 Okt</b></div></section>
-    <div className="account-menu"><AccountMenuItem icon={MapPin} title="Kunjungan lapangan" description="Catat agenda dan tindak lanjut kebun" onClick={() => setLocation('/extension-visits')} testId="educator-visits" /><AccountMenuItem icon={FileText} title="Pusat dokumen" description="SOP, modul, formulir, dan regulasi" onClick={() => setLocation('/documents')} testId="educator-documents" /><AccountMenuItem icon={CheckCircle2} title="Laporan pendampingan" description="Lihat catatan dan progres program" onClick={() => setLocation('/extension-reports')} testId="educator-reports" /><AccountMenuItem icon={Bell} title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onClick={() => setLocation('/notifications')} testId="educator-notifications" /><AccountMenuItem icon={ArrowLeft} title="Keluar dari akun" description="Kembali menjelajah sebagai tamu" onClick={signOut} destructive testId="profile-sign-out" /></div>
+     <div className="account-menu"><AccountMenuItem icon={MapPin} title="Kunjungan lapangan" description="Catat agenda dan tindak lanjut kebun" onClick={() => setLocation('/extension-visits')} testId="educator-visits" /><AccountMenuItem icon={FileText} title="Pusat dokumen" description="SOP, modul, formulir, dan regulasi" onClick={() => setLocation('/documents')} testId="educator-documents" /><AccountMenuItem icon={CheckCircle2} title="Laporan pendampingan" description="Lihat catatan dan progres program" onClick={() => setLocation('/extension-reports')} testId="educator-reports" /><AccountMenuItem icon={Bell} title="Notifikasi program" description="Pelatihan, panen, dan kebutuhan dukungan" onClick={() => setLocation('/notifications')} testId="educator-notifications" /><AccountMenuItem icon={Users} title="Ganti peran demo" description="Kembali ke pilihan akun demo" onClick={signOut} testId="educator-switch-demo" /></div>
   </main></Page>;
 }
 
@@ -2631,37 +2644,23 @@ function SupportPage() {
 
 function PointsPage() {
   const [, setLocation] = useLocation();
-  const clerkAuth = useClerkAuth();
   const {
     points, nextPointExpiry, vouchers, redeemPoints,
-    pointsLoading, pointsError, refreshBuyerPoints,
+    pointsLoading, pointsError, refreshBuyerPoints, hasBuyerAccount,
   } = useStore();
-  const activeRewards = webRewards.filter((reward) => vouchers.includes(reward.id));
-  const nextReward = webRewards.find((reward) => points < reward.cost);
-  const nextRewardProgress = nextReward ? Math.min(100, Math.round((points / nextReward.cost) * 100)) : 100;
+  const accountPoints = hasBuyerAccount ? points : 0;
+  const accountVouchers = hasBuyerAccount ? vouchers : [];
+  const accountNextPointExpiry = hasBuyerAccount ? nextPointExpiry : null;
+  const activeRewards = webRewards.filter((reward) => accountVouchers.includes(reward.id));
+  const nextReward = webRewards.find((reward) => accountPoints < reward.cost);
+  const nextRewardProgress = nextReward ? Math.min(100, Math.round((accountPoints / nextReward.cost) * 100)) : 100;
+  const signInToPoints = () => setLocation('/sign-in?returnTo=/points');
+  const signUpToPoints = () => setLocation('/sign-up?returnTo=/points');
 
-  if (!clerkAuth.isLoaded) {
-    return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate" role="status"><h2>Memuat akun pembeli…</h2></div></main></Page>;
-  }
-  if (!clerkAuth.isSignedIn) {
-    return <Page><main className="subpage points-page">
-      <Header title="Poin G-Beans" />
-      <section className="points-account-gate">
-        <span className="section-kicker">AKUN PEMBELI G-BEANS</span>
-        <h2>Simpan poin pada akun Web-mu</h2>
-        <p>Masuk atau buat akun agar poin panen dan voucher tersimpan di server dan bisa dipakai kembali saat kamu membuka Web di perangkat lain.</p>
-        <p>Saldo lama dari browser ini dapat disalin satu kali ke akun. Nilai awalnya tidak dapat diverifikasi; poin Web tidak tersambung ke aplikasi HP.</p>
-        <div className="points-account-gate-actions">
-          <button className="primary-button" onClick={() => setLocation('/sign-in?returnTo=/points')}>Masuk</button>
-          <button className="secondary-button" onClick={() => setLocation('/sign-up?returnTo=/points')}>Buat akun</button>
-        </div>
-      </section>
-    </main></Page>;
-  }
-  if (pointsLoading) {
+  if (hasBuyerAccount && pointsLoading) {
     return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate" role="status"><h2>Menyinkronkan saldo akun…</h2><p>Saldo poin dan voucher sedang dimuat.</p></div></main></Page>;
   }
-  if (pointsError) {
+  if (hasBuyerAccount && pointsError) {
     return <Page><main className="subpage points-page"><Header title="Poin G-Beans" /><div className="points-account-gate"><h2>Saldo belum berhasil dimuat</h2><p>{pointsError}</p><button className="primary-button" onClick={refreshBuyerPoints}>Coba lagi</button></div></main></Page>;
   }
 
@@ -2670,7 +2669,7 @@ function PointsPage() {
       <main className="subpage points-page">
         <Header title="Poin G-Beans" />
 
-        <section className="points-balance-card" aria-label={`Saldo ${points.toLocaleString('id-ID')} PT, setara ${formatPrice(points)}`}>
+        <section className="points-balance-card" aria-label={hasBuyerAccount ? `Saldo ${accountPoints.toLocaleString('id-ID')} PT, setara ${formatPrice(accountPoints)}` : 'Program poin G-Beans. Masuk untuk melihat saldo pribadi.'}>
           <div className="points-balance-overview">
             <div className="points-balance-topline">
               <span className="points-balance-icon"><Wallet size={19} /></span>
@@ -2678,50 +2677,73 @@ function PointsPage() {
               <span className="points-rate-chip">1 PT = Rp1</span>
             </div>
             <div className="points-balance-copy">
-              <span>Saldo poinmu</span>
+              <span>{hasBuyerAccount ? 'Saldo poinmu' : 'Saldo pribadi'}</span>
               <div className="points-balance-total">
-                <strong>{points.toLocaleString('id-ID')}</strong>
+                <strong>{hasBuyerAccount ? accountPoints.toLocaleString('id-ID') : '—'}</strong>
                 <span>PT</span>
               </div>
-              <p>Nilai saldo setara <strong>{formatPrice(points)}</strong></p>
+              <p>{hasBuyerAccount
+                ? <>Nilai saldo setara <strong>{formatPrice(accountPoints)}</strong></>
+                : 'Masuk ke akun pembeli untuk melihat dan menyimpan saldo.'}</p>
             </div>
           </div>
 
-          <div className="points-next-reward">
-            <div className="points-progress-heading">
-              <span>HADIAH BERIKUTNYA</span>
-              <strong>{nextReward ? `${nextRewardProgress}%` : 'Siap'}</strong>
+          {hasBuyerAccount ? (
+            <div className="points-next-reward">
+              <div className="points-progress-heading">
+                <span>HADIAH BERIKUTNYA</span>
+                <strong>{nextReward ? `${nextRewardProgress}%` : 'Siap'}</strong>
+              </div>
+              <h3>{nextReward ? nextReward.title : 'Semua voucher terbuka'}</h3>
+              <p>
+                {nextReward
+                  ? `Kumpulkan ${ (nextReward.cost - accountPoints).toLocaleString('id-ID') } PT lagi untuk menukar.`
+                  : 'Saldo poinmu cukup untuk semua pilihan voucher.'}
+              </p>
+              <div
+                className="points-progress-track"
+                role="progressbar"
+                aria-label={nextReward ? `Progress menuju ${nextReward.title}` : 'Progress poin'}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={nextRewardProgress}
+              >
+                <span style={{ width: `${nextRewardProgress}%` }} />
+              </div>
+              <div className="points-progress-labels">
+                <span>{accountPoints.toLocaleString('id-ID')} PT</span>
+                <span>{nextReward ? `${nextReward.cost.toLocaleString('id-ID')} PT` : 'Semua hadiah'}</span>
+              </div>
             </div>
-            <h3>{nextReward ? nextReward.title : 'Semua voucher terbuka'}</h3>
-            <p>
-              {nextReward
-                ? `Kumpulkan ${ (nextReward.cost - points).toLocaleString('id-ID') } PT lagi untuk menukar.`
-                : 'Saldo poinmu cukup untuk semua pilihan voucher.'}
-            </p>
-            <div
-              className="points-progress-track"
-              role="progressbar"
-              aria-label={nextReward ? `Progress menuju ${nextReward.title}` : 'Progress poin'}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={nextRewardProgress}
-            >
-              <span style={{ width: `${nextRewardProgress}%` }} />
+          ) : (
+            <div className="points-next-reward points-public-overview">
+              <div className="points-progress-heading">
+                <span>PROGRAM POIN</span>
+                <strong>Untuk akun pembeli</strong>
+              </div>
+              <h3>Mulai kumpulkan poin</h3>
+              <p>Masuk untuk menyimpan 10 PT setiap panen dan menukar poin dengan voucher.</p>
+              <div className="points-public-facts">
+                <span>+10 PT / panen</span>
+                <span>Voucher diskon</span>
+              </div>
+              <div className="points-public-actions" aria-label="Akses akun pembeli">
+                <button type="button" onClick={signInToPoints} data-testid="points-sign-in">Masuk</button>
+                <button type="button" onClick={signUpToPoints} data-testid="points-sign-up">Buat akun</button>
+              </div>
             </div>
-            <div className="points-progress-labels">
-              <span>{points.toLocaleString('id-ID')} PT</span>
-              <span>{nextReward ? `${nextReward.cost.toLocaleString('id-ID')} PT` : 'Semua hadiah'}</span>
-            </div>
-          </div>
+          )}
         </section>
-        <p className="points-storage-note"><Wallet size={14} /> Poin dan voucher tersimpan pada akun Web ini, terpisah dari aplikasi HP. Saldo lama disalin satu kali dan tidak dapat diverifikasi.</p>
+        <p className="points-storage-note"><Wallet size={14} /> {hasBuyerAccount
+          ? 'Poin dan voucher tersimpan pada akun Web ini, terpisah dari aplikasi HP. Saldo lama disalin satu kali dan tidak dapat diverifikasi.'
+          : 'Tamu dapat melihat aturan dan pilihan hadiah; poin hanya terkumpul dan tersimpan setelah masuk.'}</p>
         <p className="points-expiry-note">
           Poin hangus 365 hari setelah diperoleh. Poin yang lebih lama digunakan lebih dulu.
-          {nextPointExpiry && (
+          {accountNextPointExpiry && (
             <span>
-              {' '}{nextPointExpiry.amount.toLocaleString('id-ID')} PT berikutnya hangus pada{' '}
-              <time dateTime={new Date(nextPointExpiry.expiresAt).toISOString()}>
-                {new Date(nextPointExpiry.expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+              {' '}{accountNextPointExpiry.amount.toLocaleString('id-ID')} PT berikutnya hangus pada{' '}
+              <time dateTime={new Date(accountNextPointExpiry.expiresAt).toISOString()}>
+                {new Date(accountNextPointExpiry.expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
               </time>.
             </span>
           )}
@@ -2731,7 +2753,7 @@ function PointsPage() {
           <div className="points-section-heading">
             <span>CARA MENGUMPULKAN</span>
             <h2 id="points-earn-title">Tambah poin</h2>
-            <p>Saat ini, poin bisa dikumpulkan lewat Mini Games.</p>
+            <p>{hasBuyerAccount ? 'Saat ini, poin bisa dikumpulkan lewat Mini Games.' : 'Masuk sebagai pembeli untuk menyimpan poin yang kamu kumpulkan lewat Mini Games.'}</p>
           </div>
           <article className="points-earn-card">
             <span className="points-earn-icon"><Coffee size={20} /></span>
@@ -2740,8 +2762,8 @@ function PointsPage() {
               <p>Setiap panen menambah 10 PT, setara Rp10.</p>
             </div>
             <div className="points-earn-rate"><strong>+10</strong><span>PT / panen</span></div>
-            <button type="button" className="primary-button points-page-button" onClick={() => setLocation('/coffee-game')} data-testid="points-play-game">
-              Main Mini Games <ArrowRight size={15} />
+            <button type="button" className="primary-button points-page-button" onClick={() => setLocation(hasBuyerAccount ? '/coffee-game' : '/sign-in?returnTo=/coffee-game')} data-testid="points-play-game">
+              {hasBuyerAccount ? 'Main Mini Games' : 'Masuk untuk dapat poin'} <ArrowRight size={15} />
             </button>
           </article>
         </section>
@@ -2754,10 +2776,23 @@ function PointsPage() {
           </div>
           <div className="points-reward-grid">
             {webRewards.map((reward) => {
-              const owned = vouchers.includes(reward.id);
-              const canRedeem = points >= reward.cost;
-              const canAct = owned || canRedeem;
-              const actionLabel = owned ? 'Pakai di keranjang' : canRedeem ? 'Tukar poin' : `Kurang ${(reward.cost - points).toLocaleString('id-ID')} PT`;
+              const owned = hasBuyerAccount && accountVouchers.includes(reward.id);
+              const canRedeem = hasBuyerAccount && accountPoints >= reward.cost;
+              const canAct = !hasBuyerAccount || owned || canRedeem;
+              const actionLabel = !hasBuyerAccount
+                ? 'Masuk untuk menukar'
+                : owned
+                  ? 'Pakai di keranjang'
+                  : canRedeem
+                    ? 'Tukar poin'
+                    : `Kurang ${(reward.cost - accountPoints).toLocaleString('id-ID')} PT`;
+              const statusLabel = !hasBuyerAccount
+                ? 'Perlu masuk'
+                : owned
+                  ? 'Tersimpan'
+                  : canRedeem
+                    ? 'Siap ditukar'
+                    : 'Belum cukup';
 
               return (
                 <article className={`points-reward-card ${owned ? 'is-owned' : ''}`} key={reward.id}>
@@ -2765,7 +2800,7 @@ function PointsPage() {
                     <span className="points-reward-icon"><Wallet size={18} /></span>
                     <span className="points-reward-kicker">VOUCHER G-BEANS</span>
                     <span className={`points-reward-status ${owned ? 'is-owned' : canRedeem ? 'is-ready' : ''}`}>
-                      {owned ? 'Tersimpan' : canRedeem ? 'Siap ditukar' : 'Belum cukup'}
+                      {statusLabel}
                     </span>
                   </div>
                   <div className="points-reward-top">
@@ -2783,8 +2818,8 @@ function PointsPage() {
                     type="button"
                     className="points-reward-action"
                     disabled={!canAct}
-                    onClick={() => owned ? setLocation('/cart') : redeemPoints(reward.id)}
-                    aria-label={owned ? `Gunakan ${reward.title} di keranjang` : canRedeem ? `Tukar ${reward.title}` : `Kurang ${reward.cost - points} poin untuk ${reward.title}`}
+                    onClick={() => !hasBuyerAccount ? signInToPoints() : owned ? setLocation('/cart') : redeemPoints(reward.id)}
+                    aria-label={!hasBuyerAccount ? `Masuk untuk menukar ${reward.title}` : owned ? `Gunakan ${reward.title} di keranjang` : canRedeem ? `Tukar ${reward.title}` : `Kurang ${reward.cost - accountPoints} poin untuk ${reward.title}`}
                     data-testid={`points-redeem-${reward.id}`}
                   >
                     {actionLabel}
@@ -2811,9 +2846,11 @@ function PointsPage() {
         <section className="points-active-section" aria-labelledby="points-active-title">
           <div className="points-section-heading">
             <span>VOUCHER TERSIMPAN</span>
-            <h2 id="points-active-title">{activeRewards.length ? `${activeRewards.length} voucher aktif` : 'Voucher aktif'}</h2>
+            <h2 id="points-active-title">{hasBuyerAccount ? activeRewards.length ? `${activeRewards.length} voucher aktif` : 'Voucher aktif' : 'Voucher akun pembeli'}</h2>
           </div>
-          {activeRewards.length ? (
+          {!hasBuyerAccount ? (
+            <div className="points-active-empty"><Wallet size={18} aria-hidden="true" /><span>Masuk untuk melihat voucher yang sudah tersimpan di akun pembeli.</span></div>
+          ) : activeRewards.length ? (
             <>
               <div className="points-active-list">
                 {activeRewards.map((reward) => <span key={reward.id}><Check size={14} /> {reward.title}</span>)}
@@ -2836,7 +2873,7 @@ function PointsPage() {
           <div className="points-faq-list">
             <details className="points-faq-item">
               <summary>Bagaimana cara mendapatkan poin?</summary>
-              <p className="points-faq-answer">Mainkan Mini Games dan panen biji kopi. Setiap panen menambah 10 PT ke saldo Web-mu.</p>
+              <p className="points-faq-answer">Masuk ke akun pembeli, lalu mainkan Mini Games dan panen biji kopi. Setiap panen menambah 10 PT ke saldo Web-mu.</p>
             </details>
             <details className="points-faq-item">
               <summary>Berapa nilai 1 PT?</summary>

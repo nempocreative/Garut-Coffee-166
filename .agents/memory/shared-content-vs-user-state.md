@@ -9,11 +9,11 @@ Shared source files keep default catalog and hub content aligned, but they do no
 
 **How to apply:** When investigating parity, separate static content parity, responsive layout parity, and cross-device state synchronization. Do not describe the latter as complete until a shared server-side source of truth and a read-after-write path exist.
 
-Garut Beans Web loyalty points and vouchers are persisted on a Clerk buyer account and remain separate from the mobile app. Delivery addresses stay browser-local.
+Garut Beans Web loyalty points and vouchers are persisted on a Clerk buyer account and remain separate from the mobile app. Guests can browse point rules and reward options, but personal balances and vouchers stay hidden; earning and redemption require a signed-in buyer. Browser-local legacy data is migration input, not guest identity. Delivery addresses stay browser-local.
 
-**Why:** The user chose account-linked Web points and vouchers, a one-time copy of legacy browser data, and no synchronization with mobile. Delivery addresses remain local.
+**Why:** The user chose account-linked Web points and vouchers, public read-only point information for guests, login-gated earning/redemption, a one-time copy of legacy browser data, and no synchronization with mobile. Delivery addresses remain local.
 
-**How to apply:** Do not use the device-local role as buyer identity; use the authenticated account for loyalty reads and writes. Never suggest that Web points, vouchers, or addresses appear in the mobile app.
+**How to apply:** Do not use the device-local role or browser-local legacy balances as buyer identity; use the authenticated account for loyalty reads and writes. Keep guest point pages read-only and hide personal account data. Never suggest that Web points, vouchers, or addresses appear in the mobile app.
 
 G-Beans Web points expire 365 days after earning. Redeeming rewards consumes the oldest active points first. Legacy numeric balances without earning dates receive a one-year grace period when migrated.
 

@@ -6712,6 +6712,102 @@ body .bottom-nav button.center > span:last-child {
 .guest-account-hero.guest-account-only .guest-account-role {
   min-height: 58px;
   padding: 4px;
+  border-radius: 11px;
+  color: #33231f;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.guest-account-hero.guest-account-only .guest-account-role:hover {
+  background: #f7f0e7;
+  transform: translateX(2px);
+}
+
+.guest-account-hero.guest-account-only .guest-account-role:focus-visible {
+  outline: 3px solid rgba(168, 84, 59, .55);
+  outline-offset: 2px;
+}
+
+.guest-account-role-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  color: #8b4634;
+  background: #f4eadf;
+  font-size: 8px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.guest-account-demo-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: -5px 0 18px;
+  padding: 10px 11px;
+  border: 1px solid #eadfce;
+  border-radius: 11px;
+  color: #76543d;
+  background: #f7f1e6;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.guest-account-demo-note svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #8b4634;
+}
+
+.guest-account-real-account {
+  padding-top: 16px;
+  border-top: 1px solid #e9dfd1;
+}
+
+.guest-account-real-copy strong,
+.guest-account-real-copy small {
+  display: block;
+}
+
+.guest-account-real-copy strong {
+  color: #33231f;
+  font-size: 11px;
+}
+
+.guest-account-real-copy small {
+  margin-top: 3px;
+  color: #8a7c6e;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.guest-account-real-account .guest-account-primary {
+  min-height: 48px;
+  margin-top: 11px;
+  border-radius: 11px;
+}
+
+.guest-account-sign-in {
+  display: block;
+  margin-top: 11px;
+  padding: 0;
+  border: 0;
+  color: #8b4634;
+  background: transparent;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.guest-account-sign-in:hover {
+  color: #633225;
 }
 
 .guest-account-hero.guest-account-only .guest-account-role-copy strong {
@@ -6753,7 +6849,8 @@ body .bottom-nav button.center > span:last-child {
 
 @media (prefers-reduced-motion: reduce) {
   .guest-account-primary,
-  .guest-account-browse-link {
+  .guest-account-browse-link,
+  .guest-account-role {
     transition: none;
   }
 }
