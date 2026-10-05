@@ -27,6 +27,12 @@ For the Garut Beans Web artifact, keep the desktop experience full-width; do not
 
 **How to apply:** Keep the standalone desktop route and its wide responsive layout. Scope mobile-only overrides below 420px and verify a 1440px desktop plus 390px and 320px phone views.
 
+For mobile Web homepage card rails, show complete cards only: one full card or two full cards when that layout fits, never a cropped neighboring card.
+
+**Why:** The user explicitly asked that homepage cards on mobile Web not be cut off.
+
+**How to apply:** Size each mobile rail for its intended full-card count and verify narrow and standard phone widths.
+
 For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 
 **Why:** The user explicitly asked for a simple informational footer without navigation links, and separately asked for the bottom navigation to appear on every page.

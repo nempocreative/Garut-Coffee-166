@@ -4282,6 +4282,27 @@
   box-shadow: 0 10px 22px rgba(58, 37, 26, .08);
 }
 
+@media (max-width: 699px) {
+  .gb-weekly-brews {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .gb-weekly-brews::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gb-weekly-brew {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+}
+
 .gb-weekly-brew-head {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
@@ -9918,6 +9939,13 @@
     min-height: 420px;
   }
 
+  .gb-home .gb-coffee-slide.is-prev,
+  .gb-home .gb-coffee-slide.is-next,
+  .gb-home .gb-diversified-slide.is-prev,
+  .gb-home .gb-diversified-slide.is-next {
+    display: none;
+  }
+
   .gb-more-than-cup-section .gb-diversified-image {
     height: auto;
     aspect-ratio: 1;
@@ -9926,5 +9954,29 @@
   .gb-first-cup-section .gb-coffee-card:hover .gb-coffee-image-button > img,
   .gb-more-than-cup-section .gb-diversified-card:hover .gb-diversified-image img {
     transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .gb-home .gb-horizontal-scroll {
+    scroll-snap-type: x mandatory;
+  }
+
+  .gb-home .gb-farmer-feature,
+  .gb-home .gb-extension-card,
+  .gb-home .gb-region-card,
+  .gb-home .gb-event-card,
+  .gb-home .gb-story-card {
+    flex: 0 0 calc(100% - 4px);
+    scroll-snap-align: start;
+  }
+
+  .gb-home .gb-program-highlights {
+    scroll-snap-type: x mandatory;
+  }
+
+  .gb-home .gb-program-highlight {
+    flex-basis: 100%;
+    scroll-snap-align: start;
   }
 }
