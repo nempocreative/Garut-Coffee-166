@@ -10019,3 +10019,119 @@
     scroll-snap-align: start;
   }
 }
+
+.gb-home-video-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(22px, 4vw, 52px);
+  margin: clamp(28px, 4vw, 46px) 0;
+  padding: clamp(22px, 3vw, 34px) 0;
+  border-top: 1px solid rgba(107, 61, 43, .16);
+  border-bottom: 1px solid rgba(107, 61, 43, .16);
+}
+
+.gb-home-video-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.gb-home-video-copy .gb-eyebrow {
+  color: #9c563a;
+}
+
+.gb-home-video-copy h2 {
+  margin: 0;
+  color: #39251e;
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 750;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.gb-home-video-copy p {
+  margin: 0;
+  color: #745d50;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.gb-home-video-music {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 3px;
+  padding: 0 17px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff9f1;
+  background: #914a32;
+  box-shadow: 0 7px 15px rgba(85, 43, 29, .16);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.gb-home-video-music:hover {
+  transform: translateY(-2px);
+  background: #783b29;
+}
+
+.gb-home-video-music:focus-visible {
+  outline: 3px solid #c79052;
+  outline-offset: 3px;
+}
+
+.gb-home-video-status {
+  min-height: 1em;
+  color: #9a4b35;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.gb-home-video-frame {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(107, 61, 43, .12);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(57, 37, 30, .14);
+}
+
+.gb-home-video-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .gb-home-video-spotlight {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+    padding: 22px 0;
+  }
+
+  .gb-home-video-copy {
+    max-width: none;
+    gap: 10px;
+  }
+
+  .gb-home-video-copy h2 {
+    max-width: 440px;
+    font-size: clamp(24px, 7vw, 31px);
+  }
+
+  .gb-home-video-frame {
+    border-radius: 19px;
+  }
+}

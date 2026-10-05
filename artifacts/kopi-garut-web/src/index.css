@@ -644,15 +644,10 @@
 .support-menu-action small { color: hsl(var(--muted-foreground)); font-size: 10.5px; line-height: 1.35; }
 .support-menu-action > svg { flex: 0 0 auto; color: hsl(var(--muted-foreground)); }
 .support-menu-action-icon { display: grid; width: 39px; height: 39px; flex: 0 0 auto; place-items: center; border-radius: 13px; color: hsl(var(--primary)); background: hsl(var(--secondary)); }
-@media (min-width: 700px) and (max-width: 823px) {
-  .floating-game-button { left: 32px; }
+@media (min-width: 700px) {
+  .floating-game-button { left: max(1px, calc(50% - 411px)); }
   .floating-support-button,
-  .support-menu { right: 32px; }
-}
-@media (min-width: 824px) {
-  .floating-game-button { left: calc(50% - 380px); }
-  .floating-support-button,
-  .support-menu { right: calc(50% - 380px); }
+  .support-menu { right: max(1px, calc(50% - 411px)); }
 }
 
 .bottom-nav { position: fixed; z-index: 10; bottom: 0; left: 50%; transform: translateX(-50%); width: min(100%, 430px); height: 76px; background: rgba(255,249,241,.96); border-top: 1px solid hsl(var(--border)); display: grid; grid-template-columns: repeat(5, 1fr); padding: 9px 10px calc(9px + env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }

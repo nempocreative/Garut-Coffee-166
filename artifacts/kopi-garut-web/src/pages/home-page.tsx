@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
-import { ArrowRight, Gift, Heart } from 'lucide-react';
+import { ArrowRight, Gift, Heart, Volume2, VolumeX } from 'lucide-react';
 import {
   coffeeTours,
   diversifiedProducts,
@@ -306,6 +306,86 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
             </article>
           );
         })}
+      </div>
+    </section>
+  );
+}
+
+function HomeVideoSpotlight() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [musicIsPlaying, setMusicIsPlaying] = useState(false);
+  const [musicError, setMusicError] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotionPreference = () => setReducedMotion(motionPreference.matches);
+    updateMotionPreference();
+    motionPreference.addEventListener('change', updateMotionPreference);
+    return () => {
+      motionPreference.removeEventListener('change', updateMotionPreference);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (musicIsPlaying) {
+      audio.pause();
+      setMusicIsPlaying(false);
+      return;
+    }
+
+    setMusicError(false);
+    try {
+      await audio.play();
+      setMusicIsPlaying(true);
+    } catch {
+      setMusicIsPlaying(false);
+      setMusicError(true);
+    }
+  };
+
+  return (
+    <section id="home-video-spotlight" className="gb-home-video-spotlight" aria-labelledby="gb-home-video-title" data-testid="home-video-spotlight">
+      <div className="gb-home-video-copy">
+        <span className="gb-eyebrow">ANIMASI GARUT BEANS</span>
+        <h2 id="gb-home-video-title">Temani ngopi dengan tarian Domba Garut</h2>
+        <p>Putar animasinya, lalu nyalakan lagu “Ayo Ngopi”.</p>
+        <button
+          className="gb-home-video-music"
+          type="button"
+          onClick={toggleMusic}
+          aria-pressed={musicIsPlaying}
+          data-testid="button-home-video-music"
+        >
+          {musicIsPlaying ? <VolumeX size={17} /> : <Volume2 size={17} />}
+          {musicIsPlaying ? 'Jeda musik Ayo Ngopi' : 'Putar musik Ayo Ngopi'}
+        </button>
+        <span className="gb-home-video-status" role="status" aria-live="polite">
+          {musicError ? 'Musik belum dapat diputar. Coba tekan tombolnya lagi.' : ''}
+        </span>
+      </div>
+      <div className="gb-home-video-frame">
+        <video
+          autoPlay={!reducedMotion}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={asset('kopi-menari-home-poster.jpg')}
+          aria-label="Animasi Domba Garut menari sambil menikmati kopi Garut Beans"
+        >
+          <source src={asset('kopi-menari-home.mp4')} type="video/mp4" />
+        </video>
+        <audio ref={audioRef} src={asset('ayo-ngopi-home.mp3')} loop preload="none" />
       </div>
     </section>
   );
@@ -1088,6 +1168,7 @@ export default function HomePage({
             onNavigate={onNavigate}
           />
           <PromoCarousel onNavigate={onNavigate} />
+          <HomeVideoSpotlight />
           <CategoryTiles onNavigate={onNavigate} />
           <div className="gb-home-feature-grid">
             <StoryLead onNavigate={onNavigate} />
