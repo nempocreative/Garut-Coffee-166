@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
-import { ArrowRight, Gift, Heart, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Gift, Heart, Pause, Play } from 'lucide-react';
 import {
   coffeeTours,
   diversifiedProducts,
@@ -311,7 +311,7 @@ function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
   );
 }
 
-function HomeVideoSpotlight() {
+function HomeMascotMusicSpotlight() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [musicIsPlaying, setMusicIsPlaying] = useState(false);
   const [musicError, setMusicError] = useState(false);
@@ -354,36 +354,46 @@ function HomeVideoSpotlight() {
   };
 
   return (
-    <section id="home-video-spotlight" className="gb-home-video-spotlight" aria-labelledby="gb-home-video-title" data-testid="home-video-spotlight">
-      <div className="gb-home-video-copy">
-        <span className="gb-eyebrow">ANIMASI GARUT BEANS</span>
-        <h2 id="gb-home-video-title">Temani ngopi dengan tarian Domba Garut</h2>
-        <p>Putar animasinya, lalu nyalakan lagu “Ayo Ngopi”.</p>
-        <button
-          className="gb-home-video-music"
-          type="button"
-          onClick={toggleMusic}
-          aria-pressed={musicIsPlaying}
-          data-testid="button-home-video-music"
-        >
-          {musicIsPlaying ? <VolumeX size={17} /> : <Volume2 size={17} />}
-          {musicIsPlaying ? 'Jeda musik Ayo Ngopi' : 'Putar musik Ayo Ngopi'}
-        </button>
-        <span className="gb-home-video-status" role="status" aria-live="polite">
+    <section id="home-mascot-music" className="gb-home-mascot-spotlight" aria-labelledby="gb-home-mascot-title" data-testid="home-mascot-music">
+      <div className="gb-home-mascot-copy">
+        <h2 id="gb-home-mascot-title">Ayo ngopi bareng Domba Garut</h2>
+        <p>Kenalan dengan maskot Garut Beans lewat animasi dan lagu “Ayo Ngopi”.</p>
+        <div className="gb-home-music-player">
+          <div className="gb-home-music-track">
+            <strong>Ayo Ngopi</strong>
+            <span>Putar sambil menikmati kopi Garut</span>
+          </div>
+          <div className={`gb-home-music-wave ${musicIsPlaying ? 'is-playing' : ''}`} aria-hidden="true">
+            <i /><i /><i /><i /><i />
+          </div>
+          <button
+            className="gb-home-music-button"
+            type="button"
+            onClick={toggleMusic}
+            aria-label={musicIsPlaying ? 'Jeda lagu Ayo Ngopi' : 'Putar lagu Ayo Ngopi'}
+            aria-pressed={musicIsPlaying}
+            data-testid="button-home-video-music"
+          >
+            {musicIsPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+          </button>
+        </div>
+        <span className="gb-home-music-status" role="status" aria-live="polite">
           {musicError ? 'Musik belum dapat diputar. Coba tekan tombolnya lagi.' : ''}
         </span>
       </div>
-      <div className="gb-home-video-frame">
+      <div className={`gb-home-mascot-stage ${musicIsPlaying ? 'is-playing' : ''}`}>
         <video
+          className="gb-home-mascot-video"
           autoPlay={!reducedMotion}
           loop
           muted
           playsInline
           preload="metadata"
-          poster={asset('kopi-menari-home-poster.jpg')}
-          aria-label="Animasi Domba Garut menari sambil menikmati kopi Garut Beans"
+          poster={asset('kopi-menari-home-cutout-poster.png')}
+          aria-label="Domba Garut Beans menari sambil memegang secangkir kopi"
         >
-          <source src={asset('kopi-menari-home.mp4')} type="video/mp4" />
+          <source src={asset('kopi-menari-home-cutout.webm')} type="video/webm" />
+          <img src={asset('kopi-menari-home-cutout-poster.png')} alt="" aria-hidden="true" />
         </video>
         <audio ref={audioRef} src={asset('ayo-ngopi-home.mp3')} loop preload="none" />
       </div>
@@ -1168,8 +1178,8 @@ export default function HomePage({
             onNavigate={onNavigate}
           />
           <PromoCarousel onNavigate={onNavigate} />
-          <HomeVideoSpotlight />
           <CategoryTiles onNavigate={onNavigate} />
+          <HomeMascotMusicSpotlight />
           <div className="gb-home-feature-grid">
             <StoryLead onNavigate={onNavigate} />
             <VoucherCarousel onNavigate={onNavigate} />
