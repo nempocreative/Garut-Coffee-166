@@ -9821,3 +9821,16 @@
     font-size: 8px;
   }
 }
+
+@media (max-width: 420px) {
+  .gb-first-cup-section .gb-coffee-image-button > img,
+  .gb-more-than-cup-section .gb-diversified-image img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .gb-first-cup-section .gb-coffee-card:hover .gb-coffee-image-button > img,
+  .gb-more-than-cup-section .gb-diversified-card:hover .gb-diversified-image img {
+    transform: none;
+  }
+}

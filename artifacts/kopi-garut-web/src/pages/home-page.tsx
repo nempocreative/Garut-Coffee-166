@@ -175,12 +175,6 @@ function getWeeklyBrewRecipes(date: Date): readonly WeeklyBrewRecipe[] {
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/${filename}`;
 
-const cleanPromoImages = [
-  'kopi-garut-panen-rasa-banner.webp',
-  'origin-coffee.webp',
-  'hero-coffee.webp',
-] as const;
-
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
 const extensionTeam = [
@@ -217,10 +211,7 @@ function SearchEntry({ onNavigate }: { onNavigate: (path: string) => void }) {
 }
 
 function PromoCarousel({ onNavigate }: { onNavigate: (path: string) => void }) {
-  const promos = homeContent.promoSlides.slice(0, 3).map((promo, promoIndex) => ({
-    ...promo,
-    image: cleanPromoImages[promoIndex],
-  }));
+  const promos = homeContent.promoSlides.slice(0, 3);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -1133,7 +1124,7 @@ export default function HomePage({
             </div>
           </section>
 
-          <section className="gb-home-section">
+          <section className="gb-home-section gb-more-than-cup-section">
             <SectionTitle title="Lebih dari secangkir" action="Lihat semua" onAction={() => onNavigate('/diversification')} />
             <DiversifiedCarousel products={diversified} onNavigate={onNavigate} onAddToCart={onAddToCart} />
           </section>

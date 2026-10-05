@@ -19,3 +19,4 @@
 - [Vite Web asset paths](vite-web-asset-paths.md) — use runtime base paths for app assets; preload the opening mark before the first frame.
 - [Gift package rules](gift-package-rules.md) — custom box requires 12 packages and adds Rp25,000 each; custom writing alone has no minimum.
 - [Gift-box preview cutouts](gift-box-preview-cutouts.md) — use separate transparent product-only assets in the open box, keyed to every selectable product.
+- [Home promo imagery](home-promo-imagery.md) — keep each Web homepage promo paired with its message-matched image from the mobile app.

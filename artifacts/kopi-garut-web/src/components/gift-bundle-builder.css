@@ -598,10 +598,6 @@
   .gift-bundle-page {
     padding-bottom: max(24px, env(safe-area-inset-bottom));
   }
-
-  body .bottom-nav.gift-bundle-nav {
-    display: none !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

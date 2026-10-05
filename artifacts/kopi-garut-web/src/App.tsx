@@ -847,7 +847,7 @@ function FloatingActions() {
   const route = location.split('?')[0];
   const isFarmerRoute = route === '/farmers' || route === '/extension-farmers' || route.startsWith('/farmer/');
   const isRegionRoute = route === '/regions' || route.startsWith('/region/');
-  if (route === '/login' || route === '/support' || route === '/gift-bundle' || route.startsWith('/sign-in') || route.startsWith('/sign-up') || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
+  if (route === '/login' || route === '/support' || route.startsWith('/sign-in') || route.startsWith('/sign-up') || route === '/coffee-game' || isFarmerRoute || isRegionRoute) return null;
 
   const handleSupportAction = (key: (typeof supportActions)[number]['key']) => {
     setOpen(false);
