@@ -495,6 +495,29 @@
 
   .gb-gift-bundle-page-builder .gb-gift-bundle-checkout {
     grid-column: 1;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .gb-gift-bundle-page-builder .gb-gift-bundle-total {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gb-gift-bundle-page-builder .gb-gift-bundle-total span,
+  .gb-gift-bundle-page-builder .gb-gift-bundle-total strong {
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .gb-gift-bundle-page-builder .gb-gift-bundle-checkout > small,
+  .gb-gift-bundle-page-builder .gb-gift-bundle-submit {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
   }
 }
 
@@ -539,19 +562,17 @@
   }
 
   .gb-gift-bundle-page-builder .gb-gift-bundle-total {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 3px;
+    gap: 5px;
   }
 
   .gb-gift-bundle-page-builder .gb-gift-bundle-total span {
-    line-height: 1.4;
+    font-size: 8px;
+    line-height: 1.1;
   }
 
   .gb-gift-bundle-page-builder .gb-gift-bundle-total strong {
-    font-size: 24px;
-    line-height: 1.1;
-    white-space: nowrap;
+    font-size: 19px;
+    line-height: 1;
   }
 
   .gb-gift-bundle-page-builder .gb-gift-bundle-checkout > small {
