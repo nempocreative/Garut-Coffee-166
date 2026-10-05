@@ -9939,13 +9939,6 @@
     min-height: 420px;
   }
 
-  .gb-home .gb-coffee-slide.is-prev,
-  .gb-home .gb-coffee-slide.is-next,
-  .gb-home .gb-diversified-slide.is-prev,
-  .gb-home .gb-diversified-slide.is-next {
-    display: none;
-  }
-
   .gb-more-than-cup-section .gb-diversified-image {
     height: auto;
     aspect-ratio: 1;
@@ -9969,6 +9962,52 @@
   .gb-home .gb-story-card {
     flex: 0 0 calc(100% - 4px);
     scroll-snap-align: start;
+  }
+
+  .gb-home .gb-farmer-feature,
+  .gb-home .gb-extension-card {
+    flex-basis: calc((100% - 12px) / 2);
+  }
+
+  .gb-home .gb-farmer-feature {
+    height: auto;
+    min-height: 0;
+  }
+
+  .gb-home .gb-farmer-portrait {
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .gb-home .gb-farmer-copy {
+    gap: 5px;
+    padding: 10px 9px 11px;
+  }
+
+  .gb-home .gb-farmer-copy > strong {
+    font-size: clamp(12px, 3.7vw, 15px);
+    line-height: 1.15;
+  }
+
+  .gb-home .gb-farmer-location {
+    font-size: 8px;
+  }
+
+  .gb-home .gb-farmer-meta {
+    flex-wrap: wrap;
+    gap: 2px 6px;
+    font-size: 8px;
+  }
+
+  .gb-home .gb-farmer-story {
+    min-height: 0;
+    font-size: 9px;
+    -webkit-line-clamp: 2;
+  }
+
+  .gb-home .gb-farmer-bottomline {
+    flex-wrap: wrap;
+    gap: 5px;
   }
 
   .gb-home .gb-program-highlights {

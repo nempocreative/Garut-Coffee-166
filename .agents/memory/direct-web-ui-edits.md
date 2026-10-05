@@ -31,7 +31,13 @@ For mobile Web homepage card rails, show complete cards only: one full card or t
 
 **Why:** The user explicitly asked that homepage cards on mobile Web not be cut off.
 
-**How to apply:** Size each mobile rail for its intended full-card count and verify narrow and standard phone widths.
+**How to apply:** Show two full cards in the farmer and extension sections; size other mobile rails for their intended full-card count and verify narrow and standard phone widths.
+
+For mobile homepage layout refinements, leave product-card carousels as they were unless the user asks to change them.
+
+**Why:** The user explicitly asked to keep product cards the same as before.
+
+**How to apply:** Scope mobile card-layout changes to the requested non-product sections and preserve the existing coffee-product carousel previews.
 
 For the Garut Beans Web informational footer, keep only the brand, short tagline, and copyright/location. Keep the primary bottom navigation separate and show it on every page, including desktop.
 
