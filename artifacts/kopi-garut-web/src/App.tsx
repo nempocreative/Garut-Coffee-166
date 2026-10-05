@@ -805,6 +805,7 @@ function Header({ home = false, title = 'Garut Beans' }: { home?: boolean; title
 function BottomNav() {
   const [location, setLocation] = useLocation();
   if (location.startsWith('/sign-in') || location.startsWith('/sign-up')) return null;
+  const isGiftBundlePage = location.split('?')[0] === '/gift-bundle';
   const active = location === '/' ? 'home' : location.startsWith('/catalog') || location.startsWith('/product') || location.startsWith('/favorites') ? 'explore' : location.startsWith('/traceability') ? 'trace' : location.startsWith('/orders') || location.startsWith('/cart') ? 'orders' : location.startsWith('/profile') || location.startsWith('/settings') ? 'profile' : '';
   const items: { id: string; label: string; icon: AppNavGlyphName; path: string }[] = [
     { id: 'home', label: 'Beranda', icon: 'home', path: '/' },
@@ -813,7 +814,7 @@ function BottomNav() {
     { id: 'orders', label: 'Pesanan', icon: 'orders', path: '/orders' },
     { id: 'profile', label: 'Akun', icon: 'profile', path: '/profile' },
   ];
-  return <nav className="bottom-nav" aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppNavGlyph name={icon} size={24} active={active === id || id === 'trace'} /></span><span>{label}</span></button>)}</nav>;
+  return <nav className={`bottom-nav ${isGiftBundlePage ? 'gift-bundle-nav' : ''}`} aria-label="Navigasi utama">{items.map(({ id, label, icon, path }) => <button key={id} className={`${active === id ? 'active' : ''} ${id === 'trace' ? 'center' : ''}`} onClick={() => setLocation(path)} data-testid={`nav-${id}`} aria-current={active === id ? 'page' : undefined}><span className="nav-icon"><AppNavGlyph name={icon} size={24} active={active === id || id === 'trace'} /></span><span>{label}</span></button>)}</nav>;
 }
 
 function FloatingActions() {

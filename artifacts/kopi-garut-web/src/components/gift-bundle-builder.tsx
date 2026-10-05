@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Gift } from 'lucide-react';
 import { diversifiedProducts } from '@workspace/kopi-garut-shared';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import './gift-bundle-builder.css';
 import { webCoffeeCatalog } from '../lib/coffee-catalog';
 import {
   customBoxMinimumQuantity,
@@ -130,9 +131,8 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
   return (
     <section className="gb-gift-bundle gb-gift-bundle-page-builder" aria-labelledby="gift-bundle-title" data-testid="gift-bundle-section">
       <div className="gb-gift-bundle-heading">
-        <span className="gb-gift-bundle-kicker"><Gift size={14} /> OLEH-OLEH GARUT</span>
-        <h2 id="gift-bundle-title">Racik paket oleh-olehmu.</h2>
-        <p>Pilih 3–5 produk, tentukan box, lalu tambahkan tulisan custom tanpa minimum order.</p>
+        <h2 id="gift-bundle-title">Satu box kecil,<br /><em>cerita dari Garut.</em></h2>
+        <p>Rangkai kopi dan karya lokal menjadi hadiah yang terasa dekat. Pilih isinya, tentukan box, lalu tambahkan pesan bila berkenan.</p>
       </div>
 
       <Form {...giftBundleForm}>
