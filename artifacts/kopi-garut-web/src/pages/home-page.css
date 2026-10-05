@@ -1633,12 +1633,22 @@
     min-width: 0;
     flex-basis: auto;
   }
+
+  .gb-extension-image {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 .gb-extension-image {
   position: relative;
   display: block;
-  height: 142px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.gb-extension-image img {
+  display: block;
+  object-position: center 32%;
 }
 
 .gb-extension-status {
