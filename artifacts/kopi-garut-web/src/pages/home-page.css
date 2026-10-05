@@ -9823,6 +9823,29 @@
 }
 
 @media (max-width: 420px) {
+  .gb-first-cup-section .gb-coffee-carousel {
+    min-height: 496px;
+  }
+
+  .gb-first-cup-section .gb-coffee-carousel-stage,
+  .gb-first-cup-section .gb-coffee-carousel-track {
+    min-height: 448px;
+  }
+
+  .gb-first-cup-section .gb-coffee-slide .gb-coffee-image-button {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .gb-first-cup-section .gb-coffee-slide .gb-coffee-image-button::after {
+    display: none;
+  }
+
+  .gb-first-cup-section .gb-coffee-slide .gb-coffee-image-button > img {
+    object-fit: contain;
+    object-position: center;
+  }
+
   .gb-first-cup-section .gb-coffee-image-button > img,
   .gb-more-than-cup-section .gb-diversified-image img {
     object-fit: contain;
