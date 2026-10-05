@@ -1183,7 +1183,7 @@ export default function HomePage({
             </div>
           </section>
 
-          <section className="gb-home-section gb-mobile-only">
+          <section className="gb-home-section gb-extension-section">
             <SectionTitle title="Penyuluh di lapangan" action="Ruang kerja" onAction={() => onNavigate('/extension-dashboard')} />
             <div className="gb-horizontal-scroll gb-extension-rail" data-testid="rail-extension">
               {extensionTeam.map((worker) => <ExtensionCard key={worker.id} worker={worker} onNavigate={onNavigate} />)}

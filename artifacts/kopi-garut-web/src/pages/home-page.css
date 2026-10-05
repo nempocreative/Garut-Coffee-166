@@ -1622,6 +1622,19 @@
   text-align: left;
 }
 
+@media (min-width: 768px) {
+  .gb-extension-section .gb-extension-rail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .gb-extension-section .gb-extension-card {
+    min-width: 0;
+    flex-basis: auto;
+  }
+}
+
 .gb-extension-image {
   position: relative;
   display: block;
