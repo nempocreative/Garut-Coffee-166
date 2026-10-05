@@ -328,19 +328,6 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
                   Tertutup
                 </button>
               </div>
-              <div className="gb-gift-design-product-heading">
-                <span>ISI PAKET</span>
-                <small>{selectedGiftProducts.length} produk · Paket {giftBundleType.slice(-1).toUpperCase()}</small>
-              </div>
-              <div className="gb-gift-preview-products">
-                {selectedGiftProducts.map((product, index) => (
-                  <figure className="gb-gift-preview-item" key={`${product.id}-${index}`}>
-                    <img src={product.image} alt={product.name} />
-                    <figcaption>{product.name}</figcaption>
-                  </figure>
-                ))}
-              </div>
-              <p className="gb-gift-design-note">Pratinjau ini membantu melihat tulisan dan isi paket. Box yang dipesan mengikuti pilihan di sebelah kiri.</p>
             </div>
 
             <div className="gb-gift-custom-message">
