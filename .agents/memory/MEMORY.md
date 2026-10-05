@@ -18,3 +18,4 @@
 - [Direct Web UI edits](direct-web-ui-edits.md) — edit Web directly, keep warm coffee tones, and vary homepage layouts instead of using cards for every section.
 - [Vite Web asset paths](vite-web-asset-paths.md) — use runtime base paths for app assets; preload the opening mark before the first frame.
 - [Gift package rules](gift-package-rules.md) — custom box requires 12 packages and adds Rp25,000 each; custom writing alone has no minimum.
+- [Gift-box preview cutouts](gift-box-preview-cutouts.md) — use separate transparent product-only assets in the open box, keyed to every selectable product.

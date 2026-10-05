@@ -42,6 +42,7 @@ const giftBundleChoices = [
     kind: 'Kopi',
     price: coffee.price,
     image: asset(coffee.image),
+    boxImage: asset(`gift-box-cutout-${coffee.id}.webp`),
   })),
   ...diversifiedProducts.map((product) => ({
     id: product.id,
@@ -49,6 +50,7 @@ const giftBundleChoices = [
     kind: 'Karya Kopi',
     price: parseCatalogPrice(product.price),
     image: asset(getWebProductImage(product.id, product.image)),
+    boxImage: asset(`gift-box-cutout-${product.id}.webp`),
   })),
 ];
 
@@ -291,7 +293,7 @@ export function GiftBundleBuilder({ onAddGiftBundle }: GiftBundleBuilderProps) {
                         data-testid={`gift-box-product-preview-${index + 1}`}
                       >
                         <img
-                          src={product.image}
+                          src={product.boxImage}
                           alt={`${product.name}, produk ke-${index + 1} di dalam box`}
                         />
                       </figure>
