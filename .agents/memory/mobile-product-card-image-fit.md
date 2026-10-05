@@ -7,4 +7,4 @@ On Garut Beans Web mobile, show product-card artwork in full without cropping; s
 
 **Why:** The user explicitly corrected the Web mobile coffee carousel because the product image and card appeared cropped.
 
-**How to apply:** Check product images at 320px and 390px; account for carousel overflow and active-card transforms when sizing the image frame and stage. Confirm desktop remains unchanged.
+**How to apply:** Apply the phone-specific image and stage rules throughout the mobile layout (up to 767px), including widths above 420px. Verify 320px, 390px, 430px, and the 768px desktop breakpoint; account for carousel overflow and active-card transforms.

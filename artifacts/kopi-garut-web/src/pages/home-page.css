@@ -9822,7 +9822,7 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 767px) {
   .gb-first-cup-section .gb-coffee-carousel {
     min-height: 496px;
   }
